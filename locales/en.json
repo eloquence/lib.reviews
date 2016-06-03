@@ -1,0 +1,10 @@
+{
+    "site name": "lib.reviews",
+    "welcome": "Welcome!",
+    "intro message": "Welcome to lib.reviews! We are building a free and open platform for reviewing absolutely anything, in any language.<br><br>Why? Because we believe the world's reviews should be organized by a community, not for profit, without ads, and with a strong commitment to integrity and quality.<br><br>Right now we're working on the code. Here are a few things you can do:",
+		"to do list": "<ul><li>Work on any of our <a href='https://github.com/eloquence/lib.reviews/issues'>open issues</a><li>Liberate your existing reviews using <a href='https://freeyourstuff.cc/'>freeyourstuff.cc</a> <li>Join our <a href='http://www.freelists.org/list/lib.reviews'>discussion list</a> and share your thoughts about this project</ul>",
+		"find us on": "You can find us <a href='https://github.com/eloquence/lib.reviews'>on GitHub</a>, <a href='https://twitter.com/lib_reviews'>on Twitter</a> and on IRC (#libreviews on irc.freenode.net).",
+		"select language": "Choose your language:",
+		"english": "English",
+		"german": "German (Deutsch)"
+}
