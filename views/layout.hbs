@@ -2,11 +2,17 @@
 <html>
   <head>
     <title>{{__ "site name"}} - {{__ "welcome"}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/css/style.css' />
   </head>
   <body>
     {{{body}}}
     <hr>
-    <small>{{{__ "select language" }}} <a href="/en">{{{__ "english" }}}</a> - <a href="/de">{{{__ "german" }}}</a></small>
+    <div id="languages">{{{__ "change language" }}}
+    <ul>
+    {{#each languages}}
+      <li><a href="/{{@key}}">{{{__ this}}}</a>
+    {{/each}}
+    </ul>
+  </div>
   </body>
 </html>
