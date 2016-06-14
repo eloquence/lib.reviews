@@ -14,6 +14,7 @@
     "i18n": "^0.8.2",
     "less-middleware": "1.0.x",
     "morgan": "~1.6.1",
+    "rethinkdb": "^2.3.2",
     "serve-favicon": "~2.3.0"
   }
 }

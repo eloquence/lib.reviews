@@ -8,11 +8,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n');
 const hbs = require('hbs'); // handlebars templating
+const r = require('rethinkdb');
 
 // Internal dependencies
-const routes = require('./routes/index');
+const things = require('./routes/things');
+const languages = require('./routes/languages');
 const users = require('./routes/users');
-
 
 // i18n setup
 i18n.configure({
@@ -30,10 +31,10 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-hbs.registerHelper('__', function () {
+hbs.registerHelper('__', function() {
   return i18n.__.apply(this, arguments);
 });
-hbs.registerHelper('__n', function () {
+hbs.registerHelper('__n', function() {
   return i18n.__n.apply(this, arguments);
 });
 
@@ -42,22 +43,15 @@ app.use(i18n.init);
 //app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(require('less-middleware')(path.join(__dirname, 'static')));
 app.use(express.static(path.join(__dirname, 'static')));
 
-app.use('/', routes);
-app.use('/users', users);
-
-app.get('/en', function (req, res) {
-  res.cookie('locale', 'en', { maxAge: 900000, httpOnly: true });
-  res.redirect('back');
-});
-
-app.get('/de', function (req, res) {
-  res.cookie('locale', 'de', { maxAge: 900000, httpOnly: true });
-  res.redirect('back');
-});
+app.use('/', things);
+app.use('/', languages);
+app.use('/user', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

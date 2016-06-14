@@ -6,5 +6,7 @@
 		"find us on": "Du kannst uns <a href='https://github.com/eloquence/lib.reviews'>auf GitHub</a>, <a href='https://twitter.com/lib_reviews'>auf Twitter</a> und im IRC (#libreviews auf irc.freenode.net) finden.",
     "change language": "Andere Sprachen:",
 		"english": "Englisch (English)",
-		"german": "Deutsch"
+		"german": "Deutsch",
+    "register": "Registrieren",
+    "sign in": "Einloggen"
 }

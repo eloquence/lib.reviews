@@ -31,3 +31,6 @@ npm-debug.log
 
 # Backups
 *~
+
+# Development database
+rethinkdb_data
