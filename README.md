@@ -16,6 +16,8 @@ Likely initial technical choices:
 - Mocha as a testing framework
 - Babel to transpile ES6+ code
 
+This project follows a strong philosophy of progressive enhancement. That means that client-side UI features should always be optional, not required -- the primary functionality of the site should be available without JavaScript and on low-end devices.
+
 Relevant related projects:
 
 - https://critiquebrainz.org/ - music reviews
