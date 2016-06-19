@@ -1,30 +1,84 @@
+/*
+
+We use camelCase for variables and dashes-for-classes, to differentiate
+pure CSS from LESS
+
+*/
+@errorColor: red;
+@visitedColor: #006;
+
+#languages a:visited,
+#main-body p a:visited,
+#main-body ul a:visited {
+    color: @visitedColor;
+}
 body {
-  margin-left: 2em;
-  margin-right: 2em;
-  font-family: sans-serif;
+    margin-left: 2em;
+    margin-right: 2em;
+    font-family: "Noto Sans", sans-serif;
 }
-
 #languages {
-  font-size: small;
+    font-size: small;
+    width: 100%;
+    padding-top: 1em;
+    margin-top: 2em;
+    color: #333;
+    border-top: 1px solid #e5e5e5;
 }
-
 #languages ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
-
 #languages li {
-  display: inline;
+    display: inline;
 }
 
-#userMenu  {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  float: right;
+#user-menu {
+    text-align:right;
+    list-style-type: none;
 }
 
-#userMenu li {
-  display: inline;
+#user-menu li {
+    display: inline-block;
+    margin: 0.25em;
+}
+
+
+.text-label {
+    font-style: italic;
+}
+.labelled-text {}
+#page-header {
+    font-weight: normal;
+}
+.button-rounded {
+    border-radius: 4px;
+}
+#home-link {
+    text-decoration: none;
+    color: #000;
+}
+.error {
+    color: @errorColor;
+}
+.lead {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.divider {
+  width: 100%;
+  margin-bottom: 1.5em;
+  margin-top: 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.message {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  border-left-color: green;
 }

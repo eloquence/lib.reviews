@@ -1,4 +1,7 @@
-<h1>{{{__ "site name"}}}</h1>
+{{#each messages}}
+  <div class="message">{{{this}}}</div>
+{{/each}}
+<p class="lead">{{{__ "intro lead" }}}</p>
 <p>{{{__ "intro message" }}}</p>
 {{{__ "to do list" }}}
 <p>{{{__ "find us on" }}}</p>

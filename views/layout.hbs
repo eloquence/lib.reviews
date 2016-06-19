@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{__ "site name"}} - {{__ "welcome"}}</title>
-    <link rel='stylesheet' href='/css/style.css' />
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>{{{__ "site name"}}} - {{{__ titleKey }}}</title>
+    <link rel='stylesheet' href='/static/css/pure-min.css' />
+    <link rel='stylesheet' href='/static/css/grids-responsive-min.css' />
+    <link rel='stylesheet' href='/static/css/style.css' />
   </head>
   <body>
-    <ul id="userMenu">
-    <li><a href="/register">{{__ "register"}}</a>
-    <li><a href="/signin">{{__ "sign in"}}</a>
+
+    <div class="pure-g">
+    <div class="pure-u-1-2 pure-u-lg-4-5">
+    <h1 id="page-header"><a href="/" id="home-link" accesskey="h" title="{{{__ "accesskey" "h"}}}">{{{__ "site name"}}}:</a> {{{__ titleKey }}}</h1>
+    </div>
+
+    <div class="pure-u-1-2 pure-u-lg-1-5">
+    {{#if user}}
+    <ul id="user-menu">
+    <li><a href="/user/{{user.urlName}}">{{user.displayName}}</a></li>
+
+    <li>
+    <form action="/signout" method="post" id="signout-form">
+    <input class="pure-button button-rounded" id="signout-button" type="submit" value="{{{__ "sign out"}}}">
+    </form>
+    </li>
+
     </ul>
+    {{else}}
+    <ul id="user-menu">
+    <li><a href="/signin" class="pure-button pure-button-primary button-rounded" accesskey="i" title="{{{__ "accesskey" "i"}}}">{{{__ "sign in"}}}</a>
+    <li><a href="/register" class="pure-button button-rounded">{{{__ "register"}}}</a>
+    </ul>
+    {{/if}}
+    </div>
+    </div>
+    <div class="divider"></div>
+
+    <div id="main-body">
     {{{body}}}
-    <hr>
+    </div>
     <div id="languages">{{{__ "change language" }}}
     <ul>
     {{#each languages}}

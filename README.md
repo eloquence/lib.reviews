@@ -18,6 +18,8 @@ Likely initial technical choices:
 
 This project follows a strong philosophy of progressive enhancement. That means that client-side UI features should always be optional, not required -- the primary functionality of the site should be available without JavaScript and on low-end devices.
 
+We also try to add keyboard shortcuts where relevant, and generally follow existing conventions for those (from Wikipedia, Google and other sites).
+
 Relevant related projects:
 
 - https://critiquebrainz.org/ - music reviews

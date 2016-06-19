@@ -24,25 +24,12 @@ app.set('port', port);
  */
 var server = http.createServer(app);
 
-
-r.connect({
-  host: 'localhost',
-  port: 28015,
-  db: 'libreviews'
-}).catch(error => {
-  console.error('Error connecting to the database.');
-  console.error(error);
-  process.exit(1);
-}).then(launchServer);
-
 /**
  * Listen on provided port, on all network interfaces.
  */
-function launchServer() {
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-}
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.

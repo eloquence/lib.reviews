@@ -1,0 +1,20 @@
+<p>{{{__ "papers please" }}}</p>
+{{#each errors}}
+  <div class="error">{{{__ this}}}</div>
+{{/each}}
+<form class="pure-form pure-form-aligned" action="/signin" method="post">
+    <fieldset>
+        <div class="pure-control-group">
+            <label for="username">{{{__ "username"}}}</label>
+            <input id="username" name="username" type="text" placeholder="{{{__ "enter username"}}}" size="30">
+        </div>
+
+        <div class="pure-control-group">
+            <label for="password">{{{__ "password"}}}</label>
+            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" size="30">
+        </div>
+
+        <button type="submit" class="pure-button pure-button-primary button-rounded">{{{__ "sign in"}}}</button>
+        <p>{{{__ "no account yet" }}}</p>
+    </fieldset>
+</form>

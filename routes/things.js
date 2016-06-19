@@ -7,11 +7,9 @@ const router = express.Router();
 // Internal dependencies
 const render = require('./render');
 
-// locale names and message keys
-
-/* GET home page. */
+// Homepage
 router.get('/', function(req, res) {
-  render(req, res, 'index');
+  render(req, res, 'index', { titleKey: 'welcome', messages: req.flash('messages') } );
 });
 
 

@@ -1,0 +1,35 @@
+<p>{{{__ "enter your info" }}}</p>
+{{#each errors}}
+  <div class="error">{{{this}}}</div>
+{{/each}}
+<form class="pure-form pure-form-aligned" action="/register" method="post">
+    <fieldset>
+        <div class="pure-control-group">
+            <label for="username">{{{__ "username"}}}</label>
+            <input id="username" name="username" type="text" placeholder="{{{__ "enter username"}}}" size="30">
+        </div>
+
+        <div class="pure-control-group">
+            <label for="email">{{{__ "email optional"}}}</label>
+            <input id="email" name="email" type="text" placeholder="{{{__ "enter email"}}}" size="30">
+        </div>
+
+
+        <div class="pure-control-group">
+            <label for="password">{{{__ "password"}}}</label>
+            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" size="30">
+        </div>
+
+        <p>
+            <label for="conduct text" class="textLabel">{{{__ "conduct" }}}</label>
+            <span id="conduct text" class="labelledText">{{{__ "conduct text" }}}</span>
+        </p>
+
+        <p>
+            <label for="licensing text" class="textLabel">{{{__ "licensing" }}}</label>
+            <span id="licensing text" class="labelledText">{{{__ "licensing text" }}}</span>
+        </p>
+        <button type="submit" class="pure-button pure-button-primary button-rounded">{{{__ "register"}}}</button>
+        <p>{{{__ "already got an account" }}}</p>
+    </fieldset>
+</form>

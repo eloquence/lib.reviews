@@ -6,6 +6,8 @@ function render(req, res, view, extraVars) {
   if (extraVars)
     Object.assign(vars, extraVars);
 
+  vars.user = req.user;
+
   // Mapping of languages keys against message keys that provide labels
   // for those languages
   vars.languages = {
@@ -16,7 +18,7 @@ function render(req, res, view, extraVars) {
   // We don't offer the active language
   delete vars.languages[req.locale];
 
-  res.render('index', vars);
+  res.render(view, vars);
 
 }
 
