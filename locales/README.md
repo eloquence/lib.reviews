@@ -4,6 +4,8 @@ lib.reviews is built to serve a global community speaking many languages. This m
 
 The files in this directory follow a simple key/value format. The key is *not* the English language user interface string (those are found in `en.json`) -- it is a short, lower case identifier. It can contain spaces and numbers. This key-based approach is intended to ease interoperability with different translation tools and platforms.
 
+In general, we strive to use nontechnical language and to use words native to a language as opposed to anglicisms.
+
 # German / Deutsch
 
 Wir verwenden konsistent die informelle Anrede (du), klein geschrieben, da es sich nicht um eine persoenliche Anrede handelt.
