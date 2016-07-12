@@ -9,7 +9,7 @@ const render = require('./render');
 
 // Homepage
 router.get('/terms', function(req, res) {
-  render.template(req, res, 'terms', { titleKey: 'terms' } );
+  render.template(req, res, `multilingual/terms-${req.locale}`, { titleKey: 'terms' } );
 });
 
 module.exports = router;
