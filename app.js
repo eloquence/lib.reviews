@@ -22,6 +22,7 @@ const things = require('./routes/things');
 const languages = require('./routes/languages'); // routes to change UI language
 const actions = require('./routes/actions');
 const users = require('./routes/users');
+const pages = require('./routes/pages');
 require('./auth');
 
 // i18n setup
@@ -67,7 +68,7 @@ app.use(session({
   saveUninitialized: true,
   secret: 'joeyTheCanadianStoreOwner',
   cookie: {
-    maxAge: 860000
+    maxAge: 1000 * 60 * 60 * 24 * 30 // 30
   },
   store
 }));
@@ -95,6 +96,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use('/', things);
 app.use('/', languages);
 app.use('/', actions);
+app.use('/', pages);
 app.use('/user', users);
 
 // catch 404 and forward to error handler

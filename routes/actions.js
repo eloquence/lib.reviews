@@ -15,7 +15,7 @@ const User = require('../models/user');
 
 router.get('/signin', function(req, res) {
   let errors = req.flash('errors');
-  render(req, res, 'signin', {
+  render.template(req, res, 'signin', {
     titleKey: 'sign in',
     errors
   });
@@ -64,7 +64,7 @@ router.post('/signin', function(req, res, next) {
 
 router.get('/register', function(req, res) {
   let errors = req.flash('errors');
-  render(req, res, 'register', {
+  render.template(req, res, 'register', {
     titleKey: 'register',
     errors
   });

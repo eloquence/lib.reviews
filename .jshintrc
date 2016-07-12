@@ -1,0 +1,8 @@
+{
+    "esnext": true,
+    "globalstrict": true,
+    "node": true,
+    "browser": true,
+    "validthis": true,
+    "predef": [ "$", "console" ]
+}

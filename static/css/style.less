@@ -6,13 +6,15 @@ pure CSS from LESS
 */
 @errorColor: red;
 @visitedColor: #006;
+@infoColor: #ccc;
+@headerColor: 414042;
 
 #languages a:visited,
-#main-body p a:visited,
-#main-body ul a:visited {
+#main-body a:visited {
     color: @visitedColor;
 }
 body {
+    margin-top: 1em;
     margin-left: 2em;
     margin-right: 2em;
     font-family: "Noto Sans", sans-serif;
@@ -35,6 +37,7 @@ body {
 }
 
 #user-menu {
+    margin-top:0px;
     text-align:right;
     list-style-type: none;
 }
@@ -49,9 +52,19 @@ body {
     font-style: italic;
 }
 .labelled-text {}
+
 #page-header {
-    font-weight: normal;
+  margin-top: 0px;
+  color: #414042;
+  font-weight: normal;
+  font-style: italic;
 }
+
+
+#logo {
+   width: 400px;
+}
+
 .button-rounded {
     border-radius: 4px;
 }
@@ -81,4 +94,110 @@ body {
   border-left-width: 5px;
   border-radius: 3px;
   border-left-color: green;
+}
+
+
+.button-cta {
+  background: rgb(66, 184, 221); /* this is a light blue */
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+label {
+  font-weight: bold;
+}
+.user-name {
+  color: #666;
+}
+
+.spaced-icon {
+  margin-right:0.4em;
+}
+
+.star-holder, .star-full {
+  padding: 5px;
+}
+
+textarea#review-text {
+  height: 10em;
+}
+
+
+#help {
+  margin-left:1em;
+}
+
+#help, .help-text {
+  display: none; /* shown via JS, or overridden in document style when no JS */
+  overflow: auto;
+  max-height: 25em;
+}
+
+.help-heading {
+  margin-top: 0px;
+}
+
+#review-terms-notice {
+  margin-top:1em;
+  font-size:small;
+}
+
+#register-terms-notice {
+  margin-top:1em;
+  margin-bottom:1em;
+  font-size:medium;
+}
+
+.buttons-group {
+  text-align: center;
+}
+
+#show-extra-fields {
+  color: @visitedColor;
+  cursor: pointer;
+}
+
+#extra-fields, #extra-fields-expanded {
+  display: none;
+}
+
+label.inline-label {
+  display:inline;
+  margin-left:0.5em;
+  margin-right:1em;
+  font-weight: normal;
+}
+
+.info-icon {
+  color: @infoColor;
+}
+
+#draft-notice {
+  color: @headerColor;
+  font-weight:bold;
+  font-style:italic;
+  display:none;
+  border-width: 0px 0px 0px 4px;
+  padding: 1em;
+  border-style: solid;
+  border-color: @infoColor;
+}
+
+.validation-error {
+  display: none;
+  color: red;
+}
+
+#helper-links {
+  display: none;
+}
+
+#freedom-notice {
+  float:right;
+}
+
+.required {
+  color:red;
+  font-weight:bold;
+  display:none;
 }

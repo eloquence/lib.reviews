@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>{{{__ "site name"}}} - {{{__ titleKey }}}</title>
     <link rel='stylesheet' href='/static/css/pure-min.css' />
     <link rel='stylesheet' href='/static/css/grids-responsive-min.css' />
     <link rel='stylesheet' href='/static/css/style.css' />
-  </head>
-  <body>
+    <link rel="stylesheet" href="/static/css/font-awesome/font-awesome.css">
+    <noscript>
+        <style>
+            .nojs-hidden {
+                display: none !important;
+                /* for hiding rich content/widgets when JS is disabled */
+            }
+
+            .nojs-visible {
+                display: block !important;
+                /* for expanding collapsible content by default to users without JS */
+            }
+        </style>
+    </noscript>
+</head>
+
+<body>
 
     <div class="pure-g">
-    <div class="pure-u-1-2 pure-u-lg-4-5">
-    <h1 id="page-header"><a href="/" id="home-link" accesskey="h" title="{{{__ "accesskey" "h"}}}">{{{__ "site name"}}}:</a> {{{__ titleKey }}}</h1>
+        <div class="pure-u-1-2">
+            <a href="/" id="home-link" accesskey="h" title="{{__ "load frontpage"}}
+{{{__ "accesskey" "h"}}}"><img src="/static/img/logo.svg" id="logo" class="pure-img" alt="{{{__ "site name"}}}"></a>
+        </div>
+
+        <div class="pure-u-1-2">
+            {{#if user}}
+                <ul id="user-menu">
+                    <li><span class="user-name"><span class="fa fa-user spaced-icon"></span>{{user.displayName}}</span>
+                    </li>
+                    <li><a href="/new" class="pure-button button-cta button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span class="fa fa-pencil spaced-icon"></span>{{__ "new review"}}</a>
+                        <li>
+                            <form action="/signout" method="post" id="signout-form">
+                                <input class="pure-button button-rounded" id="signout-button" type="submit" accesskey="o" title="{{{__ "accesskey" "o"}}}" value="{{{__ "sign out"}}}">
+                            </form>
+                        </li>
+
+                </ul>
+            {{else}}
+                <ul id="user-menu">
+                    <li><a href="/signin" class="pure-button pure-button-primary button-rounded" accesskey="i" title="{{{__ "accesskey" "i"}}}">{{{__ "sign in"}}}</a>
+                        <li><a href="/register" class="pure-button button-rounded">{{{__ "register"}}}</a>
+                </ul>
+            {{/if}}
+        </div>
     </div>
-
-    <div class="pure-u-1-2 pure-u-lg-1-5">
-    {{#if user}}
-    <ul id="user-menu">
-    <li><a href="/user/{{user.urlName}}">{{user.displayName}}</a></li>
-
-    <li>
-    <form action="/signout" method="post" id="signout-form">
-    <input class="pure-button button-rounded" id="signout-button" type="submit" value="{{{__ "sign out"}}}">
-    </form>
-    </li>
-
-    </ul>
-    {{else}}
-    <ul id="user-menu">
-    <li><a href="/signin" class="pure-button pure-button-primary button-rounded" accesskey="i" title="{{{__ "accesskey" "i"}}}">{{{__ "sign in"}}}</a>
-    <li><a href="/register" class="pure-button button-rounded">{{{__ "register"}}}</a>
-    </ul>
-    {{/if}}
-    </div>
-    </div>
-    <div class="divider"></div>
-
+    <h1 id="page-header">{{{__ titleKey }}}</h2>
     <div id="main-body">
     {{{body}}}
     </div>
@@ -45,6 +62,13 @@
       <li><a href="/{{@key}}">{{{__ this}}}</a>
     {{/each}}
     </ul>
+    <div id="freedom-notice">{{{__ "freedom"}}} <a href="/terms">{{{__ "terms"}}}</a> &ndash; <a href="https://github.com/eloquence/lib.reviews">{{__ "code"}}</a></div>
   </div>
+  <script type="text/javascript">
+  {{{configScript}}}
+  </script>
+  {{#each scripts}}
+  <script src="/static/js/{{this}}"></script>
+  {{/each}}
   </body>
 </html>
