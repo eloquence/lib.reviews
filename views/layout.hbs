@@ -52,7 +52,9 @@
             {{/if}}
         </div>
     </div>
-    <h1 id="page-header">{{{__ titleKey }}}</h2>
+    {{#unless longText}}
+    <h1 id="page-header">{{{__ titleKey }}}</h1>
+    {{/unless}}
     <div id="main-body">
     {{{body}}}
     </div>

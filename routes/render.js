@@ -18,7 +18,7 @@ let render = {
     vars.user = req.user;
 
     vars.scripts = ['jquery-2.1.4.min.js'];
-    if (Array.isArray(extraVars.scripts))
+    if (extraVars && Array.isArray(extraVars.scripts))
       vars.scripts = vars.scripts.concat(extraVars.scripts);
 
     // Mapping of languages keys against message keys that provide labels

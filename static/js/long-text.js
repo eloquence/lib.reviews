@@ -1,0 +1,1 @@
+../../frontend/long-text.js

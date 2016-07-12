@@ -9,7 +9,12 @@ const render = require('./render');
 
 // Homepage
 router.get('/terms', function(req, res) {
-  render.template(req, res, `multilingual/terms-${req.locale}`, { titleKey: 'terms' } );
+  render.template(req, res, `multilingual/terms-${req.locale}`, {
+    longText: true,
+    titleKey: 'terms',
+    scripts: ['long-text.js']
+
+  });
 });
 
 module.exports = router;
