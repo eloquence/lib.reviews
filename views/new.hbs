@@ -1,3 +1,6 @@
+{{#each errors}}
+  <div class="error">{{{this}}}</div>
+{{/each}}
 <div id="draft-notice"><span class="fa fa-info-circle info-icon"></span> {{{__ "draft loaded"}}} <a href="#" id="abandon-draft">{{__ "abandon draft"}}</a></div>
 <form class="pure-form pure-form-stacked" id="new-review-form" name="new-review-form" action="/new" method="post">
     <fieldset>
@@ -72,10 +75,10 @@
     </fieldset>
 
     <div class="validation-error" id="required-fields-message">
-    {{__ "complete all required fields"}}
+    {{{__ "complete all required fields"}}}
     </div>
     <div class="validation-error" id="form-error-message">
-    {{__ "correct errors"}}
+    {{{__ "correct errors"}}}
     </div>
     <div class="buttons-group">
     <button type="submit" id="publish" value="publish" class="pure-button pure-button-primary button-rounded">{{{__ "publish"}}}</button>
