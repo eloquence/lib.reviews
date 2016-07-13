@@ -66,5 +66,9 @@
     "not a url": "Dies sieht nicht wie eine Web-Adresse aus (Beispiel: https://www.gnu.org/).",
     "add http": "http:// voranh&auml;ngen",
     "add https": "https:// voranh&auml;ngen",
-    "signin required": "Du musst dich erst <a href='/signin'>anmelden</a> oder ein <a href='/register'>Benutzerkonto registrieren</a>."
+    "signin required": "Du musst dich erst <a href='/signin'>anmelden</a> oder ein <a href='/register'>Benutzerkonto registrieren</a>.",
+    "freedom": "lib.reviews respektiert deine Freiheit:",
+    "code": "Quellcode",
+    "complete all required fields": "Bitte vervollst&auml;ndige alle erforderlichen Felder (mit * markiert).",
+    "correct errors": "Bitte korrigiere alle gemeldeten Fehler."
 }
