@@ -70,5 +70,9 @@
     "freedom": "lib.reviews respektiert deine Freiheit:",
     "code": "Quellcode",
     "complete all required fields": "Bitte vervollst&auml;ndige alle erforderlichen Felder (mit * markiert).",
-    "correct errors": "Bitte korrigiere alle gemeldeten Fehler."
+    "correct errors": "Bitte korrigiere alle gemeldeten Fehler.",
+    "need review-url": "Wir ben&ouml;tigen eine URL f&uuml;r diese Rezension.",
+    "need review-title": "Wir ben&ouml;tigen eine &Uuml;berschrift f&uuml;r diese Rezension.",
+    "need review-text": "Wir ben&ouml;tigen Text f&uuml;r diese Rezension.",
+    "need review-rating": "Wir ben&ouml;tigen eine Bewertung f&uuml;r diese Rezension."
 }

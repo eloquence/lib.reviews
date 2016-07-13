@@ -61,7 +61,9 @@
     <div id="languages">{{{__ "change language" }}}
     <ul>
     {{#each languages}}
-      <li><a href="/{{@key}}">{{{__ this}}}</a>
+      {{#unless this.currentLanguage}}
+      <li><a href="/{{@key}}">{{{__ this.messageKey}}}</a>
+      {{/unless}}
     {{/each}}
     </ul>
     <div id="freedom-notice">{{{__ "freedom"}}} <a href="/terms">{{{__ "terms"}}}</a> &ndash; <a href="https://github.com/eloquence/lib.reviews">{{__ "code"}}</a></div>

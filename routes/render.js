@@ -24,17 +24,18 @@ let render = {
     // Mapping of languages keys against message keys that provide labels
     // for those languages
     vars.languages = {
-      'de': 'german',
-      'en': 'english'
+      'de': {
+        messageKey: 'german'
+      },
+      'en': {
+        messageKey: 'english'
+      }
     };
 
-    vars.currentLanguage = {
-      key: req.locale,
-      label: vars.languages[req.locale]
-    };
+    if (vars.languages[req.locale])
+      vars.languages[req.locale].currentLanguage = true;
 
-    // This array only contains other languages than the current one, for easy rendering
-    delete vars.languages[req.locale];
+    vars.currentLanguage = req.locale;
 
     res.render(view, vars);
 

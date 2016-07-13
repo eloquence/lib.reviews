@@ -70,5 +70,9 @@
     "code": "Source code",
     "signin required": "You have to <a href='/signin'>sign in</a> or <a href='/register'>register an account</a> first.",
     "complete all required fields": "Please complete all required fields (marked with *).",
-    "correct errors": "Please correct all reported errors."
+    "correct errors": "Please correct all reported errors.",
+    "need review-url": "We require a URL for this review.",
+    "need review-title": "We require a title for this review.",
+    "need review-text": "We require text for this review.",
+    "need review-rating": "We require a rating for this review."
 }

@@ -18,7 +18,7 @@ const useragent = require('express-useragent');
 const passport = require('passport');
 
 // Internal dependencies
-const things = require('./routes/things');
+const reviews = require('./routes/reviews');
 const languages = require('./routes/languages'); // routes to change UI language
 const actions = require('./routes/actions');
 const users = require('./routes/users');
@@ -34,10 +34,8 @@ i18n.configure({
   directory: "" + __dirname + "/locales"
 });
 
-
 // express setup
 var app = express();
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,7 +50,6 @@ app.use(function(req, res, next) {
   });
   next();
 });
-
 
 app.use(cookieParser());
 
@@ -93,10 +90,10 @@ let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
-app.use('/', things);
+app.use('/', pages);
+app.use('/', reviews);
 app.use('/', languages);
 app.use('/', actions);
-app.use('/', pages);
 app.use('/user', users);
 
 // catch 404 and forward to error handler
@@ -129,6 +126,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

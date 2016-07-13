@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-
 const maxAge = 1000 * 60 * 60 * 24 * 30; // cookie age: 30 days
 
 router.get('/en', function(req, res) {

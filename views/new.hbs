@@ -8,42 +8,46 @@
         <div class="pure-u-1 pure-u-md-2-3">
         <div class="pure-control-group">
             <label for="review-url">{{{__ "url"}}} <span class="required">*</span></label>
-            <input id="review-url" name="review-url" type="text" class="pure-input-1" placeholder="{{{__ "enter web address"}}}">
+            <input id="review-url" name="review-url" type="text" class="pure-input-1" placeholder="{{{__ "enter web address"}}}" value="{{{formValues.review-url}}}">
             <div id="review-url-validation" class="validation-error">{{{__ "not a url"}}}</div>
             <div id="helper-links"><a href="#" id="add-https">{{{__ "add https"}}}</a> &ndash; <a href="#" id="add-http">{{{__ "add http"}}}</a></div>
         </div>
         <div class="pure-control-group">
             <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>
-            <input id="review-title" name="review-title" type="text" class="pure-input-1" placeholder='{{{__ "enter title"}}}'>
+            <input id="review-title" name="review-title" type="text" class="pure-input-1" placeholder='{{{__ "enter title"}}}' value="{{{formValues.review-title}}}">
         </div>
           <div class="pure-control-group">
               <label for="review-text">{{{__ "review"}}} <span class="required">*</span></label>
-              <textarea id="review-text" name="review-text" class="pure-input-1" placeholder="{{{__ "enter review"}}}"></textarea>
+              <textarea id="review-text" name="review-text" class="pure-input-1" placeholder="{{{__ "enter review"}}}">{{{formValues.review-text}}}</textarea>
           </div>
           <div class="pure-control-group">
           <label id="star-rating-label" for="review-rating">{{{__ "rating"}}} <span class="required">*</span></label>
         <div class="nojs-hidden">
-          <span id="star-rating-group">
+          {{! We store this POST value in the DOM, so it is available to the JS-only control }}
+          <span id="star-rating-control" data-post="{{{formValues.review-rating.value}}}">
           <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-1"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-2"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-3"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-4"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-5">
           </span>
         </div>
-        <input id="review-rating" name="review-rating" type="hidden" value="">
         <noscript>
-        <input id="star-1" type="radio" name="review-rating" value="1"><label for="star-1" class="inline-label">{{{__ "1 star"}}}</label>
-        <input id="star-2" type="radio" name="review-rating" value="2"><label for="star-2" class="inline-label">{{{__ "2 stars"}}}</label>
-        <input id="star-3" type="radio" name="review-rating" value="3"><label for="star-3" class="inline-label">{{{__ "3 stars"}}}</label>
-        <input id="star-4" type="radio" name="review-rating" value="4"><label for="star-4" class="inline-label">{{{__ "4 stars"}}}</label>
-        <input id="star-5" type="radio" name="review-rating" value="5"><label for="star-5" class="inline-label">{{{__ "5 stars"}}}</label>
+        <input id="star-1" type="radio" name="review-rating" value="1"{{#if formValues.review-rating.[1]}} checked{{/if}}><label for="star-1" class="inline-label">{{{__ "1 star"}}}</label>
+        <input id="star-2" type="radio" name="review-rating" value="2"{{#if formValues.review-rating.[2]}} checked{{/if}}><label for="star-2" class="inline-label">{{{__ "2 stars"}}}</label>
+        <input id="star-3" type="radio" name="review-rating" value="3"{{#if formValues.review-rating.[3]}} checked{{/if}}><label for="star-3" class="inline-label">{{{__ "3 stars"}}}</label>
+        <input id="star-4" type="radio" name="review-rating" value="4"{{#if formValues.review-rating.[4]}} checked{{/if}}><label for="star-4" class="inline-label">{{{__ "4 stars"}}}</label>
+        <input id="star-5" type="radio" name="review-rating" value="5"{{#if formValues.review-rating.[5]}} checked{{/if}}><label for="star-5" class="inline-label">{{{__ "5 stars"}}}</label>
         </noscript>
       </div>
 
-      <span id="show-extra-fields" class="nojs-hidden" tabindex="0"><span class="fa fa-caret-right" id="extra-fields-collapsed"></span><span class="fa fa-caret-down" id="extra-fields-expanded"></span> {{{__ "add more"}}}</span>
+      <span id="show-extra-fields" class="nojs-hidden" tabindex="0" {{#if formValues.review-expand-extra-fields}} data-post-expanded{{/if}}><span class="fa fa-caret-right" id="extra-fields-collapsed"></span><span class="fa fa-caret-down" id="extra-fields-expanded"></span> {{{__ "add more"}}}</span>
       <div class="pure-control-group nojs-visible" id="extra-fields">
         <label for="review-language">{{{__ "review language"}}}</label>
         <select id="review-language" name="review-language" class="pure-input-1-2">
-          <option selected value="{{currentLanguage.key}}">{{{__ currentLanguage.label}}}</option>
+          {{! Mark previously POSTed value as selected, if any. Later, mark current language as selected, unless we have a POSTed value. Turn this into a helper if it gets anymore complicated than this.}}
           {{#each languages}}
-            <option value="{{@key}}">{{{__ this}}}</option>
+          {{#if (lookup ../formValues.review-language @key)}}
+          <option value="{{@key}}" selected>{{__ this.messageKey}}</option>
+          {{else}}
+          <option value="{{@key}}"{{#unless ../../formValues.review-language}}{{#if this.currentLanguage}} selected{{/if}}{{/unless}}>{{__ this.messageKey}}</option>
+          {{/if}}
           {{/each}}
         </select>
       </div>

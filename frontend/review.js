@@ -1,14 +1,29 @@
 'use strict';
 
-// Handlers
+// Add inputs used only with JS here so they don't appear/conflict when JS is disabled
+$('#star-rating-control').append(`<input id="review-rating" name="review-rating" type="hidden">`);
+$('#show-extra-fields').append(`<input id="review-expand-extra-fields" name="review-expand-extra-fields" type="hidden">`);
 
+// Get rating value from previous POST request, if any
+let postRating = $('#star-rating-control').attr('data-post') || '';
+
+// Highlight rating from POST request
+if (postRating)
+  selectStar.apply($(`#star-button-${postRating}`)[0]);
+
+// Expand extra fields control if it was expanded in the POST request
+if ($('#show-extra-fields')[0].hasAttribute('data-post-expanded')) {
+  showExtraFields.apply($('#show-extra-fields')[0]);
+}
+
+// Register event handlers
 $('#review-url,#review-title,#review-text').focus(showInputHelp);
 $('#review-url,#review-title,#review-text').blur(hideInputHelp);
 $('#review-url,#review-title,#review-text').change(hideDraftNotice);
 $('#review-url,#review-title,#review-text').change(trimInput);
 $('#review-url').change(fixURL);
-$('#star-rating-group').mouseover(showStarControlHelp);
-$('#star-rating-group').mouseout(hideStarControlHelp);
+$('#star-rating-control').mouseover(showStarControlHelp);
+$('#star-rating-control').mouseout(hideStarControlHelp);
 $('[id^=star-button-]')
   .mouseout(clearStars)
   .mouseover(previewStar)
@@ -19,7 +34,6 @@ $('[id^=star-button-]')
 
 $('#show-extra-fields').click(showExtraFields);
 $('#show-extra-fields').keyup(maybeShowExtraFields);
-$('#star-rating-group').append(`<span id="star-control">`);
 $('#review-url').focus();
 
 // The sisyphus library persists form data to local storage on change events
@@ -144,6 +158,10 @@ function showExtraFields() {
   $('#extra-fields').toggle(200);
   $('#extra-fields-collapsed').toggle();
   $('#extra-fields-expanded').toggle();
+  if (!$('#review-expand-extra-fields').val())
+    $('#review-expand-extra-fields').val(true);
+  else
+    $('#review-expand-extra-fields').val(undefined);
 }
 
 function maybeShowExtraFields(event) {
@@ -226,7 +244,7 @@ function replaceStar(id, src, className) {
 }
 
 function restoreSelected() {
-  let selectedStar = $('#star-control').attr('data-selected');
+  let selectedStar = $('#star-rating-control').attr('data-selected');
   if (selectedStar) {
     selectStar.apply($(`#star-button-${selectedStar}`)[0]);
   }
@@ -234,9 +252,9 @@ function restoreSelected() {
 
 function selectStar() {
   let selectedStar = previewStar.apply(this);
-  $('#star-control').attr('data-selected', selectedStar);
+  $('#star-rating-control').attr('data-selected', selectedStar);
   $('#review-rating').val(selectedStar);
-  $('#star-rating-group img[id^=star-button-]')
+  $('#star-rating-control img[id^=star-button-]')
     .off('mouseout')
     .mouseout(restoreSelected);
   $('#review-rating').trigger('change');
