@@ -1,5 +1,5 @@
 'use strict';
-const debug = require('../util/debug');
+const debug = require('../../util/debug');
 module.exports = function flashErrorMessage(req, res, errorMessage, context) {
     if (errorMessage.constructor.name == 'ErrorMessage') {
       req.flash('errors', res.__.apply(this, errorMessage.toEscapedArray()));

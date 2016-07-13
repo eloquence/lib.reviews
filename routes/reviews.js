@@ -5,15 +5,12 @@ const express = require('express');
 const router = express.Router();
 
 // Internal dependencies
-const render = require('./render');
+const render = require('./helpers/render');
+const forms = require('./helpers/forms');
 
-
-router.get('/new', function(req, res) {
-  maybeRenderReviewForm(req, res);
-});
-
-router.post('/new', function(req, res) {
-  let formDef = [{
+// Form definitions for these routes
+const formDefs = {
+  'new': [{
     name: 'review-url',
     required: true
   }, {
@@ -33,23 +30,16 @@ router.post('/new', function(req, res) {
   }, {
     name: 'review-expand-extra-fields',
     required: false
-  }];
+  }]
+};
 
-  let formValues = {}; // For preserving form data on each submission
+router.get('/new', function(req, res) {
+  maybeRenderReviewForm(req, res);
+});
 
-  for (let field of formDef) {
-    if (!req.body[field.name] && field.required)
-      req.flash('errors', res.__(`need ${field.name}`));
-    if (req.body[field.name] && !field.radioMap)
-      formValues[field.name] = req.body[field.name];
-    if (req.body[field.name] && field.radioMap) {
-      formValues[field.name] = {};
-      formValues[field.name].value = req.body[field.name];
-      formValues[field.name][req.body[field.name]] = true;
-    }
-  }
+router.post('/new', function(req, res) {
+  let formValues = forms.getFormValues(req, formDefs['new']); // For preserving form data on each submission
   maybeRenderReviewForm(req, res, formValues);
-
 });
 
 function maybeRenderReviewForm(req, res, formValues) {

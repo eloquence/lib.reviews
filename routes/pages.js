@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 // Internal dependencies
-const render = require('./render');
+const render = require('./helpers/render');
 
 // Homepage
 router.get('/', function(req, res) {

@@ -8,8 +8,8 @@ const i18n = require('i18n');
 const passport = require('passport');
 
 // Internal dependencies
-const render = require('./render');
-const flashError = require('./flash-error');
+const render = require('./helpers/render');
+const flashError = require('./helpers/flash-error');
 const User = require('../models/user');
 
 
