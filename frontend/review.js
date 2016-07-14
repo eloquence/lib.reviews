@@ -25,7 +25,6 @@ let md = window.markdownit({
 // Register event handlers
 $('#review-url,#review-title,#review-text').focus(showInputHelp);
 $('#review-url,#review-title,#review-text').blur(hideInputHelp);
-$('#review-url,#review-title,#review-text').change(hideDraftNotice);
 $('#review-url,#review-title,#review-text').change(trimInput);
 $('#review-url').change(fixURL);
 $('#star-rating-control').mouseover(showStarControlHelp);
@@ -41,6 +40,7 @@ $('[id^=star-button-]')
 $('#show-extra-fields').click(showExtraFields);
 $('#show-extra-fields').keyup(maybeShowExtraFields);
 $('#live-preview').change(toggleLivePreview);
+$('#dismiss-draft-notice').click(hideDraftNotice);
 
 $('#review-url').focus();
 
@@ -94,7 +94,8 @@ function trimInput() {
 }
 
 function hideDraftNotice() {
-  $('#draft-notice').fadeOut(200);
+  if ($('#draft-notice').is(':visible'))
+    $('#draft-notice').fadeOut(200);
 }
 
 function addProtocol(protocol) {
@@ -139,6 +140,7 @@ function emptyAllFormFields(event) {
   $('#review-url').trigger('change');
   clearStars();
   sisyphus.manuallyReleaseData();
+  hideDraftNotice();
   event.preventDefault();
 }
 

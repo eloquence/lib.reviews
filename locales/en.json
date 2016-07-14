@@ -78,5 +78,6 @@
     "unexpected form data": "We received unexpected data as part of your submission. This may be a coding error on our end, or on yours. Sorry for the inconvenience.",
     "live preview": "Live preview",
     "review byline": "Written by %s on <span id='preview-review-byline-date'>%s</span>",
-    "review of": "Review of:"
+    "review of": "Review of:",
+    "got it": "Got it!"
 }
