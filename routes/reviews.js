@@ -28,8 +28,11 @@ const formDefs = {
     required: false,
     radioMap: true
   }, {
-    name: 'review-expand-extra-fields',
+    name: 'review-expand-extra-fields', // Cosmetic, not saved
     required: false
+  }, {
+    name: 'review-action', // Logic, not saved
+    required: true
   }]
 };
 
@@ -49,7 +52,7 @@ function maybeRenderReviewForm(req, res, formInfo) {
     formInfo = {};
 
   if (req.user)
-    if (!formInfo.hasRequiredFields)
+    if (!formInfo.hasRequiredFields || formInfo.hasExtraFields)
       render.template(req, res, 'new', {
         formValues: formInfo.formValues,
         titleKey,

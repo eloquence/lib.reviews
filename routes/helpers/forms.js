@@ -2,7 +2,9 @@
 let forms = {
   parseSubmission: function(req, formDef) {
     let hasRequiredFields = true;
+    let hasUnknownFields = false;
     let formValues = {};
+    let processedKeys = Object.keys(req.body);
 
     for (let field of formDef) {
       if (!req.body[field.name] && field.required) {
@@ -16,36 +18,20 @@ let forms = {
         formValues[field.name].value = req.body[field.name];
         formValues[field.name][req.body[field.name]] = true;
       }
+      let k = processedKeys.indexOf(field.name);
+      if (k !== -1)
+        processedKeys.splice(k, 1);
+    }
+    if (processedKeys.length) {
+      hasUnknownFields = true;
+      req.flash('errors', req.__('unexpected form data'));
     }
     return {
       hasRequiredFields,
+      hasUnknownFields,
       formValues
     };
   },
 };
 
-
-const formDefs = {
-  'new': [{
-    name: 'review-url',
-    required: true
-  }, {
-    name: 'review-title',
-    required: true,
-  }, {
-    name: 'review-text',
-    required: true
-  }, {
-    name: 'review-rating',
-    required: true,
-    radioMap: true
-  }, {
-    name: 'review-language',
-    required: false,
-    radioMap: true
-  }, {
-    name: 'review-expand-extra-fields',
-    required: false
-  }]
-};
 module.exports = forms;
