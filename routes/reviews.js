@@ -57,7 +57,7 @@ function maybeRenderReviewForm(req, res, formInfo) {
         formValues: formInfo.formValues,
         titleKey,
         errors,
-        scripts: ['sisyphus.min.js', 'review.js']
+        scripts: ['sisyphus.min.js', 'markdown-it.min.js', 'review.js']
       });
     else
       res.redirect('/');

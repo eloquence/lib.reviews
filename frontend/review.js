@@ -16,6 +16,12 @@ if ($('#show-extra-fields')[0].hasAttribute('data-post-expanded')) {
   showExtraFields.apply($('#show-extra-fields')[0]);
 }
 
+// Markdown parser & options for live preview
+let md = window.markdownit({
+  linkify: true,
+  breaks: true
+});
+
 // Register event handlers
 $('#review-url,#review-title,#review-text').focus(showInputHelp);
 $('#review-url,#review-title,#review-text').blur(hideInputHelp);
@@ -34,17 +40,22 @@ $('[id^=star-button-]')
 
 $('#show-extra-fields').click(showExtraFields);
 $('#show-extra-fields').keyup(maybeShowExtraFields);
+$('#live-preview').change(toggleLivePreview);
+
 $('#review-url').focus();
 
 // The sisyphus library persists form data to local storage on change events
 let sisyphus = $('#new-review-form').sisyphus({
-  onRestore: processLoadedData
+  onRestore: processLoadedData,
+  excludeFields: $('#live-preview')
 });
 
 $('#abandon-draft').click(emptyAllFormFields);
 $('#add-http').click(addHTTP);
 $('#add-https').click(addHTTPS);
 $('#publish').click(checkRequiredFields);
+$('#preview').click(showPreviewOnce);
+
 
 // Function defs
 
@@ -258,4 +269,35 @@ function selectStar() {
     .off('mouseout')
     .mouseout(restoreSelected);
   $('#review-rating').trigger('change');
+}
+
+function showPreviewOnce(event) {
+  $('#preview-contents').prop('hidden', false);
+  renderPreview();
+  event.preventDefault();
+}
+
+function renderPreview() {
+  let text = $('#review-text').val();
+  let parsed = md.render(text);
+  $('#preview-review-url-link').attr('href', $('#review-url').val());
+  $('#preview-review-url-link').html($('#review-url').val());
+  $('#preview-review-text').html(parsed);
+  $('#preview-review-title').html($('#review-title').val());
+  $('#preview-review-byline-date').html(new Date().toLocaleString());
+}
+
+function toggleLivePreview() {
+  if ($(this).prop('checked')) {
+    renderPreview();
+    $('#preview-contents').prop('hidden', false);
+    $('#review-title').keyup(renderPreview);
+    $('#review-text').keyup(renderPreview);
+    $('#review-url').change(renderPreview);
+  } else {
+    $('#preview-contents').prop('hidden', true);
+    $('#review-text').off('keyup', renderPreview);
+    $('#review-title').off('keyup', renderPreview);
+    $('#review-url').off('change', renderPreview);
+  }
 }

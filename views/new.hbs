@@ -1,7 +1,16 @@
+<div id="preview-contents" {{#unless preview}}hidden{{/unless}}>
+<h2 id="preview-review-title">{{preview-review-title}} <span id="preview-review-rating"></span></h2>
+<h3 id="preview-review-url-heading"><span id="preview-review-url-label">{{{__ "review of"}}}</span> <a href="{{preview-review-url}}" id="preview-review-url-link" target="_blank">{{preview-review-url}}</a></h3>
+<div id="preview-review-text">{{preview-review-text}}</div>
+<div id="preview-review-byline">{{{__ "review byline" user.displayName preview-review-date}}}</div>
+</div>
 {{#each errors}}
   <div class="error">{{{this}}}</div>
 {{/each}}
-<div id="draft-notice"><span class="fa fa-info-circle info-icon"></span> {{{__ "draft loaded"}}} <a href="#" id="abandon-draft">{{__ "abandon draft"}}</a></div>
+<div id="draft-notice">
+<span class="fa fa-info-circle info-icon"></span> {{{__ "draft loaded"}}}
+<a href="#" class="pure-button button-rounded button-destructive" id="abandon-draft"><span class="fa fa-trash-o spaced-icon"></span>{{__ "abandon draft"}}</a>
+</div>
 <form class="pure-form pure-form-stacked" id="new-review-form" name="new-review-form" action="/new" method="post">
     <fieldset>
       <div class="pure-g">
@@ -29,11 +38,11 @@
           </span>
         </div>
         <noscript>
-        <input id="star-1" type="radio" name="review-rating" value="1"{{#if formValues.review-rating.[1]}} checked{{/if}}><label for="star-1" class="inline-label">{{{__ "1 star"}}}</label>
-        <input id="star-2" type="radio" name="review-rating" value="2"{{#if formValues.review-rating.[2]}} checked{{/if}}><label for="star-2" class="inline-label">{{{__ "2 stars"}}}</label>
-        <input id="star-3" type="radio" name="review-rating" value="3"{{#if formValues.review-rating.[3]}} checked{{/if}}><label for="star-3" class="inline-label">{{{__ "3 stars"}}}</label>
-        <input id="star-4" type="radio" name="review-rating" value="4"{{#if formValues.review-rating.[4]}} checked{{/if}}><label for="star-4" class="inline-label">{{{__ "4 stars"}}}</label>
-        <input id="star-5" type="radio" name="review-rating" value="5"{{#if formValues.review-rating.[5]}} checked{{/if}}><label for="star-5" class="inline-label">{{{__ "5 stars"}}}</label>
+        <input id="star-1" type="radio" name="review-rating" value="1"{{#if formValues.review-rating.[1]}} checked{{/if}}><label for="star-1" class="inline-label inline-star-label">{{{__ "1 star"}}}</label>
+        <input id="star-2" type="radio" name="review-rating" value="2"{{#if formValues.review-rating.[2]}} checked{{/if}}><label for="star-2" class="inline-label inline-star-label">{{{__ "2 stars"}}}</label>
+        <input id="star-3" type="radio" name="review-rating" value="3"{{#if formValues.review-rating.[3]}} checked{{/if}}><label for="star-3" class="inline-label inline-star-label">{{{__ "3 stars"}}}</label>
+        <input id="star-4" type="radio" name="review-rating" value="4"{{#if formValues.review-rating.[4]}} checked{{/if}}><label for="star-4" class="inline-label inline-star-label">{{{__ "4 stars"}}}</label>
+        <input id="star-5" type="radio" name="review-rating" value="5"{{#if formValues.review-rating.[5]}} checked{{/if}}><label for="star-5" class="inline-label inline-star-label">{{{__ "5 stars"}}}</label>
         </noscript>
       </div>
 
@@ -85,8 +94,12 @@
     {{{__ "correct errors"}}}
     </div>
     <div class="buttons-group">
-    <button type="submit" id="publish" name="review-action" value="publish" class="pure-button pure-button-primary button-rounded">{{{__ "publish"}}}</button>
-    <button type="submit" id="preview" name="review-action" value="preview" class="pure-button button-rounded">{{{__ "preview"}}}</button>
+    <button type="submit" id="publish" name="review-action" value="publish" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "publish"}}}</button>
+    <button type="submit" id="preview" name="review-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "accesskey" "p"}}}">{{{__ "preview"}}}</button>
+    <span class="nojs-hidden" id="live-preview-control">
+    <input type="checkbox" id="live-preview">
+    <label for="live-preview" class="inline-label">{{__ "live preview"}}</label>
+    </span>
     </div>
     </form>
   <div id="review-terms-notice">{{{__ "new review terms"}}}</div>

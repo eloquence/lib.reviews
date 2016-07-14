@@ -74,5 +74,8 @@
     "need review-url": "Wir ben&ouml;tigen eine URL f&uuml;r diese Rezension.",
     "need review-title": "Wir ben&ouml;tigen eine &Uuml;berschrift f&uuml;r diese Rezension.",
     "need review-text": "Wir ben&ouml;tigen Text f&uuml;r diese Rezension.",
-    "need review-rating": "Wir ben&ouml;tigen eine Bewertung f&uuml;r diese Rezension."
+    "need review-rating": "Wir ben&ouml;tigen eine Bewertung f&uuml;r diese Rezension.",
+    "live preview": "Live-Vorschau",
+    "review byline": "Geschrieben von %s am <span id='preview-review-byline-date'>%s</span>",
+    "review of": "Rezension von:"
 }
