@@ -38,21 +38,26 @@ router.get('/new', function(req, res) {
 });
 
 router.post('/new', function(req, res) {
-  let formValues = forms.getFormValues(req, formDefs['new']); // For preserving form data on each submission
-  maybeRenderReviewForm(req, res, formValues);
+  let formInfo = forms.parseSubmission(req, formDefs['new']);
+  maybeRenderReviewForm(req, res, formInfo);
 });
 
-function maybeRenderReviewForm(req, res, formValues) {
+function maybeRenderReviewForm(req, res, formInfo) {
   let errors = req.flash('errors');
   let titleKey = 'write a review';
+  if (!formInfo)
+    formInfo = {};
 
   if (req.user)
-    render.template(req, res, 'new', {
-      formValues,
-      titleKey,
-      errors,
-      scripts: ['sisyphus.min.js', 'review.js']
-    });
+    if (!formInfo.hasRequiredFields)
+      render.template(req, res, 'new', {
+        formValues: formInfo.formValues,
+        titleKey,
+        errors,
+        scripts: ['sisyphus.min.js', 'review.js']
+      });
+    else
+      res.redirect('/');
   else
     render.signinRequired(req, res, {
       titleKey
