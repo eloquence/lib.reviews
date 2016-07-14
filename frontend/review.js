@@ -282,8 +282,15 @@ function showPreviewOnce(event) {
 function renderPreview() {
   let text = $('#review-text').val();
   let parsed = md.render(text);
-  $('#preview-review-url-link').attr('href', $('#review-url').val());
-  $('#preview-review-url-link').html($('#review-url').val());
+  let reviewURL = $('#review-url').val();
+  if (reviewURL) {
+    $('#preview-review-url').show();
+    $('#preview-review-url-link').attr('href', reviewURL);
+    $('#preview-review-url-link').html(reviewURL);
+  } else {
+    $('#preview-review-url').hide();
+  }
+
   $('#preview-review-text').html(parsed);
   $('#preview-review-title').html($('#review-title').val());
   $('#preview-review-byline-date').html(new Date().toLocaleString());
