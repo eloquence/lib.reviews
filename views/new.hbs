@@ -1,6 +1,7 @@
-<div id="preview-contents" {{#unless preview}}hidden{{/unless}}>
-<h2 id="preview-review-title">{{preview-review-title}} <span id="preview-review-rating"></span></h2>
-<h3 id="preview-review-url"><span id="preview-review-url-label">{{{__ "review of"}}}</span> <a href="{{preview-review-url}}" id="preview-review-url-link" target="_blank">{{preview-review-url}}</a></h3>
+<div id="preview-contents" {{#unless preview}}class="hidden"{{/unless}}>
+<h2 id="preview-review-url"><span id="preview-review-url-label">{{{__ "review of"}}}</span> <a href="{{preview-review-url}}" id="preview-review-url-link" target="_blank">{{preview-review-url}}</a></h2>
+<h2 id="preview-review-title">{{preview-review-title}}</h2>
+<span id="preview-review-rating">{{preview-review-rating}}</span>
 <div id="preview-review-text">{{preview-review-text}}</div>
 <div id="preview-review-byline">{{{__ "review byline" user.displayName preview-review-date}}}</div>
 </div>
@@ -98,7 +99,7 @@
     <button type="submit" id="preview" name="review-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "accesskey" "p"}}}">{{{__ "preview"}}}</button>
     <span class="nojs-hidden" id="live-preview-control">
     <input type="checkbox" id="live-preview">
-    <label for="live-preview" class="inline-label">{{__ "live preview"}}</label>
+    <label for="live-preview" class="inline-label" accesskey="l" title="{{{__ "accesskey" "l"}}}">{{__ "live preview"}}</label>
     </span>
     </div>
     </form>

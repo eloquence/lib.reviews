@@ -7,7 +7,7 @@ pure CSS from LESS
 @errorColor: red;
 @visitedColor: #006;
 @infoColor: #ccc;
-@headerColor: 414042;
+@headerColor: #414042;
 
 @media print
 {
@@ -63,7 +63,7 @@ body {
 
 #page-header {
   margin-top: 0px;
-  color: #414042;
+  color: @headerColor;
   font-weight: normal;
   font-style: italic;
 }
@@ -132,8 +132,12 @@ label {
   padding: 5px;
 }
 
+.preview-star-full {
+  padding: 2px;
+}
+
 textarea#review-text {
-  height: 10em;
+  height: 12em;
 }
 
 
@@ -190,7 +194,6 @@ label.inline-star-label {
 }
 
 #draft-notice {
-  color: @headerColor;
   font-weight:bold;
   font-style:italic;
   display:none;
@@ -253,11 +256,23 @@ a.fragment-link {
   border-width: 1px;
   padding: 1em;
   border-color: #ccc;
-  background: #fafafa
+  background: #fafafa;
+  max-width: 40em;
+}
+
+#preview-review-title, #preview-headline, #preview-review-url {
+  margin-top: 0;
+  font-weight:normal;
+}
+
+#preview-review-url {
+  text-align: center;
+  color: @headerColor;
+  font-style: italic;
 }
 
 #preview-review-title {
-  margin-top: 0;
+  margin-bottom: 0;
 }
 
 a#abandon-draft, a#abandon-draft:visited {
@@ -269,4 +284,20 @@ a#abandon-draft, a#abandon-draft:visited {
 span#dismiss-draft-notice {
   font-size: small;
   font-style: normal;
+}
+
+#preview-review-byline {
+  font-size: small;
+}
+
+#preview-review-text h1 {
+  font-size: 1.5em;
+  font-weight: normal;
+  font-style:italic;
+}
+
+#preview-review-text h2 {
+  font-size: 1.25em;
+  font-weight: normal;
+  font-style:italic;
 }

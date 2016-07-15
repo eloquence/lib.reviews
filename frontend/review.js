@@ -26,12 +26,13 @@ let md = window.markdownit({
 $('#review-url,#review-title,#review-text').focus(showInputHelp);
 $('#review-url,#review-title,#review-text').blur(hideInputHelp);
 $('#review-url,#review-title,#review-text').change(trimInput);
+$('#review-url,#review-title,#review-text,#review-language').change(hideAbandonDraft);
 $('#review-url').change(fixURL);
 $('#star-rating-control').mouseover(showStarControlHelp);
 $('#star-rating-control').mouseout(hideStarControlHelp);
 $('[id^=star-button-]')
   .mouseout(clearStars)
-  .mouseover(previewStar)
+  .mouseover(indicateStar)
   .click(selectStar)
   .keyup(maybeSelectStar)
   .focus(showStarControlHelp)
@@ -96,6 +97,11 @@ function trimInput() {
 function hideDraftNotice() {
   if ($('#draft-notice').is(':visible'))
     $('#draft-notice').fadeOut(200);
+}
+
+function hideAbandonDraft() {
+  if ($('#abandon-draft').is(':visible'))
+    $('#abandon-draft').fadeOut(200);
 }
 
 function addProtocol(protocol) {
@@ -227,26 +233,11 @@ function hideStarControlHelp() {
 }
 
 
-function previewStar() {
-  let selectedStar = Number(this.id.match(/\d/)[0]); // We want to set all stars to the color of the selected star
-  for (let i = 1; i <= selectedStar; i++)
-    replaceStar(i, `/static/img/star-${selectedStar}-full.svg`, 'star-full');
-  if (selectedStar < 5)
-    clearStars(selectedStar + 1);
-  return selectedStar;
-}
-
 function clearStars(start) {
   if (!start || typeof start !== "number")
     start = 1;
   for (let i = start; i < 6; i++)
     replaceStar(i, `/static/img/star-placeholder.svg`, 'star-holder');
-}
-
-function maybeSelectStar(event) {
-  if (event.keyCode == 13 || event.keyCode == 32) {
-    selectStar.apply(this);
-  }
 }
 
 function replaceStar(id, src, className) {
@@ -263,18 +254,34 @@ function restoreSelected() {
   }
 }
 
+
+function indicateStar() {
+  let selectedStar = Number(this.id.match(/\d/)[0]); // We want to set all stars to the color of the selected star
+  for (let i = 1; i <= selectedStar; i++)
+    replaceStar(i, `/static/img/star-${selectedStar}-full.svg`, 'star-full');
+  if (selectedStar < 5)
+    clearStars(selectedStar + 1);
+  return selectedStar;
+}
+
 function selectStar() {
-  let selectedStar = previewStar.apply(this);
+  let selectedStar = indicateStar.apply(this);
   $('#star-rating-control').attr('data-selected', selectedStar);
-  $('#review-rating').val(selectedStar);
   $('#star-rating-control img[id^=star-button-]')
     .off('mouseout')
     .mouseout(restoreSelected);
+  $('#review-rating').val(selectedStar);
   $('#review-rating').trigger('change');
 }
 
+function maybeSelectStar(event) {
+  if (event.keyCode == 13 || event.keyCode == 32) {
+    selectStar.apply(this);
+  }
+}
+
 function showPreviewOnce(event) {
-  $('#preview-contents').prop('hidden', false);
+  $('#preview-contents').removeClass('hidden');
   renderPreview();
   event.preventDefault();
 }
@@ -283,30 +290,62 @@ function renderPreview() {
   let text = $('#review-text').val();
   let parsed = md.render(text);
   let reviewURL = $('#review-url').val();
+  let rating = $('#review-rating').val();
   if (reviewURL) {
     $('#preview-review-url').show();
-    $('#preview-review-url-link').attr('href', reviewURL);
-    $('#preview-review-url-link').html(reviewURL);
+    $('#preview-review-url-link').attr('href', encodeURI(reviewURL));
+    $('#preview-review-url-link').html(escapeHTML(prettifyURL(reviewURL)));
   } else {
     $('#preview-review-url').hide();
   }
+  if (rating)
+    renderPreviewStars(rating);
 
   $('#preview-review-text').html(parsed);
-  $('#preview-review-title').html($('#review-title').val());
+  $('#preview-review-title').html(escapeHTML($('#review-title').val()));
   $('#preview-review-byline-date').html(new Date().toLocaleString());
+}
+
+function renderPreviewStars(rating) {
+  if (!rating || Number($('#preview-review-rating').attr('data-preview-stars')) == rating)
+    return; // Nothing to do
+
+  let img = `<img src="/static/img/star-${rating}-full.svg" width="20" class="preview-star-full">`;
+
+  $('#preview-review-rating').html('');
+  for (let i=1; i<=rating; i++) {
+    $('#preview-review-rating').append(img);
+  }
+  $('#preivew-review-rating').attr('data-preview-stars', rating);
+
 }
 
 function toggleLivePreview() {
   if ($(this).prop('checked')) {
     renderPreview();
-    $('#preview-contents').prop('hidden', false);
+    $('#preview-contents').removeClass('hidden');
     $('#review-title').keyup(renderPreview);
     $('#review-text').keyup(renderPreview);
     $('#review-url').change(renderPreview);
+    $('#review-rating').change(renderPreview);
   } else {
-    $('#preview-contents').prop('hidden', true);
+    $('#preview-contents').addClass('hidden');
     $('#review-text').off('keyup', renderPreview);
     $('#review-title').off('keyup', renderPreview);
     $('#review-url').off('change', renderPreview);
+    $('#review-rating').off('change', renderPreview);
   }
+}
+
+function escapeHTML(html) {
+  return html
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function prettifyURL(url) {
+  return url
+    .replace(/^.*?:\/\//, '') // strip protocol
+    .replace(/\/$/, ''); // remove trailing slashes for display only
 }
