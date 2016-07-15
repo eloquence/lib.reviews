@@ -292,18 +292,18 @@ function renderPreview() {
   let reviewURL = $('#review-url').val();
   let rating = $('#review-rating').val();
   if (reviewURL) {
-    $('#preview-review-url').show();
+    $('#preview-review-url').removeClass('hidden');
     $('#preview-review-url-link').attr('href', encodeURI(reviewURL));
     $('#preview-review-url-link').html(escapeHTML(prettifyURL(reviewURL)));
   } else {
-    $('#preview-review-url').hide();
+    $('#preview-review-url').addClass('hidden');
   }
   if (rating)
     renderPreviewStars(rating);
 
   $('#preview-review-text').html(parsed);
   $('#preview-review-title').html(escapeHTML($('#review-title').val()));
-  $('#preview-review-byline-date').html(new Date().toLocaleString());
+  $('#preview-review-byline-date').html(new Date().toLocaleString(window.config.language));
 }
 
 function renderPreviewStars(rating) {
@@ -316,7 +316,7 @@ function renderPreviewStars(rating) {
   for (let i=1; i<=rating; i++) {
     $('#preview-review-rating').append(img);
   }
-  $('#preivew-review-rating').attr('data-preview-stars', rating);
+  $('#preview-review-rating').attr('data-preview-stars', rating);
 
 }
 
