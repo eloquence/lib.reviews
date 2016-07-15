@@ -45,7 +45,7 @@ const formDefs = {
 };
 
 router.get('/new', function(req, res) {
-  maybeRenderReviewForm(req, res);
+  sendReviewFormResponse(req, res);
 });
 
 router.post('/new', function(req, res) {
@@ -54,14 +54,15 @@ router.post('/new', function(req, res) {
   if (isPreview) {
     formInfo.preview = getPreview(req);
   }
-  maybeRenderReviewForm(req, res, formInfo, isPreview);
+  sendReviewFormResponse(req, res, formInfo, isPreview);
 });
 
-function maybeRenderReviewForm(req, res, formInfo, isPreview) {
+function sendReviewFormResponse(req, res, formInfo, isPreview) {
   let errors = req.flash('errors');
   let titleKey = 'write a review';
   let context = 'review form';
   if (req.user)
+    // GET requests or incomplete POST requests
     if (!formInfo || isPreview || errors.length)
       render.template(req, res, 'new', {
         formValues: formInfo ? formInfo.formValues : undefined,
@@ -78,7 +79,7 @@ function maybeRenderReviewForm(req, res, formInfo, isPreview) {
         res.redirect(`/feed#review-${id}`);
       }).catch(errorMessage => {
         flashError(req, errorMessage, context);
-        maybeRenderReviewForm(req, res, formInfo, isPreview);
+        sendReviewFormResponse(req, res, formInfo, isPreview);
       });
     } else if (req.method !== 'POST' && req.method !== 'GET') {
       flashError(req, new ErrorMessage('unsupported method'), context);
