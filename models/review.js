@@ -5,14 +5,20 @@ const Errors = thinky.Errors;
 const ErrorMessage = require('../util/error.js');
 const Thing = require('./thing.js');
 
+const options = {
+  maxTitleLength: 255
+};
+
 // Table generation is handled by thinky. URLs for reviews are stored as "things".
 let Review = thinky.createModel("reviews", {
   id: type.string(),
   reviewerID: type.string(),
   thingID: type.string(),
-  title: type.string().max(255),
+  title: type.string().max(options.maxTitleLength),
   text: type.string(),
-  starRating: type.number().min(1).max(5),
+  html: type.string(),
+  date: type.date(),
+  starRating: type.number().min(1).max(5).integer(),
   language: type.string().max(4)
 });
 
@@ -25,13 +31,30 @@ Review.create = function(reviewObj) {
           thingID: thing.id,
           title: reviewObj.title,
           text: reviewObj.text,
+          html: reviewObj.html,
           starRating: reviewObj.starRating,
           language: reviewObj.language
         });
         review.save().then(review => {
           resolve(review);
         }).catch(error => { // Save failed
-          reject(error);
+          switch (error.message) {
+            case 'Value for [starRating] must be greater than or equal to 1.':
+            case 'Value for [starRating] must be less than or equal to 5.':
+            case 'Value for [starRating] must be an integer.':
+            case 'Value for [starRating] must be a finite number or null.':
+              reject(new ErrorMessage('invalid star rating', [String(reviewObj.starRating)]));
+              break;
+            case `Value for [title] must be shorter than ${options.maxTitleLength}.`:
+              reject(new ErrorMessage('review title too long'));
+              break;
+              // Update when https://github.com/neumino/thinky/issues/530 is fixed
+             case 'Value for [language] must be shorter than 4.':
+              reject(new ErrorMessage('invalid language code', [reviewObj.language]));
+              break;
+            default:
+              reject(error);
+          }
         });
       })
       .catch(errorMessage => { // Pre-save code failed

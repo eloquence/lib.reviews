@@ -3,13 +3,18 @@
 // External dependencies
 const express = require('express');
 const router = express.Router();
+const escapeHTML = require('escape-html');
 const md = require('markdown-it')({
   linkify: true,
   breaks: true
 });
+
 // Internal dependencies
 const render = require('./helpers/render');
 const forms = require('./helpers/forms');
+const flashError = require('./helpers/flash-error');
+const ErrorMessage = require('../util/error.js');
+const Review = require('../models/review.js');
 
 // Form definitions for these routes
 const formDefs = {
@@ -52,30 +57,53 @@ router.post('/new', function(req, res) {
   maybeRenderReviewForm(req, res, formInfo, isPreview);
 });
 
-
 function maybeRenderReviewForm(req, res, formInfo, isPreview) {
   let errors = req.flash('errors');
   let titleKey = 'write a review';
-  if (!formInfo)
-    formInfo = {};
-
+  let context = 'review form';
   if (req.user)
-    if (isPreview || !formInfo.hasRequiredFields || formInfo.hasExtraFields)
+    if (!formInfo || isPreview || errors.length)
       render.template(req, res, 'new', {
-        formValues: formInfo.formValues,
+        formValues: formInfo ? formInfo.formValues : undefined,
         titleKey,
         errors: !isPreview ? errors : undefined,
         isPreview,
-        preview: formInfo.preview,
+        preview: formInfo ? formInfo.preview : undefined,
         scripts: ['sisyphus.min.js', 'markdown-it.min.js', 'review.js']
       });
-    else
-      // Save logic TK
-      res.redirect('/');
+    else if (req.method == 'POST') {
+      let reviewObj = getReviewObj(req);
+      Review.create(reviewObj).then(review => {
+        let id = review.id || '';
+        res.redirect(`/feed#review-${id}`);
+      }).catch(errorMessage => {
+        flashError(req, errorMessage, context);
+        maybeRenderReviewForm(req, res, formInfo, isPreview);
+      });
+    } else if (req.method !== 'POST' && req.method !== 'GET') {
+      flashError(req, new ErrorMessage('unsupported method'), context);
+      res.redirect('/new');
+    } else {
+      flashError(req, null, context);
+      res.redirect('/new');
+    }
   else
     render.signinRequired(req, res, {
       titleKey
     });
+}
+
+function getReviewObj(req) {
+  let reviewObj = {};
+  reviewObj.reviewerID = req.user.id;
+  reviewObj.title = escapeHTML(req.body['review-title']);
+  reviewObj.text = escapeHTML(req.body['review-text']);
+  reviewObj.url = encodeURI(req.body['review-url']);
+  reviewObj.html = md.render(req.body['review-text']);
+  reviewObj.date = new Date();
+  reviewObj.starRating = Number(req.body['review-rating']);
+  reviewObj.language = escapeHTML(req.body['review-language']);
+  return reviewObj;
 }
 
 function getPreview(req) {

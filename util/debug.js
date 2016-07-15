@@ -14,11 +14,11 @@ const debug = {
   error: function(errorObj) {
     let log = debugModule('libreviews:error');
     log(`Error occurred in context <${errorObj.context || 'unknown'}>.`);
-    if (errorObj.error) {
+    if (errorObj && errorObj.error) {
       log('Stacktrace:');
       log(errorObj.error.stack);
     }
-    if (errorObj.req) {
+    if (errorObj &&errorObj.req) {
       log('Request body was:');
       if (typeof errorObj.req.body == "object")
         log(JSON.stringify(errorObj.req.body, null, 2));

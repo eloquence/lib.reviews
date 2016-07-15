@@ -9,6 +9,9 @@ class ErrorMessage {
     if (msgParams && !Array.isArray(msgParams))
       throw new Error('Message parameters must be provided as an array.');
 
+    if (!msgParams)
+      msgParams = [];
+
     msgParams.forEach(ele => {
       if (typeof ele !== 'string') {
         throw new Error('Message parameters must be strings.');
@@ -16,7 +19,7 @@ class ErrorMessage {
     });
 
     this.msgKey = msgKey;
-    this.msgParams = msgParams || [];
+    this.msgParams = msgParams;
     this.originalError = originalError;
   }
 

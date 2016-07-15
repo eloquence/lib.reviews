@@ -104,7 +104,7 @@ router.post('/register', function(req, res) {
       });
     })
     .catch(errorMessage => {
-      flashError(req, res, errorMessage, 'registration');
+      flashError(req, errorMessage, 'registration');
       res.redirect('/register');
     });
 

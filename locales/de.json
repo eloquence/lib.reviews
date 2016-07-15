@@ -78,5 +78,9 @@
     "live preview": "Live-Vorschau",
     "review byline": "Geschrieben von %s am <span id='preview-review-byline-date'>%s</span>",
     "review of": "Vorschau deiner Rezension von",
-    "got it": "Alles klar!"
+    "got it": "Alles klar!",
+    "invalid star rating": "Die Bewertung '%s' ist ung&uuml;ltig.",
+    "review title too long": "Der Rezensionstitel ist zu lang.",
+    "invalid language code": "Der Sprachcode '%s' ist ung&uuml;ltig oder wurde nicht erkannt.",
+    "unsupported method": "Nicht unterst&uuml;tzte Anfragemethode."
 }

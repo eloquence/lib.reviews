@@ -79,5 +79,9 @@
     "live preview": "Live preview",
     "review byline": "Written by %s on <span id='preview-review-byline-date'>%s</span>",
     "review of": "Previewing your review of ",
-    "got it": "Got it!"
+    "got it": "Got it!",
+    "invalid star rating": "The submitted rating, '%s', is not valid.",
+    "review title too long": "The submitted review title is too long.",
+    "invalid language code": "The submitted language code, '%s', is not valid or recognized.",
+    "unsupported method": "Unsupported request method."
 }
