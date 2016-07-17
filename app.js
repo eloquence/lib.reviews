@@ -17,6 +17,7 @@ const flash = require('express-flash');
 const useragent = require('express-useragent');
 const passport = require('passport');
 const csrf = require('csurf'); // protect against request forgery using tokens
+const config = require('config');
 
 // Internal dependencies
 const reviews = require('./routes/reviews');

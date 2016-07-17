@@ -83,5 +83,13 @@
     "one or multiple stars": {
         "one": "%s star",
         "other": "%s stars"
-    }
+    },
+    "captcha intro": "Prove you're not a robot. What's the missing word indicated with ___?",
+    "question: famous painting": "One of the world's most famous paintings is the Mona ___ by Leonardo da Vinci.",
+    "question: famous composer": "Ludwig van ____ was almost totally deaf toward the end of his life.",
+    "answer: famous painting": "Lisa",
+    "answer: famous composer": "Beethoven",
+    "enter captcha answer": "Enter answer (not case sensitive)",
+    "need captcha-answer": "Please answer the challenge question to weed out automated spam.",
+    "incorrect captcha answer": "Sorry, that's not the right answer to the challenge question. If you're unsure, you may want to use a search engine."
 }

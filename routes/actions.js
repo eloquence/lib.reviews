@@ -6,11 +6,32 @@ const router = express.Router();
 const debug = require('../util/debug');
 const i18n = require('i18n');
 const passport = require('passport');
+const config = require('config');
 
 // Internal dependencies
 const render = require('./helpers/render');
 const flashError = require('./helpers/flash-error');
+const forms = require('./helpers/forms');
 const User = require('../models/user');
+
+const formDefs = {
+  'register': [{
+    name: 'username',
+    required: true
+  }, {
+    name: 'password',
+    required: true,
+  }, {
+    name: 'email',
+    required: false
+  }, {
+    name: 'captcha-answer',
+    required: config.questionCaptcha.enabled,
+  }, {
+    name: 'captcha-id',
+    required: config.questionCaptcha.enabled,
+  }]
+};
 
 
 router.get('/signin', function(req, res) {
@@ -25,9 +46,9 @@ router.get('/signin', function(req, res) {
 router.post('/signin', function(req, res, next) {
   if (!req.body.username || !req.body.password) {
     if (!req.body.username)
-      req.flash('errors', 'need username');
+      req.flash('errors', req.__('need username'));
     if (!req.body.password)
-      req.flash('errors', 'need password');
+      req.flash('errors', req.__('need password'));
     return res.redirect('/signin');
   }
 
@@ -64,9 +85,21 @@ router.post('/signin', function(req, res, next) {
 
 router.get('/register', function(req, res) {
   let errors = req.flash('errors');
+  let hasQuestionCaptcha = config.questionCaptcha.enabled,
+    captcha, captchaIndex;
+
+  if (hasQuestionCaptcha) {
+    // Pick a random captcha
+    captchaIndex = Math.floor(Math.random() * config.questionCaptcha.captchas.length);
+    captcha = config.questionCaptcha.captchas[captchaIndex];
+  }
+
   render.template(req, res, 'register', {
     titleKey: 'register',
-    errors
+    errors,
+    hasQuestionCaptcha,
+    questionKey: hasQuestionCaptcha ? captcha.questionKey : undefined,
+    captchaIndex
   });
 });
 
@@ -77,13 +110,25 @@ router.post('/signout', function(req, res) {
 
 router.post('/register', function(req, res) {
 
-  if (!req.body.username || !req.body.password) {
-    if (!req.body.username)
-      req.flash('errors', res.__('need username'));
-    if (!req.body.password)
-      req.flash('errors', res.__('need password'));
+  let formInfo = forms.parseSubmission(req, formDefs.register);
+  if (!formInfo.hasRequiredFields || formInfo.hasExtraFields)
     return res.redirect('/register');
+
+  let hasQuestionCaptcha = config.questionCaptcha.enabled;
+  if (hasQuestionCaptcha) {
+    let captchaIndex = Number(req.body['captcha-id']);
+    let answerCaptcha = config.questionCaptcha.captchas[captchaIndex], answerKey;
+    if (answerCaptcha === undefined) {
+      req.flash('errors', req.__('unknown captcha'));
+      return res.redirect('/register');
+    }
+    answerKey = answerCaptcha.answerKey;
+    if (req.body['captcha-answer'].trim().toUpperCase() != req.__(answerKey).toUpperCase()) {
+      req.flash('errors', req.__('incorrect captcha answer'));
+      return res.redirect('/register');
+    }
   }
+
 
   User.create({
       name: req.body.username,

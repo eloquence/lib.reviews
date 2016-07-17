@@ -20,6 +20,15 @@
             <input id="email" name="email" type="text" placeholder="{{{__ "enter email"}}}" size="30">
         </div>
 
+        {{#if hasQuestionCaptcha}}
+        <div class="pure-control-group">
+        <p>{{{__ "captcha intro"}}}</p>
+            <label for="captcha-answer">{{{__ questionKey}}}</label>
+            <input id="captcha-answer" name="captcha-answer" type="text" placeholder="{{{__ "enter captcha answer"}}}" size="30">
+            <input name="captcha-id" value="{{captchaIndex}}" type="hidden">
+        </div>
+        {{/if}}
+
         <div id="register-terms-notice">{{{__ "agree to terms"}}}</div>
         <button type="submit" class="pure-button pure-button-primary button-rounded">{{{__ "register"}}}</button>
         <p>{{{__ "already got an account" }}}</p>

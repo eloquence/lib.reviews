@@ -1,0 +1,15 @@
+{
+  "questionCaptcha": {
+    "enabled": true,
+    "captchas": [
+      {
+        "questionKey": "question: famous painting",
+        "answerKey": "answer: famous painting"
+      },
+      {
+        "questionKey": "question: famous composer",
+        "answerKey": "answer: famous composer"
+      }
+    ]
+  }
+}
