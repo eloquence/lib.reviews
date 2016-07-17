@@ -51,11 +51,6 @@
     "rating": "Rating",
     "publish": "Publish",
     "preview": "Preview",
-    "1 star": "1 star",
-    "2 stars": "2 stars",
-    "3 stars": "3 stars",
-    "4 stars": "4 stars",
-    "5 stars": "5 stars",
     "new review terms": "By publishing your review, you agree to the <a href='/terms' target='_blank'>terms of use</a>, including licensing your review under the <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>Creative Commons Attribution-ShareAlike License</a>.",
     "add more": "Add more information",
     "review language": "Language of this review",
@@ -77,11 +72,16 @@
     "need review-rating": "We require a rating for this review.",
     "unexpected form data": "We received unexpected data as part of your submission. This may be a coding error on our end, or on yours. Sorry for the inconvenience.",
     "live preview": "Live preview",
-    "review byline": "Written by %s on <span id='preview-review-byline-date'>%s</span>",
+    "review byline": "Written by %1$s on <span id='preview-review-byline-date'>%2$s</span>",
     "review of": "Previewing your review of ",
     "got it": "Got it!",
     "invalid star rating": "The submitted rating, '%s', is not valid.",
     "review title too long": "The submitted review title is too long.",
     "invalid language code": "The submitted language code, '%s', is not valid or recognized.",
-    "unsupported method": "Unsupported request method."
+    "unsupported method": "Unsupported request method.",
+    "feed": "Latest additions",
+    "one or multiple stars": {
+        "one": "%s star",
+        "other": "%s stars"
+    }
 }

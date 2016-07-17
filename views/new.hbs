@@ -1,7 +1,11 @@
 <div id="preview-contents" {{#unless isPreview}}class="hidden"{{/unless}}>
 <h2 id="preview-review-url" {{#unless preview.review-url}}class="hidden"{{/unless}}><span id="preview-review-url-label">{{{__ "review of"}}}</span> <a href="{{preview.review-url}}" id="preview-review-url-link" target="_blank">{{preview.review-url-text}}</a></h2>
 <h2 id="preview-review-title">{{preview.review-title}}</h2>
-<span id="preview-review-rating">{{{preview.review-rating}}}</span>
+<span id="preview-review-rating">
+{{#times preview.review-rating}}
+<img src="/static/img/star-{{../preview.review-rating}}-full.svg" width="25" class="preview-star">
+{{/times}}
+</span>
 <div id="preview-review-text">{{{preview.review-text}}}</div>
 <div id="preview-review-byline">{{{__ "review byline" user.displayName preview.review-date}}}</div>
 </div>
@@ -35,15 +39,18 @@
         <div class="nojs-hidden">
           {{! We store this POST value in the DOM, so it is available to the JS-only control }}
           <span id="star-rating-control" data-post="{{formValues.review-rating.value}}">
-          <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-1"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-2"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-3"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-4"><img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-5">
+          {{#times 5}}
+          <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-{{this}}"
+          alt="{{__n "one or multiple stars" this}}">
+          {{/times}}
           </span>
         </div>
         <noscript>
-        <input id="star-1" type="radio" name="review-rating" value="1"{{#if formValues.review-rating.[1]}} checked{{/if}}><label for="star-1" class="inline-label inline-star-label">{{{__ "1 star"}}}</label>
-        <input id="star-2" type="radio" name="review-rating" value="2"{{#if formValues.review-rating.[2]}} checked{{/if}}><label for="star-2" class="inline-label inline-star-label">{{{__ "2 stars"}}}</label>
-        <input id="star-3" type="radio" name="review-rating" value="3"{{#if formValues.review-rating.[3]}} checked{{/if}}><label for="star-3" class="inline-label inline-star-label">{{{__ "3 stars"}}}</label>
-        <input id="star-4" type="radio" name="review-rating" value="4"{{#if formValues.review-rating.[4]}} checked{{/if}}><label for="star-4" class="inline-label inline-star-label">{{{__ "4 stars"}}}</label>
-        <input id="star-5" type="radio" name="review-rating" value="5"{{#if formValues.review-rating.[5]}} checked{{/if}}><label for="star-5" class="inline-label inline-star-label">{{{__ "5 stars"}}}</label>
+        {{#times 5}}
+        <input id="star-{{this}}" type="radio" name="review-rating"
+        value="{{this}}" {{#if (lookup ../formValues.review-rating this)}} checked{{/if}}>
+        <label for="star-{{this}}" class="inline-label inline-star-label">{{{__n "one or multiple stars" this}}}</label>
+        {{/times}}
         </noscript>
       </div>
 

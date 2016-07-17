@@ -132,7 +132,7 @@ label {
   padding: 5px;
 }
 
-.preview-star-full {
+.preview-star  {
   padding: 2px;
 }
 
@@ -286,18 +286,46 @@ span#dismiss-draft-notice {
   font-style: normal;
 }
 
-#preview-review-byline {
+#preview-review-byline, .feed-review-byline {
   font-size: small;
 }
 
-#preview-review-text h1 {
+#preview-review-text h1, .feed-review-text h1 {
   font-size: 1.5em;
   font-weight: normal;
   font-style:italic;
 }
 
-#preview-review-text h2 {
+#preview-review-text h2, .feed-review-text h2 {
   font-size: 1.25em;
   font-weight: normal;
   font-style:italic;
+}
+
+#feed {
+  max-width: 40em;
+}
+
+hr.feed-separator {
+  border: 0;
+  height: 1px;
+  background: #aaa;
+}
+
+.feed-review-rating {
+  float: right;
+}
+
+.feed-star {
+  padding: 3px;
+}
+
+.feed-review-title {
+ clear:right;
+ font-size: 1.5em;
+ font-weight:normal;
+}
+
+.feed-item-header {
+  font-weight: bold;
 }

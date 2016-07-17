@@ -6,10 +6,13 @@ const router = express.Router();
 const escapeHTML = require('escape-html');
 const md = require('markdown-it')({
   linkify: true,
-  breaks: true
+  breaks: true,
+  typographer: true
 });
 
 // Internal dependencies
+const db = require('../db');
+const r = db.r;
 const render = require('./helpers/render');
 const forms = require('./helpers/forms');
 const flashError = require('./helpers/flash-error');
@@ -44,6 +47,23 @@ const formDefs = {
   }]
 };
 
+router.get('/feed', function(req, res) {
+  Review.orderBy({
+    index: r.desc('datePosted')
+  }).limit(10).getJoin({
+    thing: true
+  }).getJoin({
+    reviewer: {
+      _apply: seq => seq.without('password')
+    }
+  }).then(feedItems => {
+    render.template(req, res, 'feed', {
+      titleKey: 'feed',
+      feedItems
+    });
+  });
+});
+
 router.get('/new', function(req, res) {
   sendReviewFormResponse(req, res);
 });
@@ -62,7 +82,7 @@ function sendReviewFormResponse(req, res, formInfo, isPreview) {
   let titleKey = 'write a review';
   let context = 'review form';
   if (req.user)
-    // GET requests or incomplete POST requests
+  // GET requests or incomplete POST requests
     if (!formInfo || isPreview || errors.length)
       render.template(req, res, 'new', {
         formValues: formInfo ? formInfo.formValues : undefined,
@@ -73,22 +93,21 @@ function sendReviewFormResponse(req, res, formInfo, isPreview) {
         scripts: ['sisyphus.min.js', 'markdown-it.min.js', 'review.js']
       });
     else if (req.method == 'POST') {
-      let reviewObj = getReviewObj(req);
-      Review.create(reviewObj).then(review => {
-        let id = review.id || '';
-        res.redirect(`/feed#review-${id}`);
-      }).catch(errorMessage => {
-        flashError(req, errorMessage, context);
-        sendReviewFormResponse(req, res, formInfo, isPreview);
-      });
-    } else if (req.method !== 'POST' && req.method !== 'GET') {
-      flashError(req, new ErrorMessage('unsupported method'), context);
-      res.redirect('/new');
-    } else {
-      flashError(req, null, context);
-      res.redirect('/new');
-    }
-  else
+    let reviewObj = getReviewObj(req);
+    Review.create(reviewObj).then(review => {
+      let id = review.id || '';
+      res.redirect(`/feed#review-${id}`);
+    }).catch(errorMessage => {
+      flashError(req, errorMessage, context);
+      sendReviewFormResponse(req, res, formInfo, isPreview);
+    });
+  } else if (req.method !== 'POST' && req.method !== 'GET') {
+    flashError(req, new ErrorMessage('unsupported method'), context);
+    res.redirect('/new');
+  } else {
+    flashError(req, null, context);
+    res.redirect('/new');
+  } else
     render.signinRequired(req, res, {
       titleKey
     });
@@ -101,7 +120,7 @@ function getReviewObj(req) {
   reviewObj.text = escapeHTML(req.body['review-text']);
   reviewObj.url = encodeURI(req.body['review-url']);
   reviewObj.html = md.render(req.body['review-text']);
-  reviewObj.date = new Date();
+  reviewObj.datePosted = new Date();
   reviewObj.starRating = Number(req.body['review-rating']);
   reviewObj.language = escapeHTML(req.body['review-language']);
   return reviewObj;
@@ -115,11 +134,7 @@ function getPreview(req) {
   preview['review-url'] = req.body['review-url'];
   preview['review-url-text'] = prettifyURL(req.body['review-url']);
   preview['review-text'] = md.render(req.body['review-text']);
-  let rating = Number(req.body['review-rating']);
-  // FIXME - move into Handlebars partial?
-  preview['review-rating'] =
-    `<img src="/static/img/star-${rating}-full.svg" width="20" class="preview-star-full">`
-    .repeat(rating);
+  preview['review-rating'] = Number(req.body['review-rating']);
   preview['review-date'] = new Date().toLocaleString(req.locale);
   return preview;
 

@@ -3,6 +3,7 @@ const thinky = require('../db');
 const type = thinky.type;
 const Errors = thinky.Errors;
 const ErrorMessage = require('../util/error.js');
+const User = require('./user.js');
 const Thing = require('./thing.js');
 
 const options = {
@@ -17,10 +18,14 @@ let Review = thinky.createModel("reviews", {
   title: type.string().max(options.maxTitleLength),
   text: type.string(),
   html: type.string(),
-  date: type.date(),
+  datePosted: type.date(),
   starRating: type.number().min(1).max(5).integer(),
   language: type.string().max(4)
 });
+
+Review.belongsTo(User, "reviewer", "reviewerID", "id");
+Review.belongsTo(Thing, "thing", "thingID", "id");
+Review.ensureIndex("datePosted");
 
 Review.create = function(reviewObj) {
   return new Promise((resolve, reject) => {
@@ -28,10 +33,12 @@ Review.create = function(reviewObj) {
       .findOrCreateThing(reviewObj)
       .then((thing) => {
         let review = new Review({
+          reviewerID: reviewObj.reviewerID,
           thingID: thing.id,
           title: reviewObj.title,
           text: reviewObj.text,
           html: reviewObj.html,
+          datePosted: reviewObj.datePosted,
           starRating: reviewObj.starRating,
           language: reviewObj.language
         });

@@ -23,7 +23,12 @@ const languages = require('./routes/languages'); // routes to change UI language
 const actions = require('./routes/actions');
 const users = require('./routes/users');
 const pages = require('./routes/pages');
+
+// Auth setup
 require('./auth');
+
+// Handlebars helper setup
+require('./util/handlebars-helpers.js');
 
 // i18n setup
 i18n.configure({
@@ -41,6 +46,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// Ensure we have current request locale available to i18n
 app.use(function(req, res, next) {
   hbs.registerHelper('__', function() {
     return i18n.__.apply(req, arguments);
@@ -53,7 +59,7 @@ app.use(function(req, res, next) {
 
 app.use(cookieParser());
 
-app.use(useragent.express()); // express UA object to req.useragent
+app.use(useragent.express()); // expose UA object to req.useragent
 
 let store = new RDBStore(r, {
   table: 'sessions'

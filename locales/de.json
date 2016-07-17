@@ -51,11 +51,6 @@
     "rating": "Bewertung",
     "publish": "Ver&ouml;ffentlichen",
     "preview": "Vorschau anzeigen",
-    "1 star": "1 star",
-    "2 stars": "2 stars",
-    "3 stars": "3 stars",
-    "4 stars": "4 stars",
-    "5 stars": "5 stars",
     "new review terms": "Durch Ver&ouml;ffentlichung deiner Rezension stimmst du unseren <a href='/terms'>Nutzungsbedingungen</a> zu. Das beinhaltet die Lizensierung deiner Rezension unter der <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.de' target='_blank'>Creative Commons Attribution-ShareAlike License</a> (Namensnennung - Weitergabe unter gleichen Bedingungen).",
     "review language": "Rezensions-Sprache",
     "add more": "Mehr Infos eingeben",
@@ -76,11 +71,16 @@
     "need review-text": "Wir ben&ouml;tigen Text f&uuml;r diese Rezension.",
     "need review-rating": "Wir ben&ouml;tigen eine Bewertung f&uuml;r diese Rezension.",
     "live preview": "Live-Vorschau",
-    "review byline": "Geschrieben von %s am <span id='preview-review-byline-date'>%s</span>",
+    "review byline": "Geschrieben von %1$s am <span id='preview-review-byline-date'>%2$s</span>",
     "review of": "Vorschau deiner Rezension von",
     "got it": "Alles klar!",
     "invalid star rating": "Die Bewertung '%s' ist ung&uuml;ltig.",
     "review title too long": "Der Rezensionstitel ist zu lang.",
     "invalid language code": "Der Sprachcode '%s' ist ung&uuml;ltig oder wurde nicht erkannt.",
-    "unsupported method": "Nicht unterst&uuml;tzte Anfragemethode."
-}
+    "unsupported method": "Nicht unterst&uuml;tzte Anfragemethode.",
+    "feed": "Neueste Rezensionen",
+    "one or multiple stars": {
+        "one": "%s Stern",
+        "other": "%s Sterne"
+    }
+  }

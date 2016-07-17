@@ -19,7 +19,8 @@ if ($('#show-extra-fields')[0].hasAttribute('data-post-expanded')) {
 // Markdown parser & options for live preview
 let md = window.markdownit({
   linkify: true,
-  breaks: true
+  breaks: true,
+  typographer: true
 });
 
 // Register event handlers
@@ -310,7 +311,7 @@ function renderPreviewStars(rating) {
   if (!rating || Number($('#preview-review-rating').attr('data-preview-stars')) == rating)
     return; // Nothing to do
 
-  let img = `<img src="/static/img/star-${rating}-full.svg" width="20" class="preview-star-full">`;
+  let img = `<img src="/static/img/star-${rating}-full.svg" width="20" class="preview-star">`;
 
   $('#preview-review-rating').html('');
   for (let i=1; i<=rating; i++) {
