@@ -16,6 +16,7 @@ const RDBStore = require('session-rethinkdb')(session);
 const flash = require('express-flash');
 const useragent = require('express-useragent');
 const passport = require('passport');
+const csrf = require('csurf'); // protect against request forgery using tokens
 
 // Internal dependencies
 const reviews = require('./routes/reviews');
@@ -96,6 +97,8 @@ let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
+
+app.use(csrf());
 app.use('/', pages);
 app.use('/', reviews);
 app.use('/', languages);

@@ -39,6 +39,7 @@
                     <li><a href="/new" class="pure-button button-cta button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span class="fa fa-pencil spaced-icon"></span>{{__ "new review"}}</a>
                         <li>
                             <form action="/signout" method="post" id="signout-form">
+                                <input type="hidden" value="{{csrfToken}}" name="_csrf">
                                 <input class="pure-button button-rounded" id="signout-button" type="submit" accesskey="o" title="{{{__ "accesskey" "o"}}}" value="{{{__ "sign out"}}}">
                             </form>
                         </li>

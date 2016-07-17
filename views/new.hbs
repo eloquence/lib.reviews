@@ -17,6 +17,7 @@
 <a href="#" class="pure-button button-rounded button-destructive" id="abandon-draft"><span class="fa fa-trash-o spaced-icon"></span>{{__ "abandon draft"}}</a> <span class="pure-button button-rounded" id="dismiss-draft-notice"><span class="fa fa-check-circle spaced-icon"></span>{{{__ "got it"}}}</span>
 </div>
 <form class="pure-form pure-form-stacked" id="new-review-form" name="new-review-form" action="/new" method="post">
+<input type="hidden" value="{{csrfToken}}" name="_csrf">
     <fieldset>
       <div class="pure-g">
         <div class="pure-u-1 pure-u-md-2-3">

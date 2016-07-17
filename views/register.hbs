@@ -3,6 +3,7 @@
   <div class="error">{{{this}}}</div>
 {{/each}}
 <form class="pure-form pure-form-aligned" action="/register" method="post">
+<input type="hidden" value="{{csrfToken}}" name="_csrf">
     <fieldset>
         <div class="pure-control-group">
             <label for="username">{{{__ "username"}}}</label>

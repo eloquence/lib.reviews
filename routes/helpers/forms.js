@@ -6,6 +6,11 @@ let forms = {
     let formValues = {};
     let processedKeys = Object.keys(req.body);
 
+    // Any form submission requires a CSRF token
+    formDef.push({
+      name: '_csrf',
+      required: true
+    });
     for (let field of formDef) {
       if (!req.body[field.name] && field.required) {
         req.flash('errors', req.__(`need ${field.name}`));

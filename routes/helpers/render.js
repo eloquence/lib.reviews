@@ -37,6 +37,8 @@ let render = {
 
     vars.currentLanguage = req.locale;
 
+    vars.csrfToken = req.csrfToken();
+
     res.render(view, vars);
 
   },
