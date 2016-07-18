@@ -32,8 +32,9 @@ User.options = options; // for external visibility
 Object.freeze(User.options);
 
 User.define("setName", function(displayName) {
-  this.displayName = displayName.trim();
-  this.canonicalName = User.canonicalize(displayName.trim());
+  displayName = displayName.trim();
+  this.displayName = displayName;
+  this.canonicalName = User.canonicalize(displayName);
   this.generateVirtualValues();
 });
 
@@ -52,6 +53,7 @@ User.define("checkPassword", function(password) {
 });
 
 User.ensureUnique = function(name) {
+  name = name.trim();
   return new Promise((resolve, reject) => {
     User.filter({
       canonicalName: User.canonicalize(name)
