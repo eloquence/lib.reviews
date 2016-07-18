@@ -141,8 +141,8 @@ function getPreview(req) {
   // which is escaped by markdown parser
   preview['review-title'] = req.body['review-title'];
   preview['review-url'] = req.body['review-url'];
-  preview['review-url-text'] = prettifyURL(req.body['review-url']);
-  preview['review-text'] = md.render(req.body['review-text']);
+  preview['review-url-text'] = prettifyURL(req.body['review-url'] || '');
+  preview['review-text'] = md.render(req.body['review-text'] || '');
   preview['review-rating'] = Number(req.body['review-rating']);
   preview['review-date'] = new Date().toLocaleString(req.locale);
   return preview;

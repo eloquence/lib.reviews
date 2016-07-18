@@ -7,7 +7,13 @@
 {{/times}}
 </span>
 <div id="preview-review-text">{{{preview.review-text}}}</div>
-<div id="preview-review-byline">{{{__ "review byline" user.displayName preview.review-date}}}</div>
+<div id="preview-review-byline">
+{{#if preview.review-date}}
+{{{__ "review byline" user.displayName preview.review-date}}}
+{{else}}
+{{{__ "review byline" user.displayName ""}}}
+{{/if}}
+</div>
 </div>
 {{#each errors}}
   <div class="error">{{{this}}}</div>
