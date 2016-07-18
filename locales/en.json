@@ -93,5 +93,6 @@
     "answer: famous scientist": "Charles",
     "enter captcha answer": "Enter answer (not case sensitive)",
     "need captcha-answer": "Please answer the challenge question to weed out automated spam.",
-    "incorrect captcha answer": "Sorry, that's not the right answer to the challenge question. If you're unsure, you may want to use a search engine."
+    "incorrect captcha answer": "Sorry, that's not the right answer to the challenge question. If you're unsure, you may want to use a search engine.",
+    "invalid url": "The URL does not appear to be valid. Note that we can't guess the protocol prefix for you (typically http:// or https://)."
 }
