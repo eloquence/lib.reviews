@@ -131,7 +131,10 @@ function sendRegistrationForm(req, res, formInfo) {
     errors,
     formValues: formInfo ? formInfo.formValues : undefined,
     questionCaptcha: forms.getQuestionCaptcha('register'),
+    illegalUsernameCharactersReadable: User.options.illegalCharsReadable,
     scripts: ['register.js']
+  }, {
+    illegalUsernameCharacters: User.options.illegalChars.source
   });
 }
 

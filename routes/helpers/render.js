@@ -1,7 +1,7 @@
 'use strict';
 
 let render = {
-  template: function(req, res, view, extraVars) {
+  template: function(req, res, view, extraVars, extraConfig) {
 
     let vars = {};
 
@@ -9,6 +9,9 @@ let render = {
       userName: req.user ? req.user.displayName : undefined,
       language: req.locale
     };
+
+    if (extraConfig)
+      Object.assign(config, extraConfig);
 
     vars.configScript = `window.config = ${JSON.stringify(config)};`;
 

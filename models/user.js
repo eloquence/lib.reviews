@@ -7,9 +7,12 @@ const ErrorMessage = require('../util/error.js');
 
 const options = {
   maxChars: 128,
-  illegalChars: /[<>;"]/,
+  illegalChars: /[<>;"&\?!\.]/,
   minPasswordLength: 6
 };
+
+// Erm, if we add [, ] or \ to forbidden chars, we'll have to fix this :)
+options.illegalCharsReadable = options.illegalChars.source.replace(/[\[\]\\]/g, '');
 
 // Table generation is handled by thinky
 let User = thinky.createModel("users", {
@@ -107,9 +110,8 @@ User.canonicalize = function(name) {
 };
 
 function containsOnlyLegalCharacters(name) {
-  let illegalCharsList = options.illegalChars.source.replace(/[\[\]]/g, '');
   if (options.illegalChars.test(name))
-    throw new ErrorMessage('invalid username characters', [illegalCharsList]);
+    throw new ErrorMessage('invalid username characters', [options.illegalCharsReadable]);
   else
     return true;
 }
