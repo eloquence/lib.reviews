@@ -8,7 +8,9 @@
 {{/times}}
 </div>
 <div class="feed-item-header">{{{__ "review"}}}</div>
+{{#if this.thing.urls.[0]}}
 <div id="feed-review-url">{{{link this.thing.urls.[0] (prettify this.thing.urls.[0])}}}</div>
+{{/if}}
 <div class="feed-review-title">{{{this.title}}}</div>
 <div id="feed-review-text">
 {{{this.html}}}
