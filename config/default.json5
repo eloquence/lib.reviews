@@ -5,6 +5,18 @@
   // with a command line argument, hence "default".
   defaultPort: 80,
 
+  // RethinkDB configuration. We use a connection pool, so you can add
+  // additional servers to the array if needed.
+  dbServers: [
+    {
+      host: "localhost",
+      port: 28015
+    }
+  ],
+  dbName: "libreviews",
+  dbUser: "admin",
+  dbPassword: "",
+
   // The secret used to sign the session cookie. Should be changed for
   // production environments.
   sessionSecret: "joeyTheCanadianStoreOwner",
