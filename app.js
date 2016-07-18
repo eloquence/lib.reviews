@@ -25,6 +25,7 @@ const languages = require('./routes/languages'); // routes to change UI language
 const actions = require('./routes/actions');
 const users = require('./routes/users');
 const pages = require('./routes/pages');
+const debug = require('./util/debug');
 
 // Auth setup
 require('./auth');
@@ -97,7 +98,10 @@ app.use(passport.session());
 
 app.use(i18n.init);
 //app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')));
-app.use(logger('dev'));
+
+app.use(app.get('env') == 'production' ?
+  logger('combined') :
+  logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
@@ -146,5 +150,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+let mode = app.get('env') == 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
+debug.app(`Running in ${mode} mode.`);
 
 module.exports = app;

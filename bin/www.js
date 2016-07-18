@@ -9,7 +9,7 @@ const r = require('rethinkdb');
  */
 
 const app = require('../app');
-const debug = require('debug')('lib.reviews:server');
+const debug = require('../util/debug');
 const http = require('http');
 const config = require('config');
 
@@ -85,5 +85,5 @@ function onError(error) {
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debug.app('Listening on ' + bind);
 }
