@@ -32,8 +32,8 @@ User.options = options; // for external visibility
 Object.freeze(User.options);
 
 User.define("setName", function(displayName) {
-  this.displayName = displayName;
-  this.canonicalName = User.canonicalize(displayName);
+  this.displayName = displayName.trim();
+  this.canonicalName = User.canonicalize(displayName.trim());
   this.generateVirtualValues();
 });
 
