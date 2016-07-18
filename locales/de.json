@@ -29,6 +29,7 @@
     "accesskey": "Tastenkombination: [Hilfstaste(n) + %s]",
     "welcome new user": "Danke daf&uuml;r, dass du ein Benutzerkonto angelegt hast, %s! Wir hoffen, dass es dir hier gef&auml;llt und du dabei bleibst!",
     "sign out": "Abmelden",
+    "already logged in": "Du bist bereits angemeldet. Bitte lege nicht mehr als ein Benutzerkonto per Person an, es sei denn es ist f&uuml;r klar differenzierte Rollen (z.B. privat vs. gesch&auml;ftlich).",
     "invalid email format": "\"%s\" scheint keine g&uuml;ltige E-Mail-Adresse zu sein.",
     "invalid username characters": "Der Benutzername darf keines der folgenden Zeichen enthalten: %s",
     "unknown error": "Es tut uns leid - es trat ein unbekannter Fehler auf. Das Problem wurde ins Fehlerprotokoll eingetragen.",

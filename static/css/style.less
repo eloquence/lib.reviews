@@ -5,6 +5,7 @@ pure CSS from LESS
 
 */
 @errorColor: red;
+@warningColor: #ff6600;
 @visitedColor: #006;
 @infoColor: #ccc;
 @headerColor: #414042;
@@ -75,13 +76,20 @@ body {
 .button-rounded {
     border-radius: 4px;
 }
+
 #home-link {
     text-decoration: none;
     color: #000;
 }
+
 .error {
     color: @errorColor;
 }
+
+.warning {
+  color: @warningColor;
+}
+
 .lead {
     font-size: 110%;
     font-weight: bold;

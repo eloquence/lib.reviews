@@ -28,6 +28,7 @@
     "accesskey": "Keyboard shortcut: [Modifier key(s) + %s]",
     "welcome new user": "Thank you for registering a lib.reviews account, %s! We hope you like the place and decide to stick around for a while.",
     "sign out": "Sign out",
+    "already logged in": "Please note that you're already logged in. Please don't create more than one account per person, unless it is for clearly distinguished roles (e.g., professional vs. personal).",
     "invalid email format": "\"%s\" does not appear to be a valid email address.",
     "invalid username characters": "The username must not contain any of the following characters: %s",
     "unknown error": "Sorry - an unknown error occurred. This problem has been logged.",
