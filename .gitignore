@@ -34,3 +34,6 @@ rethinkdb_data
 
 # Compiled at runtime
 static/css/style.css
+
+# Production config
+config/production.json5
