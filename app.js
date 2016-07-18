@@ -79,6 +79,16 @@ app.use(session({
 }));
 app.use(flash());
 
+app.use(function(req, res, next) {
+  req.flashHasErrors = () => {
+    if (!req.session || !req.session.flash || !req.session.flash.errors)
+      return false;
+    else
+      return req.session.flash.errors.length > 0;
+  };
+  next();
+});
+
 // Initialize Passport and restore authentication state, if any, from the
 // session.
 app.use(passport.initialize());

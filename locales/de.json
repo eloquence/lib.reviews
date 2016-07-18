@@ -85,9 +85,11 @@
     },
     "captcha intro": "Bitte beweise, dass du kein Roboter bist. Was ist das mit ____ gekennzeichnete Wort?",
     "question: famous painting": "Eines der ber&uuml;hmtesten Gem&auml;lde der Welt ist die Mona ___ von Leondaro da Vinci.",
-    "question: famous composer": "Ludwig van ____ war nahe Ende seines Lebens fast komplett taub.",
     "answer: famous painting": "Lisa",
+    "question: famous composer": "Ludwig van ____ war nahe Ende seines Lebens fast komplett taub.",
     "answer: famous composer": "Beethoven",
+    "question: famous scientist": "Darwin formulierte die Evolutions-Theorie. Sein Vorname war ____.",
+    "answer: famous scientist": "Charles",
     "enter captcha answer": "Gro&szlig;-/Kleinschreibung egal",
     "need captcha-answer": "Bitte beantworte die Sicherheitsanfrage, um automatisierten Spam zu bek&auml;mpfen.",
     "incorrect captcha answer": "Das ist leider nicht die richtige Antwort auf die Sicherheitsanfrage. Vielleicht hilft eine Suchmaschine weiter?"

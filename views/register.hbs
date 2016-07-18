@@ -7,7 +7,7 @@
     <fieldset>
         <div class="pure-control-group">
             <label for="username">{{{__ "username"}}}</label>
-            <input id="username" name="username" type="text" placeholder="{{{__ "enter username"}}}" size="30">
+            <input id="username" name="username" type="text" placeholder="{{{__ "enter username"}}}" value="{{formValues.username}}" size="30">
         </div>
 
         <div class="pure-control-group">
@@ -17,15 +17,15 @@
 
         <div class="pure-control-group">
             <label for="email">{{{__ "email optional"}}}</label>
-            <input id="email" name="email" type="text" placeholder="{{{__ "enter email"}}}" size="30">
+            <input id="email" name="email" type="text" placeholder="{{{__ "enter email"}}}" value="{{formValues.email}}" size="30">
         </div>
 
-        {{#if hasQuestionCaptcha}}
+        {{#if questionCaptcha}}
         <div class="pure-control-group">
         <p>{{{__ "captcha intro"}}}</p>
-            <label for="captcha-answer">{{{__ questionKey}}}</label>
+            <label for="captcha-answer">{{{__ questionCaptcha.captcha.questionKey}}}</label>
             <input id="captcha-answer" name="captcha-answer" type="text" placeholder="{{{__ "enter captcha answer"}}}" size="30">
-            <input name="captcha-id" value="{{captchaIndex}}" type="hidden">
+            <input name="captcha-id" value="{{questionCaptcha.id}}" type="hidden">
         </div>
         {{/if}}
 

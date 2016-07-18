@@ -24,12 +24,6 @@ const formDefs = {
   }, {
     name: 'email',
     required: false
-  }, {
-    name: 'captcha-answer',
-    required: config.questionCaptcha.enabled,
-  }, {
-    name: 'captcha-id',
-    required: config.questionCaptcha.enabled,
   }]
 };
 
@@ -84,23 +78,7 @@ router.post('/signin', function(req, res, next) {
 
 
 router.get('/register', function(req, res) {
-  let errors = req.flash('errors');
-  let hasQuestionCaptcha = config.questionCaptcha.enabled,
-    captcha, captchaIndex;
-
-  if (hasQuestionCaptcha) {
-    // Pick a random captcha
-    captchaIndex = Math.floor(Math.random() * config.questionCaptcha.captchas.length);
-    captcha = config.questionCaptcha.captchas[captchaIndex];
-  }
-
-  render.template(req, res, 'register', {
-    titleKey: 'register',
-    errors,
-    hasQuestionCaptcha,
-    questionKey: hasQuestionCaptcha ? captcha.questionKey : undefined,
-    captchaIndex
-  });
+  sendRegistrationForm(req, res);
 });
 
 router.post('/signout', function(req, res) {
@@ -110,25 +88,14 @@ router.post('/signout', function(req, res) {
 
 router.post('/register', function(req, res) {
 
-  let formInfo = forms.parseSubmission(req, formDefs.register);
-  if (!formInfo.hasRequiredFields || formInfo.hasExtraFields)
-    return res.redirect('/register');
+  let formInfo = forms.parseSubmission({
+    req,
+    formDef: formDefs.register,
+    formKey: 'register'
+  });
 
-  let hasQuestionCaptcha = config.questionCaptcha.enabled;
-  if (hasQuestionCaptcha) {
-    let captchaIndex = Number(req.body['captcha-id']);
-    let answerCaptcha = config.questionCaptcha.captchas[captchaIndex], answerKey;
-    if (answerCaptcha === undefined) {
-      req.flash('errors', req.__('unknown captcha'));
-      return res.redirect('/register');
-    }
-    answerKey = answerCaptcha.answerKey;
-    if (req.body['captcha-answer'].trim().toUpperCase() != req.__(answerKey).toUpperCase()) {
-      req.flash('errors', req.__('incorrect captcha answer'));
-      return res.redirect('/register');
-    }
-  }
-
+  if (req.flashHasErrors())
+    return sendRegistrationForm(req, res, formInfo);
 
   User.create({
       name: req.body.username,
@@ -154,5 +121,16 @@ router.post('/register', function(req, res) {
     });
 
 });
+
+function sendRegistrationForm(req, res, formInfo) {
+  let errors = req.flash('errors');
+
+  render.template(req, res, 'register', {
+    titleKey: 'register',
+    errors,
+    formValues: formInfo ? formInfo.formValues : undefined,
+    questionCaptcha: forms.getQuestionCaptcha('register')
+  });
+}
 
 module.exports = router;

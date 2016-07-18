@@ -1,6 +1,8 @@
 {
   "questionCaptcha": {
-    "enabled": true,
+    "forms": {
+      "register": true
+    },
     "captchas": [
       {
         "questionKey": "question: famous painting",
@@ -9,6 +11,10 @@
       {
         "questionKey": "question: famous composer",
         "answerKey": "answer: famous composer"
+      },
+      {
+        "questionKey": "question: famous scientist",
+        "answerKey": "answer: famous scientist"
       }
     ]
   }

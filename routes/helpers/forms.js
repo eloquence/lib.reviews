@@ -1,8 +1,17 @@
 'use strict';
+const config = require('config');
+
 let forms = {
-  parseSubmission: function(req, formDef) {
+
+  parseSubmission: function(options) {
+    let req = options.req;
+    // Do not manipulate original form definition
+    let formDef = Object.assign([], options.formDef);
+    let formKey = options.formKey;
+
     let hasRequiredFields = true;
     let hasUnknownFields = false;
+    let hasCorrectCaptcha = null;
     let formValues = {};
     let processedKeys = Object.keys(req.body);
 
@@ -11,6 +20,20 @@ let forms = {
       name: '_csrf',
       required: true
     });
+
+    // Process simple captcha if enabled for this form
+    if (config.questionCaptcha.forms[formKey]) {
+      formDef.push({
+        name: 'captcha-id',
+        required: true
+      }, {
+        name: 'captcha-answer',
+        required: true
+      });
+
+      hasCorrectCaptcha = this.processCaptchaAnswer(req);
+    }
+
     for (let field of formDef) {
       if (!req.body[field.name] && field.required) {
         req.flash('errors', req.__(`need ${field.name}`));
@@ -34,9 +57,43 @@ let forms = {
     return {
       hasRequiredFields,
       hasUnknownFields,
+      hasCorrectCaptcha,
       formValues
     };
   },
+
+  getQuestionCaptcha: function(formKey) {
+    let id;
+    if (config.questionCaptcha.forms[formKey]) {
+      id = Math.floor(Math.random() * config.questionCaptcha.captchas.length);
+      return {
+        id,
+        captcha: config.questionCaptcha.captchas[id]
+      };
+    } else
+      return undefined;
+  },
+
+  processCaptchaAnswer: function(req) {
+
+    let id = req.body['captcha-id'];
+    let answerText = req.body['captcha-answer'];
+
+    if (!answerText) //  no need to flash - missing field error message will kick in
+      return false;
+
+    if (!config.questionCaptcha.captchas[id]) {
+      req.flash('errors', req.__('unknown captcha'));
+      return false;
+    }
+
+    if (answerText.trim().toUpperCase() !== req.__(config.questionCaptcha.captchas[id].answerKey).toUpperCase()) {
+      req.flash('errors', req.__('incorrect captcha answer'));
+      return false;
+    } else
+      return true;
+  }
+
 };
 
 module.exports = forms;

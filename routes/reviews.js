@@ -69,7 +69,11 @@ router.get('/new', function(req, res) {
 });
 
 router.post('/new', function(req, res) {
-  let formInfo = forms.parseSubmission(req, formDefs['new']);
+  let formInfo = forms.parseSubmission({
+    req,
+    formDef: formDefs['new'],
+    formKey: 'new'
+  });
   let isPreview = req.body['review-action'] == 'preview' ? true : false;
   if (isPreview) {
     formInfo.preview = getPreview(req);
