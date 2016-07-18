@@ -11,12 +11,13 @@ const r = require('rethinkdb');
 const app = require('../app');
 const debug = require('debug')('lib.reviews:server');
 const http = require('http');
+const config = require('config');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || 80);
+var port = normalizePort(process.env.PORT || config.get('defaultPort'));
 app.set('port', port);
 
 /**

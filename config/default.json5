@@ -1,0 +1,38 @@
+{
+
+  // Web service port. You may have to change this to something like 8000 if you
+  // don't have access to port 80 or it is in use. You can always override this
+  // with a command line argument, hence "default".
+  "defaultPort": 80,
+
+  // The secret used to sign the session cookie. Should be changed for
+  // production environments.
+  "sessionSecret": "joeyTheCanadianStoreOwner",
+
+  // How many minutes (!) should a session cookie last. Default = 30 days.
+  "sessionCookieDuration": 43200,
+
+  // These are simple question/answer text captchas which can be enabled
+  // for supported forms (currently just sign-ups). The keys refer to
+  // the message files in locales/ and are deliberately generic so we can
+  // provide culturally appropriate customizations if needed.
+  "questionCaptcha": {
+    "forms": {
+      "register": true
+    },
+    "captchas": [
+      {
+        "questionKey": "question: famous painting",
+        "answerKey": "answer: famous painting"
+      },
+      {
+        "questionKey": "question: famous composer",
+        "answerKey": "answer: famous composer"
+      },
+      {
+        "questionKey": "question: famous scientist",
+        "answerKey": "answer: famous scientist"
+      }
+    ]
+  }
+}

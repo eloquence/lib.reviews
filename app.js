@@ -71,9 +71,9 @@ app.use(session({
   key: 'libreviews_session',
   resave: true,
   saveUninitialized: true,
-  secret: 'joeyTheCanadianStoreOwner',
+  secret: config.get('sessionSecret'),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 30 // 30
+    maxAge: config.get('sessionCookieDuration') * 1000 * 60
   },
   store
 }));
