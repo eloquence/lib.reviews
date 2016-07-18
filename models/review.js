@@ -55,8 +55,7 @@ Review.create = function(reviewObj) {
             case `Value for [title] must be shorter than ${options.maxTitleLength}.`:
               reject(new ErrorMessage('review title too long'));
               break;
-              // Update when https://github.com/neumino/thinky/issues/530 is fixed
-             case 'Value for [language] must be shorter than 4.':
+            case 'Value for [language] must not be longer than 4.':
               reject(new ErrorMessage('invalid language code', [reviewObj.language]));
               break;
             default:

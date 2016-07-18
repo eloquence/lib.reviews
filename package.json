@@ -28,6 +28,6 @@
     "rethinkdbdash": "^2.3.8",
     "serve-favicon": "~2.3.0",
     "session-rethinkdb": "^2.0.0",
-    "thinky": "^2.3.3"
+    "thinky": "^2.3.4"
   }
 }
