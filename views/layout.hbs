@@ -36,7 +36,7 @@
                 <ul id="user-menu">
                     <li><span class="user-name"><span class="fa fa-user spaced-icon"></span>{{user.displayName}}</span>
                     </li>
-                    <li><a href="/new" class="pure-button button-cta button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span class="fa fa-pencil spaced-icon"></span>{{__ "new review"}}</a>
+                    <li><a href="/new/review" class="pure-button button-cta button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span class="fa fa-pencil spaced-icon"></span>{{__ "new review"}}</a>
                         <li>
                             <form action="/signout" method="post" id="signout-form">
                                 <input type="hidden" value="{{csrfToken}}" name="_csrf">

@@ -65,10 +65,15 @@ router.get('/feed', function(req, res) {
 });
 
 router.get('/new', function(req, res) {
+  // Encourage easy creation of reviews with default redirect
+  res.redirect('/new/review');
+});
+
+router.get('/new/review', function(req, res) {
   sendReviewFormResponse(req, res);
 });
 
-router.post('/new', function(req, res) {
+router.post('/new/review', function(req, res) {
   let formInfo = forms.parseSubmission({
     req,
     formDef: formDefs['new'],
@@ -88,7 +93,7 @@ function sendReviewFormResponse(req, res, formInfo, isPreview) {
   if (req.user)
   // GET requests or incomplete POST requests
     if (!formInfo || isPreview || errors.length)
-      render.template(req, res, 'new', {
+      render.template(req, res, 'new-review', {
         formValues: formInfo ? formInfo.formValues : undefined,
         titleKey,
         errors: !isPreview ? errors : undefined,
