@@ -83,4 +83,10 @@
 
   };
 
+  window.libreviews.trimInput = function() {
+    this.value = this.value.trim();
+  };
+
+  $('input[data-auto-trim],textarea[data-auto-trim]').change(libreviews.trimInput);
+
 })();

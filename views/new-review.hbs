@@ -23,17 +23,17 @@
         <div class="pure-u-1 pure-u-md-2-3">
         <div class="pure-control-group">
             <label for="review-url">{{{__ "url"}}} <span class="required">*</span></label>
-            <input id="review-url" name="review-url" type="text" class="pure-input-1" placeholder="{{{__ "enter web address"}}}" value="{{formValues.review-url}}">
+            <input id="review-url" name="review-url" type="text" class="pure-input-1" data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{formValues.review-url}}">
             <div id="review-url-validation" class="validation-error">{{{__ "not a url"}}}</div>
             <div id="helper-links"><a href="#" id="add-https">{{{__ "add https"}}}</a> &ndash; <a href="#" id="add-http">{{{__ "add http"}}}</a></div>
         </div>
         <div class="pure-control-group">
             <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>
-            <input id="review-title" name="review-title" type="text" class="pure-input-1" placeholder='{{{__ "enter title"}}}' value="{{formValues.review-title}}">
+            <input id="review-title" name="review-title" type="text" class="pure-input-1" data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{formValues.review-title}}">
         </div>
           <div class="pure-control-group">
               <label for="review-text">{{{__ "review"}}} <span class="required">*</span></label>
-              <textarea id="review-text" name="review-text" class="pure-input-1" placeholder="{{{__ "enter review"}}}">{{formValues.review-text}}</textarea>
+              <textarea id="review-text" name="review-text" class="pure-input-1" data-auto-trim placeholder="{{{__ "enter review"}}}">{{formValues.review-text}}</textarea>
           </div>
           <div class="pure-control-group">
           <label id="star-rating-label" for="review-rating">{{{__ "rating"}}} <span class="required">*</span></label>

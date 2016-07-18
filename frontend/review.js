@@ -18,7 +18,7 @@
   }
 
   // Markdown parser & options for live preview
-  let md = window.markdownit({
+  let md = markdownit({
     linkify: true,
     breaks: true,
     typographer: true
@@ -28,7 +28,6 @@
 
   $('#review-url,#review-title,#review-text').focus(showInputHelp);
   $('#review-url,#review-title,#review-text').blur(hideInputHelp);
-  $('#review-url,#review-title,#review-text').change(trimInput);
   $('#review-url,#review-title,#review-text,#review-language').change(hideAbandonDraft);
   $('#review-url').change(validateURL);
   $('#star-rating-control').mouseover(showStarControlHelp);
@@ -48,7 +47,7 @@
   $('#abandon-draft').click(emptyAllFormFields);
   $('#add-http').click(addHTTP);
   $('#add-https').click(addHTTPS);
-  $('#publish').click(window.libreviews.getRequiredFieldHandler({
+  $('#publish').click(libreviews.getRequiredFieldHandler({
     fieldSelector: '#review-url,#review-title,#review-text,#review-language,#review-rating'
   }));
   $('#preview').click(showPreviewOnce);
@@ -61,13 +60,6 @@
 
   // Start typing :-)
   $('#review-url').focus();
-
-
-  // Function defs
-
-  function trimInput() {
-    this.value = this.value.trim();
-  }
 
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))
@@ -119,7 +111,7 @@
   function emptyAllFormFields(event) {
     clearStars();
     $('#review-url,#review-title,#review-text,#review-rating').val('');
-    $('#review-language').val(window.config.language);
+    $('#review-language').val(config.language);
     $('#review-url').trigger('change');
     sisyphus.manuallyReleaseData();
     hideDraftNotice();
@@ -129,10 +121,10 @@
   // For processing draft data
   function processLoadedData() {
     let rating = Number($('#review-rating').val());
-    let languageChanged = $('#review-language').val() !== window.config.language;
+    let languageChanged = $('#review-language').val() !== config.language;
 
     // Trim just in case whitespace got persisted
-    $('#review-url,#review-text,#review-title').each(trimInput);
+    $('input[data-auto-trim],textarea[data-auto-trim]').each(libreviews.trimInput);
 
     // Only show notice if we've actually recovered some data
     if (rating || $('#review-url').val() || $('#review-title').val() || $('#review-text').val() ||
@@ -282,7 +274,7 @@
 
     $('#preview-review-text').html(parsed);
     $('#preview-review-title').html(escapeHTML($('#review-title').val()));
-    $('#preview-review-byline-date').html(new Date().toLocaleString(window.config.language));
+    $('#preview-review-byline-date').html(new Date().toLocaleString(config.language));
   }
 
   function renderPreviewStars(rating) {
