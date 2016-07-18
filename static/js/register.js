@@ -1,0 +1,1 @@
+../../frontend/register.js

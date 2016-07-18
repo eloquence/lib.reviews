@@ -32,7 +32,8 @@ router.get('/signin', function(req, res) {
   let errors = req.flash('errors');
   render.template(req, res, 'signin', {
     titleKey: 'sign in',
-    errors
+    errors,
+    scripts: ['signin.js']
   });
 });
 
@@ -117,7 +118,7 @@ router.post('/register', function(req, res) {
     })
     .catch(errorMessage => {
       flashError(req, errorMessage, 'registration');
-      res.redirect('/register');
+      return sendRegistrationForm(req, res, formInfo);
     });
 
 });
@@ -129,7 +130,8 @@ function sendRegistrationForm(req, res, formInfo) {
     titleKey: 'register',
     errors,
     formValues: formInfo ? formInfo.formValues : undefined,
-    questionCaptcha: forms.getQuestionCaptcha('register')
+    questionCaptcha: forms.getQuestionCaptcha('register'),
+    scripts: ['register.js']
   });
 }
 

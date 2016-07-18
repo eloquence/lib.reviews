@@ -48,7 +48,9 @@
   $('#abandon-draft').click(emptyAllFormFields);
   $('#add-http').click(addHTTP);
   $('#add-https').click(addHTTPS);
-  $('#publish').click(checkRequiredFields);
+  $('#publish').click(window.libreviews.getRequiredFieldHandler({
+    fieldSelector: '#review-url,#review-title,#review-text,#review-language,#review-rating'
+  }));
   $('#preview').click(showPreviewOnce);
 
   // The sisyphus library persists form data to local storage on change events
@@ -62,37 +64,6 @@
 
 
   // Function defs
-
-  function checkRequiredFields(event) {
-    // Clear out old warnings
-    $('label span.required').hide();
-    $('#required-fields-message,#form-error-message').hide();
-    let $emptyFields = $('#review-url,#review-title,#review-text,#review-language,#review-rating').filter(getEmptyStrings);
-    if ($emptyFields.length > 0) {
-      $emptyFields.each(function() {
-        $(`label[for="${this.id}"] span.required`).show();
-      });
-      $('#required-fields-message').show();
-      event.preventDefault();
-      return;
-    }
-    // Highlight any other validation errors now (not doing it earlier to avoid
-    // error message overkill)
-    if ($('fieldset .validation-error:visible').length > 0) {
-      $('#form-error-message').show();
-      event.preventDefault();
-      return;
-    }
-  }
-
-  // Helper function for jQuery filters
-  function getEmptyStrings() {
-    let str = String(this.value);
-    if (str === '' || str === undefined)
-      return true;
-    else
-      return false;
-  }
 
   function trimInput() {
     this.value = this.value.trim();
@@ -146,10 +117,10 @@
 
   // For clearing out old drafts
   function emptyAllFormFields(event) {
-    $('#review-url,#review-title,#review-text').val('');
+    clearStars();
+    $('#review-url,#review-title,#review-text,#review-rating').val('');
     $('#review-language').val(window.config.language);
     $('#review-url').trigger('change');
-    clearStars();
     sisyphus.manuallyReleaseData();
     hideDraftNotice();
     event.preventDefault();
