@@ -18,6 +18,7 @@ const useragent = require('express-useragent');
 const passport = require('passport');
 const csrf = require('csurf'); // protect against request forgery using tokens
 const config = require('config');
+const compression = require('compression');
 
 // Internal dependencies
 const reviews = require('./routes/reviews');
@@ -109,13 +110,16 @@ app.use(bodyParser.urlencoded({
 }));
 
 
+app.use(compression());
+
 let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // API requests do not require CSRF protection (hence declared before CSRF
-// middleware), but POST requests do require the X-Requested-With header to be
-// set, which affords us standard cross-origin-protection.
+// middleware), but session-authenticated POST requests do require the
+// X-Requested-With header to be set, which ensures they're subject to CORS
+// rules.
 app.use('/api', api);
 
 app.use(csrf());
