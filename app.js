@@ -25,6 +25,7 @@ const languages = require('./routes/languages'); // routes to change UI language
 const actions = require('./routes/actions');
 const users = require('./routes/users');
 const pages = require('./routes/pages');
+const api = require('./routes/api');
 const debug = require('./util/debug');
 
 // Auth setup
@@ -112,13 +113,17 @@ let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
+// API requests do not require CSRF protection (hence declared before CSRF
+// middleware), but POST requests do require the X-Requested-With header to be
+// set, which affords us standard cross-origin-protection.
+app.use('/api', api);
 
 app.use(csrf());
 app.use('/', pages);
 app.use('/', reviews);
 app.use('/', languages);
 app.use('/', actions);
-app.use('/user', users);
+//app.use('/user', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -33,6 +33,7 @@
     "invalid email format": "\"%s\" scheint keine g&uuml;ltige E-Mail-Adresse zu sein.",
     "invalid username characters": "Der Benutzername darf keines der folgenden Zeichen enthalten: %s",
     "unknown error": "Es tut uns leid - es trat ein unbekannter Fehler auf. Das Problem wurde ins Fehlerprotokoll eingetragen.",
+    "username exists": "Wir haben bereits einen Benutzer mit diesem Namen.",
     "username too long": "Der Benutzername ist zu lang (maximal %s Zeichen).",
     "email too long": "Die E-Mail-Adresse ist zu lang (maximal %s Zeichen).",
     "password too short": "Das Passwort ist zu kurz. Bitte w&auml;hle f&uuml;r deine eigene Sicherheit ein Passwort mit mindestens %s Zeichen.",

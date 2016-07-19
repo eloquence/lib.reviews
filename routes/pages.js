@@ -20,7 +20,6 @@ router.get('/terms', function(req, res) {
     longText: true,
     titleKey: 'terms',
     scripts: ['long-text.js']
-
   });
 });
 

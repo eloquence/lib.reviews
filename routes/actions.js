@@ -3,7 +3,6 @@
 // External dependencies
 const express = require('express');
 const router = express.Router();
-const debug = require('../util/debug');
 const i18n = require('i18n');
 const passport = require('passport');
 const config = require('config');
@@ -13,6 +12,7 @@ const render = require('./helpers/render');
 const flashError = require('./helpers/flash-error');
 const forms = require('./helpers/forms');
 const User = require('../models/user');
+const debug = require('../util/debug');
 
 const formDefs = {
   'register': [{

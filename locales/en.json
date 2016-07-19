@@ -35,7 +35,7 @@
     "username too long": "The username is too long (max %s characters).",
     "email too long": "The email address is too long (max %s characters).",
     "password too short": "The password is too short. For your security, please pick a password with at least %s characters.",
-    "username exists": "We already have a user with the name \"%s\".",
+    "username exists": "We already have a user with this name.",
     "write a review": "Write a review",
     "new review": "New review",
     "help": "Help",

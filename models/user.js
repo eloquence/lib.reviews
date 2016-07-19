@@ -7,7 +7,7 @@ const ErrorMessage = require('../util/error.js');
 
 const options = {
   maxChars: 128,
-  illegalChars: /[<>;"&\?!\.]/,
+  illegalChars: /[<>;"&\?!\.\/]/,
   minPasswordLength: 6
 };
 
@@ -59,7 +59,7 @@ User.ensureUnique = function(name) {
       canonicalName: User.canonicalize(name)
     }).then(users => {
       if (users.length)
-        reject(new ErrorMessage('username exists', [name]));
+        reject(new ErrorMessage('username exists'));
       else
         resolve();
     }).catch(error => {
