@@ -8,6 +8,13 @@
   $('#username').focus();
 
   function checkExistence() {
+
+    // Abort if username is not valid
+    if ($('#username-characters-error:visible').length) {
+      $('#username-exists-error').hide();
+      return;
+    }
+
     let name = this.value.trim();
     $.ajax({type: 'HEAD', url: `/api/user/${name}`})
       .done(() => {
