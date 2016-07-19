@@ -99,7 +99,7 @@ app.use(passport.session());
 
 
 app.use(i18n.init);
-//app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'static/img/favicon.ico')));
 
 app.use(app.get('env') == 'production' ?
   logger('combined') :
