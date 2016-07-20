@@ -70,6 +70,25 @@ router.get('/feed', function(req, res) {
   });
 });
 
+router.get('/review/:id', function(req, res, next) {
+  let id = req.params.id.trim();
+  Review.get(id)
+    .getJoin({
+      thing: true
+    })
+    .getJoin({
+      creator: {
+        _apply: seq => seq.without('password')
+      }
+    }).then(review => {
+      review.thing.label = mlString.resolve(req.locale, review.thing.label);
+      sendReview(req, res, review);
+    })
+    .catch(error => {
+      sendReviewNotFound(req, res, id);
+    });
+});
+
 router.get('/new', function(req, res) {
   // Encourage easy creation of reviews with default redirect
   res.redirect('/new/review');
@@ -155,12 +174,35 @@ function getPreview(req) {
   preview['review-date'] = new Date().toLocaleString(req.locale);
   return preview;
 
-  function prettifyURL(url) {
-    return url
-      .replace(/^.*?:\/\//, '') // strip protocol
-      .replace(/\/$/, ''); // remove trailing slashes for display only
-  }
+}
 
+function sendReview(req, res, review, edit) {
+  let errors = req.flash('errors');
+
+  // // For convenient access to labels in current language
+  // review.thing.label = mlString.resolve(req.locale, thing.label);
+
+  render.template(req, res, 'review', {
+    titleKey: edit ? edit.titleKey : 'review of',
+    titleParam: review.thing && review.thing.label ? review.thing.label : prettifyURL(review.thing.urls[0]),
+    reviews: [review],
+    edit,
+    errors
+  });
+}
+
+function sendReviewNotFound(req, res, id) {
+  res.status(404);
+  render.template(req, res, 'no-review', {
+    titleKey: 'review not found',
+    id: escapeHTML(id)
+  });
+}
+
+function prettifyURL(url) {
+  return url
+    .replace(/^.*?:\/\//, '') // strip protocol
+    .replace(/\/$/, ''); // remove trailing slashes for display only
 }
 
 module.exports = router;

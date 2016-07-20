@@ -102,6 +102,8 @@
     "edit label": "Titel bearbeiten",
     "thing not found": "Ding nicht gefunden",
     "thing not found text": "Wir haben kein Ding mit der spezifizierten Adresse, '%s', gefunden. Vielleicht wurde es gel&ouml;scht?",
+    "review not found": "Rezension nicht gefunden",
+    "review not found text": "Wir haben keine Rezension mit der spezifizierten Adresse, '%s', gefunden. Vielleicht wurde sie gel&ouml;scht?",
     "enter label": "Gib einen kurzen Titel ein",
     "save": "Speichern",
     "cancel": "Abbrechen",

@@ -102,6 +102,8 @@
     "edit label": "Edit label",
     "thing not found": "Thing not found",
     "thing not found text": "We did not find a thing with the specified address, '%s'. Perhaps it has been deleted?",
+    "review not found": "Review not found",
+    "review not found text": "We did not find a review with the specified address, '%s'. Perhaps it has been deleted?",
     "enter label": "Enter a short, descriptive label",
     "save": "Save",
     "cancel": "Cancel",

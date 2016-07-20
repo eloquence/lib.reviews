@@ -4,7 +4,15 @@
 <img src="/static/img/star-{{../this.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../../this.starRating}}}"{{/if}}>
 {{/times}}
 </div>
-<div class="feed-item-header">{{{__ "review of" this.thing.label}}}</div>
+{{#if feed}}
+  <div class="feed-item-header">
+  {{#if this.thing.label}}
+  {{{__ "review of" this.thing.label}}}
+  {{else}}
+  {{{__ "review of" (prettify this.thing.urls.[0])}}}
+  {{/if}}
+  </div>
+{{/if}}
 {{#if this.thing.urls.[0]}}
 <div id="review-url"><span class="fa fa-external-link review-icon"></span>{{{link this.thing.urls.[0] (prettify this.thing.urls.[0])}}}</div>
 {{/if}}
