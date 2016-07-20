@@ -1,5 +1,5 @@
 'use strict';
-const langKeys = Object.keys(require('../locales/languages'));
+const langKeys = Object.keys(require('../locales/languages')());
 const thinky = require('../db');
 const type = thinky.type;
 

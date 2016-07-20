@@ -8,7 +8,7 @@ const ErrorMessage = require('../util/error.js');
 const User = require('./user.js');
 const Thing = require('./thing.js');
 
-const langKeys = Object.keys(require('../locales/languages'));
+const langKeys = Object.keys(require('../locales/languages')());
 
 const options = {
   maxTitleLength: 255

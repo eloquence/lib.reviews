@@ -1,11 +1,15 @@
 'use strict';
-const languages = {
-  'de': {
-    messageKey: 'german'
-  },
-  'en': {
-    messageKey: 'english'
-  }
-};
 
-module.exports = languages;
+module.exports = function() {
+
+  let languages = {
+    'de': {
+      messageKey: 'german'
+    },
+    'en': {
+      messageKey: 'english'
+    }
+  };
+  return languages;
+
+};

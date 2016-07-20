@@ -1,5 +1,5 @@
 'use strict';
-const languages = require('../../locales/languages');
+const getLanguages = require('../../locales/languages');
 
 let render = {
   template: function(req, res, view, extraVars, extraConfig) {
@@ -26,8 +26,8 @@ let render = {
       vars.scripts = vars.scripts.concat(extraVars.scripts);
 
     // Mapping of languages keys against message keys that provide labels
-    // for those languages
-    vars.languages = languages;
+    // for those languages.
+    vars.languages = getLanguages();
 
     if (vars.languages[req.locale])
       vars.languages[req.locale].currentLanguage = true;
@@ -35,7 +35,6 @@ let render = {
     vars.currentLanguage = req.locale;
 
     vars.csrfToken = req.csrfToken();
-
     res.render(view, vars);
 
   },
