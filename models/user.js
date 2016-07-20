@@ -25,7 +25,8 @@ let User = thinky.createModel("users", {
   email: type.string().max(options.maxChars).email(),
   password: type.string(),
   registrationDate: type.date().default(() => new Date()),
-  isModerator: type.boolean().default(false)
+  isModerator: type.boolean().default(false),
+  isEditor: type.boolean().default(false)
 });
 
 User.options = options; // for external visibility

@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 
 router.get('/terms', function(req, res) {
   render.template(req, res, `multilingual/terms-${req.locale}`, {
-    longText: true,
+    deferPageHeader: true,
     titleKey: 'terms',
     scripts: ['long-text.js']
   });

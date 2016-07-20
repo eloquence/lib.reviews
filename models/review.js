@@ -2,9 +2,13 @@
 const thinky = require('../db');
 const type = thinky.type;
 const Errors = thinky.Errors;
+const r = thinky.r;
+
 const ErrorMessage = require('../util/error.js');
 const User = require('./user.js');
 const Thing = require('./thing.js');
+
+const langKeys = Object.keys(require('../locales/languages'));
 
 const options = {
   maxTitleLength: 255
@@ -13,19 +17,29 @@ const options = {
 // Table generation is handled by thinky. URLs for reviews are stored as "things".
 let Review = thinky.createModel("reviews", {
   id: type.string(),
-  reviewerID: type.string(),
   thingID: type.string(),
   title: type.string().max(options.maxTitleLength),
   text: type.string(),
   html: type.string(),
-  datePosted: type.date(),
   starRating: type.number().min(1).max(5).integer(),
-  language: type.string().max(4)
+  language: type.string().validator(isValidLanguage),
+
+  // Track original authorship across revisions
+  createdAt: type.date().required(true),
+  createdBy: type.string().uuid(4).required(true),
+
+  // Versioning information
+  _revUser: type.string().required(true),
+  _revDate: type.date().required(true),
+  _revID: type.string().uuid(4).required(true), // Set this for all revisions, including current
+  _revOf: type.string(), // Only set if it's an old revision of an existing thing
+  _revDeleted: type.boolean(), // Set to true for all deleted revisions (not all revisions have to be deleted)
+
 });
 
-Review.belongsTo(User, "reviewer", "reviewerID", "id");
+Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
-Review.ensureIndex("datePosted");
+Review.ensureIndex("createdAt");
 
 Review.create = function(reviewObj) {
   return new Promise((resolve, reject) => {
@@ -33,14 +47,17 @@ Review.create = function(reviewObj) {
       .findOrCreateThing(reviewObj)
       .then((thing) => {
         let review = new Review({
-          reviewerID: reviewObj.reviewerID,
           thingID: thing.id,
           title: reviewObj.title,
           text: reviewObj.text,
           html: reviewObj.html,
-          datePosted: reviewObj.datePosted,
           starRating: reviewObj.starRating,
-          language: reviewObj.language
+          createdAt: reviewObj.createdAt,
+          createdBy: reviewObj.createdBy,
+          language: reviewObj.language,
+          _revID: r.uuid(),
+          _revUser: reviewObj.createdBy,
+          _revDate: reviewObj.createdAt
         });
         review.save().then(review => {
           resolve(review);
@@ -54,9 +71,6 @@ Review.create = function(reviewObj) {
               break;
             case `Value for [title] must be shorter than ${options.maxTitleLength}.`:
               reject(new ErrorMessage('review title too long'));
-              break;
-            case 'Value for [language] must not be longer than 4.':
-              reject(new ErrorMessage('invalid language code', [reviewObj.language]));
               break;
             default:
               reject(error);
@@ -79,8 +93,13 @@ Review.findOrCreateThing = function(reviewObj) {
       else {
         // Let's make one!
         let thing = new Thing({});
+        let date = new Date();
         thing.urls = [reviewObj.url];
-        thing.type = 'thing'; // default type
+        thing.createdAt = date;
+        thing.createdBy = reviewObj.createdBy;
+        thing._revDate = date;
+        thing._revUser = reviewObj.createdBy;
+        thing._revID = r.uuid();
         thing.save().then(thing => {
           resolve(thing);
         }).catch(error => {
@@ -93,6 +112,13 @@ Review.findOrCreateThing = function(reviewObj) {
     });
   });
 };
+
+function isValidLanguage(lang) {
+  if (langKeys.indexOf(lang) !== -1)
+    return true;
+  else
+    throw new ErrorMessage('invalid language code', [String(lang)]);
+}
 
 
 module.exports = Review;

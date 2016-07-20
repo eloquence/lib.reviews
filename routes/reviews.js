@@ -18,6 +18,7 @@ const forms = require('./helpers/forms');
 const flashError = require('./helpers/flash-error');
 const ErrorMessage = require('../util/error.js');
 const Review = require('../models/review.js');
+const mlString = require('../models/ml-string.js');
 
 // Form definitions for these routes
 const formDefs = {
@@ -49,14 +50,19 @@ const formDefs = {
 
 router.get('/feed', function(req, res) {
   Review.orderBy({
-    index: r.desc('datePosted')
+    index: r.desc('createdAt')
   }).limit(10).getJoin({
     thing: true
   }).getJoin({
-    reviewer: {
+    creator: {
       _apply: seq => seq.without('password')
     }
   }).then(feedItems => {
+    for (let item of feedItems) {
+      if (item.thing && item.thing.label) {
+        item.thing.label = mlString.resolve(req.locale, item.thing.label);
+      }
+    }
     render.template(req, res, 'feed', {
       titleKey: 'feed',
       feedItems
@@ -123,15 +129,17 @@ function sendReviewFormResponse(req, res, formInfo, isPreview) {
 }
 
 function getReviewObj(req) {
-  let reviewObj = {};
-  reviewObj.reviewerID = req.user.id;
-  reviewObj.title = escapeHTML(req.body['review-title']);
-  reviewObj.text = escapeHTML(req.body['review-text']);
-  reviewObj.url = encodeURI(req.body['review-url']);
-  reviewObj.html = md.render(req.body['review-text']);
-  reviewObj.datePosted = new Date();
-  reviewObj.starRating = Number(req.body['review-rating']);
-  reviewObj.language = escapeHTML(req.body['review-language']);
+  let date = new Date();
+  let reviewObj = {
+    title: escapeHTML(req.body['review-title']),
+    text: escapeHTML(req.body['review-text']),
+    url: encodeURI(req.body['review-url']),
+    html: md.render(req.body['review-text']),
+    createdAt: date,
+    createdBy: req.user.id,
+    starRating: Number(req.body['review-rating']),
+    language: escapeHTML(req.body['review-language'])
+  };
   return reviewObj;
 }
 

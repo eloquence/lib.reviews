@@ -6,7 +6,8 @@ pure CSS from LESS
 */
 @errorColor: red;
 @warningColor: #ff6600;
-@visitedColor: #006;
+@linkColor: #00e;
+@visitedColor: #009;
 @infoColor: #ccc;
 @headerColor: #414042;
 
@@ -16,6 +17,16 @@ pure CSS from LESS
   {
     display: none;
   }
+}
+#languages a,
+#main-body a {
+    text-decoration:none;
+    color: @linkColor;
+}
+
+#languages a:hover,
+#main-body a:hover {
+    text-decoration:underline;
 }
 
 #languages a:visited,
@@ -134,6 +145,10 @@ label {
 
 .spaced-icon {
   margin-right:0.4em;
+}
+
+.feed-icon {
+  width: 1.3em;
 }
 
 .star-holder, .star-full {
@@ -293,6 +308,17 @@ span#dismiss-draft-notice {
   font-size: small;
   font-style: normal;
 }
+
+#add-label {
+  font-size: small;
+  font-style: normal;
+}
+a#add-label, a#add-label:visited, a#add-label:hover {
+  color: black;
+  font-weight: bold;
+  text-decoration:none;
+}
+
 
 #preview-review-byline, .feed-review-byline {
   font-size: small;

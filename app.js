@@ -27,6 +27,7 @@ const actions = require('./routes/actions');
 const users = require('./routes/users');
 const pages = require('./routes/pages');
 const api = require('./routes/api');
+const things = require('./routes/things');
 const debug = require('./util/debug');
 
 // Auth setup
@@ -127,6 +128,7 @@ app.use('/', pages);
 app.use('/', reviews);
 app.use('/', languages);
 app.use('/', actions);
+app.use('/', things);
 //app.use('/user', users);
 
 // catch 404 and forward to error handler

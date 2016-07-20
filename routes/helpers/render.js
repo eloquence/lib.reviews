@@ -1,4 +1,5 @@
 'use strict';
+const languages = require('../../locales/languages');
 
 let render = {
   template: function(req, res, view, extraVars, extraConfig) {
@@ -26,14 +27,7 @@ let render = {
 
     // Mapping of languages keys against message keys that provide labels
     // for those languages
-    vars.languages = {
-      'de': {
-        messageKey: 'german'
-      },
-      'en': {
-        messageKey: 'english'
-      }
-    };
+    vars.languages = languages;
 
     if (vars.languages[req.locale])
       vars.languages[req.locale].currentLanguage = true;
@@ -48,6 +42,10 @@ let render = {
 
   signinRequired: function(req, res, extraVars) {
     this.template(req, res, 'signin-required', extraVars);
+  },
+
+  permissionError: function(req, res, extraVars) {
+    this.template(req, res, 'permission-error', extraVars);
   }
 
 };
