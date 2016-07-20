@@ -24,7 +24,7 @@
 </head>
 
 <body>
-
+<div class="nav">
     <div class="pure-g">
         <div class="pure-u-1-2">
             <a href="/" id="home-link" accesskey="h" title="{{__ "load frontpage"}}
@@ -56,9 +56,11 @@
     {{#unless deferPageHeader}}
     <h1 id="page-header">{{{__ titleKey }}}</h1>
     {{/unless}}
+</div>
     <div id="main-body">
     {{{body}}}
     </div>
+    <div id="footer">
     <div id="languages">{{{__ "change language" }}}
     <ul>
     {{#each languages}}
@@ -69,6 +71,7 @@
     </ul>
     <div id="freedom-notice">{{{__ "freedom"}}} <a href="/terms">{{{__ "terms"}}}</a> &ndash; <a href="https://github.com/eloquence/lib.reviews">{{__ "code"}}</a></div>
   </div>
+</div>
   <script type="text/javascript">
   {{{configScript}}}
   </script>

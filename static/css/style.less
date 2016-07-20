@@ -6,10 +6,32 @@ pure CSS from LESS
 */
 @errorColor: red;
 @warningColor: #ff6600;
-@linkColor: #00e;
-@visitedColor: #009;
+@linkColor: #4078c0;
+@visitedColor: #002C74;
 @infoColor: #ccc;
 @headerColor: #414042;
+@sideMargin: 2em;
+
+.nav {
+  background: #fafafa;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: @sideMargin;
+  padding-right: @sideMargin;
+  margin-bottom: 1em;
+  border-width: 1px;
+  border-color: #f2f2f2 ;
+  border-bottom-style:solid;
+}
+
+.nav h1 {
+  margin-bottom:0;
+}
+
+#main-body, #footer {
+  margin-left: @sideMargin;
+  margin-right: @sideMargin;
+}
 
 @media print
 {
@@ -34,9 +56,6 @@ pure CSS from LESS
     color: @visitedColor;
 }
 body {
-    margin-top: 1em;
-    margin-left: 2em;
-    margin-right: 2em;
     font-family: "Noto Sans", sans-serif;
 }
 #languages {
