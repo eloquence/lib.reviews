@@ -24,3 +24,4 @@ Review        | Rezension
 Notification  | Benachrichtigung
 Community     | Gemeinschaft
 Log file      | Protokoll
+Link          | Link

@@ -106,5 +106,6 @@
     "save": "Save",
     "cancel": "Cancel",
     "review of": "Review: %s",
-    "permission error": "You do not have permission to perform this action."
+    "permission error": "You do not have permission to perform this action.",
+    "permanent link": "Permanent link"
 }

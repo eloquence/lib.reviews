@@ -16,4 +16,9 @@
 {{{this.html}}}
 </div>
 <p>
-<div class="review-byline">{{{__ "review byline" this.creator.displayName this.createdAt}}}</div>
+<div class="review-byline">
+{{{__ "review byline" this.creator.displayName this.createdAt}}}
+{{#if feed}}
+<a href="/review/{{this.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a>
+{{/if}}
+</div>

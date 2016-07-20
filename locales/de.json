@@ -106,5 +106,6 @@
     "save": "Speichern",
     "cancel": "Abbrechen",
     "review of": "Rezension: %s",
-    "permission error": "Du bist nicht berechtigt, diese Funktion zu nutzen."
+    "permission error": "Du bist nicht berechtigt, diese Funktion zu nutzen.",
+    "permanent link": "Permanenter Link"
 }

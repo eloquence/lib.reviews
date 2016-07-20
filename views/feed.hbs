@@ -1,7 +1,7 @@
 <div id="feed">
 {{#each feedItems}}
 <div id="review-{{this.id}}" class="feed-review">
-{{> review }}
+{{> review feed=true}}
 </div>
 {{#unless @last}}
 <hr class="feed-separator">
