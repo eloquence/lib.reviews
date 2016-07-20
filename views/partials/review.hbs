@@ -1,0 +1,19 @@
+<div class="review-rating">
+{{#times this.starRating}}
+{{!per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
+<img src="/static/img/star-{{../this.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../../this.starRating}}}"{{/if}}>
+{{/times}}
+</div>
+<div class="feed-item-header">{{{__ "review of" this.thing.label}}}</div>
+{{#if this.thing.urls.[0]}}
+<div id="review-url"><span class="fa fa-external-link review-icon"></span>{{{link this.thing.urls.[0] (prettify this.thing.urls.[0])}}}</div>
+{{/if}}
+{{#if this.thing.id}}
+<div id="review-thing-link"><span class="fa fa-info-circle review-icon"></span><a href="/thing/{{this.thing.id}}">{{{__ "more info"}}}</a></div>
+{{/if}}
+<div class="review-title">{{{this.title}}}</div>
+<div class="review-text">
+{{{this.html}}}
+</div>
+<p>
+<div class="review-byline">{{{__ "review byline" this.creator.displayName this.createdAt}}}</div>

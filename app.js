@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const i18n = require('i18n');
 const hbs = require('hbs'); // handlebars templating
+const hbsutils = require('hbs-utils')(hbs);
 const lessMiddleware = require('less-middleware');
 const thinky = require('./db');
 const r = thinky.r;
@@ -50,6 +51,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+hbsutils.registerWatchedPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
 // Ensure we have current request locale available to i18n

@@ -19,6 +19,7 @@
     "express-session": "^1.13.0",
     "express-useragent": "^0.2.4",
     "hbs": "~3.1.0",
+    "hbs-utils": "0.0.3",
     "i18n": "^0.8.2",
     "less-middleware": "1.0.x",
     "markdown-it": "^7.0.0",
