@@ -24,8 +24,7 @@
 {{{this.html}}}
 </div>
 <p>
-<div class="review-byline">
-{{{__ "review byline" this.creator.displayName this.createdAt}}}
+<div class="review-actions">
 {{#if feed}}
 &nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a></span>
 {{/if}}
@@ -37,4 +36,7 @@
 {{#if this.userCanEdit}}
 &nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span>
 {{/if}}
+</div>
+<div class="review-byline">
+{{{__ "review byline" this.creator.displayName this.createdAt}}}
 </div>
