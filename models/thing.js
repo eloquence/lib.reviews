@@ -45,7 +45,36 @@ Thing.define("archiveCurrentRevision", function() {
   return thing.save();
 });
 
+// For more convenient access, we can reformat the document to resolve all
+// multilingual strings to a single value.
+Thing.define("resolveStrings", function(langKey) {
 
+  // The ['key'] syntax is a shorthand for keys in the schema that are arrays
+  // of multilingual strings.
+  const mlStrings = ['label', 'description', ['aliases']];
+  mlStrings.forEach(key => {
+    // Resolve all strings contained in array to the value appropriate for locale
+    if (Array.isArray(key) && Array.isArray(this[key[0]])) {
+      this[key[0]].forEach(mlStr => {
+        mlStr = mlString.resolve(langKey, mlStr);
+      });
+    // Resolve all strings in single fields to the value appropriate for locale
+    } else {
+      this[key] =  mlString.resolve(langKey, this[key]);
+    }
+  });
+});
+
+Thing.define("populateRights", function(user) {
+  if (!user)
+    return; // permissions will be "undefined", which evaluates to false
+
+  // For now, we don't let users delete things they've created, since things are collaborative in nature
+  this.userCanDelete = user.isModerator ? true : false;
+
+  this.userCanEdit = user.isEditor ? true : false;
+
+});
 
 function isValidURL(url) {
   let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/;

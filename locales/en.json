@@ -111,6 +111,13 @@
     "permission error": "You do not have permission to perform this action.",
     "permanent link": "Permanent link",
     "something went wrong": "Whoops! Something went wrong here.",
-    "report an error": "We log all errors of this kind, but you can help us out by reporting what you did when you got this error. You can <a href='https://github.com/eloquence/lib.reviews/issues'>file an issue</a> on GitHub and we'll look into it, promise!",
-    "error details": "Please include the following in your report:"
+    "report an error": "We log all errors of this kind, but you can help us out by reporting what you did when you got this error. You can <a href='https://github.com/eloquence/lib.reviews/issues/new'>file an issue</a> on GitHub and we'll look into it, promise!",
+    "error details": "Please include the following in your report:",
+    "delete": "Delete",
+    "page not found title": "Page not found",
+    "page not found": "There doesn't appear to be anything here. If you think this is a bug, you can <a href='https://github.com/eloquence/lib.reviews/issues/new'>report it</a>.",
+    "delete review": "Delete review",
+    "edit review": "Edit review",
+    "delete preamble": "Proceed only if you are certain that you want to delete the review below. Once it is gone, only an administrator can recover it, and it may be permanently removed as part of routine database cleanup.",
+    "also delete thing": "Also delete associated <a href='/thing/%s'>thing</a>"
 }

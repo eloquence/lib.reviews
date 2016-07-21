@@ -134,11 +134,13 @@ app.use('/', actions);
 app.use('/', things);
 //app.use('/user', users);
 
-// catch 404 and forward to error handler
+// catch 404
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  render.template(req, res, '404', {
+    titleKey: 'page not found title'
+  });
 });
 
 app.use(function(error, req, res, next) {

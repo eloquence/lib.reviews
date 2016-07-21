@@ -108,6 +108,16 @@
     "save": "Speichern",
     "cancel": "Abbrechen",
     "review of": "Rezension: %s",
-    "permission error": "Du bist nicht berechtigt, diese Funktion zu nutzen.",
-    "permanent link": "Permanenter Link"
+    "permission error": "Du bist nicht berechtigt, diese Handlung auszuf&uuml;hren.",
+    "permanent link": "Permanenter Link",
+    "something went wrong": "Huch, hier ist etwas schief gegangen.",
+    "report an error": "Wir protokollieren alle Fehler dieses Typs, aber du kannst uns helfen, indem du uns eine <a href='https://github.com/eloquence/lib.reviews/issues/new'>Fehlermeldung</a> schickst. Bitte teile uns mit, was zu dem Fehler gef&uuml;hrt hat. Wir werden umgehend reagieren, versprochen!",
+    "error details": "Bitte kopiere die folgenden Details in deinen Fehlerbericht:",
+    "delete": "L&ouml;schen",
+    "page not found title": "Seite nicht gefunden",
+    "page not found": "Es scheint nichts hier zu sein. Wenn du glaubst, dass dies ein Fehler ist, kannst du uns eine <a href='https://github.com/eloquence/lib.reviews/issues/new'>Fehlermeldung</a> schicken.",
+    "delete review": "Rezension l&ouml;schen",
+    "edit review": "Rezension bearbeiten",
+    "delete preamble": "Fahre nur fort, wenn du sicher bist, dass du die untenstehende Rezension l&ouml;schen m&ouml;chtest. Sobald sie weg ist, kann nur ein Administrator sie wieder herstellen, und sie kann als Bestandteil routinem&auml;&szlig;iger Datenbankwartung permanent gel&ouml;scht werden.",
+    "also delete thing": "Auch verkn&uuml;pftes <a href='/thing/%s'>Ding</a> l&ouml;schen"
 }

@@ -48,7 +48,7 @@ const formDefs = {
   }]
 };
 
-router.get('/feed', function(req, res) {
+router.get('/feed', function(req, res, next) {
   Review.orderBy({
     index: r.desc('createdAt')
   }).limit(10).getJoin({
@@ -59,6 +59,8 @@ router.get('/feed', function(req, res) {
     }
   }).then(feedItems => {
     for (let item of feedItems) {
+      item.populateRights(req.user);
+
       if (item.thing && item.thing.label) {
         item.thing.label = mlString.resolve(req.locale, item.thing.label);
       }
@@ -67,30 +69,63 @@ router.get('/feed', function(req, res) {
       titleKey: 'feed',
       feedItems
     });
+  }).catch(error => {
+    next(error);
   });
 });
 
 router.get('/review/:id', function(req, res, next) {
   let id = req.params.id.trim();
-  Review.get(id)
-    .getJoin({
-      thing: true
-    })
-    .getJoin({
-      creator: {
-        _apply: seq => seq.without('password')
-      }
-    }).then(review => {
-      review.thing.label = mlString.resolve(req.locale, review.thing.label);
+
+  Review.getWithData(id).then(review => {
+      review.thing.resolveStrings(req.locale);
+      review.populateRights(req.user);
       sendReview(req, res, review);
     })
-    .catch(error => {
-      if (error.name == 'DocumentNotFoundError')
-        sendReviewNotFound(req, res, id);
-      else {
-        next(error);
-      }
-    });
+    .catch(getReviewNotFoundHandler(req, res, next, id));
+});
+
+router.get('/review/:id/delete', function(req, res, next) {
+  let id = req.params.id.trim();
+  Review.getWithData(id).then(review => {
+    review.thing.resolveStrings(req.locale);
+    review.thing.populateRights(req.user);
+    review.populateRights(req.user);
+    if (!review.userCanDelete) {
+      return render.permissionError(req, res, {
+        titleKey: 'delete review'
+      });
+    } else {
+      sendDeleteReview(req, res, review);
+    }
+  }).catch(getReviewNotFoundHandler(req, res, next, id));
+});
+
+router.post('/review/:id/delete', function(req, res, next) {
+  let id = req.params.id.trim();
+  Review.getWithData(id).then(review => {
+    review.thing.resolveStrings(req.locale);
+    review.thing.populateRights(req.user);
+    review.populateRights(req.user);
+    // Delete logic
+    res.send('tbd');
+
+  }).catch(getReviewNotFoundHandler(req, res, next, id));
+});
+
+router.get('/review/:id/edit', function(req, res, next) {
+  let id = req.params.id.trim();
+  Review.getWithData(id).then(review => {
+    review.thing.resolveStrings(req.locale);
+    review.populateRights(req.user);
+    if (!review.userCanEdit) {
+      return render.permissionError(req, res, {
+        titleKey: 'edit review'
+      });
+    } else {
+      res.send('tbd');
+    }
+  }).catch(getReviewNotFoundHandler(req, res, next, id));
 });
 
 router.get('/new', function(req, res) {
@@ -183,14 +218,21 @@ function getPreview(req) {
 function sendReview(req, res, review, edit) {
   let errors = req.flash('errors');
 
-  // // For convenient access to labels in current language
-  // review.thing.label = mlString.resolve(req.locale, thing.label);
-
   render.template(req, res, 'review', {
     titleKey: edit ? edit.titleKey : 'review of',
     titleParam: review.thing && review.thing.label ? review.thing.label : prettifyURL(review.thing.urls[0]),
     reviews: [review],
     edit,
+    errors
+  });
+}
+
+function sendDeleteReview(req, res, review) {
+  let errors = req.flash('errors');
+
+  render.template(req, res, 'delete-review', {
+    titleKey: 'delete review',
+    reviews: [review],
     errors
   });
 }
@@ -207,6 +249,16 @@ function prettifyURL(url) {
   return url
     .replace(/^.*?:\/\//, '') // strip protocol
     .replace(/\/$/, ''); // remove trailing slashes for display only
+}
+
+function getReviewNotFoundHandler(req, res, next, id) {
+  return function(error) {
+    if (error.name == 'DocumentNotFoundError')
+      sendReviewNotFound(req, res, id);
+    else {
+      next(error);
+    }
+  };
 }
 
 module.exports = router;

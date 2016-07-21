@@ -7,7 +7,7 @@
   <input type="hidden" value="{{csrfToken}}" name="_csrf">
   <input type="hidden" name="thing-label-language" value="{{currentLanguage}}">
   <button type="submit" id="save" name="thing-action" value="save" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "save"}}}</button>
-  <a href="/thing/{{thing.id}}">{{__ "cancel"}}</a>
+  <a class="cancel-link" href="/thing/{{thing.id}}">{{__ "cancel"}}</a>
   </form>
   <p>
 {{else}}

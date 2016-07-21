@@ -132,7 +132,7 @@ body {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.message {
+.message-box {
   padding: 20px;
   margin: 20px 0;
   border: 1px solid #eee;
@@ -141,6 +141,14 @@ body {
   border-left-color: green;
 }
 
+.warning-box {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  border-left-color: @warningColor;
+}
 
 .button-cta {
   background: rgb(66, 184, 221); /* this is a light blue */
@@ -390,4 +398,17 @@ hr.feed-separator {
 .stack-trace {
   font-family: monospace;
   white-space: pre-wrap;
+}
+
+.review-action {
+  white-space: nowrap;
+}
+
+.delete-preamble {
+  margin-bottom:1em;
+}
+
+.cancel-link {
+  margin-left:1em;
+  font-style:italic;
 }

@@ -27,6 +27,14 @@
 <div class="review-byline">
 {{{__ "review byline" this.creator.displayName this.createdAt}}}
 {{#if feed}}
-<a href="/review/{{this.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a>
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a></span>
+{{/if}}
+{{#unless hideDeleteControls}}
+{{#if this.userCanDelete}}
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}/delete"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a></span>
+{{/if}}
+{{/unless}}
+{{#if this.userCanEdit}}
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span>
 {{/if}}
 </div>

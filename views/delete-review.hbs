@@ -1,0 +1,21 @@
+{{#each reviews}}
+<div class="warning-box">
+  <div class="delete-preamble">
+  {{{__ "delete preamble"}}}
+  </div>
+  <form class="pure-form pure-form-aligned" method="post">
+  {{#if this.thing.userCanDelete}}
+  <input type="checkbox" name="delete-thing" id="delete-thing">
+  <label for="delete-thing" class="inline-label">{{{__ "also delete thing" this.thing.id}}}</label><p>
+  {{/if}}
+  <input type="hidden" value="{{../csrfToken}}" name="_csrf">
+  <button type="submit" id="delete" name="delete" value="delete" class="pure-button button-destructive button-rounded" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-trash-o spaced-icon"></span> {{{__ "delete"}}}</button>
+  <a class="cancel-link" href="/review/{{this.id}}">{{{__ "cancel"}}}</a>
+  </form>
+  <p>
+
+</div>
+<div class="review">
+{{> review hideDeleteControls=true}}
+</div>
+{{/each}}

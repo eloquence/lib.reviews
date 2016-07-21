@@ -49,6 +49,20 @@ User.define("setPassword", function(password) {
     this.password = bcrypt.hashSync(password);
 });
 
+User.define("canDeleteReview", function(review) {
+  if (this.isModerator || (this.id && this.id === review.createdBy))
+    return true;
+  else
+    return false;
+});
+
+User.define("canEditReview", function(review) {
+  // Identical permissions for now. Maybe later "editor" group will be able
+  // to edit, or translate, but for now editors can only edit things (since they
+  // are inherently collaborative).
+  return this.canDeleteReview(review);
+});
+
 User.define("checkPassword", function(password) {
   return bcrypt.compareSync(password, this.password);
 });

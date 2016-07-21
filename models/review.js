@@ -41,6 +41,14 @@ Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
 Review.ensureIndex("createdAt");
 
+Review.define("populateRights", function(user) {
+  if (!user)
+    return; // permissions will be "undefined", which evaluates to false
+
+  this.userCanDelete = user.canDeleteReview(this);
+  this.userCanEdit = user.canEditReview(this);
+});
+
 Review.create = function(reviewObj) {
   return new Promise((resolve, reject) => {
     Review
@@ -111,6 +119,18 @@ Review.findOrCreateThing = function(reviewObj) {
       reject(error);
     });
   });
+};
+
+Review.getWithData = function(id) {
+  return Review.get(id)
+    .getJoin({
+      thing: true
+    })
+    .getJoin({
+      creator: {
+        _apply: seq => seq.without('password')
+      }
+    });
 };
 
 function isValidLanguage(lang) {

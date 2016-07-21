@@ -13,7 +13,7 @@ const debug = {
   // }
   error: function(errorObj) {
     let log = debugModule('libreviews:error');
-    if (!errorObj.context && errorObj.req)
+    if (!errorObj.context && errorObj.req && errorObj.req.route)
       errorObj.context = `Route ${errorObj.req.route.path}`;
 
     log(`Error occurred in context <${errorObj.context || 'unknown'}>.`);
