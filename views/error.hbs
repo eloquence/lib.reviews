@@ -1,3 +1,7 @@
-<h1>{{message}}</h1>
-<h2>{{error.status}}</h2>
-<pre>{{error.stack}}</pre>
+{{{__ "report an error"}}}
+{{#if showDetails}}
+  {{{__ "error details"}}}
+  <div class="stack-trace">
+  {{error.stack}}
+  </div>
+{{/if}}

@@ -30,6 +30,7 @@ const pages = require('./routes/pages');
 const api = require('./routes/api');
 const things = require('./routes/things');
 const debug = require('./util/debug');
+const render = require('./routes/helpers/render');
 
 // Auth setup
 require('./auth');
@@ -140,29 +141,28 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
+app.use(function(error, req, res, next) {
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+  debug.error({
+    context: undefined,
+    req,
+    error
   });
-}
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
+  let showDetails;
+  if (app.get('env') === 'development')
+    showDetails = true;
+  else
+    showDetails = (req.user && req.user.showErrors);
+
+  res.status(error.status || 500);
+  render.template(req, res, 'error', {
+    titleKey: 'something went wrong',
+    showDetails,
+    error
   });
 });
+
 
 let mode = app.get('env') == 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
 debug.app(`Running in ${mode} mode.`);

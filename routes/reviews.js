@@ -85,7 +85,11 @@ router.get('/review/:id', function(req, res, next) {
       sendReview(req, res, review);
     })
     .catch(error => {
-      sendReviewNotFound(req, res, id);
+      if (error.name == 'DocumentNotFoundError')
+        sendReviewNotFound(req, res, id);
+      else {
+        next(error);
+      }
     });
 });
 

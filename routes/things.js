@@ -15,7 +15,10 @@ router.get('/thing/:id', function(req, res, next) {
       sendThing(req, res, thing);
     })
     .catch(error => {
-      sendThingNotFound(req, res, id);
+      if (error.name == 'DocumentNotFoundError')
+        sendThingNotFound(req, res, id);
+      else
+        next(error);
     });
 });
 
@@ -40,7 +43,10 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
       sendThing(req, res, thing, edit);
     })
     .catch(error => {
-      sendThingNotFound(req, res, id);
+      if (error.name == 'DocumentNotFoundError')
+        sendThingNotFound(req, res, id);
+      else
+        next(error);
     });
 });
 
@@ -69,7 +75,10 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
         });
     })
     .catch(error => {
-      sendThingNotFound(req, res, id);
+      if (error.name == 'DocumentNotFoundError')
+        sendThingNotFound(req, res, id);
+      else
+        next(error);
     });
 });
 

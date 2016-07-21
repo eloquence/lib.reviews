@@ -13,17 +13,23 @@ const debug = {
   // }
   error: function(errorObj) {
     let log = debugModule('libreviews:error');
+    if (!errorObj.context && errorObj.req)
+      errorObj.context = `Route ${errorObj.req.route.path}`;
+
     log(`Error occurred in context <${errorObj.context || 'unknown'}>.`);
+    if (errorObj && errorObj.req) {
+      log(`Request method: ${errorObj.req.method} - URL: ${errorObj.req.originalUrl}`);
+      if (errorObj.req.method !== 'GET') {
+        log('Request body:');
+        if (typeof errorObj.req.body == "object")
+          log(JSON.stringify(errorObj.req.body, null, 2));
+        else
+          log (errorObj.req.body.toString());
+      }
+    }
     if (errorObj && errorObj.error) {
       log('Stacktrace:');
       log(errorObj.error.stack);
-    }
-    if (errorObj &&errorObj.req) {
-      log('Request body was:');
-      if (typeof errorObj.req.body == "object")
-        log(JSON.stringify(errorObj.req.body, null, 2));
-      else
-        log (errorObj.req.body.toString());
     }
   }
 };
