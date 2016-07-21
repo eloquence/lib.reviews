@@ -1,9 +1,10 @@
 <div class="review-rating">
+{{!Star rating. Per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
 {{#times this.starRating}}
-{{!per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
 <img src="/static/img/star-{{../this.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../../this.starRating}}}"{{/if}}>
 {{/times}}
 </div>
+{{!We show a little headline identifying the item type in the feed view, but nowhere else}}
 {{#if feed}}
   <div class="feed-item-header">
   {{#if this.thing.label}}
@@ -13,19 +14,23 @@
   {{/if}}
   </div>
 {{/if}}
+{{!Show prettified URL, if available}}
 {{#if this.thing.urls.[0]}}
 <div id="review-url"><span class="fa fa-external-link review-icon"></span>{{{link this.thing.urls.[0] (prettify this.thing.urls.[0])}}}</div>
 {{/if}}
+{{!Show basic info and link for more. Link for more becomes call-to action if there isn't more :-)}}
 {{#if this.thing.id}}
 <div id="review-thing-link">
 {{#if this.thing.hasInfo}}<span class="fa fa-info-circle review-icon"></span>{{else}}<span class="fa fa-pencil review-icon"></span>{{/if}}<a href="/thing/{{this.thing.id}}">{{#if this.thing.hasInfo}}{{{__ "more info"}}}{{else}}{{{__ "add info"}}}{{/if}}</a>
 </div>
 {{/if}}
+{{!The actual review!}}
 <div class="review-title">{{{this.title}}}</div>
 <div class="review-text">
 {{{this.html}}}
 </div>
 <p>
+{{!Review actions: Delete, edit, permanent link}}
 <div class="review-actions">
 {{#if feed}}
 &nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a></span>
@@ -39,6 +44,7 @@
 &nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span>
 {{/if}}
 </div>
+{{! Date and author}}
 <div class="review-byline">
 {{{__ "review byline" this.creator.displayName this.createdAt}}}
 </div>
