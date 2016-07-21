@@ -28,6 +28,10 @@ let Review = thinky.createModel("reviews", {
   createdAt: type.date().required(true),
   createdBy: type.string().uuid(4).required(true),
 
+  // These can only be populated from the outside using a user object
+  userCanDelete: type.virtual().default(false),
+  userCanEdit: type.virtual().default(false),
+
   // Versioning information
   _revUser: type.string().required(true),
   _revDate: type.date().required(true),

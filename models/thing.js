@@ -31,6 +31,10 @@ let Thing = thinky.createModel("things", {
 
   hasInfo: type.virtual().default(hasInfo), // Helper for determining whether this is more than a single URL
 
+  // These can only be populated from the outside using a user object
+  userCanDelete: type.virtual().default(false),
+  userCanEdit: type.virtual().default(false),
+
   // Versioning information
   _revUser: type.string().required(true),
   _revDate: type.date().required(true),
