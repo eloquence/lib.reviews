@@ -29,6 +29,8 @@ let Thing = thinky.createModel("things", {
   createdAt: type.date().required(true),
   createdBy: type.string().uuid(4).required(true),
 
+  hasInfo: type.virtual().default(hasInfo), // Helper for determining whether this is more than a single URL
+
   // Versioning information
   _revUser: type.string().required(true),
   _revDate: type.date().required(true),
@@ -44,6 +46,14 @@ Thing.define("archiveCurrentRevision", function() {
   thing.id = undefined;
   return thing.save();
 });
+
+function hasInfo() {
+  if ((!this.urls || this.urls.length == 1) &&
+    !this.label && !this.aliases && !this.description && !this.slugs && !this.isA)
+    return false;
+  else
+    return true;
+}
 
 // For more convenient access, we can reformat the document to resolve all
 // multilingual strings to a single value.

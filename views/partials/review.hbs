@@ -17,7 +17,9 @@
 <div id="review-url"><span class="fa fa-external-link review-icon"></span>{{{link this.thing.urls.[0] (prettify this.thing.urls.[0])}}}</div>
 {{/if}}
 {{#if this.thing.id}}
-<div id="review-thing-link"><span class="fa fa-info-circle review-icon"></span><a href="/thing/{{this.thing.id}}">{{{__ "more info"}}}</a></div>
+<div id="review-thing-link">
+{{#if this.thing.hasInfo}}<span class="fa fa-info-circle review-icon"></span>{{else}}<span class="fa fa-pencil review-icon"></span>{{/if}}<a href="/thing/{{this.thing.id}}">{{#if this.thing.hasInfo}}{{{__ "more info"}}}{{else}}{{{__ "add info"}}}{{/if}}</a>
+</div>
 {{/if}}
 <div class="review-title">{{{this.title}}}</div>
 <div class="review-text">
