@@ -45,41 +45,64 @@ const formDefs = {
   }, {
     name: 'review-action', // Logic, not saved
     required: true
+  }],
+  'delete': [{
+    name: 'delete-action',
+    required: true,
+  }, {
+    name: 'delete-thing',
+    required: false
   }]
 };
 
 router.get('/feed', function(req, res, next) {
-  Review.orderBy({
-    index: r.desc('createdAt')
-  }).limit(10).getJoin({
-    thing: true
-  }).getJoin({
-    creator: {
-      _apply: seq => seq.without('password')
-    }
-  }).then(feedItems => {
-    for (let item of feedItems) {
-      item.populateRights(req.user);
-
-      if (item.thing && item.thing.label) {
-        item.thing.label = mlString.resolve(req.locale, item.thing.label);
+  Review
+    .orderBy({
+      index: r.desc('createdAt')
+    })
+    .filter(r.row('_revDeleted').eq(false), {  // Exclude deleted rows
+      default: true
+    })
+    .filter(r.row('_revOf').eq(false), { // Exclude old versions
+      default: true
+    })
+    .limit(10)
+    .getJoin({
+      thing: true
+    })
+    .getJoin({
+      creator: {
+        _apply: seq => seq.without('password')
       }
-    }
-    render.template(req, res, 'feed', {
-      titleKey: 'feed',
-      feedItems
+    })
+    .then(feedItems => {
+      for (let item of feedItems) {
+        item.populateUserInfo(req.user);
+        if (item.thing) {
+          item.thing.populateUserInfo(req.user);
+          if (item.thing.label)
+            item.thing.label = mlString.resolve(req.locale, item.thing.label);
+        }
+      }
+      render.template(req, res, 'feed', {
+        titleKey: 'feed',
+        feedItems
+      });
+    })
+    .catch(error => {
+      next(error);
     });
-  }).catch(error => {
-    next(error);
-  });
 });
 
 router.get('/review/:id', function(req, res, next) {
   let id = req.params.id.trim();
 
   Review.getWithData(id).then(review => {
+      if (review._revDeleted)
+        return sendReviewNotFound(req, res, id);
       review.thing.resolveStrings(req.locale);
-      review.populateRights(req.user);
+      review.thing.populateUserInfo(req.user);
+      review.populateUserInfo(req.user);
       sendReview(req, res, review);
     })
     .catch(getReviewNotFoundHandler(req, res, next, id));
@@ -88,27 +111,52 @@ router.get('/review/:id', function(req, res, next) {
 router.get('/review/:id/delete', function(req, res, next) {
   let id = req.params.id.trim();
   Review.getWithData(id).then(review => {
+    if (review._revDeleted)
+      return sendReviewNotFound(req, res, id);
     review.thing.resolveStrings(req.locale);
-    review.thing.populateRights(req.user);
-    review.populateRights(req.user);
-    if (!review.userCanDelete) {
-      return render.permissionError(req, res, {
-        titleKey: 'delete review'
-      });
-    } else {
+    review.thing.populateUserInfo(req.user);
+    review.populateUserInfo(req.user);
+    if (!review.userCanDelete)
+      return sendPermissionError(req, res);
+    else
       sendDeleteReview(req, res, review);
-    }
   }).catch(getReviewNotFoundHandler(req, res, next, id));
 });
 
 router.post('/review/:id/delete', function(req, res, next) {
   let id = req.params.id.trim();
   Review.getWithData(id).then(review => {
-    review.thing.resolveStrings(req.locale);
-    review.thing.populateRights(req.user);
-    review.populateRights(req.user);
-    // Delete logic
-    res.send('tbd');
+    if (review._revDeleted)
+      return sendReviewNotFound(req, res, id);
+    review.thing.populateUserInfo(req.user);
+    review.populateUserInfo(req.user);
+    if (!review.userCanDelete)
+      return sendPermissionError(req, res);
+    else {
+
+      let formInfo = forms.parseSubmission({
+        req,
+        formDef: formDefs['delete'],
+        formKey: 'delete-review'
+      });
+
+      if (req.flashHasErrors())
+        return sendDeleteReview(req, res, review);
+
+      let options = {};
+      if (req.body['delete-thing']) {
+        options.deleteAssociatedThing = true;
+      }
+      // Delete logic
+      review.deleteAllRevisions(req.user, options).then(() => {
+        return render.template(req, res, 'review-deleted', {
+          titleKey: 'review deleted'
+        });
+      }).catch(err => {
+        next(err);
+      });
+
+    }
 
   }).catch(getReviewNotFoundHandler(req, res, next, id));
 });
@@ -116,8 +164,10 @@ router.post('/review/:id/delete', function(req, res, next) {
 router.get('/review/:id/edit', function(req, res, next) {
   let id = req.params.id.trim();
   Review.getWithData(id).then(review => {
+    if (review._revDeleted)
+      return sendReviewNotFound(req, res, id);
     review.thing.resolveStrings(req.locale);
-    review.populateRights(req.user);
+    review.populateUserInfo(req.user);
     if (!review.userCanEdit) {
       return render.permissionError(req, res, {
         titleKey: 'edit review'
@@ -259,6 +309,12 @@ function getReviewNotFoundHandler(req, res, next, id) {
       next(error);
     }
   };
+}
+
+function sendPermissionError(req, res) {
+  render.permissionError(req, res, {
+    titleKey: 'delete review'
+  });
 }
 
 module.exports = router;

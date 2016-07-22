@@ -35,6 +35,7 @@ let Thing = thinky.createModel("things", {
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
   userCanEdit: type.virtual().default(false),
+  userIsCreator: type.virtual().default(false),
 
   // Versioning information
   _revUser: type.string().required(true),
@@ -72,6 +73,7 @@ Thing.define("newRevision", function(user) {
   });
 });
 
+
 // For more convenient access, we can reformat the document to resolve all
 // multilingual strings to a single value.
 Thing.define("resolveStrings", function(langKey) {
@@ -92,14 +94,15 @@ Thing.define("resolveStrings", function(langKey) {
   });
 });
 
-Thing.define("populateRights", function(user) {
+Thing.define("populateUserInfo", function(user) {
   if (!user)
     return; // Permissions will be at their default value (false)
 
   // For now, we don't let users delete things they've created,
   // since things are collaborative in nature
   this.userCanDelete = user.isModerator ? true : false;
-  this.userCanEdit = user.isEditor || user.id == this.createdBy ? true : false;
+  this.userCanEdit = user.isEditor || user.id && user.id === this.createdBy ? true : false;
+  this.userIsCreator = user.id && user.id === this.createdBy ? true : false;
 
 });
 
@@ -127,7 +130,7 @@ function _isValidURL(url) {
 
 function _hasInfo() {
   if ((!this.urls || this.urls.length == 1) &&
-    !this.label && !this.aliases && !this.description && !this.slugs && !this.isA)
+    !this.aliases && !this.description && !this.slugs && !this.isA)
     return false;
   else
     return true;

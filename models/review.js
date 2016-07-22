@@ -31,6 +31,7 @@ let Review = thinky.createModel("reviews", {
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
   userCanEdit: type.virtual().default(false),
+  userIsAuthor: type.virtual().default(false),
 
   // Versioning information
   _revUser: type.string().required(true),
@@ -38,20 +39,107 @@ let Review = thinky.createModel("reviews", {
   _revID: type.string().uuid(4).required(true), // Set this for all revisions, including current
   _revOf: type.string(), // Only set if it's an old revision of an existing thing
   _revDeleted: type.boolean(), // Set to true for all deleted revisions (not all revisions have to be deleted)
-
+  _revTags: [type.string()] // Optional tags to describe action performed through this revision, e.g. edit, delete, etc.
 });
 
 Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
 Review.ensureIndex("createdAt");
 
-Review.define("populateRights", function(user) {
+Review.define("populateUserInfo", function(user) {
   if (!user)
-    return; // permissions will be "undefined", which evaluates to false
+    return; // fields will be at their default value (false)
 
   this.userCanDelete = user.canDeleteReview(this);
   this.userCanEdit = user.canEditReview(this);
+  this.userIsAuthor = user.id && user.id === this.createdBy;
 });
+
+Review.define("newRevision", function(user, options) {
+  if (!options)
+    options = {};
+
+  // This promise is fulfilled when a new revision is _ready_ to be saved.
+  // It's not saved yet, so we can actually change it!
+  return new Promise((resolve, reject) => {
+    let newRev = this;
+    // Archive current revision
+    let oldRev = new Review(newRev);
+    oldRev._revOf = newRev.id;
+    oldRev.id = undefined;
+    oldRev.save().then(() => {
+      r.uuid().then(uuid => {
+        newRev._revID = uuid;
+        newRev._revUser = user.id;
+        newRev._revDate = new Date();
+        newRev._revTags = options.tags ? options.tags : undefined;
+        resolve(newRev);
+      }).catch(err => { // Problem with new rev
+        reject(err);
+      });
+    }).catch(err => { // Problem saving old rev
+      reject(err);
+    });
+  });
+});
+
+Review.define("deleteAllRevisions", function(user, options) {
+
+  if (!options)
+    options = {};
+
+  let id = this.id;
+  let thingID = this.thingID;
+  let tags = ['delete'];
+
+  // We return at least p1, and p2 if the associated thing is deleted as well.
+  // p1 is fulfilled when all revisions of the review have been deleted.
+  // p2 and p3 are fulfilled when all revisions of the associated thing have been deleted.
+  let p1, p2, p3;
+
+  if (options.deleteAssociatedThing)
+    tags.push('delete-with-thing');
+
+  p1 = new Promise((resolve, reject) => {
+    this.newRevision(user, {
+        tags
+      })
+      .then(newRev => {
+        newRev._revDeleted = true;
+        newRev
+          .save()
+          .then(() => {
+            resolve(Review
+              .filter({
+                _revOf: id
+              })
+              .update({
+                _revDeleted: true
+              }));
+          });
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+  if (options.deleteAssociatedThing) {
+    p2 = Thing
+      .filter({
+        _revOf: thingID
+      })
+      .update({
+        _revDeleted: true
+      });
+    p3 = Thing
+      .get(thingID)
+      .update({
+        _revDeleted: true
+      });
+    return Promise.all([p1, p2, p3]);
+  } else
+    return p1;
+});
+
 
 Review.create = function(reviewObj) {
   return new Promise((resolve, reject) => {

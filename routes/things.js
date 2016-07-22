@@ -13,7 +13,7 @@ router.get('/thing/:id', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
-      thing.populateRights(req.user);
+      thing.populateUserInfo(req.user);
       sendThing(req, res, thing);
     })
     .catch(error => {
@@ -33,7 +33,7 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
-      thing.populateRights(req.user);
+      thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
         return render.permissionError(req, res, {
           titleKey: 'edit label'
@@ -58,7 +58,7 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
-      thing.populateRights(req.user);
+      thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
         return render.permissionError(req, res, {
           titleKey: 'edit label'
