@@ -1,13 +1,13 @@
 {{#if this.thing.userCanEdit}}
 {{#if this.userIsAuthor}}
-<span class="fa fa-pencil review-icon"></span><a href="/thing/{{this.thing.id}}">{{__ "add info"}}</a>
+<span class="fa fa-pencil review-icon"></span><a href="/thing/{{this.thing.id}}">{{{__ "add info"}}}</a>
 {{else}}
-<span class="fa fa-pencil review-icon"></span><a href="/thing/{{this.thing.id}}">{{__ "add review or info"}}</a>
+<span class="fa fa-pencil review-icon"></span><a href="/thing/{{this.thing.id}}">{{{__ "add review or info"}}}</a>
 {{/if}}
 {{else}}
 {{#if this.userIsAuthor}}
-<span class="fa fa-info-circle review-icon"></span><a href="/thing/{{this.thing.id}}">{{__ "more info"}}</a>
+<span class="fa fa-info-circle review-icon"></span><a href="/thing/{{this.thing.id}}">{{{__ "more info"}}}</a>
 {{else}}
-<span class="fa fa-pencil review-icon"></span><a href="/thing/{{this.thing.id}}#add-review">{{__ "add your review"}}</a>
+<span class="fa fa-pencil review-icon"></span><a href="/thing/{{this.thing.id}}#add-review">{{{__ "add your review"}}}</a>
 {{/if}}
 {{/if}}
