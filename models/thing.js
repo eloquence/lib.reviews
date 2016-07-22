@@ -1,5 +1,6 @@
 'use strict';
 const thinky = require('../db');
+const r = thinky.r;
 const type = thinky.type;
 const Errors = thinky.Errors;
 
@@ -10,7 +11,7 @@ let Thing = thinky.createModel("things", {
   id: type.string(),
 
   // First element is primary URL associated with this thing
-  urls: [type.string().validator(isValidURL)],
+  urls: [type.string().validator(_isValidURL)],
 
   label: mlString.getSchema({maxLength: 256}),
   aliases: mlString.getSchema({maxLength: 256, array: true}),
@@ -29,7 +30,7 @@ let Thing = thinky.createModel("things", {
   createdAt: type.date().required(true),
   createdBy: type.string().uuid(4).required(true),
 
-  hasInfo: type.virtual().default(hasInfo), // Helper for determining whether this is more than a single URL
+  hasInfo: type.virtual().default(_hasInfo), // Helper for determining whether this is more than a single URL
 
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
@@ -44,20 +45,32 @@ let Thing = thinky.createModel("things", {
 });
 
 
-Thing.define("archiveCurrentRevision", function() {
-  let thing = new Thing(this);
-  thing._revOf = this.id;
-  thing.id = undefined;
-  return thing.save();
-});
 
-function hasInfo() {
-  if ((!this.urls || this.urls.length == 1) &&
-    !this.label && !this.aliases && !this.description && !this.slugs && !this.isA)
-    return false;
-  else
-    return true;
-}
+// Make a copy of the current object referencing the shared thing ID,
+// then assign a new revision ID to the current object. Since UUID itself
+// is an asynchronous op, we have to return a custom promise.
+Thing.define("newRevision", function(user) {
+
+  return new Promise((resolve, reject) => {
+    let newRev = this;
+    // Archive current revision
+    let oldRev = new Thing(newRev);
+    oldRev._revOf = newRev.id;
+    oldRev.id = undefined;
+    oldRev.save().then(() => {
+      r.uuid().then(uuid => {
+          newRev._revID = uuid;
+          newRev._revUser = user.id;
+          newRev._revDate = new Date();
+          resolve(newRev);
+      }).catch(err => { // Problem getting ID
+        reject(err);
+      });
+    }).catch(err => { // Problem saving old rev
+      reject(err);
+    });
+  });
+});
 
 // For more convenient access, we can reformat the document to resolve all
 // multilingual strings to a single value.
@@ -81,21 +94,43 @@ Thing.define("resolveStrings", function(langKey) {
 
 Thing.define("populateRights", function(user) {
   if (!user)
-    return; // permissions will be "undefined", which evaluates to false
+    return; // Permissions will be at their default value (false)
 
-  // For now, we don't let users delete things they've created, since things are collaborative in nature
+  // For now, we don't let users delete things they've created,
+  // since things are collaborative in nature
   this.userCanDelete = user.isModerator ? true : false;
-
-  this.userCanEdit = user.isEditor ? true : false;
+  this.userCanEdit = user.isEditor || user.id == this.createdBy ? true : false;
 
 });
 
-function isValidURL(url) {
+// Resolve common errors to standard error messages
+Thing.resolveError = function(error) {
+  let msg = error.message;
+  let matches = msg.match(/Extra field `(.*?)` in \[label\] not allowed./);
+  if (matches)
+    return new ErrorMessage('invalid language code', [matches[1]], error);
+
+  return error;
+
+};
+
+
+// Internal helper functions
+
+function _isValidURL(url) {
   let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/;
   if (urlRegex.test(url))
     return true;
   else
     throw new ErrorMessage('invalid url');
+}
+
+function _hasInfo() {
+  if ((!this.urls || this.urls.length == 1) &&
+    !this.label && !this.aliases && !this.description && !this.slugs && !this.isA)
+    return false;
+  else
+    return true;
 }
 
 module.exports = Thing;

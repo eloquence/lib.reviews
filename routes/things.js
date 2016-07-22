@@ -6,12 +6,14 @@ const escapeHTML = require('escape-html');
 const Thing = require('../models/thing');
 const mlString = require('../models/ml-string');
 const render = require('./helpers/render');
+const flashError = require('./helpers/flash-error');
 
 /* GET users listing. */
 router.get('/thing/:id', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
+      thing.populateRights(req.user);
       sendThing(req, res, thing);
     })
     .catch(error => {
@@ -28,14 +30,15 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
       titleKey: 'edit label'
     });
 
-  if (!req.user.isEditor)
-    return render.permissionError(req, res, {
-      titleKey: 'edit label'
-    });
-
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
+      thing.populateRights(req.user);
+      if (!thing.userCanEdit)
+        return render.permissionError(req, res, {
+          titleKey: 'edit label'
+        });
+
       let edit = {
         label: true,
         titleKey: 'edit label'
@@ -50,27 +53,31 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
     });
 });
 
+// FIXME: Permission checks!
 router.post('/thing/:id/edit/label', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
-      thing.archiveCurrentRevision().then(() => {
-          // FIXME escape/sanity check
-          if (!thing.label)
-            thing.label = {};
-          thing.label[req.body['thing-label-language']] = req.body['thing-label'];
-          thing.save().then(() => {
+      thing.populateRights(req.user);
+      if (!thing.userCanEdit)
+        return render.permissionError(req, res, {
+          titleKey: 'edit label'
+        });
+      thing.newRevision(req.user).then(newRev => {
+          if (!newRev.label)
+            newRev.label = {};
+          newRev.label[req.body['thing-label-language']] = escapeHTML(req.body['thing-label']);
+          newRev.save().then(thing => {
               res.redirect(`/thing/${id}`);
             })
             .catch(error => {
-              // FIXME handle error conditions
-              req.flash('errors', req.__('unknown error'));
+              let errorMessage = Thing.resolveError(error);
+              flashError(req, errorMessage, 'editing label - saving');
               sendThing(req, res, thing);
             });
         })
         .catch(error => {
-          // FIXME handle error conditions
-          req.flash('errors', req.__('unknown error'));
+          flashError(req, error, 'editing label - creating new revision');
           sendThing(req, res, thing);
         });
     })

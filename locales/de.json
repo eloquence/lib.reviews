@@ -100,6 +100,7 @@
     "add label": "Titel hinzuf&uuml;gen",
     "edit": "Bearbeiten",
     "edit label": "Titel bearbeiten",
+    "edit thing": "Edit thing",
     "thing not found": "Ding nicht gefunden",
     "thing not found text": "Wir haben kein Ding mit der spezifizierten Adresse, '%s', gefunden. Vielleicht wurde es gel&ouml;scht?",
     "review not found": "Rezension nicht gefunden",
@@ -120,5 +121,8 @@
     "edit review": "Rezension bearbeiten",
     "delete preamble": "Fahre nur fort, wenn du sicher bist, dass du die untenstehende Rezension l&ouml;schen m&ouml;chtest. Sobald sie weg ist, kann nur ein Administrator sie wieder herstellen, und sie kann als Bestandteil routinem&auml;&szlig;iger Datenbankwartung permanent gel&ouml;scht werden.",
     "also delete thing": "Auch verkn&uuml;pftes <a href='/thing/%s'>Ding</a> l&ouml;schen",
-    "add info": "Infos hinzuf&uuml;gen"
+    "add info": "Infos hinzuf&uuml;gen",
+    "no info available": "Keine weiteren Infos",
+    "need delete-action": "Die Formulardaten enthielten nicht den 'delete-action' Parameter, der vorhanden sein muss.",
+    "unexpected form data": "Die Formulardaten enthielten unerwartete Daten."
 }

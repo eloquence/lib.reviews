@@ -100,6 +100,7 @@
     "add label": "Add a label here",
     "edit": "Edit",
     "edit label": "Edit label",
+    "edit thing": "Edit thing",
     "thing not found": "Thing not found",
     "thing not found text": "We did not find a thing with the specified address, '%s'. Perhaps it has been deleted?",
     "review not found": "Review not found",
@@ -120,5 +121,7 @@
     "edit review": "Edit review",
     "delete preamble": "Proceed only if you are certain that you want to delete the review below. Once it is gone, only an administrator can recover it, and it may be permanently removed as part of routine database cleanup.",
     "also delete thing": "Also delete associated <a href='/thing/%s'>thing</a>",
-    "add info": "Add information"
+    "add info": "Add information",
+    "no info available": "No more info available yet",
+    "need delete-action": "The submission did not include the 'delete-action' parameter, which is required."
 }

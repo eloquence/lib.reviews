@@ -15,9 +15,11 @@
   {{#if thing.label}}
     {{thing.label}}
   {{/if}}
+  {{#if thing.userCanEdit}}
   <a href="/thing/{{thing.id}}/edit/label" id="add-label" class="pure-button button-rounded"><span class="fa fa-pencil spaced-icon"></span>
     {{#if thing.label}}{{{__ "edit"}}}{{else}}{{{__ "add label"}}}{{/if}}
   </a>
+  {{/if}}
   </h1>
 {{/if}}
 

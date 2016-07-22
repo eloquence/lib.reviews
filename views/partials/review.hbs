@@ -21,7 +21,9 @@
 {{!Show basic info and link for more. Link for more becomes call-to action if there isn't more :-)}}
 {{#if this.thing.id}}
 <div id="review-thing-link">
-{{#if this.thing.hasInfo}}<span class="fa fa-info-circle review-icon"></span>{{else}}<span class="fa fa-pencil review-icon"></span>{{/if}}<a href="/thing/{{this.thing.id}}">{{#if this.thing.hasInfo}}{{{__ "more info"}}}{{else}}{{{__ "add info"}}}{{/if}}</a>
+{{#if this.thing.hasInfo}}
+<span class="fa fa-info-circle review-icon"></span>{{else}}<span class="fa fa-pencil review-icon"></span>{{/if}}<a href="/thing/{{this.thing.id}}">{{#if this.thing.hasInfo}}{{{__ "more info"}}}{{else}}{{#if this.userCanEdit}}{{{__ "add info"}}}{{else}}{{{__ "no info available"}}}{{/if}}{{/if}}</a>
+
 </div>
 {{/if}}
 {{!The actual review!}}
