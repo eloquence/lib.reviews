@@ -1,14 +1,16 @@
 'use strict';
-const langKeys = Object.keys(require('../locales/languages')());
+const path = require('path');
+const basePath = path.join(__dirname, '../locales');
+const langKeys = Object.keys(require(`${basePath}/languages`)());
 const jsonfile = require('jsonfile');
 
-let enMessageKeys = Object.keys(jsonfile.readFileSync('../locales/en.json'));
+let enMessageKeys = Object.keys(jsonfile.readFileSync(`${basePath}/en.json`));
 
 for (let langKey of langKeys) {
   if (langKey == 'en')
     continue;
 
-  let messageKeys = Object.keys(jsonfile.readFileSync(`../locales/${langKey}.json`));
+  let messageKeys = Object.keys(jsonfile.readFileSync(`${basePath}/${langKey}.json`));
   let missingKeys = enMessageKeys.filter(getKeyFilter(messageKeys));
 
   if (missingKeys.length) {
@@ -22,6 +24,7 @@ for (let langKey of langKeys) {
     console.log(extraKeys.join('\n'));
   }
 }
+
 
 function getKeyFilter(xxMessageKeys) {
   return function(ele) {
