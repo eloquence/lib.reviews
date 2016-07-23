@@ -187,7 +187,11 @@ Review.findOrCreateThing = function(reviewObj) {
   return new Promise((resolve, reject) => {
     Thing.filter(function(thing) {
       return thing('urls').contains(reviewObj.url);
-    }).then(things => {
+    })
+    .filter(r.row('_revDeleted').eq(false), {  // Exclude deleted rows
+      default: true
+    })
+    .then(things => {
       if (things.length)
         resolve(things[0]); // we have an entry with this URL already
       else {
