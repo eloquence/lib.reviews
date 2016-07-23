@@ -93,12 +93,19 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
 
 function sendThing(req, res, thing, edit) {
   let errors = req.flash('errors');
+  let showLanguageNotice = false;
+  let user = req.user;
+
   // For convenient access to primary URL
   if (thing.urls && thing.urls.length) {
     thing.mainURL = thing.urls.shift();
     if (thing.urls.length)
       thing.otherURLs = thing.urls;
   }
+
+  if (edit && req.method == 'GET' && (!user.suppressedNotices ||
+    user.suppressedNotices.indexOf('language-notice-thing') == -1))
+    showLanguageNotice = true;
 
   // For convenient access to labels in current language
   thing.label = mlString.resolve(req.locale, thing.label);
@@ -108,7 +115,8 @@ function sendThing(req, res, thing, edit) {
     titleKey: edit ? edit.titleKey : undefined,
     thing,
     edit,
-    errors
+    errors,
+    showLanguageNotice
   });
 }
 

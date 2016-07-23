@@ -1,3 +1,8 @@
+<div id="messages">
+{{#if showLanguageNotice}}
+{{> dismissible_notice icon="globe" messageKey="writing a review in language" id="language-notice-review" csrfToken=csrfToken}}
+{{/if}}
+</div>
 <div id="preview-contents" {{#unless isPreview}}class="hidden"{{/unless}}>
 <h2 id="preview-review-url" {{#unless preview.review-url}}class="hidden"{{/unless}}><span id="preview-review-url-label">{{{__ "preview of"}}}</span> <a href="{{preview.review-url}}" id="preview-review-url-link" target="_blank">{{preview.review-url-text}}</a></h2>
 <h2 id="preview-review-title">{{preview.review-title}}</h2>
@@ -15,9 +20,13 @@
 {{/if}}
 </div>
 </div>
+
+<div id="errors">
+<div class="error hidden" id="generic-action-error">{{{__ "could not complete action"}}}</div>
 {{#each errors}}
   <div class="error">{{{this}}}</div>
 {{/each}}
+</div>
 <div id="draft-notice">
 <span class="fa fa-info-circle info-icon"></span> {{{__ "draft loaded"}}}
 <a href="#" class="pure-button button-rounded button-destructive" id="abandon-draft"><span class="fa fa-trash-o spaced-icon"></span>{{__ "abandon draft"}}</a> <span class="pure-button button-rounded" id="dismiss-draft-notice"><span class="fa fa-check-circle spaced-icon"></span>{{{__ "got it"}}}</span>
@@ -61,20 +70,7 @@
         </noscript>
       </div>
 
-      <span id="show-extra-fields" class="nojs-hidden" tabindex="0" {{#if formValues.review-expand-extra-fields}} data-post-expanded{{/if}}><span class="fa fa-caret-right" id="extra-fields-collapsed"></span><span class="fa fa-caret-down" id="extra-fields-expanded"></span> {{{__ "add more"}}}</span>
-      <div class="pure-control-group nojs-visible" id="extra-fields">
-        <label for="review-language">{{{__ "review language"}}}</label>
-        <select id="review-language" name="review-language" class="pure-input-1-2">
-          {{! Mark previously POSTed value as selected, if any. Later, mark current language as selected, unless we have a POSTed value. Turn this into a helper if it gets anymore complicated than this.}}
-          {{#each languages}}
-          {{#if (lookup ../formValues.review-language @key)}}
-          <option value="{{@key}}" selected>{{__ this.messageKey}}</option>
-          {{else}}
-          <option value="{{@key}}"{{#unless ../../formValues.review-language}}{{#if this.currentLanguage}} selected{{/if}}{{/unless}}>{{__ this.messageKey}}</option>
-          {{/if}}
-          {{/each}}
-        </select>
-      </div>
+      <input id="review-language" name="review-language" type="hidden" value="{{currentLanguage}}">
 
         </div>
         <div class="pure-u-1 pure-u-md-1-3">

@@ -26,7 +26,8 @@ let User = thinky.createModel("users", {
   password: type.string(),
   registrationDate: type.date().default(() => new Date()),
   isModerator: type.boolean().default(false),
-  isEditor: type.boolean().default(false)
+  isEditor: type.boolean().default(false),
+  suppressedNotices: [type.string()]
 });
 
 User.options = options; // for external visibility

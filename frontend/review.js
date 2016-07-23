@@ -3,7 +3,6 @@
 
   // Add inputs used only with JS here so they don't appear/conflict when JS is disabled
   $('#star-rating-control').append(`<input id="review-rating" name="review-rating" type="hidden">`);
-  $('#show-extra-fields').append(`<input id="review-expand-extra-fields" name="review-expand-extra-fields" type="hidden">`);
 
   // Get rating value from previous POST request, if any
   let postRating = $('#star-rating-control').attr('data-post') || '';
@@ -11,11 +10,6 @@
   // Highlight rating from POST request
   if (postRating)
     selectStar.apply($(`#star-button-${postRating}`)[0]);
-
-  // Expand extra fields control if it was expanded in the POST request
-  if ($('#show-extra-fields')[0].hasAttribute('data-post-expanded')) {
-    showExtraFields.apply($('#show-extra-fields')[0]);
-  }
 
   // Markdown parser & options for live preview
   let md = markdownit({
@@ -28,7 +22,7 @@
 
   $('#review-url,#review-title,#review-text').focus(showInputHelp);
   $('#review-url,#review-title,#review-text').blur(hideInputHelp);
-  $('#review-url,#review-title,#review-text,#review-language').change(hideAbandonDraft);
+  $('#review-url,#review-title,#review-text').change(hideAbandonDraft);
   $('#review-url').change(validateURL);
   $('#star-rating-control').mouseover(showStarControlHelp);
   $('#star-rating-control').mouseout(hideStarControlHelp);
@@ -40,15 +34,13 @@
     .focus(showStarControlHelp)
     .blur(hideStarControlHelp);
 
-  $('#show-extra-fields').click(showExtraFields);
-  $('#show-extra-fields').keyup(maybeShowExtraFields);
   $('#live-preview').change(toggleLivePreview);
   $('#dismiss-draft-notice').click(hideDraftNotice);
   $('#abandon-draft').click(emptyAllFormFields);
   $('#add-http').click(addHTTP);
   $('#add-https').click(addHTTPS);
   $('#publish').click(libreviews.getRequiredFieldHandler({
-    fieldSelector: '#review-url,#review-title,#review-text,#review-language,#review-rating'
+    fieldSelector: '#review-url,#review-title,#review-text,#review-rating'
   }));
   $('#preview').click(showPreviewOnce);
 
@@ -111,7 +103,6 @@
   function emptyAllFormFields(event) {
     clearStars();
     $('#review-url,#review-title,#review-text,#review-rating').val('');
-    $('#review-language').val(config.language);
     $('#review-url').trigger('change');
     sisyphus.manuallyReleaseData();
     hideDraftNotice();
@@ -121,19 +112,14 @@
   // For processing draft data
   function processLoadedData() {
     let rating = Number($('#review-rating').val());
-    let languageChanged = $('#review-language').val() !== config.language;
 
     // Trim just in case whitespace got persisted
     $('input[data-auto-trim],textarea[data-auto-trim]').each(libreviews.trimInput);
 
     // Only show notice if we've actually recovered some data
-    if (rating || $('#review-url').val() || $('#review-title').val() || $('#review-text').val() ||
-      languageChanged) {
+    if (rating || $('#review-url').val() || $('#review-title').val() || $('#review-text').val()) {
       if (rating)
         selectStar.apply($(`#star-button-${rating}`)[0]);
-
-      if (languageChanged)
-        $('#show-extra-fields').trigger('click');
 
       $('#draft-notice').show();
     }

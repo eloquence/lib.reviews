@@ -28,6 +28,7 @@ const actions = require('./routes/actions');
 const users = require('./routes/users');
 const pages = require('./routes/pages');
 const api = require('./routes/api');
+const apiHelper = require('./routes/helpers/api');
 const things = require('./routes/things');
 const debug = require('./util/debug');
 const render = require('./routes/helpers/render');
@@ -108,6 +109,15 @@ app.use(favicon(path.join(__dirname, 'static/img/favicon.ico')));
 app.use(app.get('env') == 'production' ?
   logger('combined') :
   logger('dev'));
+
+
+// API requests do not require CSRF protection (hence declared before CSRF
+// middleware), but session-authenticated POST requests do require the
+// X-Requested-With header to be set, which ensures they're subject to CORS
+// rules. This middleware also sets req.isAPI to true for API requests.
+app.use('/api', apiHelper.prepareRequest);
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
@@ -120,10 +130,6 @@ let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
-// API requests do not require CSRF protection (hence declared before CSRF
-// middleware), but session-authenticated POST requests do require the
-// X-Requested-With header to be set, which ensures they're subject to CORS
-// rules.
 app.use('/api', api);
 
 app.use(csrf());
@@ -145,12 +151,6 @@ app.use(function(req, res, next) {
 
 app.use(function(error, req, res, next) {
 
-  debug.error({
-    context: undefined,
-    req,
-    error
-  });
-
   let showDetails;
   if (app.get('env') === 'development')
     showDetails = true;
@@ -158,11 +158,44 @@ app.use(function(error, req, res, next) {
     showDetails = (req.user && req.user.showErrors);
 
   res.status(error.status || 500);
-  render.template(req, res, 'error', {
-    titleKey: 'something went wrong',
-    showDetails,
-    error
-  });
+
+  if (req.isAPI) {
+    let response;
+    switch (error.message) {
+      case 'invalid json':
+        response = {
+          message: 'Could not process your request.',
+          errors: ['Received invalid JSON data. Make sure your payload is in JSON format.']
+        };
+        break;
+      default:
+        response = {
+          message: 'An error occurred processing your request.',
+          errors: showDetails ? [error.message, `Stack: ${error.stack}`] :
+            ['Unknown error. This has been logged.']
+        };
+        debug.error({
+          context: 'API',
+          req,
+          error
+        });
+    }
+    res.type('json');
+    res.send(JSON.stringify(response, null, 2));
+  } else {
+
+    debug.error({
+      context: 'web app',
+      req,
+      error
+    });
+
+    render.template(req, res, 'error', {
+      titleKey: 'something went wrong',
+      showDetails,
+      error
+    });
+  }
 });
 
 

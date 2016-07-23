@@ -201,21 +201,34 @@ router.post('/new/review', function(req, res) {
 });
 
 function sendReviewFormResponse(req, res, formInfo, isPreview) {
+
   let errors = req.flash('errors');
   let titleKey = 'write a review';
   let context = 'review form';
-  if (req.user)
+  let showLanguageNotice = true;
+  let user = req.user;
+
+  if (!user)
+    return render.signinRequired(req, res, {
+      titleKey
+    });
+
+  if (req.method == 'POST' || user.suppressedNotices &&
+    user.suppressedNotices.indexOf('language-notice-review') !== -1)
+        showLanguageNotice = false;
+
   // GET requests or incomplete POST requests
-    if (!formInfo || isPreview || errors.length)
-      render.template(req, res, 'new-review', {
-        formValues: formInfo ? formInfo.formValues : undefined,
-        titleKey,
-        errors: !isPreview ? errors : undefined,
-        isPreview,
-        preview: formInfo ? formInfo.preview : undefined,
-        scripts: ['sisyphus.min.js', 'markdown-it.min.js', 'review.js']
-      });
-    else if (req.method == 'POST') {
+  if (!formInfo || isPreview || errors.length)
+    render.template(req, res, 'new-review', {
+      formValues: formInfo ? formInfo.formValues : undefined,
+      titleKey,
+      errors: !isPreview ? errors : undefined,
+      isPreview,
+      preview: formInfo ? formInfo.preview : undefined,
+      scripts: ['sisyphus.min.js', 'markdown-it.min.js', 'review.js'],
+      showLanguageNotice
+    });
+  else if (req.method == 'POST') {
     let reviewObj = getReviewObj(req);
     Review.create(reviewObj).then(review => {
       let id = review.id || '';
@@ -224,16 +237,10 @@ function sendReviewFormResponse(req, res, formInfo, isPreview) {
       flashError(req, errorMessage, context);
       sendReviewFormResponse(req, res, formInfo, isPreview);
     });
-  } else if (req.method !== 'POST' && req.method !== 'GET') {
-    flashError(req, new ErrorMessage('unsupported method'), context);
-    res.redirect('/new');
   } else {
     flashError(req, null, context);
     res.redirect('/new');
-  } else
-    render.signinRequired(req, res, {
-      titleKey
-    });
+  }
 }
 
 function getReviewObj(req) {

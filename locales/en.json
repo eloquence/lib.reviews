@@ -126,5 +126,16 @@
     "add your review": "Add your review",
     "need delete-action": "The submission did not include the 'delete-action' parameter, which is required.",
     "review deleted": "Review deleted",
-    "review has been deleted": "The review has been deleted. It's still accessible to administrators, but it may be permanently removed as part of routine maintenance."
+    "review has been deleted": "The review has been deleted. It's still accessible to administrators, but it may be permanently removed as part of routine maintenance.",
+    "editing in language": "<b>Tip:</b> You are editing the <b>English</b> version. To edit in another language, pick it from the list at the bottom of this page (form changes will be lost).",
+    "writing a review in language": "<b>Tip:</b> lib.reviews is a multilingual website. You are writing a review in <b>English</b>. To write in another language, pick it from the list at the bottom (form contents will be emptied).",
+    "never show this again": "Never show this again",
+    "notice suppressed": "Notice suppressed",
+    "notices of type suppressed": "Notices of the following type will no longer be shown:",
+    "unsupported notice": "Unsupported notice",
+    "unsupported notice type": "We do not recognize a notice of this type: '%s'",
+    "notice type language-notice-review": "Language reminder on the 'Write a review' screen",
+    "notice type language-notice-thing": "Language reminder on the 'Edit thing' screen",
+    "close this window": "You can close this window to continue.",
+    "could not complete action": "There was a problem completing the requested action, sorry! This may be an Internet connection issue, or a coding error on our end."
 }

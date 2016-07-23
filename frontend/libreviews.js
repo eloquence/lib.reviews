@@ -87,6 +87,37 @@
     this.value = this.value.trim();
   };
 
+  // Generic function for dismiss buttons. The attribute data-dismiss-element
+  // must specify an element ID.
+  $('button[data-dismiss-element]').click(function(event) {
+    let id = $(this).attr('data-dismiss-element');
+    $(`#${id}`).fadeOut(200);
+    event.preventDefault();
+  });
+
+  // Generic function to permanently dismiss notices of a certain kind.
+  // This is useful for introductory messages, or community-wide banners.
+  $('button[data-suppress-notice]').click(function(event) {
+    let id = $(this).attr('data-suppress-notice');
+    $.ajax({
+        type: 'POST',
+        url: `/api/actions/suppress-notice`,
+        data: JSON.stringify({
+          noticeType: id
+        }),
+        contentType: 'application/json',
+        dataType: 'json'
+      })
+      .done(() => {
+        $(`#${id}`).fadeOut(200);
+      })
+      .error(() => {
+        $('#generic-action-error').removeClass('hidden');
+      });
+    event.preventDefault();
+  });
+
+
   $('input[data-auto-trim],textarea[data-auto-trim]').change(libreviews.trimInput);
 
 })();

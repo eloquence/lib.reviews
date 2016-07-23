@@ -126,5 +126,16 @@
     "need delete-action": "Die Formulardaten enthielten nicht den 'delete-action' Parameter, der vorhanden sein muss.",
     "unexpected form data": "Die Formulardaten enthielten unerwartete Daten.",
     "review deleted": "Rezension gel&ouml;scht",
-    "review has been deleted": "Die Rezension wurde gel&ouml;scht. Administratoren k&ouml;nnen weiterhin darauf zugreifen, aber sie kann als Teil routinem&auml;&szlig;iger Datenbankwartung permanent entfernt werden."
+    "review has been deleted": "Die Rezension wurde gel&ouml;scht. Administratoren k&ouml;nnen weiterhin darauf zugreifen, aber sie kann als Teil routinem&auml;&szlig;iger Datenbankwartung permanent entfernt werden.",
+    "editing in language": "<B>Tipp:</b> Du bearbeitest die <b>deutsche</b> Version. Um eine andere Sprache zu bearbeiten, w&auml;hle sie aus der Liste am Seitenende (Formular&auml;nderungen werden verworfen).",
+    "writing a review in language": "<b>Tipp:</b> lib.reviews ist eine mehrsprachige Website. Du schreibst eine Rezension auf <b>Deutsch</b>. Um in einer anderen Sprache zu schreiben, w&auml;hle sie aus der Liste am Seitenende (Formularinhalte werden geleert).",
+    "never show this again": "Nie wieder anzeigen",
+    "notice suppressed": "Hinweis unterdr&uuml;ckt",
+    "notices of type suppressed": "Du wirst keine weiteren Hinweise dieses Typs angezeigt bekommen:",
+    "unsupported notice": "Nicht unterst&uuml;tzter Hintweis",
+    "unsupported notice type": "Wir kennen keinen Hinweis dieses Typs: '%s'",
+    "notice type language-notice-review": "Hinweis auf Mehrsprachigkeit auf der Seite 'Rezension schreiben'",
+    "notice type language-notice-thing": "Hinweis auf Mehrsprachigkeit auf der Seite 'Ding bearbeiten'",
+    "close this window": "Du kannst dieses Fenster schlie&szlig;en, um fortzufahren.",
+    "could not complete action": "Es gab ein Problem bei der Beantwortung der Anfrage. Das tut uns leid! Dies k&ouml;nnte ein Internet-Verbindungsproblem sein, oder ein Programmierfehler unsererseits."
 }

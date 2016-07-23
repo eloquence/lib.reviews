@@ -8,11 +8,16 @@ const config = require('config');
 // Internal dependencies
 const debug = require('../util/debug');
 const User = require('../models/user');
+const actionHandler = require('./handlers/action-handler');
+
+router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 
 router.get('/user/:name', function(req, res, next) {
   let name = req.params.name.trim();
   let rv = {};
-  User.filter({ canonicalName: User.canonicalize(name) }).then(result => {
+  User.filter({
+    canonicalName: User.canonicalize(name)
+  }).then(result => {
     if (result.length) {
       let user = result[0];
       rv.id = user.id;
@@ -28,7 +33,7 @@ router.get('/user/:name', function(req, res, next) {
     }
     res.type('json');
     res.send(JSON.stringify(rv, null, 2));
-  }); 
+  });
 });
 
 module.exports = router;

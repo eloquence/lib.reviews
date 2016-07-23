@@ -13,6 +13,8 @@ const flashError = require('./helpers/flash-error');
 const forms = require('./helpers/forms');
 const User = require('../models/user');
 const debug = require('../util/debug');
+const actionHandler = require('./handlers/action-handler.js');
+
 
 const formDefs = {
   'register': [{
@@ -27,6 +29,9 @@ const formDefs = {
   }]
 };
 
+router.post('/actions/suppress-notice', actionHandler.suppressNotice);
+
+// Below actions have shorter names for convenience
 
 router.get('/signin', function(req, res) {
   let errors = req.flash('errors');
