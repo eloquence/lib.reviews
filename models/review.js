@@ -3,12 +3,11 @@ const thinky = require('../db');
 const type = thinky.type;
 const Errors = thinky.Errors;
 const r = thinky.r;
+const mlString = require('./ml-string');
 
 const ErrorMessage = require('../util/error.js');
 const User = require('./user.js');
 const Thing = require('./thing.js');
-
-const langKeys = Object.keys(require('../locales/languages')());
 
 const options = {
   maxTitleLength: 255
@@ -16,13 +15,12 @@ const options = {
 
 // Table generation is handled by thinky. URLs for reviews are stored as "things".
 let Review = thinky.createModel("reviews", {
-  id: type.string(),
-  thingID: type.string(),
-  title: type.string().max(options.maxTitleLength),
-  text: type.string(),
-  html: type.string(),
+  id: type.string().uuid(4),
+  thingID: type.string().uuid(4),
+  title: mlString.getSchema({maxLength: options.maxTitleLength}),
+  text: mlString.getSchema(),
+  html: mlString.getSchema(),
   starRating: type.number().min(1).max(5).integer(),
-  language: type.string().validator(isValidLanguage),
 
   // Track original authorship across revisions
   createdAt: type.date().required(true),
@@ -154,7 +152,6 @@ Review.create = function(reviewObj) {
           starRating: reviewObj.starRating,
           createdAt: reviewObj.createdAt,
           createdBy: reviewObj.createdBy,
-          language: reviewObj.language,
           _revID: r.uuid(),
           _revUser: reviewObj.createdBy,
           _revDate: reviewObj.createdAt
@@ -228,13 +225,5 @@ Review.getWithData = function(id) {
       }
     });
 };
-
-function isValidLanguage(lang) {
-  if (langKeys.indexOf(lang) !== -1)
-    return true;
-  else
-    throw new ErrorMessage('invalid language code', [String(lang)]);
-}
-
 
 module.exports = Review;

@@ -107,9 +107,6 @@ function sendThing(req, res, thing, edit) {
     user.suppressedNotices.indexOf('language-notice-thing') == -1))
     showLanguageNotice = true;
 
-  // For convenient access to labels in current language
-  thing.label = mlString.resolve(req.locale, thing.label);
-
   render.template(req, res, 'thing', {
     deferHeader: edit ? true : false,
     titleKey: edit ? edit.titleKey : undefined,

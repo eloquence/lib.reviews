@@ -32,6 +32,8 @@ const apiHelper = require('./routes/helpers/api');
 const things = require('./routes/things');
 const debug = require('./util/debug');
 const render = require('./routes/helpers/render');
+const mlstring = require('./models/ml-string');
+const langDefs = require('./locales/languages')();
 
 // Auth setup
 require('./auth');
@@ -64,6 +66,26 @@ app.use(function(req, res, next) {
   hbs.registerHelper('__n', function() {
     return i18n.__n.apply(req, arguments);
   });
+  hbs.registerHelper('mlString', function(str, addLanguageSpan) {
+    if (addLanguageSpan === undefined)
+      addLanguageSpan = true;
+
+
+    let mlRv = mlstring.resolve(req.locale, str);
+
+    if (mlRv === undefined || mlRv.str === undefined || mlRv.str === '')
+      return undefined;
+
+    if (!addLanguageSpan || mlRv.lang === req.locale)
+      return mlRv.str;
+    else {
+      let langLabelKey = langDefs[mlRv.lang].messageKey;
+      let langLabel = i18n.__.call(req, langLabelKey);
+      return `${mlRv.str} <span class="language-identifier" title="${langLabel}">` +
+      `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
+    }
+  });
+
   next();
 });
 
@@ -171,8 +193,7 @@ app.use(function(error, req, res, next) {
       default:
         response = {
           message: 'An error occurred processing your request.',
-          errors: showDetails ? [error.message, `Stack: ${error.stack}`] :
-            ['Unknown error. This has been logged.']
+          errors: showDetails ? [error.message, `Stack: ${error.stack}`] : ['Unknown error. This has been logged.']
         };
         debug.error({
           context: 'API',

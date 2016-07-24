@@ -37,12 +37,27 @@ let mlString = {
     if (strObj === undefined)
       return undefined;
 
-    if (strObj[lang] !== undefined)
-      return strObj[lang];
+
+    // We have a string in the specified language
+    // Note that emptying a string reverts back to other available languages
+    if (strObj[lang] !== undefined && strObj[lang] !== '')
+      return {
+        str: strObj[lang],
+        lang
+      };
 
     // Fallback
-    if (strObj.en !== undefined)
-      return strObj.en;
+    if (strObj.en !== undefined && strObj.en !== '')
+      return {
+        str: strObj.en,
+        lang: 'en'
+      };
+
+    if (strObj.de !== undefined && strObj.de !== '')
+      return {
+        str: strObj.de,
+        lang: 'de'
+      };
 
     return undefined;
 

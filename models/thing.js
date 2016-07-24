@@ -74,26 +74,6 @@ Thing.define("newRevision", function(user) {
 });
 
 
-// For more convenient access, we can reformat the document to resolve all
-// multilingual strings to a single value.
-Thing.define("resolveStrings", function(langKey) {
-
-  // The ['key'] syntax is a shorthand for keys in the schema that are arrays
-  // of multilingual strings.
-  const mlStrings = ['label', 'description', ['aliases']];
-  mlStrings.forEach(key => {
-    // Resolve all strings contained in array to the value appropriate for locale
-    if (Array.isArray(key) && Array.isArray(this[key[0]])) {
-      this[key[0]].forEach(mlStr => {
-        mlStr = mlString.resolve(langKey, mlStr);
-      });
-    // Resolve all strings in single fields to the value appropriate for locale
-    } else {
-      this[key] =  mlString.resolve(langKey, this[key]);
-    }
-  });
-});
-
 Thing.define("populateUserInfo", function(user) {
   if (!user)
     return; // Permissions will be at their default value (false)

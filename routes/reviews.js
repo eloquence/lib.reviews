@@ -38,7 +38,7 @@ const formDefs = {
   }, {
     name: 'review-language',
     required: false,
-    radioMap: true
+    radioMap: false
   }, {
     name: 'review-expand-extra-fields', // Cosmetic, not saved
     required: false
@@ -80,8 +80,6 @@ router.get('/feed', function(req, res, next) {
         item.populateUserInfo(req.user);
         if (item.thing) {
           item.thing.populateUserInfo(req.user);
-          if (item.thing.label)
-            item.thing.label = mlString.resolve(req.locale, item.thing.label);
         }
       }
       render.template(req, res, 'feed', {
@@ -100,7 +98,6 @@ router.get('/review/:id', function(req, res, next) {
   Review.getWithData(id).then(review => {
       if (review._revDeleted)
         return sendReviewNotFound(req, res, id);
-      review.thing.resolveStrings(req.locale);
       review.thing.populateUserInfo(req.user);
       review.populateUserInfo(req.user);
       sendReview(req, res, review);
@@ -113,7 +110,6 @@ router.get('/review/:id/delete', function(req, res, next) {
   Review.getWithData(id).then(review => {
     if (review._revDeleted)
       return sendReviewNotFound(req, res, id);
-    review.thing.resolveStrings(req.locale);
     review.thing.populateUserInfo(req.user);
     review.populateUserInfo(req.user);
     if (!review.userCanDelete)
@@ -166,7 +162,6 @@ router.get('/review/:id/edit', function(req, res, next) {
   Review.getWithData(id).then(review => {
     if (review._revDeleted)
       return sendReviewNotFound(req, res, id);
-    review.thing.resolveStrings(req.locale);
     review.populateUserInfo(req.user);
     if (!review.userCanEdit) {
       return render.permissionError(req, res, {
@@ -245,16 +240,21 @@ function sendReviewFormResponse(req, res, formInfo, isPreview) {
 
 function getReviewObj(req) {
   let date = new Date();
+  let lang = req.body['review-language'] || req.locale;
   let reviewObj = {
-    title: escapeHTML(req.body['review-title']),
-    text: escapeHTML(req.body['review-text']),
+    title: {},
+    text: {},
     url: encodeURI(req.body['review-url']),
-    html: md.render(req.body['review-text']),
+    html: {},
     createdAt: date,
     createdBy: req.user.id,
-    starRating: Number(req.body['review-rating']),
-    language: escapeHTML(req.body['review-language'])
+    starRating: Number(req.body['review-rating'])
   };
+
+
+  reviewObj.title[lang] = escapeHTML(req.body['review-title']);
+  reviewObj.text[lang] = escapeHTML(req.body['review-text']);
+  reviewObj.html[lang] = md.render(req.body['review-text']);
   return reviewObj;
 }
 

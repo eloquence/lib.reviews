@@ -7,8 +7,8 @@
 {{!We show a little headline identifying the item type in the feed view, but nowhere else}}
 {{#if feed}}
   <div class="feed-item-header">
-  {{#if this.thing.label}}
-  {{{__ "review of" this.thing.label}}}
+  {{#if (mlString this.thing.label)}}
+  {{{__ "review of" (mlString this.thing.label)}}}
   {{else}}
   {{{__ "review"}}}
   {{/if}}
@@ -23,10 +23,10 @@
 {{> thing_link}}
 </div>
 {{/if}}
+<div class="review-title">{{{mlString this.title}}}</div>
 {{!The actual review!}}
-<div class="review-title">{{{this.title}}}</div>
 <div class="review-text">
-{{{this.html}}}
+{{{mlString this.html false}}}
 </div>
 <p>
 {{!Review actions: Delete, edit, permanent link}}
