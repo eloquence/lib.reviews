@@ -137,5 +137,7 @@
     "notice type language-notice-review": "Language reminder on the 'Write a review' screen",
     "notice type language-notice-thing": "Language reminder on the 'Edit thing' screen",
     "close this window": "You can close this window to continue.",
-    "could not complete action": "There was a problem completing the requested action, sorry! This may be an Internet connection issue, or a coding error on our end."
+    "could not complete action": "There was a problem completing the requested action, sorry! This may be an Internet connection issue, or a coding error on our end.",
+    "site notification": "<b>Site notification:</b> %s",
+    "notification language-changed": "You have changed your language preference. This means that when you create content, we assume it's in <b>English</b>. We'll also show you a little indicator when content is in a different language from the one you've set (you can help translate)."
 }

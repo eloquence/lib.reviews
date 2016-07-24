@@ -137,5 +137,7 @@
     "notice type language-notice-review": "Hinweis auf Mehrsprachigkeit auf der Seite 'Rezension schreiben'",
     "notice type language-notice-thing": "Hinweis auf Mehrsprachigkeit auf der Seite 'Ding bearbeiten'",
     "close this window": "Du kannst dieses Fenster schlie&szlig;en, um fortzufahren.",
-    "could not complete action": "Es gab ein Problem bei der Beantwortung der Anfrage. Das tut uns leid! Dies k&ouml;nnte ein Internet-Verbindungsproblem sein, oder ein Programmierfehler unsererseits."
+    "could not complete action": "Es gab ein Problem bei der Beantwortung der Anfrage. Das tut uns leid! Dies k&ouml;nnte ein Internet-Verbindungsproblem sein, oder ein Programmierfehler unsererseits.",
+    "site notification": "<b>Website-Hinweis:</b> %s",
+    "notification language-changed": "Du hast deine Sprachwahl ge&auml;ndert. Wenn du nun Inhalte anlegst, werden wir davon ausgehen, dass sie auf <b>Deutsch</b> geschrieben sind. Wir zeigen dir auch einen kleinen Indikator neben Texten, die in einer anderen Sprache verfasst wurden (du kannst bei der &Uuml;bersetzung helfen)."
 }

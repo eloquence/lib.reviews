@@ -8,6 +8,8 @@ router.get('/en', function(req, res) {
     maxAge,
     httpOnly: true
   });
+  req.locale = 'en';
+  req.flash('messages', req.__('notification language-changed'));
   res.redirect('back');
 });
 
@@ -16,6 +18,8 @@ router.get('/de', function(req, res) {
     maxAge,
     httpOnly: true
   });
+  req.locale = 'de';
+  req.flash('messages', req.__('notification language-changed'));
   res.redirect('back');
 });
 

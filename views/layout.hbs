@@ -55,9 +55,15 @@
     </div>
 </div>
     <div id="main-body">
-      {{#unless deferPageHeader}}
-      <h1 id="page-header">{{{__ titleKey titleParam }}}</h1>
-      {{/unless}}
+    <div id="system-messages">
+    {{#each messages}}
+    <div class="message-box"><span class="fa fa-bell-o spaced-icon"></span>{{{__ "site notification" this}}}</div>
+    {{/each}}
+    </div>
+    {{#unless deferPageHeader}}
+    <h1 id="page-header">{{{__ titleKey titleParam }}}</h1>
+    {{/unless}}
+
     {{{body}}}
     </div>
     <div id="footer">
