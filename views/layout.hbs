@@ -53,11 +53,11 @@
             {{/if}}
         </div>
     </div>
-    {{#unless deferPageHeader}}
-    <h1 id="page-header">{{{__ titleKey titleParam }}}</h1>
-    {{/unless}}
 </div>
     <div id="main-body">
+      {{#unless deferPageHeader}}
+      <h1 id="page-header">{{{__ titleKey titleParam }}}</h1>
+      {{/unless}}
     {{{body}}}
     </div>
     <div id="footer">
