@@ -1,49 +1,49 @@
 <div class="review-rating">
 {{!Star rating. Per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
-{{#times this.starRating}}
-<img src="/static/img/star-{{../this.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../../this.starRating}}}"{{/if}}>
+{{#times review.starRating}}
+<img src="/static/img/star-{{../review.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../../review.starRating}}}"{{/if}}>
 {{/times}}
 </div>
 {{!We show a little headline identifying the item type in the feed view, but nowhere else}}
 {{#if feed}}
   <div class="feed-item-header">
-  {{#if (mlString this.thing.label)}}
-  {{{__ "review of" (mlString this.thing.label)}}}
+  {{#if (mlString review.thing.label)}}
+  {{{__ "review of" (mlString review.thing.label)}}}
   {{else}}
   {{{__ "review"}}}
   {{/if}}
   </div>
 {{/if}}
 {{!Show prettified URL, if available}}
-{{#if this.thing.urls.[0]}}
-<div id="review-url"><span class="fa fa-external-link review-icon"></span>{{{link this.thing.urls.[0] (prettify this.thing.urls.[0])}}}</div>
+{{#if review.thing.urls.[0]}}
+<div id="review-url"><span class="fa fa-external-link review-icon"></span>{{{link review.thing.urls.[0] (prettify review.thing.urls.[0])}}}</div>
 {{/if}}
-{{#if this.thing.id}}
+{{#if review.thing.id}}
 <div id="review-thing-link">
 {{> thing_link}}
 </div>
 {{/if}}
-<div class="review-title">{{{mlString this.title}}}</div>
+<div class="review-title">{{{mlString review.title}}}</div>
 {{!The actual review!}}
 <div class="review-text">
-{{{mlString this.html false}}}
+{{{mlString review.html false}}}
 </div>
 <p>
 {{!Review actions: Delete, edit, permanent link}}
 <div class="review-actions">
 {{#if feed}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a></span>
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a></span>
 {{/if}}
 {{#unless hideDeleteControls}}
-{{#if this.userCanDelete}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}/delete"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a></span>
+{{#if review.userCanDelete}}
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/delete"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a></span>
 {{/if}}
 {{/unless}}
-{{#if this.userCanEdit}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{this.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span>
+{{#if review.userCanEdit}}
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span>
 {{/if}}
 </div>
 {{! Date and author}}
 <div class="review-byline">
-{{{__ "review byline" this.creator.displayName this.createdAt}}}
+{{{__ "review byline" review.creator.displayName review.createdAt}}}
 </div>

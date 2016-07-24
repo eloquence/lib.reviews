@@ -70,7 +70,6 @@ app.use(function(req, res, next) {
     if (addLanguageSpan === undefined)
       addLanguageSpan = true;
 
-
     let mlRv = mlstring.resolve(req.locale, str);
 
     if (mlRv === undefined || mlRv.str === undefined || mlRv.str === '')

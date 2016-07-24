@@ -274,11 +274,20 @@ function getPreview(req) {
 
 function sendReview(req, res, review, edit) {
   let errors = req.flash('errors');
+  let titleParam;
+
+  if (review.thing) {
+    if (review.thing.label)
+      titleParam = mlString.resolve(req.locale, review.thing.label).str;
+    else
+      titleParam = prettifyURL(review.thing.urls[0]);
+  }
 
   render.template(req, res, 'review', {
-    titleKey: edit ? edit.titleKey : 'review of',
-    titleParam: review.thing && review.thing.label ? review.thing.label : prettifyURL(review.thing.urls[0]),
-    reviews: [review],
+    titleKey: titleParam ? 'review of' : 'review',
+    titleParam,
+    deferPageHeader: true,
+    review,
     edit,
     errors
   });
@@ -289,7 +298,7 @@ function sendDeleteReview(req, res, review) {
 
   render.template(req, res, 'delete-review', {
     titleKey: 'delete review',
-    reviews: [review],
+    review,
     errors
   });
 }

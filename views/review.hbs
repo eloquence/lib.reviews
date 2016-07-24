@@ -1,5 +1,10 @@
-{{#each reviews}}
+<h1 id="page-header">
+{{#if (mlString review.thing.label)}}
+{{{__ "review of" (mlString review.thing.label)}}}
+{{else}}
+{{{__ titleKey (prettify review.thing.urls.[0])}}}
+{{/if}}
+</h1>
 <div class="review">
-{{> review}}
+{{> review review=review}}
 </div>
-{{/each}}
