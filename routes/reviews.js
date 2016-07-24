@@ -252,6 +252,7 @@ function getReviewObj(req) {
     html: {},
     createdAt: date,
     createdBy: req.user.id,
+    originalLanguage: lang,
     starRating: Number(req.body['review-rating'])
   };
 

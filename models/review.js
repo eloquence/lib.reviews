@@ -27,6 +27,9 @@ let reviewSchema = {
   // Track original authorship across revisions
   createdAt: type.date().required(true),
   createdBy: type.string().uuid(4).required(true),
+  // We track this for all objects where we want to be able to handle
+  // translation permissions separately from edit permissions
+  originalLanguage: type.string().max(4),
 
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
@@ -89,6 +92,7 @@ Review.create = function(reviewObj) {
           starRating: reviewObj.starRating,
           createdAt: reviewObj.createdAt,
           createdBy: reviewObj.createdBy,
+          originalLanguage: reviewObj.originalLanguage,
           _revID: r.uuid(),
           _revUser: reviewObj.createdBy,
           _revDate: reviewObj.createdAt
