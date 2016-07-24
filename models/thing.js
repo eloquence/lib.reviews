@@ -5,17 +5,26 @@ const type = thinky.type;
 const Errors = thinky.Errors;
 
 const ErrorMessage = require('../util/error.js');
-const mlString = require('./ml-string');
+const mlString = require('./helpers/ml-string');
+const revision = require('./helpers/revision');
 
-let Thing = thinky.createModel("things", {
+let thingSchema = {
+
   id: type.string(),
 
   // First element is primary URL associated with this thing
   urls: [type.string().validator(_isValidURL)],
 
-  label: mlString.getSchema({maxLength: 256}),
-  aliases: mlString.getSchema({maxLength: 256, array: true}),
-  description: mlString.getSchema({maxLength: 512}),
+  label: mlString.getSchema({
+    maxLength: 256
+  }),
+  aliases: mlString.getSchema({
+    maxLength: 256,
+    array: true
+  }),
+  description: mlString.getSchema({
+    maxLength: 512
+  }),
 
   // First element is used for main part of canonical URL given to this thing, others redirect
   slugs: [type.string()],
@@ -37,42 +46,15 @@ let Thing = thinky.createModel("things", {
   userCanEdit: type.virtual().default(false),
   userIsCreator: type.virtual().default(false),
 
-  // Versioning information
-  _revUser: type.string().required(true),
-  _revDate: type.date().required(true),
-  _revID: type.string().uuid(4).required(true), // Set this for all revisions, including current
-  _revOf: type.string(), // Only set if it's an old revision of an existing thing
-  _revDeleted: type.boolean(), // Set to true for all deleted revisions (not all revisions have to be deleted)
-});
+};
 
+// Add versioning related fields
+Object.assign(thingSchema, revision.getSchema());
 
+let Thing = thinky.createModel("things", thingSchema);
 
-// Make a copy of the current object referencing the shared thing ID,
-// then assign a new revision ID to the current object. Since UUID itself
-// is an asynchronous op, we have to return a custom promise.
-Thing.define("newRevision", function(user) {
-
-  return new Promise((resolve, reject) => {
-    let newRev = this;
-    // Archive current revision
-    let oldRev = new Thing(newRev);
-    oldRev._revOf = newRev.id;
-    oldRev.id = undefined;
-    oldRev.save().then(() => {
-      r.uuid().then(uuid => {
-          newRev._revID = uuid;
-          newRev._revUser = user.id;
-          newRev._revDate = new Date();
-          resolve(newRev);
-      }).catch(err => { // Problem getting ID
-        reject(err);
-      });
-    }).catch(err => { // Problem saving old rev
-      reject(err);
-    });
-  });
-});
-
+Thing.define("newRevision", revision.getNewRevisionHandler(Thing));
+Thing.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Thing));
 
 Thing.define("populateUserInfo", function(user) {
   if (!user)

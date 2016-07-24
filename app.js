@@ -32,7 +32,7 @@ const apiHelper = require('./routes/helpers/api');
 const things = require('./routes/things');
 const debug = require('./util/debug');
 const render = require('./routes/helpers/render');
-const mlstring = require('./models/ml-string');
+const mlstring = require('./models/helpers/ml-string');
 const langDefs = require('./locales/languages')();
 
 // Auth setup

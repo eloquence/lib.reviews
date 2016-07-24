@@ -2,9 +2,11 @@
 const express = require('express');
 const router = express.Router();
 const escapeHTML = require('escape-html');
+const thinky = require('../db');
+const r = thinky.r;
 
 const Thing = require('../models/thing');
-const mlString = require('../models/ml-string');
+const mlString = require('../models/helpers/ml-string');
 const render = require('./helpers/render');
 const flashError = require('./helpers/flash-error');
 
@@ -13,6 +15,9 @@ router.get('/thing/:id', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
+      if (thing._revDeleted)
+        return sendThingNotFound(req, res, id);
+
       thing.populateUserInfo(req.user);
       sendThing(req, res, thing);
     })
@@ -33,6 +38,8 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
+      if (thing._revDeleted)
+        return sendThingNotFound(req, res, id);
       thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
         return render.permissionError(req, res, {
@@ -53,16 +60,19 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
     });
 });
 
-// FIXME: Permission checks!
 router.post('/thing/:id/edit/label', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.get(id)
     .then(thing => {
+      if (thing._revDeleted)
+        return sendThingNotFound(req, res, id);
+
       thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
         return render.permissionError(req, res, {
           titleKey: 'edit label'
         });
+
       thing.newRevision(req.user).then(newRev => {
           if (!newRev.label)
             newRev.label = {};
@@ -88,7 +98,6 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
         next(error);
     });
 });
-
 
 
 function sendThing(req, res, thing, edit) {

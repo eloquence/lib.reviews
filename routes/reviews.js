@@ -18,7 +18,7 @@ const forms = require('./helpers/forms');
 const flashError = require('./helpers/flash-error');
 const ErrorMessage = require('../util/error.js');
 const Review = require('../models/review.js');
-const mlString = require('../models/ml-string.js');
+const mlString = require('../models/helpers/ml-string.js');
 
 // Form definitions for these routes
 const formDefs = {
@@ -121,12 +121,16 @@ router.get('/review/:id/delete', function(req, res, next) {
 
 router.post('/review/:id/delete', function(req, res, next) {
   let id = req.params.id.trim();
+  let withThing = req.body['delete-thing'] ? true : false;
+
   Review.getWithData(id).then(review => {
+
     if (review._revDeleted)
       return sendReviewNotFound(req, res, id);
     review.thing.populateUserInfo(req.user);
     review.populateUserInfo(req.user);
-    if (!review.userCanDelete)
+    if (!review.userCanDelete ||
+      (withThing && !review.thing.userCanDelete))
       return sendPermissionError(req, res);
     else {
 
@@ -140,11 +144,11 @@ router.post('/review/:id/delete', function(req, res, next) {
         return sendDeleteReview(req, res, review);
 
       let options = {};
-      if (req.body['delete-thing']) {
-        options.deleteAssociatedThing = true;
-      }
-      // Delete logic
-      review.deleteAllRevisions(req.user, options).then(() => {
+      let deleteFunc = withThing ?
+        review.deleteAllRevisionsWithThing :
+        review.deleteAllRevisions;
+
+      deleteFunc.call(review, req.user).then(() => {
         return render.template(req, res, 'review-deleted', {
           titleKey: 'review deleted'
         });
