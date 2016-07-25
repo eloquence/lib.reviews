@@ -140,7 +140,7 @@ router.post('/review/:id/delete', function(req, res, next) {
         formKey: 'delete-review'
       });
 
-      if (req.flashHasErrors())
+      if (req.flashHas('pageErrors'))
         return sendDeleteReview(req, res, review);
 
       let options = {};
@@ -201,7 +201,7 @@ router.post('/new/review', function(req, res) {
 
 function sendReviewFormResponse(req, res, formInfo, isPreview) {
 
-  let errors = req.flash('errors');
+  let pageErrors = req.flash('pageErrors');
   let titleKey = 'write a review';
   let context = 'review form';
   let showLanguageNotice = true;
@@ -217,11 +217,11 @@ function sendReviewFormResponse(req, res, formInfo, isPreview) {
         showLanguageNotice = false;
 
   // GET requests or incomplete POST requests
-  if (!formInfo || isPreview || errors.length)
+  if (!formInfo || isPreview || pageErrors.length)
     render.template(req, res, 'new-review', {
       formValues: formInfo ? formInfo.formValues : undefined,
       titleKey,
-      errors: !isPreview ? errors : undefined,
+      pageErrors: !isPreview ? pageErrors : undefined,
       isPreview,
       preview: formInfo ? formInfo.preview : undefined,
       scripts: ['sisyphus.min.js', 'markdown-it.min.js', 'review.js'],
@@ -278,7 +278,7 @@ function getPreview(req) {
 }
 
 function sendReview(req, res, review, edit) {
-  let errors = req.flash('errors');
+  let pageErrors = req.flash('pageErrors');
   let titleParam;
 
   if (review.thing) {
@@ -294,17 +294,17 @@ function sendReview(req, res, review, edit) {
     deferPageHeader: true,
     review,
     edit,
-    errors
+    pageErrors
   });
 }
 
 function sendDeleteReview(req, res, review) {
-  let errors = req.flash('errors');
+  let pageErrors = req.flash('pageErrors');
 
   render.template(req, res, 'delete-review', {
     titleKey: 'delete review',
     review,
-    errors
+    pageErrors
   });
 }
 

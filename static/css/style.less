@@ -33,6 +33,11 @@ pure CSS from LESS
   margin-right: @sideMargin;
 }
 
+#footer {
+  font-size:small;
+  margin-bottom:2em;
+}
+
 @media print
 {
   .no-print
@@ -58,21 +63,11 @@ pure CSS from LESS
 body {
     font-family: "Noto Sans", sans-serif;
 }
+
 #languages {
-    font-size: small;
-    width: 100%;
     padding-top: 1em;
     margin-top: 2em;
-    color: #333;
     border-top: 1px solid #e5e5e5;
-}
-#languages ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-#languages li {
-    display: inline;
 }
 
 #user-menu {
@@ -139,6 +134,15 @@ body {
   border-left-width: 5px;
   border-radius: 3px;
   border-left-color: green;
+}
+
+.error-box {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  border-left-color: red;
 }
 
 .warning-box {
@@ -247,15 +251,6 @@ label.inline-star-label {
   color: @infoColor;
 }
 
-#draft-notice {
-  font-weight:bold;
-  font-style:italic;
-  display:none;
-  border-width: 0px 0px 0px 4px;
-  padding: 1em;
-  border-style: solid;
-  border-color: @infoColor;
-}
 
 .validation-error {
   display: none;
@@ -333,11 +328,6 @@ a#abandon-draft, a#abandon-draft:visited {
   color: white;
   font-style: normal;
   font-size:small;
-}
-
-span#dismiss-draft-notice {
-  font-size: small;
-  font-style: normal;
 }
 
 #add-label {
@@ -423,6 +413,20 @@ hr.feed-separator {
 .message-button {
   font-size:small;
   font-weight:bold;
+}
+
+.message-button-destructive {
+  background: #cc3333;
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+#draft-notice {
+  display:none;
+}
+
+.language-button {
+  font-size:small;
 }
 
 .inline-form {

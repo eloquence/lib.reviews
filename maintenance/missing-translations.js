@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const basePath = path.join(__dirname, '../locales');
-const langKeys = Object.keys(require(`${basePath}/languages`)());
+const langKeys = Object.keys(require(`${basePath}/languages`).getAll());
 const jsonfile = require('jsonfile');
 
 let enMessageKeys = Object.keys(jsonfile.readFileSync(`${basePath}/en.json`));

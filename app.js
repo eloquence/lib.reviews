@@ -23,7 +23,6 @@ const compression = require('compression');
 
 // Internal dependencies
 const reviews = require('./routes/reviews');
-const languages = require('./routes/languages'); // routes to change UI language
 const actions = require('./routes/actions');
 const users = require('./routes/users');
 const pages = require('./routes/pages');
@@ -33,7 +32,7 @@ const things = require('./routes/things');
 const debug = require('./util/debug');
 const render = require('./routes/helpers/render');
 const mlstring = require('./models/helpers/ml-string');
-const langDefs = require('./locales/languages')();
+const langDefs = require('./locales/languages').getAll();
 
 // Auth setup
 require('./auth');
@@ -109,11 +108,11 @@ app.use(session({
 app.use(flash());
 
 app.use(function(req, res, next) {
-  req.flashHasErrors = () => {
-    if (!req.session || !req.session.flash || !req.session.flash.errors)
+  req.flashHas = (key) => {
+    if (!req.session || !req.session.flash || !req.session.flash[key])
       return false;
     else
-      return req.session.flash.errors.length > 0;
+      return req.session.flash[key].length > 0;
   };
   next();
 });
@@ -156,10 +155,8 @@ app.use('/api', api);
 app.use(csrf());
 app.use('/', pages);
 app.use('/', reviews);
-app.use('/', languages);
 app.use('/', actions);
 app.use('/', things);
-//app.use('/user', users);
 
 // catch 404
 app.use(function(req, res, next) {

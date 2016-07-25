@@ -1,7 +1,5 @@
 <p>{{{__ "papers please" }}}</p>
-{{#each errors}}
-  <div class="error">{{{this}}}</div>
-{{/each}}
+{{> page_errors}}
 <form class="pure-form pure-form-aligned" action="/signin" method="post">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
     <fieldset>

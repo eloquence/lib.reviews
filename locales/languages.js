@@ -1,15 +1,31 @@
 'use strict';
 
-module.exports = function() {
+let langObj;
 
-  let languages = {
-    'de': {
-      messageKey: 'german'
-    },
-    'en': {
-      messageKey: 'english'
-    }
-  };
-  return languages;
+let languages = {
+
+  // Produces new copy each time to avoid accidental manipulation
+  getAll: function() {
+    return {
+      'de': {
+        messageKey: 'german'
+      },
+      'en': {
+        messageKey: 'english'
+      }
+    };
+  },
+
+  isValid: function(langKey) {
+    if (!langObj)
+      langObj = this.getAll();
+
+    if (langObj[langKey])
+      return true;
+    else
+      return false;
+  }
 
 };
+
+module.exports = languages;

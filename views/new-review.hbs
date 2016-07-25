@@ -21,15 +21,10 @@
 </div>
 </div>
 
-<div id="errors">
-<div class="error hidden" id="generic-action-error">{{{__ "could not complete action"}}}</div>
-{{#each errors}}
-  <div class="error">{{{this}}}</div>
-{{/each}}
-</div>
-<div id="draft-notice">
-<span class="fa fa-info-circle info-icon"></span> {{{__ "draft loaded"}}}
-<a href="#" class="pure-button button-rounded button-destructive" id="abandon-draft"><span class="fa fa-trash-o spaced-icon"></span>{{__ "abandon draft"}}</a> <span class="pure-button button-rounded" id="dismiss-draft-notice"><span class="fa fa-check-circle spaced-icon"></span>{{{__ "got it"}}}</span>
+{{>page_errors}}
+<div id="draft-notice" class="message-box">
+<span class="fa fa-info-circle spaced-icon"></span>{{{__ "draft loaded"}}}
+<button id="abandon-draft" class="pure-button button-rounded message-button message-button-destructive"><span class="fa fa-trash-o spaced-icon"></span>{{__ "abandon draft"}}</a></button> <button class="pure-button button-rounded message-button" id="dismiss-draft-notice"><span class="fa fa-check-circle spaced-icon"></span>{{{__ "got it"}}}</button>
 </div>
 <form class="pure-form pure-form-stacked" id="new-review-form" name="new-review-form" action="/new/review" method="post">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">

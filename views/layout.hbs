@@ -55,9 +55,14 @@
     </div>
 </div>
     <div id="main-body">
-    <div id="system-messages">
-    {{#each messages}}
+    <div id="site-messages">
+    {{#each siteMessages}}
     <div class="message-box"><span class="fa fa-bell-o spaced-icon"></span>{{{__ "site notification" this}}}</div>
+    {{/each}}
+    </div>
+    <div id="site-errors">
+    {{#each siteErrors}}
+    <div class="error-box"><span class="fa fa-exclamation-triangle spaced-icon"></span>{{{__ "site error" this}}}</div>
     {{/each}}
     </div>
     {{#unless deferPageHeader}}
@@ -67,15 +72,20 @@
     {{{body}}}
     </div>
     <div id="footer">
-    <div id="languages">{{{__ "change language" }}}
-    <ul>
+    <form id="languages" action="/actions/change-language" method="post">
+    <input type="hidden" value="{{csrfToken}}" name="_csrf">
+    {{{__ "change language" }}}
     {{#each languages}}
       {{#unless this.currentLanguage}}
-      <li><a href="/{{@key}}">{{{__ this.messageKey}}}</a>
+      <button class="pure-button button-rounded language-button" type="submit" name="lang" value="{{@key}}">{{{__ this.messageKey}}}</button>
       {{/unless}}
     {{/each}}
-    </ul>
+    {{#if showLanguageNotice}}
+    <input type="hidden" value="yes" name="has-language-notice">
+    {{/if}}
+    </form>
     <div id="freedom-notice">{{{__ "freedom"}}} <a href="/terms">{{{__ "terms"}}}</a> &ndash; <a href="https://github.com/eloquence/lib.reviews">{{__ "code"}}</a></div>
+    </div>
   </div>
 </div>
   <script type="text/javascript">

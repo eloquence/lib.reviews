@@ -5,7 +5,7 @@
     "intro message": "Warum? Weil wir glauben, dass die Welt der Rezensionen von einer Gemeinschaft organisiert werden sollte, ohne Gewinnabsicht, ohne Werbung, und mit einem klaren Bekenntnis zu Integrit&auml;t und Qualit&auml;t. Wir glauben au&szlig;erdem an die Entkopplung von Rezensionen und Anbietern von Produkten oder Dienstleistungen, da die Verkn&uuml;pfung einen Interessenkonflikt erzeugt.<br><br>Derzeit arbeiten wir an der Software. M&ouml;chtest du mithelfen? Hier sind einige Dinge, die zu tun sind:",
 		"to do list": "<ul><li><a href='/register'>Registriere ein Benutzerkonto</a> und <a href='/new'>schreibe eine Rezension</a>. Rezensionen werden vorerst nur im <a href='/feed'>Feed</a> angezeigt, und wir unterst&uuml;tzen Funktionen wie das Hochladen von Bildern oder die Eingabe von Metadaten bisher noch nicht.<li>Arbeite an einem <a href='https://github.com/eloquence/lib.reviews/issues'>offenen Ticket</a><li>Mach deine bisher geschriebenen Rezensionen frei verf&uuml;gbar, mit Hilfe von <a href='https://freeyourstuff.cc/'>freeyourstuff.cc</a> <li>Trag dich auf unserer <a href='http://www.freelists.org/list/lib.reviews'>Mailing-Liste</a> ein und teile uns deine Gedanken &uuml;ber dieses Projekt mit</ul>",
 		"find us on": "Du kannst uns <a href='https://github.com/eloquence/lib.reviews'>auf GitHub</a>, <a href='https://twitter.com/lib_reviews'>auf Twitter</a> und im IRC (<a href='https://webchat.freenode.net/?channels=libreviews'>#libreviews</a> auf <a href='https://freenode.net/'>irc.freenode.net</a>) finden.",
-    "change language": "Andere Sprachen:",
+    "change language": "Sprache wechseln:",
 		"english": "Englisch (English)",
 		"german": "Deutsch",
     "register": "Registrieren",
@@ -138,6 +138,8 @@
     "notice type language-notice-thing": "Hinweis auf Mehrsprachigkeit auf der Seite 'Ding bearbeiten'",
     "close this window": "Du kannst dieses Fenster schlie&szlig;en, um fortzufahren.",
     "could not complete action": "Es gab ein Problem bei der Beantwortung der Anfrage. Das tut uns leid! Dies k&ouml;nnte ein Internet-Verbindungsproblem sein, oder ein Programmierfehler unsererseits.",
-    "site notification": "<b>Website-Hinweis:</b> %s",
-    "notification language-changed": "Du hast deine Sprachwahl ge&auml;ndert. Wenn du nun Inhalte anlegst, werden wir davon ausgehen, dass sie auf <b>Deutsch</b> geschrieben sind. Wir zeigen dir auch einen kleinen Indikator neben Texten, die in einer anderen Sprache verfasst wurden (du kannst bei der &Uuml;bersetzung helfen)."
+    "site notification": "<b>Hinweis:</b> %s",
+    "site error": "<b>Fehler:</b>",
+    "notification language-changed": "Du hast deine Sprachwahl ge&auml;ndert. Wenn du nun Inhalte anlegst, werden wir davon ausgehen, dass sie auf <b>Deutsch</b> geschrieben sind. Wir zeigen dir auch einen kleinen Indikator neben Texten, die in einer anderen Sprache verfasst wurden (du kannst bei der &Uuml;bersetzung helfen).",
+    "invalid language": "Die angefragte Sprachversion war ung&uuml;ltig oder wurde nicht erkannt."
 }

@@ -1,12 +1,8 @@
 <p>{{{__ "enter your info" }}}</p>
-<div id="page-errors">
-{{#each errors}}
-  <div class="error">{{{this}}}</div>
-{{/each}}
-</div>
+{{>page_errors}}
 <div id="page-warnings">
 {{#if user}}
-<div class="warning">
+<div class="warning-box">
 {{{__ "already logged in"}}}
 </div>
 {{/if}}

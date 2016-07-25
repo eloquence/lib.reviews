@@ -14,7 +14,7 @@ const forms = require('./helpers/forms');
 const User = require('../models/user');
 const debug = require('../util/debug');
 const actionHandler = require('./handlers/action-handler.js');
-
+const languages = require('../locales/languages');
 
 const formDefs = {
   'register': [{
@@ -31,13 +31,37 @@ const formDefs = {
 
 router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 
+router.post('/actions/change-language', function(req, res) {
+  let maxAge = 1000 * 60 * 60 * 24 * 30; // cookie age: 30 days
+  let lang = req.body.lang;
+  let referer = req.get('referer');
+  let hasLanguageNotice = req.body['has-language-notice'] ? true : false;
+
+  if (!languages.isValid(lang)) {
+    req.flash('siteErrors', req.__('invalid language'));
+    return res.redirect('back');
+  }
+
+  res.cookie('locale', lang, {
+    maxAge, // FIXME: should be from config
+    httpOnly: true
+  });
+  req.locale = lang;
+
+  // Don't show on pages with language notices on them, to avoid message overkill.
+  if (!hasLanguageNotice)
+    req.flash('siteMessages', req.__('notification language-changed'));
+
+  res.redirect('back');
+});
+
 // Below actions have shorter names for convenience
 
 router.get('/signin', function(req, res) {
-  let errors = req.flash('errors');
+  let pageErrors = req.flash('pageErrors');
   render.template(req, res, 'signin', {
     titleKey: 'sign in',
-    errors,
+    pageErrors,
     scripts: ['signin.js']
   });
 });
@@ -46,9 +70,9 @@ router.get('/signin', function(req, res) {
 router.post('/signin', function(req, res, next) {
   if (!req.body.username || !req.body.password) {
     if (!req.body.username)
-      req.flash('errors', req.__('need username'));
+      req.flash('pageErrors', req.__('need username'));
     if (!req.body.password)
-      req.flash('errors', req.__('need password'));
+      req.flash('pageErrors', req.__('need password'));
     return res.redirect('/signin');
   }
 
@@ -63,7 +87,7 @@ router.post('/signin', function(req, res, next) {
     }
     if (!user) {
       if (info && info.message) {
-        req.flash('errors', res.__(info.message));
+        req.flash('pageErrors', res.__(info.message));
       }
       return res.redirect('/signin');
     }
@@ -100,7 +124,7 @@ router.post('/register', function(req, res) {
     formKey: 'register'
   });
 
-  if (req.flashHasErrors())
+  if (req.flashHas('pageErrors'))
     return sendRegistrationForm(req, res, formInfo);
 
   User.create({
@@ -109,7 +133,7 @@ router.post('/register', function(req, res) {
       email: req.body.email
     })
     .then(user => {
-      req.flash('messages', res.__('welcome new user', user.displayName));
+      req.flash('siteMessages', res.__('welcome new user', user.displayName));
       req.login(user, error => {
         if (error) {
           debug.error({
@@ -129,11 +153,11 @@ router.post('/register', function(req, res) {
 });
 
 function sendRegistrationForm(req, res, formInfo) {
-  let errors = req.flash('errors');
+  let pageErrors = req.flash('pageErrors');
 
   render.template(req, res, 'register', {
     titleKey: 'register',
-    errors,
+    pageErrors,
     formValues: formInfo ? formInfo.formValues : undefined,
     questionCaptcha: forms.getQuestionCaptcha('register'),
     illegalUsernameCharactersReadable: User.options.illegalCharsReadable,

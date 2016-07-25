@@ -1,9 +1,4 @@
-<div id="errors">
-  <div class="error hidden" id="generic-action-error">{{{__ "could not complete action"}}}</div>
-  {{#each errors}}
-  <div class="error">{{{this}}}</div>
-  {{/each}}
-</div>
+{{>page_errors}}
 {{#if showLanguageNotice}}
 {{> dismissible_notice icon="globe" messageKey="editing in language" id="language-notice-thing" csrfToken=csrfToken}}
 {{/if}}

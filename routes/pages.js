@@ -10,8 +10,7 @@ const render = require('./helpers/render');
 // Homepage
 router.get('/', function(req, res) {
   render.template(req, res, 'index', {
-    titleKey: 'welcome',
-    messages: req.flash('messages')
+    titleKey: 'welcome'
   });
 });
 

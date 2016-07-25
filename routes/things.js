@@ -101,7 +101,7 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
 
 
 function sendThing(req, res, thing, edit) {
-  let errors = req.flash('errors');
+  let pageErrors = req.flash('pageErrors');
   let showLanguageNotice = false;
   let user = req.user;
 
@@ -121,7 +121,7 @@ function sendThing(req, res, thing, edit) {
     titleKey: edit ? edit.titleKey : undefined,
     thing,
     edit,
-    errors,
+    pageErrors,
     showLanguageNotice
   });
 }

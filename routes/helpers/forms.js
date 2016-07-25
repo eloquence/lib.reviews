@@ -36,7 +36,7 @@ let forms = {
 
     for (let field of formDef) {
       if (!req.body[field.name] && field.required) {
-        req.flash('errors', req.__(`need ${field.name}`));
+        req.flash('pageErrors', req.__(`need ${field.name}`));
         hasRequiredFields = false;
       }
       if (req.body[field.name] && !field.radioMap)
@@ -52,7 +52,7 @@ let forms = {
     }
     if (processedKeys.length) {
       hasUnknownFields = true;
-      req.flash('errors', req.__('unexpected form data'));
+      req.flash('pageErrors', req.__('unexpected form data'));
     }
     return {
       hasRequiredFields,
@@ -83,12 +83,12 @@ let forms = {
       return false;
 
     if (!config.questionCaptcha.captchas[id]) {
-      req.flash('errors', req.__('unknown captcha'));
+      req.flash('pageErrors', req.__('unknown captcha'));
       return false;
     }
 
     if (answerText.trim().toUpperCase() !== req.__(config.questionCaptcha.captchas[id].answerKey).toUpperCase()) {
-      req.flash('errors', req.__('incorrect captcha answer'));
+      req.flash('pageErrors', req.__('incorrect captcha answer'));
       return false;
     } else
       return true;
