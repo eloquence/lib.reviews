@@ -47,7 +47,7 @@
   $('#preview').click(showPreviewOnce);
 
   if (!editing) {
-    $(textField).change(hideAbandonDraft);
+    $(textFields).change(hideAbandonDraft);
     $('#review-url').change(validateURL);
     $('#dismiss-draft-notice').click(hideDraftNotice);
     $('#abandon-draft').click(emptyAllFormFields);
