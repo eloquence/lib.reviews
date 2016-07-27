@@ -6,32 +6,41 @@
 // Node's built-in module helps a little
 let url = require('url');
 
-
 // Custom converters based on hostname matches
 let converterRules = [{
   host: /^(www\.)?amazon\.com$/,
-  converter: stripAmazonQueryStrings
+  converter: _stripAmazonQueryStrings
 }];
 
-function normalize(inputURL) {
-  let outputURL;
+let urlUtils = {
 
-  let parsedURL = url.parse(inputURL);
+  normalize: function (inputURL) {
+    let outputURL;
+    let parsedURL = url.parse(inputURL);
 
-  // Normalizes trailing slashes
-  outputURL = parsedURL.href;
+    // Normalizes trailing slashes
+    outputURL = parsedURL.href;
 
-  for (let rule of converterRules) {
-    if (rule.host.test(parsedURL.hostname)) {
-      outputURL = rule.converter(outputURL);
+
+    for (let rule of converterRules) {
+      if (rule.host.test(parsedURL.hostname)) {
+        outputURL = rule.converter(outputURL);
+      }
     }
+
+    return outputURL;
+
+  },
+
+  prettify(inputURL) {
+    return inputURL
+      .replace(/^.*?:\/\//, '') // strip protocol
+      .replace(/\/$/, ''); // remove trailing slashes
   }
 
-  return outputURL;
+};
 
-}
-
-function stripAmazonQueryStrings(inputURL) {
+function _stripAmazonQueryStrings(inputURL) {
   let regex = /(.*\/)ref=.*$/;
   let match = inputURL.match(regex);
   if (Array.isArray(match) && match[1])
@@ -40,4 +49,4 @@ function stripAmazonQueryStrings(inputURL) {
     return inputURL;
 }
 
-module.exports = normalize;
+module.exports = urlUtils;

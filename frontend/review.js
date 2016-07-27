@@ -1,6 +1,15 @@
 (function() {
   'use strict';
 
+  // Our form's behavior depends significantly on whether we're creating
+  // a new review, or editing an old one.
+  let editing = config.editing;
+  let textFields = editing ? '#review-title,#review-text' :
+    '#review-url,#review-title,#review-text';
+
+  // A library we rely on to persist form data, but only for new reviews for now
+  let sisyphus;
+
   // Add inputs used only with JS here so they don't appear/conflict when JS is disabled
   $('#star-rating-control').append(`<input id="review-rating" name="review-rating" type="hidden">`);
 
@@ -20,10 +29,8 @@
 
   // Register event handlers
 
-  $('#review-url,#review-title,#review-text').focus(showInputHelp);
-  $('#review-url,#review-title,#review-text').blur(hideInputHelp);
-  $('#review-url,#review-title,#review-text').change(hideAbandonDraft);
-  $('#review-url').change(validateURL);
+  $(textFields).focus(showInputHelp);
+  $(textFields).blur(hideInputHelp);
   $('#star-rating-control').mouseover(showStarControlHelp);
   $('#star-rating-control').mouseout(hideStarControlHelp);
   $('[id^=star-button-]')
@@ -33,25 +40,28 @@
     .keyup(maybeSelectStar)
     .focus(showStarControlHelp)
     .blur(hideStarControlHelp);
-
   $('#live-preview').change(toggleLivePreview);
-  $('#dismiss-draft-notice').click(hideDraftNotice);
-  $('#abandon-draft').click(emptyAllFormFields);
-  $('#add-http').click(addHTTP);
-  $('#add-https').click(addHTTPS);
   $('#publish').click(libreviews.getRequiredFieldHandler({
     fieldSelector: '#review-url,#review-title,#review-text,#review-rating'
   }));
   $('#preview').click(showPreviewOnce);
 
-  // The sisyphus library persists form data to local storage on change events
-  let sisyphus = $('#new-review-form').sisyphus({
-    onRestore: processLoadedData,
-    excludeFields: $('#live-preview')
-  });
-
-  // Start typing :-)
-  $('#review-url').focus();
+  if (!editing) {
+    $(textField).change(hideAbandonDraft);
+    $('#review-url').change(validateURL);
+    $('#dismiss-draft-notice').click(hideDraftNotice);
+    $('#abandon-draft').click(emptyAllFormFields);
+    $('#add-http').click(addHTTP);
+    $('#add-https').click(addHTTPS);
+    sisyphus = $('#new-review-form').sisyphus({
+      onRestore: processLoadedData,
+      excludeFields: $('#live-preview')
+    });
+    // Start typing :-)
+    $('#review-url').focus();
+  } else {
+    $('#review-title').focus();
+  }
 
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))

@@ -1,3 +1,8 @@
+<div id="page-messages">
+{{#each pageMessages}}
+<div class="message-box">{{{this}}}</div>
+{{/each}}
+</div>
 <h1 id="page-header">
 {{#if (mlString review.thing.label)}}
 {{{__ "review of" (mlString review.thing.label)}}}

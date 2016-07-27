@@ -26,17 +26,19 @@
 <span class="fa fa-info-circle spaced-icon"></span>{{{__ "draft loaded"}}}
 <button id="abandon-draft" class="pure-button button-rounded message-button message-button-destructive"><span class="fa fa-trash-o spaced-icon"></span>{{__ "abandon draft"}}</a></button> <button class="pure-button button-rounded message-button" id="dismiss-draft-notice"><span class="fa fa-check-circle spaced-icon"></span>{{{__ "got it"}}}</button>
 </div>
-<form class="pure-form pure-form-stacked" id="new-review-form" name="new-review-form" action="/new/review" method="post">
+<form class="pure-form pure-form-stacked" id="review-form" name="review-form" method="post">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
     <fieldset>
       <div class="pure-g">
         <div class="pure-u-1 pure-u-md-2-3">
+        {{#unless editing}}
         <div class="pure-control-group">
             <label for="review-url">{{{__ "url"}}} <span class="required">*</span></label>
             <input id="review-url" name="review-url" type="text" class="pure-input-1" data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{formValues.review-url}}">
             <div id="review-url-error" class="validation-error">{{{__ "not a url"}}}</div>
             <div id="helper-links"><a href="#" id="add-https">{{{__ "add https"}}}</a> &ndash; <a href="#" id="add-http">{{{__ "add http"}}}</a></div>
         </div>
+        {{/unless}}
         <div class="pure-control-group">
             <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>
             <input id="review-title" name="review-title" type="text" class="pure-input-1" data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{formValues.review-title}}">
@@ -100,7 +102,7 @@
     {{{__ "correct errors"}}}
     </div>
     <div class="buttons-group">
-    <button type="submit" id="publish" name="review-action" value="publish" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "publish"}}}</button>
+    <button type="submit" id="publish" name="review-action" value="publish" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{#if editing}}{{{__ "save"}}}{{else}}{{{__ "publish"}}}{{/if}}</button>
     <button type="submit" id="preview" name="review-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "accesskey" "p"}}}">{{{__ "preview"}}}</button>
     <span class="nojs-hidden" id="live-preview-control">
     <input type="checkbox" id="live-preview">
