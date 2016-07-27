@@ -5,7 +5,7 @@
     "intro message": "Why? Because we believe the world's reviews should be organized by a community, not for profit, without ads, and with a strong commitment to integrity and quality. We also believe in separating reviews from the people offering you the thing that you're reviewing, to reduce conflicts of interest.<br><br>Right now we're working on the code. Here are a few things you can do:",
     "to do list": "<ul><li><a href='/register'>Create an account</a> and <a href='/new'>write a review</a>. Reviews will only show up in the <a href='/feed'>feed</a> for now, and you can't do fancy things like uploading images or adding metadata yet.<li>Work on any of our <a href='https://github.com/eloquence/lib.reviews/issues'>open issues</a><li>Liberate your existing reviews using <a href='https://freeyourstuff.cc/'>freeyourstuff.cc</a> <li>Join our <a href='http://www.freelists.org/list/lib.reviews'>discussion list</a> and share your thoughts about this project</ul>",
     "find us on": "You can find us <a href='https://github.com/eloquence/lib.reviews'>on GitHub</a>, <a href='https://twitter.com/lib_reviews'>on Twitter</a> and on IRC (<a href='https://webchat.freenode.net/?channels=libreviews'>#libreviews</a> on <a href='https://freenode.net/'>irc.freenode.net</a>).",
-    "change language": "Change language:",
+    "change language": "Switch to:",
     "german": "German (Deutsch)",
     "english": "English",
     "sign in": "Sign in",
@@ -142,5 +142,6 @@
     "site error": "<b>Error:</b> %s",
     "notification language-changed": "You have changed your language preference. This means that when you create or edit content, we assume it's in <b>English</b>. We'll also show you a little indicator when content is in a different language from the one you've set (you can help translate).",
     "invalid language": "The requested language was not valid or was not recognized.",
-    "edit saved": "Your edit was saved. Thank you!"
+    "edit saved": "Your edit was saved. Thank you!",
+    "current language": "Language: %s"
 }

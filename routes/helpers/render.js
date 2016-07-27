@@ -30,9 +30,13 @@ let render = {
     vars.languages = languages.getAll();
 
     if (vars.languages[req.locale])
-      vars.languages[req.locale].currentLanguage = true;
+      vars.languages[req.locale].isCurrentLanguage = true;
 
-    vars.currentLanguage = req.locale;
+    vars.currentLanguage = {
+      langKey: req.locale,
+      messageKey: vars.languages[req.locale].messageKey,
+      label: req.__( vars.languages[req.locale].messageKey)
+    };
 
     vars.csrfToken = req.csrfToken();
 

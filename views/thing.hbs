@@ -6,7 +6,7 @@
   <form class="pure-form pure-form-aligned" method="post" action="">
   <input type="text" class="pure-input-1-2" id="thing-edit-label" name="thing-label" value="{{mlString thing.label false}}" placeholder="{{{__ "enter label"}}}" size="64" data-auto-trim>
   <input type="hidden" value="{{csrfToken}}" name="_csrf">
-  <input type="hidden" name="thing-label-language" value="{{currentLanguage}}">
+  <input type="hidden" name="thing-label-language" value="{{currentLanguage.langKey}}">
   <button type="submit" id="save" name="thing-action" value="save" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "save"}}}</button>
   <a class="cancel-link" href="/thing/{{thing.id}}">{{__ "cancel"}}</a>
   </form>

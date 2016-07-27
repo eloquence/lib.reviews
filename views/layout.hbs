@@ -74,9 +74,10 @@
     <div id="footer">
     <form id="languages" action="/actions/change-language" method="post">
     <input type="hidden" value="{{csrfToken}}" name="_csrf">
+    <span class="fa fa-globe spaced-icon"></span>{{__ "current language" currentLanguage.label}} &ndash;
     {{{__ "change language" }}}
     {{#each languages}}
-      {{#unless this.currentLanguage}}
+      {{#unless this.isCurrentLanguage}}
       <button class="pure-button button-rounded language-button" type="submit" name="lang" value="{{@key}}">{{{__ this.messageKey}}}</button>
       {{/unless}}
     {{/each}}
