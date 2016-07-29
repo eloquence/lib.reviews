@@ -143,5 +143,21 @@
     "notification language-changed": "Du hast deine Sprachwahl ge&auml;ndert. Wenn du nun Inhalte anlegst oder bearbeitest, werden wir davon ausgehen, dass sie auf <b>Deutsch</b> geschrieben sind. Wir zeigen dir auch einen kleinen Indikator neben Texten, die in einer anderen Sprache verfasst wurden (du kannst bei der &Uuml;bersetzung helfen).",
     "invalid language": "Die angefragte Sprachversion war ung&uuml;ltig oder wurde nicht erkannt.",
     "edit saved": "Deine &Auml;nderung wurde gespeichert. Vielen Dank!",
-    "current language": "Sprache: %s"
+    "current language": "Sprache: %s",
+    "user": "Benutzer: %s",
+    "user not found": "Benutzer nicht gefunden",
+    "user not found text": "Wir konnten keinen Benutzer mit dem Namen '%s' finden.",
+    "user bio": "Bio:",
+    "add bio": "Bio hinzuf&uuml;gen",
+    "edit bio": "Bio bearbeiten",
+    "user registration date": "Registriert seit:",
+    "user teams": "Team-Mitgliedschaften",
+    "no teams yet": "Keine Team-Mitgliedschaften.",
+    "user trusted by": "Vertraut von:",
+    "no trust yet": "Noch niemandem.",
+    "max characters": "Max. 1000 Zeichen",
+    "remaining characters": "(%s verbleibend)",
+    "over maximum": "(%s &uuml;ber dem Maximum)",
+    "supports markdown": "Unterst&uuml;tzt <a href='http://help.wtf/md' target='_new'>Markdown</a>",
+    "data missing": "Unvollst&auml;ndige Formulardaten erhalten."
 }
