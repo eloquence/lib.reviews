@@ -1,6 +1,10 @@
 'use strict';
 const escapeHTML = require('escape-html');
 
+// This class is exclusively for localized error messages that are passed
+// through to the user.  When there is no need to pass an error message
+// through to the user, use native Error objects, or specialized Error
+// objects provided by a library.
 class ErrorMessage {
   constructor(msgKey, msgParams, originalError) {
     if (!msgKey)

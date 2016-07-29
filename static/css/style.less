@@ -12,6 +12,10 @@ pure CSS from LESS
 @headerColor: #414042;
 @sideMargin: 2em;
 
+.hidden-regular { // PureCSS has .hidden defined with !important
+  display:none;
+}
+
 .nav {
   background: #fafafa;
   padding-top: 1em;
@@ -170,8 +174,14 @@ body {
 label {
   font-weight: bold;
 }
-.user-name {
+
+a#user-link, a#user-link:visited {
   color: #666;
+  text-decoration:none;
+}
+
+a#user-link:hover {
+  text-decoration:underline;
 }
 
 .spaced-icon {
@@ -330,14 +340,14 @@ a#abandon-draft, a#abandon-draft:visited {
   font-size:small;
 }
 
-#add-label {
-  font-size: small;
-  font-style: normal;
-}
-a#add-label, a#add-label:visited, a#add-label:hover {
+a#add-label, a#add-label:visited, a#add-label:hover,
+a#edit-bio, a#edit-bio:visited, a#edit-bio:hover
+{
   color: black;
+  font-size: small;
   font-weight: bold;
   text-decoration:none;
+  font-style:normal;
 }
 
 
@@ -372,6 +382,8 @@ hr.feed-separator {
   border: 0;
   height: 1px;
   background: #aaa;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 .review-rating {
@@ -443,4 +455,32 @@ hr.feed-separator {
   font-weight: normal;
   font-style: normal;
   white-space: nowrap;
+}
+
+.user-label {
+  font-weight: bold;
+}
+
+.inline-feed-title {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: @headerColor;
+  font-style:italic;
+}
+
+.intro-text {
+  padding-right: 2em;
+}
+
+#bio-textarea {
+  width: 90%;
+  height: 7em;
+}
+
+#character-caption {
+  font-size: small;
+}
+
+#over-maximum-warning {
+  color: red;
 }

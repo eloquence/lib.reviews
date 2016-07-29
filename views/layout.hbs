@@ -34,7 +34,7 @@
         <div class="pure-u-1-2">
             {{#if user}}
                 <ul id="user-menu">
-                    <li><span class="user-name"><span class="fa fa-user spaced-icon"></span>{{user.displayName}}</span>
+                    <li><a id="user-link" href="/user/{{user.urlName}}"><span class="fa fa-user spaced-icon"></span>{{user.displayName}}</a>
                     </li>
                     <li><a href="/new/review" class="pure-button button-cta button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span class="fa fa-pencil spaced-icon"></span>{{__ "new review"}}</a>
                         <li>

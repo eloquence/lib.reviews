@@ -143,5 +143,21 @@
     "notification language-changed": "You have changed your language preference. This means that when you create or edit content, we assume it's in <b>English</b>. We'll also show you a little indicator when content is in a different language from the one you've set (you can help translate).",
     "invalid language": "The requested language was not valid or was not recognized.",
     "edit saved": "Your edit was saved. Thank you!",
-    "current language": "Language: %s"
+    "current language": "Language: %s",
+    "user": "User: %s",
+    "user not found": "User not found",
+    "user not found text": "We did not find a user with the specified name, '%s'.",
+    "user bio": "Bio:",
+    "add bio": "Add bio",
+    "edit bio": "Edit bio",
+    "user registration date": "Registration date:",
+    "user teams": "Team memberships:",
+    "no teams yet": "Not a member of any teams.",
+    "user trusted by": "Trusted by:",
+    "no trust yet": "Nobody yet.",
+    "max characters": "Max. 1000 characters",
+    "remaining characters": "(%s remaining)",
+    "over maximum": "(%s over maximum)",
+    "supports markdown": "Supports <a href='http://help.wtf/md' target='_new'>markdown</a>",
+    "data missing": "Incomplete form data received."
 }

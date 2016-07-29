@@ -18,7 +18,13 @@ const reviewHandlers = require('./handlers/review-handlers');
 const mlString = require('../models/helpers/ml-string.js');
 const prettifyURL = require('../util/url-normalizer').prettify;
 
-router.get('/feed', reviewHandlers.feed);
+router.get('/', reviewHandlers.getFeedHandler({
+  template: 'index',
+  titleKey: 'welcome',
+  deferPageHeader: true,
+  onlyTrusted: true
+}));
+router.get('/feed', reviewHandlers.getFeedHandler());
 router.get('/review/:id', reviewHandlers.view);
 router.get('/review/:id/delete', function(req, res, next) {
   let reviewForm = new ReviewFormHandler({

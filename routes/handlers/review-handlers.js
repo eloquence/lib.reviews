@@ -72,43 +72,41 @@ let reviewHandlers = {
     });
   },
 
-  feed: function(req, res, next) {
-    Review
-      .orderBy({
-        index: r.desc('createdAt')
-      })
-      .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
-        default: true
-      })
-      .filter(r.row('_revOf').eq(false), { // Exclude old versions
-        default: true
-      })
-      .limit(10)
-      .getJoin({
-        thing: true
-      })
-      .getJoin({
-        creator: {
-          _apply: seq => seq.without('password')
-        }
-      })
-      .then(feedItems => {
-        for (let item of feedItems) {
-          item.populateUserInfo(req.user);
-          if (item.thing) {
-            item.thing.populateUserInfo(req.user);
-          }
-        }
-        render.template(req, res, 'feed', {
-          titleKey: 'feed',
-          feedItems
-        });
-      })
-      .catch(error => {
-        next(error);
-      });
-  }
+  getFeedHandler: function(optionsParam) {
 
+    let options = {
+      titleKey: 'feed',
+      template: 'feed',
+      onlyTrusted: false,
+      deferPageHeader: false
+    };
+
+    if (typeof optionsParam == "object")
+      Object.assign(options, optionsParam);
+
+    return function(req, res, next) {
+      Review
+        .getFeed({
+          onlyTrusted: options.onlyTrusted
+        })
+        .then(feedItems => {
+          for (let item of feedItems) {
+            item.populateUserInfo(req.user);
+            if (item.thing) {
+              item.thing.populateUserInfo(req.user);
+            }
+          }
+          render.template(req, res, options.template, {
+            titleKey: options.titleKey,
+            deferPageHeader: options.deferPageHeader,
+            feedItems
+          });
+        })
+        .catch(error => {
+          next(error);
+        });
+    };
+  }
 };
 
 module.exports = reviewHandlers;

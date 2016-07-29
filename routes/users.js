@@ -1,10 +1,18 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+const escapeHTML = require('escape-html');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const render = require('./helpers/render');
+const User = require('../models/user');
+const Review = require('../models/review');
+
+const userHandlers = require('./handlers/user-handlers');
+
+router.get('/:name', userHandlers.getUserHandler());
+
+router.get('/:name/edit/bio', userHandlers.getUserHandler({ editBio: true }));
+
+router.post('/:name/edit/bio', userHandlers.processEdit);
 
 module.exports = router;

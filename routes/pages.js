@@ -7,13 +7,6 @@ const router = express.Router();
 // Internal dependencies
 const render = require('./helpers/render');
 
-// Homepage
-router.get('/', function(req, res) {
-  render.template(req, res, 'index', {
-    titleKey: 'welcome'
-  });
-});
-
 router.get('/terms', function(req, res) {
   render.template(req, res, `multilingual/terms-${req.locale}`, {
     deferPageHeader: true,

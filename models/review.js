@@ -167,4 +167,50 @@ Review.getWithData = function(id) {
     });
 };
 
+Review.getFeed = function(options) {
+
+  options = Object.assign({
+    // ID of original author
+    createdBy: undefined,
+    // exclude reviews by users that haven't been marked trusted yet. Will be
+    // applied after limit, so you might get < limit items.
+    onlyTrusted: false,
+    limit: 10
+  }, options);
+
+  let rv = Review.orderBy({
+    index: r.desc('createdAt')
+  });
+  if (options.createdBy)
+    rv = rv.filter({
+      createdBy: options.createdBy
+    });
+
+  rv = rv
+    .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
+      default: true
+    })
+    .filter(r.row('_revOf').eq(false), { // Exclude old versions
+      default: true
+    })
+    .limit(options.limit)
+    .getJoin({
+      thing: true
+    })
+    .getJoin({
+      creator: {
+        _apply: seq => seq.without('password')
+      }
+    });
+
+  if (options.onlyTrusted)
+    rv = rv.filter({
+      creator: {
+        isTrusted: true
+      }
+    });
+
+  return rv;
+};
+
 module.exports = Review;

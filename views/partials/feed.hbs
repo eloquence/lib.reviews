@@ -1,0 +1,10 @@
+<div id="feed">
+{{#each feedItems}}
+<div id="review-{{this.id}}" class="feed-review">
+{{> review review=this feed=true}}
+</div>
+{{#unless @last}}
+<hr class="feed-separator">
+{{/unless}}
+{{/each}}
+</div>

@@ -2,8 +2,11 @@
 const thinky = require('../db');
 const type = thinky.type;
 const Errors = thinky.Errors;
+const r = thinky.r;
 const bcrypt = require('bcrypt-nodejs');
 const ErrorMessage = require('../util/error.js');
+const UserMeta = require('./user-meta');
+const mlString = require('./helpers/ml-string');
 
 const options = {
   maxChars: 128,
@@ -24,11 +27,19 @@ let User = thinky.createModel("users", {
   }),
   email: type.string().max(options.maxChars).email(),
   password: type.string(),
+  userMetaID: type.string().uuid(4), // Versioned
+  trustedBy: [{
+    trustedByUser: type.string().uuid(4),
+    trustedOnDate: type.date(),
+  }],
   registrationDate: type.date().default(() => new Date()),
+  isTrusted: type.boolean().default(false), // Basic trust - not a spammer, can confer trust
   isModerator: type.boolean().default(false),
   isEditor: type.boolean().default(false),
   suppressedNotices: [type.string()]
 });
+
+User.belongsTo(UserMeta, "meta", "userMetaID", "id");
 
 User.options = options; // for external visibility
 Object.freeze(User.options);
@@ -44,7 +55,7 @@ User.define("setName", function(displayName) {
 // FIXME: switch to async code, these are pretty slow by design
 User.define("setPassword", function(password) {
   if (password.length < options.minPasswordLength)
-    // Can't be run as a validator since by then it's a hash
+  // Can't be run as a validator since by then it's a hash
     throw new ErrorMessage('password too short', [String(options.minPasswordLength)]);
   else
     this.password = bcrypt.hashSync(password);
@@ -79,8 +90,8 @@ User.ensureUnique = function(name) {
       else
         resolve();
     }).catch(error => {
-        // Most likely, table does not exist. Will be auto-created on restart.
-        reject(error);
+      // Most likely, table does not exist. Will be auto-created on restart.
+      reject(error);
     });
   });
 };
@@ -121,11 +132,71 @@ User.create = function(userObj) {
   });
 };
 
+User.findByURLName = function(name, options) {
 
+  options = Object.assign({
+    withData: false // include metadata
+  }, options);
+
+  name = name.trim();
+
+  return new Promise((resolve, reject) => {
+
+    let p = User.filter({
+      canonicalName: User.canonicalize(name)
+    });
+
+    if (options.withData)
+      p = p.getJoin({
+        meta: true
+      });
+
+    p.then(users => {
+        if (users.length)
+          resolve(users[0]);
+        else
+          reject(new Errors.DocumentNotFound('User not found'));
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 User.canonicalize = function(name) {
   return name.toUpperCase();
 };
+
+User.createBio = function(user, bioObj) {
+
+  return new Promise((resolve, reject) => {
+
+    r
+      .uuid()
+      .then(uuid => {
+        let userMeta = new UserMeta(bioObj);
+        userMeta._revID = uuid;
+        userMeta._revUser = user.id;
+        userMeta._revDate = new Date();
+        userMeta._revTags = ['create-bio-via-user'];
+        userMeta
+          .save()
+          .then(savedMeta => {
+            user.userMetaID = savedMeta.id;
+            resolve(user.save()); // Pass along promise to update user with new info
+          })
+          .catch(error => { // Failure to save user metadata
+            reject(error);
+          });
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+
+};
+
+
 
 function containsOnlyLegalCharacters(name) {
   if (options.illegalChars.test(name))

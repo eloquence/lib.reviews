@@ -20,6 +20,10 @@ hbs.registerHelper('link', function(url, title) {
   return `<a href="${url}">${title}</a>`;
 });
 
+hbs.registerHelper('userLink', function(user) {
+  return `<a href="/user/${user.urlName}">${user.displayName}</a>`;
+});
+
 hbs.registerHelper('prettify', function(url) {
   return url
     .replace(/^.*?:\/\//, '') // strip protocol

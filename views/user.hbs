@@ -1,0 +1,49 @@
+<div id="page-errors">
+{{#each pageErrors}}
+<div class="error">{{{this}}}</div>
+{{/each}}
+</div>
+<div class="pure-g">
+<div class="pure-u-1 pure-u-md-2-5">
+<span class="user-label">{{{__ "user bio"}}}</span><br>
+{{#unless edit.bio}}
+{{#if userInfo.meta.bio}}{{{mlString userInfo.meta.bio.html}}}{{/if}}
+<a id="edit-bio" href="/user/{{userInfo.urlName}}/edit/bio" class="pure-button button-rounded">
+<span class="fa fa-pencil spaced-icon"></span>{{#if userInfo.meta.bio}}{{{__ "edit bio"}}}{{else}}{{{__ "add bio"}}}{{/if}}
+</a>
+{{else}}
+<form id="bio-form" name="bio-form" action="" method="post">
+<textarea id="bio-textarea" name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>
+<input type="hidden" value="{{currentLanguage.langKey}}" name="bio-language">
+<input type="hidden" value="{{csrfToken}}" name="_csrf">
+<div id="character-caption">
+{{{__ "max characters"}}}
+<span id="character-counter" class="nojs-hidden">{{{__ "remaining characters" "<span id='character-count'></span>"}}}</span>
+<span id="over-maximum-warning" class="hidden-regular">{{{__ "over maximum" "<span id='over-maximum-count'></span>"}}}</span>
+<br>
+{{{__ "supports markdown"}}}
+<p>
+</div>
+<button type="submit" id="save" name="thing-action" value="save" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "save"}}}</button>
+<a href="/user/{{userInfo.urlName}}" class="cancel-link">{{{__ "cancel"}}}</a>
+</form>
+{{/unless}}
+<p>
+<span class="user-label">{{{__ "user registration date"}}}</span><br>
+{{userInfo.registrationDate}}
+<p>
+<span class="user-label">{{{__ "user teams"}}}</span><br>
+
+{{{__ "no teams yet"}}}
+
+<p>
+<span class="user-label">{{{__ "user trusted by"}}}</span><br>
+
+{{{__ "no trust yet"}}}
+</div>
+<div class="pure-u-1 pure-u-md-3-5">
+<span class="inline-feed-title">{{{__ "feed"}}}</span>
+<p>
+{{>feed}}
+</div>
+</div>

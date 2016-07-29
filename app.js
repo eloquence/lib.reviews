@@ -157,6 +157,7 @@ app.use('/', pages);
 app.use('/', reviews);
 app.use('/', actions);
 app.use('/', things);
+app.use('/user', users);
 
 // catch 404
 app.use(function(req, res, next) {
