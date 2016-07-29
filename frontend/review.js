@@ -53,7 +53,7 @@
     $('#abandon-draft').click(emptyAllFormFields);
     $('#add-http').click(addHTTP);
     $('#add-https').click(addHTTPS);
-    sisyphus = $('#new-review-form').sisyphus({
+    sisyphus = $('#review-form').sisyphus({
       onRestore: processLoadedData,
       excludeFields: $('#live-preview')
     });
