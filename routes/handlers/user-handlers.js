@@ -20,7 +20,8 @@ let userHandlers = {
     let name = req.params.name.trim();
     User
       .findByURLName(name, {
-        withData: true
+        withData: true,
+        withPassword: true // Since user needs to be updated
       })
       .then(user => {
         if (!req.user || req.user.id !== user.id)

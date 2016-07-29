@@ -135,6 +135,7 @@ User.create = function(userObj) {
 User.findByURLName = function(name, options) {
 
   options = Object.assign({
+    withPassword: false,
     withData: false // include metadata
   }, options);
 
@@ -145,6 +146,9 @@ User.findByURLName = function(name, options) {
     let p = User.filter({
       canonicalName: User.canonicalize(name)
     });
+
+    if (!options.withPassword)
+      p = p.without('password');
 
     if (options.withData)
       p = p.getJoin({
