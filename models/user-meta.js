@@ -15,7 +15,7 @@ let userMetaSchema = {
       maxLength: 1000
     })
   },
-  originalLanguage: type.string().required() // We track this to enable collaborative bio translations
+  originalLanguage: type.string().max(4).required() // We track this to enable collaborative bio translations
 };
 
 

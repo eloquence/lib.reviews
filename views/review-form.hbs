@@ -30,69 +30,85 @@
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
     <fieldset>
       <div class="pure-g">
-        <div class="pure-u-1 pure-u-md-2-3">
         {{#unless editing}}
-        <div class="pure-control-group">
-            <label for="review-url">{{{__ "url"}}} <span class="required">*</span></label>
-            <input id="review-url" name="review-url" type="text" class="pure-input-1" data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{formValues.review-url}}">
-            <div id="review-url-error" class="validation-error">{{{__ "not a url"}}}</div>
-            <div id="helper-links"><a href="#" id="add-https">{{{__ "add https"}}}</a> &ndash; <a href="#" id="add-http">{{{__ "add http"}}}</a></div>
+        <div class="pure-u-1 pure-u-md-2-3">
+          <div class="pure-control-group">
+              <label for="review-url">{{{__ "url"}}} <span class="required">*</span></label>
+              <input id="review-url" name="review-url" type="text" class="pure-input-1" data-required data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{formValues.review-url}}">
+              <div id="review-url-error" class="validation-error">{{{__ "not a url"}}}</div>
+              <div id="helper-links"><a href="#" id="add-https">{{{__ "add https"}}}</a> &ndash; <a href="#" id="add-http">{{{__ "add http"}}}</a></div>
+          </div>
+          <br>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          {{>help input="review-url" helpLabel="url label" helpText="url help"}}
         </div>
         {{/unless}}
-        <div class="pure-control-group">
-            <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>
-            <input id="review-title" name="review-title" type="text" class="pure-input-1" data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{formValues.review-title}}">
+        <div class="pure-u-1 pure-u-md-2-3">
+          <div class="pure-control-group">
+              <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>
+              <input id="review-title" name="review-title" type="text" class="pure-input-1" data-required data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{formValues.review-title}}">
+          </div>
+          <br>
         </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          {{>help input="review-title" helpLabel="title label" helpText="title help"}}
+        </div>
+        <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
               <label for="review-text">{{{__ "review"}}} <span class="required">*</span></label>
-              <textarea id="review-text" name="review-text" class="pure-input-1" data-auto-trim placeholder="{{{__ "enter review"}}}">{{formValues.review-text}}</textarea>
+              <textarea id="review-text" name="review-text" class="pure-input-1" data-required data-auto-trim placeholder="{{{__ "enter review"}}}">{{formValues.review-text}}</textarea>
+              <br>
           </div>
-          <div class="pure-control-group">
-          <label id="star-rating-label" for="review-rating">{{{__ "rating"}}} <span class="required">*</span></label>
-        <div class="nojs-hidden">
-          {{! We store this POST value in the DOM, so it is available to the JS-only control }}
-          <span id="star-rating-control" data-post="{{formValues.review-rating.value}}">
-          {{#times 5}}
-          <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-{{this}}"
-          alt="{{__n "one or multiple stars" this}}">
-          {{/times}}
-          </span>
         </div>
-        <noscript>
-        {{#times 5}}
-        <input id="star-{{this}}" type="radio" name="review-rating"
-        value="{{this}}" {{#if (lookup ../formValues.review-rating this)}} checked{{/if}}>
-        <label for="star-{{this}}" class="inline-label inline-star-label">{{{__n "one or multiple stars" this}}}</label>
-        {{/times}}
-        </noscript>
-      </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          {{>help input="review-text" helpLabel="review" helpText="review help"}}
+        </div>
+        <div class="pure-u-1 pure-u-md-2-3">
+          <div class="pure-control-group">
+            <label id="star-rating-label" for="review-rating">{{{__ "rating"}}} <span class="required">*</span></label>
+            <div class="nojs-hidden">
+            {{! We store this POST value in the DOM, so it is available to the JS-only control }}
+            <span id="star-rating-control" data-post="{{formValues.review-rating.value}}">
+            {{#times 5}}
+            <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-{{this}}"
+            alt="{{__n "one or multiple stars" this}}">
+            {{/times}}
+            </span>
+            </div>
+            <noscript>
+            {{#times 5}}
+            <input id="star-{{this}}" type="radio" name="review-rating"
+            value="{{this}}" {{#if (lookup ../formValues.review-rating this)}} checked{{/if}}>
+            <label for="star-{{this}}" class="inline-label inline-star-label">{{{__n "one or multiple stars" this}}}</label>
+            {{/times}}
+            </noscript>
+            <p>
+          </div>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          <noscript>
+            <div style="margin-left:1em;">
+            <span class="help-heading"><span class="fa fa-question-circle info-icon spaced-icon"></span>{{{__ "rating"}}}</span><P>
+            {{{__ "1 star help"}}}<br>
+            {{{__ "2 stars help"}}}<br>
+            {{{__ "3 stars help"}}}<br>
+            {{{__ "4 stars help"}}}<br>
+            {{{__ "5 stars help"}}}<br>
+            </div>
+          </noscript>
+          {{>help input="star-button-1" nojsHidden=true helpLabel="rating" helpText="1 star help"}}
+          {{>help input="star-button-2" nojsHidden=true helpLabel="rating" helpText="2 stars help"}}
+          {{>help input="star-button-3" nojsHidden=true helpLabel="rating" helpText="3 stars help"}}
+          {{>help input="star-button-4" nojsHidden=true helpLabel="rating" helpText="4 stars help"}}
+          {{>help input="star-button-5" nojsHidden=true helpLabel="rating" helpText="5 stars help"}}
+        </div>
+        <div class="pure-u-1 pure-u-md-2-3">
 
       <input id="review-language" name="review-language" type="hidden" value="{{currentLanguage.langKey}}">
 
-        </div>
-        <div class="pure-u-1 pure-u-md-1-3">
-          <div id="help" class="nojs-visible">
-            <h3 class="help-heading nojs-visible"><span class="fa fa-question-circle info-icon"></span> {{{__ "help"}}}</h3>
-            <noscript><b>{{{__ "url"}}}</b></noscript>
-            <div id="help-text-review-url" class="help-text nojs-visible">
-              {{{__ "pick any url"}}}
-            </div>
-            <noscript><b>{{{__ "title"}}}</b></noscript>
-            <div id="help-text-review-title" class="help-text nojs-visible">
-              {{{__ "pick a title"}}}
-            </div>
-            <noscript><b>{{{__ "review"}}}</b></noscript>
-            <div id="help-text-review-text" class="help-text nojs-visible">
-              {{{__ "write your review"}}}
-            </div>
-            <noscript><b>{{{__ "rating"}}}</b></noscript>
-            <div id="help-text-review-rating" class="help-text nojs-visible">
-              {{{__ "select rating"}}}
-            </div>
-          </div>
-
-        </div>
-        </div>
+    </div>
+    </div>
     </fieldset>
 
     <div class="validation-error" id="required-fields-message">
@@ -102,7 +118,7 @@
     {{{__ "correct errors"}}}
     </div>
     <div class="buttons-group">
-    <button type="submit" id="publish" name="review-action" value="publish" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{#if editing}}{{{__ "save"}}}{{else}}{{{__ "publish"}}}{{/if}}</button>
+    <button data-check-required type="submit" id="publish" name="review-action" value="publish" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{#if editing}}{{{__ "save"}}}{{else}}{{{__ "publish"}}}{{/if}}</button>
     <button type="submit" id="preview" name="review-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "accesskey" "p"}}}">{{{__ "preview"}}}</button>
     <span class="nojs-hidden" id="live-preview-control">
     <input type="checkbox" id="live-preview">

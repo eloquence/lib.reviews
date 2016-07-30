@@ -12,14 +12,14 @@
     <fieldset>
         <div class="pure-control-group">
             <label for="username">{{{__ "username"}}} <span class="required">*</span></label>
-            <input id="username" name="username" type="text" data-auto-trim placeholder="{{{__ "enter username"}}}" value="{{formValues.username}}" size="30">
+            <input id="username" name="username" type="text" data-required data-auto-trim placeholder="{{{__ "enter username"}}}" value="{{formValues.username}}" size="30">
             <div id="username-characters-error" class="validation-error">{{{__ "invalid username characters" illegalUsernameCharactersReadable}}}</div>
             <div id="username-exists-error" class="validation-error">{{{__ "username exists"}}}</div>
         </div>
 
         <div class="pure-control-group">
             <label for="password">{{{__ "password"}}} <span class="required">*</span></label>
-            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" size="30">
+            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" size="30" data-required>
         </div>
 
         <div class="pure-control-group">
@@ -31,7 +31,7 @@
         <div class="pure-control-group">
         <p>{{{__ "captcha intro"}}}</p>
             <label for="captcha-answer">{{{__ questionCaptcha.captcha.questionKey}}} <span class="required">*</span></label>
-            <input id="captcha-answer" name="captcha-answer" type="text" data-auto-trim placeholder="{{{__ "enter captcha answer"}}}" size="30">
+            <input id="captcha-answer" name="captcha-answer" type="text" data-auto-trim data-required placeholder="{{{__ "enter captcha answer"}}}" size="30">
             <input name="captcha-id" value="{{questionCaptcha.id}}" type="hidden">
         </div>
         {{/if}}
@@ -43,7 +43,7 @@
         <div class="validation-error" id="required-fields-message">
         {{{__ "complete all required fields"}}}
         </div>
-        <button type="submit" id="register-button" class="pure-button pure-button-primary button-rounded">{{{__ "register"}}}</button>
+        <button type="submit" id="register-button" data-check-required class="pure-button pure-button-primary button-rounded">{{{__ "register"}}}</button>
         <p>{{{__ "already got an account" }}}</p>
     </fieldset>
 </form>

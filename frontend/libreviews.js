@@ -28,40 +28,31 @@
     return this;
   };
 
-}(jQuery));
+  $.fn.attachRequiredFieldHandler = function(options) {
 
-(function() {
-  'use strict';
-  // Global namespace for lib.reviews-specific functions
-  window.libreviews = {};
+    if (!options)
+      options = {};
 
-  // Generic handler for highlighting missing fields on forms, showing an
-  // associated error message, and preventing form submission.
-  window.libreviews.getRequiredFieldHandler = function(options) {
+    // How we find "* required" indicators that are child elements of labels
+    let indicatorSelector = options.indicatorSelector || 'span.required';
 
-    return function(event) {
+    // Error message(s) selector informing user required fields are missing
+    let requiredFieldsMessage = options.requiredFieldMessage || '#required-fields-message';
 
-      if (!options || typeof options !== "object" || !options.fieldSelector)
-        throw new Error('We need an options.fieldSelector parameter to know which fields are required.');
+    // Error message(s) selector reminding user about other validation errors
+    let formErrorMessage = options.formErrorMessage || '#form-error-message';
 
-      let fieldSelector = options.fieldSelector;
+    // Selector used to find any remaining validation errors that need to be corrected
+    let validationErrorSelector = options.validationErrorSelector || '.validation-error:visible';
 
-      // How we find "* required" indicators that are child elements of labels
-      let indicatorSelector = options.indicatorSelector || 'span.required';
+    this.click(requiredFieldHandler);
 
-      // Error message(s) selector informing user required fields are missing
-      let requiredFieldsMessage = options.requiredFieldMessage || '#required-fields-message';
-
-      // Error message(s) selector reminding user about other validation errors
-      let formErrorMessage = options.formErrorMessage || '#form-error-message';
-
-      // Selector used to find any remaining validation errors that need to be corrected
-      let validationErrorSelector = options.validationErrorSelector || '.validation-error:visible';
+    function requiredFieldHandler(event) {
 
       // Clear out old warnings
       $(`${requiredFieldsMessage},${formErrorMessage},label ${indicatorSelector}`).hide();
 
-      let $emptyFields = $(fieldSelector)
+      let $emptyFields = $('input[data-required],textarea[data-required]')
         .getEmptyInputs()
         .highlightLabels();
 
@@ -79,9 +70,16 @@
         return;
       }
 
-    };
+    }
 
   };
+
+}(jQuery));
+
+(function() {
+  'use strict';
+  // Global namespace for lib.reviews-specific functions
+  window.libreviews = {};
 
   window.libreviews.trimInput = function() {
     this.value = this.value.trim();
@@ -117,7 +115,69 @@
     event.preventDefault();
   });
 
+  // Prevents submission of buttons that have data-check-required when required
+  // fields are missing
+  $('button[data-check-required]').attachRequiredFieldHandler();
 
+  // Auto-trim all inputs with data-auto-trim
   $('input[data-auto-trim],textarea[data-auto-trim]').change(libreviews.trimInput);
+
+  // Dynamic help sidebars
+  if ($('[data-help-for]').length) {
+
+    // Attach dynamic help display for data-help-for="id" elements (to the "id"
+    // element, typically an input)
+    $('[data-help-for]').each(function(){
+      let inputID = $(this).attr('data-help-for');
+      $(`#${inputID}`).focus(showInputHelp);
+      $(`#${inputID}`).blur(hideInputHelp);
+    });
+
+    // Re-calculate positioning of help on window resize
+    $(window).resize(function() {
+      let focused = $(':focus')[0];
+
+      // Check if the currently focused element requires a help re-render
+      if (focused && $(`[data-help-for=${focused.id}]`).length)
+        showInputHelp.apply(focused);
+    });
+  }
+
+  function showInputHelp() {
+    let id = this.id;
+    // Hide all help texts
+    $('.help-text').hide();
+
+    // Show help text for active input
+    $(`#${id}-help`).show();
+
+    // We want to avoid pushing down the next form field, so we use
+    // absolute positioning if available.
+    if (this.getBoundingClientRect && $(`label[for=${id}]`)[0]) {
+      let pos, posHelp;
+      pos = $(`label[for=${id}]`)[0].getBoundingClientRect();
+      posHelp = $(`#${id}-help`)[0].getBoundingClientRect();
+
+      if (posHelp.left > pos.right) {
+        let newPos = Math.floor(window.scrollY) + Math.floor(pos.top);
+        // Position vertically aligned with the input we're showing help for
+        let style = `position:absolute;top:${newPos}px;display:inline-block;`;
+        $(`#${id}-help`).attr('style', style);
+      } else {
+        // Reset position
+        $(`#${id}-help`).attr('style', 'display:inline-block;');
+      }
+    }
+    // For additional help-related logic
+    $('#help').attr('data-last-shown', id);
+  }
+
+  function hideInputHelp() {
+    let id = this.id;
+    // Keep help visible if user is hoving over it, so
+    // links remain accessible
+    if (!$('.help-text:hover').length)
+      $(`#${id}-help`).hide();
+  }
 
 })();

@@ -11,7 +11,7 @@
   let sisyphus;
 
   // Add inputs used only with JS here so they don't appear/conflict when JS is disabled
-  $('#star-rating-control').append(`<input id="review-rating" name="review-rating" type="hidden">`);
+  $('#star-rating-control').append(`<input id="review-rating" name="review-rating" type="hidden" data-required>`);
 
   // Get rating value from previous POST request, if any
   let postRating = $('#star-rating-control').attr('data-post') || '';
@@ -29,21 +29,12 @@
 
   // Register event handlers
 
-  $(textFields).focus(showInputHelp);
-  $(textFields).blur(hideInputHelp);
-  $('#star-rating-control').mouseover(showStarControlHelp);
-  $('#star-rating-control').mouseout(hideStarControlHelp);
   $('[id^=star-button-]')
     .mouseout(clearStars)
     .mouseover(indicateStar)
     .click(selectStar)
-    .keyup(maybeSelectStar)
-    .focus(showStarControlHelp)
-    .blur(hideStarControlHelp);
+    .keyup(maybeSelectStar);
   $('#live-preview').change(toggleLivePreview);
-  $('#publish').click(libreviews.getRequiredFieldHandler({
-    fieldSelector: '#review-url,#review-title,#review-text,#review-rating'
-  }));
   $('#preview').click(showPreviewOnce);
 
   if (!editing) {
@@ -89,7 +80,6 @@
     $('#review-title').focus();
     event.preventDefault();
   }
-
 
   function validateURL() {
     let maybeURL = this.value;
@@ -154,51 +144,6 @@
       showExtraFields.apply(this);
     }
   }
-
-  // For sidebar that explains what fields mean
-  function showInputHelp() {
-    let id = this.id;
-    $('[id^=help-text]').hide();
-    $('#help').show();
-    $(`#help-text-${id}`).show();
-    $('#help').attr('data-last-shown', id);
-  }
-
-  function hideInputHelp() {
-    let id = this.id;
-    // Keep help visible if user is hoving over it, so
-    // links remain accessible
-    if (!$(`#help-text-${id}:hover`).length) {
-      $('#help').hide();
-      $('#help-text-url').hide();
-    }
-  }
-
-  function showStarControlHelp() {
-    $('[id^=help-text]').hide();
-    let shown = $('#help').attr('data-last-shown');
-    if (shown)
-      $(`#help-text-${shown}`).hide();
-
-    $('#help').show();
-    $('#help-text-review-rating').show();
-  }
-
-  function hideStarControlHelp() {
-    // Keep help visible as long as at least one star is in focus
-    if ($('[id^=star-button-]:focus').length)
-      return;
-
-    $('#help').hide();
-    $('#help-text-review-rating').hide();
-
-    let shown = $('#help').attr('data-last-shown');
-    if (shown && $(`#${shown}:focus`).length) {
-      $('#help').show();
-      $(`#help-text-${shown}`).show();
-    }
-  }
-
 
   function clearStars(start) {
     if (!start || typeof start !== "number")

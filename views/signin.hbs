@@ -5,17 +5,17 @@
     <fieldset>
         <div class="pure-control-group">
             <label for="username">{{{__ "username"}}} <span class="required">*</span></label>
-            <input id="username" name="username" type="text" data-auto-trim placeholder="{{{__ "enter username"}}}" size="30">
+            <input id="username" name="username" type="text" data-auto-trim placeholder="{{{__ "enter username"}}}" size="30" data-required>
         </div>
 
         <div class="pure-control-group">
             <label for="password">{{{__ "password"}}} <span class="required">*</span></label>
-            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" size="30">
+            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" size="30" data-required>
         </div>
         <div class="validation-error" id="required-fields-message">
         {{{__ "complete all required fields"}}}
         </div>
-        <button id="signin-button" type="submit" class="pure-button pure-button-primary button-rounded">{{{__ "sign in"}}}</button>
+        <button id="signin-button" data-check-required type="submit" class="pure-button pure-button-primary button-rounded">{{{__ "sign in"}}}</button>
         <p>{{{__ "no account yet" }}}</p>
     </fieldset>
 </form>

@@ -33,6 +33,7 @@ let User = thinky.createModel("users", {
     trustedOnDate: type.date(),
   }],
   registrationDate: type.date().default(() => new Date()),
+  showErrorDetails: type.boolean().default(false),
   isTrusted: type.boolean().default(false), // Basic trust - not a spammer, can confer trust
   isModerator: type.boolean().default(false),
   isEditor: type.boolean().default(false),

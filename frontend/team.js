@@ -1,4 +1,4 @@
 (function() {
   'use strict';
-  $('#username').focus();
+  $('#team-name').focus();
 })();

@@ -25,6 +25,7 @@ const compression = require('compression');
 const reviews = require('./routes/reviews');
 const actions = require('./routes/actions');
 const users = require('./routes/users');
+const teams = require('./routes/teams');
 const pages = require('./routes/pages');
 const api = require('./routes/api');
 const apiHelper = require('./routes/helpers/api');
@@ -157,6 +158,7 @@ app.use('/', pages);
 app.use('/', reviews);
 app.use('/', actions);
 app.use('/', things);
+app.use('/', teams);
 app.use('/user', users);
 
 // catch 404
@@ -174,7 +176,7 @@ app.use(function(error, req, res, next) {
   if (app.get('env') === 'development')
     showDetails = true;
   else
-    showDetails = (req.user && req.user.showErrors);
+    showDetails = (req.user && req.user.showErrorDetails);
 
   res.status(error.status || 500);
 

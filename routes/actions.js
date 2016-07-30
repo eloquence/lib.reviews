@@ -107,6 +107,10 @@ router.post('/signin', function(req, res, next) {
 });
 
 
+router.get('/new/user', function(req, res) {
+  res.redirect('/register');
+});
+
 router.get('/register', function(req, res) {
   sendRegistrationForm(req, res);
 });
