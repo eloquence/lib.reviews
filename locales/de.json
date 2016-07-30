@@ -90,7 +90,7 @@
         "one": "%s Stern",
         "other": "%s Sterne"
     },
-    "captcha intro": "Bitte beweise, dass du kein Roboter bist. Was ist das mit ____ gekennzeichnete Wort?",
+    "captcha intro": "<!-- Bitte beweise, dass du kein Roboter bist. Was ist das mit ____ gekennzeichnete Wort? -->",
     "question: famous painting": "Eines der ber&uuml;hmtesten Gem&auml;lde der Welt ist die Mona ___ von Leondaro da Vinci.",
     "answer: famous painting": "Lisa",
     "question: famous composer": "Ludwig van ____ war nahe Ende seines Lebens fast komplett taub.",

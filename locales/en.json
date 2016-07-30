@@ -91,7 +91,7 @@
         "one": "%s star",
         "other": "%s stars"
     },
-    "captcha intro": "Prove you're not a robot. What's the missing word indicated with ___?",
+    "captcha intro": "<!-- Prove you're not a robot. What's the missing word indicated with ___? -->",
     "question: famous painting": "One of the world's most famous paintings is the Mona ___ by Leonardo da Vinci.",
     "answer: famous painting": "Lisa",
     "question: famous composer": "Ludwig van ____ was almost totally deaf toward the end of his life.",
