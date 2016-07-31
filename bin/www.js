@@ -10,7 +10,7 @@ const r = require('rethinkdb');
 
 const app = require('../app');
 const debug = require('../util/debug');
-const http = require('http');
+const createServer = require('auto-sni'); // Server with Let's Encrypt support
 const config = require('config');
 
 /**
@@ -23,14 +23,23 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-var server = http.createServer(app);
+var server = createServer({
+  email: config.adminEmail,
+  agreeTos: true,
+  domains: config.httpsDomains,
+  debug: app.get('env') == 'production' ? false : true,
+  forceSSL: app.get('env') == 'production' ? true : false,
+  ports: {
+    http: port,
+    https: config.httpsPort
+  }
+}, app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port);
+//server.listen(port);
 server.on('error', onError);
-server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -76,14 +85,4 @@ function onError(error) {
     default:
       throw error;
   }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug.app('Listening on ' + bind);
 }

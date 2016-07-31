@@ -37,3 +37,6 @@ static/css/style.css
 
 # Production config
 config/production.json5
+
+# Development config
+config/development.json5

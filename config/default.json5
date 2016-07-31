@@ -21,6 +21,15 @@
   // production environments.
   sessionSecret: "joeyTheCanadianStoreOwner",
 
+  // Set your admin email if you want to request an HTTPS certificate
+  adminEmail: "customizeforhttps@notavalidaddress",
+
+  // Should normally not need to be changed
+  httpsPort: 443,
+
+  // You'll need a valid domain if you want HTTPS to work
+  httpsDomains: ["dev.lib.reviews"],
+
   // How many minutes (!) should a session cookie last. Default = 30 days.
   sessionCookieDuration: 43200,
 
