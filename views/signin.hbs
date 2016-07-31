@@ -5,12 +5,12 @@
     <fieldset>
         <div class="pure-control-group">
             <label for="username">{{{__ "username"}}} <span class="required">*</span></label>
-            <input id="username" name="username" type="text" data-auto-trim placeholder="{{{__ "enter username"}}}" size="30" data-required>
+            <input id="username" name="username" type="text" data-auto-trim placeholder="{{{__ "enter username"}}}" class="pure-input-1 login-form-input" data-required>
         </div>
 
         <div class="pure-control-group">
             <label for="password">{{{__ "password"}}} <span class="required">*</span></label>
-            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" size="30" data-required>
+            <input id="password" name="password" type="password" placeholder="{{{__ "enter password"}}}" class="pure-input-1 login-form-input" data-required>
         </div>
         <div class="validation-error" id="required-fields-message">
         {{{__ "complete all required fields"}}}
