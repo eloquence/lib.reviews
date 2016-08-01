@@ -86,7 +86,7 @@
     "review title too long": "The submitted review title is too long.",
     "invalid language code": "The submitted language code, '%s', is not valid or recognized.",
     "unsupported method": "Unsupported request method.",
-    "feed": "Latest additions",
+    "feed": "Latest reviews",
     "one or multiple stars": {
         "one": "%s star",
         "other": "%s stars"

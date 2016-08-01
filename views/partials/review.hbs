@@ -1,28 +1,23 @@
+{{!We show a little headline identifying the item type in the feed view, but nowhere else}}
+
+<div class="thing-data">
+<b>{{{mlString review.thing.label}}}</b>
+{{!Show prettified URL, if available}}
+{{#if review.thing.urls.[0]}}
+<div class="review-url"><span class="fa fa-external-link review-icon"></span>{{{link review.thing.urls.[0] (prettify review.thing.urls.[0])}}}</div>
+{{/if}}
+{{#if review.thing.id}}
+<div class="review-thing-link">
+{{> thing_link}}
+</div>
+{{/if}}
+</div>
 <div class="review-rating">
 {{!Star rating. Per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
 {{#times review.starRating}}
 <img src="/static/img/star-{{../review.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../../review.starRating}}}"{{/if}}>
 {{/times}}
 </div>
-{{!We show a little headline identifying the item type in the feed view, but nowhere else}}
-{{#if feed}}
-  <div class="feed-item-header">
-  {{#if (mlString review.thing.label)}}
-  {{{__ "review of" (mlString review.thing.label)}}}
-  {{else}}
-  {{{__ "review"}}}
-  {{/if}}
-  </div>
-{{/if}}
-{{!Show prettified URL, if available}}
-{{#if review.thing.urls.[0]}}
-<div id="review-url"><span class="fa fa-external-link review-icon"></span>{{{link review.thing.urls.[0] (prettify review.thing.urls.[0])}}}</div>
-{{/if}}
-{{#if review.thing.id}}
-<div id="review-thing-link">
-{{> thing_link}}
-</div>
-{{/if}}
 <div class="review-title">{{{mlString review.title}}}</div>
 {{!The actual review!}}
 <div class="review-text">
