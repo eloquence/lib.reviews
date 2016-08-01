@@ -1,7 +1,7 @@
 {
 
   // Set to true if all requests should generate a maintenance notice
-  maintenanceMode: true,
+  maintenanceMode: false,
 
   // Web service port. You may have to change this to something like 8000 if you
   // don't have access to port 80 or it is in use. You can always override this
