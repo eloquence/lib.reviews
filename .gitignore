@@ -40,3 +40,6 @@ config/production.json5
 
 # Development config
 config/development.json5
+
+# Built via grunt
+static/js

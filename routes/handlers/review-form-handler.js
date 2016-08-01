@@ -137,7 +137,7 @@ class ReviewFormHandler {
       pageErrors: !this.isPreview ? pageErrors : undefined, // Don't show errors on preview
       isPreview: this.isPreview,
       preview: this.preview,
-      scripts: ['sisyphus.min.js', 'markdown-it.min.js', 'review.js'],
+      scripts: ['markdown-it.min.js', 'review.js'],
       showLanguageNotice
     });
   }

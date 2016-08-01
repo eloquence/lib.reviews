@@ -21,7 +21,7 @@ let render = {
 
     vars.user = req.user;
 
-    vars.scripts = ['jquery-2.1.4.min.js', 'libreviews.js'];
+    vars.scripts = ['lib.min.js'];
     if (extraVars && Array.isArray(extraVars.scripts))
       vars.scripts = vars.scripts.concat(extraVars.scripts);
 

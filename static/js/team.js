@@ -1,1 +1,0 @@
-../../frontend/team.js

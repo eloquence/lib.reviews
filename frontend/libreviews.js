@@ -1,5 +1,6 @@
 // Standard helper functions across lib.reviews pages, divided into jQuery
-// plugins and more lib.reviews-specific functionality
+// plugins and more lib.reviews-specific functionality. All code public
+// domain (CC-0; see https://creativecommons.org/publicdomain/zero/1.0/ ).
 
 (function($) {
   'use strict';
