@@ -16,7 +16,7 @@
       .done(() => {
         $('#username-exists-error').show();
       })
-      .error(() => {
+      .fail(() => {
         $('#username-exists-error').hide();
       });
   }
