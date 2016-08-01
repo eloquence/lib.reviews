@@ -30,16 +30,13 @@ const pages = require('./routes/pages');
 const api = require('./routes/api');
 const apiHelper = require('./routes/helpers/api');
 const things = require('./routes/things');
+const errors = require('./routes/errors');
 const debug = require('./util/debug');
 const render = require('./routes/helpers/render');
-const mlstring = require('./models/helpers/ml-string');
-const langDefs = require('./locales/languages').getAll();
+const hbsMiddlewareHelpers = require('./util/handlebars-helpers.js');
 
 // Auth setup
 require('./auth');
-
-// Handlebars helper setup
-require('./util/handlebars-helpers.js');
 
 // i18n setup
 i18n.configure({
@@ -50,49 +47,23 @@ i18n.configure({
   directory: "" + __dirname + "/locales"
 });
 
+
 // express setup
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 hbsutils.registerWatchedPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
-// Ensure we have current request locale available to i18n
-app.use(function(req, res, next) {
-  hbs.registerHelper('__', function() {
-    return i18n.__.apply(req, arguments);
-  });
-  hbs.registerHelper('__n', function() {
-    return i18n.__n.apply(req, arguments);
-  });
-  hbs.registerHelper('mlString', function(str, addLanguageSpan) {
-    if (addLanguageSpan === undefined)
-      addLanguageSpan = true;
-
-    let mlRv = mlstring.resolve(req.locale, str);
-
-    if (mlRv === undefined || mlRv.str === undefined || mlRv.str === '')
-      return undefined;
-
-    if (!addLanguageSpan || mlRv.lang === req.locale)
-      return mlRv.str;
-    else {
-      let langLabelKey = langDefs[mlRv.lang].messageKey;
-      let langLabel = i18n.__.call(req, langLabelKey);
-      return `${mlRv.str} <span class="language-identifier" title="${langLabel}">` +
-      `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
-    }
-  });
-
-  next();
-});
+// Handlebars helpers that depend on request object, including i18n helpers
+app.use(hbsMiddlewareHelpers);
 
 app.use(cookieParser());
 
 app.use(useragent.express()); // expose UA object to req.useragent
 
-let store = new RDBStore(r, {
+const store = new RDBStore(r, {
   table: 'sessions'
 });
 
@@ -161,63 +132,14 @@ app.use('/', things);
 app.use('/', teams);
 app.use('/user', users);
 
-// catch 404
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  render.template(req, res, '404', {
-    titleKey: 'page not found title'
-  });
-});
+// Catches 404s and serves "not found" page
+app.use(errors.notFound);
 
-app.use(function(error, req, res, next) {
-
-  let showDetails;
-  if (app.get('env') === 'development')
-    showDetails = true;
-  else
-    showDetails = (req.user && req.user.showErrorDetails);
-
-  res.status(error.status || 500);
-
-  if (req.isAPI) {
-    let response;
-    switch (error.message) {
-      case 'invalid json':
-        response = {
-          message: 'Could not process your request.',
-          errors: ['Received invalid JSON data. Make sure your payload is in JSON format.']
-        };
-        break;
-      default:
-        response = {
-          message: 'An error occurred processing your request.',
-          errors: showDetails ? [error.message, `Stack: ${error.stack}`] : ['Unknown error. This has been logged.']
-        };
-        debug.error({
-          context: 'API',
-          req,
-          error
-        });
-    }
-    res.type('json');
-    res.send(JSON.stringify(response, null, 2));
-  } else {
-
-    debug.error({
-      context: 'web app',
-      req,
-      error
-    });
-
-    render.template(req, res, 'error', {
-      titleKey: 'something went wrong',
-      showDetails,
-      error
-    });
-  }
-});
-
+// Catches the following:
+// - bad JSON data in POST bodies
+// - errors explicitly passed along with next(error)
+// - other unhandled errors
+app.use(errors.generic);
 
 let mode = app.get('env') == 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
 debug.app(`Running in ${mode} mode.`);
