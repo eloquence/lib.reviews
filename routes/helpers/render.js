@@ -38,7 +38,8 @@ let render = {
       label: req.__( vars.languages[req.locale].messageKey)
     };
 
-    vars.csrfToken = req.csrfToken();
+    if (req.csrfToken)
+      vars.csrfToken = req.csrfToken();
 
     // Non page-specific, will show up on any page if we have some to show
     vars.siteMessages = req.flash('siteMessages');

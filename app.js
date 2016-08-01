@@ -122,6 +122,13 @@ let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
+
+if (config.maintenanceMode) {
+  // Will not pass along control to any future routes but just render
+  // generic maintenance mode message instead
+  app.use('/', errors.maintenanceMode);
+}
+
 app.use('/api', api);
 
 app.use(csrf());

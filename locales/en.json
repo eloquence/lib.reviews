@@ -184,5 +184,7 @@
     "team motto help": "What animates or motivates you? What would you print on a t-shirt? This is mostly for fun, but it may help people decide whether they want to join.",
     "team description label": "Team description",
     "team description help": "What are you hoping to accomplish? An example would be: \"Help us find the most delicious vegan or vegetarian friendly restaurants in the world! Best reviews will be featured in the blog.\" This field <a href='http://help.wtf/md' tabindex='-1' target='_blank'>supports markdown</a>.",
-    "team rules help": "New members will need to explicitly agree to these rules. They cannot be in conflict with the <a href='/terms' tabindex='-1' target='_blank'>terms of service</a>. An example would be: \"Do not tag a restaurant review with this team unless you have eaten at a restaurant at least three times.\""
+    "team rules help": "New members will need to explicitly agree to these rules. They cannot be in conflict with the <a href='/terms' tabindex='-1' target='_blank'>terms of service</a>. An example would be: \"Do not tag a restaurant review with this team unless you have eaten at a restaurant at least three times.\"",
+    "maintenance mode": "Down for maintenance",
+    "in maintenance mode": "lib.reviews is currently down for maintenance/updates. We apologize for the inconvenience, and should be back shortly!"
 }

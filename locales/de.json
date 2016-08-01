@@ -184,5 +184,7 @@
     "team motto help": "Was animiert oder motiviert dich? Was w&uuml;rdest du auf ein T-Shirt drucken? Ein Motto ist vor allem zum Spa&szlig; da, kann aber auch potenziellen Mitarbeitern bei der Entscheidung helfen, ob sie dem Team beitreten wollen.",
     "team description label": "Team-Beschreibung",
     "team description help": "Was m&ouml;chtest du erreichen? Ein Beispiel w&auml;re: \"Hilf uns die Vegetarier-freundlichsten Restaurants der Welt zu finden! Die besten Rezensionen bekommen einen Blog-Beitrag.\" Dieses Feld unterst&uuml;tzt <a href='http://help.wtf/md' tabindex='-1' target='_blank'>Markdown</a>.",
-    "team rules help": "Neue Mitglieder m&uuml;ssen diesen Regeln zustimmen. Ein Beispiel: \"Verkn&uuml;pfe nur Rezensionen von Restaurants, wo du minestens dreimal gegessen hast, mit diesem Team.\" Die Regeln d&uuml;rfen nicht den <a href='/terms' tabindex='-1' target='_blank'>Nutzungsbedingungen</a> widersprechen. "
+    "team rules help": "Neue Mitglieder m&uuml;ssen diesen Regeln zustimmen. Ein Beispiel: \"Verkn&uuml;pfe nur Rezensionen von Restaurants, wo du minestens dreimal gegessen hast, mit diesem Team.\" Die Regeln d&uuml;rfen nicht den <a href='/terms' tabindex='-1' target='_blank'>Nutzungsbedingungen</a> widersprechen.",
+    "maintenance mode": "Wegen Wartungsarbeiten nicht erreichbar",
+    "in maintenance mode": "lib.reviews ist derzeit wegen Wartungsarbeiten nicht erreichbar. Wir entschuldigen uns f&uuml;r die Unannehmlichkeit; wir sollten bald wieder da sein!"
 }

@@ -1,10 +1,23 @@
 'use strict';
 
+// External dependencies
+const express = require('express');
+const router = express.Router();
+
 // Internal dependencies
 const render = require('./helpers/render');
 const debug = require('../util/debug');
 
 let errors =  {
+
+  maintenanceMode: function(req, res, next) {
+    if (req.path !== '/')
+      return res.redirect('/');
+
+    render.template(req, res, 'maintenance', {
+      titleKey: 'maintenance mode'
+    });
+  },
 
   notFound: function(req, res, next) {
     var err = new Error('Not Found');
