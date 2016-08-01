@@ -122,6 +122,11 @@
   // Auto-trim all inputs with data-auto-trim
   $('input[data-auto-trim],textarea[data-auto-trim]').change(libreviews.trimInput);
 
+  // Add link anchors to long texts
+  $('.long-text h2,.long-text h3').each(function() {
+    $(this).prepend(`<a href="#${this.id}" class="fragment-link no-print"><span class="fa fa-link"></span></a>`);
+  });
+
   // Dynamic help sidebars
   if ($('[data-help-for]').length) {
 
