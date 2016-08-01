@@ -61,8 +61,7 @@ router.get('/signin', function(req, res) {
   let pageErrors = req.flash('pageErrors');
   render.template(req, res, 'signin', {
     titleKey: 'sign in',
-    pageErrors,
-    scripts: ['signin.js']
+    pageErrors
   });
 });
 

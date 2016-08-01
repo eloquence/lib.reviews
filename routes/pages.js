@@ -10,8 +10,7 @@ const render = require('./helpers/render');
 router.get('/terms', function(req, res) {
   render.template(req, res, `multilingual/terms-${req.locale}`, {
     deferPageHeader: true,
-    titleKey: 'terms',
-    scripts: ['long-text.js']
+    titleKey: 'terms'
   });
 });
 

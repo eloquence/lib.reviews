@@ -148,6 +148,9 @@
     });
   }
 
+  // Focus input
+  $('[data-focus]').focus();
+
   function showInputHelp() {
     let id = this.id;
     // Hide all help texts

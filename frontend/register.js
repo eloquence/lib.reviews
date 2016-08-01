@@ -2,7 +2,6 @@
   'use strict';
   $('#username').change(checkIllegalCharacters);
   $('#username').change(checkExistence);
-  $('#username').focus();
 
   function checkExistence() {
 

@@ -48,12 +48,8 @@
       onRestore: processLoadedData,
       excludeFields: $('#live-preview')
     });
-    // Start typing :-)
-    $('#review-url').focus();
-  } else {
-    $('#review-title').focus();
   }
-
+  
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))
       $('#draft-notice').fadeOut(200);

@@ -12,8 +12,7 @@ router.get('/new/team', function(req, res, next) {
     return render.permissionError(req, res, next);
   else
     render.template(req, res, 'team-form', {
-      titleKey: 'new team',
-      scripts: [ 'team.js' ]
+      titleKey: 'new team'
     });
 });
 
