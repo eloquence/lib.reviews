@@ -4,6 +4,7 @@ const type = thinky.type;
 const Errors = thinky.Errors;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
+const isValidLanguage = require('../locales/languages').isValid;
 
 let userMetaSchema = {
   id: type.string(),
@@ -15,7 +16,8 @@ let userMetaSchema = {
       maxLength: 1000
     })
   },
-  originalLanguage: type.string().max(4).required() // We track this to enable collaborative bio translations
+  // We track this to enable collaborative bio translations
+  originalLanguage: type.string().max(4).required().validator(isValidLanguage)
 };
 
 

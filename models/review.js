@@ -9,6 +9,7 @@ const ErrorMessage = require('../util/error.js');
 const User = require('./user.js');
 const Thing = require('./thing.js');
 const revision = require('./helpers/revision');
+const isValidLanguage = require('../locales/languages').isValid;
 
 const options = {
   maxTitleLength: 255
@@ -29,7 +30,7 @@ let reviewSchema = {
   createdBy: type.string().uuid(4).required(true),
   // We track this for all objects where we want to be able to handle
   // translation permissions separately from edit permissions
-  originalLanguage: type.string().max(4),
+  originalLanguage: type.string().max(4).validator(isValidLanguage),
 
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
@@ -109,6 +110,9 @@ Review.create = function(reviewObj) {
               break;
             case `Value for [title] must be shorter than ${options.maxTitleLength}.`:
               reject(new ErrorMessage('review title too long'));
+              break;
+            case 'Validator for the field [originalLanguage] returned `false`.':
+              reject(new ErrorMessage('invalid language', [String(reviewObj.originalLanguage)]));
               break;
             default:
               reject(error);

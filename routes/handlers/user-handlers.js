@@ -29,7 +29,6 @@ let userHandlers = {
 
         let bio = req.body['bio-text'];
         let bioLanguage = req.body['bio-language'];
-
         if (bio === undefined || bioLanguage === undefined) {
           flashError(req, new ErrorMessage('data missing'));
           return res.redirect(`/user/${user.urlName}/edit/bio`);

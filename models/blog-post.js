@@ -4,6 +4,7 @@ const type = thinky.type;
 const Errors = thinky.Errors;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
+const isValidLanguage = require('../locales/languages').isValid;
 
 let blogPostSchema = {
   id: type.string(),
@@ -16,7 +17,7 @@ let blogPostSchema = {
     html: mlString.getSchema()
   },
   date: type.date(),
-  originalLanguage: type.string()
+  originalLanguage: type.string().max(4).required().validator(isValidLanguage)
 };
 
 // Add versioning related fields

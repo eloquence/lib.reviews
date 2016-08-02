@@ -4,6 +4,7 @@ const type = thinky.type;
 const Errors = thinky.Errors;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
+const isValidLanguage = require('../locales/languages').isValid;
 
 let teamSchema = {
   id: type.string(),
@@ -26,7 +27,7 @@ let teamSchema = {
   moderators: [type.string().uuid(4)],
 
   // For collaborative translation of team metadata
-  originalLanguage: type.string().max(4),
+  originalLanguage: type.string().max(4).validator(isValidLanguage),
 
   // When a user joins this team, they get the permissions defined here.
   // When they leave, they lose them.

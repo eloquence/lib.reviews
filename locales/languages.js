@@ -18,7 +18,7 @@ let languages = {
 
   isValid: function(langKey) {
     if (!langObj)
-      langObj = this.getAll();
+      langObj = languages.getAll();
 
     if (langObj[langKey])
       return true;
