@@ -21,7 +21,7 @@ let errors =  {
 
   notFound: function(req, res, next) {
     var err = new Error('Not Found');
-    err.status = 404;
+    res.status(404);
     render.template(req, res, '404', {
       titleKey: 'page not found title'
     });
