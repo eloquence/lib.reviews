@@ -121,7 +121,10 @@ app.use(compression());
 let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));
 app.use('/static', express.static(path.join(__dirname, 'static')));
-
+app.use('/robots.txt', (req, res) => {
+  res.type('text');
+  res.send( 'User-agent: *\nDisallow: /api/\n');
+});
 
 if (config.maintenanceMode) {
   // Will not pass along control to any future routes but just render
