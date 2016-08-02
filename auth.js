@@ -13,25 +13,48 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.get(id).then(user => {
-    done(null, user);
-  }).catch(err => {
-    done(err);
-  });
+  User
+    .get(id)
+    .then(user => {
+      done(null, user);
+    })
+    .catch(error => {
+      done(error);
+    });
 });
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.filter({ canonicalName: User.canonicalize(username) }).run((err, users) => {
-      if (err) { return done(err); }
-      let user = users[0];
-      if (!user) {
-        return done(null, false, { message: 'bad username' });
-      }
-      if (!user.checkPassword(password)) {
-        return done(null, false, { message: 'bad password' });
-      }
-      return done(null, user);
-    });
+    User
+      .filter({
+        canonicalName: User.canonicalize(username)
+      })
+      .limit(1)
+      .then(users => {
+        if (!users.length)
+          return done(null, false, {
+            message: 'bad username'
+          });
+
+        let user = users[0];
+
+        user
+          .checkPassword(password)
+          .then(result => {
+
+            if (!result)
+              return done(null, false, {
+                message: 'bad password'
+              });
+            else
+              return done(null, user);
+          })
+          .catch(error => { // Problem with password check
+            done(error);
+          });
+      })
+      .catch(error => { // Problem with query
+        done(error);
+      });
   }
 ));

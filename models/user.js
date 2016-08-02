@@ -53,13 +53,23 @@ User.define("setName", function(displayName) {
 });
 
 
-// FIXME: switch to async code, these are pretty slow by design
 User.define("setPassword", function(password) {
-  if (password.length < options.minPasswordLength)
-  // Can't be run as a validator since by then it's a hash
-    throw new ErrorMessage('password too short', [String(options.minPasswordLength)]);
-  else
-    this.password = bcrypt.hashSync(password);
+  let user = this;
+  return new Promise((resolve, reject) => {
+    if (password.length < options.minPasswordLength) {
+      // This check can't be run as a validator since by then it's a fixed-length hash
+      reject(new ErrorMessage('password too short', [String(options.minPasswordLength)]));
+    } else {
+      bcrypt.hash(password, null, null, function(error, hash) {
+        if (error)
+          reject(error);
+        else {
+          user.password = hash;
+          resolve(user.password);
+        }
+      });
+    }
+  });
 });
 
 User.define("canDeleteReview", function(review) {
@@ -76,8 +86,17 @@ User.define("canEditReview", function(review) {
   return this.canDeleteReview(review);
 });
 
+// Will resolve to true if password matches, false otherwise, and only
+// reject in case of error
 User.define("checkPassword", function(password) {
-  return bcrypt.compareSync(password, this.password);
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, this.password, function(error, result) {
+      if (error)
+        reject(error);
+      else
+        resolve(result);
+    });
+  });
 });
 
 User.ensureUnique = function(name) {
@@ -106,26 +125,34 @@ User.create = function(userObj) {
       .then(() => {
         let user = new User({});
         user.setName(userObj.name);
-        user.setPassword(userObj.password); // may throw if too short
         if (userObj.email)
           user.email = userObj.email;
-        user.save().then(user => {
-          resolve(user);
-        }).catch(error => { // Save failed
-          switch (error.message) {
-            case 'Value for [email] must be a valid email.':
-              reject(new ErrorMessage('invalid email format', [userObj.email], error));
-              break;
-            case `Value for [displayName] must be shorter than ${options.maxChars}.`:
-              reject(new ErrorMessage('username too long', [String(options.maxChars)], error));
-              break;
-            case `Value for [email] must be shorter than 128.`:
-              reject(new ErrorMessage('email too long', [String(options.maxChars)], error));
-              break;
-            default:
-              reject(error);
-          }
-        });
+        user
+          // Async hash generation, will be rejected if PW too short
+          .setPassword(userObj.password)
+          .then(() => {
+            user.save().then(user => {
+              resolve(user);
+            })
+            .catch(error => { // Save failed
+              switch (error.message) {
+                case 'Value for [email] must be a valid email.':
+                  reject(new ErrorMessage('invalid email format', [userObj.email], error));
+                  break;
+                case `Value for [displayName] must be shorter than ${options.maxChars}.`:
+                  reject(new ErrorMessage('username too long', [String(options.maxChars)], error));
+                  break;
+                case `Value for [email] must be shorter than 128.`:
+                  reject(new ErrorMessage('email too long', [String(options.maxChars)], error));
+                  break;
+                default:
+                  reject(error);
+                }
+            });
+          })
+          .catch(error => { // Password too short or hash error
+            reject(error);
+          });
       })
       .catch(errorMessage => { // Uniqueness check or pre-save code failed
         reject(errorMessage);
