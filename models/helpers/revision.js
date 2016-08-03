@@ -23,13 +23,35 @@ let revision = {
             newRev._revDate = new Date();
             newRev._revTags = options.tags ? options.tags : undefined;
             resolve(newRev);
-          }).catch(err => { // Problem getting ID
-            reject(err);
+          }).catch(error => { // Problem getting ID
+            reject(error);
           });
-        }).catch(err => { // Problem saving old rev
-          reject(err);
+        }).catch(error => { // Problem saving old rev
+          reject(error);
         });
       });
+    };
+  },
+
+  getFirstRevisionHandler: function(Model) {
+    return function(user, options) {
+      if (!options)
+        options = {};
+
+      return new Promise((resolve, reject) => {
+        let firstRev = new Model({});
+        r.uuid()
+          .then(uuid => {
+            firstRev._revID = uuid;
+            firstRev._revUser = user.id;
+            firstRev._revDate = new Date();
+            if (options.tags)
+              firstRev._revTags = options.tags;
+            resolve(firstRev);
+          }).catch(error => { // Problem getting ID
+            reject(error);
+          });
+        });
     };
   },
 

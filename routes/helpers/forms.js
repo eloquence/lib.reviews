@@ -1,5 +1,12 @@
 'use strict';
 const config = require('config');
+const escapeHTML = require('escape-html');
+const md = require('markdown-it')({
+  linkify: true,
+  breaks: true,
+  typographer: true
+});
+
 
 let forms = {
 
@@ -35,25 +42,73 @@ let forms = {
     }
 
     for (let field of formDef) {
-      if (!req.body[field.name] && field.required) {
-        req.flash('pageErrors', req.__(`need ${field.name}`));
-        hasRequiredFields = false;
-      }
-      if (req.body[field.name] && !field.radioMap)
-        formValues[field.name] = req.body[field.name];
-      if (req.body[field.name] && field.radioMap) {
-        formValues[field.name] = {};
-        formValues[field.name].value = req.body[field.name];
-        formValues[field.name][req.body[field.name]] = true;
-      }
+
+      // We keep track of body keys we've processed so we can flag
+      // unknown data later
       let k = processedKeys.indexOf(field.name);
       if (k !== -1)
         processedKeys.splice(k, 1);
+
+      // We can map form keys to object keys if desired, using the 'key'
+      // option in the form definition.
+      let key = field.key || field.name;
+
+      if (!req.body[field.name] && field.required) {
+        req.flash('pageErrors', req.__(`need ${field.name}`));
+        hasRequiredFields = false;
+        continue;
+      }
+
+      // No further processing on fields that have the "skipValue" option, e.g.,
+      // form processing or UI related fields. These won't be in the formValues
+      // object.
+      if (field.skipValue)
+        continue;
+
+      // For radio-buttons, we do not currently support other type-based
+      // processing. We simply map the values for easier use in templates.
+      if (field.radiomap) {
+        formValues[key] = {};
+        formValues[key].value = req.body[field.name];
+        formValues[key][req.body[field.name]] = true;
+        continue;
+      }
+
+      switch (field.type) {
+
+        // Multilingual text that needs to be trimmed and escaped
+        case 'text':
+          formValues[key] = {
+            [options.language]: escapeHTML(req.body[field.name].trim())
+          };
+          break;
+
+        // Multilingual markdown, we preserve both the escaped text and the
+        // rendered markdown
+        case 'markdown':
+          formValues[key] = {
+            text: {
+              [options.language]: escapeHTML(req.body[field.name].trim())
+            },
+            html: {
+              [options.language]: md.render(req.body[field.name].trim())
+            }
+          };
+          break;
+
+        case 'boolean':
+          formValues[key] = Boolean(req.body[field.name]);
+          break;
+
+      }
+
     }
+
     if (processedKeys.length) {
       hasUnknownFields = true;
       req.flash('pageErrors', req.__('unexpected form data'));
     }
+
     return {
       hasRequiredFields,
       hasUnknownFields,

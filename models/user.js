@@ -37,6 +37,7 @@ let User = thinky.createModel("users", {
   isTrusted: type.boolean().default(false), // Basic trust - not a spammer, can confer trust
   isModerator: type.boolean().default(false),
   isEditor: type.boolean().default(false),
+  teams: [type.string().uuid(4)],
   suppressedNotices: [type.string()]
 });
 

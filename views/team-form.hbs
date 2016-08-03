@@ -1,3 +1,4 @@
+{{>page_errors}}
 <form class="pure-form pure-form-stacked" id="team-form" name="team-form" method="post">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <fieldset>
@@ -5,7 +6,7 @@
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="pure-control-group">
         <label for="team-name">{{{__ "team name"}}} <span class="required">*</span></label>
-        <input id="team-name" name="team-name" type="text" class="pure-input-1" data-auto-trim data-required data-focus placeholder="{{{__ "enter team name"}}}" value="{{{formValues.team-name}}}">
+        <input id="team-name" name="team-name" type="text" class="pure-input-1" data-auto-trim data-required data-focus placeholder="{{{__ "enter team name"}}}" value="{{{mlString formValues.name false}}}">
       </div>
       <br>
     </div>
@@ -15,7 +16,7 @@
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="pure-control-group">
         <label for="team-motto">{{{__ "team motto"}}} <span class="required">*</span></label>
-        <input id="team-motto" name="team-motto" type="text" class="pure-input-1" data-auto-trim data-required placeholder="{{{__ "enter team motto"}}}" value="{{{formValues.team-motto}}}">
+        <input id="team-motto" name="team-motto" type="text" class="pure-input-1" data-auto-trim data-required placeholder="{{{__ "enter team motto"}}}" value="{{{mlString formValues.motto false}}}">
       </div>
       <br>
     </div>
@@ -25,7 +26,7 @@
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="pure-control-group">
         <label for="team-description">{{{__ "team description"}}} <span class="required">*</span></label>
-        <textarea id="team-description" name="team-description" class="pure-input-1 team-textarea" data-auto-trim data-required placeholder="{{{__ "enter team description"}}}">{{formValues.team-description}}</textarea>
+        <textarea id="team-description" name="team-description" class="pure-input-1 team-textarea" data-auto-trim data-required placeholder="{{{__ "enter team description"}}}">{{{mlString formValues.description.text false}}}</textarea>
       </div>
       <br>
     </div>
@@ -34,8 +35,8 @@
     </div>
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="pure-control-group">
-        <label for="team-rules">{{{__ "team rules"}}} <span class="required">*</span></label>
-        <textarea id="team-rules" name="team-rules" class="pure-input-1 team-textarea" data-auto-trim data-required placeholder="{{{__ "enter team rules"}}}">{{formValues.team-rules}}</textarea>
+        <label for="team-rules">{{{__ "team rules"}}}</label>
+        <textarea id="team-rules" name="team-rules" class="pure-input-1 team-textarea" data-auto-trim placeholder="{{{__ "enter team rules"}}}">{{{mlString formValues.rules.text false}}}</textarea>
       </div>
       <br>
     </div>
@@ -44,12 +45,12 @@
     </div>
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="pure-control-group">
-        <input id="team-mod-approval-to-join" name="team-mod-approval-to-join" type="checkbox">
+        <input id="team-mod-approval-to-join" name="team-mod-approval-to-join" type="checkbox" {{#if formValues.modApprovalToJoin}}checked{{/if}}>
         <label for="team-mod-approval-to-join" class="inline-label">{{{__ "mod approval to join"}}}</label>
       </div>
       <p>
       <div class="pure-control-group">
-        <input id="team-only-mods-can-blog" name="team-only-mods-can-blog" type="checkbox">
+        <input id="team-only-mods-can-blog" name="team-only-mods-can-blog" type="checkbox" {{#if formValues.onlyModsCanBlog}}checked{{/if}}>
         <label class="inline-label" for="team-only-mods-can-blog">{{{__ "only mods can blog"}}}</label>
       </div>
       <p>
