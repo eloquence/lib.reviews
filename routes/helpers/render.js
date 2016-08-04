@@ -50,11 +50,11 @@ let render = {
   },
 
   signinRequired: function(req, res, extraVars) {
-    this.template(req, res, 'signin-required', extraVars);
+    render.template(req, res, 'signin-required', extraVars);
   },
 
   permissionError: function(req, res, extraVars) {
-    this.template(req, res, 'permission-error', extraVars);
+    render.template(req, res, 'permission-error', extraVars);
   }
 
 };

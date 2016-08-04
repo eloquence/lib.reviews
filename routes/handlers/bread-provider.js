@@ -1,5 +1,6 @@
 'use strict';
 const render = require('../helpers/render');
+const forms = require('../helpers/forms');
 const router = require('express').Router();
 
 // This is a generic class to provide middleware for Browse/Read/Edit/Add/Delete
@@ -80,6 +81,13 @@ class BREADProvider {
 
     Object.assign(this, options);
 
+    // Shortcuts to common helpers, which also lets us override these with
+    // custom methods if appropriate
+    this.renderTemplate = render.template.bind(render, this.req, this.res);
+    this.renderPermissionError = render.permissionError.bind(render, this.req, this.res);
+    this.renderSigninRequired = render.signinRequired.bind(render, this.req, this.res);
+    this.parseForm = forms.parseSubmission.bind(forms, this.req);
+
   }
 
   execute() {
@@ -128,7 +136,7 @@ class BREADProvider {
         .catch(error => {
           if (error.name == 'DocumentNotFoundError' || error.message == 'deleted') {
             this.res.status(404);
-            render.template(this.req, this.res, this.documentNotFoundTemplate, {
+            this.renderTemplate(this.documentNotFoundTemplate, {
               titleKey: this.documentNotFoundTitleKey,
               id: this.id
             });
@@ -142,7 +150,7 @@ class BREADProvider {
 
   userIsSignedIn() {
     if (!this.req.user) {
-      render.signinRequired(this.req, this.res, {
+      this.renderSigninRequired({
         titleKey: this.actions[this.action].titleKey
       });
       return false;
@@ -152,7 +160,7 @@ class BREADProvider {
 
   userIsTrusted() {
     if (!this.req.user || !this.req.user.isTrusted) {
-      render.permissionError(this.req, this.res, {
+      this.renderPermissionError({
         titleKey: this.actions[this.action].titleKey,
         detailsKey: "must be trusted",
       });
@@ -168,7 +176,7 @@ class BREADProvider {
     else if (action == 'delete' && data.userCanDelete)
       return true;
     else {
-      render.permissionError(this.req, this.res, {
+      this.renderPermissionError({
         titleKey: this.actions[this.action].titleKey
       });
       return false;

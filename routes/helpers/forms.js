@@ -11,8 +11,7 @@ const urlUtils = require('../../util/url-utils');
 
 let forms = {
 
-  parseSubmission: function(options) {
-    let req = options.req;
+  parseSubmission: function(req, options) {
     // Do not manipulate original form definition
     let formDef = Object.assign([], options.formDef);
     let formKey = options.formKey;
@@ -40,7 +39,7 @@ let forms = {
         required: true
       });
 
-      hasCorrectCaptcha = this.processCaptchaAnswer(req);
+      hasCorrectCaptcha = forms.processCaptchaAnswer(req);
     }
 
     for (let field of formDef) {

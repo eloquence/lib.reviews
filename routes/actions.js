@@ -121,8 +121,7 @@ router.post('/signout', function(req, res) {
 
 router.post('/register', function(req, res) {
 
-  let formInfo = forms.parseSubmission({
-    req,
+  let formInfo = forms.parseSubmission(req, {
     formDef: formDefs.register,
     formKey: 'register'
   });

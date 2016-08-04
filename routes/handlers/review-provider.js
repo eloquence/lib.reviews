@@ -1,11 +1,9 @@
 'use strict';
-const render = require('../helpers/render');
 const Review = require('../../models/review.js');
-const forms = require('../helpers/forms');
+const BREADProvider = require('./bread-provider');
 const flashError = require('../helpers/flash-error');
 const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
-const BREADProvider = require('./bread-provider');
 
 class ReviewProvider extends BREADProvider {
 
@@ -33,7 +31,7 @@ class ReviewProvider extends BREADProvider {
     // No permission checks on reads, so we have to do this manually
     review.populateUserInfo(this.req.user);
 
-    render.template(this.req, this.res, 'review', {
+    this.renderTemplate('review', {
       titleKey: titleParam ? 'review of' : 'review',
       titleParam,
       deferPageHeader: true,
@@ -58,7 +56,7 @@ class ReviewProvider extends BREADProvider {
       user.suppressedNotices.indexOf('language-notice-review') !== -1)
       showLanguageNotice = false;
 
-    return render.template(this.req, this.res, 'review-form', {
+    this.renderTemplate('review-form', {
       formValues,
       titleKey: this.actions[this.action].titleKey,
       pageErrors: !this.isPreview ? pageErrors : undefined, // Don't show errors on preview
@@ -78,8 +76,7 @@ class ReviewProvider extends BREADProvider {
 
     let formKey = 'new-review';
     let language = this.req.body['review-language'];
-    let formData = forms.parseSubmission({
-      req: this.req,
+    let formData = this.parseForm({
       formDef: ReviewProvider.formDefs[formKey],
       formKey,
       language
@@ -136,8 +133,7 @@ class ReviewProvider extends BREADProvider {
 
     let formKey = 'edit-review';
     let language = this.req.body['review-language'];
-    let formData = forms.parseSubmission({
-      req: this.req,
+    let formData = this.parseForm({
       formDef: ReviewProvider.formDefs[formKey],
       formKey,
       language
@@ -189,7 +185,7 @@ class ReviewProvider extends BREADProvider {
   delete_GET(review) {
     let pageErrors = this.req.flash('pageErrors');
 
-    render.template(this.req, this.res, 'delete-review', {
+    this.renderTemplate('delete-review', {
       review: review,
       pageErrors
     });
@@ -197,15 +193,14 @@ class ReviewProvider extends BREADProvider {
 
   delete_POST(review) {
     let withThing = this.req.body['delete-thing'] ? true : false;
-    let formInfo = forms.parseSubmission({
-      req: this.req,
+    let formInfo = this.parseForm({
       formDef: ReviewProvider.formDefs['delete-review'],
       formKey: 'delete-review'
     });
 
     // Trying to delete recursively, but can't!
     if (withThing && !review.thing.userCanDelete)
-      return render.permissionError(this.req, this.res, {
+      return this.renderPermissionError({
         titleKey: this.actions[this.action].titleKey
       });
 
@@ -220,7 +215,7 @@ class ReviewProvider extends BREADProvider {
     deleteFunc
       .call(review, this.req.user)
       .then(() => {
-        render.template(this.req, this.res, 'review-deleted', {
+        this.renderTemplate('review-deleted', {
           titleKey: 'review deleted'
         });
       })

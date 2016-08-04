@@ -1,6 +1,4 @@
 'use strict';
-const render = require('../helpers/render');
-const forms = require('../helpers/forms');
 const BREADProvider = require('./bread-provider');
 const Team = require('../../models/team');
 const mlString = require('../../models/helpers/ml-string.js');
@@ -21,7 +19,7 @@ class TeamProvider extends BREADProvider {
   add_GET(formValues) {
 
     let pageErrors = this.req.flash('pageErrors');
-    render.template(this.req, this.res, 'team-form', {
+    this.renderTemplate('team-form', {
       titleKey: this.actions[this.action].titleKey,
       pageErrors,
       formValues
@@ -41,11 +39,11 @@ class TeamProvider extends BREADProvider {
 
   }
 
-  read_GET (team) {
+  read_GET(team) {
     let titleParam = mlString.resolve(this.req.locale, team.name).str;
     team.populateUserInfo(this.req.user);
 
-    render.template(this.req, this.res, 'team', {
+    this.renderTemplate('team', {
       team,
       titleKey: 'team title',
       titleParam,
@@ -58,8 +56,7 @@ class TeamProvider extends BREADProvider {
 
     let formKey = 'edit-team';
     let language = this.req.body['team-language'];
-    let formData = forms.parseSubmission({
-      req: this.req,
+    let formData = this.parseForm({
       formDef: TeamProvider.formDefs[formKey],
       formKey,
       language
@@ -101,8 +98,7 @@ class TeamProvider extends BREADProvider {
   add_POST() {
 
     let formKey = 'new-team';
-    let formData = forms.parseSubmission({
-      req: this.req,
+    let formData = this.parseForm({
       formDef: TeamProvider.formDefs[formKey],
       formKey,
       language: this.req.body['team-language']
@@ -151,7 +147,7 @@ class TeamProvider extends BREADProvider {
   delete_GET(team) {
 
     let pageErrors = this.req.flash('pageErrors');
-    render.template(this.req, this.res, 'team', {
+    this.renderTemplate('team', {
       team,
       titleKey: this.actions[this.action].titleKey,
       deferPageHeader: true,
@@ -163,9 +159,11 @@ class TeamProvider extends BREADProvider {
 
   delete_POST(team) {
     team
-      .deleteAllRevisions(this.req.user, { tags: ['delete-via-form'] })
+      .deleteAllRevisions(this.req.user, {
+        tags: ['delete-via-form']
+      })
       .then(() => {
-        render.template(this.req, this.res, 'team-deleted', {
+        this.renderTemplate('team-deleted', {
           titleKey: 'team deleted'
         });
       })
