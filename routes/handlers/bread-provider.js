@@ -1,10 +1,14 @@
 'use strict';
 const render = require('../helpers/render');
+const router = require('express').Router();
 
-// This is a generic class to provide middleware handlers for create/edit/delete
-// forms. It comes with some useful pre-flight checks but needs to be extended
-// to do useful work. By default, all operations require being logged in.
-class FormHandler {
+// This is a generic class to provide middleware for Browse/Read/Edit/Add/Delete
+// operations and forms. It comes with some baked-in pre-flight checks but needs
+// to be extended to do useful work. All default actions except reads require
+// being logged in.
+//
+// Use the bakery method to create standard BREAD routes. :)
+class BREADProvider {
 
   constructor(req, res, next, options) {
 
@@ -12,16 +16,30 @@ class FormHandler {
       throw new Error('Form needs at least req, res, and next functions from middleware.');
 
     this.actions = {
-      create: {
+      browse: {
         // Function to call for GET requests
-        GET: this.create_GET,
-        // Function to call for POST requests
-        POST: this.create_POST,
+        GET: this.browse_GET,
         // Checks to perform before either of above functions are called.
         // If checks fail, they are not called (checks have to handle
         // the request).
+        preFlightChecks: [],
+        // Function to call to load data and pass it to GET/POST function
+        loadData: this.loadData,
+        // Title for all "browse" actions
+        titleKey: undefined
+      },
+      read: {
+        GET: this.read_GET,
+        preFlightChecks: [],
+        // Function to call to load data and pass it to GET/POST function
+        loadData: this.loadData,
+        titleKey: undefined
+      },
+      add: {
+        GET: this.add_GET,
+        // Function to call for POST requests
+        POST: this.add_POST,
         preFlightChecks: [this.userIsSignedIn],
-        // Title for all "create" actions
         titleKey: undefined
       },
       edit: {
@@ -55,7 +73,7 @@ class FormHandler {
 
     // Defaults
     options = Object.assign({
-      action: 'create',
+      action: 'add',
       method: 'GET',
       id: undefined // only for edit/delete operations
     }, options);
@@ -173,4 +191,56 @@ class FormHandler {
 
 }
 
-module.exports = FormHandler;
+// This registers default routes that are common for editable resources,
+// following a standard pattern.
+//
+// resource -- the identifier used in URLs for the resource
+//  that is being configured.
+//
+// routes (optional) -- actions and associated Express routes that we want to
+//   set up. POST routes will only be created for add/edit/delete actions.
+BREADProvider.bakeRoutes = function(resource, routes) {
+
+  let Provider = this;
+
+  if (!routes)
+    // Default does not (yet) include a browse route
+    routes = {
+      add: `/new/${resource}`,
+      read: `/${resource}/:id`,
+      edit: `/${resource}/:id/edit`,
+      delete: `/${resource}/:id/delete`,
+    };
+
+  let _bakeRoute = (action, method, route) => {
+
+    // Check if we need to extract ID from query string and pass along to the
+    // provider for this route
+    let getID = /\/:id/.test(route);
+
+    return function(req, res, next) {
+      let id;
+      if (getID)
+        id = req.params.id.trim();
+
+      let provider = new Provider(req, res, next, {
+        action,
+        method,
+        id
+      });
+      provider.execute();
+    };
+  };
+
+  for (let action in routes) {
+    router.get(routes[action], _bakeRoute(action, 'GET', routes[action]));
+    // Routes with write acces must handle POST requests
+    if (action == 'edit' || action == 'add' || action == 'delete')
+      router.post(routes[action], _bakeRoute(action, 'POST', routes[action]));
+  }
+
+  return router;
+
+};
+
+module.exports = BREADProvider;

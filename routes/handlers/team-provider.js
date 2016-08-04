@@ -1,15 +1,16 @@
 'use strict';
 const render = require('../helpers/render');
 const forms = require('../helpers/forms');
-const FormHandler = require('./form-handler');
+const BREADProvider = require('./bread-provider');
 const Team = require('../../models/team');
+const mlString = require('../../models/helpers/ml-string.js');
 
-class TeamFormHandler extends FormHandler {
+class TeamProvider extends BREADProvider {
 
   constructor(req, res, next, options) {
     super(req, res, next, options);
     this.addPreFlightCheck(this.userIsTrusted);
-    this.actions.create.titleKey = 'new team';
+    this.actions.add.titleKey = 'new team';
     this.actions.edit.titleKey = 'edit team';
     this.actions.delete.titleKey = 'delete team';
     this.documentNotFoundTitleKey = 'team not found title';
@@ -17,7 +18,7 @@ class TeamFormHandler extends FormHandler {
   }
 
   // For incomplete submissions, pass formValues so form can be pre-populated.
-  create_GET(formValues) {
+  add_GET(formValues) {
 
     let pageErrors = this.req.flash('pageErrors');
     render.template(this.req, this.res, 'team-form', {
@@ -36,7 +37,20 @@ class TeamFormHandler extends FormHandler {
 
   edit_GET(team) {
 
-    this.create_GET(team);
+    this.add_GET(team);
+
+  }
+
+  read_GET (team) {
+    let titleParam = mlString.resolve(this.req.locale, team.name).str;
+    team.populateUserInfo(this.req.user);
+
+    render.template(this.req, this.res, 'team', {
+      team,
+      titleKey: 'team title',
+      titleParam,
+      deferPageHeader: true // Two-column-layout
+    });
 
   }
 
@@ -46,7 +60,7 @@ class TeamFormHandler extends FormHandler {
     let language = this.req.body['team-language'];
     let formData = forms.parseSubmission({
       req: this.req,
-      formDef: TeamFormHandler.formDefs[formKey],
+      formDef: TeamProvider.formDefs[formKey],
       formKey,
       language
     });
@@ -84,18 +98,18 @@ class TeamFormHandler extends FormHandler {
 
   }
 
-  create_POST() {
+  add_POST() {
 
     let formKey = 'new-team';
     let formData = forms.parseSubmission({
       req: this.req,
-      formDef: TeamFormHandler.formDefs[formKey],
+      formDef: TeamProvider.formDefs[formKey],
       formKey,
       language: this.req.body['team-language']
     });
 
     if (this.req.flashHas('pageErrors'))
-      return this.create_GET(formData.formValues);
+      return this.add_GET(formData.formValues);
 
     Team
       .createFirstRevision(this.req.user, {
@@ -163,7 +177,7 @@ class TeamFormHandler extends FormHandler {
 }
 
 // Shared by all instances
-TeamFormHandler.formDefs = {
+TeamProvider.formDefs = {
   'new-team': [{
     name: 'team-name',
     required: true,
@@ -205,6 +219,6 @@ TeamFormHandler.formDefs = {
   }],
 };
 
-TeamFormHandler.formDefs['edit-team'] = TeamFormHandler.formDefs['new-team'];
+TeamProvider.formDefs['edit-team'] = TeamProvider.formDefs['new-team'];
 
-module.exports = TeamFormHandler;
+module.exports = TeamProvider;

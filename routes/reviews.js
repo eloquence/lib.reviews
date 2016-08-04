@@ -1,8 +1,8 @@
 'use strict';
 
 // External dependencies
-const express = require('express');
-const router = express.Router();
+// const express = require('express');
+// const router = express.Router();
 const escapeHTML = require('escape-html');
 
 // Internal dependencies
@@ -13,10 +13,16 @@ const forms = require('./helpers/forms');
 const flashError = require('./helpers/flash-error');
 const ErrorMessage = require('../util/error.js');
 const Review = require('../models/review.js');
-const ReviewFormHandler = require('./handlers/review-form-handler');
+const ReviewProvider = require('./handlers/review-provider');
 const reviewHandlers = require('./handlers/review-handlers');
 const mlString = require('../models/helpers/ml-string.js');
-const prettifyURL = require('../util/url-normalizer').prettify;
+const prettifyURL = require('../util/url-utils').prettify;
+
+// Standard routes
+
+let router = ReviewProvider.bakeRoutes('review');
+
+// Additional routes
 
 router.get('/', reviewHandlers.getFeedHandler({
   template: 'index',
@@ -24,75 +30,8 @@ router.get('/', reviewHandlers.getFeedHandler({
   deferPageHeader: true,
   onlyTrusted: true
 }));
+
 router.get('/feed', reviewHandlers.getFeedHandler());
-router.get('/review/:id', reviewHandlers.view);
-router.get('/review/:id/delete', function(req, res, next) {
-  let reviewForm = new ReviewFormHandler({
-    req,
-    res,
-    next,
-    type: 'delete',
-    reviewID: req.params.id.trim()
-  });
-  reviewForm.handleRequest();
-});
-
-router.post('/review/:id/delete', function(req, res, next) {
-  let reviewForm = new ReviewFormHandler({
-    req,
-    res,
-    next,
-    type: 'delete',
-    submitted: true,
-    reviewID: req.params.id.trim()
-  });
-  reviewForm.handleRequest();
-});
-
-router.get('/review/:id/edit', function(req, res, next) {
-  let reviewForm = new ReviewFormHandler({
-    req,
-    res,
-    next,
-    type: 'edit',
-    reviewID: req.params.id.trim()
-  });
-  reviewForm.handleRequest();
-});
-
-router.post('/review/:id/edit', function(req, res, next) {
-  let reviewID = req.params.id.trim();
-  let reviewForm = new ReviewFormHandler({
-    req,
-    res,
-    next,
-    type: 'edit',
-    reviewID: req.params.id.trim(),
-    submitted: true,
-    isPreview: req.body['review-action'] == 'preview'
-  });
-  reviewForm.handleRequest();
-});
-
-router.get('/new/review', function(req, res, next) {
-  let reviewForm = new ReviewFormHandler({
-    req,
-    res,
-    next
-  });
-  reviewForm.handleRequest();
-});
-
-router.post('/new/review', function(req, res, next) {
-  let reviewForm = new ReviewFormHandler({
-    req,
-    res,
-    next,
-    submitted: true,
-    isPreview: req.body['review-action'] == 'preview'
-  });
-  reviewForm.handleRequest();
-});
 
 router.get('/new', (req, res) => {
   res.redirect('/new/review');

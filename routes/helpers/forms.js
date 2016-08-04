@@ -6,6 +6,7 @@ const md = require('markdown-it')({
   breaks: true,
   typographer: true
 });
+const urlUtils = require('../../util/url-utils');
 
 
 let forms = {
@@ -25,7 +26,8 @@ let forms = {
     // Any form submission requires a CSRF token
     formDef.push({
       name: '_csrf',
-      required: true
+      required: true,
+      skipValue: true
     });
 
     // Process simple captcha if enabled for this form
@@ -65,16 +67,16 @@ let forms = {
       if (field.skipValue)
         continue;
 
-      // For radio-buttons, we do not currently support other type-based
-      // processing. We simply map the values for easier use in templates.
-      if (field.radiomap) {
-        formValues[key] = {};
-        formValues[key].value = req.body[field.name];
-        formValues[key][req.body[field.name]] = true;
-        continue;
-      }
-
       switch (field.type) {
+
+        case 'number':
+          formValues[key] = Number(req.body[field.name].trim());
+          break;
+
+        case 'url':
+          formValues[key] = urlUtils.normalize(req.body[field.name].trim());
+          formValues[key] = encodeURI(formValues[key]);
+          break;
 
         // Multilingual text that needs to be trimmed and escaped
         case 'text':
@@ -86,19 +88,34 @@ let forms = {
         // Multilingual markdown, we preserve both the escaped text and the
         // rendered markdown
         case 'markdown':
-          formValues[key] = {
-            text: {
+          if (!field.flat)
+            formValues[key] = {
+              text: {
+                [options.language]: escapeHTML(req.body[field.name].trim())
+              },
+              html: {
+                [options.language]: md.render(req.body[field.name].trim())
+              }
+            };
+
+          // For schemas with a single text field, we support a flat structure
+          else {
+            formValues[key] = {
               [options.language]: escapeHTML(req.body[field.name].trim())
-            },
-            html: {
+            };
+
+            formValues[field.htmlKey] = {
               [options.language]: md.render(req.body[field.name].trim())
-            }
-          };
+            };
+          }
           break;
 
         case 'boolean':
           formValues[key] = Boolean(req.body[field.name]);
           break;
+
+        default:
+          formValues[key] = req.body[field.name];
 
       }
 

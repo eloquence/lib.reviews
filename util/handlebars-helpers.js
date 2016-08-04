@@ -28,9 +28,12 @@ hbs.registerHelper('userLink', function(user) {
 });
 
 hbs.registerHelper('prettify', function(url) {
-  return url
-    .replace(/^.*?:\/\//, '') // strip protocol
-    .replace(/\/$/, ''); // remove trailing slashes for display only
+  if (url)
+    return url
+      .replace(/^.*?:\/\//, '') // strip protocol
+      .replace(/\/$/, ''); // remove trailing slashes for display only
+  else
+    return '';
 });
 
 // These helpers must be registered in a middleware context, so we export

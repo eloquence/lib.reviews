@@ -80,7 +80,10 @@ Review.define("deleteAllRevisionsWithThing", function(user) {
 });
 
 
-Review.create = function(reviewObj) {
+Review.create = function(reviewObj, options) {
+  if (!options)
+    options = {};
+
   return new Promise((resolve, reject) => {
     Review
       .findOrCreateThing(reviewObj)
@@ -96,7 +99,8 @@ Review.create = function(reviewObj) {
           originalLanguage: reviewObj.originalLanguage,
           _revID: r.uuid(),
           _revUser: reviewObj.createdBy,
-          _revDate: reviewObj.createdAt
+          _revDate: reviewObj.createdAt,
+          _revTags: options.tags ? options.tags : undefined
         });
         review.save().then(review => {
           resolve(review);
@@ -134,9 +138,9 @@ Review.findOrCreateThing = function(reviewObj) {
         default: true
       })
       .then(things => {
-        if (things.length)
+        if (things.length) {
           resolve(things[0]); // we have an entry with this URL already
-        else {
+        } else {
           // Let's make one!
           let thing = new Thing({});
           let date = new Date();

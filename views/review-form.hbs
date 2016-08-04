@@ -4,20 +4,16 @@
 {{/if}}
 </div>
 <div id="preview-contents" {{#unless isPreview}}class="hidden"{{/unless}}>
-<h2 id="preview-review-url" {{#unless preview.review-url}}class="hidden"{{/unless}}><span id="preview-review-url-label">{{{__ "preview of"}}}</span> <a href="{{preview.review-url}}" id="preview-review-url-link" target="_blank">{{preview.review-url-text}}</a></h2>
-<h2 id="preview-review-title">{{preview.review-title}}</h2>
+<h2 id="preview-review-url" {{#unless formValues.url}}class="hidden"{{/unless}}><span id="preview-review-url-label">{{{__ "preview of"}}}</span> <a href="{{{formValues.url}}}" id="preview-review-url-link" target="_blank">{{prettify formValues.url}}</a></h2>
+<h2 id="preview-review-title">{{{mlString formValues.title}}}</h2>
 <span id="preview-review-rating">
-{{#times preview.review-rating}}
-<img src="/static/img/star-{{../preview.review-rating}}-full.svg" width="25" class="preview-star">
+{{#times formValues.starRating}}
+<img src="/static/img/star-{{../formValues.starRating}}-full.svg" width="25" class="preview-star">
 {{/times}}
 </span>
-<div id="preview-review-text">{{{preview.review-text}}}</div>
+<div id="preview-review-text">{{{mlString formValues.html}}}</div>
 <div id="preview-review-byline">
-{{#if preview.review-date}}
-{{{__ "review byline" user.displayName preview.review-date}}}
-{{else}}
-{{{__ "review byline" user.displayName ""}}}
-{{/if}}
+{{{__ "review byline" formValues.creator.displayName formValues.createdAt}}}
 </div>
 </div>
 
@@ -34,7 +30,7 @@
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
               <label for="review-url">{{{__ "url"}}} <span class="required">*</span></label>
-              <input id="review-url" name="review-url" type="text" class="pure-input-1" data-required data-focus data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{{formValues.review-url}}}">
+              <input id="review-url" name="review-url" type="text" class="pure-input-1" data-required data-focus data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{{formValues.url}}}">
               <div id="review-url-error" class="validation-error">{{{__ "not a url"}}}</div>
               <div id="helper-links"><a href="#" id="add-https">{{{__ "add https"}}}</a> &ndash; <a href="#" id="add-http">{{{__ "add http"}}}</a></div>
           </div>
@@ -47,7 +43,7 @@
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
               <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>
-              <input id="review-title" name="review-title" type="text" class="pure-input-1" {{#if editing}}data-focus{{/if}} data-required data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{{formValues.review-title}}}">
+              <input id="review-title" name="review-title" type="text" class="pure-input-1" {{#if editing}}data-focus{{/if}} data-required data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{{mlString formValues.title false}}}">
           </div>
           <br>
         </div>
@@ -57,7 +53,7 @@
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
               <label for="review-text">{{{__ "review"}}} <span class="required">*</span></label>
-              <textarea id="review-text" name="review-text" class="pure-input-1" data-required data-auto-trim placeholder="{{{__ "enter review"}}}">{{{formValues.review-text}}}</textarea>
+              <textarea id="review-text" name="review-text" class="pure-input-1" data-required data-auto-trim placeholder="{{{__ "enter review"}}}">{{{mlString formValues.text false}}}</textarea>
               <br>
           </div>
         </div>
@@ -69,7 +65,7 @@
             <label id="star-rating-label" for="review-rating">{{{__ "rating"}}} <span class="required">*</span></label>
             <div class="nojs-hidden">
             {{! We store this POST value in the DOM, so it is available to the JS-only control }}
-            <span id="star-rating-control" data-post="{{formValues.review-rating.value}}">
+            <span id="star-rating-control" data-post="{{formValues.starRating}}">
             {{#times 5}}
             <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-{{this}}"
             alt="{{__n "one or multiple stars" this}}">
@@ -79,7 +75,7 @@
             <noscript>
             {{#times 5}}
             <input id="star-{{this}}" type="radio" name="review-rating"
-            value="{{this}}" {{#if (lookup ../formValues.review-rating this)}} checked{{/if}}>
+            value="{{this}}" {{#if (lookup ../formValues.hasRating this)}} checked{{/if}}>
             <label for="star-{{this}}" class="inline-label inline-star-label">{{{__n "one or multiple stars" this}}}</label>
             {{/times}}
             </noscript>
