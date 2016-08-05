@@ -100,7 +100,7 @@
     "answer: famous scientist": "Charles",
     "enter captcha answer": "Gro&szlig;-/Kleinschreibung egal",
     "need captcha-answer": "Bitte beantworte die Sicherheitsanfrage, um automatisierten Spam zu bek&auml;mpfen.",
-    "incorrect captcha answer": "Das ist leider nicht die richtige Antwort auf die Sicherheitsanfrage. Vielleicht hilft eine Suchmaschine weiter?",
+    "incorrect captcha answer": "Das ist leider nicht die richtige Antwort auf die Sicherheitsanfrage.",
     "invalid url": "Die URL scheint ung&uuml;ltig zu sein. Bitte beachte, dass wir das Protokoll nicht f&uuml;r dich erkennen k&ouml;nnen (typischerweise http:// oder https://).",
     "more info": "Mehr Infos",
     "add label": "Titel hinzuf&uuml;gen",
