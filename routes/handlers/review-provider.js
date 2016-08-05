@@ -1,11 +1,11 @@
 'use strict';
 const Review = require('../../models/review.js');
-const BREADProvider = require('./bread-provider');
+const AbstractBREADProvider = require('./abstract-bread-provider');
 const flashError = require('../helpers/flash-error');
 const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
 
-class ReviewProvider extends BREADProvider {
+class ReviewProvider extends AbstractBREADProvider {
 
   constructor(req, res, next, options) {
 

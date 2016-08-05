@@ -9,7 +9,7 @@ const router = require('express').Router();
 // being logged in.
 //
 // Use the bakery method to create standard BREAD routes. :)
-class BREADProvider {
+class AbstractBREADProvider {
 
   constructor(req, res, next, options) {
 
@@ -213,7 +213,7 @@ class BREADProvider {
 //
 // routes (optional) -- actions and associated Express routes that we want to
 //   set up. POST routes will only be created for add/edit/delete actions.
-BREADProvider.bakeRoutes = function(resource, routes) {
+AbstractBREADProvider.bakeRoutes = function(resource, routes) {
 
   let Provider = this;
 
@@ -260,4 +260,4 @@ BREADProvider.bakeRoutes = function(resource, routes) {
 
 };
 
-module.exports = BREADProvider;
+module.exports = AbstractBREADProvider;
