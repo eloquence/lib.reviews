@@ -34,9 +34,10 @@ let User = thinky.createModel("users", {
   }],
   registrationDate: type.date().default(() => new Date()),
   showErrorDetails: type.boolean().default(false),
-  isTrusted: type.boolean().default(false), // Basic trust - not a spammer, can confer trust
+  // Basic trust - not a spammer. Can confer trust, can edit things + create teams
+  isTrusted: type.boolean().default(false),
+  // Advanced trust - can (reversibly) delete content, but _not_ edit arbitrary content
   isModerator: type.boolean().default(false),
-  isEditor: type.boolean().default(false),
   teams: [type.string().uuid(4)],
   suppressedNotices: [type.string()]
 });
@@ -71,20 +72,6 @@ User.define("setPassword", function(password) {
       });
     }
   });
-});
-
-User.define("canDeleteReview", function(review) {
-  if (this.isModerator || (this.id && this.id === review.createdBy))
-    return true;
-  else
-    return false;
-});
-
-User.define("canEditReview", function(review) {
-  // Identical permissions for now. Maybe later "editor" group will be able
-  // to edit, or translate, but for now editors can only edit things (since they
-  // are inherently collaborative).
-  return this.canDeleteReview(review);
 });
 
 // Will resolve to true if password matches, false otherwise, and only

@@ -36,7 +36,7 @@ let thingSchema = {
   bookAuthor: type.string().uuid(4), // => human
 
   // Track original authorship across revisions
-  createdAt: type.date().required(true),
+  createdOn: type.date().required(true),
   createdBy: type.string().uuid(4).required(true),
 
   hasInfo: type.virtual().default(_hasInfo), // Helper for determining whether this is more than a single URL
@@ -62,9 +62,9 @@ Thing.define("populateUserInfo", function(user) {
 
   // For now, we don't let users delete things they've created,
   // since things are collaborative in nature
-  this.userCanDelete = user.isModerator ? true : false;
-  this.userCanEdit = user.isEditor || user.id && user.id === this.createdBy ? true : false;
-  this.userIsCreator = user.id && user.id === this.createdBy ? true : false;
+  this.userCanDelete = user.isModerator || false;
+  this.userCanEdit = user.isTrusted || user.id === this.createdBy;
+  this.userIsCreator = user.id === this.createdBy;
 
 });
 

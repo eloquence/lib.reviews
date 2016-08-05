@@ -24,8 +24,6 @@ class BREADProvider {
         // If checks fail, they are not called (checks have to handle
         // the request).
         preFlightChecks: [],
-        // Function to call to load data and pass it to GET/POST function
-        loadData: this.loadData,
         // Title for all "browse" actions
         titleKey: undefined
       },
@@ -118,8 +116,8 @@ class BREADProvider {
       this.actions[this.action][this.method].call(this); // Call appropriate handler
     else {
       // Asynchronously load data and show 404 if not found
-      this
-        .loadData()
+      this.actions[this.action]
+        .loadData.call(this)
         .then(data => {
 
           if (data._revDeleted)
@@ -133,20 +131,24 @@ class BREADProvider {
             this.actions[this.action][this.method].call(this, data);
 
         })
-        .catch(error => {
-          if (error.name == 'DocumentNotFoundError' || error.message == 'deleted') {
-            this.res.status(404);
-            this.renderTemplate(this.documentNotFoundTemplate, {
-              titleKey: this.documentNotFoundTitleKey,
-              id: this.id
-            });
-          } else
-            this.next(error);
-        });
+        .catch(this.getLookupErrorHandler().bind(this));
     }
 
   }
 
+  // Remember to bind to this if you use this handler in a subclass
+  getLookupErrorHandler(notFoundTemplate, notFoundTitleKey, notFoundID) {
+    return function(error) {
+      if (error.name == 'DocumentNotFoundError' || error.message == 'deleted') {
+        this.res.status(404);
+        this.renderTemplate(notFoundTemplate || this.documentNotFoundTemplate, {
+          titleKey: notFoundTitleKey || this.documentNotFoundTitleKey,
+          id: notFoundID || this.id
+        });
+      } else
+        this.next(error);
+    };
+  }
 
   userIsSignedIn() {
     if (!this.req.user) {
@@ -191,9 +193,13 @@ class BREADProvider {
     return this.userCan('delete', data);
   }
 
-  // Adds a pre-flight check to all actions
-  addPreFlightCheck(check) {
-    for (let action in this.actions)
+  // Adds a pre-flight check to all actions in provided array.
+  // If not defined, adds to all actions
+  addPreFlightCheck(actions, check) {
+    if (!actions)
+      actions = Object.keys(this.actions);
+
+    for (let action of actions)
       this.actions[action].preFlightChecks.push(check);
   }
 
@@ -212,39 +218,42 @@ BREADProvider.bakeRoutes = function(resource, routes) {
   let Provider = this;
 
   if (!routes)
-    // Default does not (yet) include a browse route
+  // Default does not (yet) include a browse route. Code below parses the
+  // route pattern, so be careful with non-standard patterns.
     routes = {
-      add: `/new/${resource}`,
-      read: `/${resource}/:id`,
-      edit: `/${resource}/:id/edit`,
-      delete: `/${resource}/:id/delete`,
-    };
+    add: `/new/${resource}`,
+    read: `/${resource}/:id`,
+    edit: `/${resource}/:id/edit`,
+    delete: `/${resource}/:id/delete`,
+  };
 
-  let _bakeRoute = (action, method, route) => {
-
-    // Check if we need to extract ID from query string and pass along to the
-    // provider for this route
-    let getID = /\/:id/.test(route);
+  let _bakeRoute = (action, method, route, idArray) => {
 
     return function(req, res, next) {
-      let id;
-      if (getID)
-        id = req.params.id.trim();
 
-      let provider = new Provider(req, res, next, {
+      let options = {
         action,
-        method,
-        id
-      });
+        method
+      };
+      idArray.forEach(id => options[id] = req.params[id].trim());
+
+      let provider = new Provider(req, res, next, options);
+
       provider.execute();
     };
   };
 
   for (let action in routes) {
-    router.get(routes[action], _bakeRoute(action, 'GET', routes[action]));
+
+    // Extract variable placeholders
+    let idMatches = routes[action].match(/\/:(.*?)(\/|$)/g);
+    // Extract variable names
+    let idArray = idMatches ? idMatches.map(id => id.match(/\w+/)[0]) : [];
+
+    router.get(routes[action], _bakeRoute(action, 'GET', routes[action], idArray));
     // Routes with write acces must handle POST requests
     if (action == 'edit' || action == 'add' || action == 'delete')
-      router.post(routes[action], _bakeRoute(action, 'POST', routes[action]));
+      router.post(routes[action], _bakeRoute(action, 'POST', routes[action], idArray));
   }
 
   return router;

@@ -1,0 +1,24 @@
+<div class="blog-post">
+{{!We skip the title and render it differently when it's viewed on a single page}}
+{{#unless skipTitle}}
+<h3 class="blog-post-title">{{{mlString post.title}}}</h3>
+{{/unless}}
+
+<div class="blog-post-text">
+{{{mlString post.post.html false}}}
+</div>
+
+<div class="blog-post-actions">
+&nbsp;&nbsp;<span class="blog-post-action"><a href="/team/{{post.teamID}}/post/{{post.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a></span></span>
+
+{{#if post.userCanDelete}}
+&nbsp;&nbsp;<span class="blog-post-action"><a href="/team/{{post.teamID}}/post/{{post.id}}/delete"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a></span></span>
+{{/if}}
+
+{{#if post.userCanEdit}}
+&nbsp;&nbsp;<span class="blog-post-action"><a href="/team/{{post.teamID}}/post/{{post.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span></span>
+{{/if}}
+</div>
+
+<span class="blog-post-byline">{{{__ "byline" (userLink post.creator) post.createdOn}}}</span>
+</div>

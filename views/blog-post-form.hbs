@@ -1,0 +1,49 @@
+<h2 id="sub-header">{{{__ "team title" (mlString team.name false)}}}</h2>
+{{>page_errors}}
+{{#if isPreview}}
+<div id="preview-contents">
+<h2 id="preview-header">{{{__ "preview title"}}}</h2>
+<h3>{{{mlString formValues.title false}}}</h3>
+{{{mlString formValues.post.html false}}}
+</div>
+{{/if}}
+<form class="pure-form pure-form-stacked" id="blog-post-form" name="blog-post-form" method="post">
+<input type="hidden" value="{{csrfToken}}" name="_csrf">
+<fieldset>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-2-3">
+      <div class="pure-control-group">
+        <label for="post-title">{{{__ "blog post title"}}} <span class="required">*</span></label>
+        <input id="post-title" name="post-title" type="text" class="pure-input-1" data-auto-trim data-required data-focus placeholder="{{{__ "enter blog post title"}}}" value="{{{mlString formValues.title false}}}">
+      </div>
+      <br>
+    </div>
+    <div class="pure-u-1 pure-u-md-1-3">
+      {{>help input="post-title" helpLabel="blog post title label" helpText="blog post title help"}}
+    </div>
+
+    <div class="pure-u-1 pure-u-md-2-3">
+      <div class="pure-control-group">
+        <label for="post-text">{{{__ "blog post text"}}} <span class="required">*</span></label>
+        <textarea id="post-text" name="post-text" class="pure-input-1 blog-post-textarea" data-auto-trim data-required placeholder="{{{__ "enter blog post"}}}">{{{mlString formValues.post.text false}}}</textarea>
+      </div>
+      <br>
+    </div>
+    <div class="pure-u-1 pure-u-md-1-3">
+      {{>help input="post-text" helpLabel="blog post text" helpText="blog post text help"}}
+    </div>
+    <input id="post-language" name="post-language" type="hidden" value="{{currentLanguage.langKey}}">
+    </div>
+</fieldset>
+<div id="help" data-last-shown=""></div>
+<div class="validation-error" id="required-fields-message">
+  {{{__ "complete all required fields"}}}
+</div>
+<div class="validation-error" id="form-error-message">
+  {{{__ "correct errors"}}}
+</div>
+<div class="buttons-group">
+  <button type="submit" id="save" name="post-action" value="publish" data-check-required class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "publish"}}}</button>
+  <button type="submit" id="preview" name="post-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "accesskey" "p"}}}">{{{__ "preview"}}}</button>
+</div>
+</form>

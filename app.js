@@ -27,6 +27,7 @@ const actions = require('./routes/actions');
 const users = require('./routes/users');
 const teams = require('./routes/teams');
 const pages = require('./routes/pages');
+const blogPosts = require('./routes/blog-posts');
 const api = require('./routes/api');
 const apiHelper = require('./routes/helpers/api');
 const things = require('./routes/things');
@@ -140,6 +141,7 @@ app.use('/', reviews);
 app.use('/', actions);
 app.use('/', things);
 app.use('/', teams);
+app.use('/', blogPosts);
 app.use('/user', users);
 
 // Catches 404s and serves "not found" page

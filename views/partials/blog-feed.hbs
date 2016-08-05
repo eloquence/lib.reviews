@@ -1,0 +1,10 @@
+{{#if blogPosts}}
+{{#each blogPosts}}
+{{> blog_post post=this}}
+{{#unless @last}}
+<hr class="feed-separator">
+{{/unless}}
+{{/each}}
+{{else}}
+{{{__ "no blog posts"}}}
+{{/if}}

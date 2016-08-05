@@ -98,6 +98,13 @@ body {
   font-style: italic;
 }
 
+#sub-header {
+  color: @headerColor;
+  font-weight:normal;
+  font-style: italic;
+  margin-top: -0.67em // offset header's margin-bottom
+}
+
 #logo {
    width: 400px;
 }
@@ -329,7 +336,7 @@ a.fragment-link {
   font-weight:normal;
 }
 
-#preview-review-url {
+#preview-review-url, #preview-header {
   text-align: center;
   color: @headerColor;
   font-style: italic;
@@ -358,11 +365,11 @@ a#write-blog, a#write-blog:visited, a#write-blog:hover,
 }
 
 
-#preview-review-byline, .review-byline {
+#preview-review-byline, .review-byline, .blog-post-byline {
   font-size: small;
 }
 
-.review-actions {
+.review-actions, .blog-post-actions {
   font-size: small;
   float: right;
   padding-left: 2px;
@@ -411,7 +418,7 @@ hr.feed-separator, hr.team-separator {
   white-space: pre-wrap;
 }
 
-.review-action {
+.review-action, .blog-post-action {
   white-space: nowrap;
 }
 
@@ -457,7 +464,9 @@ hr.feed-separator, hr.team-separator {
   font-weight: normal;
   font-style: normal;
   white-space: nowrap;
+  color:black;
 }
+
 
 .user-label {
   font-weight: bold;
@@ -468,10 +477,11 @@ hr.feed-separator, hr.team-separator {
   font-size: 1.5em;
   color: @headerColor;
   font-style:italic;
+  font-weight:normal;
 }
 
 .intro-text, .team-info {
-  padding-right: 2em;
+  padding-right: 3em;
 }
 
 #bio-textarea {
@@ -541,4 +551,12 @@ hr.feed-separator, hr.team-separator {
   border-left-style:solid;
   border-left-width: 5px;
   border-left-color: #66a;
+}
+
+.team-list {
+  max-width: 40em;
+}
+
+.blog-post-textarea {
+  height: 15em;
 }

@@ -83,7 +83,7 @@ class ReviewProvider extends BREADProvider {
     });
 
     formData.formValues.createdBy = this.req.user.id;
-    formData.formValues.createdAt = new Date();
+    formData.formValues.createdOn = new Date();
     formData.formValues.originalLanguage = language;
 
     // We're previewing or have basic problems with the submission -- back to form
@@ -144,7 +144,7 @@ class ReviewProvider extends BREADProvider {
 
     if (this.req.body['review-action'] == 'preview') {
       // Pass along original authorship info for preview
-      formData.formValues.createdAt = review.createdAt;
+      formData.formValues.createdOn = review.createdOn;
       formData.formValues.creator = review.creator;
       this.isPreview = true;
     }

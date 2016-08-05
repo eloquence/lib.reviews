@@ -26,7 +26,7 @@ let reviewSchema = {
   starRating: type.number().min(1).max(5).integer(),
 
   // Track original authorship across revisions
-  createdAt: type.date().required(true),
+  createdOn: type.date().required(true),
   createdBy: type.string().uuid(4).required(true),
   // We track this for all objects where we want to be able to handle
   // translation permissions separately from edit permissions
@@ -35,7 +35,7 @@ let reviewSchema = {
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
   userCanEdit: type.virtual().default(false),
-  userIsAuthor: type.virtual().default(false),
+  userIsAuthor: type.virtual().default(false)
 };
 
 // Add versioning related fields
@@ -46,7 +46,7 @@ let Review = thinky.createModel("reviews", reviewSchema);
 
 Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
-Review.ensureIndex("createdAt");
+Review.ensureIndex("createdOn");
 
 Review.define("newRevision", revision.getNewRevisionHandler(Review));
 
@@ -54,11 +54,15 @@ Review.define("populateUserInfo", function(user) {
   if (!user)
     return; // fields will be at their default value (false)
 
-  this.userCanDelete = user.canDeleteReview(this);
-  this.userCanEdit = user.canEditReview(this);
-  this.userIsAuthor = user.id && user.id === this.createdBy;
-});
+  if (user.isModerator || user.id === this.createdBy)
+    this.userCanDelete = true;
 
+  if (user.id === this.createdBy)
+    this.userCanEdit = true;
+
+  if (user.id === this.createdBy)
+    this.userIsAuthor = true;
+});
 
 Review.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Review));
 Review.define("deleteAllRevisionsWithThing", function(user) {
@@ -94,12 +98,12 @@ Review.create = function(reviewObj, options) {
           text: reviewObj.text,
           html: reviewObj.html,
           starRating: reviewObj.starRating,
-          createdAt: reviewObj.createdAt,
+          createdOn: reviewObj.createdOn,
           createdBy: reviewObj.createdBy,
           originalLanguage: reviewObj.originalLanguage,
           _revID: r.uuid(),
           _revUser: reviewObj.createdBy,
-          _revDate: reviewObj.createdAt,
+          _revDate: reviewObj.createdOn,
           _revTags: options.tags ? options.tags : undefined
         });
         review.save().then(review => {
@@ -145,7 +149,7 @@ Review.findOrCreateThing = function(reviewObj) {
           let thing = new Thing({});
           let date = new Date();
           thing.urls = [reviewObj.url];
-          thing.createdAt = date;
+          thing.createdOn = date;
           thing.createdBy = reviewObj.createdBy;
           thing._revDate = date;
           thing._revUser = reviewObj.createdBy;
@@ -187,7 +191,7 @@ Review.getFeed = function(options) {
   }, options);
 
   let rv = Review.orderBy({
-    index: r.desc('createdAt')
+    index: r.desc('createdOn')
   });
   if (options.createdBy)
     rv = rv.filter({

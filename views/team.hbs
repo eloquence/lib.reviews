@@ -12,7 +12,7 @@
 {{/if}}
 
 <div class="pure-g">
-<div class="pure-u-1 pure-u-md-2-5">
+<div class="pure-u-1 pure-u-md-1-2">
 <div class="team-info">
 <h1 id="page-header" class="team-header">
 {{{__ "team title" (mlString team.name)}}}
@@ -66,14 +66,16 @@
 <a href="/team/{{team.id}}/delete" id="edit-team" class="pure-button button-rounded edit-button" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a>
 {{/unless}}
 {{/if}}
+</div>
+</div>
 
-</div>
-</div>
-<div class="pure-u-1 pure-u-md-3-5">
-<span class="inline-feed-title">{{{__ "latest blog posts"}}}</span>
+{{!Second column}}
+<div class="pure-u-1 pure-u-md-1-2">
+<div class="team-blog">
+<h2 class="inline-feed-title">{{{__ "latest blog posts"}}}</h2>
 <p>
-{{{__ "no blog posts"}}}
+{{>blog_feed}}
 <p>
-<a href="/new/post" id="write-blog" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>{{{__ "write a blog post"}}}</a>
+<a href="/team/{{team.id}}/new/post" id="write-blog" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>{{{__ "write a blog post"}}}</a>
 </div>
 </div>

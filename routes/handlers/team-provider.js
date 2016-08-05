@@ -2,18 +2,46 @@
 const BREADProvider = require('./bread-provider');
 const Team = require('../../models/team');
 const mlString = require('../../models/helpers/ml-string.js');
+const BlogPost = require('../../models/blog-post');
 
 class TeamProvider extends BREADProvider {
 
   constructor(req, res, next, options) {
     super(req, res, next, options);
-    this.addPreFlightCheck(this.userIsTrusted);
+    this.addPreFlightCheck(['add', 'edit', 'delete'], this.userIsTrusted);
+    this.actions.browse.titleKey = 'browse teams';
     this.actions.add.titleKey = 'new team';
     this.actions.edit.titleKey = 'edit team';
     this.actions.delete.titleKey = 'delete team';
     this.documentNotFoundTitleKey = 'team not found title';
     this.documentNotFoundTemplate = 'no-team';
   }
+
+  browse_GET() {
+
+    Team
+      .filter({
+        _revOf: undefined
+      }, {
+        default: true
+      })
+      .filter({
+        _revDeleted: false
+      }, {
+        default: true
+      })
+      .then(teams => {
+
+
+        this.renderTemplate('teams', {
+          teams,
+          titleKey: this.actions.browse.titleKey
+        });
+
+      });
+
+  }
+
 
   // For incomplete submissions, pass formValues so form can be pre-populated.
   add_GET(formValues) {
@@ -40,15 +68,25 @@ class TeamProvider extends BREADProvider {
   }
 
   read_GET(team) {
+
     let titleParam = mlString.resolve(this.req.locale, team.name).str;
     team.populateUserInfo(this.req.user);
+    BlogPost.getMostRecentBlogPosts(team.id, {
+        limit: 3
+      })
+      .then(blogPosts => {
 
-    this.renderTemplate('team', {
-      team,
-      titleKey: 'team title',
-      titleParam,
-      deferPageHeader: true // Two-column-layout
-    });
+        blogPosts.forEach(post => post.populateUserInfo(this.req.user));
+
+        this.renderTemplate('team', {
+          team,
+          titleKey: 'team title',
+          titleParam,
+          blogPosts,
+          deferPageHeader: true // Two-column-layout
+        });
+
+      });
 
   }
 

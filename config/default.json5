@@ -36,6 +36,13 @@
   // How many minutes (!) should a session cookie last. Default = 30 days.
   sessionCookieDuration: 43200,
 
+  // If you want to see blog posts from a certain team on the front page,
+  // include the team ID here for now.
+  frontPageTeamBlog: "",
+
+  // Message key for the front page blog
+  frontPageTeamBlogKey: "development diary",
+
   // These are simple question/answer text captchas which can be enabled
   // for supported forms (currently just sign-ups). The keys refer to
   // the message files in locales/ and are deliberately generic so we can
