@@ -75,8 +75,10 @@
 <h2 class="inline-feed-title">{{{__ "latest blog posts"}}}</h2>
 <p>
 {{>blog_feed}}
+{{#if team.userCanBlog}}
 <p>
 <a href="/team/{{team.id}}/new/post" id="write-blog" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>{{{__ "write a blog post"}}}</a>
+{{/if}}
 </div>
 </div>
 </div>
