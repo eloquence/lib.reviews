@@ -54,6 +54,9 @@ Team.createFirstRevision = revision.getFirstRevisionHandler(Team);
 Team.define("newRevision", revision.getNewRevisionHandler(Team));
 Team.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Team));
 Team.define("populateUserInfo", function(user) {
+  if (!user)
+    return false; // Permissions remain at defaults (false)
+
   let team = this;
   if (user.teams && user.teams.indexOf(team.id) !== -1)
     team.userIsMember = true;
