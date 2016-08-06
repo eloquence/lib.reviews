@@ -13,7 +13,11 @@
 </span>
 <div id="preview-review-text">{{{mlString formValues.html}}}</div>
 <div id="preview-review-byline">
-{{{__ "byline" formValues.creator.displayName formValues.createdOn}}}
+{{#if formValues}}
+{{{__ "byline" (userLink formValues.creator) formValues.createdOn}}}
+{{else}}
+{{{__ "byline" (userLink user) ''}}}
+{{/if}}
 </div>
 </div>
 

@@ -87,8 +87,10 @@ class ReviewProvider extends AbstractBREADProvider {
     formData.formValues.originalLanguage = language;
 
     // We're previewing or have basic problems with the submission -- back to form
-    if (this.isPreview || this.req.flashHas('pageErrors'))
+    if (this.isPreview || this.req.flashHas('pageErrors')) {
+      formData.formValues.creator = this.req.user; // Needed for username link
       return this.add_GET(formData.formValues);
+    }
 
     let reviewObj = Object.assign({}, formData.formValues);
 

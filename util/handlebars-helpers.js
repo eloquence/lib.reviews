@@ -24,7 +24,7 @@ hbs.registerHelper('link', function(url, title) {
 });
 
 hbs.registerHelper('userLink', function(user) {
-  return `<a href="/user/${user.urlName}">${user.displayName}</a>`;
+  return user ? `<a href="/user/${user.urlName}">${user.displayName}</a>` : '';
 });
 
 hbs.registerHelper('prettify', function(url) {
