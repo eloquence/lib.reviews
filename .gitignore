@@ -38,6 +38,9 @@ static/css/style.css
 # Manually managed for now
 static/uploads
 
+# Manually maanged, served up via serve-index. For DB dumps mainly.
+static/downloads
+
 # Production config
 config/production.json5
 

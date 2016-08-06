@@ -40,6 +40,7 @@
     "rethinkdb": "^2.3.2",
     "rethinkdbdash": "^2.3.8",
     "serve-favicon": "~2.3.0",
+    "serve-index": "^1.8.0",
     "session-rethinkdb": "^2.0.0",
     "sisyphus.js": "^1.1.2",
     "thinky": "^2.3.4",

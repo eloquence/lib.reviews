@@ -3,6 +3,7 @@
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
+const serveIndex = require('serve-index');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -118,6 +119,8 @@ app.use(bodyParser.urlencoded({
 
 
 app.use(compression());
+
+app.use('/static/downloads', serveIndex(`${__dirname}/static/downloads`, {'icons': true, template: 'views/downloads.html'}));
 
 let cssPath = path.join(__dirname, 'static', 'css');
 app.use('/static/css', lessMiddleware(cssPath));

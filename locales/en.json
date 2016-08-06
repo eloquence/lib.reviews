@@ -226,5 +226,6 @@
     "edit blog post": "Edit blog post",
     "delete blog post": "Delete blog post",
     "blog post deleted": "Blog post deleted",
-    "blog post has been deleted": "The blog post has been deleted. It's still accessible to administrators, but it may be permanently removed as part of routine maintenance."
+    "blog post has been deleted": "The blog post has been deleted. It's still accessible to administrators, but it may be permanently removed as part of routine maintenance.",
+    "database downloads": "Database downloads"
 }
