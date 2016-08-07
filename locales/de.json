@@ -227,5 +227,6 @@
     "delete blog post": "Blog-Beitrag l&ouml;schen",
     "blog post deleted": "Blog-Beitrag gel&ouml;scht",
     "blog post has been deleted": "Der Blog-Beitrag wurde gel&ouml;scht. Administratoren k&ouml;nnen weiterhin darauf zugreifen, aber er kann als Teil routinem&auml;&szlig;iger Datenbankwartung permanent entfernt werden.",
-    "database downloads": "Datenbank-Downloads"
+    "database downloads": "Datenbank-Downloads",
+    "older reviews": "&Auml;ltere Rezensionen"
 }

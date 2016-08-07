@@ -11,6 +11,8 @@ const userHandlers = require('./handlers/user-handlers');
 
 router.get('/:name', userHandlers.getUserHandler());
 
+router.get('/:name/before/:epoch', userHandlers.getUserHandler({ getOffsetEpoch: true }));
+
 router.get('/:name/edit/bio', userHandlers.getUserHandler({ editBio: true }));
 
 router.post('/:name/edit/bio', userHandlers.processEdit);

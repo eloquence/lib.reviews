@@ -83,10 +83,18 @@ let userHandlers = {
   getUserHandler(options) {
     options = Object.assign({
       editBio: false,
+      offsetEpoch: undefined // for reviews feed pagination
     }, options);
 
     return function(req, res, next) {
       let name = req.params.name.trim();
+      let offsetEpoch;
+      if (options.getOffsetEpoch) {
+        offsetEpoch = Number(req.params.epoch.trim());
+        if (new Date(offsetEpoch) == 'Invalid Date')
+          offsetEpoch = undefined;
+      }
+
       User
         .findByURLName(name, {
           withData: true
@@ -101,9 +109,13 @@ let userHandlers = {
 
           Review
             .getFeed({
-              createdBy: user.id
+              createdBy: user.id,
+              offsetEpoch
             })
-            .then(feedItems => {
+            .then(result => {
+              let feedItems = result.feedItems;
+              let offsetEpoch = result.offsetEpoch;
+
               for (let item of feedItems) {
                 item.populateUserInfo(req.user);
                 if (item.thing) {
@@ -123,7 +135,8 @@ let userHandlers = {
                 feedItems,
                 edit,
                 scripts: ['user.js'],
-                pageErrors
+                pageErrors,
+                offsetEpoch
               });
             });
         })

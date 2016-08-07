@@ -7,4 +7,10 @@
 <hr class="feed-separator">
 {{/unless}}
 {{/each}}
+<p>
+{{#if offsetEpoch}}
+<a class="pagination-link" href="{{#if userFeed}}/user/{{userInfo.urlName}}/before/{{offsetEpoch}}{{else}}/feed/before/{{offsetEpoch}}{{/if}}">
+<span class="fa fa-angle-double-left spaced-icon"></span>{{{__ "older reviews"}}}
+</a>
+{{/if}}
 </div>

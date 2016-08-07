@@ -184,28 +184,39 @@ Review.getFeed = function(options) {
   options = Object.assign({
     // ID of original author
     createdBy: undefined,
+    // Only show reviews older than this epoch
+    offsetEpoch: undefined,
     // exclude reviews by users that haven't been marked trusted yet. Will be
     // applied after limit, so you might get < limit items.
     onlyTrusted: false,
     limit: 10
   }, options);
 
-  let rv = Review.orderBy({
+  let query = Review;
+
+  if (options.offsetEpoch)
+    query = query.between(r.minval, r.epochTime((options.offsetEpoch + 1) / 1000), {
+      index: 'createdOn'
+    });
+
+  query = query.orderBy({
     index: r.desc('createdOn')
   });
+
+
   if (options.createdBy)
-    rv = rv.filter({
+    query = query.filter({
       createdBy: options.createdBy
     });
 
-  rv = rv
+  query = query
     .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
       default: true
     })
     .filter(r.row('_revOf').eq(false), { // Exclude old versions
       default: true
     })
-    .limit(options.limit)
+    .limit(options.limit + 1) // One over limit to check if we need potentially another set
     .getJoin({
       thing: true
     })
@@ -215,14 +226,31 @@ Review.getFeed = function(options) {
       }
     });
 
-  if (options.onlyTrusted)
-    rv = rv.filter({
-      creator: {
-        isTrusted: true
-      }
-    });
+  return new Promise((resolve, reject) => {
 
-  return rv;
+    query.then(feedItems => {
+        let result = {};
+
+        // At least one additional document available, set offset for pagination
+        if (feedItems.length == options.limit + 1) {
+          result.offsetEpoch = Number(feedItems[options.limit].createdOn);
+          feedItems.pop();
+        }
+
+        if (options.onlyTrusted)
+          feedItems = feedItems.filter(item => item.creator.isTrusted ? true : false);
+
+        result.feedItems = feedItems;
+
+        resolve(result);
+      })
+      .catch(error => {
+        console.log(error.stack);
+        reject(error);
+      });
+
+  });
+
 };
 
 module.exports = Review;

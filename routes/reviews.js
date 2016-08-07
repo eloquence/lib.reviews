@@ -24,6 +24,8 @@ let router = ReviewProvider.bakeRoutes('review');
 
 // Additional routes
 
+// We show two query results on the front-page, the team developers blog
+// and a feed of recent reviews, filtered to include only trusted ones.
 router.get('/', function(req, res, next) {
 
   let queries = [Review.getFeed({
@@ -35,39 +37,47 @@ router.get('/', function(req, res, next) {
 
   Promise.all(queries)
 
-    .then(queryResults => {
+  .then(queryResults => {
 
-      // Promise.all helpfully keeps order in which promises were passed
-      let feedItems = queryResults[0];
-      let blogPosts = queryResults[1];
+    // Promise.all helpfully keeps order in which promises were passed
+    let feedItems = queryResults[0].feedItems;
+    let offsetEpoch = queryResults[0].offsetEpoch;
+    let blogPosts = queryResults[1];
 
-      // Set review permissions
-      feedItems.forEach(item => {
-        item.populateUserInfo(req.user);
-        if (item.thing)
-          item.thing.populateUserInfo(req.user);
-      });
 
-      // Set post permissions
-      if (blogPosts)
-        blogPosts.forEach(post => {
-          post.populateUserInfo(req.user);
-        });
-
-      render.template(req, res, 'index', {
-        titleKey: 'welcome',
-        deferPageHeader: true,
-        feedItems,
-        blogPosts,
-        blogKey: config.frontPageTeamBlogKey,
-        showBlog: config.frontPageTeamBlog ? true : false
-      });
+    // Set review permissions
+    feedItems.forEach(item => {
+      item.populateUserInfo(req.user);
+      if (item.thing)
+        item.thing.populateUserInfo(req.user);
     });
+
+    // Set post permissions
+    if (blogPosts)
+      blogPosts.forEach(post => {
+        post.populateUserInfo(req.user);
+      });
+
+    render.template(req, res, 'index', {
+      titleKey: 'welcome',
+      deferPageHeader: true,
+      feedItems,
+      blogPosts,
+      blogKey: config.frontPageTeamBlogKey,
+      showBlog: config.frontPageTeamBlog ? true : false,
+      offsetEpoch
+    });
+  });
 
 });
 
 
 router.get('/feed', reviewHandlers.getFeedHandler());
+
+router.get('/feed/before/:epoch', reviewHandlers.getFeedHandler({
+  getOffsetEpoch: true
+}));
+
 
 router.get('/new', (req, res) => {
   res.redirect('/new/review');
