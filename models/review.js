@@ -195,6 +195,9 @@ Review.getFeed = function(options) {
   let query = Review;
 
   if (options.offsetEpoch)
+
+    // We need to increase the epoch a tiny bit, since otherwise the document exactly
+    // matching it would not be included.
     query = query.between(r.minval, r.epochTime((options.offsetEpoch + 1) / 1000), {
       index: 'createdOn'
     });
