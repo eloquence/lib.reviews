@@ -36,6 +36,7 @@ class BlogPostProvider extends AbstractBREADProvider {
           blogPost,
           titleKey: 'blog post page title',
           titleParam: mlString.resolve(this.req.language, blogPost.title).str,
+          teamURL: `/team/${team.id}`,
           deferPageHeader: true,
           pageMessages
         });
