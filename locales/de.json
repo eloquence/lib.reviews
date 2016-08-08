@@ -228,5 +228,8 @@
     "blog post deleted": "Blog-Beitrag gel&ouml;scht",
     "blog post has been deleted": "Der Blog-Beitrag wurde gel&ouml;scht. Administratoren k&ouml;nnen weiterhin darauf zugreifen, aber er kann als Teil routinem&auml;&szlig;iger Datenbankwartung permanent entfernt werden.",
     "database downloads": "Datenbank-Downloads",
-    "older reviews": "&Auml;ltere Rezensionen"
+    "older reviews": "&Auml;ltere Rezensionen",
+    "teams intro": "Wir verwenden Teams, um die Arbeit der lib.reviews-Gemeinschaft zu organisieren, sei es nach Thema oder F&auml;higkeiten. Schau dir die untenstehende Liste an und werde in so vielen Teams Mitglied, wie du m&ouml;chtest.",
+    "create your own team untrusted": "M&ouml;chtest du dein eigenes Team anlegen? Dein Benutzerkonto hat noch nicht gen&uuml;gend Vertrauen von anderen Nutzern. Schreib ein paar Rezensionen, um Vertrauen zu gewinnen.",
+    "start team preamble": "Bevor du ein neues Team anlegst, schau dir bitte die <a href='/teams'>Liste der existierenden Teams</a> an. Es k&ouml;nnte sein, das es bereits ein Team gibt, das auf deine Ziele hinarbeitet."
 }

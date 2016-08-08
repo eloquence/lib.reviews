@@ -1,3 +1,15 @@
+<p class="lead">{{{__ "teams intro"}}}</p>
+<p>
+{{#if user}}
+{{#if user.isTrusted}}
+<a href="/new/team" id="add-team" class="pure-button button-rounded"><span class="fa fa-users spaced-icon"></span>{{{__ "new team"}}}</a>
+<br>
+<br>
+{{else}}
+{{{__ "create your own team untrusted"}}}
+{{/if}}
+{{/if}}
+</p>
 <div class="team-list">
 {{#each teams}}
 <b><a href='/team/{{this.id}}'>{{{mlString this.name}}}</a></b><br>

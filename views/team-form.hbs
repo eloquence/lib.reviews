@@ -1,4 +1,24 @@
 {{>page_errors}}
+
+{{#if isPreview}}
+<div id="preview-contents">
+<h2 id="preview-header">{{{__ "preview title"}}}</h2>
+<h3 class="team-header">{{{mlString formValues.name false}}}</h3>
+<span class="team-motto">{{{mlString formValues.motto false}}}</span>
+<div class="team-description">
+{{{mlString formValues.description.html false}}}
+</div>
+{{#if (mlString formValues.rules.html false)}}
+<b>{{{__ "team rules label"}}}</b>
+<div class="team-rules">
+{{{mlString formValues.rules.html false}}}
+</div>
+{{/if}}
+</div>
+{{/if}}
+
+<p>{{{__ "start team preamble"}}}
+</p>
 <form class="pure-form pure-form-stacked" id="team-form" name="team-form" method="post">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <fieldset>
@@ -66,4 +86,4 @@
   {{{__ "correct errors"}}}
 </div>
   <button type="submit" id="save" name="team-action" value="publish" data-check-required class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "save"}}}</button>
-</form>
+  <button type="submit" id="preview" name="team-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "preview" "p"}}}">{{{__ "preview"}}}</button></form>

@@ -50,8 +50,9 @@ class TeamProvider extends AbstractBREADProvider {
     let pageErrors = this.req.flash('pageErrors');
     this.renderTemplate('team-form', {
       titleKey: this.actions[this.action].titleKey,
-      pageErrors,
-      formValues
+      pageErrors: this.isPreview ? undefined : pageErrors,
+      formValues,
+      isPreview: this.isPreview
     });
 
   }
@@ -101,7 +102,9 @@ class TeamProvider extends AbstractBREADProvider {
       language
     });
 
-    if (this.req.flashHas('pageErrors'))
+    this.isPreview = this.req.body['team-action'] == 'preview' ? true : false;
+
+    if (this.req.flashHas('pageErrors') || this.isPreview)
       return this.edit_GET(formData.formValues);
 
     team
@@ -143,7 +146,9 @@ class TeamProvider extends AbstractBREADProvider {
       language: this.req.body['team-language']
     });
 
-    if (this.req.flashHas('pageErrors'))
+    this.isPreview = this.req.body['team-action'] == 'preview' ? true : false;
+
+    if (this.req.flashHas('pageErrors') || this.isPreview)
       return this.add_GET(formData.formValues);
 
     Team
