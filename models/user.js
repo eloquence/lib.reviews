@@ -39,13 +39,29 @@ let User = thinky.createModel("users", {
   // Advanced trust - can (reversibly) delete content, but _not_ edit arbitrary content
   isModerator: type.boolean().default(false),
   teams: [type.string().uuid(4)],
-  suppressedNotices: [type.string()]
+  suppressedNotices: [type.string()],
+  // Permission field, populated using _currently logged in user_, to determine
+  // whether they can edit _this_ user's metadata.
+  userCanEditMetadata: type.virtual().default(false)
 });
 
 User.belongsTo(UserMeta, "meta", "userMetaID", "id");
 
 User.options = options; // for external visibility
 Object.freeze(User.options);
+
+
+User.define("populateUserInfo", function(user) {
+
+  if (!user)
+    return; // Permissions at default (false)
+
+  // For now, only the user may edit metadata like bio.
+  // In future, translators may also be able to.
+  if (user.id == this.id)
+    this.userCanEditMetadata = true;
+
+});
 
 User.define("setName", function(displayName) {
   displayName = displayName.trim();

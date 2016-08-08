@@ -8,9 +8,11 @@
 <span class="user-label">{{{__ "user bio"}}}</span><br>
 {{#unless edit.bio}}
 {{#if userInfo.meta.bio}}{{{mlString userInfo.meta.bio.html}}}{{/if}}
+{{#if userInfo.userCanEditMetadata}}
 <a id="edit-bio" href="/user/{{userInfo.urlName}}/edit/bio" class="pure-button button-rounded">
 <span class="fa fa-pencil spaced-icon"></span>{{#if userInfo.meta.bio}}{{{__ "edit bio"}}}{{else}}{{{__ "add bio"}}}{{/if}}
 </a>
+{{/if}}
 {{else}}
 <form id="bio-form" name="bio-form" action="" method="post">
 <textarea id="bio-textarea" name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>

@@ -24,7 +24,8 @@ let userHandlers = {
         withPassword: true // Since user needs to be updated
       })
       .then(user => {
-        if (!req.user || req.user.id !== user.id)
+        user.populateUserInfo(req.user);
+        if (!user.userCanEditMetadata)
           return render.permissionError(req, res, next);
 
         let bio = req.body['bio-text'];
@@ -100,8 +101,10 @@ let userHandlers = {
           withData: true
         })
         .then(user => {
-          // Revisit when we support collaborative bio translations
-          if (options.editBio && (!req.user || req.user.id !== user.id))
+
+          user.populateUserInfo(req.user);
+
+          if (options.editBio && !user.userCanEditMetadata)
             return render.permissionError(req, res, next);
 
           if (user.displayName !== name) // Redirect to chosen display name form
