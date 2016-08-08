@@ -51,7 +51,8 @@ class BlogPostProvider extends AbstractBREADProvider {
       pageErrors : !this.isPreview ? pageErrors : undefined,
       formValues,
       team,
-      isPreview: this.isPreview
+      isPreview: this.isPreview,
+      editing: this.editing
     });
 
   }

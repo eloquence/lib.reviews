@@ -43,7 +43,7 @@
   {{{__ "correct errors"}}}
 </div>
 <div class="buttons-group">
-  <button type="submit" id="save" name="post-action" value="publish" data-check-required class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "publish"}}}</button>
+  <button type="submit" id="save" name="post-action" value="publish" data-check-required class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{#if editing}}{{{__ "save"}}}{{else}}{{{__ "publish"}}}{{/if}}</button>
   <button type="submit" id="preview" name="post-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "accesskey" "p"}}}">{{{__ "preview"}}}</button>
 </div>
 </form>
