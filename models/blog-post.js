@@ -52,12 +52,12 @@ BlogPost.define("populateUserInfo", function(user) {
 
 BlogPost.getWithCreator = function(id) {
   return BlogPost
-  .get(id)
-  .getJoin({
-    creator: {
-      _apply: seq => seq.without('password')
-    }
-  });
+    .get(id)
+    .getJoin({
+      creator: {
+        _apply: seq => seq.without('password')
+      }
+    });
 };
 
 BlogPost.getMostRecentBlogPosts = function(teamID, options) {
@@ -72,10 +72,18 @@ BlogPost.getMostRecentBlogPosts = function(teamID, options) {
     .orderBy({
       index: r.desc('createdOn')
     })
-    .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
+    .filter({
+      teamID
+    })
+    .filter({
+      _revDeleted: false
+    }, {
       default: true
     })
-    .filter(r.row('_revOf').eq(false), { // Exclude old versions
+    .filter({
+      _revOf: false
+
+    }, {
       default: true
     })
     .limit(options.limit)
