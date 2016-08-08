@@ -112,7 +112,7 @@
       .done(() => {
         $(`#${id}`).fadeOut(200);
       })
-      .error(() => {
+      .fail(() => {
         $('#generic-action-error').removeClass('hidden');
       });
     event.preventDefault();
