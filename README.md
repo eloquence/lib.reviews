@@ -28,3 +28,5 @@ We aim to be multilingual in UI and content, and are exclusively using translata
 Relevant related projects:
 
 - https://critiquebrainz.org/ - music reviews
+- http://revyu.com/ - universal review site from ~2007, now defunct. We're
+  discussing data recovrey options.
