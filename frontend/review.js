@@ -46,10 +46,10 @@
     $('#add-https').click(addHTTPS);
     sisyphus = $('#review-form').sisyphus({
       onRestore: processLoadedData,
-      excludeFields: $('#live-preview')
+      excludeFields: $('#live-preview,#review-token')
     });
   }
-  
+
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))
       $('#draft-notice').fadeOut(200);
