@@ -150,7 +150,7 @@
     "site error": "<b>Error:</b> %s",
     "notification language-changed": "You have changed your language preference. This means that when you create or edit content, we assume it's in <b>English</b>. We'll also show you a little indicator when content is in a different language from the one you've set (you can help translate).",
     "invalid language": "The requested language was not valid or was not recognized.",
-    "edit saved": "Your edit was saved. Thank you!",
+    "edit saved": "Your edit was saved. Beep boop!",
     "current language": "Language: %s",
     "user": "User: %s",
     "user not found": "User not found",

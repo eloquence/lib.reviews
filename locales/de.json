@@ -150,7 +150,7 @@
     "site error": "<b>Fehler:</b>",
     "notification language-changed": "Du hast deine Sprachwahl ge&auml;ndert. Wenn du nun Inhalte anlegst oder bearbeitest, werden wir davon ausgehen, dass sie auf <b>Deutsch</b> geschrieben sind. Wir zeigen dir auch einen kleinen Indikator neben Texten, die in einer anderen Sprache verfasst wurden (du kannst bei der &Uuml;bersetzung helfen).",
     "invalid language": "Die angefragte Sprachversion war ung&uuml;ltig oder wurde nicht erkannt.",
-    "edit saved": "Deine &Auml;nderung wurde gespeichert. Vielen Dank!",
+    "edit saved": "Deine &Auml;nderung wurde gespeichert. Piep-piep!",
     "current language": "Sprache: %s",
     "user": "Benutzer: %s",
     "user not found": "Benutzer nicht gefunden",
