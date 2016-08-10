@@ -6,7 +6,7 @@ const Team = require('../models/team');
 const TeamJoinRequest = require('../models/team-join-request');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
-
+const mlString = require('../models/helpers/ml-string');
 
 // Default routes for read, edit, add, delete
 let router = TeamProvider.bakeRoutes('team');
@@ -63,7 +63,8 @@ router.post('/team/:id/join', function(req, res, next) {
       if (!team.userCanJoin)
         return render.permissionError(req, res);
 
-      if (!req.body['agree-to-rules']) {
+      let rules = mlString.resolve(req.locale, team.rules);
+      if (rules && rules.str && !req.body['agree-to-rules']) {
         req.flash('joinErrors', req.__('must agree to team rules'));
         return res.redirect(`/team/${id}`);
       }

@@ -90,17 +90,18 @@ Team.getWithData = function(id, options) {
 
     let join = {};
     if (options.withMembers)
-      join.members = { _apply: seq => seq.without('password') };
+      join.members = true;
 
     if (options.withModerators)
-      join.moderators = { _apply: seq => seq.without('password') };
+      join.moderators = true;
 
     if (options.withJoinRequests)
       join.joinRequests = true;
 
     if (options.withJoinRequests && options.withJoinRequestDetails) {
-      join.joinRequests = {};
-      join.joinRequests.user = { _apply: seq => seq.without('password') };
+      join.joinRequests = {
+        user: true
+      };
     }
 
     Team
