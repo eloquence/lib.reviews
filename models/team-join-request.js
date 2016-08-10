@@ -24,9 +24,9 @@ let TeamJoinRequest = thinky.createModel("team_join_requests", teamJoinRequestSc
 
 // Facilitate joining a team to its requests
 Team.hasMany(TeamJoinRequest, "joinRequests", "id", "teamID");
-// Facilitate joining an en request to its team
+// Facilitate joining a request to its team
 TeamJoinRequest.belongsTo(Team, "team", "teamID", "id");
-// Facilitate joining an en request to its user
+// Facilitate joining a request to its user
 TeamJoinRequest.belongsTo(User, "user", "userID", "id");
 
 module.exports = TeamJoinRequest;
