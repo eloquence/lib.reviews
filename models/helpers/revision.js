@@ -33,6 +33,33 @@ let revision = {
     };
   },
 
+  getNotStaleOrDeletedHandler: function(Model) {
+
+    return function(id) {
+
+      return new Promise((resolve, reject) => {
+
+        Model.get(id).then(data => {
+
+            if (data._revDeleted)
+              return reject(revision.deletedError);
+
+            if (data._revOf)
+              return reject(revision.staleError);
+
+            resolve(data);
+
+          })
+          .catch(error => {
+            reject(error);
+          });
+
+      });
+
+    };
+
+  },
+
   getFirstRevisionHandler: function(Model) {
     return function(user, options) {
       if (!options)
@@ -51,7 +78,7 @@ let revision = {
           }).catch(error => { // Problem getting ID
             reject(error);
           });
-        });
+      });
     };
   },
 
@@ -105,5 +132,10 @@ let revision = {
     };
   }
 };
+
+revision.deletedError = new Error('Revision has been deleted.');
+revision.staleError = new Error('Outdated revision.');
+revision.deletedError.name = 'RevisionDeletedError';
+revision.staleError.name = 'RevisionStaleError';
 
 module.exports = revision;

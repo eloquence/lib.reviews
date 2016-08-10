@@ -454,7 +454,7 @@ hr.feed-separator, hr.team-separator {
   display: inline;
 }
 
-.language-identifier {
+.language-identifier, .user-team-badge {
   background: #eee;
   font-size: x-small;
   text-transform: uppercase;
@@ -467,6 +467,18 @@ hr.feed-separator, hr.team-separator {
   color:black;
 }
 
+.user-team-badge {
+  font-weight: bold;
+  margin-left: 0.5em;
+  border-style: solid;
+  border-width:1px;
+  border-color:#eee;
+  background: #fcfcfc;
+}
+
+.user-team-list li, .team-member-list li {
+  margin-bottom: 0.5em;
+}
 
 .user-label {
   font-weight: bold;
@@ -559,4 +571,9 @@ hr.feed-separator, hr.team-separator {
 
 .blog-post-textarea {
   height: 15em;
+}
+
+.reject-request-textarea {
+  width: 30em;
+  height: 6em;
 }

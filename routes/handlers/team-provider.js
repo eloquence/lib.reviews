@@ -3,6 +3,7 @@ const AbstractBREADProvider = require('./abstract-bread-provider');
 const Team = require('../../models/team');
 const mlString = require('../../models/helpers/ml-string.js');
 const BlogPost = require('../../models/blog-post');
+const escapeHTML = require('escape-html');
 
 class TeamProvider extends AbstractBREADProvider {
 
@@ -13,8 +14,25 @@ class TeamProvider extends AbstractBREADProvider {
     this.actions.add.titleKey = 'new team';
     this.actions.edit.titleKey = 'edit team';
     this.actions.delete.titleKey = 'delete team';
-    this.documentNotFoundTitleKey = 'team not found title';
-    this.documentNotFoundTemplate = 'no-team';
+
+    // Membership roster
+    this.actions.members = {
+      GET: this.members_GET,
+      loadData: this.loadData,
+      titleKey: 'membership roster',
+      preFlightChecks: []
+    };
+
+    // Join request management for closed teams
+    this.actions.manageRequests = {
+      GET: this.manageRequests_GET,
+      POST: this.manageRequests_POST,
+      loadData: this.loadDataWithJoinRequestDetails,
+      titleKey: 'manage team requests',
+      preFlightChecks: [this.userIsSignedIn]
+    };
+
+    this.messageKeyPrefix = 'team';
   }
 
   browse_GET() {
@@ -33,7 +51,6 @@ class TeamProvider extends AbstractBREADProvider {
       })
       .then(teams => {
 
-
         this.renderTemplate('teams', {
           teams,
           titleKey: this.actions.browse.titleKey
@@ -43,6 +60,118 @@ class TeamProvider extends AbstractBREADProvider {
 
   }
 
+  members_GET(team) {
+
+    // For easy lookup in template
+    let founder = {
+      [team.createdBy]: true
+    };
+    let moderators = {};
+    team.moderators.forEach(moderator => moderators[moderator.id] = true);
+
+    this.renderTemplate('team-roster', {
+      team,
+      teamURL: `/team/${team.id}`,
+      founder,
+      moderators,
+      titleKey: this.actions.members.titleKey,
+      titleParam: mlString.resolve(this.req.locale, team.name).str,
+      deferPageHeader: true // embedded link
+    });
+  }
+
+  manageRequests_GET(team) {
+
+    let pageErrors = this.req.flash('pageErrors');
+    let pageMessages = this.req.flash('pageMessages');
+
+    team.populateUserInfo(this.req.user);
+
+    // Don't show rejected requests again. NB - modifying model, no saving.
+    team.joinRequests = team.joinRequests.filter(request => !request.rejectionDate);
+
+    if (!team.userIsModerator)
+      return this.renderPermissionError();
+
+    this.renderTemplate('team-manage-requests', {
+      team,
+      teamURL: `/team/${team.id}`,
+      teamName: mlString.resolve(this.req.locale, team.name).str,
+      titleKey: "manage join requests",
+      pageErrors,
+      pageMessages
+    });
+  }
+
+  manageRequests_POST(team) {
+
+    // We use a safe loop function in this method - quiet, jshint:
+    /*jshint loopfunc: true */
+
+    team.populateUserInfo(this.req.user);
+
+    if (!team.userIsModerator)
+      return this.renderPermissionError();
+
+    // We keep track of whether we've done any work, so we can show an
+    // approrpriate message, and know whether we have to run saveAll()
+    let workToBeDone = false;
+
+    for (let key in this.req.body) {
+
+      // Does it look like a request to perform an action?
+      if (/^action\-.+$/.test(key)) {
+
+        // Safely extract the provided ID
+        let id = (key.match(/action\-(.*)$/) || [])[1];
+
+        // Check if we do in fact have a join request that matches the action ID
+        let requestObj, requestIndex;
+        team.joinRequests.forEach((request, index) => {
+          if (request.id == id) {
+            requestObj = request;
+            requestIndex = index;
+          }
+        });
+
+        // If we do, perform the appropriate wrok
+        if (requestObj) {
+          switch (this.req.body[key]) {
+            case 'reject':
+              team.joinRequests[requestIndex].rejectionDate = new Date();
+              team.joinRequests[requestIndex].rejectedBy = this.req.user.id;
+              let reason = this.req.body[`reject-reason-${id}`];
+              if (reason)
+                team.joinRequests[requestIndex].rejectionMessage = escapeHTML(reason);
+              workToBeDone = true;
+              break;
+            case 'accept':
+              team.members.push(team.joinRequests[requestIndex].user);
+              team.joinRequests.splice(requestIndex, 1);
+              workToBeDone = true;
+              break;
+          }
+
+        }
+
+      }
+
+    }
+    if (workToBeDone) {
+      team
+        .saveAll()
+        .then(() => {
+          this.req.flash('pageMessages', this.req.__('requests have been processed'));
+          this.res.redirect(`/team/${team.id}/manage-requests`);
+        })
+        .catch(error => this.next(error));
+    } else {
+      this.req.flash('pageErrors', this.req.__('no requests to process'));
+      this.res.redirect(`/team/${team.id}/manage-requests`);
+    }
+
+
+  }
 
   // For incomplete submissions, pass formValues so form can be pre-populated.
   add_GET(formValues) {
@@ -59,7 +188,13 @@ class TeamProvider extends AbstractBREADProvider {
 
   loadData() {
 
-    return Team.get(this.id);
+    return Team.getWithData(this.id);
+
+  }
+
+  loadDataWithJoinRequestDetails() {
+
+    return Team.getWithData(this.id, { withJoinRequestDetails: true });
 
   }
 
@@ -71,8 +206,45 @@ class TeamProvider extends AbstractBREADProvider {
 
   read_GET(team) {
 
-    let titleParam = mlString.resolve(this.req.locale, team.name).str;
     team.populateUserInfo(this.req.user);
+
+    let titleParam = mlString.resolve(this.req.locale, team.name).str;
+
+    // Error messages from any join attempts
+    let joinErrors = this.req.flash('joinErrors');
+
+    if (this.req.user && !team.userIsModerator && !team.userIsMember)
+      team.joinRequests.forEach(request => {
+        if (request.userID === this.req.user.id) {
+          if (!request.rejectionDate)
+            this.req.flash('pageMessages', this.req.__('application received'));
+          else
+            if (request.rejectionMessage)
+              this.req.flash('pageMessages',
+                this.req.__('application rejected with reason', request.rejectionDate, request.rejectionMessage));
+            else
+              this.req.flash('pageMessages', this.req.__('application rejected', request.rejectionDate));
+        }
+      });
+
+    if (team.userIsModerator) {
+      let joinRequestCount = team.joinRequests.filter(request => !request.rejectionDate).length;
+      let url = `/team/${team.id}/manage-requests`;
+      if (joinRequestCount == 1)
+        this.req.flash('pageMessages', this.req.__('pending join request', url));
+      else if (joinRequestCount > 1)
+        this.req.flash('pageMessages', this.req.__('pending join requests', url, joinRequestCount));
+    }
+
+    // Used for "welcome to the team" messages
+    let pageMessages = this.req.flash('pageMessages');
+
+
+    // For easy lookup in template
+    let founder = {
+      [team.createdBy]: true
+    };
+
     BlogPost.getMostRecentBlogPosts(team.id, {
         limit: 3
       })
@@ -85,6 +257,9 @@ class TeamProvider extends AbstractBREADProvider {
           titleKey: 'team title',
           titleParam,
           blogPosts,
+          joinErrors,
+          pageMessages,
+          founder,
           deferPageHeader: true // Two-column-layout
         });
 
@@ -161,31 +336,23 @@ class TeamProvider extends AbstractBREADProvider {
         Object.assign(team, formData.formValues);
 
         // Creator is first moderator
-        team.moderators = [this.req.user.id];
+        team.moderators = [this.req.user];
+
+        // Creator is first member
+        team.members = [this.req.user];
+
+        // Founder warrants special recognition
+        team.createdBy = this.req.user.id;
+        team.createdOn = new Date();
 
         team
-          .save()
-          .then(team => {
-            // Add user to team
-            if (!this.req.user.teams)
-              this.req.user.teams = [];
-
-            this.req.user.teams.push(team.id);
-            this.req.user
-              .save()
-              .then(() => {
-                this.res.redirect(`/team/${team.id}`);
-              })
-              .catch(error => {
-                this.next(error); // Problem adding user to team
-              });
-          })
-          .catch(error => { // Problem saving team
-            this.next(error);
-          });
-      }).catch(error => { // Problem getting first revision metadata
-        this.next(error);
-      });
+          .saveAll()
+          .then(team => this.res.redirect(`/team/${team.id}`))
+          // Problem saving team and/or updating user
+          .catch(error => this.next(error));
+      })
+      // Problem getting metadata for new revision
+      .catch(error => this.next(error));
   }
 
   delete_GET(team) {

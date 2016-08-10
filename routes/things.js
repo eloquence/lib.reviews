@@ -9,24 +9,17 @@ const Thing = require('../models/thing');
 const mlString = require('../models/helpers/ml-string');
 const render = require('./helpers/render');
 const flashError = require('./helpers/flash-error');
+const getResourceErrorHandler = require('./handlers/resource-error-handler');
 
 /* GET users listing. */
 router.get('/thing/:id', function(req, res, next) {
   let id = req.params.id.trim();
-  Thing.get(id)
+  Thing.getNotStaleOrDeleted(id)
     .then(thing => {
-      if (thing._revDeleted)
-        return sendThingNotFound(req, res, id);
-
       thing.populateUserInfo(req.user);
       sendThing(req, res, thing);
     })
-    .catch(error => {
-      if (error.name == 'DocumentNotFoundError')
-        sendThingNotFound(req, res, id);
-      else
-        next(error);
-    });
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
 router.get('/thing/:id/edit/label', function(req, res, next) {
@@ -36,10 +29,8 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
     });
 
   let id = req.params.id.trim();
-  Thing.get(id)
+  Thing.getNotStaleOrDeleted(id)
     .then(thing => {
-      if (thing._revDeleted)
-        return sendThingNotFound(req, res, id);
       thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
         return render.permissionError(req, res, {
@@ -52,20 +43,13 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
       };
       sendThing(req, res, thing, edit);
     })
-    .catch(error => {
-      if (error.name == 'DocumentNotFoundError')
-        sendThingNotFound(req, res, id);
-      else
-        next(error);
-    });
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
 router.post('/thing/:id/edit/label', function(req, res, next) {
   let id = req.params.id.trim();
-  Thing.get(id)
+  Thing.getNotStaleOrDeleted(id)
     .then(thing => {
-      if (thing._revDeleted)
-        return sendThingNotFound(req, res, id);
 
       thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
@@ -91,12 +75,7 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
           sendThing(req, res, thing);
         });
     })
-    .catch(error => {
-      if (error.name == 'DocumentNotFoundError')
-        sendThingNotFound(req, res, id);
-      else
-        next(error);
-    });
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
 
@@ -123,14 +102,6 @@ function sendThing(req, res, thing, edit) {
     edit,
     pageErrors,
     showLanguageNotice
-  });
-}
-
-function sendThingNotFound(req, res, id) {
-  res.status(404);
-  render.template(req, res, 'no-thing', {
-    titleKey: 'thing not found',
-    id: escapeHTML(id)
   });
 }
 

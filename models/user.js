@@ -37,15 +37,18 @@ let User = thinky.createModel("users", {
   // Basic trust - not a spammer. Can confer trust, can edit things + create teams
   isTrusted: type.boolean().default(false),
   // Advanced trust - can (reversibly) delete content, but _not_ edit arbitrary content
-  isModerator: type.boolean().default(false),
-  teams: [type.string().uuid(4)],
+  isSiteModerator: type.boolean().default(false),
   suppressedNotices: [type.string()],
   // Permission field, populated using _currently logged in user_, to determine
   // whether they can edit _this_ user's metadata.
   userCanEditMetadata: type.virtual().default(false)
 });
 
+
+// Relations. For team relations see team model
+
 User.belongsTo(UserMeta, "meta", "userMetaID", "id");
+
 
 User.options = options; // for external visibility
 Object.freeze(User.options);
@@ -168,7 +171,8 @@ User.findByURLName = function(name, options) {
 
   options = Object.assign({
     withPassword: false,
-    withData: false // include metadata
+    withData: false, // include metadata
+    withTeams: false // include full information about teams
   }, options);
 
   name = name.trim();
@@ -186,6 +190,15 @@ User.findByURLName = function(name, options) {
       p = p.getJoin({
         meta: true
       });
+
+    if (options.withTeams)
+      p =
+        p.getJoin({
+          teams: true
+        })
+        .getJoin({
+          moderatorOf: true
+        });
 
     p.then(users => {
         if (users.length)

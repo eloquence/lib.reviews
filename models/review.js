@@ -54,7 +54,7 @@ Review.define("populateUserInfo", function(user) {
   if (!user)
     return; // fields will be at their default value (false)
 
-  if (user.isModerator || user.id === this.createdBy)
+  if (user.isSiteModerator || user.id === this.createdBy)
     this.userCanDelete = true;
 
   if (user.id === this.createdBy)
@@ -168,7 +168,8 @@ Review.findOrCreateThing = function(reviewObj) {
 };
 
 Review.getWithData = function(id) {
-  return Review.get(id)
+  return new Promise((resolve, reject) => {
+    Review.get(id)
     .getJoin({
       thing: true
     })
@@ -176,7 +177,20 @@ Review.getWithData = function(id) {
       creator: {
         _apply: seq => seq.without('password')
       }
-    });
+    })
+    .then(review => {
+
+      if (review._revDeleted)
+        return reject(revision.deletedError);
+
+      if (review._revOf)
+        return reject(revision.staleError);
+
+      resolve(review);
+
+    })
+    .catch(error => reject(error));
+  });
 };
 
 Review.getFeed = function(options) {
@@ -247,7 +261,6 @@ Review.getFeed = function(options) {
         resolve(result);
       })
       .catch(error => {
-        console.log(error.stack);
         reject(error);
       });
 

@@ -38,7 +38,7 @@
                     </li>
                     <li><a href="/new/review" class="pure-button button-cta button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span class="fa fa-pencil spaced-icon"></span>{{__ "new review"}}</a>
                         <li>
-                            <form action="/signout" method="post" id="signout-form">
+                            <form action="/signout" method="post" id="signout-form" name="signout-form">
                                 <input type="hidden" value="{{csrfToken}}" name="_csrf">
                                 <input class="pure-button button-rounded" id="signout-button" type="submit" accesskey="o" title="{{{__ "accesskey" "o"}}}" value="{{{__ "sign out"}}}">
                             </form>
@@ -72,7 +72,7 @@
     {{{body}}}
     </div>
     <div id="footer">
-    <form id="languages" action="/actions/change-language" method="post">
+    <form id="languages" action="/actions/change-language" method="post" name="languages">
     <input type="hidden" value="{{csrfToken}}" name="_csrf">
     <span class="fa fa-globe spaced-icon"></span>{{__ "current language" currentLanguage.label}} &ndash;
     {{{__ "change language" }}}

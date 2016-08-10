@@ -2,6 +2,7 @@
 const render = require('../helpers/render');
 const forms = require('../helpers/forms');
 const router = require('express').Router();
+const getResourceErrorHandler = require('./resource-error-handler');
 
 // This is a generic class to provide middleware for Browse/Read/Edit/Add/Delete
 // operations and forms. It comes with some baked-in pre-flight checks but needs
@@ -30,7 +31,8 @@ class AbstractBREADProvider {
       read: {
         GET: this.read_GET,
         preFlightChecks: [],
-        // Function to call to load data and pass it to GET/POST function
+        // Function to call to load data and pass it to GET/POST function.
+        // This must perform exclusion of deleted or stale revisions.
         loadData: this.loadData,
         titleKey: undefined
       },
@@ -67,8 +69,9 @@ class AbstractBREADProvider {
     this.res = res;
     this.next = next;
 
-    this.documentNotFoundTemplate = '404';
-    this.documentNotFoundTitleKey = 'page not found title';
+    // This is used for "not found" messages that must be in the format
+    // "x not found" (for the body) and "x not found title" (for the title)
+    this.messageKeyPrefix = '';
 
     // Defaults
     options = Object.assign({
@@ -82,8 +85,10 @@ class AbstractBREADProvider {
     // Shortcuts to common helpers, which also lets us override these with
     // custom methods if appropriate
     this.renderTemplate = render.template.bind(render, this.req, this.res);
+    this.renderResourceError = render.resourceError.bind(render, this.req, this.res);
     this.renderPermissionError = render.permissionError.bind(render, this.req, this.res);
     this.renderSigninRequired = render.signinRequired.bind(render, this.req, this.res);
+    this.getResourceErrorHandler = getResourceErrorHandler.bind(getResourceErrorHandler, this.req, this.res, this.next);
     this.parseForm = forms.parseSubmission.bind(forms, this.req);
 
   }
@@ -96,7 +101,6 @@ class AbstractBREADProvider {
 
     if (typeof this.actions[this.action][this.method] != 'function')
       throw new Error('No defined handler for this method.');
-
 
     // Perform pre-flight checks (e.g., permission checks). Pre-flight checks
     // are responsible for rendering failure/result messages, so no
@@ -120,9 +124,6 @@ class AbstractBREADProvider {
         .loadData.call(this)
         .then(data => {
 
-          if (data._revDeleted)
-            throw new Error('deleted');
-
           // If we have a permission check, only proceeds if it succeeds.
           // If we don't have a permission check, proceed.
           if (!this.actions[this.action].resourcePermissionCheck ||
@@ -131,23 +132,9 @@ class AbstractBREADProvider {
             this.actions[this.action][this.method].call(this, data);
 
         })
-        .catch(this.getLookupErrorHandler().bind(this));
+        .catch(this.getResourceErrorHandler(this.messageKeyPrefix, this.id));
     }
 
-  }
-
-  // Remember to bind to this if you use this handler in a subclass
-  getLookupErrorHandler(notFoundTemplate, notFoundTitleKey, notFoundID) {
-    return function(error) {
-      if (error.name == 'DocumentNotFoundError' || error.message == 'deleted') {
-        this.res.status(404);
-        this.renderTemplate(notFoundTemplate || this.documentNotFoundTemplate, {
-          titleKey: notFoundTitleKey || this.documentNotFoundTitleKey,
-          id: notFoundID || this.id
-        });
-      } else
-        this.next(error);
-    };
   }
 
   userIsSignedIn() {

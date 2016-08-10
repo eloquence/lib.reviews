@@ -53,16 +53,16 @@ Object.assign(thingSchema, revision.getSchema());
 
 let Thing = thinky.createModel("things", thingSchema);
 
+Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Thing);
 Thing.define("newRevision", revision.getNewRevisionHandler(Thing));
 Thing.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Thing));
-
 Thing.define("populateUserInfo", function(user) {
   if (!user)
     return; // Permissions will be at their default value (false)
 
   // For now, we don't let users delete things they've created,
   // since things are collaborative in nature
-  this.userCanDelete = user.isModerator || false;
+  this.userCanDelete = user.isSiteModerator || false;
   this.userCanEdit = user.isTrusted || user.id === this.createdBy;
   this.userIsCreator = user.id === this.createdBy;
 

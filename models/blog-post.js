@@ -34,6 +34,8 @@ BlogPost.ensureIndex("createdOn");
 BlogPost.belongsTo(User, "creator", "createdBy", "id");
 
 BlogPost.createFirstRevision = revision.getFirstRevisionHandler(BlogPost);
+BlogPost.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(BlogPost);
+
 BlogPost.define("newRevision", revision.getNewRevisionHandler(BlogPost));
 BlogPost.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(BlogPost));
 
@@ -45,19 +47,32 @@ BlogPost.define("populateUserInfo", function(user) {
   if (user.id === this.createdBy)
     this.userCanEdit = true;
 
-  if (user.id === this.createdBy || user.isModerator)
+  if (user.id === this.createdBy || user.isSiteModerator)
     this.userCanDelete = true;
 
 });
 
 BlogPost.getWithCreator = function(id) {
-  return BlogPost
-    .get(id)
-    .getJoin({
-      creator: {
-        _apply: seq => seq.without('password')
-      }
-    });
+  return new Promise((resolve, reject) => {
+    BlogPost
+      .get(id)
+      .getJoin({
+        creator: {
+          _apply: seq => seq.without('password')
+        }
+      })
+      .then(post => {
+        if (post._revDeleted)
+          return reject(revision.deletedError);
+
+        if (post._revOf)
+          return reject(revision.staleError);
+
+        resolve(post);
+
+      })
+      .catch(error => reject(error));
+  });
 };
 
 BlogPost.getMostRecentBlogPosts = function(teamID, options) {

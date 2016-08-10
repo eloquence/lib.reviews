@@ -53,8 +53,18 @@ let render = {
     render.template(req, res, 'signin-required', extraVars);
   },
 
+  // Pass detailsKey in extraVars for message providing further details
+  // about why permission is denied.
   permissionError: function(req, res, extraVars) {
+    res.status(403);
     render.template(req, res, 'permission-error', extraVars);
+  },
+
+  // Pass titleKey and bodyKey in extraVars to explain the nature of the error
+  // (e.g., page not found, stale revision). Don't forget to call
+  // res.status as appropriate.
+  resourceError: function(req, res, extraVars) {
+    render.template(req, res, 'resource-error', extraVars);
   }
 
 };

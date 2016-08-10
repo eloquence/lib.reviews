@@ -5,6 +5,7 @@ const Errors = thinky.Errors;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
+const User = require('./user');
 
 let teamSchema = {
   id: type.string(),
@@ -24,16 +25,20 @@ let teamSchema = {
   },
   modApprovalToJoin: type.boolean(),
   onlyModsCanBlog: type.boolean(),
-  moderators: [type.string().uuid(4)],
+
+  createdBy: type.string().uuid(4),
+  createdOn: type.date(),
 
   // For collaborative translation of team metadata
   originalLanguage: type.string().max(4).validator(isValidLanguage),
 
   // These can only be populated from the outside using a user object
+  userIsFounder: type.virtual().default(false),
   userIsMember: type.virtual().default(false),
   userIsModerator: type.virtual().default(false),
   userCanBlog: type.virtual().default(false),
   userCanJoin: type.virtual().default(false),
+  userCanLeave: type.virtual().default(false),
   userCanEdit: type.virtual().default(false),
   userCanDelete: type.virtual().default(false),
 
@@ -50,7 +55,71 @@ let teamSchema = {
 // Add versioning related fields
 Object.assign(teamSchema, revision.getSchema());
 let Team = thinky.createModel("teams", teamSchema);
+
+// Define membership and moderator relations; these are managed by the ODM
+// as separate tables, e.g. teams_users_membership
+Team.hasAndBelongsToMany(User, "members", "id", "id", {
+  type: 'membership'
+});
+
+Team.hasAndBelongsToMany(User, "moderators", "id", "id", {
+  type: 'moderatorship'
+});
+
+User.hasAndBelongsToMany(Team, "teams", "id", "id", {
+  type: 'membership'
+});
+
+User.hasAndBelongsToMany(Team, "moderatorOf", "id", "id", {
+  type: 'moderatorship'
+});
+
+
 Team.createFirstRevision = revision.getFirstRevisionHandler(Team);
+Team.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Team);
+Team.getWithData = function(id, options) {
+
+  options = Object.assign({ // Default: all first-level joins
+    withMembers: true,
+    withModerators: true,
+    withJoinRequests: true,
+    withJoinRequestDetails: false
+  }, options);
+
+  return new Promise((resolve, reject) => {
+
+    let join = {};
+    if (options.withMembers)
+      join.members = { _apply: seq => seq.without('password') };
+
+    if (options.withModerators)
+      join.moderators = { _apply: seq => seq.without('password') };
+
+    if (options.withJoinRequests)
+      join.joinRequests = true;
+
+    if (options.withJoinRequests && options.withJoinRequestDetails) {
+      join.joinRequests = {};
+      join.joinRequests.user = { _apply: seq => seq.without('password') };
+    }
+
+    Team
+      .get(id)
+      .getJoin(join)
+      .then(team => {
+        if (team._revDeleted)
+          return reject(revision.deletedError);
+
+        if (team._revOf)
+          return reject(revision.staleError);
+        resolve(team);
+
+      })
+      .catch(error => reject(error));
+  });
+
+};
+
 Team.define("newRevision", revision.getNewRevisionHandler(Team));
 Team.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Team));
 Team.define("populateUserInfo", function(user) {
@@ -58,24 +127,32 @@ Team.define("populateUserInfo", function(user) {
     return false; // Permissions remain at defaults (false)
 
   let team = this;
-  if (user.teams && user.teams.indexOf(team.id) !== -1)
+  if (this.members && this.members.filter(member => member.id === user.id).length)
     team.userIsMember = true;
 
-  if (team.moderators && team.moderators.indexOf(user.id) !== -1)
+  if (team.moderators && team.moderators.filter(moderator => moderator.id === user.id).length)
     team.userIsModerator = true;
 
-  if (team.userIsMember &&  (!team.onlyModsCanBlog || team.userIsModerator))
+  if (user.id === team.createdBy)
+    team.userIsFounder = true;
+
+  if (team.userIsMember && (!team.onlyModsCanBlog || team.userIsModerator))
     team.userCanBlog = true;
 
-  if (!team.userIsMember)
+  // Can't join if you have a pending or rejected join request
+  if (!team.userIsMember && !team.joinRequests.filter(request => request.userID === user.id).length)
     team.userCanJoin = true;
 
   if (team.userIsModerator)
     team.userCanEdit = true;
 
   // For now, only site-wide mods can delete teams
-  if (user.isModerator)
+  if (user.isSiteModerator)
     team.userCanDelete = true;
+
+  // For now, founders can't leave their team - must be deleted
+  if (!team.userIsFounder && team.userIsMember)
+    team.userCanLeave = true;
 
 });
 

@@ -3,7 +3,6 @@ const AbstractBREADProvider = require('./abstract-bread-provider');
 const Team = require('../../models/team');
 const BlogPost = require('../../models/blog-post');
 const mlString = require('../../models/helpers/ml-string.js');
-
 class BlogPostProvider extends AbstractBREADProvider {
 
   constructor(req, res, next, options) {
@@ -14,18 +13,21 @@ class BlogPostProvider extends AbstractBREADProvider {
     this.actions.add.loadData = this.loadData;
     this.actions.add.resourcePermissionCheck = this.userCanAdd;
 
+    // The base level class is checking the team permissions, but post-level
+    // permissions, once created, are independent of team permissions, and
+    // handled separately
+    this.actions.edit.resourcePermissionCheck = undefined;
+    this.actions.delete.resourcePermissionCheck = undefined;
+
     // Team lookup failures take precedence, post lookup failures handled below
-    this.documentNotFoundTitleKey = 'team not found title';
-    this.documentNotFoundTemplate = 'no-team';
+    this.messageKeyPrefix = 'team';
+
   }
 
   read_GET(team) {
     BlogPost
       .getWithCreator(this.postID)
       .then(blogPost => {
-
-        if (blogPost._revDeleted)
-          throw new Error('deleted');
 
         blogPost.populateUserInfo(this.req.user);
 
@@ -41,7 +43,7 @@ class BlogPostProvider extends AbstractBREADProvider {
           pageMessages
         });
       })
-      .catch(this.getLookupErrorHandler('no-post', 'post not found title', this.postID).bind(this));
+      .catch(this.getResourceErrorHandler('post', this.postID));
   }
 
   add_GET(team, formValues) {
@@ -63,23 +65,20 @@ class BlogPostProvider extends AbstractBREADProvider {
       .get(this.postID)
       .then(blogPost => {
 
-        if (blogPost._revDeleted)
-          throw new Error('deleted');
+        if (!this.userCanEditPost(blogPost))
+          return false;
 
         this.editing = true;
         this.add_GET(team, blogPost);
 
       })
-      .catch(this.getLookupErrorHandler('no-post', 'post not found title', this.postID).bind(this));
+      .catch(this.getResourceErrorHandler('post', this.postID));
   }
 
   edit_POST(team) {
     BlogPost
       .get(this.postID)
       .then(blogPost => {
-
-        if (blogPost._revDeleted)
-          throw new Error('deleted');
 
         if (!this.userCanEditPost(blogPost))
           return false;
@@ -125,7 +124,7 @@ class BlogPostProvider extends AbstractBREADProvider {
         });
 
       })
-      .catch(this.getLookupErrorHandler('no-post', 'post not found title', this.postID).bind(this));
+      .catch(this.getResourceErrorHandler('post', this.postID));
 
   }
 
@@ -176,9 +175,6 @@ class BlogPostProvider extends AbstractBREADProvider {
       .getWithCreator(this.postID)
       .then(blogPost => {
 
-        if (blogPost._revDeleted)
-          throw new Error('deleted');
-
         if (!this.userCanDeletePost(blogPost))
           return false;
 
@@ -188,7 +184,7 @@ class BlogPostProvider extends AbstractBREADProvider {
         });
 
       })
-      .catch(this.getLookupErrorHandler('no-post', 'post not found title', this.postID).bind(this));
+      .catch(this.getResourceErrorHandler('post', this.postID).bind(this));
 
   }
 
@@ -197,9 +193,6 @@ class BlogPostProvider extends AbstractBREADProvider {
     BlogPost
       .getWithCreator(this.postID)
       .then(blogPost => {
-
-        if (blogPost._revDeleted)
-          throw new Error('deleted');
 
         if (!this.userCanDeletePost(blogPost))
           return false;
@@ -217,7 +210,7 @@ class BlogPostProvider extends AbstractBREADProvider {
         });
 
       })
-      .catch(this.getLookupErrorHandler('no-post', 'post not found title', this.postID).bind(this));
+      .catch(this.getResourceErrorHandler('post', this.postID).bind(this));
 
   }
 
@@ -255,7 +248,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
 
   loadData() {
-    return Team.get(this.id);
+    return Team.getWithData(this.id);
   }
 
 

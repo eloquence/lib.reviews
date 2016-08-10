@@ -24,7 +24,7 @@ router.get('/user/:name', function(req, res, next) {
       rv.displayName = user.displayName;
       rv.canonicalName = user.canonicalName;
       rv.registrationDate = user.registrationDate;
-      rv.isModerator = user.isModerator;
+      rv.isSiteModerator = user.isSiteModerator;
       res.status(200);
     } else {
       rv.message = 'Could not retrieve user data.';

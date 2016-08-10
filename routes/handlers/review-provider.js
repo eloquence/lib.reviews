@@ -13,8 +13,7 @@ class ReviewProvider extends AbstractBREADProvider {
     this.actions.add.titleKey = 'new review';
     this.actions.edit.titleKey = 'edit review';
     this.actions.delete.titleKey = 'delete review';
-    this.documentNotFoundTitleKey = 'review not found title';
-    this.documentNotFoundTemplate = 'no-review';
+    this.messageKeyPrefix = 'review';
 
   }
 

@@ -98,7 +98,8 @@ let userHandlers = {
 
       User
         .findByURLName(name, {
-          withData: true
+          withData: true,
+          withTeams: true
         })
         .then(user => {
 
@@ -125,9 +126,20 @@ let userHandlers = {
                   item.thing.populateUserInfo(req.user);
                 }
               }
+
               let edit = {
                 bio: options.editBio
               };
+
+              // For easy lookup in template
+              let modOf = {};
+              user.moderatorOf.forEach(t => modOf[t.id] = true);
+
+              let founderOf = {};
+              user.teams.forEach(t => {
+                if (t.createdBy && t.createdBy == user.id)
+                  founderOf[t.id] = true;
+              });
 
               let pageErrors = req.flash('pageErrors');
 
@@ -139,6 +151,9 @@ let userHandlers = {
                 edit,
                 scripts: ['user.js'],
                 pageErrors,
+                teams: user.teams,
+                modOf,
+                founderOf,
                 offsetEpoch
               });
             });

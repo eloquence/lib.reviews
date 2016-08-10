@@ -36,8 +36,23 @@
 <p>
 <span class="user-label">{{{__ "user teams"}}}</span><br>
 
+{{! Team list}}
+{{#if teams}}
+<ul class="user-team-list">
+{{#each teams}}
+<li> <a href='/team/{{this.id}}'>{{{mlString this.name}}}</a>
+{{#if (lookup ../modOf this.id)}}
+<span class="user-team-badge">{{{__ "moderator badge"}}}</span>
+{{/if}}
+{{#if (lookup ../founderOf this.id)}}
+<span class="user-team-badge">{{{__ "founder badge"}}}</span>
+{{/if}}
+{{/each}}
+</ul>
+{{else}}
 {{{__ "no teams yet"}}}
-
+{{/if}}
+{{!End team list}}
 <p>
 <span class="user-label">{{{__ "user trusted by"}}}</span><br>
 
