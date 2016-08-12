@@ -25,7 +25,23 @@ We also try to add keyboard shortcuts where relevant, and generally follow exist
 
 We aim to be multilingual in UI and content, and are exclusively using translatable strings throughout the user interface.
 
-Relevant related projects:
+# Setup & contributing
+
+This is very much an open project and we'd love your help! :) To get started,
+clone the repository to your local computer. You will need the current Node.js
+stable release. Switch to your check-out directory and then run `npm install`.
+Run `grunt` to build the JavaScript. Make sure you also have RethinkDB up
+and running before starting the service.
+
+You can create a development configuration by copying `config/default.json5`
+to `config/development.json5`. Finally, run `npm start` and visit `localhost`
+at the configured port number.
+
+Any pull requests must be under the [CC-0 License](./LICENSE). This project has
+adopted a [code of conduct](./CODE_OF_CONDUCT.md) to make sure all contributors
+feel welcome.
+
+# Relevant related projects
 
 - https://critiquebrainz.org/ - music reviews
 - http://revyu.com/ - universal review site from ~2007, now defunct. We're
