@@ -19,28 +19,27 @@ let reviewHandlers = {
       onlyTrusted: false,
       deferPageHeader: false,
       limit: 10,
-      getOffsetEpoch: false // set true if :epoch param is to be used
+      getOffsetDate: false // set true if :utcisodate param is to be used
     }, options);
 
     return function(req, res, next) {
 
-      let offsetEpoch;
-      if (options.getOffsetEpoch) {
-        offsetEpoch = Number(req.params.epoch.trim());
-        if (new Date(offsetEpoch) == 'Invalid Date')
-          offsetEpoch = undefined;
+      let offsetDate;
+      if (options.getOffsetDate) {
+        offsetDate = new Date(req.params.utcisodate.trim());
+        if (!offsetDate || offsetDate == 'Invalid Date')
+          offsetDate = null;
       }
-
 
       Review
         .getFeed({
           onlyTrusted: options.onlyTrusted,
           limit: options.limit,
-          offsetEpoch
+          offsetDate
         })
         .then(result => {
 
-          let offsetEpoch = result.offsetEpoch;
+          let offsetDate = result.offsetDate;
           let feedItems = result.feedItems;
 
           feedItems.forEach((item, index) => {
@@ -53,7 +52,8 @@ let reviewHandlers = {
             titleKey: options.titleKey,
             deferPageHeader: options.deferPageHeader,
             feedItems,
-            offsetEpoch,
+            utcISODate:
+              offsetDate ? offsetDate.toISOString() : undefined,
             pageLimit: options.limit
           });
         })

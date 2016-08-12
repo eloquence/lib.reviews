@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
 
     // Promise.all helpfully keeps order in which promises were passed
     let feedItems = queryResults[0].feedItems;
-    let offsetEpoch = queryResults[0].offsetEpoch;
+    let offsetDate = queryResults[0].offsetDate;
     let blogPosts = queryResults[1];
 
 
@@ -65,7 +65,7 @@ router.get('/', function(req, res, next) {
       blogPosts,
       blogKey: config.frontPageTeamBlogKey,
       showBlog: config.frontPageTeamBlog ? true : false,
-      offsetEpoch
+      offsetDate
     });
   });
 
@@ -74,8 +74,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/feed', reviewHandlers.getFeedHandler());
 
-router.get('/feed/before/:epoch', reviewHandlers.getFeedHandler({
-  getOffsetEpoch: true
+router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler({
+  getOffsetDate: true
 }));
 
 

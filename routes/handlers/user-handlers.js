@@ -84,16 +84,16 @@ let userHandlers = {
   getUserHandler(options) {
     options = Object.assign({
       editBio: false,
-      offsetEpoch: undefined // for reviews feed pagination
+      offsetDate: undefined // for reviews feed pagination
     }, options);
 
     return function(req, res, next) {
       let name = req.params.name.trim();
-      let offsetEpoch;
-      if (options.getOffsetEpoch) {
-        offsetEpoch = Number(req.params.epoch.trim());
-        if (new Date(offsetEpoch) == 'Invalid Date')
-          offsetEpoch = undefined;
+      let offsetDate;
+      if (options.getOffsetDate) {
+        offsetDate = new Date(req.params.utcisodate.trim());
+        if (!offsetDate || offsetDate == 'Invalid Date')
+          offsetDate = null;
       }
 
       User
@@ -114,11 +114,12 @@ let userHandlers = {
           Review
             .getFeed({
               createdBy: user.id,
-              offsetEpoch
+              offsetDate,
+              limit: 3
             })
             .then(result => {
               let feedItems = result.feedItems;
-              let offsetEpoch = result.offsetEpoch;
+              let offsetDate = result.offsetDate;
 
               for (let item of feedItems) {
                 item.populateUserInfo(req.user);
@@ -154,7 +155,7 @@ let userHandlers = {
                 teams: user.teams,
                 modOf,
                 founderOf,
-                offsetEpoch
+                utcISODate: offsetDate ? offsetDate.toISOString() : undefined
               });
             });
         })

@@ -198,8 +198,8 @@ Review.getFeed = function(options) {
   options = Object.assign({
     // ID of original author
     createdBy: undefined,
-    // Only show reviews older than this epoch
-    offsetEpoch: undefined,
+    // Only show reviews older than this date. Must be JavaScript Date object.
+    offsetDate: undefined,
     // exclude reviews by users that haven't been marked trusted yet. Will be
     // applied after limit, so you might get < limit items.
     onlyTrusted: false,
@@ -208,11 +208,10 @@ Review.getFeed = function(options) {
 
   let query = Review;
 
-  if (options.offsetEpoch)
-
-    query = query.between(r.minval, r.epochTime(options.offsetEpoch / 1000), {
+  if (options.offsetDate && options.offsetDate.valueOf)
+    query = query.between(r.minval, r.epochTime(options.offsetDate.valueOf() / 1000), {
       index: 'createdOn',
-      rightBound: 'closed' // Return the record that exactly matches our epoch
+      rightBound: 'open' // Do not return previous record that exactly matches offset
     });
 
   query = query.orderBy({
@@ -249,7 +248,7 @@ Review.getFeed = function(options) {
 
         // At least one additional document available, set offset for pagination
         if (feedItems.length == options.limit + 1) {
-          result.offsetEpoch = Number(feedItems[options.limit].createdOn);
+          result.offsetDate = feedItems[options.limit - 1].createdOn;
           feedItems.pop();
         }
 
