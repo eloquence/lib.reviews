@@ -5,16 +5,20 @@
 </div>
 <div class="pure-g">
 <div class="pure-u-1 pure-u-md-2-5">
-<div class="intro-text">
-<span class="user-label">{{{__ "user bio"}}}</span><br>
+<div class="user-info">
+<h1 id="page-header">{{{__ titleKey titleParam}}}</h1>
 {{#unless edit.bio}}
-{{#if userInfo.meta.bio}}{{{mlString userInfo.meta.bio.html}}}{{/if}}
+{{#if userInfo.meta.bio}}
+<span class="user-label">{{{__ "user bio"}}}</span><br>
+{{{mlString userInfo.meta.bio.html}}}
+{{/if}}
 {{#if userInfo.userCanEditMetadata}}
 <a id="edit-bio" href="/user/{{userInfo.urlName}}/edit/bio" class="pure-button button-rounded">
 <span class="fa fa-pencil spaced-icon"></span>{{#if userInfo.meta.bio}}{{{__ "edit bio"}}}{{else}}{{{__ "add bio"}}}{{/if}}
 </a>
 {{/if}}
 {{else}}
+<span class="user-label">{{{__ "user bio"}}}</span><br>
 <form id="bio-form" name="bio-form" action="" method="post">
 <textarea id="bio-textarea" name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>
 <input type="hidden" value="{{currentLanguage.langKey}}" name="bio-language">

@@ -139,6 +139,7 @@ let userHandlers = {
               render.template(req, res, 'user', {
                 titleKey: 'user',
                 titleParam: user.displayName,
+                deferPageHeader: true, // two-col layout
                 userInfo: user,
                 feedItems,
                 edit,
