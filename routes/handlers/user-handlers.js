@@ -114,8 +114,7 @@ let userHandlers = {
           Review
             .getFeed({
               createdBy: user.id,
-              offsetDate,
-              limit: 3
+              offsetDate
             })
             .then(result => {
               let feedItems = result.feedItems;
