@@ -44,7 +44,6 @@ router.get('/', function(req, res, next) {
     let offsetDate = queryResults[0].offsetDate;
     let blogPosts = queryResults[1];
 
-
     // Set review permissions
     feedItems.forEach(item => {
       item.populateUserInfo(req.user);
@@ -65,7 +64,7 @@ router.get('/', function(req, res, next) {
       blogPosts,
       blogKey: config.frontPageTeamBlogKey,
       showBlog: config.frontPageTeamBlog ? true : false,
-      offsetDate
+      utcISODate: offsetDate ? offsetDate.toISOString() : null
     });
   });
 
