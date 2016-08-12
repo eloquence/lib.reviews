@@ -5,6 +5,7 @@
 </div>
 <div class="pure-g">
 <div class="pure-u-1 pure-u-md-2-5">
+<div class="intro-text">
 <span class="user-label">{{{__ "user bio"}}}</span><br>
 {{#unless edit.bio}}
 {{#if userInfo.meta.bio}}{{{mlString userInfo.meta.bio.html}}}{{/if}}
@@ -53,10 +54,7 @@
 {{{__ "no teams yet"}}}
 {{/if}}
 {{!End team list}}
-<p>
-<span class="user-label">{{{__ "user trusted by"}}}</span><br>
-
-{{{__ "no trust yet"}}}
+</div>
 </div>
 <div class="pure-u-1 pure-u-md-3-5">
 <span class="inline-feed-title">{{{__ "feed"}}}</span>

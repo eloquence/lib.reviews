@@ -11,7 +11,9 @@ const userHandlers = require('./handlers/user-handlers');
 
 router.get('/:name', userHandlers.getUserHandler());
 
-router.get('/:name/before/:utcisodate', userHandlers.getUserHandler({ getOffsetDate: true }));
+router.get('/:name/feed', userHandlers.getUserFeedHandler());
+
+router.get('/:name/feed/before/:utcisodate', userHandlers.getUserFeedHandler({ getOffsetDate: true }));
 
 router.get('/:name/edit/bio', userHandlers.getUserHandler({ editBio: true }));
 

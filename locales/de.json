@@ -259,5 +259,6 @@
     "request by": "Anfrage von:",
     "request date": "Datum:",
     "no requests to process": "Wir haben keine Bearbeitungs-Anfragen erhalten.",
-    "requests have been processed": "Die ausgew&auml;hlten Anfragen wurden bearbeitet. Danke daf&uuml;r, dass du dich aktiv um dein Team k&uuml;mmerst!"
+    "requests have been processed": "Die ausgew&auml;hlten Anfragen wurden bearbeitet. Danke daf&uuml;r, dass du dich aktiv um dein Team k&uuml;mmerst!",
+    "user feed": "Rezensionen von %s"
 }

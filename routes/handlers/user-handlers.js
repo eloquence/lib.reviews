@@ -83,18 +83,11 @@ let userHandlers = {
 
   getUserHandler(options) {
     options = Object.assign({
-      editBio: false,
-      offsetDate: undefined // for reviews feed pagination
+      editBio: false
     }, options);
 
     return function(req, res, next) {
       let name = req.params.name.trim();
-      let offsetDate;
-      if (options.getOffsetDate) {
-        offsetDate = new Date(req.params.utcisodate.trim());
-        if (!offsetDate || offsetDate == 'Invalid Date')
-          offsetDate = null;
-      }
 
       User
         .findByURLName(name, {
@@ -114,7 +107,7 @@ let userHandlers = {
           Review
             .getFeed({
               createdBy: user.id,
-              offsetDate
+              limit: 3
             })
             .then(result => {
               let feedItems = result.feedItems;
@@ -156,10 +149,72 @@ let userHandlers = {
                 founderOf,
                 utcISODate: offsetDate ? offsetDate.toISOString() : undefined
               });
-            });
+            })
+            .catch(error => next(error));
         })
         .catch(userHandlers.getUserNotFoundHandler(req, res, next, name));
     };
+  },
+
+  getUserFeedHandler(options) {
+
+    options = Object.assign({
+      getOffsetDate: false
+    }, options);
+
+    return function(req, res, next) {
+
+
+      let name = req.params.name.trim();
+      let offsetDate;
+      if (options.getOffsetDate) {
+        offsetDate = new Date(req.params.utcisodate.trim());
+        if (!offsetDate || offsetDate == 'Invalid Date')
+          offsetDate = null;
+      }
+
+      User
+        .findByURLName(name)
+        .then(user => {
+
+          if (user.displayName !== name) {
+            // Redirect to chosen display form
+            return res.redirect(`/user/${user.urlName}/feed` + (offsetDate ?
+              `/before/${offsetDate.toISOString()}` : ''));
+          }
+          Review
+            .getFeed({
+              createdBy: user.id,
+              offsetDate
+            })
+            .then(result => {
+              let feedItems = result.feedItems;
+              let offsetDate = result.offsetDate;
+              for (let item of feedItems) {
+                item.populateUserInfo(req.user);
+                if (item.thing) {
+                  item.thing.populateUserInfo(req.user);
+                }
+              }
+              render.template(req, res, 'user-feed', {
+                userInfo: user,
+                feedItems,
+                titleKey: 'user feed',
+                titleParam: user.displayName,
+                userURL: `/user/${user.urlName}`,
+                deferPageHeader: true,
+                utcISODate: offsetDate ? offsetDate.toISOString() : undefined
+              });
+            })
+            .catch(error => next(error));
+        })
+        .catch(userHandlers.getUserNotFoundHandler(req, res, next, name));
+
+
+
+
+    };
+
   },
 
   sendUserNotFound(req, res, name) {
