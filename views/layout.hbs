@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>{{{__ "site name"}}}{{#if titleKey}} - {{{__ titleKey titleParam }}}{{/if}}</title>
+    {{#each embeddedFeeds}}
+    <link href="{{{this.url}}}" type="{{{this.type}}}" rel="alternate" title="{{{this.title}}}" hreflang="{{{this.language}}}"/>
+    {{/each}}
     <link rel='stylesheet' href='/static/css/pure-min.css' />
     <link rel='stylesheet' href='/static/css/grids-responsive-min.css' />
     <link rel='stylesheet' href='/static/css/style.css' />

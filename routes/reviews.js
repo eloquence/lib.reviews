@@ -71,12 +71,18 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/feed', reviewHandlers.getFeedHandler());
-
-router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler({
-  getOffsetDate: true
+router.get('/feed', reviewHandlers.getFeedHandler({
+  atomURLPrefix: '/feed/atom',
+  atomURLTitleKey: 'atom feed of all reviews'
 }));
 
+router.get('/feed/atom', function(req, res) {
+  res.redirect(`/feed/atom/${req.locale}`);
+});
+
+router.get('/feed/atom/:language', reviewHandlers.getFeedHandler({format: 'atom'}));
+
+router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler());
 
 router.get('/new', (req, res) => {
   res.redirect('/new/review');

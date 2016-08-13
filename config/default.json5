@@ -3,6 +3,10 @@
   // Set to true if all requests should generate a maintenance notice
   maintenanceMode: false,
 
+  // We mostly use relative URLs, but sometimes a qualified URL is required.
+  // Must terminate with /
+  qualifiedURL: 'https://lib.reviews/',
+
   // Web service port. You may have to change this to something like 8000 if you
   // don't have access to port 80 or it is in use. You can always override this
   // with a command line argument, hence "default".

@@ -1,20 +1,25 @@
 'use strict';
+const config = require('config');
 const languages = require('../../locales/languages');
 
 let render = {
-  template: function(req, res, view, extraVars, extraConfig) {
+
+  // extraVars - object containing any vars we want to pass along to template
+  // extraJSConfig - object containing any vars we want to expose to client-side
+  //  scripts (must not contain sensitive data!)
+  template: function(req, res, view, extraVars, extraJSConfig) {
 
     let vars = {};
 
-    let config = {
+    let jsConfig = {
       userName: req.user ? req.user.displayName : undefined,
       language: req.locale
     };
 
-    if (extraConfig)
-      Object.assign(config, extraConfig);
+    if (extraJSConfig)
+      Object.assign(config, extraJSConfig);
 
-    vars.configScript = `window.config = ${JSON.stringify(config)};`;
+    vars.configScript = `window.config = ${JSON.stringify(jsConfig)};`;
 
     if (extraVars)
       Object.assign(vars, extraVars);
@@ -40,6 +45,8 @@ let render = {
 
     if (req.csrfToken)
       vars.csrfToken = req.csrfToken();
+
+    vars.qualifiedURL = config.qualifiedURL;
 
     // Non page-specific, will show up on any page if we have some to show
     vars.siteMessages = req.flash('siteMessages');

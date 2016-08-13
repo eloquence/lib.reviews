@@ -262,5 +262,7 @@
     "request date": "Date:",
     "no requests to process": "We did not get any requests to process.",
     "requests have been processed": "The selected requests have been processed. Thanks for being an active team maintainer!",
-    "user feed": "Reviews by %s"
+    "user feed": "Reviews by %s",
+    "atom feed of all reviews": "Atom feed of all reviews",
+    "review feed label": "Review:"
 }

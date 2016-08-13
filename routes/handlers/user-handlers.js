@@ -157,18 +157,14 @@ let userHandlers = {
     };
   },
 
-  getUserFeedHandler(options) {
-
-    options = Object.assign({
-      getOffsetDate: false
-    }, options);
+  getUserFeedHandler() {
 
     return function(req, res, next) {
 
 
       let name = req.params.name.trim();
       let offsetDate;
-      if (options.getOffsetDate) {
+      if (req.params.utcisodate) {
         offsetDate = new Date(req.params.utcisodate.trim());
         if (!offsetDate || offsetDate == 'Invalid Date')
           offsetDate = null;
@@ -210,12 +206,7 @@ let userHandlers = {
             .catch(error => next(error));
         })
         .catch(userHandlers.getUserNotFoundHandler(req, res, next, name));
-
-
-
-
     };
-
   },
 
   sendUserNotFound(req, res, name) {
