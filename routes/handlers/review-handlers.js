@@ -109,6 +109,7 @@ let reviewHandlers = {
                 updatedDate
               });
               req.locale = language;
+              res.type('application/atom+xml');
               render.template(req, res, 'review-feed-atom', vars);
             } else {
               throw new Error(`Format '${options.format}' not supported.`);
