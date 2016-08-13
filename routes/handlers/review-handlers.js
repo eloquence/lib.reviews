@@ -71,7 +71,7 @@ let reviewHandlers = {
             embeddedFeeds.push({
               url: `${options.atomURLPrefix}/${req.locale}`,
               type: 'application/atom+xml',
-              title: req.__(options.atomURLTitleKey),
+              title: `[${req.locale}] ` + req.__(options.atomURLTitleKey),
               language: req.locale
             });
             // Now add all remaining languages to make them discoverable
@@ -81,7 +81,7 @@ let reviewHandlers = {
               embeddedFeeds.push({
                 url: `${options.atomURLPrefix}/${otherLanguage}`,
                 type: 'application/atom+xml',
-                title: req.__({
+                title: `[${otherLanguage}] ` + req.__({
                   phrase: options.atomURLTitleKey,
                   locale: otherLanguage
                 }),
