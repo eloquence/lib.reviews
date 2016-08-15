@@ -264,5 +264,6 @@
     "requests have been processed": "The selected requests have been processed. Thanks for being an active team maintainer!",
     "user feed": "Reviews by %s",
     "atom feed of all reviews": "Atom feed of all reviews",
-    "review feed label": "Review:"
+    "review feed label": "Review:",
+    "atom feed of reviews by this user": "Atom feed of all reviews by this user"
 }

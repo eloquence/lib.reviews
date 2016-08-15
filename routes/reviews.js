@@ -9,6 +9,7 @@ const db = require('../db');
 const r = db.r;
 const render = require('./helpers/render');
 const forms = require('./helpers/forms');
+const feeds = require('./helpers/feeds');
 const flashError = require('./helpers/flash-error');
 const ErrorMessage = require('../util/error.js');
 const Review = require('../models/review.js');
@@ -57,6 +58,11 @@ router.get('/', function(req, res, next) {
         post.populateUserInfo(req.user);
       });
 
+    let embeddedFeeds = feeds.getEmbeddedFeeds(req, {
+      atomURLPrefix: `/feed/atom`,
+      atomURLTitleKey: `atom feed of all reviews`,
+    });
+
     render.template(req, res, 'index', {
       titleKey: 'welcome',
       deferPageHeader: true,
@@ -64,17 +70,15 @@ router.get('/', function(req, res, next) {
       blogPosts,
       blogKey: config.frontPageTeamBlogKey,
       showBlog: config.frontPageTeamBlog ? true : false,
-      utcISODate: offsetDate ? offsetDate.toISOString() : null
+      utcISODate: offsetDate ? offsetDate.toISOString() : null,
+      embeddedFeeds
     });
   });
 
 });
 
 
-router.get('/feed', reviewHandlers.getFeedHandler({
-  atomURLPrefix: '/feed/atom',
-  atomURLTitleKey: 'atom feed of all reviews'
-}));
+router.get('/feed', reviewHandlers.getFeedHandler());
 
 router.get('/feed/atom', function(req, res) {
   res.redirect(`/feed/atom/${req.locale}`);

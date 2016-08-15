@@ -1,8 +1,8 @@
-<title xml:lang="{{currentLanguage.langKey}}">{{{__ titleKey}}}</title>
-<link href="{{{qualifiedURL}}}feed" />
-<link href="{{{qualifiedURL}}}feed/atom/{{currentLanguage.langKey}}" rel="self" />
+<title xml:lang="{{currentLanguage.langKey}}">{{{__ titleKey titleParam}}}</title>
+<link href="{{{htmlURL}}}" />
+<link href="{{{selfURL}}}" rel="self" />
 <updated>{{{isoDate updatedDate}}}</updated>
-<id>{{{qualifiedURL}}}feed</id>
+<id>{{{htmlURL}}}</id>
 {{#each feedItems}}
 <entry>
   <id>urn:uuid:{{{this.id}}}</id>

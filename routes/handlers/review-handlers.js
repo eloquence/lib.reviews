@@ -1,11 +1,16 @@
 'use strict';
+// External dependencies
 const escapeHTML = require('escape-html');
+const url = require('url');
+const config = require('config');
 
+// Internal dependencies
 const db = require('../../db');
 const r = db.r;
 const Review = require('../../models/review.js');
 const render = require('../helpers/render');
 const forms = require('../helpers/forms');
+const feeds = require('../helpers/feeds');
 const mlString = require('../../models/helpers/ml-string.js');
 const prettifyURL = require('../../util/url-utils').prettify;
 const languages = require('../../locales/languages');
@@ -16,10 +21,22 @@ let reviewHandlers = {
 
     options = Object.assign({ // Defaults
       titleKey: 'feed',
+      titleParam: undefined,
       template: 'feed',
+      // Show only reviews by users with isTrusted = true, useful as pre-screen
       onlyTrusted: false,
       deferPageHeader: false,
-      limit: 10
+      // Reviews per page, also applies to machine-readable feeds
+      limit: 10,
+      // Set to ID if we need to filter by user
+      createdBy: undefined,
+      // Anything else we need to pass into the template
+      extraVars: {},
+      // For <link> tags in generated output. The feed itself uses titleKey
+      // as the title.
+      atomURLPrefix: '/feed/atom',
+      atomURLTitleKey: 'atom feed of all reviews',
+      htmlURL: '/feed'
     }, options);
 
     return function(req, res, next) {
@@ -43,7 +60,8 @@ let reviewHandlers = {
         .getFeed({
           onlyTrusted: options.onlyTrusted,
           limit: options.limit,
-          offsetDate
+          offsetDate,
+          createdBy: options.createdBy
         })
         .then(result => {
 
@@ -63,41 +81,17 @@ let reviewHandlers = {
 
           });
 
-          // Configure embedded feeds (for the HTML output's <link> tag)
-          let embeddedFeeds = [];
-          if (options.atomURLPrefix && options.atomURLTitleKey) {
-            // Add current language (which is English by default) first, since
-            // many feed readers will only discover one feed per URL
-            embeddedFeeds.push({
-              url: `${options.atomURLPrefix}/${req.locale}`,
-              type: 'application/atom+xml',
-              title: `[${req.locale}] ` + req.__(options.atomURLTitleKey),
-              language: req.locale
-            });
-            // Now add all remaining languages to make them discoverable
-            let otherLanguages = languages.getAll();
-            delete otherLanguages[req.locale];
-            for (let otherLanguage in otherLanguages) {
-              embeddedFeeds.push({
-                url: `${options.atomURLPrefix}/${otherLanguage}`,
-                type: 'application/atom+xml',
-                title: `[${otherLanguage}] ` + req.__({
-                  phrase: options.atomURLTitleKey,
-                  locale: otherLanguage
-                }),
-                language: otherLanguage
-              });
-            }
-          }
-
           let vars = {
             titleKey: options.titleKey,
+            titleParam: options.titleParam,
             deferPageHeader: options.deferPageHeader,
             feedItems,
             utcISODate: offsetDate ? offsetDate.toISOString() : undefined,
             pageLimit: options.limit,
-            embeddedFeeds
+            embeddedFeeds: feeds.getEmbeddedFeeds(req, options)
           };
+
+          Object.assign(vars, options.extraVars);
 
           if (!options.format) {
             render.template(req, res, options.template, vars);
@@ -106,7 +100,9 @@ let reviewHandlers = {
               Object.assign(vars, {
                 layout: 'layout-atom',
                 language,
-                updatedDate
+                updatedDate,
+                selfURL: url.resolve(config.qualifiedURL, options.atomURLPrefix) + `/${language}`,
+                htmlURL: url.resolve(config.qualifiedURL, options.htmlURL)
               });
               req.locale = language;
               res.type('application/atom+xml');

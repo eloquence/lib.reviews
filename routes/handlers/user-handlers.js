@@ -2,11 +2,13 @@
 const escapeHTML = require('escape-html');
 
 const render = require('../helpers/render');
+const feeds = require('../helpers/feeds');
 const User = require('../../models/user');
 const Review = require('../../models/review');
 const flashError = require('../helpers/flash-error');
 const ErrorMessage = require('../../util/error');
 const UserMeta = require('../../models/user-meta');
+const reviewHandlers = require('./review-handlers');
 const md = require('markdown-it')({
   linkify: true,
   breaks: true,
@@ -57,7 +59,9 @@ let userHandlers = {
             });
         } else {
           user.meta
-            .newRevision(req.user, { tags: ['update-bio-via-user'] })
+            .newRevision(req.user, {
+              tags: ['update-bio-via-user']
+            })
             .then(metaRev => {
               if (metaRev.bio === undefined)
                 metaRev.bio = {};
@@ -136,6 +140,11 @@ let userHandlers = {
 
               let pageErrors = req.flash('pageErrors');
 
+              let embeddedFeeds = feeds.getEmbeddedFeeds(req, {
+                atomURLPrefix: `/user/${user.urlName}/feed/atom`,
+                atomURLTitleKey: `atom feed of reviews by this user`,
+              });
+
               render.template(req, res, 'user', {
                 titleKey: 'user',
                 titleParam: user.displayName,
@@ -148,7 +157,8 @@ let userHandlers = {
                 teams: user.teams,
                 modOf,
                 founderOf,
-                utcISODate: offsetDate ? offsetDate.toISOString() : undefined
+                utcISODate: offsetDate ? offsetDate.toISOString() : undefined,
+                embeddedFeeds
               });
             })
             .catch(error => next(error));
@@ -157,7 +167,11 @@ let userHandlers = {
     };
   },
 
-  getUserFeedHandler() {
+  getUserFeedHandler(options) {
+
+    options = Object.assign({
+      format: undefined
+    }, options);
 
     return function(req, res, next) {
 
@@ -179,32 +193,23 @@ let userHandlers = {
             return res.redirect(`/user/${user.urlName}/feed` + (offsetDate ?
               `/before/${offsetDate.toISOString()}` : ''));
           }
-          Review
-            .getFeed({
-              createdBy: user.id,
-              offsetDate
-            })
-            .then(result => {
-              let feedItems = result.feedItems;
-              let offsetDate = result.offsetDate;
-              for (let item of feedItems) {
-                item.populateUserInfo(req.user);
-                if (item.thing) {
-                  item.thing.populateUserInfo(req.user);
-                }
-              }
-              render.template(req, res, 'user-feed', {
-                userInfo: user,
-                feedItems,
-                titleKey: 'user feed',
-                titleParam: user.displayName,
-                userURL: `/user/${user.urlName}`,
-                deferPageHeader: true,
-                utcISODate: offsetDate ? offsetDate.toISOString() : undefined
-              });
-            })
-            .catch(error => next(error));
-        })
+
+          reviewHandlers.getFeedHandler({
+            format: options.format,
+            titleKey: 'user feed',
+            titleParam: user.displayName,
+            createdBy: user.id,
+            deferPageHeader: true,
+            atomURLPrefix: `/user/${user.urlName}/feed/atom`,
+            atomURLTitleKey: `atom feed of reviews by this user`,
+            htmlURL: `/user/${user.urlName}/feed`,
+            extraVars: {
+              userURL: `/user/${user.urlName}`,
+              userInfo: user
+            }
+          })(req, res, next);
+
+        }) // No user
         .catch(userHandlers.getUserNotFoundHandler(req, res, next, name));
     };
   },
