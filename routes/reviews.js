@@ -66,6 +66,13 @@ router.get('/', function(req, res, next) {
       atomURLTitleKey: `atom feed of all reviews`,
     });
 
+    if (config.frontPageTeamBlog) {
+      embeddedFeeds = embeddedFeeds.concat(feeds.getEmbeddedFeeds(req, {
+        atomURLPrefix: `/team/${config.frontPageTeamBlog}/blog/atom`,
+        atomURLTitleKey: config.frontPageTeamBlogKey
+      }));
+    }
+
     render.template(req, res, 'index', {
       titleKey: 'welcome',
       deferPageHeader: true,

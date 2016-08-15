@@ -1,0 +1,19 @@
+<title xml:lang="{{currentLanguage.langKey}}">{{{__ titleKey titleParam}}}</title>
+<link href="{{{htmlURL}}}" />
+<link href="{{{selfURL}}}" rel="self" />
+<updated>{{{isoDate updatedDate}}}</updated>
+<id>{{{htmlURL}}}</id>
+{{#each blogPosts}}
+<entry>
+  <id>urn:uuid:{{{this.id}}}</id>
+  <title xml:lang="{{getLang this.title}}">{{{mlString this.title false}}}</title>
+  <link href="{{{../qualifiedURL}}}team/{{this.teamID}}/post/{{this.id}}" />
+  <updated>{{isoDate this._revDate}}</updated>
+  <content type="html" xml:lang="{{getLang this.post.html}}">
+  {{mlString this.post.html false}}
+  </content>
+  <author>
+    <name>{{{this.creator.displayName}}}</name>
+    <uri>{{{../qualifiedURL}}}user/{{{this.creator.urlName}}}</uri>
+  </author>
+</entry>{{/each}}

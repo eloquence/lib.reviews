@@ -1,8 +1,17 @@
 'use strict';
+
+// External dependencies
+const config = require('config');
+const url = require('url');
+
+// Internal dependencies
 const AbstractBREADProvider = require('./abstract-bread-provider');
 const Team = require('../../models/team');
 const BlogPost = require('../../models/blog-post');
 const mlString = require('../../models/helpers/ml-string.js');
+const languages = require('../../locales/languages');
+const feeds = require('../helpers/feeds');
+
 class BlogPostProvider extends AbstractBREADProvider {
 
   constructor(req, res, next, options) {
@@ -15,12 +24,10 @@ class BlogPostProvider extends AbstractBREADProvider {
     this.actions.add.resourcePermissionCheck = this.userCanAdd;
     this.actions.browse.loadData = this.loadData;
 
-    this.actions.browseBefore = {
-      GET: this.browse_GET,
-      loadData: this.loadData,
-      titleKey: 'team blog',
-      preFlightChecks: []
-    };
+    // All the below are variations of browsing a blog's feed
+    this.actions.browseBefore = this.actions.browse;
+    this.actions.browseAtom = this.actions.browse;
+    this.actions.browseAtomDetectLanguage = this.actions.browse;
 
     // The base level class is checking the team permissions, but post-level
     // permissions, once created, are independent of team permissions, and
@@ -34,6 +41,16 @@ class BlogPostProvider extends AbstractBREADProvider {
   }
 
   browse_GET(team) {
+
+    if (this.action == 'browseAtomDetectLanguage')
+      return this.res.redirect(`/team/${team.id}/blog/atom/${this.req.locale}`);
+
+    if (this.language && !languages.isValid(this.language))
+      this.language = 'en';
+
+    // Ensure that all i18n for feeds is done using the specified language
+    if (this.language)
+      this.req.locale = this.language;
 
     let offsetDate;
 
@@ -49,17 +66,46 @@ class BlogPostProvider extends AbstractBREADProvider {
         let blogPosts = result.blogPosts;
         let offsetDate = result.offsetDate;
 
-        blogPosts.forEach(post => post.populateUserInfo(this.req.user));
+        // For Atom feed -- most recently updated item among the selected posts
+        let updatedDate;
+        blogPosts.forEach(post => {
+           post.populateUserInfo(this.req.user);
+           if (!updatedDate || post._revDate > updatedDate)
+             updatedDate = post._revDate;
+        });
 
-        this.renderTemplate('team-blog', {
+
+        let atomURLPrefix =  `/team/${team.id}/blog/atom`;
+        let atomURLTitleKey = 'atom feed of blog posts by team';
+        let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
+          atomURLPrefix,
+          atomURLTitleKey
+        });
+
+        let vars = {
           titleKey: this.actions[this.action].titleKey,
-          titleParam: mlString.resolve(this.req.language, team.name).str,
+          titleParam: mlString.resolve(this.req.locale, team.name).str,
           blogPosts,
           blogPostsUTCISODate: offsetDate ? offsetDate.toISOString() : undefined,
           team,
           teamURL: `/team/${team.id}`,
+          embeddedFeeds,
           deferPageHeader: true // link in title
-        });
+        };
+
+        if (this.action == 'browseAtom') {
+          Object.assign(vars, {
+            layout: 'layout-atom',
+            language: this.language,
+            updatedDate,
+            selfURL: url.resolve(config.qualifiedURL, `${atomURLPrefix}/${this.language}`),
+            htmlURL: url.resolve(config.qualifiedURL, `/team/${team.id}/blog`)
+          });
+          this.res.type('application/atom+xml');
+          this.renderTemplate('blog-feed-atom', vars);
+        } else {
+          this.renderTemplate('team-blog', vars);
+        }
       })
       .catch(error => this.next(error));
   }
