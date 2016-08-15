@@ -10,17 +10,18 @@
   <link href="{{{../qualifiedURL}}}review/{{this.id}}" />
   <updated>{{isoDate this._revDate}}</updated>
   <content type="html" xml:lang="{{getLang this.html}}">
-  &lt;p&gt;
-  &lt;b&gt;{{{__ "review feed label"}}}&lt;/b&gt;
-  &lt;a href="{{{../qualifiedURL}}}thing/{{this.thing.id}}"&gt;
+  {{#escapeHTML}}
+  <p><b>{{{__ "review feed label"}}}</b>
+  <a href="{{{../qualifiedURL}}}thing/{{{this.thing.id}}}">
   {{#if this.thing.label}}{{{mlString this.thing.label}}}{{else}}{{{prettify this.thing.urls.[0]}}}{{/if}}
-  &lt;/a&gt;
-  &lt;/p&gt;
-  {{mlString this.html false}}
-  &lt;p&gt;
+  </a>
+  </p>
+  {{{mlString this.html false}}}
+  <p>
   {{#times this.starRating}}
-  &lt;img src="{{{../../qualifiedURL}}}static/img/star-{{../this.starRating}}-full.svg" width="25" style="padding:3px;"{{#if @first}} alt="{{{__n "one or multiple stars" ../../this.starRating}}}"{{/if}}&gt;
+  <img src="{{{../../qualifiedURL}}}static/img/star-{{../this.starRating}}-full.svg" width="25" style="padding:3px;"{{#if @first}} alt="{{{__n "one or multiple stars" ../../this.starRating}}}"{{/if}}>
   {{/times}}
+  {{/escapeHTML}}
   </content>
   <author>
     <name>{{{this.creator.displayName}}}</name>

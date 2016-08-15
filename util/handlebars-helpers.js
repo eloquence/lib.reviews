@@ -3,6 +3,7 @@ const hbs = require('hbs');
 const mlString = require('../models/helpers/ml-string');
 const i18n = require('i18n');
 const langDefs = require('../locales/languages').getAll();
+const escapeHTML = require('escape-html');
 
 // Current iteration value will be passed as {{this}} into the block,
 // starts at 1 for more human-readable counts. First and last set @first, @last
@@ -20,6 +21,10 @@ hbs.registerHelper('times', function(n, block) {
     }).trim();
   }
   return rv;
+});
+
+hbs.registerHelper('escapeHTML', function(block) {
+  return escapeHTML(block.fn(this));
 });
 
 hbs.registerHelper('link', function(url, title) {
