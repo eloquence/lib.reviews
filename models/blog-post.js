@@ -80,11 +80,23 @@ BlogPost.getMostRecentBlogPosts = function(teamID, options) {
     throw new Error('We require a team ID to fetch blog posts.');
 
   options = Object.assign({ // Defaults
-    limit: 10
+    limit: 10,
+    // Only show posts older than this date. Must be JavaScript Date object.
+    offsetDate: undefined
   }, options);
 
-  let rv = BlogPost
-    .orderBy({
+
+
+  let query = BlogPost;
+
+  if (options.offsetDate && options.offsetDate.valueOf)
+    query = query.between(r.minval, r.epochTime(options.offsetDate.valueOf() / 1000), {
+      index: 'createdOn',
+      rightBound: 'open' // Do not return previous record that exactly matches offset
+    });
+
+
+  query = query.orderBy({
       index: r.desc('createdOn')
     })
     .filter({
@@ -97,19 +109,36 @@ BlogPost.getMostRecentBlogPosts = function(teamID, options) {
     })
     .filter({
       _revOf: false
-
     }, {
       default: true
     })
-    .limit(options.limit)
+    .limit(options.limit + 1) // One over limit to check if we need potentially another set
     .getJoin({
       creator: {
         _apply: seq => seq.without('password')
       }
     });
 
+  return new Promise((resolve, reject) => {
 
-  return rv;
+    query
+      .then(blogPosts => {
+
+        let result = {};
+
+        // At least one additional document available, set offset for pagination
+        if (blogPosts.length == options.limit + 1) {
+          result.offsetDate = blogPosts[options.limit - 1].createdOn;
+          blogPosts.pop();
+        }
+
+        result.blogPosts = blogPosts;
+
+        resolve(result);
+      })
+      .catch(error => reject(error));
+
+  });
 
 };
 

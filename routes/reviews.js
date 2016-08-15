@@ -34,7 +34,9 @@ router.get('/', function(req, res, next) {
   })];
 
   if (config.frontPageTeamBlog)
-    queries.push(BlogPost.getMostRecentBlogPosts(config.frontPageTeamBlog));
+    queries.push(BlogPost.getMostRecentBlogPosts(config.frontPageTeamBlog, {
+      limit: 10
+    }));
 
   Promise.all(queries)
 
@@ -43,7 +45,8 @@ router.get('/', function(req, res, next) {
     // Promise.all helpfully keeps order in which promises were passed
     let feedItems = queryResults[0].feedItems;
     let offsetDate = queryResults[0].offsetDate;
-    let blogPosts = queryResults[1];
+    let blogPosts = queryResults[1].blogPosts;
+    let blogPostsOffsetDate = queryResults[1].offsetDate;
 
     // Set review permissions
     feedItems.forEach(item => {
@@ -70,7 +73,11 @@ router.get('/', function(req, res, next) {
       blogPosts,
       blogKey: config.frontPageTeamBlogKey,
       showBlog: config.frontPageTeamBlog ? true : false,
+      team: config.frontPageTeamBlog ? {
+        id: config.frontPageTeamBlog
+      } : undefined,
       utcISODate: offsetDate ? offsetDate.toISOString() : null,
+      blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : null,
       embeddedFeeds
     });
   });
@@ -84,7 +91,9 @@ router.get('/feed/atom', function(req, res) {
   res.redirect(`/feed/atom/${req.locale}`);
 });
 
-router.get('/feed/atom/:language', reviewHandlers.getFeedHandler({format: 'atom'}));
+router.get('/feed/atom/:language', reviewHandlers.getFeedHandler({
+  format: 'atom'
+}));
 
 router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler());
 

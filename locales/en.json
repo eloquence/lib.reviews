@@ -194,7 +194,7 @@
     "need team-description": "We require a team description.",
     "need team-rules": "We require team rules.",
     "team title": "Team: %s",
-    "team blog subtitle": "Team blog: %s",
+    "team blog": "Team blog: %s",
     "latest blog posts": "Team blog",
     "join this team": "Join this team",
     "join": "Join",
@@ -265,5 +265,6 @@
     "user feed": "Reviews by %s",
     "atom feed of all reviews": "Atom feed of all reviews",
     "review feed label": "Review:",
-    "atom feed of reviews by this user": "Atom feed of all reviews by this user"
+    "atom feed of reviews by this user": "Atom feed of all reviews by this user",
+    "older blog posts": "Older blog posts"
 }

@@ -248,7 +248,10 @@ class TeamProvider extends AbstractBREADProvider {
     BlogPost.getMostRecentBlogPosts(team.id, {
         limit: 3
       })
-      .then(blogPosts => {
+      .then(result => {
+
+        let blogPosts = result.blogPosts;
+        let offsetDate = result.offsetDate;
 
         blogPosts.forEach(post => post.populateUserInfo(this.req.user));
 
@@ -260,6 +263,7 @@ class TeamProvider extends AbstractBREADProvider {
           joinErrors,
           pageMessages,
           founder,
+          blogPostsUTCISODate: offsetDate ? offsetDate.toISOString() : undefined,
           deferPageHeader: true // Two-column-layout
         });
 

@@ -7,11 +7,20 @@ class BlogPostProvider extends AbstractBREADProvider {
 
   constructor(req, res, next, options) {
     super(req, res, next, options);
+    this.actions.browse.titleKey = 'team blog';
     this.actions.add.titleKey = 'new blog post';
     this.actions.edit.titleKey = 'edit blog post';
     this.actions.delete.titleKey = 'delete blog post';
     this.actions.add.loadData = this.loadData;
     this.actions.add.resourcePermissionCheck = this.userCanAdd;
+    this.actions.browse.loadData = this.loadData;
+
+    this.actions.browseBefore = {
+      GET: this.browse_GET,
+      loadData: this.loadData,
+      titleKey: 'team blog',
+      preFlightChecks: []
+    };
 
     // The base level class is checking the team permissions, but post-level
     // permissions, once created, are independent of team permissions, and
@@ -22,6 +31,37 @@ class BlogPostProvider extends AbstractBREADProvider {
     // Team lookup failures take precedence, post lookup failures handled below
     this.messageKeyPrefix = 'team';
 
+  }
+
+  browse_GET(team) {
+
+    let offsetDate;
+
+    offsetDate = new Date(this.utcISODate);
+    if (!offsetDate || offsetDate == 'Invalid Date')
+      offsetDate = null;
+
+    BlogPost.getMostRecentBlogPosts(team.id, {
+        limit: 10,
+        offsetDate
+      })
+      .then(result => {
+        let blogPosts = result.blogPosts;
+        let offsetDate = result.offsetDate;
+
+        blogPosts.forEach(post => post.populateUserInfo(this.req.user));
+
+        this.renderTemplate('team-blog', {
+          titleKey: this.actions[this.action].titleKey,
+          titleParam: mlString.resolve(this.req.language, team.name).str,
+          blogPosts,
+          blogPostsUTCISODate: offsetDate ? offsetDate.toISOString() : undefined,
+          team,
+          teamURL: `/team/${team.id}`,
+          deferPageHeader: true // link in title
+        });
+      })
+      .catch(error => this.next(error));
   }
 
   read_GET(team) {
@@ -51,7 +91,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
     this.renderTemplate('blog-post-form', {
       titleKey: this.actions[this.action].titleKey,
-      pageErrors : !this.isPreview ? pageErrors : undefined,
+      pageErrors: !this.isPreview ? pageErrors : undefined,
       formValues,
       team,
       isPreview: this.isPreview,
@@ -105,23 +145,23 @@ class BlogPostProvider extends AbstractBREADProvider {
           return this.add_GET(team, formValues);
 
         blogPost.newRevision(this.req.user, {
-          tags: ['edit-via-form']
-        })
-        .then(newRev => {
-          newRev.title[language] = formValues.title[language];
-          newRev.post.text[language] = formValues.post.text[language];
-          newRev.post.html[language] = formValues.post.html[language];
-          newRev.save().then(savedRev => {
-            this.req.flash('pageMessages', this.req.__('edit saved'));
-            this.res.redirect(`/team/${team.id}/post/${newRev.id}`);
+            tags: ['edit-via-form']
           })
-          .catch(error => { // Problem saving  updates
+          .then(newRev => {
+            newRev.title[language] = formValues.title[language];
+            newRev.post.text[language] = formValues.post.text[language];
+            newRev.post.html[language] = formValues.post.html[language];
+            newRev.save().then(savedRev => {
+                this.req.flash('pageMessages', this.req.__('edit saved'));
+                this.res.redirect(`/team/${team.id}/post/${newRev.id}`);
+              })
+              .catch(error => { // Problem saving  updates
+                this.next(error);
+              });
+          })
+          .catch(error => { // Problem creating new revision
             this.next(error);
           });
-        })
-        .catch(error => { // Problem creating new revision
-          this.next(error);
-        });
 
       })
       .catch(this.getResourceErrorHandler('post', this.postID));
@@ -198,16 +238,16 @@ class BlogPostProvider extends AbstractBREADProvider {
           return false;
 
         blogPost.deleteAllRevisions(this.req.user, {
-          tags: 'delete-via-form'
-        })
-        .then(() => {
-          this.renderTemplate('post-deleted', {
-            titleKey: 'blog post deleted'
+            tags: 'delete-via-form'
+          })
+          .then(() => {
+            this.renderTemplate('post-deleted', {
+              titleKey: 'blog post deleted'
+            });
+          })
+          .catch(error => {
+            this.next(error);
           });
-        })
-        .catch(error => {
-          this.next(error);
-        });
 
       })
       .catch(this.getResourceErrorHandler('post', this.postID).bind(this));

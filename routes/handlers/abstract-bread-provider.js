@@ -222,6 +222,9 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
         action,
         method
       };
+
+      // We always initialize each provider with the provided IDs, trimmed
+      // and ready for use as object properties.
       idArray.forEach(id => options[id] = req.params[id].trim());
 
       let provider = new Provider(req, res, next, options);
@@ -231,7 +234,6 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
   };
 
   for (let action in routes) {
-
     // Extract variable placeholders
     let idMatches = routes[action].match(/\/:(.*?)(\/|$)/g);
     // Extract variable names

@@ -8,3 +8,9 @@
 {{else}}
 {{{__ "no blog posts"}}}
 {{/if}}
+<br>
+{{#if blogPostsUTCISODate}}
+<a class="pagination-link" href="/team/{{team.id}}/blog/before/{{blogPostsUTCISODate}}">
+<span class="fa fa-angle-double-left spaced-icon"></span>{{{__ "older blog posts"}}}
+</a>
+{{/if}}
