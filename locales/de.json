@@ -207,7 +207,7 @@
     "request membership": "Mitgliedschaft beantragen",
     "approval required to join": "Neue Mitglieder m&uuml;ssen von den Team-Moderatoren akzeptiert werden. Teile ihnen ein bisschen &uuml;ber dich mit und wie du gerne involviert sein m&ouml;chtest.",
     "must be trusted": "Um genau zu sein m&uuml;ssen dir andere Nutzer erst vertrauen, bevor du dies tun kannst. Schreibe Rezensionen, um  Vertrauen zu gewinnen.",
-    "team blog subtitle": "Team-Blog: %s",
+    "team blog": "Team-Blog: %s",
     "browse teams": "Team-Verzeichnis",
     "new blog post": "Neuen Blog-Beitrag schreiben",
     "blog post title": "Titel deines Beitrags",
@@ -263,5 +263,8 @@
     "user feed": "Rezensionen von %s",
     "atom feed of all reviews": "Atom-Feed aller Rezensionen",
     "review feed label": "Rezension:",
-    "atom feed of reviews by this user": "Atom-Feed aller Rezensionen dieses Benutzers"
+    "atom feed of reviews by this user": "Atom-Feed aller Rezensionen dieses Benutzers",
+    "older blog posts": "&Auml;ltere Blogbeitr&auml;ge",
+    "stale revision error title": "Veraltete Version",
+    "stale revision error": "Die angegebene Adresse zeigt auf eine veraltete Version, die nicht mehr ver&auml;ndert werden kann."
 }
