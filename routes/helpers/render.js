@@ -17,7 +17,7 @@ let render = {
     };
 
     if (extraJSConfig)
-      Object.assign(config, extraJSConfig);
+      Object.assign(jsConfig, extraJSConfig);
 
     vars.configScript = `window.config = ${JSON.stringify(jsConfig)};`;
 
