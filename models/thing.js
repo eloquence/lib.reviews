@@ -54,6 +54,42 @@ Object.assign(thingSchema, revision.getSchema());
 let Thing = thinky.createModel("things", thingSchema);
 
 Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Thing);
+
+// There _should_ only be one review per user+thing. But the user of the model
+// should be prepared to deal with edge cases where there might be more.
+Thing.define("getReviewsByUser", function(user) {
+  return new Promise((resolve, reject) => {
+
+    let Review = require('./review');
+
+    if (!user)
+      return resolve([]);
+
+    Review
+      .filter({
+        thingID: this.id,
+        createdBy: user.id
+      })
+      .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
+        default: true
+      })
+      .filter(r.row('_revOf').eq(false), { // Exclude old revisions
+        default: true
+      })
+      .getJoin({
+        creator: {
+          _apply: seq => seq.without('password')
+        }
+      })
+      .then(reviews => {
+        reviews.forEach(review => review.populateUserInfo(user));
+        resolve(reviews);
+      })
+      .catch(error => reject(error));
+
+  });
+});
+
 Thing.define("newRevision", revision.getNewRevisionHandler(Thing));
 Thing.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Thing));
 Thing.define("populateUserInfo", function(user) {

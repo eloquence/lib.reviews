@@ -12,6 +12,22 @@ const urlUtils = require('../../util/url-utils');
 let forms = {
 
   parseSubmission: function(req, options) {
+    options = Object.assign({
+      // A form schema that tells us what to do with specific fields
+      formDef: undefined,
+      // A globally unique key for this form that we can use to trigger
+      // certain configured actions, like adding a CAPTCHA to some forms
+      formKey: undefined,
+      // The language of content that is being processed. Currently we expect
+      // that a submission has exactly one language (i.e. not multiple
+      // languages being edited at the sam etime)
+      language: undefined,
+      // An array of field names that scan be skipped entirely. This is useful
+      // when a required field has been provided from a source outsied the form.
+      skipRequiredCheck: []
+    }, options);
+
+
     // Do not manipulate original form definition
     let formDef = Object.assign([], options.formDef);
     let formKey = options.formKey;
@@ -54,16 +70,20 @@ let forms = {
       // option in the form definition.
       let key = field.key || field.name;
 
-      if (!req.body[field.name] && field.required) {
-        req.flash('pageErrors', req.__(`need ${field.name}`));
-        hasRequiredFields = false;
-        continue;
+      // We can exempt fields from the check, e.g., because we already have
+      // the data for that field from another source than the form
+      if (!options.skipRequiredCheck || options.skipRequiredCheck.indexOf(field.name) == -1) {
+
+        if (!req.body[field.name] && field.required) {
+          req.flash('pageErrors', req.__(`need ${field.name}`));
+          hasRequiredFields = false;
+          continue;
+        }
       }
 
-      // No further processing on fields that have the "skipValue" option, e.g.,
-      // form processing or UI related fields. These won't be in the formValues
-      // object.
-      if (field.skipValue)
+      // No further processing on fields that have the "skipValue" option, or that
+      // bypass checks for other reasons. These won't be in the formValues object.
+      if (field.skipValue || options.skipRequiredCheck.indexOf(field.name) != -1)
         continue;
 
       switch (field.type) {

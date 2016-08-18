@@ -1,5 +1,6 @@
 'use strict';
-const Review = require('../../models/review.js');
+const Review = require('../../models/review');
+const Thing = require('../../models/thing');
 const AbstractBREADProvider = require('./abstract-bread-provider');
 const flashError = require('../helpers/flash-error');
 const mlString = require('../../models/helpers/ml-string.js');
@@ -14,6 +15,15 @@ class ReviewProvider extends AbstractBREADProvider {
     this.actions.edit.titleKey = 'edit review';
     this.actions.delete.titleKey = 'delete review';
     this.messageKeyPrefix = 'review';
+
+    this.actions.addFromThing = {
+      GET: this.addFromThing_GET,
+      POST: this.add_POST,
+      loadData: this.loadThing,
+      titleKey: 'new review',
+      preFlightChecks: [this.userIsSignedIn]
+    };
+
 
   }
 
@@ -39,9 +49,10 @@ class ReviewProvider extends AbstractBREADProvider {
 
   }
 
-  add_GET(formValues) {
+  add_GET(formValues, thing) {
 
     let pageErrors = this.req.flash('pageErrors');
+    let pageMessages = this.req.flash('pageMessages');
     let user = this.req.user;
     let showLanguageNotice = true;
 
@@ -63,13 +74,30 @@ class ReviewProvider extends AbstractBREADProvider {
       preview: this.preview,
       scripts: ['markdown-it.min.js', 'review.js'],
       showLanguageNotice,
+      pageMessages,
+      thing,
       editing: this.editing ? true : false
     }, {
       editing: this.editing ? true : false
     });
   }
 
-  add_POST() {
+  addFromThing_GET(thing) {
+
+    thing
+      .getReviewsByUser(this.req.user)
+      .then(reviews => {
+        if (reviews.length) {
+          this.req.flash('pageMessages', this.req.__('you already wrote a review'));
+          return this.res.redirect(`/review/${reviews[0].id}/edit`);
+        }
+        this.add_GET(undefined, thing);
+      })
+      .catch(error => this.next(error));
+
+  }
+
+  add_POST(thing) {
 
     this.isPreview = this.req.body['review-action'] == 'preview' ? true : false;
 
@@ -78,7 +106,9 @@ class ReviewProvider extends AbstractBREADProvider {
     let formData = this.parseForm({
       formDef: ReviewProvider.formDefs[formKey],
       formKey,
-      language
+      language,
+      // We don't need a URL if we're adding a review to an existing thing
+      skipRequiredCheck: thing && thing.id ? ['review-url'] : []
     });
 
     formData.formValues.createdBy = this.req.user.id;
@@ -88,10 +118,13 @@ class ReviewProvider extends AbstractBREADProvider {
     // We're previewing or have basic problems with the submission -- back to form
     if (this.isPreview || this.req.flashHas('pageErrors')) {
       formData.formValues.creator = this.req.user; // Needed for username link
-      return this.add_GET(formData.formValues);
+      return this.add_GET(formData.formValues, thing);
     }
 
     let reviewObj = Object.assign({}, formData.formValues);
+
+    if (thing && thing.id)
+      reviewObj.thing = thing;
 
     Review
       .create(reviewObj, {
@@ -103,7 +136,7 @@ class ReviewProvider extends AbstractBREADProvider {
       })
       .catch(errorMessage => {
         flashError(this.req, errorMessage, 'saving review');
-        this.add_GET(formData.formValues);
+        this.add_GET(formData.formValues, thing);
       });
 
   }
@@ -112,21 +145,31 @@ class ReviewProvider extends AbstractBREADProvider {
 
     return new Promise((resolve, reject) => {
       Review.getWithData(this.id).then(review => {
-        // For permission checks on associated thing
-        review.thing.populateUserInfo(this.req.user);
-        resolve(review);
-      })
-      .catch(error => {
-        reject(error);
-      });
+          // For permission checks on associated thing
+          review.thing.populateUserInfo(this.req.user);
+          resolve(review);
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
 
   }
 
+  loadThing() {
+
+    // Ensure we show "thing not found" error if user tries to create
+    // review from a nonexistent/stale/deleted thing
+    this.messageKeyPrefix = 'thing';
+    return Thing.getNotStaleOrDeleted(this.id);
+
+  }
+
+
   edit_GET(review) {
 
     this.editing = true;
-    this.add_GET(review);
+    this.add_GET(review, review.thing);
 
   }
 

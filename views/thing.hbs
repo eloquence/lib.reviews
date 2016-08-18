@@ -3,6 +3,7 @@
 {{> dismissible_notice icon="globe" messageKey="editing in language" id="language-notice-thing" csrfToken=csrfToken}}
 {{/if}}
 {{#if edit.label}}
+  <h1 id="page-header">{{{__ titleKey}}}</h1>
   <form class="pure-form pure-form-aligned" method="post" action="">
   <input type="text" class="pure-input-1-2" id="thing-edit-label" name="thing-label" value="{{mlString thing.label false}}" placeholder="{{{__ "enter label"}}}" size="64" data-auto-trim>
   <input type="hidden" value="{{csrfToken}}" name="_csrf">
@@ -13,9 +14,7 @@
   <p>
 {{else}}
   <h1 id="page-header">
-  {{#if (mlString thing.label)}}
-    {{{mlString thing.label}}}
-  {{/if}}
+  {{{getThingLabel thing}}}
   {{#if thing.userCanEdit}}
   <a href="/thing/{{thing.id}}/edit/label" id="add-label" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>
     {{#if (mlString thing.label)}}{{{__ "edit"}}}{{else}}{{{__ "add label"}}}{{/if}}
@@ -24,8 +23,8 @@
   </h1>
 {{/if}}
 
-{{#if thing.mainURL}}
-<span class="fa fa-external-link review-icon"></span>{{{link thing.mainURL (prettify thing.mainURL)}}}
+{{#if thing.urls}}
+<span class="fa fa-external-link review-icon"></span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}
 {{/if}}
 <div id="thing">
 <div id="thing-label"></div>
@@ -45,3 +44,24 @@
   {{/if}}
 </div>
 </div>
+{{#if userReviews}}
+<h2 class="sub-header-regular">{{{__ "your review"}}}</h2>
+{{>feed thingFeed=true feedItems=userReviews}}
+{{/if}}
+{{#if user}}
+{{#unless userReviews}}
+{{#unless edit.label}}
+<p>
+<a href="/new/review/thing/{{thing.id}}" id="add-review" class="pure-button button-rounded"><span class="fa fa-plus-circle spaced-icon"></span>{{{__ "add your review"}}}</a>
+{{/unless}}
+{{/unless}}
+{{else}}
+<br><br>
+<b>{{{__ "sign in to review"}}}</b>
+{{/if}}
+<br><br>
+
+{{#if feedItems}}
+<h2 class="sub-header-regular">{{#if userReviews}}{{{__ "other reviews"}}}{{else}}{{{__ "reviews"}}}{{/if}}</h2>
+{{>feed thingFeed=true}}
+{{/if}}

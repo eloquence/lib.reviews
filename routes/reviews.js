@@ -21,7 +21,14 @@ const BlogPost = require('../models/blog-post');
 
 // Standard routes
 
-let router = ReviewProvider.bakeRoutes('review');
+let routes = ReviewProvider.getDefaultRoutes('review');
+
+routes.addFromThing = {
+  path: '/new/review/thing/:id',
+  methods: ['GET', 'POST']
+};
+
+let router = ReviewProvider.bakeRoutes(null, routes);
 
 // Additional routes
 

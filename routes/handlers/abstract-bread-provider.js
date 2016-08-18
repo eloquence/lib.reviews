@@ -192,6 +192,30 @@ class AbstractBREADProvider {
 
 }
 
+AbstractBREADProvider.getDefaultRoutes = function(resource) {
+  // The default does not (yet) include a browse route.
+  // The code below parses the IDs in the route, so be careful adding
+  // non-standard patterns.
+  return {
+    add: {
+      path: `/new/${resource}`,
+      methods: ['GET', 'POST']
+    },
+    read: {
+      path: `/${resource}/:id`,
+      methods: ['GET']
+    },
+    edit: {
+      path: `/${resource}/:id/edit`,
+      methods: ['GET', 'POST']
+    },
+    delete: {
+      path: `/${resource}/:id/delete`,
+      methods: ['GET', 'POST']
+    }
+  };
+};
+
 // This registers default routes that are common for editable resources,
 // following a standard pattern.
 //
@@ -205,16 +229,9 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
   let Provider = this;
 
   if (!routes)
-  // Default does not (yet) include a browse route. Code below parses the
-  // route pattern, so be careful with non-standard patterns.
-    routes = {
-    add: `/new/${resource}`,
-    read: `/${resource}/:id`,
-    edit: `/${resource}/:id/edit`,
-    delete: `/${resource}/:id/delete`,
-  };
+    routes = this.getDefaultRoutes(resource);
 
-  let _bakeRoute = (action, method, route, idArray) => {
+  let _bakeRoute = (action, method, idArray) => {
 
     return function(req, res, next) {
 
@@ -235,14 +252,16 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
 
   for (let action in routes) {
     // Extract variable placeholders
-    let idMatches = routes[action].match(/\/:(.*?)(\/|$)/g);
+    let idMatches = routes[action].path.match(/\/:(.*?)(\/|$)/g);
     // Extract variable names
     let idArray = idMatches ? idMatches.map(id => id.match(/\w+/)[0]) : [];
 
-    router.get(routes[action], _bakeRoute(action, 'GET', routes[action], idArray));
-    // Routes with write acces must handle POST requests
-    if (action == 'edit' || action == 'add' || action == 'delete')
-      router.post(routes[action], _bakeRoute(action, 'POST', routes[action], idArray));
+    // Register router function for each specified method (GET, POST, etc.).
+    // The router methods like router.get() are lower case.
+    for (let method of routes[action].methods)
+      router[method.toLowerCase()](routes[action].path,
+        _bakeRoute(action, method, idArray));
+
   }
 
   return router;

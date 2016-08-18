@@ -46,6 +46,8 @@ let Review = thinky.createModel("reviews", reviewSchema);
 
 Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
+Thing.hasMany(Review, "reviews", "id", "thingID");
+
 Review.ensureIndex("createdOn");
 
 Review.define("newRevision", revision.getNewRevisionHandler(Review));
@@ -135,10 +137,18 @@ Review.create = function(reviewObj, options) {
 
 Review.findOrCreateThing = function(reviewObj) {
   return new Promise((resolve, reject) => {
+
+    // We have an existing thing to add this review to
+    if (reviewObj.thing)
+      return resolve(reviewObj.thing);
+
     Thing.filter(function(thing) {
         return thing('urls').contains(reviewObj.url);
       })
       .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
+        default: true
+      })
+      .filter(r.row('_revOf').eq(false), { // Exclude old revisions
         default: true
       })
       .then(things => {
@@ -196,13 +206,17 @@ Review.getWithData = function(id) {
 Review.getFeed = function(options) {
 
   options = Object.assign({
-    // ID of original author
+    // If defined, ID of original author to filter by
     createdBy: undefined,
-    // Only show reviews older than this date. Must be JavaScript Date object.
+    // If set to JS date, only show reviews older than this date
     offsetDate: undefined,
-    // exclude reviews by users that haven't been marked trusted yet. Will be
-    // applied after limit, so you might get < limit items.
+    // If true, exclude reviews by users that haven't been marked trusted yet.
+    // Will be applied after limit, so you might get < limit items.
     onlyTrusted: false,
+    // If defined, only show reviews of a certain thing.
+    thingID: undefined,
+    // If true, join on the associated thing
+    withThing: true,
     limit: 10
   }, options);
 
@@ -218,6 +232,10 @@ Review.getFeed = function(options) {
     index: r.desc('createdOn')
   });
 
+  if (options.thingID)
+    query = query.filter({
+      thingID: options.thingID
+    });
 
   if (options.createdBy)
     query = query.filter({
@@ -231,11 +249,14 @@ Review.getFeed = function(options) {
     .filter(r.row('_revOf').eq(false), { // Exclude old versions
       default: true
     })
-    .limit(options.limit + 1) // One over limit to check if we need potentially another set
-    .getJoin({
+    .limit(options.limit + 1); // One over limit to check if we need potentially another set
+
+  if(options.withThing)
+    query = query.getJoin({
       thing: true
-    })
-    .getJoin({
+    });
+
+  query = query.getJoin({
       creator: {
         _apply: seq => seq.without('password')
       }

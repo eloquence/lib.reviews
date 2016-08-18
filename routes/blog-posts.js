@@ -2,14 +2,38 @@
 const BlogPostProvider = require('./handlers/blog-post-provider');
 
 let router = BlogPostProvider.bakeRoutes(null, {
-  browse: '/team/:id/blog',
-  browseBefore: '/team/:id/blog/before/:utcISODate',
-  browseAtom: '/team/:id/blog/atom/:language',
-  browseAtomDetectLanguage: '/team/:id/blog/atom',
-  read: '/team/:id/post/:postID',
-  add: '/team/:id/new/post',
-  edit: '/team/:id/post/:postID/edit',
-  delete: '/team/:id/post/:postID/delete',
+  browse: {
+    path: '/team/:id/blog',
+    methods: ['GET']
+  },
+  browseBefore: {
+    path: '/team/:id/blog/before/:utcISODate',
+    methods: ['GET']
+  },
+  browseAtom: {
+    path: '/team/:id/blog/atom/:language',
+    methods: ['GET']
+  },
+  browseAtomDetectLanguage: {
+    path: '/team/:id/blog/atom',
+    methods: ['GET']
+  },
+  read: {
+    path: '/team/:id/post/:postID',
+    methods: ['GET']
+  },
+  add: {
+    path: '/team/:id/new/post',
+    methods: ['GET', 'POST']
+  },
+  edit: {
+    path: '/team/:id/post/:postID/edit',
+    methods: ['GET', 'POST']
+  },
+  delete: {
+    path: '/team/:id/post/:postID/delete',
+    methods: ['GET', 'POST']
+  }
 });
 
 module.exports = router;

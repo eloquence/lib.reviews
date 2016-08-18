@@ -99,10 +99,17 @@ body {
 }
 
 #sub-header {
+  margin-top: -0.67em // offset header's margin-bottom
+}
+
+.sub-header-regular, #sub-header, .inline-feed-title {
   color: @headerColor;
   font-weight:normal;
   font-style: italic;
-  margin-top: -0.67em // offset header's margin-bottom
+}
+
+.inline-feed-title {
+  margin-top: 0;
 }
 
 #logo {
@@ -351,6 +358,7 @@ a#abandon-draft, a#abandon-draft:visited {
   font-size:small;
 }
 
+a#add-review, a#add-review:visited, a#add-review:hover,
 a#add-team, a#add-team:visited, a#add-team:hover,
 a#add-label, a#add-label:visited, a#add-label:hover,
 a#edit-bio, a#edit-bio:visited, a#edit-bio:hover,
@@ -484,13 +492,6 @@ hr.feed-separator, hr.team-separator {
   font-weight: bold;
 }
 
-.inline-feed-title {
-  margin-top: 0;
-  font-size: 1.5em;
-  color: @headerColor;
-  font-style:italic;
-  font-weight:normal;
-}
 
 .intro-text, .team-info, .user-info {
   padding-right: 3em;

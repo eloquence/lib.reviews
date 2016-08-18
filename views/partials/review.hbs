@@ -1,5 +1,5 @@
 {{!We show a little headline identifying the item type in the feed view, but nowhere else}}
-
+{{#unless thingFeed}}
 <div class="thing-data">
 <b>{{{mlString review.thing.label}}}</b>
 {{!Show prettified URL, if available}}
@@ -8,10 +8,11 @@
 {{/if}}
 {{#if review.thing.id}}
 <div class="review-thing-link">
-{{> thing_link}}
+<span class="fa fa-info-circle spaced-icon"></span><a href="/thing/{{review.thing.id}}">{{{__ "more info"}}}</a>
 </div>
 {{/if}}
 </div>
+{{/unless}}
 <div class="review-rating">
 {{!Star rating. Per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
 {{#times review.starRating}}

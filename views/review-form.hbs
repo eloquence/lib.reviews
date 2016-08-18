@@ -1,4 +1,7 @@
 <div id="page-messages">
+{{#each pageMessages}}
+<div class="message-box">{{{this}}}</div>
+{{/each}}
 {{#if showLanguageNotice}}
 {{> dismissible_notice icon="globe" messageKey="writing a review in language" id="language-notice-review" csrfToken=csrfToken}}
 {{/if}}
@@ -30,6 +33,15 @@
 <input type="hidden" value="{{csrfToken}}" name="_csrf" id="review-token">
     <fieldset>
       <div class="pure-g">
+        {{#if thing}}
+        <div class="pure-u-1">
+          <div class="pure-control-group">
+            <label>{{#if editing}}{{{__ "editing review of"}}}{{else}}{{{__ "writing review of"}}}{{/if}}</label>
+            <a href="/thing/{{thing.id}}">{{{getThingLabel thing}}}</a>
+            <p>
+          </div>
+        </div>
+        {{else}}
         {{#unless editing}}
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
@@ -44,6 +56,7 @@
           {{>help input="review-url" helpLabel="url label" helpText="url help"}}
         </div>
         {{/unless}}
+        {{/if}}
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
               <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>

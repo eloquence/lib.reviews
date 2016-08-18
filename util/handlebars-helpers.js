@@ -1,9 +1,14 @@
 'use strict';
+
+// External dependencies
 const hbs = require('hbs');
-const mlString = require('../models/helpers/ml-string');
-const i18n = require('i18n');
-const langDefs = require('../locales/languages').getAll();
 const escapeHTML = require('escape-html');
+const i18n = require('i18n');
+
+// Internal dependencies
+const mlString = require('../models/helpers/ml-string');
+const langDefs = require('../locales/languages').getAll();
+const urlUtils = require('./url-utils');
 
 // Current iteration value will be passed as {{this}} into the block,
 // starts at 1 for more human-readable counts. First and last set @first, @last
@@ -37,9 +42,7 @@ hbs.registerHelper('userLink', function(user) {
 
 hbs.registerHelper('prettify', function(url) {
   if (url)
-    return url
-      .replace(/^.*?:\/\//, '') // strip protocol
-      .replace(/\/$/, ''); // remove trailing slashes for display only
+    return urlUtils.prettify(url);
   else
     return '';
 });
@@ -59,6 +62,26 @@ module.exports = function(req, res, next) {
   hbs.registerHelper('getLang', function(str) {
     let mlRv = mlString.resolve(req.locale, str);
     return mlRv ? mlRv.lang : undefined;
+  });
+
+  hbs.registerHelper('getThingLabel', function(thing) {
+
+    if (!thing || !thing.id)
+      return undefined;
+
+    let str;
+    if (thing.label)
+      str = mlString.resolve(req.locale, thing.label).str;
+
+    if (str)
+      return str;
+
+    // If we have no proper label, we can at least show the URL
+    if (thing.urls && thing.urls.length)
+      return urlUtils.prettify(thing.urls[0]);
+
+    return undefined;
+
   });
 
   hbs.registerHelper('isoDate', date => date && date.toISOString ? date.toISOString() : undefined);
