@@ -45,5 +45,8 @@
     "sisyphus.js": "^1.1.2",
     "thinky": "^2.3.4",
     "uglify-save-license": "^0.4.1"
+  },
+  "devDependencies": {
+    "memwatch-next": "^0.3.0"
   }
 }
