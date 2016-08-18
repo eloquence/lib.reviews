@@ -58,12 +58,15 @@ app.set('views', path.join(__dirname, 'views'));
 hbsutils.registerWatchedPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
-// Handlebars helpers that depend on request object, including i18n helpers
-app.use(hbsMiddlewareHelpers);
+
 
 app.use(cookieParser());
+app.use(i18n.init); // Requires cookie parser!
 
 app.use(useragent.express()); // expose UA object to req.useragent
+
+// Handlebars helpers that depend on request object, including i18n helpers
+app.use(hbsMiddlewareHelpers);
 
 const store = new RDBStore(r, {
   table: 'sessions'
@@ -79,6 +82,7 @@ app.use(session({
   },
   store
 }));
+
 app.use(flash());
 
 app.use(function(req, res, next) {
@@ -97,7 +101,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use(i18n.init);
 app.use(favicon(path.join(__dirname, 'static/img/favicon.ico')));
 
 app.use(app.get('env') == 'production' ?
