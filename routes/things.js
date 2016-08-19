@@ -19,44 +19,22 @@ const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const languages = require('../locales/languages');
 const feeds = require('./helpers/feeds');
 
-/* GET users listing. */
 router.get('/thing/:id', function(req, res, next) {
   let id = req.params.id.trim();
   Thing.getNotStaleOrDeleted(id)
-    .then(thing => {
+    .then(thing => loadThingAndReviews(req, res, next, thing))
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+});
 
-      let p1, p2;
-
-      thing.populateUserInfo(req.user);
-
-      // We don't use a join so we can use the orderBy index on this query.
-      p1 = Review.getFeed({
-        thingID: thing.id,
-        withThing: false
-      });
-
-      // Separate query for any reviews by the user. Populates with user info.
-      p2 = thing.getReviewsByUser(req.user);
-
-      Promise
-      .all([p1, p2])
-      .then(result => {
-
-        result[0].feedItems.forEach((review, index) => {
-          review.populateUserInfo(req.user);
-
-          // We obtain the user's own review(s) separately.
-          // They may not even appear in this feed since it has a limit.
-          if (review.userIsAuthor)
-            result[0].feedItems.splice(index, 1);
-
-        });
-        sendThing(req, res, thing, {
-          otherReviews: result[0],
-          userReviews: result[1]
-        });
-      })
-      .catch(error => next(error));
+router.get('/thing/:id/before/:utcisodate', function(req, res, next) {
+  let id = req.params.id.trim();
+  let utcISODate = req.params.utcisodate.trim();
+  Thing.getNotStaleOrDeleted(id)
+    .then(thing =>  {
+      let offsetDate = new Date(utcISODate);
+      if (!offsetDate || offsetDate == 'Invalid Date')
+        offsetDate = null;
+      loadThingAndReviews(req, res, next, thing, offsetDate);
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
@@ -164,6 +142,40 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
+function loadThingAndReviews(req, res, next, thing, offsetDate) {
+
+    let p1, p2;
+
+    thing.populateUserInfo(req.user);
+
+    // We don't use a join so we can use the orderBy index on this query.
+    p1 = Review.getFeed({
+      thingID: thing.id,
+      withThing: false,
+      withoutCreator: req.user.id, // Obtained separately below
+      offsetDate
+    });
+
+    // Separate query for any reviews by the user (might otherwise not be
+    // within the date range captured above). Populates with user info.
+    p2 = thing.getReviewsByUser(req.user);
+
+    Promise
+    .all([p1, p2])
+    .then(result => {
+
+      result[0].feedItems.forEach((review, index) => {
+        review.populateUserInfo(req.user);
+
+      });
+      sendThing(req, res, thing, {
+        otherReviews: result[0],
+        userReviews: result[1]
+      });
+    })
+    .catch(error => next(error));
+
+}
 
 function sendThing(req, res, thing, options) {
   options = Object.assign({
@@ -190,6 +202,9 @@ function sendThing(req, res, thing, options) {
     atomURLTitleKey: 'atom feed of all reviews of this item'
   });
 
+  let offsetDate = options.otherReviews && options.otherReviews.offsetDate ?
+    options.otherReviews.offsetDate : undefined;
+
   render.template(req, res, 'thing', {
     deferHeader: options.edit ? true : false,
     titleKey: options.edit ? options.edit.titleKey : undefined,
@@ -201,7 +216,8 @@ function sendThing(req, res, thing, options) {
     deferPageHeader: true,
     showLanguageNotice,
     userReviews: options.userReviews,
-    otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined
+    otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined,
+    utcISODate: offsetDate ? offsetDate.toISOString() : undefined
   });
 }
 

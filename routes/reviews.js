@@ -90,8 +90,8 @@ router.get('/', function(req, res, next) {
       team: config.frontPageTeamBlog ? {
         id: config.frontPageTeamBlog
       } : undefined,
-      utcISODate: offsetDate ? offsetDate.toISOString() : null,
-      blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : null,
+      utcISODate: offsetDate ? offsetDate.toISOString() : undefined,
+      blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : undefined,
       embeddedFeeds
     });
   });

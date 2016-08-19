@@ -217,6 +217,8 @@ Review.getFeed = function(options) {
     thingID: undefined,
     // If true, join on the associated thing
     withThing: true,
+    // If set, exclude reviews by a certain user ID
+    withoutCreator: undefined,
     limit: 10
   }, options);
 
@@ -236,6 +238,9 @@ Review.getFeed = function(options) {
     query = query.filter({
       thingID: options.thingID
     });
+
+  if (options.withoutCreator)
+    query = query.filter(r.row("createdBy").ne(options.withoutCreator));
 
   if (options.createdBy)
     query = query.filter({

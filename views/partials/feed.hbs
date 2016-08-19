@@ -8,9 +8,11 @@
 {{/unless}}
 {{/each}}
 <p>
+{{#unless noPagination}}
 {{#if utcISODate}}
-<a class="pagination-link" href="{{#if userFeed}}/user/{{userInfo.urlName}}/feed/before/{{utcISODate}}{{else}}/feed/before/{{utcISODate}}{{/if}}">
+<a class="pagination-link" href="{{#if userFeed}}/user/{{userInfo.urlName}}/feed/before/{{utcISODate}}{{else}}{{#if thingFeed}}/thing/{{thing.id}}/before/{{utcISODate}}{{else}}/feed/before/{{utcISODate}}{{/if}}{{/if}}">
 <span class="fa fa-angle-double-left spaced-icon"></span>{{{__ "older reviews"}}}
 </a>
 {{/if}}
+{{/unless}}
 </div>
