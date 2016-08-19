@@ -271,5 +271,7 @@
     "your review": "Deine Rezension",
     "reviews": "Rezensionen",
     "other reviews": "Andere Rezensionen",
-    "you already wrote a review": "Du hast bereits eine Rezension davon geschrieben. Du kannst sie untenstehend bearbeiten, wenn du m&ouml;chtest."
+    "you already wrote a review": "Du hast bereits eine Rezension davon geschrieben. Du kannst sie untenstehend bearbeiten, wenn du m&ouml;chtest.",
+    "reviews of": "Rezensionen von %s",
+    "atom feed of all reviews of this item": "Atom-Feed aller Rezensionen dieses Eintrags"
 }

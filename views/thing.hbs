@@ -61,7 +61,7 @@
 {{/if}}
 <br><br>
 
-{{#if feedItems}}
+{{#if otherReviews}}
 <h2 class="sub-header-regular">{{#if userReviews}}{{{__ "other reviews"}}}{{else}}{{{__ "reviews"}}}{{/if}}</h2>
-{{>feed thingFeed=true}}
+{{>feed thingFeed=true feedItems=otherReviews}}
 {{/if}}

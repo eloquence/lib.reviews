@@ -8,7 +8,8 @@ let feeds = {
   getEmbeddedFeeds(req, options) {
 
     options = Object.assign({
-      // must be provided, used for <link> tag metadata.
+      // Must be provided, used for <link> tag metadata. Prefix because we
+      // add multiple language keys
       atomURLPrefix: undefined,
       atomURLTitleKey: undefined
     }, options);

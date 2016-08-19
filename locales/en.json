@@ -271,5 +271,7 @@
     "other reviews": "Other reviews",
     "you already wrote a review": "You already wrote a review of this before. You can edit it below, if you like.",
     "add your review": "Add your review",
-    "editing review of": "Editing a review of"
+    "editing review of": "Editing a review of",
+    "reviews of": "Reviews of %s",
+    "atom feed of all reviews of this item": "Atom feed of all reviews of this item"
 }

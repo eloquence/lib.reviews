@@ -1,17 +1,23 @@
 'use strict';
+// External dependencies
 const express = require('express');
 const router = express.Router();
 const escapeHTML = require('escape-html');
 const thinky = require('../db');
 const r = thinky.r;
 const hbs = require('hbs');
+const url = require('url');
+const config = require('config');
 
+// Internal dependencies
 const Thing = require('../models/thing');
 const Review = require('../models/review');
 const mlString = require('../models/helpers/ml-string');
 const render = require('./helpers/render');
 const flashError = require('./helpers/flash-error');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
+const languages = require('../locales/languages');
+const feeds = require('./helpers/feeds');
 
 /* GET users listing. */
 router.get('/thing/:id', function(req, res, next) {
@@ -45,11 +51,59 @@ router.get('/thing/:id', function(req, res, next) {
             result[0].feedItems.splice(index, 1);
 
         });
-        sendThing(req, res, thing, false, result[0], result[1]);
+        sendThing(req, res, thing, {
+          otherReviews: result[0],
+          userReviews: result[1]
+        });
       })
       .catch(error => next(error));
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+});
+
+router.get('/thing/:id/atom/:language', function(req, res, next) {
+  let id = req.params.id.trim();
+  let language =req.params.language.trim();
+  Thing
+    .getNotStaleOrDeleted(id)
+    .then(thing => {
+
+      if (!languages.isValid(language))
+        return res.redirect(`/thing/${id}/atom/en`);
+
+      Review.getFeed({
+        thingID: thing.id,
+        withThing: false
+      })
+      .then(result => {
+
+
+        let updatedDate;
+        result.feedItems.forEach(review => {
+          if (!updatedDate || review.createdOn && review.createdOn > updatedDate)
+            updatedDate = review.createdOn;
+        });
+
+        req.setLocale(language);
+        res.type('application/atom+xml');
+        render.template(req, res, 'thing-feed-atom', {
+          titleKey: 'reviews of',
+          thing,
+          layout: 'layout-atom',
+          language,
+          updatedDate,
+          feedItems: result.feedItems,
+          selfURL: url.resolve(config.qualifiedURL, `/thing/${id}/atom/${language}`),
+          htmlURL: url.resolve(config.qualifiedURL, `/thing/${id}`)
+        });
+
+      })
+      .catch(error => next(error));
+
+
+    })
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+
 });
 
 router.get('/thing/:id/edit/label', function(req, res, next) {
@@ -71,7 +125,9 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
         label: true,
         titleKey: 'edit label'
       };
-      sendThing(req, res, thing, edit);
+      sendThing(req, res, thing, {
+        edit
+      });
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
@@ -109,26 +165,43 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
 });
 
 
-function sendThing(req, res, thing, edit, feed, userReviews) {
+function sendThing(req, res, thing, options) {
+  options = Object.assign({
+    // Set to an object that specifies which part of the thing are to be
+    // loaded into edit mode, e.g. { titleKey: 'some title', label: true },
+    // otherwise leave undefined
+    edit: undefined,
+    // Set to a feed of reviews not written by the currently logged in user
+    otherReviews: [],
+    // Set to a feed of reviews written by the currently logged in user.
+    userReviews: []
+  }, options);
+
   let pageErrors = req.flash('pageErrors');
   let showLanguageNotice = false;
   let user = req.user;
 
-  if (edit && req.method == 'GET' && (!user.suppressedNotices ||
+  if (options.edit && req.method == 'GET' && (!user.suppressedNotices ||
     user.suppressedNotices.indexOf('language-notice-thing') == -1))
     showLanguageNotice = true;
 
+  let embeddedFeeds = feeds.getEmbeddedFeeds(req, {
+    atomURLPrefix: `/thing/${thing.id}/atom`,
+    atomURLTitleKey: 'atom feed of all reviews of this item'
+  });
+
   render.template(req, res, 'thing', {
-    deferHeader: edit ? true : false,
-    titleKey: edit ? edit.titleKey : undefined,
+    deferHeader: options.edit ? true : false,
+    titleKey: options.edit ? options.edit.titleKey : undefined,
     titleString: hbs.handlebars.helpers.getThingLabel(thing),
     thing,
-    edit,
+    edit: options.edit,
     pageErrors,
+    embeddedFeeds,
     deferPageHeader: true,
     showLanguageNotice,
-    userReviews,
-    feedItems: feed ? feed.feedItems : undefined
+    userReviews: options.userReviews,
+    otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined
   });
 }
 
