@@ -2,8 +2,6 @@
 
 'use strict';
 
-const r = require('rethinkdb');
-
 /**
  * Module dependencies.
  */
