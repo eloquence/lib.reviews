@@ -152,7 +152,7 @@ function loadThingAndReviews(req, res, next, thing, offsetDate) {
     p1 = Review.getFeed({
       thingID: thing.id,
       withThing: false,
-      withoutCreator: req.user.id, // Obtained separately below
+      withoutCreator: req.user ? req.user.id : false, // Obtained separately below
       offsetDate
     });
 
