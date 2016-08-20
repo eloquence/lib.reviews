@@ -58,8 +58,6 @@ app.set('views', path.join(__dirname, 'views'));
 hbsutils.registerWatchedPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
-
-
 app.use(cookieParser());
 app.use(i18n.init); // Requires cookie parser!
 
