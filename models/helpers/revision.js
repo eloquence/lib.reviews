@@ -5,7 +5,7 @@ const type = thinky.type;
 
 let revision = {
 
-  getNewRevisionHandler: function(Model) {
+  getNewRevisionHandler(Model) {
     return function(user, options) {
       if (!options)
         options = {};
@@ -17,23 +17,25 @@ let revision = {
         oldRev._revOf = newRev.id;
         oldRev.id = undefined;
         oldRev.save().then(() => {
-          r.uuid().then(uuid => {
-            newRev._revID = uuid;
-            newRev._revUser = user.id;
-            newRev._revDate = new Date();
-            newRev._revTags = options.tags ? options.tags : undefined;
-            resolve(newRev);
-          }).catch(error => { // Problem getting ID
+            r.uuid().then(uuid => {
+                newRev._revID = uuid;
+                newRev._revUser = user.id;
+                newRev._revDate = new Date();
+                newRev._revTags = options.tags ? options.tags : undefined;
+                resolve(newRev);
+              })
+              .catch(error => { // Problem getting ID
+                reject(error);
+              });
+          })
+          .catch(error => { // Problem saving old rev
             reject(error);
           });
-        }).catch(error => { // Problem saving old rev
-          reject(error);
-        });
       });
     };
   },
 
-  getNotStaleOrDeletedHandler: function(Model) {
+  getNotStaleOrDeletedHandler(Model) {
 
     return function(id) {
 
@@ -60,7 +62,7 @@ let revision = {
 
   },
 
-  getFirstRevisionHandler: function(Model) {
+  getFirstRevisionHandler(Model) {
     return function(user, options) {
       if (!options)
         options = {};
@@ -75,14 +77,15 @@ let revision = {
             if (options.tags)
               firstRev._revTags = options.tags;
             resolve(firstRev);
-          }).catch(error => { // Problem getting ID
+          })
+          .catch(error => { // Problem getting ID
             reject(error);
           });
       });
     };
   },
 
-  getDeleteAllRevisionsHandler: function(Model) {
+  getDeleteAllRevisionsHandler(Model) {
     return function(user, options) {
       if (!options)
         options = {};
@@ -114,18 +117,26 @@ let revision = {
                     _revDeleted: true
                   }));
               });
-          }).catch(error => {
+          })
+          .catch(error => {
             reject(error); // Something went wrong with revision creation
           });
       });
     };
   },
 
-  getSchema: function() {
+  getSchema() {
     return {
-      _revUser: type.string().required(true),
-      _revDate: type.date().required(true),
-      _revID: type.string().uuid(4).required(true), // Set this for all revisions, including current
+      _revUser: type
+        .string()
+        .required(true),
+      _revDate: type
+        .date()
+        .required(true),
+      _revID: type
+        .string()
+        .uuid(4)
+        .required(true), // Set this for all revisions, including current
       _revOf: type.string(), // Only set if it's an old revision of an existing thing
       _revDeleted: type.boolean(), // Set to true for all deleted revisions (not all revisions have to be deleted)
       _revTags: [type.string()] // Optional tags to describe action performed through this revision, e.g. edit, delete, etc.

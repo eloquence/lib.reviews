@@ -5,7 +5,7 @@ let langObj;
 let languages = {
 
   // Produces new copy each time to avoid accidental manipulation
-  getAll: function() {
+  getAll() {
     return {
       'de': {
         messageKey: 'german'
@@ -16,7 +16,7 @@ let languages = {
     };
   },
 
-  isValid: function(langKey) {
+  isValid(langKey) {
     if (!langObj)
       langObj = languages.getAll();
 

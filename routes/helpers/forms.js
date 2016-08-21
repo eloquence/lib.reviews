@@ -11,7 +11,7 @@ const urlUtils = require('../../util/url-utils');
 
 let forms = {
 
-  parseSubmission: function(req, options) {
+  parseSubmission(req, options) {
     options = Object.assign({
       // A form schema that tells us what to do with specific fields
       formDef: undefined,
@@ -153,7 +153,7 @@ let forms = {
     };
   },
 
-  getQuestionCaptcha: function(formKey) {
+  getQuestionCaptcha(formKey) {
     let id;
     if (config.questionCaptcha.forms[formKey]) {
       id = Math.floor(Math.random() * config.questionCaptcha.captchas.length);
@@ -165,7 +165,7 @@ let forms = {
       return undefined;
   },
 
-  processCaptchaAnswer: function(req) {
+  processCaptchaAnswer(req) {
 
     let id = req.body['captcha-id'];
     let answerText = req.body['captcha-answer'];

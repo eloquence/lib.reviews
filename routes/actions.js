@@ -3,9 +3,7 @@
 // External dependencies
 const express = require('express');
 const router = express.Router();
-const i18n = require('i18n');
 const passport = require('passport');
-const config = require('config');
 
 // Internal dependencies
 const render = require('./helpers/render');
@@ -34,7 +32,6 @@ router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 router.post('/actions/change-language', function(req, res) {
   let maxAge = 1000 * 60 * 60 * 24 * 30; // cookie age: 30 days
   let lang = req.body.lang;
-  let referer = req.get('referer');
   let hasLanguageNotice = req.body['has-language-notice'] ? true : false;
 
   if (!languages.isValid(lang)) {
@@ -47,7 +44,6 @@ router.post('/actions/change-language', function(req, res) {
     httpOnly: true
   });
   req.locale = lang;
-
   // Don't show on pages with language notices on them, to avoid message overkill.
   if (!hasLanguageNotice)
     req.flash('siteMessages', req.__('notification language-changed'));

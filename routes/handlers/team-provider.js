@@ -3,7 +3,7 @@ const AbstractBREADProvider = require('./abstract-bread-provider');
 const Team = require('../../models/team');
 const mlString = require('../../models/helpers/ml-string.js');
 const BlogPost = require('../../models/blog-post');
-const feeds = require('../helpers/feeds')
+const feeds = require('../helpers/feeds');
 
 const escapeHTML = require('escape-html');
 
@@ -108,7 +108,6 @@ class TeamProvider extends AbstractBREADProvider {
   manageRequests_POST(team) {
 
     // We use a safe loop function in this method - quiet, jshint:
-    /*jshint loopfunc: true */
 
     team.populateUserInfo(this.req.user);
 
@@ -257,7 +256,7 @@ class TeamProvider extends AbstractBREADProvider {
 
         blogPosts.forEach(post => post.populateUserInfo(this.req.user));
 
-        let atomURLPrefix =  `/team/${team.id}/blog/atom`;
+        let atomURLPrefix = `/team/${team.id}/blog/atom`;
         let atomURLTitleKey = 'atom feed of blog posts by team';
         let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
           atomURLPrefix,

@@ -5,7 +5,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 // Internal deps
-const thinky = require('./db');
 const User = require('./models/user');
 
 passport.serializeUser(function(user, done) {

@@ -7,7 +7,7 @@ let mlString = {
   // Simple thinky type hack for multilingual strings, permitting only strings in
   // the supported languages defined in locales/ . Language keys like 'en'
   // function as object keys, so you can use syntax like "label.en" or "aliases.fr[0]"
-  getSchema: function(userOptions) {
+  getSchema(userOptions) {
 
     let options = {
       maxLength: undefined,
@@ -29,11 +29,14 @@ let mlString = {
 
     }
 
-    return type.object().schema(schema).allowExtra(false);
+    return type
+      .object()
+      .schema(schema)
+      .allowExtra(false);
 
   },
 
-  resolve: function(lang, strObj) {
+  resolve(lang, strObj) {
     if (strObj === undefined)
       return undefined;
 

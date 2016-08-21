@@ -7,7 +7,7 @@ let render = {
   // extraVars - object containing any vars we want to pass along to template
   // extraJSConfig - object containing any vars we want to expose to client-side
   //  scripts (must not contain sensitive data!)
-  template: function(req, res, view, extraVars, extraJSConfig) {
+  template(req, res, view, extraVars, extraJSConfig) {
 
     let vars = {};
 
@@ -40,7 +40,7 @@ let render = {
     vars.currentLanguage = {
       langKey: req.locale,
       messageKey: vars.languages[req.locale].messageKey,
-      label: req.__( vars.languages[req.locale].messageKey)
+      label: req.__(vars.languages[req.locale].messageKey)
     };
 
     if (req.csrfToken)
@@ -56,13 +56,13 @@ let render = {
 
   },
 
-  signinRequired: function(req, res, extraVars) {
+  signinRequired(req, res, extraVars) {
     render.template(req, res, 'signin-required', extraVars);
   },
 
   // Pass detailsKey in extraVars for message providing further details
   // about why permission is denied.
-  permissionError: function(req, res, extraVars) {
+  permissionError(req, res, extraVars) {
     res.status(403);
     render.template(req, res, 'permission-error', extraVars);
   },
@@ -70,7 +70,7 @@ let render = {
   // Pass titleKey and bodyKey in extraVars to explain the nature of the error
   // (e.g., page not found, stale revision). Don't forget to call
   // res.status as appropriate.
-  resourceError: function(req, res, extraVars) {
+  resourceError(req, res, extraVars) {
     render.template(req, res, 'resource-error', extraVars);
   }
 

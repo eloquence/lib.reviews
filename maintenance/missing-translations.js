@@ -4,6 +4,7 @@ const basePath = path.join(__dirname, '../locales');
 const langKeys = Object.keys(require(`${basePath}/languages`).getAll());
 const jsonfile = require('jsonfile');
 
+/* eslint no-sync: "off" */
 let enMessageKeys = Object.keys(jsonfile.readFileSync(`${basePath}/en.json`));
 
 for (let langKey of langKeys) {

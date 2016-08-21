@@ -2,7 +2,6 @@
 const thinky = require('../db');
 const r = thinky.r;
 const type = thinky.type;
-const Errors = thinky.Errors;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
@@ -84,8 +83,6 @@ BlogPost.getMostRecentBlogPosts = function(teamID, options) {
     // Only show posts older than this date. Must be JavaScript Date object.
     offsetDate: undefined
   }, options);
-
-
 
   let query = BlogPost;
 
