@@ -8,8 +8,8 @@
           "NODE_ENV": "development",
           "DEBUG": "libreviews:*"
         },
-        "watch": true,
-        "ignore_watch": [".git", "rethinkdb_data", "static/", "*.log"]
+        "watch": ["*.js", "*.json5", "process.json"],
+        "ignore_watch": ["static/**", "frontend/**"]
     },
     {
         "name": "app-production",
