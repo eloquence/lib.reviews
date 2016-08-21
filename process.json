@@ -20,7 +20,6 @@
           "NODE_ENV": "production",
           "DEBUG": "libreviews:*"
         },
-        "watch": true,
-        "ignore_watch": [".git", "rethinkdb_data", "static/", "*.log"]
+        "watch": false
     }]
 }
