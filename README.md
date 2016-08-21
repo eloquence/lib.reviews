@@ -2,7 +2,11 @@
 
 A free/libre code and information platform for reviews of absolutely anything.
 
-See [this libreplanet-discuss post](https://lists.gnu.org/archive/html/libreplanet-discuss/2016-05/msg00093.html) for background.
+The site is at: https://lib.reviews/
+
+At this point, you need an invite code to make an account. Follow [lib_reviews on Twitter](https://twitter.com/lib_reviews) and send a public ping, and we'll respond with the private invite code. To keep up with development, add our [development diary](https://lib.reviews/team/6bfc0390-e218-4cb7-a446-2046cb886435/blog) to your favorite feed reader.
+
+# Technical background
 
 Our technical choices include:
 
@@ -35,6 +39,12 @@ and running before starting the service.
 You can customize your development configuration by copying `config/default.json5`
 to `config/development.json5`. Finally, run `npm start` and visit `localhost`
 at the configured port number.
+
+The startup scripts use [pm2](https://www.npmjs.com/package/pm2), which you can
+safely install globally alongside the local version. It's a handy tool that
+keeps the process running in the background, balances it across multiple cores
+if available, lets you manage log files, etc. If for any reason you just want
+to run the server without pm2, you can always fire up `node bin/www` instead.
 
 Any pull requests must be under the [CC-0 License](./LICENSE). This project has
 adopted a [code of conduct](./CODE_OF_CONDUCT.md) to make sure all contributors
