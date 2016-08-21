@@ -1,0 +1,26 @@
+{
+    "apps": [{
+        "name": "app-development",
+        "script": "./bin/www.js",
+        "exec_mode": "cluster",
+        "instances": 0,
+        "env": {
+          "NODE_ENV": "development",
+          "DEBUG": "libreviews:*"
+        },
+        "watch": true,
+        "ignore_watch": [".git", "rethinkdb_data", "static/", "*.log"]
+    },
+    {
+        "name": "app-production",
+        "script": "./bin/www.js",
+        "exec_mode": "cluster",
+        "instances": 0,
+        "env": {
+          "NODE_ENV": "production",
+          "DEBUG": "libreviews:*"
+        },
+        "watch": true,
+        "ignore_watch": [".git", "rethinkdb_data", "static/", "*.log"]
+    }]
+}
