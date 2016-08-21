@@ -4,7 +4,7 @@ A free/libre code and information platform for reviews of absolutely anything.
 
 See [this libreplanet-discuss post](https://lists.gnu.org/archive/html/libreplanet-discuss/2016-05/msg00093.html) for background.
 
-Technical choices include:
+Our technical choices include:
 
 - Node.js LTS (currently the Node.js 4 series)
 - Express as lightweight framework
@@ -15,9 +15,8 @@ Technical choices include:
 - PureCSS for grid system & basic styling
 - Grunt as a build system
 - Babel to transpile ES6+ code
-
-Still TBD:
-- Testing framework - probably Mocha
+- ava as a test runner
+- pm2 for process management, monitoring and deployment
 
 This project follows a strong philosophy of progressive enhancement. That means that client-side UI features should always be optional, not required -- the primary functionality of the site should be available without JavaScript and on low-end devices.
 
@@ -33,7 +32,7 @@ stable release. Switch to your check-out directory and then run `npm install`.
 Run `grunt` to build the JavaScript. Make sure you also have RethinkDB up
 and running before starting the service.
 
-You can create a development configuration by copying `config/default.json5`
+You can customize your development configuration by copying `config/default.json5`
 to `config/development.json5`. Finally, run `npm start` and visit `localhost`
 at the configured port number.
 

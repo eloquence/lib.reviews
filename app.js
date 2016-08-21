@@ -32,132 +32,163 @@ const blogPosts = require('./routes/blog-posts');
 const api = require('./routes/api');
 const apiHelper = require('./routes/helpers/api');
 const things = require('./routes/things');
-const errors = require('./routes/errors');
+const ErrorProvider = require('./routes/errors');
 const debug = require('./util/debug');
-const render = require('./routes/helpers/render');
 const hbsMiddlewareHelpers = require('./util/handlebars-helpers.js');
 
-// Auth setup
-require('./auth');
+let initializedApp;
 
-// i18n setup
-i18n.configure({
-  locales: ['en', 'de'],
-  cookie: 'locale',
-  autoReload: true,
-  updateFiles: false,
-  directory: "" + __dirname + "/locales"
-});
+// Returns a promise that resolves once all asynchronous setup work has
+// completed and the app object can be used.
+function getApp() {
 
+  return new Promise((resolve, reject) => {
 
-// express setup
-const app = express();
+    if (initializedApp)
+      return resolve(initializedApp);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-hbsutils.registerWatchedPartials(__dirname + '/views/partials');
-app.set('view engine', 'hbs');
+    // Push promises into this array that need to resolve before the app itself
+    // is ready for use
+    let asyncJobs = [];
 
-app.use(cookieParser());
-app.use(i18n.init); // Requires cookie parser!
+    // Auth setup
+    require('./auth');
 
-app.use(useragent.express()); // expose UA object to req.useragent
-
-// Handlebars helpers that depend on request object, including i18n helpers
-app.use(hbsMiddlewareHelpers);
-
-const store = new RDBStore(r, {
-  table: 'sessions'
-});
-
-app.use(session({
-  key: 'libreviews_session',
-  resave: true,
-  saveUninitialized: true,
-  secret: config.get('sessionSecret'),
-  cookie: {
-    maxAge: config.get('sessionCookieDuration') * 1000 * 60
-  },
-  store
-}));
-
-app.use(flash());
-
-app.use(function(req, res, next) {
-  req.flashHas = (key) => {
-    if (!req.session || !req.session.flash || !req.session.flash[key])
-      return false;
-    else
-      return req.session.flash[key].length > 0;
-  };
-  next();
-});
-
-// Initialize Passport and restore authentication state, if any, from the
-// session.
-app.use(passport.initialize());
-app.use(passport.session());
+    // i18n setup
+    i18n.configure({
+      locales: ['en', 'de'],
+      cookie: 'locale',
+      autoReload: true,
+      updateFiles: false,
+      directory: "" + __dirname + "/locales"
+    });
 
 
-app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
+    // express setup
+    const app = express();
 
-app.use(app.get('env') == 'production' ?
-  logger('combined') :
-  logger('dev'));
+    // view engine setup
+    app.set('views', path.join(__dirname, 'views'));
+
+    asyncJobs.push(new Promise(resolveJob =>
+      hbsutils.registerWatchedPartials(__dirname + '/views/partials', undefined, () => resolveJob())
+    ));
+
+    app.set('view engine', 'hbs');
+
+    app.use(cookieParser());
+    app.use(i18n.init); // Requires cookie parser!
+
+    app.use(useragent.express()); // expose UA object to req.useragent
+
+    // Handlebars helpers that depend on request object, including i18n helpers
+    app.use(hbsMiddlewareHelpers);
+
+    const store = new RDBStore(r, {
+      table: 'sessions'
+    });
+
+    app.use(session({
+      key: 'libreviews_session',
+      resave: true,
+      saveUninitialized: true,
+      secret: config.get('sessionSecret'),
+      cookie: {
+        maxAge: config.get('sessionCookieDuration') * 1000 * 60
+      },
+      store
+    }));
+
+    app.use(flash());
+
+    app.use(function(req, res, next) {
+      req.flashHas = (key) => {
+        if (!req.session || !req.session.flash || !req.session.flash[key])
+          return false;
+        else
+          return req.session.flash[key].length > 0;
+      };
+      next();
+    });
+
+    // Initialize Passport and restore authentication state, if any, from the
+    // session.
+    app.use(passport.initialize());
+    app.use(passport.session());
 
 
-// API requests do not require CSRF protection (hence declared before CSRF
-// middleware), but session-authenticated POST requests do require the
-// X-Requested-With header to be set, which ensures they're subject to CORS
-// rules. This middleware also sets req.isAPI to true for API requests.
-app.use('/api', apiHelper.prepareRequest);
+    app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
+
+    if (config.get('logger'))
+      app.use(logger(config.get('logger')));
+
+    // API requests do not require CSRF protection (hence declared before CSRF
+    // middleware), but session-authenticated POST requests do require the
+    // X-Requested-With header to be set, which ensures they're subject to CORS
+    // rules. This middleware also sets req.isAPI to true for API requests.
+    app.use('/api', apiHelper.prepareRequest);
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+      extended: false
+    }));
 
 
-app.use(compression());
+    app.use(compression());
 
-app.use('/static/downloads', serveIndex(`${__dirname}/static/downloads`, {'icons': true, template: 'views/downloads.html'}));
+    app.use('/static/downloads', serveIndex(path.join(__dirname, 'static/downloads'), {
+      'icons': true,
+      template: path.join(__dirname, 'views/downloads.html')
+    }));
 
-let cssPath = path.join(__dirname, 'static', 'css');
-app.use('/static/css', lessMiddleware(cssPath));
-app.use('/static', express.static(path.join(__dirname, 'static')));
-app.use('/robots.txt', (req, res) => {
-  res.type('text');
-  res.send( 'User-agent: *\nDisallow: /api/\n');
-});
+    let cssPath = path.join(__dirname, 'static', 'css');
+    app.use('/static/css', lessMiddleware(cssPath));
+    app.use('/static', express.static(path.join(__dirname, 'static')));
+    app.use('/robots.txt', (req, res) => {
+      res.type('text');
+      res.send('User-agent: *\nDisallow: /api/\n');
+    });
 
-if (config.maintenanceMode) {
-  // Will not pass along control to any future routes but just render
-  // generic maintenance mode message instead
-  app.use('/', errors.maintenanceMode);
+    let errorProvider = new ErrorProvider(app);
+
+    if (config.maintenanceMode) {
+      // Will not pass along control to any future routes but just render
+      // generic maintenance mode message instead
+      app.use('/', errorProvider.maintenanceMode);
+    }
+
+    app.use('/api', api);
+
+    app.use(csrf());
+    app.use('/', pages);
+    app.use('/', reviews);
+    app.use('/', actions);
+    app.use('/', things);
+    app.use('/', teams);
+    app.use('/', blogPosts);
+    app.use('/user', users);
+
+    // Catches 404s and serves "not found" page
+    app.use(errorProvider.notFound);
+
+    // Catches the following:
+    // - bad JSON data in POST bodies
+    // - errors explicitly passed along with next(error)
+    // - other unhandled errors
+    app.use(errorProvider.generic);
+
+    Promise
+      .all(asyncJobs)
+      .then(() => {
+        let mode = app.get('env') == 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
+        debug.app(`App is up and running in ${mode} mode.`);
+        initializedApp = app;
+        resolve(app);
+      })
+      .catch(error => reject(error));
+
+  });
 }
 
-app.use('/api', api);
-
-app.use(csrf());
-app.use('/', pages);
-app.use('/', reviews);
-app.use('/', actions);
-app.use('/', things);
-app.use('/', teams);
-app.use('/', blogPosts);
-app.use('/user', users);
-
-// Catches 404s and serves "not found" page
-app.use(errors.notFound);
-
-// Catches the following:
-// - bad JSON data in POST bodies
-// - errors explicitly passed along with next(error)
-// - other unhandled errors
-app.use(errors.generic);
-
-let mode = app.get('env') == 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
-debug.app(`Running in ${mode} mode.`);
-
-module.exports = app;
+module.exports = getApp;

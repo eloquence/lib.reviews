@@ -6,45 +6,51 @@
  * Module dependencies.
  */
 
-const app = require('../app');
-const debug = require('../util/debug');
+const getApp = require('../app');
 const createServer = require('auto-sni'); // Server with Let's Encrypt support
 const config = require('config');
+let port;
 
-/**
- * Get port from environment and store in Express.
- */
+getApp()
+  .then(app => {
 
-var port = normalizePort(process.env.PORT || config.get('defaultPort'));
-app.set('port', port);
+    /**
+     * Get port from environment and store in Express.
+     */
 
-/**
- * Create HTTP server.
- */
-var server = createServer({
-  email: config.adminEmail,
-  agreeTos: true,
-  domains: config.httpsDomains,
-  debug: app.get('env') == 'production' ? false : true,
-  forceSSL: app.get('env') == 'production' ? true : false,
-  ports: {
-    http: port,
-    https: config.httpsPort
-  }
-}, app);
+    port = normalizePort(process.env.PORT || config.get('defaultPort'));
+    app.set('port', port);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-//server.listen(port);
-server.on('error', onError);
+    /**
+     * Create HTTP(S) server.
+     */
+    let server = createServer({
+      email: config.adminEmail,
+      agreeTos: true,
+      domains: config.httpsDomains,
+      // Debug setting for Let's Encrypt certificates.
+      debug: config.stageHTTPS,
+      forceSSL: config.forceHTTPS,
+      ports: {
+        http: port,
+        https: config.httpsPort
+      }
+    }, app);
+
+    server.on('error', onError);
+
+  })
+  .catch(error => {
+    throw error;
+  });
+
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  let port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -68,7 +74,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {

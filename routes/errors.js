@@ -8,32 +8,37 @@ const router = express.Router();
 const render = require('./helpers/render');
 const debug = require('../util/debug');
 
-let errors =  {
+class ErrorProvider {
 
-  maintenanceMode: function(req, res, next) {
+  constructor(app) {
+    this.app = app;
+    // Bind 'this' so we can pass methods into middleware unmodified
+    this.generic = this.generic.bind(this);
+    this.notFound = this.notFound.bind(this);
+    this.maintenanceMode = this.maintenanceMode.bind(this);
+  }
+
+  maintenanceMode(req, res, next) {
     if (req.path !== '/')
       return res.redirect('/');
 
     render.template(req, res, 'maintenance', {
       titleKey: 'maintenance mode'
     });
-  },
+  }
 
-  notFound: function(req, res, next) {
+  notFound(req, res, next) {
     var err = new Error('Not Found');
     res.status(404);
     render.template(req, res, '404', {
       titleKey: 'page not found title'
     });
-  },
+  }
 
-  generic: function(error, req, res, next) {
+  generic(error, req, res, next) {
 
     let showDetails;
-    // Not defined yet when this file is included, so required here instead.
-    let app = require('../app');
-
-    if (app.get('env') === 'development')
+    if (this.app.get('env') === 'development')
       showDetails = true;
     else
       showDetails = (req.user && req.user.showErrorDetails);
@@ -77,5 +82,6 @@ let errors =  {
       });
     }
   }
-};
-module.exports = errors;
+}
+
+module.exports = ErrorProvider;
