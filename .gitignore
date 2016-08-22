@@ -32,6 +32,9 @@ npm-debug.log
 # Development database
 rethinkdb_data
 
+# Test database
+rethinkdb_data_test
+
 # Compiled at runtime
 static/css/style.css
 
