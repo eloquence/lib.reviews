@@ -8,8 +8,9 @@
           "NODE_ENV": "development",
           "DEBUG": "libreviews:*"
         },
-        "watch": ["*.js", "*.json5", "process.json"],
-        "ignore_watch": ["static/**", "frontend/**"]
+        "min_uptime": "1h",
+        "watch": true,
+        "ignore_watch": ["static/**", "frontend/**", "rethinkdb_data*", "locales/*.json", ".git"]
     },
     {
         "name": "app-production",
@@ -20,6 +21,7 @@
           "NODE_ENV": "production",
           "DEBUG": "libreviews:*"
         },
-        "watch": false
+        "watch": false,
+        "min_uptime": "1m"
     }]
 }
