@@ -33,7 +33,7 @@
             "1tbs"
         ],
         "callback-return": "error",
-        "camelcase": "error",
+        "camelcase": "off",
         "comma-dangle": [
             "error",
             "only-multiline"
@@ -129,7 +129,7 @@
         "no-extend-native": "error",
         "no-extra-bind": "error",
         "no-extra-label": "error",
-        "no-extra-parens": "error",
+        "no-extra-parens": ["error", "all", {"conditionalAssign": false}],
         "no-floating-decimal": "error",
         "no-implicit-globals": "error",
         "no-implied-eval": "error",
@@ -246,7 +246,7 @@
         "valid-jsdoc": "error",
         "vars-on-top": "error",
         "wrap-iife": "error",
-        "wrap-regex": "error",
+        "wrap-regex": "off",
         "yield-star-spacing": "error",
         "yoda": [
             "error",
