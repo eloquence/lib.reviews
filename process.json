@@ -10,7 +10,7 @@
         },
         "min_uptime": "1h",
         "watch": true,
-        "ignore_watch": ["static/**", "frontend/**", "rethinkdb_data*", "locales/*.json", ".git"]
+        "ignore_watch": ["static/**", "frontend/**", "rethinkdb_data*", "locales/*.json", ".git", "views/**"]
     },
     {
         "name": "app-production",
