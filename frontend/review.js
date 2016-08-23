@@ -42,7 +42,7 @@
     $('#add-https').click(addHTTPS);
     sisyphus = $('#review-form').sisyphus({
       onRestore: processLoadedData,
-      excludeFields: $('#live-preview,#review-token')
+      excludeFields: $('#live-preview,#review-token,#review-language')
     });
   }
 
