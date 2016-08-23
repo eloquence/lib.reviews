@@ -1,11 +1,7 @@
 'use strict';
 const config = require('config');
 const escapeHTML = require('escape-html');
-const md = require('markdown-it')({
-  linkify: true,
-  breaks: true,
-  typographer: true
-});
+const md = require('../../util/md');
 const urlUtils = require('../../util/url-utils');
 
 
@@ -113,7 +109,7 @@ let forms = {
                 [options.language]: escapeHTML(req.body[field.name].trim())
               },
               html: {
-                [options.language]: md.render(req.body[field.name].trim())
+                [options.language]: md.render(req.body[field.name].trim(), {language: req.locale})
               }
             };
 
@@ -124,7 +120,7 @@ let forms = {
             };
 
             formValues[field.htmlKey] = {
-              [options.language]: md.render(req.body[field.name].trim())
+              [options.language]: md.render(req.body[field.name].trim(), {language: req.locale})
             };
           }
           break;

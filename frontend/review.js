@@ -1,9 +1,12 @@
+/* global $ */
+/* eslint prefer-reflect: "off" */
+
 (function() {
   'use strict';
 
   // Our form's behavior depends significantly on whether we're creating
   // a new review, or editing an old one.
-  let editing = config.editing;
+  let editing = window.config.editing;
   let textFields = editing ? '#review-title,#review-text' :
     '#review-url,#review-title,#review-text';
 
@@ -19,13 +22,6 @@
   // Highlight rating from POST request
   if (postRating)
     selectStar.apply($(`#star-button-${postRating}`)[0]);
-
-  // Markdown parser & options for live preview
-  let md = markdownit({
-    linkify: true,
-    breaks: true,
-    typographer: true
-  });
 
   // Register event handlers
 
@@ -79,7 +75,7 @@
 
   function validateURL() {
     let maybeURL = this.value;
-    let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+    let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
     let protocolRegex = /^(https?|ftp):\/\//;
     if (maybeURL && !urlRegex.test(maybeURL)) {
       $('#review-url-error').show();
@@ -110,7 +106,7 @@
     let rating = Number($('#review-rating').val());
 
     // Trim just in case whitespace got persisted
-    $('input[data-auto-trim],textarea[data-auto-trim]').each(libreviews.trimInput);
+    $('input[data-auto-trim],textarea[data-auto-trim]').each(window.libreviews.trimInput);
 
     // Only show notice if we've actually recovered some data
     if (rating || $('#review-url').val() || $('#review-title').val() || $('#review-text').val()) {
@@ -122,23 +118,6 @@
 
     // Show URL issues if appropriate
     validateURL.apply($('#review-url')[0]);
-  }
-
-  // For extended info we don't always need
-  function showExtraFields() {
-    $('#extra-fields').toggle(200);
-    $('#extra-fields-collapsed').toggle();
-    $('#extra-fields-expanded').toggle();
-    if (!$('#review-expand-extra-fields').val())
-      $('#review-expand-extra-fields').val(true);
-    else
-      $('#review-expand-extra-fields').val(undefined);
-  }
-
-  function maybeShowExtraFields(event) {
-    if (event.keyCode == 13 || event.keyCode == 32) {
-      showExtraFields.apply(this);
-    }
   }
 
   function clearStars(start) {
@@ -196,7 +175,7 @@
 
   function renderPreview() {
     let text = $('#review-text').val();
-    let parsed = md.render(text);
+    let parsed = window.markdown.render(text);
     let reviewURL = $('#review-url').val();
     let rating = $('#review-rating').val();
     if (reviewURL) {
@@ -211,7 +190,10 @@
 
     $('#preview-review-text').html(parsed);
     $('#preview-review-title').html(escapeHTML($('#review-title').val()));
-    $('#preview-review-byline-date').html(new Date().toLocaleString(config.language));
+    $('#preview-review-byline-date').html(new Date().toLocaleString(window.config.language));
+
+    // For handling events inside content, e.g., spoiler warnings
+    window.libreviews.updateContentClickHandlers();
   }
 
   function renderPreviewStars(rating) {
@@ -258,4 +240,4 @@
       .replace(/^.*?:\/\//, '') // strip protocol
       .replace(/\/$/, ''); // remove trailing slashes for display only
   }
-})();
+}());

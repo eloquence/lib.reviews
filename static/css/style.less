@@ -578,3 +578,35 @@ hr.feed-separator, hr.team-separator {
   width: 30em;
   height: 6em;
 }
+
+summary.content-warning-notice {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+div.dangerous-content {
+  margin-left: 1em;
+  display: none;
+}
+
+// Override standard caret, since it's not supported by all
+// browsers so we have to add our own anyway
+summary.content-warning-notice::-webkit-details-marker {
+    display: none;
+}
+
+summary.content-warning-notice {
+  display: inline; // Shrinks focus border on click
+}
+
+details.content-warning summary.content-warning-notice:before {
+  content: '\f0da';
+  font-family: 'FontAwesome';
+  padding-right: 5px;
+}
+
+details.content-warning[open] summary.content-warning-notice:before {
+  content: '\f0d7';
+  font-family: 'FontAwesome';
+  padding-right: 5px;
+}

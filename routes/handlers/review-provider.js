@@ -5,6 +5,7 @@ const AbstractBREADProvider = require('./abstract-bread-provider');
 const flashError = require('../helpers/flash-error');
 const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
+const md = require('../../util/md');
 
 class ReviewProvider extends AbstractBREADProvider {
 
@@ -72,13 +73,14 @@ class ReviewProvider extends AbstractBREADProvider {
       pageErrors: !this.isPreview ? pageErrors : undefined, // Don't show errors on preview
       isPreview: this.isPreview,
       preview: this.preview,
-      scripts: ['markdown-it.min.js', 'review.js'],
+      scripts: ['markdown.min.js', 'review.js'],
       showLanguageNotice,
       pageMessages,
       thing,
       editing: this.editing ? true : false
     }, {
-      editing: this.editing ? true : false
+      editing: this.editing ? true : false,
+      messages: md.getMarkdownMessages(this.req.locale)
     });
   }
 

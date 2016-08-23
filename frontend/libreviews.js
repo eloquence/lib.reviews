@@ -1,3 +1,6 @@
+/* global $, jQuery */
+/* eslint prefer-reflect: "off" */
+
 /*
  * Standard helper functions across lib.reviews pages, divided into jQuery
  * plugins and more lib.reviews-specific functionality.
@@ -10,7 +13,7 @@
   // Return any empty input elements among a selector of inputs
   $.fn.getEmptyInputs = function() {
     return this.filter(function() {
-      return (this.value === undefined || String(this.value) === '');
+      return this.value === undefined || String(this.value) === '';
     });
   };
 
@@ -123,7 +126,7 @@
   $('button[data-check-required]').attachRequiredFieldHandler();
 
   // Auto-trim all inputs with data-auto-trim
-  $('input[data-auto-trim],textarea[data-auto-trim]').change(libreviews.trimInput);
+  $('input[data-auto-trim],textarea[data-auto-trim]').change(window.libreviews.trimInput);
 
   // Add link anchors to long texts
   $('.long-text h2,.long-text h3').each(function() {
@@ -135,7 +138,7 @@
 
     // Attach dynamic help display for data-help-for="id" elements (to the "id"
     // element, typically an input)
-    $('[data-help-for]').each(function(){
+    $('[data-help-for]').each(function() {
       let inputID = $(this).attr('data-help-for');
       $(`#${inputID}`).focus(showInputHelp);
       $(`#${inputID}`).blur(hideInputHelp);
@@ -146,13 +149,34 @@
       let focused = $(':focus')[0];
 
       // Check if the currently focused element requires a help re-render
-      if (focused && $(`[data-help-for=${focused.id}]`).length)
+      if (focused && focused.id && $(`[data-help-for=${focused.id}]`).length)
         showInputHelp.apply(focused);
     });
   }
 
   // Focus input
   $('[data-focus]').focus();
+
+  // Some click handlers exist inside content which may be dynamically generated.
+  window.libreviews.updateContentClickHandlers = () => {
+    $('summary.content-warning-notice').click(toggleDangerousContent);
+  };
+
+  window.libreviews.updateContentClickHandlers();
+
+  // For content which is hidden by default and can be expanded, e.g., spoiler
+  // warnings, NSFW warnings
+  function toggleDangerousContent(event) {
+      if ($(this).parent().is('[open]')) {
+        $(this).next('.dangerous-content').slideUp(200, () => {
+          $(this).parent().removeAttr('open');
+        });
+      } else {
+        $(this).parent().attr('open', '');
+        $(this).next('.dangerous-content').slideDown(200);
+      }
+      event.preventDefault();
+  }
 
   function showInputHelp() {
     let id = this.id;
@@ -191,4 +215,4 @@
       $(`#${id}-help`).hide();
   }
 
-})();
+}());

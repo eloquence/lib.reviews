@@ -273,5 +273,7 @@
     "add your review": "Add your review",
     "editing review of": "Editing a review of",
     "reviews of": "Reviews of %s",
-    "atom feed of all reviews of this item": "Atom feed of all reviews of this item"
+    "atom feed of all reviews of this item": "Atom feed of all reviews of this item",
+    "spoiler warning": "Warning: The text below contains spoilers.",
+    "nsfw warning": "Warning: The content below may not be safe for work (NSFW)."
 }

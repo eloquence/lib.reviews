@@ -9,11 +9,7 @@ const flashError = require('../helpers/flash-error');
 const ErrorMessage = require('../../util/error');
 const UserMeta = require('../../models/user-meta');
 const reviewHandlers = require('./review-handlers');
-const md = require('markdown-it')({
-  linkify: true,
-  breaks: true,
-  typographer: true
-});
+const md = require('../../util/md');
 
 let userHandlers = {
 
@@ -47,7 +43,7 @@ let userHandlers = {
             originalLanguage: bioLanguage
           };
           bioObj.bio.text[bioLanguage] = escapeHTML(bio);
-          bioObj.bio.html[bioLanguage] = md.render(bio);
+          bioObj.bio.html[bioLanguage] = md.render(bio, {language: req.locale});
           bioObj.originalLanguage = bioLanguage;
           User
             .createBio(user, bioObj)
@@ -67,7 +63,7 @@ let userHandlers = {
                 metaRev.bio = {};
 
               metaRev.bio.text[bioLanguage] = escapeHTML(bio);
-              metaRev.bio.html[bioLanguage] = md.render(bio);
+              metaRev.bio.html[bioLanguage] = md.render(bio, {language:req.locale});
               metaRev
                 .save()
                 .then(() => {

@@ -273,5 +273,7 @@
     "other reviews": "Andere Rezensionen",
     "you already wrote a review": "Du hast bereits eine Rezension davon geschrieben. Du kannst sie untenstehend bearbeiten, wenn du m&ouml;chtest.",
     "reviews of": "Rezensionen von %s",
-    "atom feed of all reviews of this item": "Atom-Feed aller Rezensionen dieses Eintrags"
+    "atom feed of all reviews of this item": "Atom-Feed aller Rezensionen dieses Eintrags",
+    "spoiler warning": "Warnung: Der untenstehende Text enth&auml;lt Spoiler.",
+    "nsfw warning": "Warning: Der untentstehende Inhalt ist explizit und kann f&uuml;r die Betrachtung am Arbeitsplatz ungeeignet sein."
 }
