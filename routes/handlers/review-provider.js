@@ -1,4 +1,8 @@
 'use strict';
+// External dependencies
+const Reflect = require('harmony-reflect');
+
+// Internal dependencies
 const Review = require('../../models/review');
 const Thing = require('../../models/thing');
 const AbstractBREADProvider = require('./abstract-bread-provider');
@@ -212,7 +216,7 @@ class ReviewProvider extends AbstractBREADProvider {
         newRev.starRating = f.starRating;
         newRev
           .save()
-          .then(savedRev => {
+          .then(() => {
             this.req.flash('pageMessages', this.req.__('edit saved'));
             this.res.redirect(`/review/${newRev.id}`);
           })
@@ -232,14 +236,14 @@ class ReviewProvider extends AbstractBREADProvider {
     let pageErrors = this.req.flash('pageErrors');
 
     this.renderTemplate('delete-review', {
-      review: review,
+      review,
       pageErrors
     });
   }
 
   delete_POST(review) {
     let withThing = this.req.body['delete-thing'] ? true : false;
-    let formInfo = this.parseForm({
+    this.parseForm({
       formDef: ReviewProvider.formDefs['delete-review'],
       formKey: 'delete-review'
     });
@@ -253,13 +257,11 @@ class ReviewProvider extends AbstractBREADProvider {
     if (this.req.flashHas('pageErrors'))
       return this.delete_GET(review);
 
-    let options = {};
     let deleteFunc = withThing ?
       review.deleteAllRevisionsWithThing :
       review.deleteAllRevisions;
 
-    deleteFunc
-      .call(review, this.req.user)
+    Reflect.apply(deleteFunc, review, [this.req.user])
       .then(() => {
         this.renderTemplate('review-deleted', {
           titleKey: 'review deleted'

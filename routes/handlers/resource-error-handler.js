@@ -31,7 +31,7 @@ module.exports = function getResourceErrorHandler(req, res, next, messageKeyPref
         });
         break;
       default:
-        next(error);
+        return next(error);
     }
   };
 };

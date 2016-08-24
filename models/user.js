@@ -6,7 +6,6 @@ const r = thinky.r;
 const bcrypt = require('bcrypt-nodejs');
 const ErrorMessage = require('../util/error.js');
 const UserMeta = require('./user-meta');
-const mlString = require('./helpers/ml-string');
 
 const options = {
   maxChars: 128,
@@ -245,14 +244,11 @@ User.createBio = function(user, bioObj) {
 
 };
 
-
-
 function containsOnlyLegalCharacters(name) {
   if (options.illegalChars.test(name))
     throw new ErrorMessage('invalid username characters', [options.illegalCharsReadable]);
   else
     return true;
 }
-
 
 module.exports = User;

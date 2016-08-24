@@ -5,7 +5,7 @@ const api = require('../helpers/api');
 let actionHandler = {
 
   // Handler for hiding interface messages, announcements, etc., permanently for a given user
-  suppressNotice: function(req, res, next) {
+  suppressNotice(req, res, next) {
 
     let noticeType = req.body.noticeType.trim();
     let user = req.user;
@@ -58,8 +58,6 @@ let actionHandler = {
     }
 
   }
-
-
 
 };
 module.exports = actionHandler;

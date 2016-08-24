@@ -69,7 +69,7 @@ class TeamProvider extends AbstractBREADProvider {
       [team.createdBy]: true
     };
     let moderators = {};
-    team.moderators.forEach(moderator => moderators[moderator.id] = true);
+    team.moderators.forEach(moderator => (moderators[moderator.id] = true));
 
     this.renderTemplate('team-roster', {
       team,
@@ -127,7 +127,7 @@ class TeamProvider extends AbstractBREADProvider {
         let id = (key.match(/action\-(.*)$/) || [])[1];
 
         // Check if we do in fact have a join request that matches the action ID
-        let requestObj, requestIndex;
+        let requestIndex, requestObj;
         team.joinRequests.forEach((request, index) => {
           if (request.id == id) {
             requestObj = request;
@@ -138,7 +138,7 @@ class TeamProvider extends AbstractBREADProvider {
         // If we do, perform the appropriate wrok
         if (requestObj) {
           switch (this.req.body[key]) {
-            case 'reject':
+            case 'reject': {
               team.joinRequests[requestIndex].rejectionDate = new Date();
               team.joinRequests[requestIndex].rejectedBy = this.req.user.id;
               let reason = this.req.body[`reject-reason-${id}`];
@@ -146,11 +146,13 @@ class TeamProvider extends AbstractBREADProvider {
                 team.joinRequests[requestIndex].rejectionMessage = escapeHTML(reason);
               workToBeDone = true;
               break;
+            }
             case 'accept':
               team.members.push(team.joinRequests[requestIndex].user);
               team.joinRequests.splice(requestIndex, 1);
               workToBeDone = true;
               break;
+            // no default
           }
 
         }
@@ -195,7 +197,7 @@ class TeamProvider extends AbstractBREADProvider {
 
   loadDataWithJoinRequestDetails() {
 
-    return Team.getWithData(this.id, { withJoinRequestDetails: true });
+    return Team.getWithData(this.id, {withJoinRequestDetails: true});
 
   }
 

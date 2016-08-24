@@ -1,9 +1,5 @@
 'use strict';
 
-// External dependencies
-const express = require('express');
-const router = express.Router();
-
 // Internal dependencies
 const render = require('./helpers/render');
 const debug = require('../util/debug');
@@ -18,7 +14,7 @@ class ErrorProvider {
     this.maintenanceMode = this.maintenanceMode.bind(this);
   }
 
-  maintenanceMode(req, res, next) {
+  maintenanceMode(req, res) {
     if (req.path !== '/')
       return res.redirect('/');
 
@@ -27,21 +23,20 @@ class ErrorProvider {
     });
   }
 
-  notFound(req, res, next) {
-    var err = new Error('Not Found');
+  notFound(req, res) {
     res.status(404);
     render.template(req, res, '404', {
       titleKey: 'page not found title'
     });
   }
 
-  generic(error, req, res, next) {
+  generic(error, req, res) {
 
     let showDetails;
     if (this.app.get('env') === 'development')
       showDetails = true;
     else
-      showDetails = (req.user && req.user.showErrorDetails);
+      showDetails = req.user && req.user.showErrorDetails;
 
     res.status(error.status || 500);
 

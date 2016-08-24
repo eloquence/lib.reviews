@@ -1,4 +1,8 @@
 'use strict';
+// External dependencies
+const Reflect = require('harmony-reflect');
+
+// Internal dependencies
 const render = require('../helpers/render');
 const forms = require('../helpers/forms');
 const router = require('express').Router();
@@ -108,7 +112,7 @@ class AbstractBREADProvider {
     let mayProceed = true;
 
     for (let check of this.actions[this.action].preFlightChecks) {
-      let result = check.call(this);
+      let result = Reflect.apply(check, this);
       if (!result)
         mayProceed = false;
     }
@@ -117,19 +121,18 @@ class AbstractBREADProvider {
       return;
 
     if (!this.actions[this.action].loadData)
-      this.actions[this.action][this.method].call(this); // Call appropriate handler
+      Reflect.apply(this.actions[this.action][this.method], this); // Call appropriate handler
     else {
       // Asynchronously load data and show 404 if not found
-      this.actions[this.action]
-        .loadData.call(this)
+      Reflect.apply(this.actions[this.action].loadData, this)
         .then(data => {
 
           // If we have a permission check, only proceeds if it succeeds.
           // If we don't have a permission check, proceed.
           if (!this.actions[this.action].resourcePermissionCheck ||
-            this.actions[this.action].resourcePermissionCheck.call(this, data))
+            Reflect.apply(this.actions[this.action].resourcePermissionCheck, this, [data]))
 
-            this.actions[this.action][this.method].call(this, data);
+            Reflect.apply(this.actions[this.action][this.method], this, [data]);
 
         })
         .catch(this.getResourceErrorHandler(this.messageKeyPrefix, this.id));
@@ -231,7 +234,7 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
   if (!routes)
     routes = this.getDefaultRoutes(resource);
 
-  let _bakeRoute = (action, method, idArray) => {
+  function _bakeRoute (action, method, idArray) {
 
     return function(req, res, next) {
 
@@ -242,13 +245,13 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
 
       // We always initialize each provider with the provided IDs, trimmed
       // and ready for use as object properties.
-      idArray.forEach(id => options[id] = req.params[id].trim());
+      idArray.forEach(id => (options[id] = req.params[id].trim()));
 
       let provider = new Provider(req, res, next, options);
 
       provider.execute();
     };
-  };
+  }
 
   for (let action in routes) {
     // Extract variable placeholders

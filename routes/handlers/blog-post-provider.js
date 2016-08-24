@@ -75,7 +75,7 @@ class BlogPostProvider extends AbstractBREADProvider {
         });
 
 
-        let atomURLPrefix =  `/team/${team.id}/blog/atom`;
+        let atomURLPrefix = `/team/${team.id}/blog/atom`;
         let atomURLTitleKey = 'atom feed of blog posts by team';
         let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
           atomURLPrefix,
@@ -197,7 +197,7 @@ class BlogPostProvider extends AbstractBREADProvider {
             newRev.title[language] = formValues.title[language];
             newRev.post.text[language] = formValues.post.text[language];
             newRev.post.html[language] = formValues.post.html[language];
-            newRev.save().then(savedRev => {
+            newRev.save().then(() => {
                 this.req.flash('pageMessages', this.req.__('edit saved'));
                 this.res.redirect(`/team/${team.id}/post/${newRev.id}`);
               })
@@ -274,7 +274,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
   }
 
-  delete_POST(team) {
+  delete_POST() {
 
     BlogPost
       .getWithCreator(this.postID)

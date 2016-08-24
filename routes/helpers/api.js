@@ -1,11 +1,10 @@
 'use strict';
-const debug = require('../../util/debug');
 
 let api = {
 
   // Set the API flag for API requests, and ensure all API requests come either
   // from a browser or an application.
-  prepareRequest: function(req, res, next) {
+  prepareRequest(req, res, next) {
     req.isAPI = true;
     if (req.get('x-requested-with') != 'XMLHttpRequest' &&
       req.get('x-requested-with') != 'app') {
@@ -16,9 +15,9 @@ let api = {
       res.type('json');
       res.send(JSON.stringify(response, null, 2));
     } else
-      next();
+      return next();
   },
-  signinRequired: function(req, res) {
+  signinRequired(req, res) {
     let response = {};
     response.message = 'Could not perform action.';
     response.errors = ['Authentication required.'];

@@ -1,4 +1,8 @@
 'use strict';
+// External dependencies
+const Reflect = require('harmony-reflect');
+
+// Internal dependencies
 const languages = require('../../locales/languages');
 
 let feeds = {
@@ -27,7 +31,7 @@ let feeds = {
       });
       // Now add all remaining languages to make them discoverable
       let otherLanguages = languages.getAll();
-      delete otherLanguages[req.locale];
+      Reflect.deleteProperty(otherLanguages, req.locale);
       for (let otherLanguage in otherLanguages) {
         embeddedFeeds.push({
           url: `${options.atomURLPrefix}/${otherLanguage}`,

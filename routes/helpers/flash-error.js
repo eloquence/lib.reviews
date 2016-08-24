@@ -1,8 +1,10 @@
 'use strict';
 const debug = require('../../util/debug');
+const Reflect = require('harmony-reflect');
+
 module.exports = function flashErrorMessage(req, errorMessage, context) {
     if (errorMessage && errorMessage.constructor && errorMessage.constructor.name == 'ErrorMessage') {
-      req.flash('pageErrors', req.__.apply(this, errorMessage.toEscapedArray()));
+      req.flash('pageErrors', Reflect.apply(req.__, this, errorMessage.toEscapedArray()));
     } else {
       // May be standard JS Error. We'll log the details for inspection.
       req.flash('pageErrors', req.__('unknown error'));

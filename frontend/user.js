@@ -1,3 +1,4 @@
+/* global $ */
 (function() {
   'use strict';
   if ($('#bio-textarea').length) {
@@ -21,4 +22,4 @@
       $('#over-maximum-count').text(-1 * remaining);
     }
   }
-})();
+}());

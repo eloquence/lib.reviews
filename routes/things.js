@@ -3,8 +3,6 @@
 const express = require('express');
 const router = express.Router();
 const escapeHTML = require('escape-html');
-const thinky = require('../db');
-const r = thinky.r;
 const hbs = require('hbs');
 const url = require('url');
 const config = require('config');
@@ -12,7 +10,6 @@ const config = require('config');
 // Internal dependencies
 const Thing = require('../models/thing');
 const Review = require('../models/review');
-const mlString = require('../models/helpers/ml-string');
 const render = require('./helpers/render');
 const flashError = require('./helpers/flash-error');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
@@ -30,7 +27,7 @@ router.get('/thing/:id/before/:utcisodate', function(req, res, next) {
   let id = req.params.id.trim();
   let utcISODate = req.params.utcisodate.trim();
   Thing.getNotStaleOrDeleted(id)
-    .then(thing =>  {
+    .then(thing => {
       let offsetDate = new Date(utcISODate);
       if (!offsetDate || offsetDate == 'Invalid Date')
         offsetDate = null;
@@ -41,7 +38,7 @@ router.get('/thing/:id/before/:utcisodate', function(req, res, next) {
 
 router.get('/thing/:id/atom/:language', function(req, res, next) {
   let id = req.params.id.trim();
-  let language =req.params.language.trim();
+  let language = req.params.language.trim();
   Thing
     .getNotStaleOrDeleted(id)
     .then(thing => {
@@ -58,7 +55,7 @@ router.get('/thing/:id/atom/:language', function(req, res, next) {
 
         let updatedDate;
         result.feedItems.forEach(review => {
-          if (!updatedDate || review.createdOn && review.createdOn > updatedDate)
+          if (!updatedDate || (review.createdOn && review.createdOn > updatedDate))
             updatedDate = review.createdOn;
         });
 
@@ -125,7 +122,7 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
           if (!newRev.label)
             newRev.label = {};
           newRev.label[req.body['thing-label-language']] = escapeHTML(req.body['thing-label']);
-          newRev.save().then(thing => {
+          newRev.save().then(() => {
               res.redirect(`/thing/${id}`);
             })
             .catch(error => {
@@ -164,7 +161,7 @@ function loadThingAndReviews(req, res, next, thing, offsetDate) {
     .all([p1, p2])
     .then(result => {
 
-      result[0].feedItems.forEach((review, index) => {
+      result[0].feedItems.forEach(review => {
         review.populateUserInfo(req.user);
 
       });

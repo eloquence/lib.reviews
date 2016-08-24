@@ -1,7 +1,6 @@
 'use strict';
 const thinky = require('../db');
 const type = thinky.type;
-const Errors = thinky.Errors;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;

@@ -4,6 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const config = require('config');
 
 // Internal dependencies
 const render = require('./helpers/render');
@@ -30,7 +31,7 @@ const formDefs = {
 router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 
 router.post('/actions/change-language', function(req, res) {
-  let maxAge = 1000 * 60 * 60 * 24 * 30; // cookie age: 30 days
+  let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
   let lang = req.body.lang;
   let hasLanguageNotice = req.body['has-language-notice'] ? true : false;
 
@@ -40,7 +41,7 @@ router.post('/actions/change-language', function(req, res) {
   }
 
   res.cookie('locale', lang, {
-    maxAge, // FIXME: should be from config
+    maxAge,
     httpOnly: true
   });
   req.locale = lang;

@@ -11,7 +11,7 @@ const debug = {
   //   req: Request object, if available
   //   error: standard error object
   // }
-  error: function(errorObj) {
+  error(errorObj) {
     let log = debugModule('libreviews:error');
     if (!errorObj.context && errorObj.req && errorObj.req.route)
       errorObj.context = `Route ${errorObj.req.route.path}`;
@@ -24,7 +24,7 @@ const debug = {
         if (typeof errorObj.req.body == "object")
           log(JSON.stringify(errorObj.req.body, null, 2));
         else
-          log (errorObj.req.body.toString());
+          log(errorObj.req.body.toString());
       }
     }
     if (errorObj && errorObj.error) {

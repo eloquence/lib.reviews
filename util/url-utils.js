@@ -14,7 +14,7 @@ let converterRules = [{
 
 let urlUtils = {
 
-  normalize: function (inputURL) {
+  normalize(inputURL) {
     let outputURL;
     let parsedURL = url.parse(inputURL);
 

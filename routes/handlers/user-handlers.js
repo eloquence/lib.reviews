@@ -7,7 +7,6 @@ const User = require('../../models/user');
 const Review = require('../../models/review');
 const flashError = require('../helpers/flash-error');
 const ErrorMessage = require('../../util/error');
-const UserMeta = require('../../models/user-meta');
 const reviewHandlers = require('./review-handlers');
 const md = require('../../util/md');
 
@@ -33,7 +32,6 @@ let userHandlers = {
           return res.redirect(`/user/${user.urlName}/edit/bio`);
         }
 
-        let p;
         if (user.meta === undefined || user.meta.bio === undefined) {
           let bioObj = {
             bio: {
@@ -63,7 +61,7 @@ let userHandlers = {
                 metaRev.bio = {};
 
               metaRev.bio.text[bioLanguage] = escapeHTML(bio);
-              metaRev.bio.html[bioLanguage] = md.render(bio, {language:req.locale});
+              metaRev.bio.html[bioLanguage] = md.render(bio, {language: req.locale});
               metaRev
                 .save()
                 .then(() => {
@@ -126,7 +124,7 @@ let userHandlers = {
 
               // For easy lookup in template
               let modOf = {};
-              user.moderatorOf.forEach(t => modOf[t.id] = true);
+              user.moderatorOf.forEach(t => (modOf[t.id] = true));
 
               let founderOf = {};
               user.teams.forEach(t => {
@@ -223,7 +221,7 @@ let userHandlers = {
       if (error.name == 'DocumentNotFoundError')
         userHandlers.sendUserNotFound(req, res, name);
       else
-        next(error);
+        return next(error);
     };
   }
 

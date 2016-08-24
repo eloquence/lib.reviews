@@ -1,7 +1,6 @@
 'use strict';
 const thinky = require('../db');
 const type = thinky.type;
-const r = thinky.r;
 const Team = require('./team');
 const User = require('./user');
 

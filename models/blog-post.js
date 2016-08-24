@@ -7,7 +7,10 @@ const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
 const User = require('./user');
 
+/* eslint-disable newline-per-chained-call */ /* for schema readability */
+
 let blogPostSchema = {
+
   id: type.string(),
   teamID: type.string().uuid(4),
   title: mlString.getSchema({
@@ -24,6 +27,8 @@ let blogPostSchema = {
   userCanEdit: type.virtual().default(false),
   userCanDelete: type.virtual().default(false)
 };
+
+/* eslint-enable newline-per-chained-call */
 
 // Add versioning related fields
 Object.assign(blogPostSchema, revision.getSchema());

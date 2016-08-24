@@ -1,7 +1,6 @@
 'use strict';
 const thinky = require('../db');
 const type = thinky.type;
-const Errors = thinky.Errors;
 const r = thinky.r;
 const mlString = require('./helpers/ml-string');
 
@@ -14,6 +13,9 @@ const isValidLanguage = require('../locales/languages').isValid;
 const options = {
   maxTitleLength: 255
 };
+
+/* eslint-disable newline-per-chained-call */
+/* for schema readability */
 
 let reviewSchema = {
   id: type.string().uuid(4),
@@ -37,6 +39,9 @@ let reviewSchema = {
   userCanEdit: type.virtual().default(false),
   userIsAuthor: type.virtual().default(false)
 };
+
+/* eslint-enable newline-per-chained-call */
+/* for schema readability */
 
 // Add versioning related fields
 Object.assign(reviewSchema, revision.getSchema());
@@ -170,7 +175,8 @@ Review.findOrCreateThing = function(reviewObj) {
             reject(error);
           });
         }
-      }).catch(error => {
+      })
+      .catch(error => {
         // Most likely, table does not exist. Will be auto-created on restart.
         reject(error);
       });
@@ -180,26 +186,26 @@ Review.findOrCreateThing = function(reviewObj) {
 Review.getWithData = function(id) {
   return new Promise((resolve, reject) => {
     Review.get(id)
-    .getJoin({
-      thing: true
-    })
-    .getJoin({
-      creator: {
-        _apply: seq => seq.without('password')
-      }
-    })
-    .then(review => {
+      .getJoin({
+        thing: true
+      })
+      .getJoin({
+        creator: {
+          _apply: seq => seq.without('password')
+        }
+      })
+      .then(review => {
 
-      if (review._revDeleted)
-        return reject(revision.deletedError);
+        if (review._revDeleted)
+          return reject(revision.deletedError);
 
-      if (review._revOf)
-        return reject(revision.staleError);
+        if (review._revOf)
+          return reject(revision.staleError);
 
-      resolve(review);
+        resolve(review);
 
-    })
-    .catch(error => reject(error));
+      })
+      .catch(error => reject(error));
   });
 };
 
@@ -256,16 +262,16 @@ Review.getFeed = function(options) {
     })
     .limit(options.limit + 1); // One over limit to check if we need potentially another set
 
-  if(options.withThing)
+  if (options.withThing)
     query = query.getJoin({
       thing: true
     });
 
   query = query.getJoin({
-      creator: {
-        _apply: seq => seq.without('password')
-      }
-    });
+    creator: {
+      _apply: seq => seq.without('password')
+    }
+  });
 
   return new Promise((resolve, reject) => {
 

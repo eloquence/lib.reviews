@@ -1,23 +1,17 @@
 'use strict';
 // External dependencies
-const escapeHTML = require('escape-html');
 const url = require('url');
 const config = require('config');
 
 // Internal dependencies
-const db = require('../../db');
-const r = db.r;
 const Review = require('../../models/review.js');
 const render = require('../helpers/render');
-const forms = require('../helpers/forms');
 const feeds = require('../helpers/feeds');
-const mlString = require('../../models/helpers/ml-string.js');
-const prettifyURL = require('../../util/url-utils').prettify;
 const languages = require('../../locales/languages');
 
 let reviewHandlers = {
 
-  getFeedHandler: function(options) {
+  getFeedHandler(options) {
 
     options = Object.assign({ // Defaults
       titleKey: 'feed',
@@ -41,7 +35,7 @@ let reviewHandlers = {
 
     return function(req, res, next) {
 
-      let offsetDate, language;
+      let language, offsetDate;
       if (req.params.utcisodate) {
         offsetDate = new Date(req.params.utcisodate.trim());
         if (!offsetDate || offsetDate == 'Invalid Date')
@@ -70,7 +64,7 @@ let reviewHandlers = {
 
           let updatedDate;
 
-          feedItems.forEach((item, index) => {
+          feedItems.forEach(item => {
             item.populateUserInfo(req.user);
             if (item.thing)
               item.thing.populateUserInfo(req.user);
@@ -95,22 +89,19 @@ let reviewHandlers = {
 
           if (!options.format) {
             render.template(req, res, options.template, vars);
-          } else {
-            if (options.format == 'atom') {
-              Object.assign(vars, {
-                layout: 'layout-atom',
-                language,
-                updatedDate,
-                selfURL: url.resolve(config.qualifiedURL, options.atomURLPrefix) + `/${language}`,
-                htmlURL: url.resolve(config.qualifiedURL, options.htmlURL)
-              });
-              req.locale = language;
-              res.type('application/atom+xml');
-              render.template(req, res, 'review-feed-atom', vars);
-            } else {
-              throw new Error(`Format '${options.format}' not supported.`);
-            }
-          }
+          } else if (options.format == 'atom') {
+            Object.assign(vars, {
+              layout: 'layout-atom',
+              language,
+              updatedDate,
+              selfURL: url.resolve(config.qualifiedURL, options.atomURLPrefix) + `/${language}`,
+              htmlURL: url.resolve(config.qualifiedURL, options.htmlURL)
+            });
+            req.locale = language;
+            res.type('application/atom+xml');
+            render.template(req, res, 'review-feed-atom', vars);
+          } else
+            throw new Error(`Format '${options.format}' not supported.`);
         })
         .catch(error => {
           next(error);

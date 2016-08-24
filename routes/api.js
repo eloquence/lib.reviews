@@ -3,16 +3,14 @@
 // External dependencies
 const express = require('express');
 const router = express.Router();
-const config = require('config');
 
 // Internal dependencies
-const debug = require('../util/debug');
 const User = require('../models/user');
 const actionHandler = require('./handlers/action-handler');
 
 router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 
-router.get('/user/:name', function(req, res, next) {
+router.get('/user/:name', function(req, res) {
   let name = req.params.name.trim();
   let rv = {};
   User.filter({

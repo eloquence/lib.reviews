@@ -1,3 +1,4 @@
+/* global $ */
 (function() {
   'use strict';
   $('#username').change(checkIllegalCharacters);
@@ -12,7 +13,10 @@
     }
 
     let name = this.value.trim();
-    $.ajax({type: 'HEAD', url: `/api/user/${name}`})
+    $.ajax({
+        type: 'HEAD',
+        url: `/api/user/${name}`
+      })
       .done(() => {
         $('#username-exists-error').show();
       })
@@ -22,11 +26,11 @@
   }
 
   function checkIllegalCharacters() {
-    let regex = new RegExp(config.illegalUsernameCharacters);
+    let regex = new RegExp(window.config.illegalUsernameCharacters);
     if (regex.test(this.value))
       $('#username-characters-error').show();
     else
       $('#username-characters-error').hide();
   }
 
-})();
+}());

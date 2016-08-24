@@ -4,6 +4,7 @@
 const hbs = require('hbs');
 const escapeHTML = require('escape-html');
 const i18n = require('i18n');
+const Reflect = require('harmony-reflect');
 
 // Internal dependencies
 const mlString = require('../models/helpers/ml-string');
@@ -13,8 +14,9 @@ const urlUtils = require('./url-utils');
 // Current iteration value will be passed as {{this}} into the block,
 // starts at 1 for more human-readable counts. First and last set @first, @last
 hbs.registerHelper('times', function(n, block) {
-  let rv = '',
-    data = {};
+  let data = {},
+    rv = '';
+
   if (block.data)
     data = hbs.handlebars.createFrame(block.data);
 
@@ -51,10 +53,10 @@ hbs.registerHelper('prettify', function(url) {
 // them for use as such
 module.exports = function(req, res, next) {
   hbs.registerHelper('__', function() {
-    return i18n.__.apply(req, arguments);
+    return Reflect.apply(i18n.__, req, arguments);
   });
   hbs.registerHelper('__n', function() {
-    return i18n.__n.apply(req, arguments);
+    return Reflect.apply(i18n.__n, req, arguments);
   });
 
   // Get the language code that will result from resolving a string to the
@@ -102,7 +104,7 @@ module.exports = function(req, res, next) {
       return mlRv.str;
     else {
       let langLabelKey = langDefs[mlRv.lang].messageKey;
-      let langLabel = i18n.__.call(req, langLabelKey);
+      let langLabel = Reflect.apply(i18n.__, req, [langLabelKey]);
       return `${mlRv.str} <span class="language-identifier" title="${langLabel}">` +
         `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
     }
