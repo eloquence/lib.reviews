@@ -6,6 +6,17 @@
   // In order for this file to be loaded,  NODE_APP_INSTANCE must be set to
   // 'testing' (without quotes).
 
+  // Since we use an asynchronous testing framework, we can (and do)
+  // parallelize testing on multiple DB ports, hence multiple versions
+  // of this file with different ports.
+
   // Omit all logging from tests
-  logger: false
+  logger: false,
+  dbServers: [
+    {
+      host: "localhost",
+      // port for test DB!
+      port: 28017
+    }
+  ],
 }

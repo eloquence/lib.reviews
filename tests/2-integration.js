@@ -2,12 +2,10 @@
 import request from 'supertest-as-promised';
 import test from 'ava';
 
-// Ensure we load -testing specific configuration settings
-process.env.NODE_APP_INSTANCE = 'testing';
-process.env.NODE_CONFIG_DIR = '../../config';
+process.env.NODE_APP_INSTANCE = 'testing-2';
+const dbFixture = require('./fixtures/db-fixture-es5');
 
-let routeTests = [
-  {
+let routeTests = [{
     path: '/',
     status: 200,
     regex: /Welcome/
@@ -64,22 +62,57 @@ let routeTests = [
   }
 ];
 
+test.before(async() => {
+  await dbFixture.bootstrap([{
+      name: 'User',
+      file: 'user.js'
+    },
+    {
+      name: 'UserMeta',
+      file: 'user-meta.js'
+    },
+    {
+      name: 'Review',
+      file: 'review.js'
+    },
+    {
+      name: 'Thing',
+      file: 'thing.js'
+    },
+    {
+      name: 'Team',
+      file: 'team.js'
+    },
+    {
+      name: 'BlogPost',
+      file: 'blog-post.js'
+    },
+    {
+      name: 'TeamJoinRequest',
+      file: 'team-join-request.js'
+    }
+  ]);
+  // Initialize once so sessions table is created if needed
+  let getApp = require('../app');
+  await getApp(true);
+});
+
 test.beforeEach(async t => {
   // Ensure we initialize from scratch
-  Reflect.deleteProperty(require.cache, require.resolve('../../app'));
-  let getApp = require('../../app');
+  Reflect.deleteProperty(require.cache, require.resolve('../app'));
+  let getApp = require('../app');
   let app = await getApp();
   let agent = request.agent(app);
   t.context.agent = agent;
 });
 
 for (let route of routeTests) {
-  test(`${route.path} returns ${route.status} and body containing ${route.regex}`, async t =>
+  test(`${route.path} returns ${route.status} and body containing ${route.regex}`, async t => {
     await t.context.agent
-    .get(route.path)
-    .expect(route.status)
-    .expect(route.regex)
-  );
+      .get(route.path)
+      .expect(route.status)
+      .expect(route.regex);
+  });
 }
 
 test(`Changing to German returns German strings`, async t => {
@@ -104,4 +137,8 @@ test(`Changing to German returns German strings`, async t => {
 
   } else
     t.fail('Could not obtain CSRF token');
+});
+
+test.after.always(async() => {
+  await dbFixture.cleanup();
 });

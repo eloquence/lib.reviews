@@ -39,8 +39,9 @@ const hbsMiddlewareHelpers = require('./util/handlebars-helpers.js');
 let initializedApp;
 
 // Returns a promise that resolves once all asynchronous setup work has
-// completed and the app object can be used.
-function getApp() {
+// completed and the app object can be used. If init is set, we force
+// waiting on some one-time work, which is useful for tests.
+function getApp(init) {
 
   return new Promise((resolve, reject) => {
 
@@ -87,6 +88,24 @@ function getApp() {
     const store = new RDBStore(r, {
       table: 'sessions'
     });
+
+    // For purposes of spinning up a test instance, it is useful to be able to
+    // control session initalization. If init is set, we wait for this module
+    // to let us know that the session store is connected. But beware --
+    // as it is written, the module may never emit the 'connect' event, and
+    // swallow errors.
+    if (init) {
+      asyncJobs.push(new Promise(resolve => {
+        store.on('connect', function() {
+          console.log('Session store initialized.');
+          r
+            .table('sessions')
+            .wait({ timeout: 5 })
+            .then(resolve)
+            .catch(reject);
+        });
+      }));
+    }
 
     app.use(session({
       key: 'libreviews_session',
