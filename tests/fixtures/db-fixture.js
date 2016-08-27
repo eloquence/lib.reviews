@@ -8,6 +8,10 @@ import path from 'path';
 class DBFixture {
 
   constructor() {
+
+    if (!process.env.NODE_APP_INSTANCE)
+      throw new Error('Set NODE_APP_INSTANCE to determine configuration and database name.');
+
     this.loaded = false;
     this.dbLog = [];
     this.models = [];
@@ -31,10 +35,10 @@ class DBFixture {
     try {
       await this.dbReady();
     } catch (error) {
-      console.log(chalk.red('RethinkDB exited unexpectedly.'));
+      console.error(chalk.red('RethinkDB exited unexpectedly.'));
       if (this.dbLog.length) {
-        console.log('It had the following to say for itself:');
-        console.log(this.dbLog.join('\n'));
+        console.error('It had the following to say for itself:');
+        console.error(this.dbLog.join('\n'));
       }
       process.exit();
     }
@@ -61,7 +65,7 @@ class DBFixture {
     try {
       await exec(`rm -rf ${this.filename}`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

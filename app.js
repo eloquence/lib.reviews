@@ -97,7 +97,7 @@ function getApp(init) {
     if (init) {
       asyncJobs.push(new Promise(resolve => {
         store.on('connect', function() {
-          console.log('Session store initialized.');
+          debug.app('Session store initialized.');
           r
             .table('sessions')
             .wait({ timeout: 5 })

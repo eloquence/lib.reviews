@@ -6,8 +6,8 @@
     "start": "node_modules/pm2/bin/pm2 start process.json --only app-development",
     "stop": "node_modules/pm2/bin/pm2 delete all",
     "production": "node_modules/pm2/bin/pm2 start process.json --only app-production",
-    "test": "node_modules/ava/cli.js --verbose tests/**",
-    "test-watch": "node_modules/ava/cli.js --watch --verbose tests/**"
+    "test": "grunt babel:tests && node node_modules/ava/cli.js --verbose tests/**",
+    "test-watch": "grunt babel:tests && node_modules/ava/cli.js --watch --verbose tests/**"
   },
   "pre-commit": [
     "test"

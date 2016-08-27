@@ -1,6 +1,8 @@
 'use strict';
 import isUUID from 'is-uuid';
 import test from 'ava';
+
+// Instance name must be set before fixture is loaded
 process.env.NODE_APP_INSTANCE = 'testing-1';
 const dbFixture = require('./fixtures/db-fixture-es5');
 

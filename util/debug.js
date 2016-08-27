@@ -5,6 +5,7 @@ const debug = {
   db: debugModule('libreviews:db'),
   app: debugModule('libreviews:app'),
   util: debugModule('libreviews:util'),
+  tests: debugModule('libreviews:tests'),
 
   // For all serious errors that should be examined by a human and fixed or categorized
   // { context: String - where in the application the error occurred
