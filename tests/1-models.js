@@ -22,10 +22,8 @@ test.serial('We can create a user', async t => {
     email: 'eloquence+libreviews@gmail.com',
   });
   t.true(isUUID.v4(user.id), 'User has valid v4 UUID');
+  t.is(user.password.length, 60, 'Password appears to be hashed correctly');
 });
-
-// Test data for review creation
-
 
 test('We can create a review', async t => {
   t.plan(9);
