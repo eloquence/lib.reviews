@@ -32,8 +32,7 @@ test('We can create a review', async t => {
 
   let tags = ['create_test_revision', 'test_rev'];
   // Destructuring for easy access to tests
-  let { title, text, html, url, starRating, createdOn, createdBy, originalLanguage } =
-    getReviewData(user.id);
+  let { title, text, html, url, starRating, createdOn, createdBy, originalLanguage } = getReviewData(user.id);
   let review = await dbFixture.models.Review.create({
     title,
     text,
@@ -91,6 +90,37 @@ test('We can create a new revision of a review', async t => {
     en: 'A terribly designed test',
     de: 'Ein wirklich schlechter Test'
   }, 'We can add a translation to a review title');
+});
+
+test('We can retrieve and paginate a feed of reviews', async t => {
+
+  t.plan(4);
+  let reviewObj = getReviewData(user.id);
+  for (let i = 0; i < 5; i++) {
+    reviewObj.createdOn = new Date();
+    await dbFixture.models.Review.create(reviewObj);
+  }
+
+  let feed = await dbFixture.models.Review.getFeed({
+    limit: 2
+  });
+
+  let { offsetDate, feedItems } = feed;
+
+  t.is(feedItems.length, 2, 'Received expected number of feed items');
+  t.true(offsetDate instanceof Date && !isNaN(offsetDate),
+    'Received pagination offset date');
+
+  feed = await dbFixture.models.Review.getFeed({
+    limit: 3,
+    offsetDate
+  });
+
+  ({ feedItems } = feed);
+  t.is(feedItems.length, 3, 'Received expected number of additional feed items');
+  t.true(feedItems[0].createdOn.valueOf() < offsetDate.valueOf(),
+    'Feed items received with pagination offset are older than earlier ones');
+
 });
 
 test.after.always(async() => {
