@@ -121,6 +121,33 @@ test('We can retrieve and paginate a feed of reviews', async t => {
 
 });
 
+test('We can delete multiple revisions of a review and its associated thing', async t => {
+
+  let reviewObj = getReviewData(user.id);
+  // Different URL, so we don't delete thing created from other tests
+  reviewObj.url = 'http://bad.horse';
+
+  let review = await dbFixture.models.Review.create(reviewObj);
+
+  let thingID = review.thingID;
+
+  let id1 = review._revID;
+
+  let newRev = await review.newRevision(user);
+  let savedRev = await newRev.save();
+
+  let id2 = savedRev._revID;
+
+  savedRev.thing = await dbFixture.models.Thing.get(savedRev.thingID);
+  await savedRev.deleteAllRevisionsWithThing(user);
+  let deleted1 = await dbFixture.models.Review.filter({ _revID: id1 });
+  let deleted2 = await dbFixture.models.Review.filter({ _revID: id2 });
+  let deletedThing = await dbFixture.models.Thing.get(thingID);
+  t.true(deleted1[0]._revDeleted, 'Original revision has been deleted');
+  t.true(deleted2[0]._revDeleted, 'Updated revision has been deleted');
+  t.true(deletedThing._revDeleted, 'Associated thing has been deleted');
+});
+
 test.after.always(async() => {
   await dbFixture.cleanup();
 });
