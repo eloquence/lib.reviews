@@ -49,6 +49,11 @@ hbs.registerHelper('prettify', function(url) {
     return '';
 });
 
+hbs.registerHelper('shortDate', function(date) {
+  if (date && date instanceof Date)
+    return date.toLocaleDateString();
+});
+
 // These helpers must be registered in a middleware context, so we export
 // them for use as such
 module.exports = function(req, res, next) {

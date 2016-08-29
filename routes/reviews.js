@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
 
   if (config.frontPageTeamBlog)
     queries.push(BlogPost.getMostRecentBlogPosts(config.frontPageTeamBlog, {
-      limit: 10
+      limit: 3
     }));
 
   Promise.all(queries)
