@@ -45,7 +45,7 @@
         {{#unless editing}}
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
-              <label for="review-url">{{{__ "url"}}} <span class="required">*</span></label>
+              <label for="review-url">{{{__ "review url"}}} <span class="required">*</span></label>
               <input id="review-url" name="review-url" type="text" class="pure-input-1" data-required data-focus data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{{formValues.url}}}">
               <div id="review-url-error" class="validation-error">{{{__ "not a url"}}}</div>
               <div id="helper-links"><a href="#" id="add-https">{{{__ "add https"}}}</a> &ndash; <a href="#" id="add-http">{{{__ "add http"}}}</a></div>
@@ -53,33 +53,33 @@
           <br>
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
-          {{>help input="review-url" helpLabel="url label" helpText="url help"}}
+          {{>help input="review-url" helpLabel="review url label" helpText="review url help"}}
         </div>
         {{/unless}}
         {{/if}}
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
-              <label for="review-title">{{{__ "title"}}} <span class="required">*</span></label>
+              <label for="review-title">{{{__ "review title"}}} <span class="required">*</span></label>
               <input id="review-title" name="review-title" type="text" class="pure-input-1" {{#if editing}}data-focus{{/if}} data-required data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{{mlString formValues.title false}}}">
           </div>
           <br>
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
-          {{>help input="review-title" helpLabel="title label" helpText="title help"}}
+          {{>help input="review-title" helpLabel="review title label" helpText="review title help"}}
         </div>
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
-              <label for="review-text">{{{__ "review"}}} <span class="required">*</span></label>
+              <label for="review-text">{{{__ "review text"}}} <span class="required">*</span></label>
               <textarea id="review-text" name="review-text" class="pure-input-1" data-required data-auto-trim placeholder="{{{__ "enter review"}}}">{{{mlString formValues.text false}}}</textarea>
               <br>
           </div>
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
-          {{>help input="review-text" helpLabel="review" helpText="review help"}}
+          {{>help input="review-text" helpLabel="review text" helpText="review text help"}}
         </div>
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
-            <label id="star-rating-label" for="review-rating">{{{__ "rating"}}} <span class="required">*</span></label>
+            <label id="star-rating-label" for="review-rating">{{{__ "review rating"}}} <span class="required">*</span></label>
             <div class="nojs-hidden">
             {{! We store this POST value in the DOM, so it is available to the JS-only control }}
             <span id="star-rating-control" data-post="{{formValues.starRating}}">
@@ -102,7 +102,7 @@
         <div class="pure-u-1 pure-u-md-1-3">
           <noscript>
             <div style="margin-left:1em;">
-            <span class="help-heading"><span class="fa fa-question-circle info-icon spaced-icon"></span>{{{__ "rating"}}}</span><P>
+            <span class="help-heading"><span class="fa fa-question-circle info-icon spaced-icon"></span>{{{__ "review rating"}}}</span><P>
             {{{__ "1 star help"}}}<br>
             {{{__ "2 stars help"}}}<br>
             {{{__ "3 stars help"}}}<br>
@@ -110,11 +110,11 @@
             {{{__ "5 stars help"}}}<br>
             </div>
           </noscript>
-          {{>help input="star-button-1" nojsHidden=true helpLabel="rating" helpText="1 star help"}}
-          {{>help input="star-button-2" nojsHidden=true helpLabel="rating" helpText="2 stars help"}}
-          {{>help input="star-button-3" nojsHidden=true helpLabel="rating" helpText="3 stars help"}}
-          {{>help input="star-button-4" nojsHidden=true helpLabel="rating" helpText="4 stars help"}}
-          {{>help input="star-button-5" nojsHidden=true helpLabel="rating" helpText="5 stars help"}}
+          {{>help input="star-button-1" nojsHidden=true helpLabel="review rating" helpText="1 star help"}}
+          {{>help input="star-button-2" nojsHidden=true helpLabel="review rating" helpText="2 stars help"}}
+          {{>help input="star-button-3" nojsHidden=true helpLabel="review rating" helpText="3 stars help"}}
+          {{>help input="star-button-4" nojsHidden=true helpLabel="review rating" helpText="4 stars help"}}
+          {{>help input="star-button-5" nojsHidden=true helpLabel="review rating" helpText="5 stars help"}}
         </div>
         <div class="pure-u-1 pure-u-md-2-3">
 
