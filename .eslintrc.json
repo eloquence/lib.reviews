@@ -39,7 +39,7 @@
             "only-multiline"
         ],
         "comma-spacing": [
-            "error",
+            "warn",
             {
                 "after": true,
                 "before": false
@@ -218,7 +218,7 @@
         "rest-spread-spacing": "error",
         "semi": "error",
         "semi-spacing": "error",
-        "sort-imports": "error",
+        "sort-imports": "warn",
         "sort-vars": "error",
         "space-before-blocks": "error",
         "space-before-function-paren": "off",
