@@ -1,6 +1,6 @@
 'use strict';
+import { getReviewData, getTeamData } from './helpers/content-helpers-es5';
 import { getModels } from './helpers/model-helpers-es5';
-import { getReviewData } from './helpers/content-helpers-es5';
 import isUUID from 'is-uuid';
 import test from 'ava';
 
@@ -150,4 +150,20 @@ test('We can delete multiple revisions of a review and its associated thing', as
 
 test.after.always(async() => {
   await dbFixture.cleanup();
+});
+
+
+test('We can create a team and add a user as member and moderator', async t => {
+  t.plan(2);
+  let teamObj = getTeamData();
+  let rev = await dbFixture.models.Team.createFirstRevision(user);
+  Object.assign(rev, teamObj);
+  rev.members = [];
+  rev.members.push(user);
+  rev.moderators = [];
+  rev.moderators.push(user);
+  let savedRev = await rev.saveAll();
+  let newTeam = await dbFixture.models.Team.getWithData(savedRev.id);
+  t.is(newTeam.members[0].id, user.id, 'Newly created team has user as a member');
+  t.is(newTeam.moderators[0].id, user.id, 'Newly created team has user as a moderator');
 });
