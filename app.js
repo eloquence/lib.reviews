@@ -11,8 +11,6 @@ const i18n = require('i18n');
 const hbs = require('hbs'); // handlebars templating
 const hbsutils = require('hbs-utils')(hbs);
 const lessMiddleware = require('less-middleware');
-const thinky = require('./db');
-const r = thinky.r;
 const session = require('express-session');
 const RDBStore = require('session-rethinkdb')(session);
 const flash = require('express-flash');
@@ -39,9 +37,13 @@ const hbsMiddlewareHelpers = require('./util/handlebars-helpers.js');
 let initializedApp;
 
 // Returns a promise that resolves once all asynchronous setup work has
-// completed and the app object can be used. If init is set, we force
-// waiting on some one-time work, which is useful for tests.
-function getApp(init) {
+// completed and the app object can be used.
+// db is a reference to a database instance with an active connection pool.
+// If not provided, we will attempt to acquire the current instance.
+function getApp(db) {
+
+  if (!db)
+    db = require('./db');
 
   return new Promise((resolve, reject) => {
 
@@ -85,27 +87,23 @@ function getApp(init) {
     // Handlebars helpers that depend on request object, including i18n helpers
     app.use(hbsMiddlewareHelpers);
 
-    const store = new RDBStore(r, {
+    const store = new RDBStore(db.r, {
       table: 'sessions'
     });
 
-    // For purposes of spinning up a test instance, it is useful to be able to
-    // control session initalization. If init is set, we wait for this module
-    // to let us know that the session store is connected. But beware --
-    // as it is written, the module may never emit the 'connect' event, and
-    // swallow errors.
-    if (init) {
-      asyncJobs.push(new Promise(resolve => {
-        store.on('connect', function() {
-          debug.app('Session store initialized.');
-          r
-            .table('sessions')
-            .wait({ timeout: 5 })
-            .then(resolve)
-            .catch(reject);
-        });
-      }));
-    }
+    // We do not get an error event from this module, so this is a potential
+    // cause of hangs during the initialization. Set DEBUG=session to debug.
+    asyncJobs.push(new Promise(resolve => {
+      debug.app('Awaiting session store initialization.');
+      store.on('connect', function() {
+        debug.app('Session store initialized.');
+        db.r
+          .table('sessions')
+          .wait({ timeout: 5 })
+          .then(resolve)
+          .catch(reject);
+      });
+    }));
 
     app.use(session({
       key: 'libreviews_session',

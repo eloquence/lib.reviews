@@ -94,7 +94,7 @@ test.before(async() => {
   ]);
   // Initialize once so sessions table is created if needed
   let getApp = require('../app');
-  await getApp(true);
+  await getApp();
 });
 
 test.beforeEach(async t => {

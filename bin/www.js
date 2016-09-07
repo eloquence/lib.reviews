@@ -17,6 +17,7 @@ if (instance && instance !== 'testing');
    Reflect.deleteProperty(process.env, 'NODE_APP_INSTANCE');
 
 const getApp = require('../app');
+const getDB = require('../db').getDB;
 const createServer = require('auto-sni'); // Server with Let's Encrypt support
 const config = require('config');
 
@@ -25,7 +26,8 @@ if (instance)
 
 let port;
 
-getApp()
+getDB()
+  .then(db => getApp(db))
   .then(app => {
 
     /**
