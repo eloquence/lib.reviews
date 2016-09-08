@@ -114,6 +114,8 @@
         selectStar.apply($(`#star-button-${rating}`)[0]);
 
       $('#draft-notice').show();
+      // Repaint help in case it got pushed down
+      window.libreviews.repaintFocusedHelp();
     }
 
     // Show URL issues if appropriate
@@ -194,6 +196,8 @@
 
     // For handling events inside content, e.g., spoiler warnings
     window.libreviews.updateContentClickHandlers();
+    // Re-render help in case it got pushed down by preview
+    window.libreviews.repaintFocusedHelp();
   }
 
   function renderPreviewStars(rating) {

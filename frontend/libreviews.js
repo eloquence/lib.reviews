@@ -134,6 +134,19 @@
   });
 
   // Dynamic help sidebars
+
+  // Exported repaint function, trigger this if you need to repaint the
+  // help because of a change in scroll position. This is done automatically
+  // for window resizes.
+  window.libreviews.repaintFocusedHelp = () => {
+    let focused = $(':focus')[0];
+
+    // Check if the currently focused element requires a help re-render
+    if (focused && focused.id && $(`[data-help-for=${focused.id}]`).length)
+      showInputHelp.apply(focused);
+
+  };
+
   if ($('[data-help-for]').length) {
 
     // Attach dynamic help display for data-help-for="id" elements (to the "id"
@@ -145,14 +158,9 @@
     });
 
     // Re-calculate positioning of help on window resize
-    $(window).resize(function() {
-      let focused = $(':focus')[0];
-
-      // Check if the currently focused element requires a help re-render
-      if (focused && focused.id && $(`[data-help-for=${focused.id}]`).length)
-        showInputHelp.apply(focused);
-    });
+    $(window).resize(window.libreviews.repaintFocusedHelp);
   }
+
 
   // Focus input
   $('[data-focus]').focus();
