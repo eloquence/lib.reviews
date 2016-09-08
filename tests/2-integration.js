@@ -102,13 +102,15 @@ test.beforeEach(async t => {
   Reflect.deleteProperty(require.cache, require.resolve('../app'));
   let getApp = require('../app');
   let app = await getApp();
-  let agent = request.agent(app);
-  t.context.agent = agent;
+  // for requests w/ persistent cookies; be mindful that tests run concurrently
+  t.context.agent = request.agent(app);
+  // for cookie-less requests
+  t.context.request = request(app);
 });
 
 for (let route of routeTests) {
   test(`${route.path} returns ${route.status} and body containing ${route.regex}`, async t => {
-    await t.context.agent
+    await t.context.request
       .get(route.path)
       .expect(route.status)
       .expect(route.regex);
