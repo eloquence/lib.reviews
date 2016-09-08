@@ -102,8 +102,7 @@ test.beforeEach(async t => {
   Reflect.deleteProperty(require.cache, require.resolve('../app'));
   let getApp = require('../app');
   let app = await getApp();
-  // for requests w/ persistent cookies; be mindful that tests run concurrently
-  t.context.agent = request.agent(app);
+  t.context.app = app;
   // for cookie-less requests
   t.context.request = request(app);
 });
@@ -118,11 +117,12 @@ for (let route of routeTests) {
 }
 
 test(`Changing to German returns German strings`, async t => {
-  let mainPageResponse = await t.context.agent.get('/');
+  let agent = request.agent(t.context.app);
+  let mainPageResponse = await agent.get('/');
   let matches = mainPageResponse.text.match(/<input type="hidden" value="(.*?)" name="_csrf">/);
   if (matches && matches.length) {
     let csrf = matches[1];
-    let postResponse = await t.context.agent
+    let postResponse = await agent
       .post('/actions/change-language')
       .type('form')
       .send({
@@ -132,7 +132,7 @@ test(`Changing to German returns German strings`, async t => {
       .expect(302)
       .expect('location', '/');
 
-    await t.context.agent
+    await agent
       .get(postResponse.headers.location)
       .expect(200)
       .expect(/respektiert deine Freiheit/); // String in footer
