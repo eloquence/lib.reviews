@@ -5,6 +5,11 @@
 // Until Node6 is LTS, we use this shim.
 const Reflect = require('harmony-reflect');
 
+// In cluster mode, pm2 retains an incorrectly initialized reference to the
+// debug module in memory, which leads to all debug operations being disabled.
+// For this reason we have to invalidate the cache.
+Reflect.deleteProperty(require.cache, require.resolve('debug'));
+
 // pm2 sets the NODE_APP_INSTANCE variable in cluster mode, which config
 // also uses for instance-specific configuration, and throws warnings when
 // it doesn't find them. For this reason we temporarily change the value
@@ -16,13 +21,14 @@ let instance = process.env.NODE_APP_INSTANCE;
 if (instance && instance !== 'testing');
    Reflect.deleteProperty(process.env, 'NODE_APP_INSTANCE');
 
-const getApp = require('../app');
-const getDB = require('../db').getDB;
-const createServer = require('auto-sni'); // Server with Let's Encrypt support
 const config = require('config');
 
 if (instance)
   process.env.NODE_APP_INSTANCE = instance;
+
+const getApp = require('../app');
+const getDB = require('../db').getDB;
+const createServer = require('auto-sni'); // Server with Let's Encrypt support
 
 let port;
 

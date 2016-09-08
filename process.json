@@ -6,7 +6,8 @@
         "instances": 0,
         "env": {
           "NODE_ENV": "development",
-          "DEBUG": "libreviews:*"
+          "DEBUG": "libreviews:*",
+          "DEBUG_COLORS": "true"
         },
         "min_uptime": "1h",
         "watch": true,
