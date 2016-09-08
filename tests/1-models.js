@@ -167,3 +167,20 @@ test('We can create a team and add a user as member and moderator', async t => {
   t.is(newTeam.members[0].id, user.id, 'Newly created team has user as a member');
   t.is(newTeam.moderators[0].id, user.id, 'Newly created team has user as a moderator');
 });
+
+test('We can create a team and associate it with a request to join it', async t => {
+  t.plan(2);
+  let teamObj = getTeamData();
+  let teamRev = await dbFixture.models.Team.createFirstRevision(user);
+  Object.assign(teamRev, teamObj);
+  teamRev.joinRequests = [];
+  let request = new dbFixture.models.TeamJoinRequest({});
+  request.userID = user.id;
+  request.requestMessage = 'I want to help.';
+  request.requestDate = new Date();
+  teamRev.joinRequests.push(request);
+  let savedTeamRev = await teamRev.saveAll();
+  let savedRequest = await dbFixture.models.TeamJoinRequest.filter({ teamID: savedTeamRev.id });
+  t.is(savedRequest[0].teamID, savedTeamRev.id, 'Request is associated with the expected team');
+  t.is(savedRequest[0].userID, user.id, 'Request is associated with the expected user');
+});
