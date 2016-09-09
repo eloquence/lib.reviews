@@ -2,6 +2,7 @@
 // External dependencies
 const url = require('url');
 const config = require('config');
+const i18n = require('i18n');
 
 // Internal dependencies
 const Review = require('../../models/review.js');
@@ -97,7 +98,7 @@ let reviewHandlers = {
               selfURL: url.resolve(config.qualifiedURL, options.atomURLPrefix) + `/${language}`,
               htmlURL: url.resolve(config.qualifiedURL, options.htmlURL)
             });
-            req.locale = language;
+            i18n.setLocale(req, language);
             res.type('application/atom+xml');
             render.template(req, res, 'review-feed-atom', vars);
           } else

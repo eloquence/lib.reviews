@@ -3,6 +3,7 @@
 // External dependencies
 const config = require('config');
 const url = require('url');
+const i18n = require('i18n');
 
 // Internal dependencies
 const AbstractBREADProvider = require('./abstract-bread-provider');
@@ -50,7 +51,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
     // Ensure that all i18n for feeds is done using the specified language
     if (this.language)
-      this.req.locale = this.language;
+      i18n.setLocale(this.req, this.language);
 
     let offsetDate;
 

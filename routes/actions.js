@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const config = require('config');
+const i18n = require('i18n');
 
 // Internal dependencies
 const render = require('./helpers/render');
@@ -44,7 +45,8 @@ router.post('/actions/change-language', function(req, res) {
     maxAge,
     httpOnly: true
   });
-  req.locale = lang;
+  i18n.setLocale(req, lang);
+
   // Don't show on pages with language notices on them, to avoid message overkill.
   if (!hasLanguageNotice)
     req.flash('siteMessages', req.__('notification language-changed'));

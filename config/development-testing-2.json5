@@ -19,4 +19,9 @@
       port: 28017
     }
   ],
+  questionCaptcha: {
+    forms: {
+      register: false
+    }
+  }
 }

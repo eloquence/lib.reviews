@@ -101,15 +101,14 @@ test.beforeEach(async t => {
   // Ensure we initialize from scratch
   Reflect.deleteProperty(require.cache, require.resolve('../app'));
   let getApp = require('../app');
-  let app = await getApp();
-  t.context.app = app;
-  // for cookie-less requests
-  t.context.request = request(app);
+  t.context.app = await getApp();
+  t.context.agent = request.agent(t.context.app);
 });
 
 for (let route of routeTests) {
   test(`${route.path} returns ${route.status} and body containing ${route.regex}`, async t => {
-    await t.context.request
+    t.context.app.locals.test = 'route test';
+    await t.context.agent
       .get(route.path)
       .expect(route.status)
       .expect(route.regex);
@@ -117,30 +116,58 @@ for (let route of routeTests) {
 }
 
 test(`Changing to German returns German strings`, async t => {
-  let agent = request.agent(t.context.app);
-  let mainPageResponse = await agent.get('/');
-  let matches = mainPageResponse.text.match(/<input type="hidden" value="(.*?)" name="_csrf">/);
-  if (matches && matches.length) {
-    let csrf = matches[1];
-    let postResponse = await agent
-      .post('/actions/change-language')
-      .type('form')
-      .send({
-        _csrf: csrf,
-        lang: 'de' // Change language
-      })
-      .expect(302)
-      .expect('location', '/');
+  let mainPageResponse = await t.context.agent.get('/');
+  let csrf = extractCSRF(mainPageResponse.text);
+  if (!csrf)
+    return t.fail('Could not obtain CSRF token');
 
-    await agent
-      .get(postResponse.headers.location)
-      .expect(200)
-      .expect(/respektiert deine Freiheit/); // String in footer
+  let postResponse = await t.context.agent
+    .post('/actions/change-language')
+    .type('form')
+    .send({
+      _csrf: csrf,
+      lang: 'de' // Change language
+    })
+    .expect(302)
+    .expect('location', '/');
 
-  } else
-    t.fail('Could not obtain CSRF token');
+  await t.context.agent
+    .get(postResponse.headers.location)
+    .expect(200)
+    .expect(/respektiert deine Freiheit/); // String in footer
+
+});
+
+test(`We can register an account via the form (captcha disabled)`, async t => {
+  let registerResponse = await t.context.agent.get('/register');
+  let csrf = extractCSRF(registerResponse.text);
+  if (!csrf)
+    return t.fail('Could not obtain CSRF token');
+
+  let postResponse = await t.context.agent
+    .post('/register')
+    .type('form')
+    .send({
+      _csrf: csrf,
+      username: 'A friend of many GNUs',
+      password: 'toGNUornottoGNU',
+    })
+    .expect(302)
+    .expect('location', '/');
+
+  await t.context.agent
+    .get(postResponse.headers.location)
+    .expect(200)
+    .expect(/Thank you for registering a lib.reviews account, A friend of many GNUs!/);
+
 });
 
 test.after.always(async() => {
   await dbFixture.cleanup();
 });
+
+// Extract CSRF code from given HTML response. Returns null if code cannot be found.
+function extractCSRF(html) {
+  let matches = html.match(/<input type="hidden" value="(.*?)" name="_csrf">/);
+  return matches && matches[1] ? matches[1] : null;
+}

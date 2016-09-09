@@ -51,7 +51,6 @@ let render = {
     // Non page-specific, will show up on any page if we have some to show
     vars.siteMessages = req.flash('siteMessages');
     vars.siteErrors = req.flash('siteErrors');
-
     res.render(view, vars);
 
   },

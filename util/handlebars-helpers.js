@@ -54,66 +54,71 @@ hbs.registerHelper('shortDate', function(date) {
     return date.toLocaleDateString();
 });
 
-// These helpers must be registered in a middleware context, so we export
-// them for use as such
-module.exports = function(req, res, next) {
-  hbs.registerHelper('__', function() {
-    return Reflect.apply(i18n.__, req, arguments);
-  });
-  hbs.registerHelper('__n', function() {
-    return Reflect.apply(i18n.__n, req, arguments);
-  });
+hbs.registerHelper('__', function() {
+  let args = Reflect.apply(Array.prototype.slice, arguments);
+  let options = args.pop();
+  return Reflect.apply(i18n.__, options.data.root, args);
+});
 
-  // Get the language code that will result from resolving a string to the
-  // current request language (may be a fallback if no translation available).
-  hbs.registerHelper('getLang', function(str) {
-    let mlRv = mlString.resolve(req.locale, str);
-    return mlRv ? mlRv.lang : undefined;
-  });
+hbs.registerHelper('__n', function() {
+  let args = Reflect.apply(Array.prototype.slice, arguments);
+  let options = args.pop();
+  return Reflect.apply(i18n.__n, options.data.root, args);
+});
 
-  hbs.registerHelper('getThingLabel', function(thing) {
+// Get the language code that will result from resolving a string to the
+// current request language (may be a fallback if no translation available).
+hbs.registerHelper('getLang', function(str, options) {
+  let mlRv = mlString.resolve(options.data.root.locale, str);
+  return mlRv ? mlRv.lang : undefined;
+});
 
-    if (!thing || !thing.id)
-      return undefined;
 
-    let str;
-    if (thing.label)
-      str = mlString.resolve(req.locale, thing.label).str;
+hbs.registerHelper('getThingLabel', function(thing, options) {
 
-    if (str)
-      return str;
-
-    // If we have no proper label, we can at least show the URL
-    if (thing.urls && thing.urls.length)
-      return urlUtils.prettify(thing.urls[0]);
-
+  if (!thing || !thing.id)
     return undefined;
 
-  });
+  let str;
+  if (thing.label)
+    str = mlString.resolve(options.data.root.locale, thing.label).str;
 
-  hbs.registerHelper('isoDate', date => date && date.toISOString ? date.toISOString() : undefined);
+  if (str)
+    return str;
 
-  // Resolve a multilingual string to the current request language.
-  //
-  // addLanguageSpan -- Do we want a little label next to the string (default true!)
-  hbs.registerHelper('mlString', function(str, addLanguageSpan) {
-    if (addLanguageSpan === undefined)
-      addLanguageSpan = true;
+  // If we have no proper label, we can at least show the URL
+  if (thing.urls && thing.urls.length)
+    return urlUtils.prettify(thing.urls[0]);
 
-    let mlRv = mlString.resolve(req.locale, str);
+  return undefined;
 
-    if (mlRv === undefined || mlRv.str === undefined || mlRv.str === '')
-      return undefined;
+});
 
-    if (!addLanguageSpan || mlRv.lang === req.locale)
-      return mlRv.str;
-    else {
-      let langLabelKey = langDefs[mlRv.lang].messageKey;
-      let langLabel = Reflect.apply(i18n.__, req, [langLabelKey]);
-      return `${mlRv.str} <span class="language-identifier" title="${langLabel}">` +
-        `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
-    }
-  });
+hbs.registerHelper('isoDate', date => date && date.toISOString ? date.toISOString() : undefined);
 
-  next();
-};
+// Resolve a multilingual string to the current request language.
+//
+// addLanguageSpan -- Do we want a little label next to the string (default true!)
+hbs.registerHelper('mlString', function(str, addLanguageSpan, options) {
+
+  // hbs passes options object in as last parameter
+  if (arguments.length == 2) {
+    options = addLanguageSpan;
+    addLanguageSpan = true;
+  } else if (addLanguageSpan === undefined)
+    addLanguageSpan = true;
+
+  let mlRv = mlString.resolve(options.data.root.locale, str);
+
+  if (mlRv === undefined || mlRv.str === undefined || mlRv.str === '')
+    return undefined;
+
+  if (!addLanguageSpan || mlRv.lang === options.data.root.locale)
+    return mlRv.str;
+  else {
+    let langLabelKey = langDefs[mlRv.lang].messageKey;
+    let langLabel = Reflect.apply(i18n.__, options.data.root.locale, [langLabelKey]);
+    return `${mlRv.str} <span class="language-identifier" title="${langLabel}">` +
+      `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
+  }
+});

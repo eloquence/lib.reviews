@@ -32,7 +32,9 @@ const apiHelper = require('./routes/helpers/api');
 const things = require('./routes/things');
 const ErrorProvider = require('./routes/errors');
 const debug = require('./util/debug');
-const hbsMiddlewareHelpers = require('./util/handlebars-helpers.js');
+
+// Initialize custom HBS helpers
+require('./util/handlebars-helpers.js');
 
 let initializedApp;
 
@@ -81,11 +83,7 @@ function getApp(db) {
 
     app.use(cookieParser());
     app.use(i18n.init); // Requires cookie parser!
-
     app.use(useragent.express()); // expose UA object to req.useragent
-
-    // Handlebars helpers that depend on request object, including i18n helpers
-    app.use(hbsMiddlewareHelpers);
 
     const store = new RDBStore(db.r, {
       table: 'sessions'
@@ -132,7 +130,6 @@ function getApp(db) {
     // session.
     app.use(passport.initialize());
     app.use(passport.session());
-
 
     app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
 

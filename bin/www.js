@@ -13,7 +13,7 @@ const Reflect = require('harmony-reflect');
 // instance-specific configs in cluster mode, we can remove this.
 let instance = process.env.NODE_APP_INSTANCE;
 
-if (instance && instance !== 'testing');
+if (instance && !/^testing/.test(instance))
    Reflect.deleteProperty(process.env, 'NODE_APP_INSTANCE');
 
 const config = require('config');
