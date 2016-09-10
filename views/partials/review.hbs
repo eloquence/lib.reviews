@@ -16,7 +16,7 @@
 <div class="review-rating">
 {{!Star rating. Per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
 {{#times review.starRating}}
-<img src="/static/img/star-{{../review.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../../review.starRating}}}"{{/if}}>
+<img src="/static/img/star-{{../review.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../review.starRating}}}"{{/if}}>
 {{/times}}
 </div>
 <div class="review-title">{{{mlString review.title}}}</div>
