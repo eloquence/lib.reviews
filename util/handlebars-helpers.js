@@ -88,7 +88,6 @@ hbs.registerHelper('isoDate', date => date && date.toISOString ? date.toISOStrin
 //
 // addLanguageSpan -- Do we want a little label next to the string (default true!)
 hbs.registerHelper('mlString', function(str, addLanguageSpan, options) {
-
   // hbs passes options object in as last parameter
   if (arguments.length == 2) {
     options = addLanguageSpan;
@@ -105,7 +104,7 @@ hbs.registerHelper('mlString', function(str, addLanguageSpan, options) {
     return mlRv.str;
   else {
     let langLabelKey = langDefs[mlRv.lang].messageKey;
-    let langLabel = Reflect.apply(i18n.__, options.data.root.locale, [langLabelKey]);
+    let langLabel = Reflect.apply(i18n.__, options.data.root, [langLabelKey]);
     return `${mlRv.str} <span class="language-identifier" title="${langLabel}">` +
       `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
   }
