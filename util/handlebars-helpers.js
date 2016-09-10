@@ -9,6 +9,7 @@ const Reflect = require('harmony-reflect');
 // Internal dependencies
 const mlString = require('../models/helpers/ml-string');
 const langDefs = require('../locales/languages').getAll();
+const Thing = require('../models/thing');
 const urlUtils = require('./url-utils');
 
 // Current iteration value will be passed as {{this}} into the block,
@@ -54,6 +55,11 @@ hbs.registerHelper('shortDate', function(date) {
     return date.toLocaleDateString();
 });
 
+hbs.registerHelper('longDate', function(date) {
+  if (date && date instanceof Date)
+    return date.toLocaleString();
+});
+
 hbs.registerHelper('__', function() {
   let args = Reflect.apply(Array.prototype.slice, arguments);
   let options = args.pop();
@@ -73,26 +79,8 @@ hbs.registerHelper('getLang', function(str, options) {
   return mlRv ? mlRv.lang : undefined;
 });
 
-
-hbs.registerHelper('getThingLabel', function(thing, options) {
-
-  if (!thing || !thing.id)
-    return undefined;
-
-  let str;
-  if (thing.label)
-    str = mlString.resolve(options.data.root.locale, thing.label).str;
-
-  if (str)
-    return str;
-
-  // If we have no proper label, we can at least show the URL
-  if (thing.urls && thing.urls.length)
-    return urlUtils.prettify(thing.urls[0]);
-
-  return undefined;
-
-});
+hbs.registerHelper('getThingLabel', (thing, options) =>
+  Thing.getLabel(thing, options.data.root.locale));
 
 hbs.registerHelper('isoDate', date => date && date.toISOString ? date.toISOString() : undefined);
 

@@ -4,6 +4,7 @@ const r = thinky.r;
 const type = thinky.type;
 
 const ErrorMessage = require('../util/error.js');
+const urlUtils = require('../util/url-utils');
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 
@@ -102,6 +103,28 @@ Thing.define("populateUserInfo", function(user) {
   this.userIsCreator = user.id === this.createdBy;
 
 });
+
+// Get label for a given thing, fallback to prettified URL if none available
+Thing.getLabel = function(thing, language) {
+
+  if (!thing || !thing.id)
+    return undefined;
+
+  let str;
+  if (thing.label)
+    str = mlString.resolve(language, thing.label).str;
+
+  if (str)
+    return str;
+
+  // If we have no proper label, we can at least show the URL
+  if (thing.urls && thing.urls.length)
+    return urlUtils.prettify(thing.urls[0]);
+
+  return undefined;
+
+};
+
 
 // Resolve common errors to standard error messages
 Thing.resolveError = function(error) {

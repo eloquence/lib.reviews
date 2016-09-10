@@ -3,7 +3,6 @@
 const express = require('express');
 const router = express.Router();
 const escapeHTML = require('escape-html');
-const hbs = require('hbs');
 const url = require('url');
 const config = require('config');
 
@@ -205,7 +204,7 @@ function sendThing(req, res, thing, options) {
   render.template(req, res, 'thing', {
     deferHeader: options.edit ? true : false,
     titleKey: options.edit ? options.edit.titleKey : undefined,
-    titleString: hbs.handlebars.helpers.getThingLabel(thing),
+    titleString: Thing.getLabel(thing, req.locale),
     thing,
     edit: options.edit,
     pageErrors,
