@@ -16,7 +16,12 @@
     {
       host: "localhost",
       // port for test DB!
-      port: 28017
+      port: 28018
     }
-  ]
+  ],
+  questionCaptcha: {
+    forms: {
+      register: false
+    }
+  }
 }

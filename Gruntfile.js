@@ -30,6 +30,7 @@ module.exports = function(grunt) {
         },
         files: {
           'tests/helpers/model-helpers-es5.js': 'tests/helpers/model-helpers.js',
+          'tests/helpers/integration-helpers-es5.js': 'tests/helpers/integration-helpers.js',
           'tests/helpers/content-helpers-es5.js': 'tests/helpers/content-helpers.js',
           'tests/helpers/test-helpers-es5.js': 'tests/helpers/test-helpers.js',
           'tests/fixtures/db-fixture-es5.js': 'tests/fixtures/db-fixture.js'
