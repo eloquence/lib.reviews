@@ -99,7 +99,7 @@ let userHandlers = {
           if (options.editBio && !user.userCanEditMetadata)
             return render.permissionError(req, res, next);
 
-          if (user.urlName !== name) // Redirect to chosen display name form (with spaces as underscores)
+          if (decodeURIComponent(user.urlName) !== name) // Redirect to chosen display name form (with spaces as underscores)
             return res.redirect(`/user/${user.urlName}`);
 
           Review
@@ -182,7 +182,7 @@ let userHandlers = {
         .findByURLName(name)
         .then(user => {
 
-          if (user.displayName !== name) {
+          if (decodeURIComponent(user.urlName) !== name) {
             // Redirect to chosen display form
             return res.redirect(`/user/${user.urlName}/feed` + (offsetDate ?
               `/before/${offsetDate.toISOString()}` : ''));
