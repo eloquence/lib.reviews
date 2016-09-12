@@ -12,7 +12,7 @@
       return;
     }
 
-    let name = this.value.trim();
+    let name = encodeURIComponent(this.value.trim());
     $.ajax({
         type: 'HEAD',
         url: `/api/user/${name}`
