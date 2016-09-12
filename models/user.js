@@ -9,7 +9,7 @@ const UserMeta = require('./user-meta');
 
 const options = {
   maxChars: 128,
-  illegalChars: /[<>;"&\?!\.\/]/,
+  illegalChars: /[<>;"&\?!\.\/_]/,
   minPasswordLength: 6
 };
 
@@ -22,7 +22,7 @@ let User = thinky.createModel("users", {
   displayName: type.string().max(options.maxChars).validator(containsOnlyLegalCharacters),
   canonicalName: type.string().max(options.maxChars).validator(containsOnlyLegalCharacters),
   urlName: type.virtual().default(function() {
-    return encodeURIComponent(this.displayName);
+    return this.displayName ? encodeURIComponent(this.displayName.replace(/ /g, '_')) : undefined;
   }),
   email: type.string().max(options.maxChars).email(),
   password: type.string(),
@@ -174,7 +174,7 @@ User.findByURLName = function(name, options) {
     withTeams: false // include full information about teams
   }, options);
 
-  name = name.trim();
+  name = name.trim().replace(/_/g, ' ');
 
   return new Promise((resolve, reject) => {
 

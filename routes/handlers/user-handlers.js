@@ -41,7 +41,7 @@ let userHandlers = {
             originalLanguage: bioLanguage
           };
           bioObj.bio.text[bioLanguage] = escapeHTML(bio);
-          bioObj.bio.html[bioLanguage] = md.render(bio, {language: req.locale});
+          bioObj.bio.html[bioLanguage] = md.render(bio, { language: req.locale });
           bioObj.originalLanguage = bioLanguage;
           User
             .createBio(user, bioObj)
@@ -61,7 +61,7 @@ let userHandlers = {
                 metaRev.bio = {};
 
               metaRev.bio.text[bioLanguage] = escapeHTML(bio);
-              metaRev.bio.html[bioLanguage] = md.render(bio, {language: req.locale});
+              metaRev.bio.html[bioLanguage] = md.render(bio, { language: req.locale });
               metaRev
                 .save()
                 .then(() => {
@@ -99,7 +99,7 @@ let userHandlers = {
           if (options.editBio && !user.userCanEditMetadata)
             return render.permissionError(req, res, next);
 
-          if (user.displayName !== name) // Redirect to chosen display name form
+          if (user.urlName !== name) // Redirect to chosen display name form (with spaces as underscores)
             return res.redirect(`/user/${user.urlName}`);
 
           Review
