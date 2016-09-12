@@ -14,6 +14,8 @@ test.before(async() => {
   await dbFixture.bootstrap(getModels());
 });
 
+// This test needs to run before all of the following, since we use the user's
+// ID to attribute further changes.
 test.serial('We can create a user', async t => {
   await dbFixture.db.r.table('users').wait();
   user = await dbFixture.models.User.create({
