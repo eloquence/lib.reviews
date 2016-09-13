@@ -51,7 +51,8 @@ test.serial(`We can register an account via the form (captcha disabled)`, async 
 
 });
 
-test(`We can create a review`, async t => {
+// This may fail if we add more than one review concurrently to the feed
+test(`We can create and edit a review`, async t => {
   let newReviewResponse = await agent.get('/new/review');
   let csrf = extractCSRF(newReviewResponse.text);
   if (!csrf)
@@ -71,11 +72,43 @@ test(`We can create a review`, async t => {
     })
     .expect(302);
 
-  await agent
+  let feedResponse = await agent
     .get(postResponse.headers.location)
     .expect(200)
-    .expect(/<p>This is a decent enough resource if you want to do anything/)
-    .expect(/Written by <a href="\/user\/A_friend_of_many_GNUs">A friend of/);
+    .expect(/<p>This is a decent enough resource if you want to do anything/) //  Text ..
+    .expect(/Written by <a href="\/user\/A_friend_of_many_GNUs">A friend of/); // was saved
+
+  let m = feedResponse.text.match(/<a href="(\/review\/.*?\/edit)/);
+  if (!m)
+    return t.fail('Could not find edit link');
+
+  let editURL = m[1];
+  let editResponse = await agent.get(editURL)
+    .expect(200)
+    .expect(/Editing a review of/) // We're in edit mode
+    .expect(/value="The unattainable is unknown"/); // There's a field with expected text
+
+  csrf = extractCSRF(editResponse.text);
+
+  let editPostResponse = await agent
+    .post(editURL)
+    .type('form')
+    .send({
+      _csrf: csrf,
+      'review-title': 'The unattainable is still unknown',
+      'review-text': 'I just checked, and I can still do anything on Zombo.com.',
+      'review-rating': '3',
+      'review-language': 'en',
+      'review-action': 'publish'
+    })
+    .expect(302);
+
+  await agent
+    .get(editPostResponse.headers.location)
+    .expect(200)
+    .expect(/I just checked/) // New text is there ..
+    .expect(/Written by <a href="\/user\/A_friend_of_many_GNUs">A friend of/); // .. and byline indicates save
+
 });
 
 test.after.always(async() => {
