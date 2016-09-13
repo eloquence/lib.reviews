@@ -1,6 +1,7 @@
 'use strict';
 import { extractCSRF } from './helpers/integration-helpers-es5';
 import { getModels } from './helpers/model-helpers-es5';
+import isUUID from 'is-uuid';
 import request from 'supertest-as-promised';
 import test from 'ava';
 
@@ -108,6 +109,48 @@ test(`We can create and edit a review`, async t => {
     .expect(200)
     .expect(/I just checked/) // New text is there ..
     .expect(/Written by <a href="\/user\/A_friend_of_many_GNUs">A friend of/); // .. and byline indicates save
+
+});
+
+test(`We can create a new team`, async t => {
+
+  await agent.get('/new/team')
+    .expect(403)
+    .expect(/do not have permission/);
+
+  let user = await dbFixture.models.User.findByURLName('A_friend_of_many_GNUs');
+  t.true(isUUID.v4(user.id), 'Previously created user could be found through model');
+
+  // Give user permission needed to create team
+  user.isTrusted = true;
+  await user.save();
+  let newTeamResponse = await agent.get('/new/team')
+    .expect(200)
+    .expect(/Rules for joining/);
+
+  let csrf = extractCSRF(newTeamResponse.text);
+  if (!csrf)
+    return t.fail('Could not obtain CSRF token');
+
+  let newTeamPostResponse = await agent
+    .post('/new/team')
+    .type('form')
+    .send({
+      _csrf: csrf,
+      'team-name': 'Kale Alliance',
+      'team-motto': 'Get Your Kale On',
+      'team-description': 'We seek all the kale. Then we must eat it.',
+      'team-rules': 'No leftovers.',
+      'team-only-mods-can-blog': true,
+      'team-language': 'en',
+      'team-action': 'publish'
+    })
+    .expect(302);
+
+  await agent
+    .get(newTeamPostResponse.headers.location)
+    .expect(200)
+    .expect(/Team: Kale Alliance/); // Team has been saved
 
 });
 
