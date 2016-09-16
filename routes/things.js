@@ -151,7 +151,13 @@ router.get('/thing/:id/upload', function(req, res, next) {
 
       render.template(req, res, 'thing-upload', {
         titleKey: 'add media',
-        thing
+        thing,
+        scripts: ['upload.js']
+      }, {
+        messages: {
+          "one file selected": req.__('1 file selected'),
+          "files selected": req.__('files selected')
+        }
       });
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));

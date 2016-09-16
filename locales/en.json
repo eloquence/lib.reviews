@@ -276,5 +276,7 @@
     "choose files": "Select files to upload",
     "upload completed": "Your upload was successful. You can find a reference to it below.",
     "upload failed": "Your upload failed.",
-    "uploaded media": "Uploaded media:"
+    "uploaded media": "Uploaded media:",
+    "one file selected": "1 file selected",
+    "files selected": "%s files selected"
 }

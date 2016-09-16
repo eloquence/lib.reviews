@@ -45,6 +45,7 @@ module.exports = function(grunt) {
           'static/js/libreviews.js': 'frontend/libreviews.js',
           'static/js/register.js': 'frontend/register.js',
           'static/js/review.js': 'frontend/review.js',
+          'static/js/upload.js': 'frontend/upload.js',
           'static/js/user.js': 'frontend/user.js',
           'static/js/markdown-init.js': 'frontend/markdown-init.js'
         }

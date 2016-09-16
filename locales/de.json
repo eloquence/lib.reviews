@@ -276,5 +276,7 @@
     "choose files": "Wähle Dateien aus",
     "upload completed": "Das Hochladen war erfolgreich. Du kannst unten einen Hinweis auf die Dateien finden.",
     "upload failed": "Das Hochladen schlug fehl.",
-    "uploaded media": "Hochgeladene Dateien:"
+    "uploaded media": "Hochgeladene Dateien:",
+    "one file selcted": "Eine Datei ausgewählt",
+    "files selected": "%s Dateien ausgewählt"
 }
