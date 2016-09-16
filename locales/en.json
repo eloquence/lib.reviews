@@ -270,5 +270,11 @@
     "reviews of": "Reviews of %s",
     "atom feed of all reviews of this item": "Atom feed of all reviews of this item",
     "spoiler warning": "Warning: The text below contains spoilers.",
-    "nsfw warning": "Warning: The content below may not be safe for work (NSFW)."
+    "nsfw warning": "Warning: The content below may not be safe for work (NSFW).",
+    "add media": "Add media",
+    "related to": "Related to %s",
+    "choose files": "Select files to upload",
+    "upload completed": "Your upload was successful. You can find a reference to it below.",
+    "upload failed": "Your upload failed.",
+    "uploaded media": "Uploaded media:"
 }

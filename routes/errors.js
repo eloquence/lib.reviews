@@ -30,7 +30,7 @@ class ErrorProvider {
     });
   }
 
-  generic(error, req, res) {
+  generic(error, req, res, _next) {
 
     let showDetails;
     if (this.app.get('env') === 'development')

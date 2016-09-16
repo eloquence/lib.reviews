@@ -46,33 +46,33 @@ router.get('/thing/:id/atom/:language', function(req, res, next) {
         return res.redirect(`/thing/${id}/atom/en`);
 
       Review.getFeed({
-        thingID: thing.id,
-        withThing: false
-      })
-      .then(result => {
+          thingID: thing.id,
+          withThing: false
+        })
+        .then(result => {
 
 
-        let updatedDate;
-        result.feedItems.forEach(review => {
-          if (!updatedDate || (review.createdOn && review.createdOn > updatedDate))
-            updatedDate = review.createdOn;
-        });
+          let updatedDate;
+          result.feedItems.forEach(review => {
+            if (!updatedDate || (review.createdOn && review.createdOn > updatedDate))
+              updatedDate = review.createdOn;
+          });
 
-        req.setLocale(language);
-        res.type('application/atom+xml');
-        render.template(req, res, 'thing-feed-atom', {
-          titleKey: 'reviews of',
-          thing,
-          layout: 'layout-atom',
-          language,
-          updatedDate,
-          feedItems: result.feedItems,
-          selfURL: url.resolve(config.qualifiedURL, `/thing/${id}/atom/${language}`),
-          htmlURL: url.resolve(config.qualifiedURL, `/thing/${id}`)
-        });
+          req.setLocale(language);
+          res.type('application/atom+xml');
+          render.template(req, res, 'thing-feed-atom', {
+            titleKey: 'reviews of',
+            thing,
+            layout: 'layout-atom',
+            language,
+            updatedDate,
+            feedItems: result.feedItems,
+            selfURL: url.resolve(config.qualifiedURL, `/thing/${id}/atom/${language}`),
+            htmlURL: url.resolve(config.qualifiedURL, `/thing/${id}`)
+          });
 
-      })
-      .catch(error => next(error));
+        })
+        .catch(error => next(error));
 
 
     })
@@ -138,25 +138,44 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
+router.get('/thing/:id/upload', function(req, res, next) {
+  let id = req.params.id.trim();
+  Thing.getNotStaleOrDeleted(id)
+    .then(thing => {
+
+      thing.populateUserInfo(req.user);
+      if (!thing.userCanUpload)
+        return render.permissionError(req, res, {
+          titleKey: 'add media'
+        });
+
+      render.template(req, res, 'thing-upload', {
+        titleKey: 'add media',
+        thing
+      });
+    })
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+});
+
 function loadThingAndReviews(req, res, next, thing, offsetDate) {
 
-    let p1, p2;
+  let p1, p2;
 
-    thing.populateUserInfo(req.user);
+  thing.populateUserInfo(req.user);
 
-    // We don't use a join so we can use the orderBy index on this query.
-    p1 = Review.getFeed({
-      thingID: thing.id,
-      withThing: false,
-      withoutCreator: req.user ? req.user.id : false, // Obtained separately below
-      offsetDate
-    });
+  // We don't use a join so we can use the orderBy index on this query.
+  p1 = Review.getFeed({
+    thingID: thing.id,
+    withThing: false,
+    withoutCreator: req.user ? req.user.id : false, // Obtained separately below
+    offsetDate
+  });
 
-    // Separate query for any reviews by the user (might otherwise not be
-    // within the date range captured above). Populates with user info.
-    p2 = thing.getReviewsByUser(req.user);
+  // Separate query for any reviews by the user (might otherwise not be
+  // within the date range captured above). Populates with user info.
+  p2 = thing.getReviewsByUser(req.user);
 
-    Promise
+  Promise
     .all([p1, p2])
     .then(result => {
 
@@ -186,11 +205,12 @@ function sendThing(req, res, thing, options) {
   }, options);
 
   let pageErrors = req.flash('pageErrors');
+  let pageMessages = req.flash('pageMessages');
   let showLanguageNotice = false;
   let user = req.user;
 
   if (options.edit && req.method == 'GET' && (!user.suppressedNotices ||
-    user.suppressedNotices.indexOf('language-notice-thing') == -1))
+      user.suppressedNotices.indexOf('language-notice-thing') == -1))
     showLanguageNotice = true;
 
   let embeddedFeeds = feeds.getEmbeddedFeeds(req, {
@@ -208,6 +228,7 @@ function sendThing(req, res, thing, options) {
     thing,
     edit: options.edit,
     pageErrors,
+    pageMessages,
     embeddedFeeds,
     deferPageHeader: true,
     showLanguageNotice,

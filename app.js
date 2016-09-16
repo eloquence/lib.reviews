@@ -26,6 +26,7 @@ const actions = require('./routes/actions');
 const users = require('./routes/users');
 const teams = require('./routes/teams');
 const pages = require('./routes/pages');
+const processUploads = require('./routes/process-uploads');
 const blogPosts = require('./routes/blog-posts');
 const api = require('./routes/api');
 const apiHelper = require('./routes/helpers/api');
@@ -148,7 +149,6 @@ function getApp(db) {
       extended: false
     }));
 
-
     app.use(compression());
 
     app.use('/static/downloads', serveIndex(path.join(__dirname, 'static/downloads'), {
@@ -174,6 +174,8 @@ function getApp(db) {
 
     app.use('/api', api);
 
+    // Upload processing has to be done before CSRF middleware kicks in
+    app.use('/', processUploads);
     app.use(csrf());
     app.use('/', pages);
     app.use('/', reviews);

@@ -26,6 +26,9 @@ let thingSchema = {
     maxLength: 512
   }),
 
+  // Files (e.g., images, videos) associated with this thing
+  files: [type.string()],
+
   // First element is used for main part of canonical URL given to this thing, others redirect
   slugs: [type.string()],
 
@@ -44,7 +47,8 @@ let thingSchema = {
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
   userCanEdit: type.virtual().default(false),
-  userIsCreator: type.virtual().default(false),
+  userCanUpload: type.virtual().default(false),
+  userIsCreator: type.virtual().default(false)
 
 };
 
@@ -90,6 +94,14 @@ Thing.define("getReviewsByUser", function(user) {
   });
 });
 
+// Helper function to deal with array initialization
+Thing.define("addFile", function(filename) {
+  if (this.files === undefined)
+    this.files = [];
+
+  this.files.push(filename);
+
+});
 Thing.define("newRevision", revision.getNewRevisionHandler(Thing));
 Thing.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Thing));
 Thing.define("populateUserInfo", function(user) {
@@ -100,6 +112,7 @@ Thing.define("populateUserInfo", function(user) {
   // since things are collaborative in nature
   this.userCanDelete = user.isSiteModerator || false;
   this.userCanEdit = user.isTrusted || user.id === this.createdBy;
+  this.userCanUpload = user.isTrusted;
   this.userIsCreator = user.id === this.createdBy;
 
 });

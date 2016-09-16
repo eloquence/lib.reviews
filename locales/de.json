@@ -270,5 +270,11 @@
     "reviews of": "Rezensionen von %s",
     "atom feed of all reviews of this item": "Atom-Feed aller Rezensionen dieses Eintrags",
     "spoiler warning": "Warnung: Der untenstehende Text enthält Spoiler.",
-    "nsfw warning": "Warning: Der untentstehende Inhalt ist explizit und kann für die Betrachtung am Arbeitsplatz ungeeignet sein."
+    "nsfw warning": "Warning: Der untentstehende Inhalt ist explizit und kann für die Betrachtung am Arbeitsplatz ungeeignet sein.",
+    "add media": "Medien hinzufügen",
+    "related to": "Mit Bezug auf:",
+    "choose files": "Wähle Dateien aus",
+    "upload completed": "Das Hochladen war erfolgreich. Du kannst unten einen Hinweis auf die Dateien finden.",
+    "upload failed": "Das Hochladen schlug fehl.",
+    "uploaded media": "Hochgeladene Dateien:"
 }

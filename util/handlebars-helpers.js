@@ -82,6 +82,14 @@ hbs.registerHelper('getLang', function(str, options) {
 hbs.registerHelper('getThingLabel', (thing, options) =>
   Thing.getLabel(thing, options.data.root.locale));
 
+hbs.registerHelper('getThingLink', (thing, options) => {
+  let label = Thing.getLabel(thing, options.data.root.locale);
+  return `<a href="/thing/${thing.id}">${label}</a>`;
+});
+
+// Filenames cannot contain HTML metacharacters, so URL encoding is sufficient here
+hbs.registerHelper('getFileLink', filename => `<a href="/static/uploads/${encodeURIComponent(filename)}">${filename}</a>`);
+
 hbs.registerHelper('isoDate', date => date && date.toISOString ? date.toISOString() : undefined);
 
 // Resolve a multilingual string to the current request language.

@@ -1,4 +1,9 @@
 {{>page_errors}}
+<div id="page-messages">
+{{#each pageMessages}}
+<div class="message-box">{{{this}}}</div>
+{{/each}}
+</div>
 {{#if showLanguageNotice}}
 {{> dismissible_notice icon="globe" messageKey="editing in language" id="language-notice-thing" csrfToken=csrfToken}}
 {{/if}}
@@ -26,6 +31,17 @@
 {{#if thing.urls}}
 <span class="fa fa-external-link review-icon"></span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}
 {{/if}}
+
+{{#if thing.files}}
+<p>
+{{{__ "uploaded media"}}}
+<ul>
+{{#each thing.files}}
+<li> {{{getFileLink this}}}
+{{/each}}
+</ul>
+{{/if}}
+
 <div id="thing">
 <div id="thing-label"></div>
 <div id="thing-short-desc"></div>
@@ -55,6 +71,9 @@
 <a href="/new/review/thing/{{thing.id}}" id="add-review" class="pure-button button-rounded"><span class="fa fa-plus-circle spaced-icon"></span>{{{__ "add your review"}}}</a>
 {{/unless}}
 {{/unless}}
+{{#if thing.userCanUpload}}
+<a href="/thing/{{thing.id}}/upload" id="upload" class="pure-button button-rounded"><span class="fa fa-picture-o spaced-icon"></span>{{__ "add media"}}</a>
+{{/if}}
 {{else}}
 <br><br>
 <b>{{{__ "sign in to review"}}}</b>
