@@ -1,8 +1,8 @@
 <h2 id="sub-header">{{{__ "related to" (getThingLink thing)}}}</h2>
 
-<form method="post" enctype="multipart/form-data" accept="image/*,video/*">
+<form method="post" enctype="multipart/form-data">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
-<input type="file" name="media" multiple id="upload-input" class="hidden nojs-visible">
+<input type="file" name="media" multiple id="upload-input" accept="image/*,video/*,audio/*" class="hidden nojs-visible">
 <label id="upload-label" for="upload-input" data-upload-count class="pure-button button-rounded nojs-hidden"><span class="fa fa-file-image-o spaced-icon"></span><span id="upload-label-text">{{{__ "choose files"}}}</span></label>
 <p><button id="start-upload" class="pure-button pure-button-primary button-rounded" data-upload-check type="submit"><span class="fa fa-cloud-upload"></span> Upload</button>
 </form>
