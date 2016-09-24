@@ -61,10 +61,6 @@
   {{/if}}
 </div>
 </div>
-{{#if userReviews}}
-<h2 class="sub-header-regular" id="your-review">{{{__ "your review"}}}</h2>
-{{>feed thingFeed=true feedItems=userReviews noPagination=true}}
-{{/if}}
 {{#if user}}
 {{#unless userReviews}}
 {{#unless edit.label}}
@@ -78,6 +74,10 @@
 {{else}}
 <br><br>
 <b>{{{__ "sign in to review"}}}</b>
+{{/if}}
+{{#if userReviews}}
+<h2 class="sub-header-regular" id="your-review">{{{__ "your review"}}}</h2>
+{{>feed thingFeed=true feedItems=userReviews noPagination=true}}
 {{/if}}
 <br><br>
 
