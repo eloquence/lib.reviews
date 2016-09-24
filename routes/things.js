@@ -5,19 +5,24 @@ const router = express.Router();
 const escapeHTML = require('escape-html');
 const url = require('url');
 const config = require('config');
+const fs = require('fs');
+const path = require('path');
 
 // Internal dependencies
 const Thing = require('../models/thing');
+const File = require('../models/file');
 const Review = require('../models/review');
 const render = require('./helpers/render');
 const flashError = require('./helpers/flash-error');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const languages = require('../locales/languages');
 const feeds = require('./helpers/feeds');
+const debug = require('../util/debug');
+const ErrorMessage = require('../util/error');
 
 router.get('/thing/:id', function(req, res, next) {
   let id = req.params.id.trim();
-  Thing.getNotStaleOrDeleted(id)
+  Thing.getWithData(id)
     .then(thing => loadThingAndReviews(req, res, next, thing))
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
@@ -25,7 +30,7 @@ router.get('/thing/:id', function(req, res, next) {
 router.get('/thing/:id/before/:utcisodate', function(req, res, next) {
   let id = req.params.id.trim();
   let utcISODate = req.params.utcisodate.trim();
-  Thing.getNotStaleOrDeleted(id)
+  Thing.getWithData(id)
     .then(thing => {
       let offsetDate = new Date(utcISODate);
       if (!offsetDate || offsetDate == 'Invalid Date')
@@ -87,7 +92,7 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
     });
 
   let id = req.params.id.trim();
-  Thing.getNotStaleOrDeleted(id)
+  Thing.getWithData(id)
     .then(thing => {
       thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
@@ -108,7 +113,7 @@ router.get('/thing/:id/edit/label', function(req, res, next) {
 
 router.post('/thing/:id/edit/label', function(req, res, next) {
   let id = req.params.id.trim();
-  Thing.getNotStaleOrDeleted(id)
+  Thing.getWithData(id)
     .then(thing => {
 
       thing.populateUserInfo(req.user);
@@ -140,7 +145,39 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
 
 router.get('/thing/:id/upload', function(req, res, next) {
   let id = req.params.id.trim();
-  Thing.getNotStaleOrDeleted(id)
+  Thing.getWithData(id)
+    .then(thing => {
+
+
+      thing.populateUserInfo(req.user);
+      if (!thing.userCanUpload)
+        return render.permissionError(req, res, {
+          titleKey: 'add media'
+        });
+
+      let pageErrors = req.flash('pageErrors');
+
+      render.template(req, res, 'thing-upload', {
+        titleKey: 'add media',
+        thing,
+        pageErrors,
+        scripts: ['upload.js']
+      }, {
+        messages: {
+          "one file selected": req.__('1 file selected'),
+          "files selected": req.__('files selected')
+        }
+      });
+    })
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+});
+
+// This route handles step 2 of a file upload, the addition of metadata.
+// Step 1 is handled as an earlier middleware in process-uploads.js, due to the
+// requirement of handling file streams and a multipart form.
+router.post('/thing/:id/upload', function(req, res, next) {
+  let id = req.params.id.trim();
+  Thing.getWithData(id)
     .then(thing => {
 
       thing.populateUserInfo(req.user);
@@ -149,16 +186,120 @@ router.get('/thing/:id/upload', function(req, res, next) {
           titleKey: 'add media'
         });
 
-      render.template(req, res, 'thing-upload', {
-        titleKey: 'add media',
-        thing,
-        scripts: ['upload.js']
-      }, {
-        messages: {
-          "one file selected": req.__('1 file selected'),
-          "files selected": req.__('files selected')
-        }
+      // We use the hidden fields in the submission to loop through all the
+      // uploads we expect additional form data for. At this time we already have
+      // a record in the DB which is simply not marked as finished,
+      // and can be theoretically completed at any time, as long as we still have
+      // the temporarily stashed file it refers to.
+      let keys = Object.keys(req.body);
+      let uuidRegex = /upload-([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$/;
+      let uploadKeys = keys.filter(key => uuidRegex.test(key));
+
+      // We did not get any valid uploads.
+      if (!uploadKeys) {
+        req.flash('pageErrors', req.__('upload failed'));
+        return res.redirect(`/thing/${thing.id}`);
+      }
+      let uploadPromises = [];
+      uploadKeys.forEach(uploadKey => {
+        let id = uploadKey.match(uuidRegex)[1]; // Safe since array has already been filtered
+        if (id)
+          uploadPromises.push(File.getNotStaleOrDeleted(id));
       });
+
+      // The execution sequence here is:
+      // 1) Parse the form and abort if there's a problem with any given upload.
+      // 2) If there's no problem, move the upload to its final location,
+      //    update its metadata and mark it as finished.
+      Promise
+        .all(uploadPromises)
+        .then(uploads => {
+          let finishUploadPromises = [];
+
+          uploads.forEach(upload => {
+
+            // TODO validate language
+            let language = escapeHTML(req.body['upload-language']) || 'en';
+            let description = escapeHTML(req.body[`upload-${upload.id}-description`]);
+            if (!description)
+              throw new ErrorMessage('upload needs description', [upload.name]);
+
+            upload.description = {
+              [language]: description
+            };
+
+            let by = req.body[`upload-${upload.id}-by`];
+            if (by === 'other') {
+              let creator = escapeHTML(req.body[`upload-${upload.id}-creator`]);
+              if (!creator)
+                throw new ErrorMessage('upload needs creator', [upload.name]);
+
+              let source = escapeHTML(req.body[`upload-${upload.id}-source`]);
+
+              if (!source)
+                throw new ErrorMessage('upload needs source', [upload.name]);
+
+              let license = req.body[`upload-license-${upload.id}`];
+
+              if (!license)
+                throw new ErrorMessage('upload needs license', [upload.name]);
+
+              upload.creator = { [language]: creator };
+              upload.source = { [language]: source };
+              upload.license = license;
+            } else {
+              upload.license = 'cc-by-sa';
+            }
+            upload.completed = true;
+
+            let finishUpload = new Promise((resolve, reject) => {
+
+              // File names are sanitized on input but ..
+              // This error is not shown to the user but logged, hence native.
+              if (!upload.name || /[\/<>]/.test(upload.name))
+                throw new Error(`Invalid filename: ${upload.name}`);
+
+              // Move the file to its final location so it can be served
+              let oldPath = path.join(config.uploadTempDir, upload.name);
+              let newPath = path.join(__dirname, '../static/uploads', upload.name);
+
+              fs.rename(oldPath, newPath, error => {
+                if (error)
+                  reject(error);
+                else
+                  upload
+                  .save()
+                  .then(() => {
+                    resolve();
+                  })
+                  .catch(error => {
+                    // Problem saving the metadata. Move upload back to
+                    // temporary stash.
+                    fs.rename(newPath, oldPath, renameError => {
+                      debug.error({
+                        context: 'upload->moving unsucessful upload back',
+                        error: renameError,
+                        req
+                      });
+                    });
+                    reject(error);
+                  });
+              });
+            });
+            finishUploadPromises.push(finishUpload);
+          });
+          Promise
+            .all(finishUploadPromises)
+            .then(() => {
+              req.flash('pageMessages', req.__('upload completed'));
+              res.redirect(`/thing/${thing.id}`);
+            })
+            .catch(error => next(error));
+        })
+        .catch(error => {
+          flashError(req, error);
+          return res.redirect(`/thing/${thing.id}/upload`);
+        });
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });

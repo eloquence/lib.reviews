@@ -7,6 +7,7 @@ const ErrorMessage = require('../util/error.js');
 const urlUtils = require('../util/url-utils');
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
+const File = require('./file');
 
 let thingSchema = {
 
@@ -25,9 +26,6 @@ let thingSchema = {
   description: mlString.getSchema({
     maxLength: 512
   }),
-
-  // Files (e.g., images, videos) associated with this thing
-  files: [type.string()],
 
   // First element is used for main part of canonical URL given to this thing, others redirect
   slugs: [type.string()],
@@ -56,6 +54,16 @@ let thingSchema = {
 Object.assign(thingSchema, revision.getSchema());
 
 let Thing = thinky.createModel("things", thingSchema);
+
+// Define membership and moderator relations; these are managed by the ODM
+// as separate tables, e.g. teams_users_membership
+Thing.hasAndBelongsToMany(File, "files", "id", "id", {
+  type: 'media_usage'
+});
+
+File.hasAndBelongsToMany(Thing, "things", "id", "id", {
+  type: 'media_usage'
+});
 
 Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Thing);
 
@@ -116,6 +124,37 @@ Thing.define("populateUserInfo", function(user) {
   this.userIsCreator = user.id === this.createdBy;
 
 });
+
+Thing.getWithData = function(id, options) {
+
+  options = Object.assign({ // Default: all first-level joins
+    withFiles: true
+  }, options);
+
+  return new Promise((resolve, reject) => {
+
+    let join = {};
+    if (options.withFiles)
+      join.files = {
+        _apply: seq => seq.filter({ completed: true }) // We don't show unfinished uploads
+      };
+
+    Thing
+      .get(id)
+      .getJoin(join)
+      .then(thing => {
+        if (thing._revDeleted)
+          return reject(revision.deletedError);
+
+        if (thing._revOf)
+          return reject(revision.staleError);
+        resolve(thing);
+
+      })
+      .catch(error => reject(error));
+  });
+
+};
 
 // Get label for a given thing, fallback to prettified URL if none available
 Thing.getLabel = function(thing, language) {

@@ -161,6 +161,14 @@
     $(window).resize(window.libreviews.repaintFocusedHelp);
   }
 
+  // Show/hide parts of a page dynamically
+  $('[data-show]').focus(function() {
+    $(`#${$(this).attr('data-show')}`).slideDown(200);
+  });
+
+  $('[data-hide]').focus(function() {
+    $(`#${$(this).attr('data-hide')}`).slideUp(200);
+  });
 
   // Focus input
   $('[data-focus]').focus();

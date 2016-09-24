@@ -275,7 +275,6 @@
     "related to": "Sub-header shown on the file upload page to refer back to the review subject. %s is substituted with review subject label.",
     "choose files": "Button for selecting one or multiple files to upload",
     "upload completed": "Success message after an upload",
-    "upload failed": "Failure message after an upload",
     "uploaded media": "List of uploaded media on a review subject page",
     "1 file selected": "JavaScript counter of number of files selected on an upload form, replaces upload label.",
     "files selected": "JavaScript counter of number of files selected on an upload form, replaces upload button label. %s is substituted with count."

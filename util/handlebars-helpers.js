@@ -82,6 +82,22 @@ hbs.registerHelper('getLang', function(str, options) {
 hbs.registerHelper('getThingLabel', (thing, options) =>
   Thing.getLabel(thing, options.data.root.locale));
 
+// Just a simple %1, %2 substitution function for various purposes
+hbs.registerHelper('substitute', function() {
+  let args = Array.from(arguments);
+
+  let i = 1,
+    string = args.shift();
+
+  while (args.length) {
+    let sub = args.shift();
+    string = string.replace(`%${i}`, sub);
+    i++;
+  }
+  return string;
+});
+
+
 hbs.registerHelper('getThingLink', (thing, options) => {
   let label = Thing.getLabel(thing, options.data.root.locale);
   return `<a href="/thing/${thing.id}">${label}</a>`;

@@ -9,16 +9,33 @@ const fileType = require('file-type');
 const readChunk = require('read-chunk');
 const fs = require('fs');
 const isSVG = require('is-svg');
+const config = require('config');
 
 // Internal dependencies
 const Thing = require('../models/thing');
+const File = require('../models/file');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
 const debug = require('../util/debug');
+const ErrorMessage = require('../util/error');
+const flashError = require('./helpers/flash-error');
 
-const allowedTypes = ['image/png', 'image/gif', 'image/svg+xml', 'image/jpeg', 'video/webm', 'audio/ogg', 'video/ogg', 'audio/mpeg'];
+const allowedTypes = ['image/png', 'image/gif', 'image/svg+xml', 'image/jpeg', 'video/webm', 'audio/ogg', 'video/ogg', 'audio/mpeg', 'image/webp'];
 
+// Uploading is a two step process. In the first step, the user simply posts the
+// file or files. In the second step, they provide information such as the
+// license and description. This first step has to be handled separately
+// because of the requirement of managing upload streams and multipart forms.
+//
+// Whether or not an upload is finished, as long as we have a valid file, we
+// keep it on disk, initially in a temporary directory. We also create a
+// record in the "files" table for it that can be completed later.
 router.post('/thing/:id/upload', function(req, res, next) {
+
+  // req.body won't be populated if this is a multipart request, and we pass
+  // it along to the middleware for step 2, which can be found in things.js
+  if (typeof req.body == "object" && Object.keys(req.body).length)
+    return next();
 
   let id = req.params.id.trim();
   Thing.getNotStaleOrDeleted(id)
@@ -30,11 +47,8 @@ router.post('/thing/:id/upload', function(req, res, next) {
           titleKey: 'add media'
         });
 
-      // If any files in a given upload were rejected, we add them here for reporting.
-      let rejectedFiles = [];
-
       let storage = multer.diskStorage({
-        destination: path.join(__dirname, '../static/uploads'),
+        destination: config.uploadTempDir,
         filename(req, file, done) {
           let p = path.parse(file.originalname);
           let name = `${p.name}-${Date.now()}${p.ext}`;
@@ -53,12 +67,16 @@ router.post('/thing/:id/upload', function(req, res, next) {
 
       // Execute the actual upload middleware
       upload(req, res, error => {
-        if (error)
-          return next(error);
+
+        // An error at this stage most likely means an unsupported file type was among the batch.
+        // We reject the whole batch and report the bad apple.
+        if (error) {
+          cleanupFiles(req);
+          flashError(req, error);
+          return res.redirect(`/thing/${thing.id}/upload`);
+        }
 
         if (req.files.length) {
-          req.files.forEach(f => thing.addFile(f.filename));
-
           let validators = [];
           req.files.forEach(file => {
             // SVG files need full examination
@@ -73,28 +91,36 @@ router.post('/thing/:id/upload', function(req, res, next) {
           Promise
             .all(validators)
             .then(() => {
-              thing
-                .save()
-                .then(() => {
-                  req.flash('pageMessages', req.__('upload completed'));
-                  res.redirect(`/thing/${thing.id}`);
-                });
+              let fileRevPromises = [];
+              req.files.forEach(() => fileRevPromises.push(File.createFirstRevision(req.user)));
+              Promise
+                .all(fileRevPromises)
+                .then(fileRevs => {
+                  req.files.forEach((file, index) => {
+                    fileRevs[index].name = file.filename;
+                    fileRevs[index].uploadedBy = req.user.id;
+                    fileRevs[index].uploadedOn = new Date();
+                    thing.addFile(fileRevs[index]);
+                  });
+                  thing
+                    .saveAll() // saves joined files
+                    .then(thing => render.template(req, res, 'thing-upload-step-2', {
+                        titleKey: 'add media',
+                        thing
+                      }))
+                    .catch(error => next(error)); // Problem saving file metadata
+                })
+                .catch(error => next(error)); // Problem starting file revisions
             })
-            .catch(_error => { // One of the files couldn't be validated
-
+            .catch(error => { // One of the files couldn't be validated
               cleanupFiles(req);
-              req.flash('pageErrors', req.__('upload failed'));
-              res.redirect(`/thing/${thing.id}`);
-
+              flashError(req, error);
+              res.redirect(`/thing/${thing.id}/upload`);
             });
 
         } else {
-
-          // TODO: We need to handle different error cases here, e.g.,
-          // one of the uploaded files failed; why did it fail.
-
-          req.flash('pageErrors', req.__('upload failed'));
-          res.redirect(`/thing/${thing.id}`);
+          req.flash('pageErrors', req.__('no file received'));
+          res.redirect(`/thing/${thing.id}/upload`);
         }
       });
 
@@ -105,11 +131,10 @@ router.post('/thing/:id/upload', function(req, res, next) {
       function fileFilter(req, file, done) {
         checkCSRF(req, res, error => {
           if (error)
-            done(error); // Bad CSRF token, reject upload
-          else
-          if (allowedTypes.indexOf(file.mimetype) == -1) { // Bad MIME type, reject this file
-            rejectedFiles.push(file);
-            done(null, false);
+            return done(error); // Bad CSRF token, reject upload
+
+          if (allowedTypes.indexOf(file.mimetype) == -1) {
+            done(new ErrorMessage('unsupported file type', [file.originalname, file.mimetype]), false);
           } else
             done(null, true); // Accept file for furhter investigation
         });
@@ -120,6 +145,9 @@ router.post('/thing/:id/upload', function(req, res, next) {
 });
 
 function cleanupFiles(req) {
+  if (!Array.isArray(req.files))
+    return;
+
   req.files.forEach(file => {
     fs.unlink(file.path, error => {
       if (error)
@@ -136,19 +164,19 @@ function cleanupFiles(req) {
 // Verify that a file's contents match its claimed MIME type. This is shallow,
 // fast validation. If files are manipulated, we need to pay further attention
 // to any possible exploits.
-function validateFile(path, claimedType) {
+function validateFile(filePath, claimedType) {
 
   return new Promise((resolve, reject) => {
 
-    readChunk(path, 0, 262)
+    readChunk(filePath, 0, 262)
       .then(buffer => {
         let type = fileType(buffer);
         if (!type)
-          return reject(new Error('Unrecognized file type'));
+          return reject(new ErrorMessage('unrecognized file type', [path.basename(filePath)]));
         if (type.mime === claimedType)
           return resolve();
         if (type.mime !== claimedType)
-          return reject(new Error(`Claimed MIME type was ${claimedType} but file appears to be ${type.mime}`));
+          return reject(new ErrorMessage('mime mismatch', [path.basename(filePath), claimedType, type.mime]));
       })
       .catch(error => reject(error));
   });
@@ -157,18 +185,18 @@ function validateFile(path, claimedType) {
 
 // SVGs can't be validated by magic number check. This, too, is a relatively
 // shallow validation, not a full XML parse.
-function validateSVG(path) {
+function validateSVG(filePath) {
 
   return new Promise((resolve, reject) => {
 
-    fs.readFile(path, (error, data) => {
+    fs.readFile(filePath, (error, data) => {
       if (error)
         return reject(error);
 
       if (isSVG(data))
         return resolve();
       else
-        return reject(new Error(`Claimed MIME type was image/svg+xml but file does not appear to be valid SVG.`));
+        return reject(new ErrorMessage('not valid svg', [path.basename(filePath)]));
     });
   });
 

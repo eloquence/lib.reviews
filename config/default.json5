@@ -65,6 +65,10 @@
   // How many minutes (!) should a session cookie last. Default = 30 days.
   sessionCookieDuration: 43200,
 
+  // While an upload is in progress, we store it temporarily here.
+  // Will be created if it doesn't exist.
+  uploadTempDir: '/tmp/uploads',
+
   // If you want to see blog posts from a certain team on the front page,
   // include the team ID here for now.
   frontPageTeamBlog: "",

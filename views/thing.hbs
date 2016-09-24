@@ -37,7 +37,8 @@
 {{{__ "uploaded media"}}}
 <ul>
 {{#each thing.files}}
-<li> {{{getFileLink this}}}
+<li> {{{getFileLink this.name}}}<br>
+  {{{mlString this.description}}}<br>
 {{/each}}
 </ul>
 {{/if}}
