@@ -63,8 +63,8 @@ router.post('/team/:id/join', function(req, res, next) {
       if (!team.userCanJoin)
         return render.permissionError(req, res);
 
-      let rules = mlString.resolve(req.locale, team.rules);
-      if (rules && rules.str && !req.body['agree-to-rules']) {
+      if (team.rules && mlString.resolve(req.locale, team.rules.html) &&
+        !req.body['agree-to-rules']) {
         req.flash('joinErrors', req.__('must agree to team rules'));
         return res.redirect(`/team/${id}`);
       }
