@@ -168,6 +168,7 @@
     "team description": "Label for team description field in form for creating/editing teams",
     "enter team description": "Placeholder for team description field",
     "team rules": "Label for team rules field in form for creating/editing teams",
+    "team rules label": "Label for team rules section on team page",
     "team rules help label": "Label for help text regarding team rules in form for creating/editing teams",
     "enter team rules": "Placeholder for team rules field",
     "mod approval to join": "Label for checkbox in form for creating/editing teams",

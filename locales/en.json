@@ -168,6 +168,7 @@
     "team description": "Describe the purpose of your team",
     "enter team description": "Enter team description",
     "team rules": "Rules for joining and participating (optional)",
+    "team rules label": "Team rules",
     "team rules help label": "Team rules",
     "enter team rules": "Enter team rules",
     "mod approval to join": "Team moderators must approve new team members",
