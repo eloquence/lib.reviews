@@ -21,6 +21,7 @@ const config = require('config');
 const compression = require('compression');
 
 // Internal dependencies
+const languages = require('./locales/languages');
 const reviews = require('./routes/reviews');
 const actions = require('./routes/actions');
 const users = require('./routes/users');
@@ -62,7 +63,7 @@ function getApp(db) {
 
     // i18n setup
     i18n.configure({
-      locales: ['en', 'de'],
+      locales: languages.getValidLanguages(),
       cookie: 'locale',
       autoReload: true,
       updateFiles: false,

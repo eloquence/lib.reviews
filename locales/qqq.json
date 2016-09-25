@@ -6,8 +6,6 @@
     "find us on": "Introduction shown on frontpage",
     "from the dev diary": "Link to development diary shown on frontpage",
     "change language": "Language switcher shown at the bottom of every page",
-    "german": "Language name in localization language, followed by language name in language described by the label, e.g. 'German (Deutsch)' for the German label in English. Omit native name if identical or not applicable.",
-    "english": "Language name in localization language, followed by language name in language described by the label, e.g. 'German (Deutsch)' for the German label in English. Omit local name if identical or not applicable",
     "sign in": "Button for signing into the site",
     "register": "Button for registering an account",
     "papers please": "Intro shown on the login page",

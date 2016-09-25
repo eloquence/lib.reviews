@@ -8,7 +8,7 @@ const Reflect = require('harmony-reflect');
 
 // Internal dependencies
 const mlString = require('../models/helpers/ml-string');
-const langDefs = require('../locales/languages').getAll();
+const languages = require('../locales/languages');
 const Thing = require('../models/thing');
 const urlUtils = require('./url-utils');
 
@@ -127,9 +127,8 @@ hbs.registerHelper('mlString', function(str, addLanguageSpan, options) {
   if (!addLanguageSpan || mlRv.lang === options.data.root.locale)
     return mlRv.str;
   else {
-    let langLabelKey = langDefs[mlRv.lang].messageKey;
-    let langLabel = Reflect.apply(i18n.__, options.data.root, [langLabelKey]);
-    return `${mlRv.str} <span class="language-identifier" title="${langLabel}">` +
+    let languageName = languages.getCompositeName(mlRv.lang, options.data.root.locale);
+    return `${mlRv.str} <span class="language-identifier" title="${languageName}">` +
       `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
   }
 });

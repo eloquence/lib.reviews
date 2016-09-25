@@ -6,8 +6,6 @@
     "find us on": "You can also find us <a href='https://github.com/eloquence/lib.reviews'>on GitHub</a>, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>join our mailing list</a> and chat with us on IRC (<a href='https://webchat.freenode.net/?channels=libreviews'>#libreviews</a> on <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Watch a <a href='/static/uploads/screencast1.webm'>short screencast</a> (<a href='https://youtu.be/VyRiAYp1Nn4'>YouTube version</a>) about the state of things as of August 2016.",
     "from the dev diary": "From the <a href='/team/%s/blog'>development diary</a>:",
     "change language": "Switch to:",
-    "german": "German (Deutsch)",
-    "english": "English",
     "sign in": "Sign in",
     "register": "Register",
     "papers please": "Welcome back! Please provide your login credentials below.",

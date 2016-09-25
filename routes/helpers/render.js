@@ -30,17 +30,19 @@ let render = {
     if (extraVars && Array.isArray(extraVars.scripts))
       vars.scripts = vars.scripts.concat(extraVars.scripts);
 
-    // Mapping of languages keys against message keys that provide labels
-    // for those languages.
-    vars.languages = languages.getAll();
+    vars.languageNames = {};
 
-    if (vars.languages[req.locale])
-      vars.languages[req.locale].isCurrentLanguage = true;
+    languages.getValidLanguages().forEach(langKey => {
+      vars.languageNames[langKey] = {
+        name: languages.getCompositeName(langKey, req.locale)
+      };
+      if (langKey == req.locale)
+        vars.languageNames[langKey].isCurrentLanguage = true;
+    });
 
     vars.currentLanguage = {
       langKey: req.locale,
-      messageKey: vars.languages[req.locale].messageKey,
-      label: req.__(vars.languages[req.locale].messageKey)
+      name: vars.languageNames[req.locale].name
     };
 
     if (req.csrfToken)

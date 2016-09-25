@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const basePath = path.join(__dirname, '../locales');
-const langKeys = Object.keys(require(`${basePath}/languages`).getAll());
+const langKeys = require(`${basePath}/languages`).getValidLanguages();
 // qqq is a pseudo language code (reserved for local use in the ISO standard)
 // which, per translatewiki.net convention, is used for message documentation
 langKeys.push('qqq');
