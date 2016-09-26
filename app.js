@@ -128,29 +128,10 @@ function getApp(db) {
       next();
     });
 
-    // Initialize Passport and restore authentication state, if any, from the
-    // session.
-    app.use(passport.initialize());
-    app.use(passport.session());
-
     app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
 
     if (config.get('logger'))
       app.use(logger(config.get('logger')));
-
-    // API requests do not require CSRF protection (hence declared before CSRF
-    // middleware), but session-authenticated POST requests do require the
-    // X-Requested-With header to be set, which ensures they're subject to CORS
-    // rules. This middleware also sets req.isAPI to true for API requests.
-    app.use('/api', apiHelper.prepareRequest);
-
-
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-      extended: false
-    }));
-
-    app.use(compression());
 
     app.use('/static/downloads', serveIndex(path.join(__dirname, 'static/downloads'), {
       'icons': true,
@@ -164,6 +145,24 @@ function getApp(db) {
       res.type('text');
       res.send('User-agent: *\nDisallow: /api/\n');
     });
+
+    // Initialize Passport and restore authentication state, if any, from the
+    // session.
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // API requests do not require CSRF protection (hence declared before CSRF
+    // middleware), but session-authenticated POST requests do require the
+    // X-Requested-With header to be set, which ensures they're subject to CORS
+    // rules. This middleware also sets req.isAPI to true for API requests.
+    app.use('/api', apiHelper.prepareRequest);
+
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+      extended: false
+    }));
+
+    app.use(compression());
 
     let errorProvider = new ErrorProvider(app);
 
