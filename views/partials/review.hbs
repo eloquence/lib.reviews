@@ -30,7 +30,7 @@
   {{#if review.teams}}
   {{{__ "posted under"}}}
   {{#each review.teams}}
-  <a href="/team/{{this.id}}">{{mlString this.name}}</a>{{#unless @last}},{{/unless}}
+  <a href="/team/{{this.id}}">{{{mlString this.name}}}</a>{{#unless @last}},{{/unless}}
   {{/each}}
   <br style="clear:both;">
   {{/if}}

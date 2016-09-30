@@ -275,7 +275,7 @@
     "choose files": "Button for selecting one or multiple files to upload",
     "upload completed": "Success message after an upload",
     "uploaded media": "List of uploaded media on a review subject page",
-    "1 file selected": "JavaScript counter of number of files selected on an upload form, replaces upload label.",
+    "one file selected": "JavaScript counter of number of files selected on an upload form, replaces upload label.",
     "files selected": "JavaScript counter of number of files selected on an upload form, replaces upload button label. %s is substituted with count.",
     "no file received": "Error message shown if the upload form is submitted without any file",
     "uploaded media": "Heading for the subject of a review that lists files uploaded that relate to the subject",
@@ -309,5 +309,11 @@
     "upload needs description": "Error message shown if user attempts to submit form without providing the given required field. %s is substituted with the filename.",
     "upload needs creator": "Error message shown if user attempts to submit form without providing the given required field. %s is substituted with the filename.",
     "upload needs source": "Error message shown if user attempts to submit form without providing the given required field. %s is substituted with the filename.",
-    "upload needs license": "Error message shown if user attempts to submit form without providing the given required field. %s is substituted with the filename."
+    "upload needs license": "Error message shown if user attempts to submit form without providing the given required field. %s is substituted with the filename.",
+    "teams to associate": "Heading for checkbox list of teams in the form for creating or editing reviews",
+    "not member of any teams yet": "Notice we show in the form for creating or editing reviews if user is not member of any teams. Please preserve link target to avoid loss of form data.",
+    "submitted team could not be found": "Error message shown if user attempts to submit a review with a team that could not be found",
+    "user is not member of submitted team": "Error message shown if user attempts to submit a review with a team they are not a member of",
+    "posted under": "Shown below a review, to indicate team associations and possibly other categorization in future.",
+    "team page": "Shown next to a team's name on a review form, linking to its team page"
   }
