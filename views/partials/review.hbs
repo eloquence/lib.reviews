@@ -25,6 +25,16 @@
 {{{mlString review.html false}}}
 </div>
 <p>
+
+<div class="review-teams">
+  {{#if review.teams}}
+  {{{__ "posted under"}}}
+  {{#each review.teams}}
+  <a href="/team/{{this.id}}">{{mlString this.name}}</a>{{#unless @last}},{{/unless}}
+  {{/each}}
+  <br style="clear:both;">
+  {{/if}}
+</div>
 {{!Review actions: Delete, edit, permanent link}}
 <div class="review-actions">
 {{#if feed}}
@@ -39,6 +49,7 @@
 &nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span>
 {{/if}}
 </div>
+
 {{! Date and author}}
 <div class="review-byline">
 {{{__ "byline" (userLink review.creator) (longDate review.createdOn)}}}

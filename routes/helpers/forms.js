@@ -4,6 +4,8 @@ const escapeHTML = require('escape-html');
 const md = require('../../util/md');
 const urlUtils = require('../../util/url-utils');
 
+// Used for field names in forms that support UUID wildcards
+const uuidRegex = '([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})';
 
 let forms = {
 
@@ -54,6 +56,13 @@ let forms = {
       hasCorrectCaptcha = forms.processCaptchaAnswer(req);
     }
 
+    // We support UUID wildcards in form names, so we have to unpack those
+    // based on the contents of the actual body. This function will change the
+    // contents of formDef and derive a new field for each body key that
+    // matches the wildcard. It will then remove the original wildcard
+    // field before we process the form.
+    formDef = forms.unpackWildcards(formDef, req.body);
+
     for (let field of formDef) {
 
       // We keep track of body keys we've processed so we can flag
@@ -64,7 +73,7 @@ let forms = {
 
       // We can map form keys to object keys if desired, using the 'key'
       // option in the form definition.
-      let key = field.key || field.name;
+      let key = field.arrayKey || field.key || field.name;
 
       // We can exempt fields from the check, e.g., because we already have
       // the data for that field from another source than the form
@@ -82,34 +91,35 @@ let forms = {
       if (field.skipValue || options.skipRequiredCheck.indexOf(field.name) != -1)
         continue;
 
+      let val;
       switch (field.type) {
 
         case 'number':
-          formValues[key] = Number(req.body[field.name].trim());
+          val = Number(req.body[field.name].trim());
           break;
 
         case 'url':
-          formValues[key] = urlUtils.normalize(req.body[field.name].trim());
-          formValues[key] = encodeURI(formValues[key]);
+          val = urlUtils.normalize(req.body[field.name].trim());
+          val = encodeURI(val);
           break;
 
-        // Multilingual text that needs to be trimmed and escaped
+          // Multilingual text that needs to be trimmed and escaped
         case 'text':
-          formValues[key] = {
+          val = {
             [options.language]: escapeHTML(req.body[field.name].trim())
           };
           break;
 
-        // Multilingual markdown, we preserve both the escaped text and the
-        // rendered markdown
+          // Multilingual markdown, we preserve both the escaped text and the
+          // rendered markdown
         case 'markdown':
           if (!field.flat)
-            formValues[key] = {
+            val = {
               text: {
                 [options.language]: escapeHTML(req.body[field.name].trim())
               },
               html: {
-                [options.language]: md.render(req.body[field.name].trim(), {language: req.locale})
+                [options.language]: md.render(req.body[field.name].trim(), { language: req.locale })
               }
             };
 
@@ -120,18 +130,37 @@ let forms = {
             };
 
             formValues[field.htmlKey] = {
-              [options.language]: md.render(req.body[field.name].trim(), {language: req.locale})
+              [options.language]: md.render(req.body[field.name].trim(), { language: req.locale })
             };
           }
           break;
 
         case 'boolean':
-          formValues[key] = Boolean(req.body[field.name]);
+          val = Boolean(req.body[field.name]);
           break;
 
         default:
-          formValues[key] = req.body[field.name];
+          val = req.body[field.name];
 
+      }
+
+      // Assign value. We push it into an array for wildcard fields.
+      if (val !== undefined) {
+        if (field.arrayKey) {
+
+          // Get and use a UUID if there is one
+          let id = (field.name.match(uuidRegex) || [])[1];
+
+          if (!Array.isArray(formValues[key]))
+            formValues[key] = [];
+
+          if (id)
+            formValues[key].push({ id, val });
+          else
+            formValues[key].push(val);
+        } else {
+          formValues[key] = val;
+        }
       }
 
     }
@@ -179,6 +208,32 @@ let forms = {
       return false;
     } else
       return true;
+  },
+
+  unpackWildcards(formDef, body) {
+
+    for (let field of formDef) {
+
+      // Is this a field with a wildcard?
+      if (/%uuid/.test(field.name)) {
+
+        // search the body for any occurrences of the UUID pattern
+        let regex = new RegExp('^' + field.name.replace('%uuid', uuidRegex) + '$');
+
+        for (let bodyKey in body) {
+          if (bodyKey.match(regex)) {
+            // Create a new field for each body key that matches
+            let fd = Object.assign({}, field);
+            fd.name = bodyKey;
+            formDef.push(fd);
+          }
+        }
+      }
+    }
+    // Remove the wildcard defs
+    formDef = formDef.filter(field => !/%uuid/.test(field.name));
+    return formDef;
+
   }
 
 };

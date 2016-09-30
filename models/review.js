@@ -98,9 +98,10 @@ Review.create = function(reviewObj, options) {
   return new Promise((resolve, reject) => {
     Review
       .findOrCreateThing(reviewObj)
-      .then((thing) => {
+      .then(thing => {
         let review = new Review({
-          thingID: thing.id,
+          thing, // joined
+          teams: reviewObj.teams, // joined
           title: reviewObj.title,
           text: reviewObj.text,
           html: reviewObj.html,
@@ -113,7 +114,7 @@ Review.create = function(reviewObj, options) {
           _revDate: reviewObj.createdOn,
           _revTags: options.tags ? options.tags : undefined
         });
-        review.save().then(review => {
+        review.saveAll().then(review => {
           resolve(review);
         }).catch(error => { // Save failed
           switch (error.message) {
@@ -190,6 +191,9 @@ Review.getWithData = function(id) {
         thing: true
       })
       .getJoin({
+        teams: true
+      })
+      .getJoin({
         creator: {
           _apply: seq => seq.without('password')
         }
@@ -223,6 +227,8 @@ Review.getFeed = function(options) {
     thingID: undefined,
     // If true, join on the associated thing
     withThing: true,
+    // If true, join on the associated teams
+    withTeams: true,
     // If set, exclude reviews by a certain user ID
     withoutCreator: undefined,
     limit: 10
@@ -265,6 +271,11 @@ Review.getFeed = function(options) {
   if (options.withThing)
     query = query.getJoin({
       thing: true
+    });
+
+  if (options.withTeams)
+    query = query.getJoin({
+      teams: true
     });
 
   query = query.getJoin({

@@ -5,6 +5,7 @@ const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
 const User = require('./user');
+const Review = require('./review');
 
 let teamSchema = {
   id: type.string(),
@@ -71,6 +72,15 @@ User.hasAndBelongsToMany(Team, "teams", "id", "id", {
 
 User.hasAndBelongsToMany(Team, "moderatorOf", "id", "id", {
   type: 'moderatorship'
+});
+
+// Any review can have any number of teams associated with it and vice versa.
+Team.hasAndBelongsToMany(Review, "reviews", "id", "id", {
+  type: 'team_content'
+});
+
+Review.hasAndBelongsToMany(Team, "teams", "id", "id", {
+  type: 'team_content'
 });
 
 

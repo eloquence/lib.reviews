@@ -5,10 +5,12 @@ const Reflect = require('harmony-reflect');
 // Internal dependencies
 const Review = require('../../models/review');
 const Thing = require('../../models/thing');
+const Team = require('../../models/team');
 const AbstractBREADProvider = require('./abstract-bread-provider');
 const flashError = require('../helpers/flash-error');
 const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
+const ErrorMessage = require('../../util/error.js');
 const md = require('../../util/md');
 
 class ReviewProvider extends AbstractBREADProvider {
@@ -62,10 +64,15 @@ class ReviewProvider extends AbstractBREADProvider {
     let showLanguageNotice = true;
 
     // For easier processing in the template
-    if (formValues && formValues.starRating)
-      formValues.hasRating = {
-        [formValues.starRating]: true
-      };
+    if (formValues) {
+      if (formValues.starRating)
+        formValues.hasRating = {
+          [formValues.starRating]: true
+        };
+      formValues.hasTeam = {};
+      if (Array.isArray(formValues.teams))
+        formValues.teams.forEach(team => (formValues.hasTeam[team.id] = true));
+    }
 
     if (user.suppressedNotices &&
       user.suppressedNotices.indexOf('language-notice-review') !== -1)
@@ -132,16 +139,31 @@ class ReviewProvider extends AbstractBREADProvider {
     if (thing && thing.id)
       reviewObj.thing = thing;
 
-    Review
-      .create(reviewObj, {
-        tags: ['create-via-form']
+    this
+      .validateAndGetTeams(formData.formValues.teams)
+      .then(teams => {
+
+        reviewObj.teams = teams;
+
+        Review
+          .create(reviewObj, {
+            tags: ['create-via-form']
+          })
+          .then(review => {
+            let id = review.id || '';
+            this.res.redirect(`/feed#review-${id}`);
+          })
+          .catch(errorMessage => {
+            flashError(this.req, errorMessage, 'saving review');
+            this.add_GET(formData.formValues, thing);
+          });
+
       })
-      .then(review => {
-        let id = review.id || '';
-        this.res.redirect(`/feed#review-${id}`);
-      })
-      .catch(errorMessage => {
-        flashError(this.req, errorMessage, 'saving review');
+      .catch(error => {
+        if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
+          error = new ErrorMessage('submitted team could not be found', [], error);
+
+        flashError(this.req, error, 'add review->get team data');
         this.add_GET(formData.formValues, thing);
       });
 
@@ -203,32 +225,78 @@ class ReviewProvider extends AbstractBREADProvider {
     if (this.isPreview || this.req.flashHas('pageErrors'))
       return this.add_GET(formData.formValues);
 
-    // Save the edit
-    review
-      .newRevision(this.req.user, {
-        tags: ['edit-via-form']
-      })
-      .then(newRev => {
-        let f = formData.formValues;
-        newRev.title[language] = f.title[language];
-        newRev.text[language] = f.text[language];
-        newRev.html[language] = f.html[language];
-        newRev.starRating = f.starRating;
-        newRev
-          .save()
-          .then(() => {
-            this.req.flash('pageMessages', this.req.__('edit saved'));
-            this.res.redirect(`/review/${newRev.id}`);
+    this
+      .validateAndGetTeams(formData.formValues.teams)
+      .then(teams => {
+        // Save the edit
+        review
+          .newRevision(this.req.user, {
+            tags: ['edit-via-form']
+          })
+          .then(newRev => {
+            let f = formData.formValues;
+            newRev.title[language] = f.title[language];
+            newRev.text[language] = f.text[language];
+            newRev.html[language] = f.html[language];
+            newRev.starRating = f.starRating;
+            newRev.teams = teams;
+            newRev.thing = review.thing;
+            newRev
+              .saveAll()
+              .then(() => {
+                this.req.flash('pageMessages', this.req.__('edit saved'));
+                this.res.redirect(`/review/${newRev.id}`);
+              })
+              .catch(error => {
+                flashError(this.req, error, 'edit review->save');
+                this.add_GET(formData.formValues);
+              });
           })
           .catch(error => {
-            flashError(this.req, error, 'edit review->save');
+            flashError(this.req, error, 'edit review->new revision');
             this.add_GET(formData.formValues);
           });
       })
       .catch(error => {
-        flashError(this.req, error, 'edit review->new revision');
+        if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
+          error = new ErrorMessage('submitted team could not be found', [], error);
+
+        flashError(this.req, error, 'edit review->get team data');
         this.add_GET(formData.formValues);
       });
+
+  }
+
+  validateAndGetTeams(teamArray) {
+
+    return new Promise((resolve, reject) => {
+
+      if (!Array.isArray(teamArray) || !teamArray.length)
+        return resolve([]);
+
+      let p = [];
+      for (let obj of teamArray) {
+        if (typeof obj !== 'object')
+          return reject(new Error('Invalid form data about teams'));
+        if (!obj.id)
+          return reject(new Error('Form request contained team data but no team ID'));
+
+        p.push(Team.getWithData(obj.id));
+      }
+      Promise
+        .all(p)
+        .then(teams => {
+
+          teams.forEach(team => {
+            team.populateUserInfo(this.req.user);
+            if (!team.userIsMember)
+              throw new ErrorMessage('user is not member of submitted team');
+          });
+          resolve(teams);
+
+        })
+        .catch(error => reject(error));
+    });
 
   }
 
@@ -271,8 +339,6 @@ class ReviewProvider extends AbstractBREADProvider {
         this.next(err);
       });
   }
-
-
 }
 
 module.exports = ReviewProvider;
@@ -281,36 +347,43 @@ module.exports = ReviewProvider;
 // Shared across instances
 ReviewProvider.formDefs = {
   'new-review': [{
-    name: 'review-url',
-    required: true,
-    type: 'url',
-    key: 'url'
-  }, {
-    name: 'review-title',
-    required: true,
-    type: 'text',
-    key: 'title'
-  }, {
-    name: 'review-text',
-    required: true,
-    type: 'markdown',
-    key: 'text',
-    flat: true,
-    htmlKey: 'html'
-  }, {
-    name: 'review-rating',
-    required: true,
-    type: 'number',
-    key: 'starRating'
-  }, {
-    name: 'review-language',
-    required: false,
-    key: 'originalLanguage'
-  }, {
-    name: 'review-action',
-    required: true,
-    skipValue: true // Logic, not saved
-  }],
+      name: 'review-url',
+      required: true,
+      type: 'url',
+      key: 'url'
+    }, {
+      name: 'review-title',
+      required: true,
+      type: 'text',
+      key: 'title'
+    }, {
+      name: 'review-text',
+      required: true,
+      type: 'markdown',
+      key: 'text',
+      flat: true,
+      htmlKey: 'html'
+    }, {
+      name: 'review-rating',
+      required: true,
+      type: 'number',
+      key: 'starRating'
+    }, {
+      name: 'review-language',
+      required: false,
+      key: 'originalLanguage'
+    }, {
+      name: 'review-action',
+      required: true,
+      skipValue: true // Logic, not saved
+    },
+    {
+      name: 'review-team-%uuid',
+      required: false,
+      type: 'boolean',
+      arrayKey: 'teams'
+    }
+  ],
   'delete-review': [{
     name: 'delete-action',
     required: true
@@ -319,28 +392,35 @@ ReviewProvider.formDefs = {
     required: false
   }],
   'edit-review': [{
-    name: 'review-title',
-    required: true,
-    type: 'text',
-    key: 'title'
-  }, {
-    name: 'review-text',
-    required: true,
-    type: 'markdown',
-    key: 'text',
-    flat: true,
-    htmlKey: 'html'
-  }, {
-    name: 'review-rating',
-    required: true,
-    type: 'number',
-    key: 'starRating'
-  }, {
-    name: 'review-language',
-    required: true
-  }, {
-    name: 'review-action',
-    required: true,
-    skipValue: true
-  }]
+      name: 'review-title',
+      required: true,
+      type: 'text',
+      key: 'title'
+    }, {
+      name: 'review-text',
+      required: true,
+      type: 'markdown',
+      key: 'text',
+      flat: true,
+      htmlKey: 'html'
+    }, {
+      name: 'review-rating',
+      required: true,
+      type: 'number',
+      key: 'starRating'
+    }, {
+      name: 'review-language',
+      required: true
+    }, {
+      name: 'review-action',
+      required: true,
+      skipValue: true
+    },
+    {
+      name: 'review-team-%uuid',
+      required: false,
+      type: 'boolean',
+      arrayKey: 'teams'
+    }
+  ]
 };

@@ -166,6 +166,14 @@ User.create = function(userObj) {
   });
 };
 
+User.getWithTeams = function (id) {
+  return User
+    .get(id)
+    .getJoin({
+      teams: true
+    });
+};
+
 User.findByURLName = function(name, options) {
 
   options = Object.assign({

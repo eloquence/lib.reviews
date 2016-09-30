@@ -13,7 +13,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   User
-    .get(id)
+    .getWithTeams(id)
     .then(user => {
       done(null, user);
     })

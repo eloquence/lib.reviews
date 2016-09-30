@@ -119,6 +119,15 @@
         <div class="pure-u-1 pure-u-md-2-3">
 
       <input id="review-language" name="review-language" type="hidden" value="{{currentLanguage.langKey}}">
+      <b>{{{__ "teams to associate"}}}</b>
+      <p>
+      {{#if user.teams}}
+      {{#each user.teams}}
+      <input type="checkbox" id="review-team-{{this.id}}" name="review-team-{{this.id}}"{{#if (lookup ../formValues.hasTeam this.id)}} checked{{/if}}> <label for="review-team-{{this.id}}" class="inline-label"> {{{mlString this.name}}} <a href="/team/{{this.id}}" target="_blank">{{{__ "team page"}}}</a></label><br>
+      {{/each}}
+      {{else}}
+      <span class="fa fa-info-circle info-icon"></span> {{{__ "not member of any teams yet"}}}
+      {{/if}}
 
     </div>
     </div>
