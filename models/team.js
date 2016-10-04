@@ -1,6 +1,7 @@
 'use strict';
 const thinky = require('../db');
 const type = thinky.type;
+const r = thinky.r;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
@@ -31,6 +32,9 @@ let teamSchema = {
 
   // For collaborative translation of team metadata
   originalLanguage: type.string().max(4).validator(isValidLanguage),
+
+  // For feeds
+  reviewOffsetDate: type.virtual().default(null),
 
   // These can only be populated from the outside using a user object
   userIsFounder: type.virtual().default(false),
@@ -88,11 +92,14 @@ Team.createFirstRevision = revision.getFirstRevisionHandler(Team);
 Team.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Team);
 Team.getWithData = function(id, options) {
 
-  options = Object.assign({ // Default: all first-level joins
+  options = Object.assign({ // Default: all first-level joins except reviews
     withMembers: true,
     withModerators: true,
     withJoinRequests: true,
-    withJoinRequestDetails: false
+    withJoinRequestDetails: false,
+    withReviews: false,
+    reviewLimit: 1,
+    reviewOffsetDate: null
   }, options);
 
   return new Promise((resolve, reject) => {
@@ -113,6 +120,22 @@ Team.getWithData = function(id, options) {
       };
     }
 
+    if (options.withReviews) {
+      join.reviews = {
+        teams: true,
+        thing: true
+      };
+      if (options.reviewOffsetDate)
+        join.reviews._apply = seq => seq
+        .orderBy(r.desc('createdOn'))
+        .filter(review => review('createdOn').lt(options.reviewOffsetDate))
+        .limit(options.reviewLimit + 1);
+      else
+        join.reviews._apply = seq => seq
+        .orderBy(r.desc('createdOn'))
+        .limit(options.reviewLimit + 1);
+    }
+
     Team
       .get(id)
       .getJoin(join)
@@ -122,6 +145,13 @@ Team.getWithData = function(id, options) {
 
         if (team._revOf)
           return reject(revision.staleError);
+
+        // At least one additional document available, return offset for pagination
+        if (options.withReviews && Array.isArray(team.reviews) &&
+          team.reviews.length == options.reviewLimit + 1) {
+          team.reviews.pop();
+          team.reviewOffsetDate = team.reviews[team.reviews.length - 1].createdOn;
+        }
         resolve(team);
 
       })

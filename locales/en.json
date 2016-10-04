@@ -312,5 +312,10 @@
     "submitted team could not be found": "The relevant record for the team you are trying to add to your review could not be found. Perhaps it has been deleted?",
     "user is not member of submitted team": "You do not appear to be a member of a team you submitted. Perhaps you just left it?",
     "posted under": "Posted under:",
-    "team page": "(team page)"
+    "team page": "(team page)",
+    "latest review": "Latest review",
+    "team feed": "Reviews by Team: %s",
+    "atom feed of reviews by team": "Atom feed of all reviews by this team",
+    "no reviews for team": "This team has not published any reviews yet.",
+    "no reviews for user": "This user has not published any reviews yet."
 }

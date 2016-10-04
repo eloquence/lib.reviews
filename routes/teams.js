@@ -7,9 +7,60 @@ const TeamJoinRequest = require('../models/team-join-request');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
 const mlString = require('../models/helpers/ml-string');
+const languages = require('../locales/languages');
 
 // Default routes for read, edit, add, delete
 let router = TeamProvider.bakeRoutes('team');
+
+// Feed of all reviews
+router.get('/team/:id/feed', function(req, res, next) {
+  let id = req.params.id.trim();
+  let teamProvider = new TeamProvider(req, res, next, {
+    action: 'feed',
+    method: 'GET',
+    id
+  });
+  teamProvider.execute();
+});
+
+// Feed of all reviews before a given date
+router.get('/team/:id/feed/before/:utcisodate', function(req, res, next) {
+  let id = req.params.id.trim();
+  let offsetDate = new Date(req.params.utcisodate.trim());
+  if (!offsetDate || offsetDate == 'Invalid Date')
+    offsetDate = null;
+
+  let teamProvider = new TeamProvider(req, res, next, {
+    action: 'feed',
+    method: 'GET',
+    id,
+    offsetDate
+  });
+  teamProvider.execute();
+});
+
+router.get('/team/:id/feed/atom', function(req, res) {
+  let id = req.params.id.trim();
+  res.redirect(`/team/${id}/feed/atom/en`);
+});
+
+// Feed of all reviews in Atom format
+router.get('/team/:id/feed/atom/:language', function(req, res, next) {
+  let id = req.params.id.trim();
+  let language = req.params.language.trim();
+  if (!languages.isValid(language))
+    language = 'en';
+
+  let teamProvider = new TeamProvider(req, res, next, {
+    action: 'feed',
+    method: 'GET',
+    id,
+    format: 'atom',
+    language
+  });
+  teamProvider.execute();
+});
+
 
 // Show list of all teams
 router.get('/teams', function(req, res, next) {

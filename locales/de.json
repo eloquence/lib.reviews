@@ -312,6 +312,10 @@
     "submitted team could not be found": "Der relevante Eintrag für das Team, dem du beitreten möchtest, konnte nicht gefunden werden. Vielleicht wurde es gelöscht_",
     "user is not member of submitted team": "Du scheinst nicht Mitglied des Teams zu sein, das du eingesendet hast. Vielleicht hast du gerade das Team verlassen?",
     "posted under": "Einsortiert unter:",
-    "team page": "(Team-Seite)"
-
+    "team page": "(Team-Seite)",
+    "latest review": "Neueste Rezension",
+    "team feed": "Rezensionen des Teams: %s",
+    "atom feed of reviews by team": "Atom-Feed aller Rezensionen dieses Teams",
+    "no reviews for team": "Dieses Team hat noch keine Rezensionen veröffentlicht.",
+    "no reviews for user": "Dieser Benutzer hat noch keine Rezensionen veröffentlicht."
 }

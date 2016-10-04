@@ -1,11 +1,17 @@
 'use strict';
+// External deps
+const escapeHTML = require('escape-html');
+const config = require('config');
+const url = require('url');
+const i18n = require('i18n');
+
+// Internal deps
 const AbstractBREADProvider = require('./abstract-bread-provider');
 const Team = require('../../models/team');
 const mlString = require('../../models/helpers/ml-string.js');
 const BlogPost = require('../../models/blog-post');
 const feeds = require('../helpers/feeds');
 
-const escapeHTML = require('escape-html');
 
 class TeamProvider extends AbstractBREADProvider {
 
@@ -17,12 +23,21 @@ class TeamProvider extends AbstractBREADProvider {
     this.actions.edit.titleKey = 'edit team';
     this.actions.delete.titleKey = 'delete team';
 
+    this.actions.read.loadData = this.loadDataWithMostRecentReview;
+
     // Membership roster
     this.actions.members = {
       GET: this.members_GET,
       loadData: this.loadData,
       titleKey: 'membership roster',
       preFlightChecks: []
+    };
+
+    this.actions.feed = {
+      GET: this.feed_GET,
+      loadData: this.loadDataWithFeed,
+      preFlightChecks: [],
+      titleKey: 'team feed'
     };
 
     // Join request management for closed teams
@@ -195,9 +210,27 @@ class TeamProvider extends AbstractBREADProvider {
 
   }
 
+  // We just show a single review on the team entry page
+  loadDataWithMostRecentReview() {
+
+    return Team.getWithData(this.id, { withReviews: true });
+
+  }
+
+  // This is for feed or feed/before/<date> requests
+  loadDataWithFeed() {
+
+    return Team.getWithData(this.id, {
+      withReviews: true,
+      reviewLimit: 10,
+      reviewOffsetDate: this.offsetDate || null
+    });
+
+  }
+
   loadDataWithJoinRequestDetails() {
 
-    return Team.getWithData(this.id, {withJoinRequestDetails: true});
+    return Team.getWithData(this.id, { withJoinRequestDetails: true });
 
   }
 
@@ -210,6 +243,8 @@ class TeamProvider extends AbstractBREADProvider {
   read_GET(team) {
 
     team.populateUserInfo(this.req.user);
+    if (Array.isArray(team.reviews))
+      team.reviews.forEach(review => review.populateUserInfo(this.req.user));
 
     let titleParam = mlString.resolve(this.req.locale, team.name).str;
 
@@ -258,12 +293,15 @@ class TeamProvider extends AbstractBREADProvider {
 
         blogPosts.forEach(post => post.populateUserInfo(this.req.user));
 
-        let atomURLPrefix = `/team/${team.id}/blog/atom`;
-        let atomURLTitleKey = 'atom feed of blog posts by team';
         let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
-          atomURLPrefix,
-          atomURLTitleKey
+          atomURLPrefix: `/team/${team.id}/blog/atom`,
+          atomURLTitleKey: 'atom feed of blog posts by team'
         });
+
+        embeddedFeeds = embeddedFeeds.concat(feeds.getEmbeddedFeeds(this.req, {
+          atomURLPrefix: `/team/${team.id}/feed/atom`,
+          atomURLTitleKey: 'atom feed of reviews by team'
+        }));
 
         this.renderTemplate('team', {
           team,
@@ -274,12 +312,67 @@ class TeamProvider extends AbstractBREADProvider {
           pageMessages,
           founder,
           embeddedFeeds,
+          utcISODate: team.reviewOffsetDate ? team.reviewOffsetDate.toISOString() : undefined,
           blogPostsUTCISODate: offsetDate ? offsetDate.toISOString() : undefined,
           deferPageHeader: true // Two-column-layout
         });
 
       });
 
+  }
+
+  feed_GET(team) {
+    team.populateUserInfo(this.req.user);
+    if (!Array.isArray(team.reviews))
+      team.reviews = [];
+
+    let updatedDate;
+    team.reviews.forEach(review => {
+      review.populateUserInfo(this.req.user);
+      if (review.thing)
+        review.thing.populateUserInfo(this.req.user);
+      // For Atom feed - most recently modified item in the result set
+      if (!updatedDate || review._revDate > updatedDate)
+        updatedDate = review._revDate;
+    });
+
+    let titleParam = mlString.resolve(this.req.locale, team.name).str;
+
+    // Atom feed metadata for <link> tags in HTML version
+    let atomURLPrefix = `/team/${this.id}/feed/atom`;
+    let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
+      atomURLPrefix,
+      atomURLTitleKey: 'atom feed of reviews by team'
+    });
+
+    let vars = {
+      team,
+      feedItems: team.reviews,
+      titleKey: 'team feed',
+      titleParam,
+      embeddedFeeds,
+      utcISODate: team.reviewOffsetDate ? team.reviewOffsetDate.toISOString() : undefined
+    };
+
+    if (this.format) {
+      if (this.format == 'atom') {
+
+        Object.assign(vars, {
+          layout: 'layout-atom',
+          language: this.language,
+          updatedDate,
+          selfURL: url.resolve(config.qualifiedURL, `${atomURLPrefix}/${this.language}`),
+          htmlURL: url.resolve(config.qualifiedURL, `/team/${this.id}/feed`)
+        });
+        i18n.setLocale(this.req, this.language);
+        this.res.type('application/atom+xml');
+        this.renderTemplate('review-feed-atom', vars);
+      } else {
+        this.next(new Error(`Format ${this.format} not supported`));
+      }
+    } else {
+      this.renderTemplate('team-feed', vars);
+    }
   }
 
   edit_POST(team) {
