@@ -326,6 +326,10 @@ class TeamProvider extends AbstractBREADProvider {
     if (!Array.isArray(team.reviews))
       team.reviews = [];
 
+    // For machine-readable feeds
+    if (this.format && this.language)
+      i18n.setLocale(this.req, this.language);
+
     let updatedDate;
     team.reviews.forEach(review => {
       review.populateUserInfo(this.req.user);
@@ -364,7 +368,6 @@ class TeamProvider extends AbstractBREADProvider {
           selfURL: url.resolve(config.qualifiedURL, `${atomURLPrefix}/${this.language}`),
           htmlURL: url.resolve(config.qualifiedURL, `/team/${this.id}/feed`)
         });
-        i18n.setLocale(this.req, this.language);
         this.res.type('application/atom+xml');
         this.renderTemplate('review-feed-atom', vars);
       } else {
