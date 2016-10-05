@@ -55,6 +55,8 @@ class BlogPostProvider extends AbstractBREADProvider {
 
     let offsetDate;
 
+    team.populateUserInfo(this.req.user);
+
     offsetDate = new Date(this.utcISODate);
     if (!offsetDate || offsetDate == 'Invalid Date')
       offsetDate = null;

@@ -1,3 +1,7 @@
+{{#if team.userCanBlog}}
+<p>
+<a href="/team/{{team.id}}/new/post" id="write-blog" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>{{{__ "write a blog post"}}}</a>
+{{/if}}
 {{#if blogPosts}}
 {{#each blogPosts}}
 {{> blog_post post=this}}
