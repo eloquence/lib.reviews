@@ -86,7 +86,7 @@
     "feed": "Headline that is shown for activity feeds (currently just review feeds)",
     "one or multiple stars": {
         "one": "Text representation of a review with a single star, used for example as ALT text",
-        "other": "Text representation of a review with multiple stars, used for example as ALT text"
+        "other": "Text representation of a review with multiple stars, used for example as ALT text. See https://github.com/mashpie/i18n-node#ranged-interval-support for examples if you need to use more than one plural form."
     },
     "captcha intro": "CAPTCHA introduction on some forms, currently unused",
     "question: famous painting": "Simple CAPTCHA for some forms, feel free to adapt question and answer to local context consistent with key name",
