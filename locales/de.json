@@ -317,5 +317,6 @@
     "team feed": "Rezensionen des Teams: %s",
     "atom feed of reviews by team": "Atom-Feed aller Rezensionen dieses Teams",
     "no reviews for team": "Dieses Team hat noch keine Rezensionen veröffentlicht.",
-    "no reviews for user": "Dieser Benutzer hat noch keine Rezensionen veröffentlicht."
+    "no reviews for user": "Dieser Benutzer hat noch keine Rezensionen veröffentlicht.",
+    "view all": "&raquo; Alle anzeigen"
 }
