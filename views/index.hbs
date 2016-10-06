@@ -9,9 +9,8 @@
 <li> {{shortDate this.createdOn}}: <a href="/team/{{../team.id}}/post/{{this.id}}">{{{mlString this.title}}}</a></li>
 {{/each}}
 </ul>
-
 {{/if}}
-<h2 class="inline-feed-title">{{{__ "feed"}}}</h2>
+<h2 class="inline-feed-title">{{{__ "feed"}}}</h2>{{#if feedItems}}<span class="view-all-link"><a href="/feed">{{{__ "view all"}}}</a></span>{{/if}}
 <p>
 {{>feed}}
 
