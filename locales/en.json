@@ -192,7 +192,7 @@
     "request membership": "Request team membership",
     "approval required to join": "New members must be approved by the team moderators. Tell them a bit about yourself and how you'd like to be involved.",
     "agree to the rules": "I understand these rules and agree to them.",
-    "no blog posts": "No blog posts yet",
+    "no blog posts": "This team has not written any blog posts yet.",
     "write a blog post": "Write a blog post",
     "must be trusted": "Specifically, you need to be trusted by other established users to proceed. Write reviews to gain trust.",
     "edit team": "Edit team",
@@ -317,5 +317,6 @@
     "team feed": "Reviews by Team: %s",
     "atom feed of reviews by team": "Atom feed of all reviews by this team",
     "no reviews for team": "This team has not published any reviews yet.",
-    "no reviews for user": "This user has not published any reviews yet."
+    "no reviews for user": "This user has not published any reviews yet.",
+    "view all": "&raquo; View all"
 }

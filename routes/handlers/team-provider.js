@@ -351,10 +351,12 @@ class TeamProvider extends AbstractBREADProvider {
 
     let vars = {
       team,
+      teamURL: `/team/${team.id}`,
       feedItems: team.reviews,
       titleKey: 'team feed',
       titleParam,
       embeddedFeeds,
+      deferPageHeader: true, // embedded link
       utcISODate: team.reviewOffsetDate ? team.reviewOffsetDate.toISOString() : undefined
     };
 

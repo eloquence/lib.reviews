@@ -185,7 +185,7 @@
     "team title": "Team: %s",
     "team not found title": "Team nicht gefunden",
     "latest blog posts": "Neueste Blogbeiträge",
-    "no blog posts": "Noch keine Blogbeiträge",
+    "no blog posts": "Dieses Team hat noch keine Blogbeiträge geschrieben.",
     "write a blog post": "Beitrag schreiben",
     "edit team": "Team bearbeiten",
     "delete team": "Team löschen",

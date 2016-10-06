@@ -1,6 +1,9 @@
+{{#unless blogPosts}}
+{{{__ "no blog posts"}}}
+{{/unless}}
 {{#if team.userCanBlog}}
 <p>
-<a href="/team/{{team.id}}/new/post" id="write-blog" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>{{{__ "write a blog post"}}}</a>
+<a href="/team/{{team.id}}/new/post" id="write-blog" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>{{{__ "write a blog post"}}}</a><p>
 {{/if}}
 {{#if blogPosts}}
 {{#each blogPosts}}
@@ -9,8 +12,6 @@
 <hr class="feed-separator">
 {{/unless}}
 {{/each}}
-{{else}}
-{{{__ "no blog posts"}}}
 {{/if}}
 <br>
 {{#if blogPostsUTCISODate}}
