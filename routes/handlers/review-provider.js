@@ -150,8 +150,7 @@ class ReviewProvider extends AbstractBREADProvider {
             tags: ['create-via-form']
           })
           .then(review => {
-            let id = review.id || '';
-            this.res.redirect(`/feed#review-${id}`);
+            this.res.redirect(`/thing/${review.thing.id}#your-review`);
           })
           .catch(errorMessage => {
             flashError(this.req, errorMessage, 'saving review');
