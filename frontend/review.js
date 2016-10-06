@@ -19,10 +19,6 @@
   // Get rating value from previous POST request, if any
   let postRating = $('#star-rating-control').attr('data-post') || '';
 
-  // Highlight rating from POST request
-  if (postRating)
-    selectStar.apply($(`#star-button-${postRating}`)[0]);
-
   // Register event handlers
 
   $('[id^=star-button-]')
@@ -30,6 +26,11 @@
     .mouseover(indicateStar)
     .click(selectStar)
     .keyup(maybeSelectStar);
+
+  // Highlight rating from POST request
+  if (postRating)
+    selectStar.apply($(`#star-button-${postRating}`)[0]);
+
   $('#live-preview').change(toggleLivePreview);
   $('#preview').click(showPreviewOnce);
 
