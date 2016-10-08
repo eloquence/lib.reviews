@@ -76,12 +76,20 @@ let reviewHandlers = {
 
           });
 
+          let paginationURL;
+          if (offsetDate) {
+            if (options.paginationURL)
+              paginationURL = options.paginationURL.replace('%isodate', offsetDate.toISOString());
+            else
+              paginationURL = `/feed/before/${offsetDate.toISOString()}`;
+          }
+
           let vars = {
             titleKey: options.titleKey,
             titleParam: options.titleParam,
             deferPageHeader: options.deferPageHeader,
             feedItems,
-            utcISODate: offsetDate ? offsetDate.toISOString() : undefined,
+            paginationURL,
             pageLimit: options.limit,
             embeddedFeeds: feeds.getEmbeddedFeeds(req, options)
           };

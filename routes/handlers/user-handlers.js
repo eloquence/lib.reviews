@@ -139,6 +139,11 @@ let userHandlers = {
                 atomURLTitleKey: `atom feed of reviews by this user`,
               });
 
+
+              let paginationURL;
+              if (offsetDate)
+                paginationURL = `/user/${user.urlName}/feed/before/${offsetDate.toISOString()}`;
+
               render.template(req, res, 'user', {
                 titleKey: 'user',
                 titleParam: user.displayName,
@@ -151,7 +156,7 @@ let userHandlers = {
                 teams: user.teams,
                 modOf,
                 founderOf,
-                utcISODate: offsetDate ? offsetDate.toISOString() : undefined,
+                paginationURL,
                 embeddedFeeds
               });
             })
@@ -193,6 +198,7 @@ let userHandlers = {
             titleKey: 'user feed',
             titleParam: user.displayName,
             createdBy: user.id,
+            paginationURL: `/user/${user.urlName}/feed/before/%isodate`,
             deferPageHeader: true,
             atomURLPrefix: `/user/${user.urlName}/feed/atom`,
             atomURLTitleKey: `atom feed of reviews by this user`,

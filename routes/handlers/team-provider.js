@@ -303,6 +303,10 @@ class TeamProvider extends AbstractBREADProvider {
           atomURLTitleKey: 'atom feed of reviews by team'
         }));
 
+        let paginationURL;
+        if (team.reviewOffsetDate)
+          paginationURL = `/team/${team.id}/feed/before/${team.reviewOffsetDate.toISOString()}`;
+
         this.renderTemplate('team', {
           team,
           titleKey: 'team title',
@@ -312,7 +316,7 @@ class TeamProvider extends AbstractBREADProvider {
           pageMessages,
           founder,
           embeddedFeeds,
-          utcISODate: team.reviewOffsetDate ? team.reviewOffsetDate.toISOString() : undefined,
+          paginationURL,
           blogPostsUTCISODate: offsetDate ? offsetDate.toISOString() : undefined,
           deferPageHeader: true // Two-column-layout
         });
@@ -349,6 +353,10 @@ class TeamProvider extends AbstractBREADProvider {
       atomURLTitleKey: 'atom feed of reviews by team'
     });
 
+    let paginationURL;
+    if (team.reviewOffsetDate)
+      paginationURL = `/team/${team.id}/feed/before/${team.reviewOffsetDate.toISOString()}`;
+
     let vars = {
       team,
       teamURL: `/team/${team.id}`,
@@ -357,7 +365,7 @@ class TeamProvider extends AbstractBREADProvider {
       titleParam,
       embeddedFeeds,
       deferPageHeader: true, // embedded link
-      utcISODate: team.reviewOffsetDate ? team.reviewOffsetDate.toISOString() : undefined
+      paginationURL
     };
 
     if (this.format) {

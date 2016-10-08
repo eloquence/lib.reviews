@@ -72,6 +72,10 @@ router.get('/', function(req, res) {
       }));
     }
 
+    let paginationURL;
+    if (offsetDate)
+      paginationURL = `/feed/before/${offsetDate.toISOString()}`;
+
     render.template(req, res, 'index', {
       titleKey: 'welcome',
       deferPageHeader: true,
@@ -82,7 +86,7 @@ router.get('/', function(req, res) {
       team: config.frontPageTeamBlog ? {
         id: config.frontPageTeamBlog
       } : undefined,
-      utcISODate: offsetDate ? offsetDate.toISOString() : undefined,
+      paginationURL,
       blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : undefined,
       embeddedFeeds
     });

@@ -368,6 +368,10 @@ function sendThing(req, res, thing, options) {
   let offsetDate = options.otherReviews && options.otherReviews.offsetDate ?
     options.otherReviews.offsetDate : undefined;
 
+  let paginationURL;
+  if (offsetDate)
+    paginationURL = `/thing/before/${offsetDate.toISOString()}`;
+
   render.template(req, res, 'thing', {
     deferHeader: options.edit ? true : false,
     titleKey: options.edit ? options.edit.titleKey : undefined,
@@ -380,8 +384,8 @@ function sendThing(req, res, thing, options) {
     deferPageHeader: true,
     showLanguageNotice,
     userReviews: options.userReviews,
+    paginationURL,
     otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined,
-    utcISODate: offsetDate ? offsetDate.toISOString() : undefined
   });
 }
 
