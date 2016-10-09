@@ -25,7 +25,7 @@ let User = thinky.createModel("users", {
     return this.displayName ? encodeURIComponent(this.displayName.replace(/ /g, '_')) : undefined;
   }),
   email: type.string().max(options.maxChars).email(),
-  password: type.string(),
+  password: type.string().required(true),
   userMetaID: type.string().uuid(4), // Versioned
   trustedBy: [{
     trustedByUser: type.string().uuid(4),

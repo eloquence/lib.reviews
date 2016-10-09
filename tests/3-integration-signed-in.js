@@ -118,7 +118,7 @@ test(`We can create a new team`, async t => {
     .expect(403)
     .expect(/do not have permission/);
 
-  let user = await dbFixture.models.User.findByURLName('A_friend_of_many_GNUs');
+  let user = await dbFixture.models.User.findByURLName('A_friend_of_many_GNUs', { withPassword: true });
   t.true(isUUID.v4(user.id), 'Previously created user could be found through model');
 
   // Give user permission needed to create team

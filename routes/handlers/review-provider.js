@@ -241,7 +241,10 @@ class ReviewProvider extends AbstractBREADProvider {
             newRev.teams = teams;
             newRev.thing = review.thing;
             newRev
-              .saveAll()
+              .saveAll({ // Do not save changes to joined user
+                teams: true,
+                thing: true
+              })
               .then(() => {
                 this.req.flash('pageMessages', this.req.__('edit saved'));
                 this.res.redirect(`/review/${newRev.id}`);

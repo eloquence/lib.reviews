@@ -114,7 +114,10 @@ Review.create = function(reviewObj, options) {
           _revDate: reviewObj.createdOn,
           _revTags: options.tags ? options.tags : undefined
         });
-        review.saveAll().then(review => {
+        review.saveAll({
+          teams: true,
+          thing: true
+        }).then(review => {
           resolve(review);
         }).catch(error => { // Save failed
           switch (error.message) {
