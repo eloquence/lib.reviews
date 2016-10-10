@@ -95,7 +95,7 @@ router.get('/', function(req, res) {
 });
 
 
-router.get('/feed', reviewHandlers.getFeedHandler());
+router.get('/feed', reviewHandlers.getFeedHandler({ deferPageHeader: true }));
 
 router.get('/feed/atom', function(req, res) {
   res.redirect(`/feed/atom/${req.locale}`);
@@ -105,7 +105,7 @@ router.get('/feed/atom/:language', reviewHandlers.getFeedHandler({
   format: 'atom'
 }));
 
-router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler());
+router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler({ deferPageHeader: true }));
 
 router.get('/new', (req, res) => {
   res.redirect('/new/review');
