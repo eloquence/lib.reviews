@@ -143,35 +143,6 @@ router.post('/thing/:id/edit/label', function(req, res, next) {
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
-router.get('/thing/:id/upload', function(req, res, next) {
-  let id = req.params.id.trim();
-  Thing.getWithData(id)
-    .then(thing => {
-
-
-      thing.populateUserInfo(req.user);
-      if (!thing.userCanUpload)
-        return render.permissionError(req, res, {
-          titleKey: 'add media'
-        });
-
-      let pageErrors = req.flash('pageErrors');
-
-      render.template(req, res, 'thing-upload', {
-        titleKey: 'add media',
-        thing,
-        pageErrors,
-        scripts: ['upload.js']
-      }, {
-        messages: {
-          "one file selected": req.__('1 file selected'),
-          "files selected": req.__('files selected')
-        }
-      });
-    })
-    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
-});
-
 // This route handles step 2 of a file upload, the addition of metadata.
 // Step 1 is handled as an earlier middleware in process-uploads.js, due to the
 // requirement of handling file streams and a multipart form.
@@ -298,7 +269,7 @@ router.post('/thing/:id/upload', function(req, res, next) {
         })
         .catch(error => {
           flashError(req, error);
-          return res.redirect(`/thing/${thing.id}/upload`);
+          return res.redirect(`/thing/${thing.id}`);
         });
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
@@ -386,6 +357,12 @@ function sendThing(req, res, thing, options) {
     userReviews: options.userReviews,
     paginationURL,
     otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined,
+    scripts: ['upload.js']
+  }, {
+    messages: {
+      "one file selected": req.__('1 file selected'),
+      "files selected": req.__('files selected')
+    }
   });
 }
 

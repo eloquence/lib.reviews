@@ -272,7 +272,6 @@
     "nsfw warning": "Warning: The content below may not be safe for work (NSFW).",
     "add media": "Add media",
     "related to": "Related to %s",
-    "choose files": "Select files to upload",
     "upload completed": "Your upload was successful. You can find a reference to it below.",
     "no file received": "Your upload failed because we did not receive any files.",
     "uploaded media": "Uploaded media:",

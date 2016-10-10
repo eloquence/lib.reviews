@@ -73,7 +73,7 @@ router.post('/thing/:id/upload', function(req, res, next) {
         if (error) {
           cleanupFiles(req);
           flashError(req, error);
-          return res.redirect(`/thing/${thing.id}/upload`);
+          return res.redirect(`/thing/${thing.id}`);
         }
 
         if (req.files.length) {
@@ -115,12 +115,12 @@ router.post('/thing/:id/upload', function(req, res, next) {
             .catch(error => { // One of the files couldn't be validated
               cleanupFiles(req);
               flashError(req, error);
-              res.redirect(`/thing/${thing.id}/upload`);
+              res.redirect(`/thing/${thing.id}`);
             });
 
         } else {
           req.flash('pageErrors', req.__('no file received'));
-          res.redirect(`/thing/${thing.id}/upload`);
+          res.redirect(`/thing/${thing.id}`);
         }
       });
 

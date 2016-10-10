@@ -69,7 +69,7 @@
 {{/unless}}
 {{/unless}}
 {{#if thing.userCanUpload}}
-<a href="/thing/{{thing.id}}/upload" id="upload" class="pure-button button-rounded"><span class="fa fa-picture-o spaced-icon"></span>{{__ "add media"}}</a>
+{{>upload_form}}
 {{/if}}
 {{else}}
 <br><br>
