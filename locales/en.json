@@ -14,7 +14,7 @@
     "password": "Password",
     "enter password": "Enter password",
     "no account yet": "Don't have an account yet? <a href='/register'>Registration</a> is quick and easy.",
-    "enter your info": "Welcome to the lib.reviews community! Please enter the information for your new account below.<p> <b>We are in early development and you'll need an invite code to make an account. If you don't know how to obtain one, you can follow <a href='https://twitter.com/lib_reviews'>lib_reviews</a> on Twitter and tweet to us, and we'll DM you a code.</a></b>",
+    "enter your info": "Welcome to the lib.reviews community! Please enter the information for your new account below.<p> <b>We are in early development and you'll need an invite code to make an account. If you don't know how to obtain one, you can follow <a href='https://twitter.com/lib_reviews'>lib_reviews</a> on Twitter and tweet to us, and we'll DM you a code.</b>",
     "already got an account": "Already have an account? <a href='/signin'>Sign in</a> instead.",
     "enter email": "Enter email address",
     "email optional": "Email address (optional)",
