@@ -297,7 +297,7 @@
     "fair use": "This file is not freely licensed, but I claim that this upload qualifies as <a href='https://en.wikipedia.org/wiki/Fair_use' target='_blank'>fair use</a>",
     "cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) or public domain",
     "cc-by": "Creative Commons Attribution License (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
-    "cc-by-sa": "Creative Commons Attribution/Share-Alike License (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY-SA</a>)",
+    "cc-by-sa": "Creative Commons Attribution/Share-Alike License (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
     "unsupported file type": "File '%1$s' is of the type '%2$s', which is not supported.",
     "unrecognized file type": "We did not recognize the file type of file '%s' and therefore cannot accept it.",
     "mime mismatch": "MIME type for file '%1$s' should be of type '%2$s' but appears to be of type '%3$s'.",
