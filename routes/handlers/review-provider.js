@@ -1,6 +1,7 @@
 'use strict';
 // External dependencies
 const Reflect = require('harmony-reflect');
+const config = require('config');
 
 // Internal dependencies
 const Review = require('../../models/review');
@@ -150,6 +151,8 @@ class ReviewProvider extends AbstractBREADProvider {
             tags: ['create-via-form']
           })
           .then(review => {
+            this.req.app.locals.webHooks.trigger('newReview',
+              this.getWebHookData(review, this.req.user));
             this.res.redirect(`/thing/${review.thing.id}#your-review`);
           })
           .catch(errorMessage => {
@@ -341,6 +344,27 @@ class ReviewProvider extends AbstractBREADProvider {
         this.next(err);
       });
   }
+
+  // Return data for easy external processing after publication, e.g. via IRC
+  // feeds
+  getWebHookData(review, user) {
+
+    return {
+      title: review.title,
+      urls: review.thing.urls,
+      label: review.thing.label,
+      starRating: review.starRating,
+      html: review.html,
+      text: review.text,
+      createdOn: review.createdOn,
+      author: user.displayName,
+      reviewURL: `${config.qualifiedURL}review/${review.id}`,
+      thingURL: `${config.qualifiedURL}thing/${review.thing.id}`,
+      authorURL: `${config.qualifiedURL}user/${user.urlName}`
+    };
+
+  }
+
 }
 
 module.exports = ReviewProvider;
