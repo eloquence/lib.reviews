@@ -44,8 +44,8 @@ router.get('/', function(req, res) {
     // Promise.all helpfully keeps order in which promises were passed
     let feedItems = queryResults[0].feedItems;
     let offsetDate = queryResults[0].offsetDate;
-    let blogPosts = queryResults[1].blogPosts;
-    let blogPostsOffsetDate = queryResults[1].offsetDate;
+    let blogPosts = config.frontPageTeamBlog ? queryResults[1].blogPosts : undefined;
+    let blogPostsOffsetDate = config.frontPageTeamBlog ? queryResults[1].offsetDate : undefined;
 
     // Set review permissions
     feedItems.forEach(item => {
