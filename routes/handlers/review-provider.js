@@ -151,8 +151,10 @@ class ReviewProvider extends AbstractBREADProvider {
             tags: ['create-via-form']
           })
           .then(review => {
-            this.req.app.locals.webHooks.trigger('newReview',
-              this.getWebHookData(review, this.req.user));
+            this.req.app.locals.webHooks.trigger('newReview', {
+              event: 'new-review',
+              data: this.getWebHookData(review, this.req.user)
+            });
             this.res.redirect(`/thing/${review.thing.id}#your-review`);
           })
           .catch(errorMessage => {
