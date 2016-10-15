@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node_modules/pm2/bin/pm2 start process.json --only app-development",
+    "start": "node_modules/pm2/bin/pm2 start process.json --only app-development --no-daemon",
     "stop": "node_modules/pm2/bin/pm2 delete all",
     "production": "node_modules/pm2/bin/pm2 start process.json --only app-production",
     "test": "grunt babel:tests && node node_modules/ava/cli.js --verbose tests/**",
