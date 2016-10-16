@@ -91,16 +91,14 @@ function onError(error) {
     throw error;
   }
 
-  let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(`Port ${error.port} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(`Port ${error.port} is already in use`);
       process.exit(1);
       break;
     default:
