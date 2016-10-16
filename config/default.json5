@@ -49,7 +49,8 @@
   // Set your admin email if you want to request an HTTPS certificate
   adminEmail: "customizeforhttps@notavalidaddress",
 
-  // Should normally not need to be changed
+  // Should normally not need to be changed, but may also require elevated
+  // privileges
   httpsPort: 443,
 
   // Should be true in production
