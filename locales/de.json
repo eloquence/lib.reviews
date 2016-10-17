@@ -1,5 +1,10 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": [
+			"Eloquence",
+			"Robby"
+		]
+	},
 	"site name": "lib.reviews",
 	"welcome": "Willkommen!",
 	"intro lead": "<b>Willkommen bei lib.reviews!</b> Wir entwickeln eine freie und offene Plattform, um alles mögliche zu rezensieren, in jeder Sprache.",
@@ -20,7 +25,7 @@
 	"enter email": "E-Mail-Adresse eingeben",
 	"email optional": "E-Mail-Adresse (optional)",
 	"agree to terms": "Du stimmst durch die Registrierung den <a href='/terms' target='_blank'>Nutzungsbedingungen</a> zu. Konkret bedeutet das:<ul><li>Wir tolerieren keinerlei Belästigung, Hass, Missbrauch, Trolling, Spam oder illegale Inhalte.</li><li>Du stimmst der Veröffentlichung deiner Beiträge unter angemessenen <a href='http://freedomdefined.org/Definition' target='_blank'>freien Lizenzen</a> zu.</ul>Bitte lies die vollständigen Nutzungsbedingungen, die in allgemein verständlicher Sprache geschrieben sind.",
-	"need username": "Du musst einen Benuternamen eingeben.",
+	"need username": "Du musst einen Benutzernamen eingeben.",
 	"need password": "Du musst ein Passwort eingeben.",
 	"bad username": "Wir kennen keine Benutzerin mit diesem Namen.",
 	"bad password": "Das Passwort scheint nicht zu stimmen.",
@@ -298,7 +303,7 @@
 	"fair use": "Dieses Werk ist nicht frei lizensiert, aber ich behaupte, dass es sich nach US-Recht um <a href='https://en.wikipedia.org/wiki/Fair_use' target='_blank'>\"fair use\"</a> handelt",
 	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) oder public domain",
 	"cc-by": "Creative Commons mit Namensnennung (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
-	"cc-by-sa": "Creative Commons Namensennung/Weitergabe unter gleichen Bendingungen (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY-SA</a>)",
+	"cc-by-sa": "Creative Commons Namensennung/Weitergabe unter gleichen Bendingungen (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
 	"unsupported file type": "Datei '%1$s' ist vom Tzp '%2$s', der nicht unterstützt wird.",
 	"unrecognized file type": "Wir konnten den Typ der Datei '%s' nicht erkennen und können sie deshalb nicht akzeptieren.",
 	"mime mismatch": "MIME-Typ der Datei '%1$s' sollte '%2$s' sein, scheint aber '%3$s' zu sein.",
