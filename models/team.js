@@ -187,7 +187,7 @@ Team.define("populateUserInfo", function(user) {
     team.userCanEdit = true;
 
   // For now, only site-wide mods can delete teams
-  if (user.isSiteModerator)
+  if (user.isSuperUser || user.isSiteModerator)
     team.userCanDelete = true;
 
   // For now, founders can't leave their team - must be deleted

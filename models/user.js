@@ -37,6 +37,8 @@ let User = thinky.createModel("users", {
   isTrusted: type.boolean().default(false),
   // Advanced trust - can (reversibly) delete content, but _not_ edit arbitrary content
   isSiteModerator: type.boolean().default(false),
+  // Can do anything
+  isSuperUser: type.boolean().default(false),
   suppressedNotices: [type.string()],
   // Permission field, populated using _currently logged in user_, to determine
   // whether they can edit _this_ user's metadata.

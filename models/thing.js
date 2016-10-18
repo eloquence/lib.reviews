@@ -118,9 +118,9 @@ Thing.define("populateUserInfo", function(user) {
 
   // For now, we don't let users delete things they've created,
   // since things are collaborative in nature
-  this.userCanDelete = user.isSiteModerator || false;
-  this.userCanEdit = user.isTrusted || user.id === this.createdBy;
-  this.userCanUpload = user.isTrusted;
+  this.userCanDelete = user.isSuperUser || user.isSiteModerator || false;
+  this.userCanEdit = user.isSuperUser || user.isTrusted || user.id === this.createdBy;
+  this.userCanUpload = user.isSuperUser || user.isTrusted;
   this.userIsCreator = user.id === this.createdBy;
 
 });

@@ -61,10 +61,10 @@ Review.define("populateUserInfo", function(user) {
   if (!user)
     return; // fields will be at their default value (false)
 
-  if (user.isSiteModerator || user.id === this.createdBy)
+  if (user.isSuperUser || user.isSiteModerator || user.id === this.createdBy)
     this.userCanDelete = true;
 
-  if (user.id === this.createdBy)
+  if (user.isSuperUser || user.id === this.createdBy)
     this.userCanEdit = true;
 
   if (user.id === this.createdBy)

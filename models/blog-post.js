@@ -48,10 +48,10 @@ BlogPost.define("populateUserInfo", function(user) {
   if (!user) // Keep at permissions at default (false)
     return;
 
-  if (user.id === this.createdBy)
+  if (user.isSuperUser || user.id === this.createdBy)
     this.userCanEdit = true;
 
-  if (user.id === this.createdBy || user.isSiteModerator)
+  if (user.isSuperUser || user.id === this.createdBy || user.isSiteModerator)
     this.userCanDelete = true;
 
 });
