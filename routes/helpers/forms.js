@@ -21,7 +21,7 @@ let forms = {
       // languages being edited at the sam etime)
       language: undefined,
       // An array of field names that scan be skipped entirely. This is useful
-      // when a required field has been provided from a source outsied the form.
+      // when a required field has been provided from a source outside the form.
       skipRequiredCheck: []
     }, options);
 
