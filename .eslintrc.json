@@ -29,7 +29,7 @@
         "block-scoped-var": "error",
         "block-spacing": "error",
         "brace-style": [
-            "error",
+            "warn",
             "1tbs"
         ],
         "callback-return": "error",
