@@ -11,7 +11,17 @@ const path = require('path');
 // with the translations to the locales/ directory. Then add the new language
 // code to this array. Language names will be automatically imported from CLDR
 // on the next restart.
-const validLanguages = ['en', 'de'];
+const validLanguages = ['en', 'de', 'eo', 'fr', 'pt', 'pt-PT'];
+
+const languageNameMap = {
+  // CLDR uses the unqualified key (e.g., "pt" for Portuguese) for the version
+  // used by the most speakers, and to aovid duplication, there isn't even a
+  // directory for the version with the qualifier. We use the same minimal codes,
+  // but the qualification matters for purposes of looking up the language names,
+  // so we use this map to remember which specific locale name to look up.
+  'pt': 'pt-BR',
+  'zh': 'zh-Hans'
+};
 
 let langData = {};
 
@@ -34,12 +44,14 @@ let languages = {
 
   // Returns the native name of a language, e.g. "Deutsch" for German
   getNativeName(langKey) {
-    return langData[langKey][langKey];
+    let lookupKey = languageNameMap[langKey] || langKey;
+    return langData[langKey][lookupKey];
   },
 
   // Returns a translated name of a language, e.g. "German" instead of "Deutsch"
   getTranslatedName(langKey, translationLanguage) {
-    return langData[translationLanguage][langKey];
+    let lookupKey = languageNameMap[langKey] || langKey;
+    return langData[translationLanguage][lookupKey];
   },
 
   // Returns both the native name and a translation (if appropriate).
