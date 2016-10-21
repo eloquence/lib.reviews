@@ -19,6 +19,45 @@ const languages = require('../locales/languages');
 const feeds = require('./helpers/feeds');
 const debug = require('../util/debug');
 const ErrorMessage = require('../util/error');
+const forms = require('./helpers/forms');
+
+// For processing uploads
+const uploadFormDef = [{
+      name: 'upload-language',
+      required: true
+    }, {
+      name: 'upload-%uuid',
+      required: false,
+      keyValueMap: 'uploads'
+    }, {
+      name: 'upload-%uuid-description',
+      required: false,
+      type: 'text',
+      keyValueMap: 'descriptions'
+    }, {
+      name: 'upload-%uuid-by',
+      required: false,
+      type: 'string', // can be 'uploader' or 'other'
+      keyValueMap: 'creators'
+    }, {
+      required: false,
+      name: 'upload-%uuid-creator',
+      type: 'text',
+      keyValueMap: 'creatorDetails'
+    },
+    {
+      name: 'upload-%uuid-source',
+      required: false,
+      type: 'text',
+      keyValueMap: 'sources'
+    },
+    {
+      name: 'upload-license-%uuid',
+      required: false,
+      type: 'string', // enum defined in model
+      keyValueMap: 'licenses'
+    }
+  ];
 
 router.get('/thing/:id', function(req, res, next) {
   let id = req.params.id.trim();
@@ -157,26 +196,31 @@ router.post('/thing/:id/upload', function(req, res, next) {
           titleKey: 'add media'
         });
 
-      // We use the hidden fields in the submission to loop through all the
-      // uploads we expect additional form data for. At this time we already have
-      // a record in the DB which is simply not marked as finished,
-      // and can be theoretically completed at any time, as long as we still have
-      // the temporarily stashed file it refers to.
-      let keys = Object.keys(req.body);
-      let uuidRegex = /upload-([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$/;
-      let uploadKeys = keys.filter(key => uuidRegex.test(key));
-
-      // We did not get any valid uploads.
-      if (!uploadKeys) {
-        req.flash('pageErrors', req.__('upload failed'));
+      let language = req.body['upload-language'];
+      if (!languages.isValid(language)) {
+        req.flash('pageErrors', req.__('invalid language code', language));
         return res.redirect(`/thing/${thing.id}`);
       }
-      let uploadPromises = [];
-      uploadKeys.forEach(uploadKey => {
-        let id = uploadKey.match(uuidRegex)[1]; // Safe since array has already been filtered
-        if (id)
-          uploadPromises.push(File.getNotStaleOrDeleted(id));
+
+      let formData = forms.parseSubmission(req, {
+        formDef: uploadFormDef,
+        formKey: 'upload-file',
+        language
       });
+
+      if (req.flashHas('pageErrors'))
+        return res.redirect(`/thing/${thing.id}`);
+
+      if (!formData.formValues.uploads || !Object.keys(formData.formValues.uploads).length) {
+        // No valid uploads
+        req.flash('pageErrors', req.__('data missing'));
+        return res.redirect(`/thing/${thing.id}`);
+      }
+
+      let uploadPromises = [];
+      for (let uploadID in formData.formValues.uploads) {
+        uploadPromises.push(File.getNotStaleOrDeleted(uploadID));
+      }
 
       // The execution sequence here is:
       // 1) Parse the form and abort if there's a problem with any given upload.
@@ -189,37 +233,37 @@ router.post('/thing/:id/upload', function(req, res, next) {
 
           uploads.forEach(upload => {
 
-            // TODO validate language
-            let language = escapeHTML(req.body['upload-language']) || 'en';
-            let description = escapeHTML(req.body[`upload-${upload.id}-description`]);
-            if (!description)
+            let getVal = obj => !Array.isArray(obj) || !obj[upload.id] ? null : obj[upload.id];
+
+            upload.description = getVal(formData.formValues.descriptions);
+
+            if (!upload.description || !upload.description[language])
               throw new ErrorMessage('upload needs description', [upload.name]);
 
-            upload.description = {
-              [language]: description
-            };
+            let by = getVal(formData.formValues.creators);
+            if (!by)
+              throw new ErrorMessage('data missing');
 
-            let by = req.body[`upload-${upload.id}-by`];
             if (by === 'other') {
-              let creator = escapeHTML(req.body[`upload-${upload.id}-creator`]);
-              if (!creator)
+              upload.creator = getVal(formData.formValues.creatorDetails);
+
+              if (!upload.creator || !upload.creator[language])
                 throw new ErrorMessage('upload needs creator', [upload.name]);
 
-              let source = escapeHTML(req.body[`upload-${upload.id}-source`]);
+              upload.source = getVal(formData.formValues.sources);
 
-              if (!source)
+              if (!upload.source || !upload.source[language])
                 throw new ErrorMessage('upload needs source', [upload.name]);
 
-              let license = req.body[`upload-license-${upload.id}`];
+              upload.license = getVal(formData.formValues.licenses);
 
-              if (!license)
+              if (!upload.license)
                 throw new ErrorMessage('upload needs license', [upload.name]);
 
-              upload.creator = { [language]: creator };
-              upload.source = { [language]: source };
-              upload.license = license;
-            } else {
+            } else if (by === 'uploader') {
               upload.license = 'cc-by-sa';
+            } else {
+              throw new ErrorMessage('unexpected form data');
             }
             upload.completed = true;
 

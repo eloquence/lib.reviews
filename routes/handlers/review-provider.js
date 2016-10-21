@@ -72,7 +72,7 @@ class ReviewProvider extends AbstractBREADProvider {
         };
       formValues.hasTeam = {};
       if (Array.isArray(formValues.teams))
-        formValues.teams.forEach(team => (formValues.hasTeam[team.id] = true));
+       formValues.teams.forEach(team => (formValues.hasTeam[team.id] = true));
     }
 
     if (user.suppressedNotices &&
@@ -274,22 +274,17 @@ class ReviewProvider extends AbstractBREADProvider {
 
   }
 
-  validateAndGetTeams(teamArray) {
+  validateAndGetTeams(teamObj) {
 
     return new Promise((resolve, reject) => {
 
-      if (!Array.isArray(teamArray) || !teamArray.length)
+      if (typeof teamObj !== 'object' || !Object.keys(teamObj).length)
         return resolve([]);
 
       let p = [];
-      for (let obj of teamArray) {
-        if (typeof obj !== 'object')
-          return reject(new Error('Invalid form data about teams'));
-        if (!obj.id)
-          return reject(new Error('Form request contained team data but no team ID'));
+      for (let id in teamObj)
+        p.push(Team.getWithData(id));
 
-        p.push(Team.getWithData(obj.id));
-      }
       Promise
         .all(p)
         .then(teams => {
@@ -409,7 +404,7 @@ ReviewProvider.formDefs = {
       name: 'review-team-%uuid',
       required: false,
       type: 'boolean',
-      arrayKey: 'teams'
+      keyValueMap: 'teams'
     }
   ],
   'delete-review': [{
@@ -448,7 +443,7 @@ ReviewProvider.formDefs = {
       name: 'review-team-%uuid',
       required: false,
       type: 'boolean',
-      arrayKey: 'teams'
+      keyValueMap: 'teams'
     }
   ]
 };

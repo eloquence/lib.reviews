@@ -73,7 +73,7 @@ let forms = {
 
       // We can map form keys to object keys if desired, using the 'key'
       // option in the form definition.
-      let key = field.arrayKey || field.key || field.name;
+      let key = field.keyValueMap || field.key || field.name;
 
       // We can exempt fields from the check, e.g., because we already have
       // the data for that field from another source than the form
@@ -146,16 +146,16 @@ let forms = {
 
       // Assign value. We push it into an array for wildcard fields.
       if (val !== undefined) {
-        if (field.arrayKey) {
+        if (field.keyValueMap) {
 
           // Get and use a UUID if there is one
           let id = (field.name.match(uuidRegex) || [])[1];
 
-          if (!Array.isArray(formValues[key]))
+          if (typeof formValues[key] !== 'object')
             formValues[key] = [];
 
           if (id)
-            formValues[key].push({ id, val });
+            formValues[key][id] = val;
           else
             formValues[key].push(val);
         } else {
