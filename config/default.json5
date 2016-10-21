@@ -99,5 +99,21 @@
         answerKey: "answer: famous scientist"
       }
     ]
+ },
+ irc: {
+   appPort: 9100,
+   botName: "fixme",
+   options: {
+     userName: "fixme",
+     port: 7070,
+     channels: [
+       "#lib.reviews"
+     ],
+     secure: true,
+     sasl: true,
+     password: "fixme",
+     debug: true
+   },
+   server: "chat.freenode.net"
   }
 }
