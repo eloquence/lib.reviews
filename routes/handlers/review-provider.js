@@ -348,8 +348,8 @@ class ReviewProvider extends AbstractBREADProvider {
 
     return {
       title: review.title,
-      urls: review.thing.urls,
-      label: review.thing.label,
+      thingURLs: review.thing.urls,
+      thingLabel: review.thing.label,
       starRating: review.starRating,
       html: review.html,
       text: review.text,

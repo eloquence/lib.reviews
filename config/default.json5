@@ -100,6 +100,8 @@
       }
     ]
  },
+ // If you want to run the IRC bot in tools/irc-bot.js,
+ // adjust the settings below in your config.
  irc: {
    appPort: 9100,
    botName: "fixme",

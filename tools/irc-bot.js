@@ -4,8 +4,12 @@
  *
  * No auth for now; webapp listens only on loopback interface.
  */
-const config = require('config');
 
+'use strict';
+const path = require('path');
+process.env.NODE_CONFIG_DIR = path.join(__dirname, '../config');
+
+const config = require('config');
 const irc = require('irc');
 const bot = new irc.Client(config.irc.server, config.irc.botName, config.irc.options);
 
@@ -16,8 +20,13 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/reviews', function (req, res) {
-  const data = req.body.data;
-  const message = 'New review: ' + data.reviewURL;
+  let data = req.body.data;
+  let url;
+  if (Array.isArray(data.thingURLs) && data.thingURLs[0])
+    url = data.thingURLs[0];
+
+  let subject = resolve(data.thingLabel) || url || 'unknown subject';
+  let message = `New review of ${subject} by ${data.author} at ${data.reviewURL}`;
 
   config.irc.options.channels.forEach(function (channel) {
     bot.say(channel, message);
@@ -29,3 +38,18 @@ app.post('/reviews', function (req, res) {
 app.listen(config.irc.appPort, '127.0.0.1', function () {
   console.log('Listening on port ' + config.irc.appPort);
 });
+
+
+// Quickly resolve multilingual string to English or first non-English language
+function resolve(str) {
+
+  if (typeof str !== 'object')
+    return undefined;
+
+  let langs = Object.keys(str);
+  if (!langs.length)
+    return undefined;
+
+  return str.en || str[langs[0]];
+
+}
