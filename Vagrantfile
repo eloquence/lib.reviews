@@ -2,21 +2,22 @@
 # vi: set ft=ruby :
 #
 # Vagrantfile for lib.reviews
-# ===========================
-# This Vagrantfile can spin up a box for lib.reviews development.
-# It won't actually start lib.reviews by itself. To do that,
-# run 'vagrant ssh', then run 'cd /srv/lib.reviews && npm start'.
 #
 Vagrant.configure('2') do |config|
   config.vm.box = 'debian/jessie64'
 
   config.vm.post_up_message = <<-END
-    To start lib.reviews, run 'vagrant ssh', then 'cd /srv/lib.reviews && npm start'.
-    lib.reviews will then run on http://localhost:8080 (on the host)."
+    To view logs, run 'vagrant ssh', then 'journalctl -u lib-reviews.service'.
+    To restart lib-reviews, run 'systemctl restart lib-reviews'.
+    lib.reviews is available at http://localhost:8080 (on the host).
   END
+
+  config.vm.network :private_network, ip: '10.11.12.13'
 
   # Make lib.reviews reachable via http://localhost:8080/ on the host.
   config.vm.network :forwarded_port, guest: 80, host: 8080
+
+  config.vm.synced_folder '.', '/vagrant', type: 'nfs'
 
   # The debian/jessie64 box doesn't come with Puppet pre-installed,
   # so we need to run the shell provisioner first.
