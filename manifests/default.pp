@@ -98,38 +98,40 @@ exec { 'setcap_node':
   require => Package['libcap2-bin'],
 }
 
-file { '/srv/lib.reviews':
-  ensure => directory,
-  owner  => 'vagrant',
-  group  => 'vagrant',
-  mode   => '0755',
-  before => Exec['git_clone_repo'],
-}
-
-exec { 'git_clone_repo':
-  command => 'git clone https://github.com/eloquence/lib.reviews.git',
-  creates => '/srv/lib.reviews/.git',
-  cwd     => '/srv',
-  user    => 'vagrant',
-}
-
 
 #
 # Application setup
 #
 
 exec { 'npm install':
-  cwd     => '/srv/lib.reviews',
-  creates => '/srv/lib.reviews/node_modules',
-  require => [
-    Package['build-essential', 'nodejs'],
-    Exec['git_clone_repo'],
-  ],
+  cwd     => '/vagrant',
+  creates => '/vagrant/node_modules',
+  require => Package['build-essential', 'nodejs'],
 }
 
 exec { 'grunt':
-  cwd     => '/srv/lib.reviews',
-  command => '/srv/lib.reviews/node_modules/grunt/bin/grunt',
-  creates => '/srv/lib.reviews/static/js',
+  cwd     => '/vagrant',
+  command => '/vagrant/node_modules/grunt/bin/grunt',
+  creates => '/vagrant/static/js',
   require => Exec['npm install'],
+}
+
+file { '/lib/systemd/system/lib-reviews.service':
+  source => '/vagrant/manifests/lib-reviews.service',
+  owner  => 'root',
+  group  => 'root',
+  mode   => '0444',
+  notify => Exec['systemctl daemon-reload'],
+}
+
+exec { 'systemctl daemon-reload':
+  refreshonly => true,
+  notify      => Service['lib-reviews'],
+}
+
+service { 'lib-reviews':
+  ensure   => running,
+  enable   => true,
+  provider => systemd,
+  require  => File['/lib/systemd/system/lib-reviews.service'],
 }
