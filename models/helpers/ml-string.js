@@ -1,5 +1,6 @@
 'use strict';
-const langKeys = require('../../locales/languages').getValidLanguages();
+const languages = require('../../locales/languages');
+const langKeys = languages.getValidLanguages();
 const thinky = require('../../db');
 const type = thinky.type;
 
@@ -40,7 +41,6 @@ let mlString = {
     if (strObj === undefined)
       return undefined;
 
-
     // We have a string in the specified language
     // Note that emptying a string reverts back to other available languages
     if (strObj[lang] !== undefined && strObj[lang] !== '')
@@ -49,19 +49,31 @@ let mlString = {
         lang
       };
 
-    // Fallback
-    if (strObj.en !== undefined && strObj.en !== '')
-      return {
-        str: strObj.en,
-        lang: 'en'
-      };
+    // Try specific fallbacks for this language first, e.g. European Portuguese
+    // for Brazilian Portuguese. English is a declared fallback for all languages.
+    let fallbackLanguages = languages.getFallbacks(lang);
+    for (let fallbackLanguage of fallbackLanguages) {
+      if (strObj[fallbackLanguage] !== undefined && strObj[fallbackLanguage] !== '')
+        return {
+          str: strObj[fallbackLanguage],
+          lang: fallbackLanguage
+        };
+    }
 
-    if (strObj.de !== undefined && strObj.de !== '')
-      return {
-        str: strObj.de,
-        lang: 'de'
-      };
+    // Pick first available language
+    let availableLanguages = Object.keys(strObj);
+    for (let availableLanguage of availableLanguages) {
+      if (languages.isValid(availableLanguage) &&
+        strObj[availableLanguage] !== undefined &&
+        strObj[availableLanguage] !== '')
+        return {
+          str: strObj[availableLanguage],
+          lang: availableLanguage
+        };
+    }
 
+    // This may not be a valid multilingual string object at all, or all strings
+    // are empty.
     return undefined;
 
   }

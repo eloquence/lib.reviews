@@ -66,6 +66,24 @@ let languages = {
 
   isValid(langKey) {
     return validLanguages.indexOf(langKey) !== -1;
+  },
+
+  // Returns an array of fallback languages to try first when selecting
+  // which language version to show. We return English as a fallback
+  // if we don't have a better answer, since it's the most widely spoken
+  // secondary language.
+  getFallbacks(langKey) {
+    let fallbacks = ['en'];
+    switch (langKey) {
+      case 'pt':
+        fallbacks.unshift('pt-PT');
+        break;
+      case 'pt-PT':
+        fallbacks.unshift('pt');
+        break;
+      // no default
+    }
+    return fallbacks;
   }
 
 };
