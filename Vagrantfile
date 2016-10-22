@@ -8,7 +8,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.post_up_message = <<-END
     To view logs, run 'vagrant ssh', then 'journalctl -u lib-reviews.service'.
-    To restart lib-reviews, run 'systemctl restart lib-reviews'.
+    To restart lib-reviews, run 'sudo systemctl restart lib-reviews'.
     lib.reviews is available at http://localhost:8080 (on the host).
   END
 

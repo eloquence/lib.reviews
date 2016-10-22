@@ -51,6 +51,18 @@ Any pull requests must be under the [CC-0 License](./LICENSE). This project has
 adopted a [code of conduct](./CODE_OF_CONDUCT.md) to make sure all contributors
 feel welcome.
 
+# Using Vagrant
+
+If you're familiar with Vagrant and VirtualBox, you may find it easier to
+configure a working environment using our Vagrantfile. To install using
+Vagrant, simply type
+
+`vagrant up`
+
+in the main directory, and follow the instructions printed on screen.
+All dependencies will be installed automatically within a virtualized
+Debian environment.
+
 # Relevant related projects
 
 - https://critiquebrainz.org/ - music reviews
