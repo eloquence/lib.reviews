@@ -17,13 +17,19 @@ Vagrant.configure('2') do |config|
   # Make lib.reviews reachable via http://localhost:8080/ on the host.
   config.vm.network :forwarded_port, guest: 80, host: 8080
 
-  config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+  config.vm.synced_folder '.', '/vagrant',
+    :nfs => true,
+    :mount_options => ['noatime', 'nodiratime']
 
   # The debian/jessie64 box doesn't come with Puppet pre-installed,
   # so we need to run the shell provisioner first.
-  config.vm.provision 'shell', inline: '/usr/bin/apt-get install -y puppet'
+  config.vm.provision 'shell', run: 'always', inline: %{
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y puppet
+    install -o vagrant -g vagrant -d /srv/node_modules
+    mount --bind /srv/node_modules /vagrant/node_modules
+  }
 
-  config.vm.provision 'puppet' do |puppet|
+  config.vm.provision 'puppet', run: 'always' do |puppet|
     # Uncomment the line below to make Puppet runs vebrose:
     # puppet.options = '--verbose --debug'
   end
