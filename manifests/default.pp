@@ -24,7 +24,7 @@ file { '/etc/sysctl.d/10-fswatch.conf':
 
 exec { 'update_max_user_watches':
   command => 'sysctl --load=/etc/sysctl.d/*.conf',
-  unless  => 'sysctl fs.inotify.max_user_watches | grep -q 524288'
+  unless  => 'sysctl fs.inotify.max_user_watches | grep -q 524288',
   before  => Service['lib-reviews'],
 }
 
