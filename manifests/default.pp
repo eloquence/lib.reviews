@@ -25,6 +25,7 @@ file { '/etc/sysctl.d/10-fswatch.conf':
 exec { 'update_max_user_watches':
   command => 'sysctl --load=/etc/sysctl.d/*.conf',
   unless  => 'sysctl fs.inotify.max_user_watches | grep -q 524288'
+  before  => Service['lib-reviews'],
 }
 
 
@@ -105,7 +106,7 @@ exec { 'setcap_node':
 
 exec { 'npm install':
   cwd     => '/vagrant',
-  creates => '/vagrant/node_modules',
+  onlyif  => 'test ! -d /vagrant/node_modules || ( npm outdated | grep MISSING )',
   require => Package['build-essential', 'nodejs'],
 }
 
@@ -117,11 +118,12 @@ exec { 'grunt':
 }
 
 file { '/lib/systemd/system/lib-reviews.service':
-  source => '/vagrant/manifests/lib-reviews.service',
-  owner  => 'root',
-  group  => 'root',
-  mode   => '0444',
-  notify => Exec['systemctl daemon-reload'],
+  source  => '/vagrant/manifests/lib-reviews.service',
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0444',
+  require => Exec['npm install', 'grunt'],
+  notify  => Exec['systemctl daemon-reload'],
 }
 
 exec { 'systemctl daemon-reload':
