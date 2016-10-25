@@ -1,6 +1,5 @@
 'use strict';
 // External dependencies
-const Reflect = require('harmony-reflect');
 const config = require('config');
 
 // Internal dependencies

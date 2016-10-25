@@ -1,6 +1,5 @@
 'use strict';
 const debug = require('../../util/debug');
-const Reflect = require('harmony-reflect');
 
 module.exports = function flashErrorMessage(req, errorMessage, context) {
     if (errorMessage && errorMessage.constructor && errorMessage.constructor.name == 'ErrorMessage') {

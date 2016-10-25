@@ -2,9 +2,6 @@
 
 'use strict';
 
-// Until Node6 is LTS, we use this shim.
-const Reflect = require('harmony-reflect');
-
 // pm2 sets the NODE_APP_INSTANCE variable in cluster mode, which config
 // also uses for instance-specific configuration, and throws warnings when
 // it doesn't find them. For this reason we temporarily change the value

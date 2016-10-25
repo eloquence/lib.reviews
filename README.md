@@ -10,7 +10,7 @@ At this point, you need an invite code to make an account. Follow [lib_reviews o
 
 Our technical choices include:
 
-- Node.js LTS (currently the Node.js 4 series)
+- Node.js LTS (currently the Node.js 6 series)
 - Express as lightweight framework
 - RethinkDB as primary backend
 - Thinky as ODM

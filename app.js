@@ -45,10 +45,7 @@ let initializedApp;
 // completed and the app object can be used.
 // db is a reference to a database instance with an active connection pool.
 // If not provided, we will attempt to acquire the current instance.
-function getApp(db) {
-
-  if (!db)
-    db = require('./db');
+function getApp(db = require('./db')) {
 
   return new Promise((resolve, reject) => {
 

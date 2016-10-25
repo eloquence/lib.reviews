@@ -1,7 +1,4 @@
 'use strict';
-// External dependencies
-const Reflect = require('harmony-reflect');
-
 // Internal dependencies
 const render = require('../helpers/render');
 const forms = require('../helpers/forms');
@@ -17,6 +14,9 @@ const getResourceErrorHandler = require('./resource-error-handler');
 class AbstractBREADProvider {
 
   constructor(req, res, next, options) {
+
+    if (new.target === AbstractBREADProvider)
+      throw new TypeError('AbstractBREADProvider is an abstract class, please instantiate a derived class.');
 
     if (!req || !res || !next)
       throw new Error('Form needs at least req, res, and next functions from middleware.');
@@ -112,7 +112,7 @@ class AbstractBREADProvider {
     let mayProceed = true;
 
     for (let check of this.actions[this.action].preFlightChecks) {
-      let result = Reflect.apply(check, this);
+      let result = Reflect.apply(check, this, []);
       if (!result)
         mayProceed = false;
     }
@@ -121,10 +121,10 @@ class AbstractBREADProvider {
       return;
 
     if (!this.actions[this.action].loadData)
-      Reflect.apply(this.actions[this.action][this.method], this); // Call appropriate handler
+      Reflect.apply(this.actions[this.action][this.method], this, []); // Call appropriate handler
     else {
       // Asynchronously load data and show 404 if not found
-      Reflect.apply(this.actions[this.action].loadData, this)
+      Reflect.apply(this.actions[this.action].loadData, this, [])
         .then(data => {
 
           // If we have a permission check, only proceeds if it succeeds.

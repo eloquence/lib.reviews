@@ -210,7 +210,7 @@
         "prefer-arrow-callback": "off",
         "prefer-const": "off",
         "prefer-reflect": "error",
-        "prefer-rest-params": "off",
+        "prefer-rest-params": "warn",
         "prefer-spread": "error",
         "prefer-template": "off",
         "quote-props": "off",

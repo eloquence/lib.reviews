@@ -4,7 +4,6 @@
 const hbs = require('hbs');
 const escapeHTML = require('escape-html');
 const i18n = require('i18n');
-const Reflect = require('harmony-reflect');
 
 // Internal dependencies
 const mlString = require('../models/helpers/ml-string');
@@ -60,14 +59,12 @@ hbs.registerHelper('longDate', function(date) {
     return date.toLocaleString();
 });
 
-hbs.registerHelper('__', function() {
-  let args = Reflect.apply(Array.prototype.slice, arguments);
+hbs.registerHelper('__', function(...args) {
   let options = args.pop();
   return Reflect.apply(i18n.__, options.data.root, args);
 });
 
-hbs.registerHelper('__n', function() {
-  let args = Reflect.apply(Array.prototype.slice, arguments);
+hbs.registerHelper('__n', function(...args) {
   let options = args.pop();
   return Reflect.apply(i18n.__n, options.data.root, args);
 });
@@ -83,8 +80,7 @@ hbs.registerHelper('getThingLabel', (thing, options) =>
   Thing.getLabel(thing, options.data.root.locale));
 
 // Just a simple %1, %2 substitution function for various purposes
-hbs.registerHelper('substitute', function() {
-  let args = Array.from(arguments);
+hbs.registerHelper('substitute', function(...args) {
 
   let i = 1,
     string = args.shift();
