@@ -22,16 +22,16 @@
 
   <div class="pure-u-1">
   <div class="pure-control-group">
-  <input type="radio" data-hide="expanded-info-{{this.id}}" id="upload-{{this.id}}-by-uploader" name="upload-{{this.id}}-by" value="uploader" checked> <label class="inline-label" for="upload-{{this.id}}-by-uploader">{{{__ "my own work"}}}</label><p>
-  <input type="radio" id="upload-{{this.id}}-by-other" name="upload-{{this.id}}-by" value="other" data-show="expanded-info-{{this.id}}"> <label class="inline-label" for="upload-{{this.id}}-by-other">{{{__ "someone else's work"}}}</label>
+  <input type="radio" data-hide="expanded-info-{{this.id}}" data-disable-required-group="upload-metadata-{{this.id}}" id="upload-{{this.id}}-by-uploader" name="upload-{{this.id}}-by" value="uploader" checked> <label class="inline-label" for="upload-{{this.id}}-by-uploader">{{{__ "my own work"}}}</label><p>
+  <input type="radio" id="upload-{{this.id}}-by-other" name="upload-{{this.id}}-by" value="other" data-show="expanded-info-{{this.id}}" data-enable-required-group="upload-metadata-{{this.id}}"> <label class="inline-label" for="upload-{{this.id}}-by-other">{{{__ "someone else's work"}}}</label>
   </div>
   </div>
 
   <div class="hidden-regular nojs-visible placeholder-width" id="expanded-info-{{this.id}}">
   <div class="pure-u-1 pure-u-md-2-3">
     <div class="pure-control-group indented-control-group">
-        <label for="upload-{{this.id}}-creator">{{{__ "creator"}}}</label>
-        <input type="text" size="80" id="upload-{{this.id}}-creator" name="upload-{{this.id}}-creator"  class="pure-input-1" data-auto-trim placeholder='{{{__ "enter creator name"}}}'>
+        <label for="upload-{{this.id}}-creator">{{{__ "creator"}}} <span data-required-indicator-group="upload-metadata-{{this.id}}" class="hidden">*</span></label>
+        <input type="text" size="80" id="upload-{{this.id}}-creator" name="upload-{{this.id}}-creator"  class="pure-input-1" data-auto-trim data-required-input-group="upload-metadata-{{this.id}}" placeholder='{{{__ "enter creator name"}}}'>
     </div>
     <br>
   </div>
@@ -41,8 +41,8 @@
 
   <div class="pure-u-1 pure-u-md-2-3">
     <div class="pure-control-group indented-control-group">
-        <label for="upload-{{this.id}}-source">{{{__ "source"}}}</label>
-        <input type="text" id="upload-{{this.id}}-source" name="upload-{{this.id}}-source"  class="pure-input-1" data-auto-trim placeholder='{{{__ "enter source"}}}'>
+        <label for="upload-{{this.id}}-source">{{{__ "source"}}} <span data-required-indicator-group="upload-metadata-{{this.id}}" class="hidden">*</span></label>
+        <input type="text" id="upload-{{this.id}}-source" name="upload-{{this.id}}-source"  class="pure-input-1" data-required-input-group="upload-metadata-{{this.id}}" data-auto-trim placeholder='{{{__ "enter source"}}}'>
     </div>
     <br>
   </div>

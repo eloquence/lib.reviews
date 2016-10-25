@@ -91,6 +91,38 @@
     this.value = this.value.trim();
   };
 
+  // For groups of form controls that are sometimes, but not always, required
+  // inputs, we can enable the required check selectively. To do so, we need
+  // to set the "data-required-indicator-group" and "data-required-input-group"
+  // to a unique ID for each group, and set the data-enable-required-group
+  // and data-disable-required-group to the same ID for the controls which
+  // change the state (for now only radio controls are supported).
+  // The indicator also needs to have the "hidden" class initially.
+  window.libreviews.enableRequiredGroup = function(groupID) {
+    $(`span[data-required-indicator-group="${groupID}"]`)
+      .addClass('required')
+      .removeClass('hidden');
+    $(`[data-required-input-group="${groupID}"]`)
+      .attr('data-required', '');
+  };
+
+  window.libreviews.disableRequiredGroup = function(groupID) {
+    $(`span[data-required-indicator-group="${groupID}"]`)
+      .addClass('hidden')
+      .removeClass('required');
+    $(`[data-required-input-group="${groupID}"]`)
+      .removeAttr('data-required');
+  };
+
+  $('input[type="radio"][data-enable-required-group]').focus(function() {
+    window.libreviews.enableRequiredGroup($(this).attr('data-enable-required-group'));
+  });
+
+  $('input[type="radio"][data-disable-required-group]').focus(function() {
+    window.libreviews.disableRequiredGroup($(this).attr('data-disable-required-group'));
+  });
+
+
   // Generic function for dismiss buttons. The attribute data-dismiss-element
   // must specify an element ID.
   $('button[data-dismiss-element]').click(function(event) {
@@ -183,15 +215,15 @@
   // For content which is hidden by default and can be expanded, e.g., spoiler
   // warnings, NSFW warnings
   function toggleDangerousContent(event) {
-      if ($(this).parent().is('[open]')) {
-        $(this).next('.dangerous-content').slideUp(200, () => {
-          $(this).parent().removeAttr('open');
-        });
-      } else {
-        $(this).parent().attr('open', '');
-        $(this).next('.dangerous-content').slideDown(200);
-      }
-      event.preventDefault();
+    if ($(this).parent().is('[open]')) {
+      $(this).next('.dangerous-content').slideUp(200, () => {
+        $(this).parent().removeAttr('open');
+      });
+    } else {
+      $(this).parent().attr('open', '');
+      $(this).next('.dangerous-content').slideDown(200);
+    }
+    event.preventDefault();
   }
 
   function showInputHelp() {
