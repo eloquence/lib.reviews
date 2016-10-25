@@ -41,9 +41,16 @@
     $('#abandon-draft').click(emptyAllFormFields);
     $('#add-http').click(addHTTP);
     $('#add-https').click(addHTTPS);
+
+    // When writing a review of an existing thing, the URL field is not
+    // available, so do not attempt to store data to it.
+    let maybeExcludeURL = '';
+    if (!$('#review-url').length)
+      maybeExcludeURL = ',#review-url';
+
     sisyphus = $('#review-form').sisyphus({
       onRestore: processLoadedData,
-      excludeFields: $('#live-preview,#review-token,#review-language')
+      excludeFields: $('#live-preview,#review-token,#review-language' + maybeExcludeURL)
     });
   }
 
@@ -120,7 +127,8 @@
     }
 
     // Show URL issues if appropriate
-    validateURL.apply($('#review-url')[0]);
+    if ($('#review-url').length)
+      validateURL.apply($('#review-url')[0]);
   }
 
   function clearStars(start) {
