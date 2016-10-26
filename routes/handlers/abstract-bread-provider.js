@@ -113,8 +113,10 @@ class AbstractBREADProvider {
 
     for (let check of this.actions[this.action].preFlightChecks) {
       let result = Reflect.apply(check, this, []);
-      if (!result)
+      if (!result) {
         mayProceed = false;
+        break; // First check to fail will be responsible for rendering error
+      }
     }
 
     if (!mayProceed)
