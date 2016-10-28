@@ -17,6 +17,17 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
+bot.once('names', function () {
+  // Every thirty seconds, check that the bot is operating under its canonical
+  // nickname, and attempt to regain it if not. (NickServ's "regain" command
+  // will modify the bot's nickname, if successful.)
+  setInterval(function () {
+    if (bot.nick !== config.botName) {
+      bot.say('NickServ', 'regain ' + config.botName);
+    }
+  }, 30 * 1000);
+});
+
 app.use(bodyParser.json());
 
 app.post('/reviews', function (req, res) {
