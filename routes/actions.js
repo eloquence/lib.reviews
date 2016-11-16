@@ -29,6 +29,19 @@ const formDefs = {
   }]
 };
 
+router.get('/actions/invite', function(req, res, _next) {
+  if (!req.user)
+    return render.signinRequired(req, res, {
+      titleKey: 'invite users'
+    });
+
+  console.log(req.user.getJoin);
+  render.template(req, res, 'invite', {
+    titleKey: 'invite users',
+    invitePage: true, // to tell template not to show call-to-action again
+  });
+});
+
 router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 
 router.post('/actions/change-language', function(req, res) {

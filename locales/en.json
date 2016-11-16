@@ -317,5 +317,22 @@
     "atom feed of reviews by team": "Atom feed of all reviews by this team",
     "no reviews for team": "This team has not published any reviews yet.",
     "no reviews for user": "This user has not published any reviews yet.",
-    "view all": "&raquo; View all"
+    "view all": "&raquo; View all",
+    "invite code": {
+      "one": "Help lib.reviews grow! You have <b>one</b> invite code.",
+      "other": "Help lib.reviews grow! You have <b>%s</b> invite codes."
+    },
+    "invite users intro": "We use invitation codes to let new users register on the site. This lets us grow the lib.reviews community with intentionality.",
+    "you can generate codes": {
+      "one": "You can generate <b>one</b> invite code.",
+      "other": "You can generate up to <b>%s</b> invite codes."
+    },
+    "invite code info": "Invite codes don't expire, but each code can only be used by one person (first come, first served). Thanks for helping to grow this community!",
+    "generate a new code": "Generate an invite code",
+    "pending invitations": "Pending invitations",
+    "pending invitations info": "You have generated these invite codes, but no user has used them to register an account yet.",
+    "accepted invitations": "Recently accepted invitations",
+    "no invite codes": "You currently don't have any invite codes. <a href='/new/review'>Write reviews</a> to earn invites.",
+    "share the love": "Share the love",
+    "invite users": "Invite users"
 }

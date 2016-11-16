@@ -1,0 +1,15 @@
+{{{__ "invite users intro"}}}
+<p>{{#if user.inviteCodeCount}}
+{{{__n "you can generate codes" user.inviteCodeCount}}}
+<p>
+<form name="invite-form" method="post">
+<input type="hidden" value="{{csrfToken}}" name="_csrf">
+<button class="pure-button button-rounded">{{{__ "generate a new code"}}}</button>
+</form>
+{{else}}
+{{{__ "no invite codes"}}}
+{{/if}}
+{{#each pendingInviteCodes}}
+{{/each}}
+{{#each usedInviteCodes}}
+{{/each}}
