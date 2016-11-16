@@ -11,11 +11,11 @@ const path = require('path');
 // with the translations to the locales/ directory. Then add the new language
 // code to this array. Language names will be automatically imported from CLDR
 // on the next restart.
-const validLanguages = ['en', 'bn', 'de', 'eo', 'es', 'fr', 'mk', 'pt', 'pt-PT', 'sv', 'zh'];
+const validLanguages = ['en', 'bn', 'de', 'eo', 'es', 'fr', 'mk', 'pt', 'pt-PT', 'sv', 'zh', 'zh-Hant'];
 
 const languageNameMap = {
   // CLDR uses the unqualified key (e.g., "pt" for Portuguese) for the version
-  // used by the most speakers, and to aovid duplication, there isn't even a
+  // used by the most speakers, and to avoid duplication, there isn't even a
   // directory for the version with the qualifier. We use the same minimal codes,
   // but the qualification matters for purposes of looking up the language names,
   // so we use this map to remember which specific locale name to look up.
