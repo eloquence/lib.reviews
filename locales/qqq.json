@@ -74,7 +74,7 @@
 	"add http": "Link action that prepends http:// prefix to an incomplete URL",
 	"add https": "Link action that prepends https:// prefix to an incomplete URL",
 	"freedom": "Footer notice informing user how to exercise freedoms they have with regard to content, community and software",
-	"code": "Footer link to source code repository\n{{Identical|Source code}}",
+	"code": "Footer link to source code repository. %1$s is substituted with GitHub repository, %2$s with notabug mirror.\n{{Identical|Source code}}",
 	"signin required": "Notice that signing in is required to perform an action, shown in multiple contexts",
 	"complete all required fields": "Notice shown on multiple forms when user attempts to submit form without completing all required fields",
 	"correct errors": "Notice shown on multiple forms when user attempts to submit form without correcting a previously reported validation error",
