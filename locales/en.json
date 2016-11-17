@@ -317,5 +317,7 @@
     "atom feed of reviews by team": "Atom feed of all reviews by this team",
     "no reviews for team": "This team has not published any reviews yet.",
     "no reviews for user": "This user has not published any reviews yet.",
-    "view all": "&raquo; View all"
+    "view all": "&raquo; View all",
+    "faq acronym": "FAQ",
+    "faq": "Frequently Asked Questions"
 }

@@ -21,6 +21,17 @@ router.get('/terms', function(req, res, next) {
     .catch(error => next(error));
 });
 
+router.get('/faq', function(req, res, next) {
+  resolveMultilingualTemplate('faq', req.locale)
+    .then(templateName => {
+      render.template(req, res, templateName, {
+        deferPageHeader: true,
+        titleKey: 'faq'
+      });
+    })
+    .catch(error => next(error));
+});
+
 
 // Detects the best available template in the multilingual templates directory
 // for a given locale.

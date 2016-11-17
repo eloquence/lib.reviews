@@ -323,5 +323,7 @@
 	"atom feed of reviews by team": "Embedded metadata description for Atom feed of all reviews by a given team",
 	"no reviews for team": "Message shown on a team page if the team has not been associated with any reviews",
 	"no reviews for user": "Message shown on a user page if the uesr has not authored any reviews",
-	"view all": "Generic label for a link that leads to a list of all items with pagination, e.g., blog posts, reviews, etc."
+	"view all": "Generic label for a link that leads to a list of all items with pagination, e.g., blog posts, reviews, etc.",
+	"faq acronym": "Short form of the 'Frequently Asked Questions' title. If no common acronym in your language, use English if familiar, otherwise spell out.",
+	"faq": "Title of the 'Frequently Asked Questions' page (long form)."
 }
