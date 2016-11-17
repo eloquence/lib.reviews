@@ -49,7 +49,7 @@
 	"review title": "Título para a sua resenha",
 	"review title help label": "Título",
 	"enter title": "Use um título, como por exemplo: Cachoeira incrível, mas muito lotada",
-	"review title help": "Uma boa manchete informa os leitores sobre quais os pontos-chave da sua resenha. Se um produto deu defeito três meses após a compra ou se ficou com uma intoxicação alimentar depois uma visita a um restaurante, pode fazer sentido realçar a situação aqui! :-)",
+	"review title help": "Uma boa manchete informa os leitores sobre quais são os pontos-chave da sua resenha. Se um produto deu defeito três meses após a compra ou se você teve com uma intoxicação alimentar depois uma visita a um restaurante, talvez você queira contar aqui! :-)",
 	"review text help": "Algumas coisas para ter em mente:<ul><li>Seja justo &mdash; por favor, cuidado com generalizações, positivas ou negativas.</li><li>Seja honesto &mdash; isto inclui informar qualquer conflito de interesse de sua parte (ex.: se você trabalha para o concorrente).</li><li>Seja gentil &mdash; este sítio é usado por seres humanos.</li></ul>Escreva sua resenha como texto simples, ou use <a href='http://help.wtf/md' target='_blank' tabindex='-1'>markdown</a> para formatação.",
 	"1 star help": "Uma estrela significa \"terrível\" ou \"a evitar\".",
 	"2 stars help": "Duas estrelas significa \"falho\" ou \"de valor limitado\".",

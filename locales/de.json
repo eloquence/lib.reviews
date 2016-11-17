@@ -10,7 +10,7 @@
 	"welcome": "Willkommen!",
 	"intro lead": "<b>Willkommen bei lib.reviews!</b> Wir entwickeln eine freie und offene Plattform, um alles mögliche zu rezensieren, in jeder Sprache.",
 	"intro message": "Derzeit sind wir noch im Anfangs-Stadium der Entwicklung, weshalb wir einen Einladungscode für die Registrierung eines Benutzerkontos verwenden. Wenn du nicht weißt, wie du einen Code bekommen kannst, kannst du uns auf Twitter <a href='https://twitter.com/lib_reviews'>lib_reviews</a> folgen und uns antweeten, und wir schicken dir einen Code.",
-	"find us on": "Du kannst uns <a href='https://github.com/eloquence/lib.reviews'>auf GitHub</a> finden, unserer <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>Mailing-Liste beitreten</a> und im IRC (<a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a> auf <a href='https://freenode.net/'>irc.freenode.net</a>) mit uns chatten.<p>Du kannst dir auch ein kurzes englischsprachiges <a href='/static/uploads/screencast2.webm'>Video</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube-Version</a>) über den Stand der Dinge im Oktober 2016 anschauen.",
+	"find us on": "Du kannst uns <a href='https://github.com/eloquence/lib.reviews'>auf GitHub</a> finden (<a href='https://notabug.org/freeyourstuff/lib.reviews'>gespiegelt auf notabug</a>), unserer <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>Mailing-Liste beitreten</a> und im IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> auf <a href='https://freenode.net/'>irc.freenode.net</a>) mit uns chatten.<p>Du kannst dir auch ein kurzes englischsprachiges <a href='/static/uploads/screencast2.webm'>Video</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube-Version</a>) über den Stand der Dinge im Oktober 2016 anschauen.",
 	"from the dev diary": "Aus dem <a href='/team/%s/blog'>Entwickler-Tagebuch</a>:",
 	"change language": "Wechseln zu:",
 	"sign in": "Anmelden",
@@ -75,7 +75,7 @@
 	"add http": "http:// voranhängen",
 	"add https": "https:// voranhängen",
 	"freedom": "lib.reviews respektiert deine Freiheit:",
-	"code": "Quellcode",
+	"code": "<a href='%1$s'>Quellcode</a> (<a href='%2$s'>Notabug-Spiegel</a>)",
 	"signin required": "Du musst dich erst <a href='/signin'>anmelden</a> oder ein <a href='/register'>Benutzerkonto registrieren</a>.",
 	"complete all required fields": "Bitte vervollständige alle erforderlichen Felder (mit * markiert).",
 	"correct errors": "Bitte korrigiere alle gemeldeten Fehler.",
@@ -324,5 +324,7 @@
 	"atom feed of reviews by team": "Atom-Feed aller Rezensionen dieses Teams",
 	"no reviews for team": "Dieses Team hat noch keine Rezensionen veröffentlicht.",
 	"no reviews for user": "Dieser Benutzer hat noch keine Rezensionen veröffentlicht.",
-	"view all": "&raquo; Alle anzeigen"
+	"view all": "&raquo; Alle anzeigen",
+	"faq acronym": "FAQ",
+	"faq": "Häufig gestellte Fragen"
 }
