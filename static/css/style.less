@@ -6,8 +6,8 @@ pure CSS from LESS
 */
 @errorColor: red;
 @warningColor: #ff6600;
-@linkColor: #4078c0;
-@visitedColor: #002C74;
+@linkColor: #1f5cad;
+@visitedColor: #373180;
 @infoColor: #ccc;
 @headerColor: #414042;
 @sideMargin: 2em;
@@ -64,6 +64,22 @@ pure CSS from LESS
 #main-body a:visited {
     color: @visitedColor;
 }
+
+#main-body a.fragment-link {
+  color: #aaa;
+  text-decoration:none;
+  font-size:medium;
+  margin-right:0.5em;
+}
+
+#main-body a.fragment-link:visited {
+  color: #aaa;
+}
+
+#main-body a.fragment-link:hover {
+  color: #ccc;
+}
+
 body {
     font-family: "Noto Sans", sans-serif;
 }
@@ -321,21 +337,6 @@ label.inline-star-label {
 
 .long-text h2 {
   font-weight:normal;
-}
-
-a.fragment-link {
-  color: #aaa;
-  text-decoration:none;
-  font-size:medium;
-  margin-right:0.5em;
-}
-
-#main-body a.fragment-link:visited {
-  color: #aaa;
-}
-
-#main-body a.fragment-link:hover {
-  color: #ccc;
 }
 
 #preview-contents {
