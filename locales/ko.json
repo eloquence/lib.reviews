@@ -35,7 +35,7 @@
 	"terms": "이용 약관",
 	"add http": "http:// 추가",
 	"add https": "https:// 추가",
-	"code": "소스 코드",
+	"code": "<a href='%1$s'>소스 코드</a> (<a href='%2$s'>notabug 미러</a>)",
 	"correct errors": "보고된 오류를 모두 수정해 주십시오.",
 	"need review-url": "이 리뷰에 URL이 필요합니다.",
 	"live preview": "실시간 미리 보기",
@@ -127,5 +127,7 @@
 	"upload needs source": "'%s' 파일에 대한 정보가 필요합니다.",
 	"upload needs license": "파일 '%s'의 라이선스에 대한 정보가 필요합니다.",
 	"team page": "(팀 페이지)",
-	"view all": "&raquo; 모두 보기"
+	"view all": "&raquo; 모두 보기",
+	"faq acronym": "자주 묻는 질문",
+	"faq": "자주 묻는 질문"
 }
