@@ -77,13 +77,16 @@
   // Message key for the front page blog
   frontPageTeamBlogKey: "development diary",
 
+  // Whether new users need a special link to sign up (earned by writing reviews)
+  requireInviteLinks: false,
+
   // These are simple question/answer text captchas which can be enabled
   // for supported forms (currently just sign-ups). The keys refer to
   // the message files in locales/ and are deliberately generic so we can
   // provide culturally appropriate customizations if needed.
   questionCaptcha: {
     forms: {
-      register: true
+      register: false
     },
     captchas: [
       {

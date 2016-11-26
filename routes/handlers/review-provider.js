@@ -154,7 +154,13 @@ class ReviewProvider extends AbstractBREADProvider {
               event: 'new-review',
               data: this.getWebHookData(review, this.req.user)
             });
-            this.res.redirect(`/thing/${review.thing.id}#your-review`);
+            this.req.user.inviteLinkCount++;
+            this.req.user
+              .save()
+              .then(() => {
+                this.res.redirect(`/thing/${review.thing.id}#your-review`);
+              })
+              .catch(error => this.next(error)); // Problem updating invite count
           })
           .catch(errorMessage => {
             flashError(this.req, errorMessage, 'saving review');

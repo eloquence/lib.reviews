@@ -205,6 +205,22 @@
   // Focus input
   $('[data-focus]').focus();
 
+  // Buttons that copy text into the clipboard
+  $('[data-copy]').click(function() {
+    let copySourceID = $(this).attr('data-copy');
+    let copySource = $(`#${copySourceID}`)[0];
+
+    let range = document.createRange();
+    range.selectNode(copySource);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    try {
+      document.execCommand('copy');
+    } catch (error) {
+      console.error('Copying not supported in your browser.');
+    }
+  });
+
   // Some click handlers exist inside content which may be dynamically generated.
   window.libreviews.updateContentClickHandlers = () => {
     $('summary.content-warning-notice').click(toggleDangerousContent);

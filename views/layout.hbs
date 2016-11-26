@@ -31,8 +31,15 @@
         <div class="pure-u-1-2">
             <a href="/" id="home-link" accesskey="h" title="{{__ "load frontpage"}}
 {{{__ "accesskey" "h"}}}"><img src="/static/img/logo.svg" id="logo" class="pure-img" alt="{{{__ "site name"}}}"></a>
-        </div>
-
+{{#if user.inviteLinkCount}}
+{{#unless invitePage}}
+<div class="invites">
+{{{__n "help us grow" user.inviteLinkCount}}}
+<a href="/actions/invite"  class="invite-button pure-button button-rounded"><span class="fa fa-heart spaced-icon invite-icon"></span>{{{__ "share the love"}}}</a>
+</div>
+{{/unless}}
+{{/if}}
+      </div>
         <div class="pure-u-1-2">
             {{#if user}}
                 <ul id="user-menu">

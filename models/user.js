@@ -9,12 +9,16 @@ const UserMeta = require('./user-meta');
 
 const options = {
   maxChars: 128,
-  illegalChars: /[<>;"&\?!\.\/_]/,
+  illegalChars: /[<>;"&?!./_]/,
   minPasswordLength: 6
 };
 
+/* eslint-disable no-useless-escape */ // False positive
+
 // Erm, if we add [, ] or \ to forbidden chars, we'll have to fix this :)
 options.illegalCharsReadable = options.illegalChars.source.replace(/[\[\]\\]/g, '');
+
+/* eslint-enable no-useless-escape */
 
 // Table generation is handled by thinky
 let User = thinky.createModel("users", {
@@ -31,6 +35,8 @@ let User = thinky.createModel("users", {
     trustedByUser: type.string().uuid(4),
     trustedOnDate: type.date(),
   }],
+  // Trusted users gain invite codes as they write reviews
+  inviteLinkCount: type.number().integer().default(0),
   registrationDate: type.date().default(() => new Date()),
   showErrorDetails: type.boolean().default(false),
   // Basic trust - not a spammer. Can confer trust, can edit things + create teams
@@ -49,7 +55,6 @@ let User = thinky.createModel("users", {
 // Relations. For team relations see team model
 
 User.belongsTo(UserMeta, "meta", "userMetaID", "id");
-
 
 User.options = options; // for external visibility
 Object.freeze(User.options);

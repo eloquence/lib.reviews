@@ -1,0 +1,79 @@
+{{>page_errors}}
+<div id="page-messages">
+{{#each pageMessages}}
+<div class="message-box">{{{this}}}</div>
+{{/each}}
+</div>
+<p>
+{{{__ "invite users intro"}}}
+<p>{{#if user.inviteLinkCount}}
+{{{__n "you can generate links" user.inviteLinkCount}}}
+<p>
+<form name="invite-form" method="post">
+<input type="hidden" value="{{csrfToken}}" name="_csrf">
+<button class="pure-button button-rounded">{{{__ "generate link"}}}</button>
+</form>
+{{/if}}
+{{#if pendingInviteLinks}}
+<h2 class="sub-header-regular">{{{__ "pending invitations"}}}</h2>
+<p>
+<table class="pure-table">
+{{#each pendingInviteLinks}}
+{{#if @first}}<tr>
+<thead>
+<th>
+  {{{__ "created on"}}}
+</th>
+<th>
+  {{{__ "invite link"}}}
+</th>
+</thead>
+</tr>
+{{/if}}
+<tr>
+<td>
+{{this.createdOn}}
+</td>
+<td>
+<a href="{{this.url}}" class="invite-link" id="invite-link-{{this.id}}">{{this.url}}</a></span> &nbsp;<button class="nojs-hidden pure-button button-rounded" data-copy="invite-link-{{this.id}}">{{{__ "copy"}}}</button>
+</td>
+</tr>
+{{/each}}
+</table>
+{{/if}}
+{{#if usedInviteLinks}}
+<h2 class="sub-header-regular">{{{__ "accepted invitations"}}}</h2>
+<p>
+<table class="pure-table">
+{{#each usedInviteLinks}}
+{{#if @first}}
+<tr>
+<thead>
+  <th>
+  {{{__ "created on"}}}
+</th>
+<th>
+  {{{__ "accepted by"}}}
+</th>
+<th>
+  {{{__ "accepted on"}}}
+</th>
+</thead>
+</tr>
+{{/if}}
+<tr>
+<td>
+{{this.createdOn}}
+</td>
+<td>
+{{{userLink this.usedByUser}}}
+</td>
+<td>
+{{{this.usedByUser.registrationDate}}}
+</td>
+
+</tr>
+
+{{/each}}
+</table>
+{{/if}}

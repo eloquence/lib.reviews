@@ -2,7 +2,7 @@
     "site name": "lib.reviews",
     "welcome": "Welcome!",
     "intro lead": "<b>Welcome to lib.reviews!</b> We're building a free, open and not-for-profit platform for reviewing absolutely anything, in any language.",
-    "intro message": "We are in early development, and for now, you need an invite code to register. If you don't know how to get one, follow <a href='https://twitter.com/lib_reviews'>lib_reviews</a> on Twitter, send us a tweet, and we'll DM you.",
+    "intro message": "We are in early development, and for now, you need an invitation link to register. If you don't know how to get one, follow <a href='https://twitter.com/lib_reviews'>lib_reviews</a> on Twitter, send us a tweet, and we'll DM you.",
     "find us on": "You can also find us <a href='https://github.com/eloquence/lib.reviews'>on GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>mirrored to notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>join our mailing list</a> and chat with us on IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> on <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Watch a <a href='/static/uploads/screencast2.webm'>short screencast</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube version</a>) about the state of things as of October 2016.",
     "from the dev diary": "From the <a href='/team/%s/blog'>development diary</a>:",
     "change language": "Switch to:",
@@ -14,7 +14,8 @@
     "password": "Password",
     "enter password": "Enter password",
     "no account yet": "Don't have an account yet? <a href='/register'>Registration</a> is quick and easy.",
-    "enter your info": "Welcome to the lib.reviews community! Please enter the information for your new account below.<p> <b>We are in early development and you'll need an invite code to make an account. If you don't know how to obtain one, you can follow <a href='https://twitter.com/lib_reviews'>lib_reviews</a> on Twitter and tweet to us, and we'll DM you a code.</b>",
+    "invite link needed": "Thanks for your interest in making an account here! We want to grow cautiously at this point so we can keep up with the needs of the community, and so we have enough time to get to know each other. For this reason you'll need an invitation link to make an account. There are three easy ways to get an invite link:<ul><li>Join our <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>chat room</a> (#lib.reviews on irc.freenode.net) and ask for an invite link.<li>Follow <a href='http://twitter.com/lib_reviews'>lib_reviews</a> on Twitter and send us a direct message.<li>If you know a member of our community, ask them directly for an invitation.</ul><p>We really look forward to welcoming you into the lib.reviews community!",
+    "enter your info": "Welcome to the lib.reviews community! Please enter the information for your new account below.",
     "already got an account": "Already have an account? <a href='/signin'>Sign in</a> instead.",
     "enter email": "Enter email address",
     "email optional": "Email address (optional)",
@@ -89,7 +90,7 @@
         "one": "%s star",
         "other": "%s stars"
     },
-    "captcha intro": "<!-- Prove you're not a robot. What's the missing word indicated with ___? -->",
+    "captcha intro": "Please prove that you're not a robot. What's the missing word indicated with ___?",
     "question: famous painting": "One of the world's most famous paintings is the Mona ___ by Leonardo da Vinci.",
     "answer: famous painting": "Lisa",
     "question: famous composer": "Ludwig van ____ was almost totally deaf toward the end of his life.",
@@ -319,5 +320,30 @@
     "no reviews for user": "This user has not published any reviews yet.",
     "view all": "&raquo; View all",
     "faq acronym": "FAQ",
-    "faq": "Frequently Asked Questions"
+    "faq": "Frequently Asked Questions",
+    "help us grow": {
+      "one": "Help lib.reviews grow! You have <b>one</b> invite link.",
+      "other": "Help lib.reviews grow! You have <b>%s</b> invite links."
+    },
+    "invite users intro": "New users need an invitation code. To earn invite links to give to your friends, simply  <a href='/new/review'>  write reviews</a>.",
+    "you can generate links": {
+      "one": "You can currently generate <b>one</b> invite link.",
+      "other": "You can currently generate up to <b>%s</b> invite links."
+    },
+    "generate link": "Generate an invite link",
+    "out of links": "You have run out of links to generate. Write reviews to earn more invite links.",
+    "link generated": "We've just made a new invite link for you, which you can find below. Copy it and share it by email, IM, or other means. Any link can be used exactly once. Thanks for helping to grow the lib.reviews community by inviting people you know and trust!",
+    "share the love": "Share the love",
+    "invite users": "Invite users",
+    "pending invitations": "Your invite links",
+    "accepted invitations": "Accepted invitations",
+    "invite link": "Invite link",
+    "created on": "Created on",
+    "accepted by": "Accepted by",
+    "accepted on": "Accepted on",
+    "copy": "Copy",
+    "invite link invalid title": "Invalid invite code",
+    "invite link invalid": "The invite code you provided is invalid. Please <a href='/register'>request a new one</a> or <a href='https://github.com/eloquence/lib.reviews/issues/new'>let us know</a> if the problem persists. Thank you!",
+    "invite link already used title": "Invite link has already been used",
+    "invite link already used": "This invitation link has already been used to register a user account on lib.reviews. Each invite link can be used exactly once. Please <a href='/register'>request a new invite link</a> or  <a href='https://github.com/eloquence/lib.reviews/issues/new'>let us know</a> if you have received this message in error. Thank you!"
 }
