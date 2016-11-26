@@ -12,6 +12,10 @@ const languages = require('../locales/languages');
 // Default routes for read, edit, add, delete
 let router = TeamProvider.bakeRoutes('team');
 
+router.get('/team', function(req, res) {
+  return res.redirect('/teams');
+});
+
 // Feed of all reviews
 router.get('/team/:id/feed', function(req, res, next) {
   let id = req.params.id.trim();
