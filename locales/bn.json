@@ -8,7 +8,7 @@
 	"welcome": "স্বাগতম!",
 	"intro lead": "<b>lib.reviews-এ স্বাগতম!</b> আমরা যেকোন কিছু, যেকোন ভাষায় পর্যালোচনার জন্য একটি অবাধ, উমুক্ত ও অ-লাভজনক প্ল্যাটফর্ম নির্মাণ করছি।",
 	"intro message": "আমরা এখন বিকাশের পর্যায়ে আছি, এবং এখনকার জন্য, নিবন্ধন করার জন্য আপনার একটি আমন্ত্রণ কোডের প্রয়োজন হবে। আপনি যদি না জানেন কিভাবে একটি পেতে পারেন তাহলে, টুইটারে <a href='https://twitter.com/lib_reviews'>lib_reviews</a> অনুসরণ করুন, আমাদেরকে একটি টুইট পাঠান এবং আমরা আপনাকে একটি কোড প্রেরণ করবো।",
-	"find us on": "এছাড়াও আপনি আমাদেরকে <a href='https://github.com/eloquence/lib.reviews'>গিটহাবে</a> খুঁজে পেতে পারেন, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>আমাদের মেইলিং তালিকা যোগদান করতে পারেন</a> এবং IRC তে আমাদের সাথে চ্যাট করতে পারেন (<a href='https://freenode.net/'>irc.freenode.net</a> এ <a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a>)।<p>অক্টোবর ২০১৬ অনুযায়ী জিনিসের অবস্থা সম্পর্কে একটি <a href='/static/uploads/screencast2.webm'>সংক্ষিপ্ত স্ক্রীনকাস্ট</a> (<a href='https://youtu.be/wjUasbFfCbU'>ইউটিউব সংস্করণ</a>) দেখুন।",
+	"find us on": "এছাড়াও আপনি আমাদেরকে <a href='https://github.com/eloquence/lib.reviews'>গিটহাবে</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>নোটাবাগে মিরর</a>) খুঁজে পেতে পারেন, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>আমাদের মেইলিং তালিকা যোগদান করতে পারেন</a> এবং IRC তে আমাদের সাথে চ্যাট করতে পারেন (<a href='https://freenode.net/'>irc.freenode.net</a> এ (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>)।<p>অক্টোবর ২০১৬ অনুযায়ী জিনিসের অবস্থা সম্পর্কে একটি <a href='/static/uploads/screencast2.webm'>সংক্ষিপ্ত স্ক্রীনকাস্ট</a> (<a href='https://youtu.be/wjUasbFfCbU'>ইউটিউব সংস্করণ</a>) দেখুন।",
 	"from the dev diary": "<a href='/team/%s/blog'>উন্নয়নের ডায়েরি</a> থেকে:",
 	"change language": "পরিবর্তন করুন:",
 	"sign in": "প্রবেশ",
@@ -73,7 +73,7 @@
 	"add http": "http:// যোগ করুন",
 	"add https": "https:// যোগ করুন",
 	"freedom": "lib.reviews আপনার স্বাধীনতাকে সম্মান করে:",
-	"code": "উত্স কোড",
+	"code": "<a href='%1$s'>উত্স কোড</a> (<a href='%2$s'>নোটাবাগ মিরর</a>",
 	"signin required": "আপনাকে প্রথমে <a href='/signin'>প্রবেশ</a> বা <a href='/register'>একটি অ্যাকাউন্ট নিবন্ধন</a> করতে হবে।",
 	"complete all required fields": "দয়া করে সমস্ত প্রয়োজনীয় ক্ষেত্রগুলি পূরণ করুন (* দিয়ে চিহ্নিত)।",
 	"correct errors": "অনুগ্রহ করে সব প্রতিবেদনকৃত ত্রুটি সংশোধন করুন।",
@@ -322,5 +322,7 @@
 	"atom feed of reviews by team": "এই দল কর্তৃক সব পর্যালোচনাগুলির অ্যাটম ফিড",
 	"no reviews for team": "এই দল এখনো কোনো পর্যালোচনা প্রকাশ করেনি।",
 	"no reviews for user": "এই ব্যবহারকারী এখনো কোনো পর্যালোচনা প্রকাশ করেনি।",
-	"view all": "&raquo; সব দেখুন"
+	"view all": "&raquo; সব দেখুন",
+	"faq acronym": "প্রাজিপ্র",
+	"faq": "প্রায়শই জিজ্ঞাসিত প্রশ্নসমূহ"
 }

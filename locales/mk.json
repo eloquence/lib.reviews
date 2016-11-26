@@ -8,7 +8,7 @@
 	"welcome": "Добре дојдовте!",
 	"intro lead": "<b>Добре дојдовте на lib.reviews!</b> Разработуваме слободна, отворена и непрофитна подлога за осврти на сите можни нешта, на било кој јазик.",
 	"intro message": "Сè уште сме во развој и засега можете да се регистрирате само со код во покана. Ако не знаете како да добиете ваков код, следете го <a href='https://twitter.com/lib_reviews'>lib_reviews</a> на Twitter, испратете ни твит, а ние ќе ви испратиме код.",
-	"find us on": "Можете да нè најдете <a href='https://github.com/eloquence/lib.reviews'>нна GitHub</a>, да <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>приклучите на нашиот поштенски список</a> или да поразговарате со нас на IRC (<a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a> на <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Погледајте ја <a href='/static/uploads/screencast1.webm'>кратката екранска видеоснимка</a> (<a href='https://youtu.be/VyRiAYp1Nn4'>верзија на YouTube</a>) за тоа како стојат работите заклучно со август 2016 г.",
+	"find us on": "Можете да нè најдете <a href='https://github.com/eloquence/lib.reviews'>нна GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>огледална на notabug</a>), да <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>приклучите на нашиот поштенски список</a> или да поразговарате со нас на IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> на <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Погледајте ја <a href='/static/uploads/screencast2.webm'>кратката екранска видеоснимка</a> (<a href='https://youtu.be/wjUasbFfCbU'>верзија на YouTube</a>) за тоа како стојат работите заклучно со октомври 2016 г.",
 	"from the dev diary": "Од <a href='/team/%s/blog'>дневникот на развој</a>:",
 	"change language": "Префрли на:",
 	"sign in": "Најава",
@@ -73,7 +73,7 @@
 	"add http": "Додај http://",
 	"add https": "Додај https://",
 	"freedom": "lib.reviews ја почитува вашата слобода:",
-	"code": "Изворен код",
+	"code": "<a href='%1$s'>Изворен код</a> (<a href='%2$s'>огледална на notabug</a>)",
 	"signin required": "Најпрвин ќе треба да се <a href='/signin'>најавите</a> или да <a href='/register'>регистрирате сметка</a>.",
 	"complete all required fields": "Пополнете ги сите задолжителни полиња (означени со *).",
 	"correct errors": "Исправете ги сите пријавени грешки.",
@@ -322,5 +322,7 @@
 	"atom feed of reviews by team": "Atom-канал на сите осврти од оваа екипа",
 	"no reviews for team": "Екипава засега нема објавено ниеден осврт.",
 	"no reviews for user": "Корисников засега нема објавено ниеден осврт.",
-	"view all": "&raquo; Прикажи ги сите"
+	"view all": "&raquo; Прикажи ги сите",
+	"faq acronym": "ЧПП",
+	"faq": "Често поставувани прашања"
 }

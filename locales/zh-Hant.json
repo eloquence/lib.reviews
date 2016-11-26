@@ -8,7 +8,7 @@
 	"welcome": "歡迎！",
 	"intro lead": "<b>歡迎來到lib.reviews！</b>我們正打造一個自由、開放、且非營利可使用任何語言來發表任何事物評論的平台。",
 	"intro message": "我們正處於初期開發階段，所以您必須要擁有一個邀請碼來註冊。如果您不清楚如何獲得邀請碼，您可以關注推特上的<a href='https://twitter.com/lib_reviews'>lib_reviews</a>帳戶並發送一個推文給我們，這樣我們將會直接寄送邀請碼給您。</b>",
-	"find us on": "您可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>上找到我們、也可加入我們的<a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>電郵清單</a>、或是在IRC上與我們聊天（在<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a>）。<p>觀看自2016年10月以來相關情況的<a href='/static/uploads/screencast2.webm'>短片</a> （<a href='https://youtu.be/wjUasbFfCbU'>YouTube版本</a>）。",
+	"find us on": "您可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>上找到我們（<a href='https://notabug.org/freeyourstuff/lib.reviews'>在notabug的鏡像</a>）、或是在IRC上與我們聊天（在<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>）。<p>觀看自2016年10月以來相關情況的<a href='/static/uploads/screencast2.webm'>短片</a> （<a href='https://youtu.be/wjUasbFfCbU'>YouTube版本</a>）。",
 	"from the dev diary": "來自<a href='/team/%s/blog'>開發日記</a>：",
 	"change language": "切換到：",
 	"sign in": "登入",
@@ -73,7 +73,7 @@
 	"add http": "增加http://",
 	"add https": "增加https://",
 	"freedom": "lib.reviews尊重您的自由：",
-	"code": "原始碼",
+	"code": "<a href='%1$s'>原始碼</a>（<a href='%2$s'>notabug鏡像站台</a>）",
 	"signin required": "您必須先<a href='/signin'>登入</a>或<a href='/register'>註冊一個帳號</a>。",
 	"complete all required fields": "請填完所有需求欄位（帶有*符號）。",
 	"correct errors": "請修正所有回報錯誤。",
@@ -322,5 +322,7 @@
 	"atom feed of reviews by team": "此團隊所有評論的Atom訊息來源",
 	"no reviews for team": "此團隊尚未發佈任何評論。",
 	"no reviews for user": "此用戶尚未發佈任何評論。",
-	"view all": "&raquo;查看全部"
+	"view all": "&raquo;查看全部",
+	"faq acronym": "常見問題",
+	"faq": "常見問題"
 }

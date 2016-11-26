@@ -9,7 +9,7 @@
 	"welcome": "Välkommen!",
 	"intro lead": "<b>Välkommen till lib.reviews!</b> Vi bygger en fri, öppen och ideell plattform för att recensera absolut allting på valfritt språk.",
 	"intro message": "Vi är i början av utvecklingen och du behöver för tillfället en inbjudningskod för att skapa ett konto. Om du inte vet hur man får tag på en kan du följa <a href='https://twitter.com/lib_reviews'>lib_reviews</a> på Twitter och twittra till oss så skickar vi en kod till dig i ett meddelande.",
-	"find us on": "Du kan också hitta oss <a href='https://github.com/eloquence/lib.reviews'>på GitHub</a>, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>gå med i vår e-postlista</a> och chatta med oss på IRC (<a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a> på <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Titta på en <a href='/static/uploads/screencast1.webm'>kort presentation</a> (<a href='https://youtu.be/VyRiAYp1Nn4'>YouTube-version</a>) om hur allt fungerar från och med augusti 2016.",
+	"find us on": "Du kan också hitta oss <a href='https://github.com/eloquence/lib.reviews'>på GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>speglas på notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>gå med i vår e-postlista</a> och chatta med oss på IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> på <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Titta på en <a href='/static/uploads/screencast2.webm'>kort presentation</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube-version</a>) om hur allt fungerar från och med oktober 2016.",
 	"from the dev diary": "Från <a href='/team/%s/blog'>utvecklingsdagboken</a>:",
 	"change language": "Växla till:",
 	"sign in": "Logga in",
@@ -74,7 +74,7 @@
 	"add http": "Lägg till http://",
 	"add https": "Lägg till https://",
 	"freedom": "lib.reviews respekterar din frihet:",
-	"code": "Källkod",
+	"code": "<a href='%1$s'>Källkod</a> (<a href='%2$s'>spegling på notabug</a>)",
 	"signin required": "Du måste <a href='/signin'>logga in</a> eller <a href='/register'>registrera ett konto</a> först.",
 	"complete all required fields": "Fyll i alla nödvändiga fält (markerade med *).",
 	"correct errors": "Korrigera alla rapporterade fel.",
@@ -323,5 +323,7 @@
 	"atom feed of reviews by team": "Atom-matning för alla recensioner av denna grupp",
 	"no reviews for team": "Denna grupp har ännu inte publicerat några recensioner.",
 	"no reviews for user": "Denna användare har inte publicerat några recensioner ännu.",
-	"view all": "&raquo; Visa alla"
+	"view all": "&raquo; Visa alla",
+	"faq acronym": "Vanliga frågor",
+	"faq": "Vanligtvis ställda frågor"
 }

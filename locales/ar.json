@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"ديفيد"
+			"ديفيد",
+			"Zpizza"
 		]
 	},
 	"site name": "lib.reviews",
@@ -235,6 +236,7 @@
 	"one file selected": "1 ملف محدد",
 	"files selected": "%s ملفات محددة",
 	"please complete your upload": "أنت لم تنته تماما بعد. يرجى إكمال التحميل عن طريق تقديم بعض المعلومات حول الملفات التي يتم رفعها أدناه.",
+	"filename": "اسم الملف:",
 	"upload description help": "سوف يُستخدَم هذا كتوضيحي. إذا كان التحميل صورة، ماذا يظهر؟ إذا كان الملف صوتا، عن ماذا يكون؟",
 	"enter description": "أدخل وصفا",
 	"start upload": "ابدأ الرفع",
@@ -245,6 +247,7 @@
 	"creator help": "اسم أو اسم مستعار للشخص الذي أنشأ هذا العمل",
 	"source": "أين وجدته؟",
 	"enter source": "أدخل المصدر، على سبيل المثال: https://musopen.org/composer/ludwig-van-beethoven/",
+	"license": "الترخيص",
 	"fair use": "هذا الملف ليس مرخصا بحرية، ولكن أزعم أن هذا الملف مؤهل ك <a href='https://ar.wikipedia.org/wiki/%D8%A7%D8%B3%D8%AA%D8%B9%D9%85%D8%A7%D9%84_%D8%B9%D8%A7%D8%AF%D9%84 target='_blank>استعمال عادل</a>",
 	"cc-0": "المشاع الإبداعي صفر (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) أو الملكية العامة",
 	"cc-by": "ترخيص المشاع الإبداعي (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
@@ -264,5 +267,6 @@
 	"atom feed of reviews by team": "تلقيم أتوم لجميع مراجعات هذا الفريق",
 	"no reviews for team": "هذا الفريق لم ينشر أية مراجعات حتى الآن.",
 	"no reviews for user": "هذا المستخدم لم ينشر أية مراجعات حتى الآن.",
-	"view all": "&raquo; عرض الكل"
+	"view all": "&raquo; عرض الكل",
+	"faq acronym": "الأسئلة المتكررة"
 }
