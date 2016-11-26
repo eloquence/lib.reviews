@@ -122,6 +122,7 @@ Team.getWithData = function(id, options) {
 
     if (options.withReviews) {
       join.reviews = {
+        creator: true,
         teams: true,
         thing: true
       };
