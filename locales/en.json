@@ -345,5 +345,6 @@
     "invite link invalid title": "Invalid invite code",
     "invite link invalid": "The invite code you provided is invalid. Please <a href='/register'>request a new one</a> or <a href='https://github.com/eloquence/lib.reviews/issues/new'>let us know</a> if the problem persists. Thank you!",
     "invite link already used title": "Invite link has already been used",
-    "invite link already used": "This invitation link has already been used to register a user account on lib.reviews. Each invite link can be used exactly once. Please <a href='/register'>request a new invite link</a> or  <a href='https://github.com/eloquence/lib.reviews/issues/new'>let us know</a> if you have received this message in error. Thank you!"
+    "invite link already used": "This invitation link has already been used to register a user account on lib.reviews. Each invite link can be used exactly once. Please <a href='/register'>request a new invite link</a> or  <a href='https://github.com/eloquence/lib.reviews/issues/new'>let us know</a> if you have received this message in error. Thank you!",
+    "language temporarily changed": "You are temporarily viewing lib.reviews in <b>English</b> (<code>uselang</code> parameter in web address). This will only apply to the current page, not to subsequent pages you load. To change your language permanently, use the menu at the bottom of each page."
 }

@@ -170,6 +170,16 @@ function getApp(db = require('./db')) {
       app.use('/', errorProvider.maintenanceMode);
     }
 
+    // ?uselang=xx changes language temporarily if xx is a valid, different code
+    app.use('/', function(req, res, next) {
+      let locale = req.query.uselang;
+      if (locale && languages.isValid(locale) && locale !== req.locale) {
+        i18n.setLocale(req, locale);
+        req.flash('siteMessages', res.__('language temporarily changed'));
+      }
+      return next();
+    });
+
     app.use('/api', api);
 
     // Upload processing has to be done before CSRF middleware kicks in

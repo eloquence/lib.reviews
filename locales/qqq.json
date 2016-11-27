@@ -342,5 +342,6 @@
 	"invite link invalid title": "Title for page shown if a given invite link is invalid (code not recognized)",
 	"invite link invalid": "Text for page shown if a given invite link is invalid",
 	"invite link already used title": "Title for page shown if a given invite link has already been used to register an account",
-	"invite link already used": "Text for page shown if a given invite link has already been used"
+	"invite link already used": "Text for page shown if a given invite link has already been used",
+	"language temporarily changed": "Message shown if the language of a page is temporarily changed using the ?uselang parameter. Change the word 'English' to the name of the language you are translating this message to."
 }
