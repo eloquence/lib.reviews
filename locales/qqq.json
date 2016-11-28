@@ -330,7 +330,7 @@
 	"generate link": "Label for the button used to generate an invite link",
 	"out of links": "Error message shown if user attempts to generate links but has exceeded the number they have",
 	"link generated": "Message shown immediately after a user creates an invite link",
-	"share the love": "Label for button that takes user to the page for invite links",
+	"share the love": "Label for button that takes user to the page for invite links. This is a somwhat idiomatic phrase, if it does not translate well, feel free to use a more neutral wording like 'Invite friends' or a creative alterntive.",
 	"invite users": "Title for the page where users can generate invite links",
 	"pending invitations": "Headline for section showing invite links that have been generated but not used to register an account yet",
 	"accepted invitations": "Headline for section showing invite links that have been used to register an account",
