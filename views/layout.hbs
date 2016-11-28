@@ -64,6 +64,17 @@
     </div>
 </div>
     <div id="main-body">
+    {{#if localeChange}}
+    <div id="uselang-notice" class="message-box">
+    {{{__ "language temporarily changed" (getLanguageName localeChange.old)}}}
+    <form name="change-language" method="post" action="/actions/change-language">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="redirect-to" value="{{urlPath}}">
+    <br>
+    <button type="submit" name="lang" value="{{localeChange.new}}" class="message-button pure-button button-rounded">{{{__ "change language permanently"}}}</button> <a class="cancel-link" href="{{urlPath}}">{{{__ "reload this page" (getLanguageName localeChange.old)}}}</a>
+    </form>
+    </div>
+    {{/if}}
     <div id="site-messages">
     {{#each siteMessages}}
     <div class="message-box"><span class="fa fa-bell-o spaced-icon"></span>{{{__ "site notification" this}}}</div>

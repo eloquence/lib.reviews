@@ -113,11 +113,16 @@ router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 router.post('/actions/change-language', function(req, res) {
   let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
   let lang = req.body.lang;
+  let redirectTo = req.body['redirect-to'];
+
   let hasLanguageNotice = req.body['has-language-notice'] ? true : false;
 
   if (!languages.isValid(lang)) {
     req.flash('siteErrors', req.__('invalid language'));
-    return res.redirect('back');
+    if (redirectTo)
+      return res.redirect(redirectTo);
+    else
+      return res.redirect('back');
   }
 
   res.cookie('locale', lang, {
@@ -130,7 +135,10 @@ router.post('/actions/change-language', function(req, res) {
   if (!hasLanguageNotice)
     req.flash('siteMessages', req.__('notification language-changed'));
 
-  res.redirect('back');
+  if (redirectTo)
+    res.redirect(redirectTo);
+  else
+    res.redirect('back');
 });
 
 // Below actions have shorter names for convenience

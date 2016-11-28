@@ -1,5 +1,9 @@
 'use strict';
+// External dependencies
 const config = require('config');
+const url = require('url');
+
+// Internal dependencies
 const languages = require('../../locales/languages');
 
 let render = {
@@ -49,6 +53,13 @@ let render = {
       vars.csrfToken = req.csrfToken();
 
     vars.qualifiedURL = config.qualifiedURL;
+
+    vars.urlPath = url.parse(req.url).pathname;
+
+    // Non-page specific, will show up if language is changed for this page
+    // only because of ?uselang parameter
+    if (typeof req.localeChange == 'object' && req.localeChange.old && req.localeChange.new)
+      vars.localeChange = req.localeChange;
 
     // Non page-specific, will show up on any page if we have some to show
     vars.siteMessages = req.flash('siteMessages');

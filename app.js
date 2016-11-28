@@ -172,10 +172,10 @@ function getApp(db = require('./db')) {
 
     // ?uselang=xx changes language temporarily if xx is a valid, different code
     app.use('/', function(req, res, next) {
-      let locale = req.query.uselang;
+      let locale = req.query.uselang || req.query.useLang;
       if (locale && languages.isValid(locale) && locale !== req.locale) {
+        req.localeChange = { old: req.locale, new: locale };
         i18n.setLocale(req, locale);
-        req.flash('siteMessages', res.__('language temporarily changed'));
       }
       return next();
     });

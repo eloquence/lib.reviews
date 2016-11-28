@@ -102,6 +102,7 @@ hbs.registerHelper('getThingLink', (thing, options) => {
 // Filenames cannot contain HTML metacharacters, so URL encoding is sufficient here
 hbs.registerHelper('getFileLink', filename => `<a href="/static/uploads/${encodeURIComponent(filename)}">${filename}</a>`);
 
+hbs.registerHelper('getLanguageName', (lang, options) => languages.getTranslatedName(lang, options.data.root.locale));
 hbs.registerHelper('isoDate', date => date && date.toISOString ? date.toISOString() : undefined);
 
 // Resolve a multilingual string to the current request language.
