@@ -5,13 +5,14 @@
 			"Gomoko",
 			"Jean-Frédéric",
 			"Wladek92",
-			"Eloquence"
+			"Eloquence",
+			"Derugon"
 		]
 	},
 	"site name": "lib.reviews",
 	"welcome": "Bienvenue !",
 	"intro lead": "<b>Bienvenue dans lib.reviews !</b> Nous construisons une plateforme libre, ouverte et à but non lucratif pour relire absolument n’importe quoi, dans n’importe quelle langue.",
-	"intro message": "Nous en sommes au début du développement, et pour l’instant, vous avez besoin d’un code d’invitation pour vous inscrire. Si vous ne savez pas comment en obtenir un, suivez <a href='https://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter, envoyez-nous un billet, et nous vous enverrons directement un message.",
+	"intro message": "Nous en sommes au début du développement, et pour l’instant, vous avez besoin d’un code d’invitation pour vous inscrire. Si vous ne savez pas comment en obtenir un, suivez <a href='https://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter, envoyez-nous un tweet, et nous vous enverrons directement un message.",
 	"find us on": "Vous pouvez aussi nous trouver <a href='https://github.com/eloquence/lib.reviews'>sur GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>copié sur notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>nous rejoindre sur notre liste de diffusion</a> et discuter avec nous sur IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> sur <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Suivez une <a href='/static/uploads/screencast2.webm'>courte vidéo</a> (<a href='https://youtu.be/wjUasbFfCbU'>version YouTube</a>) sur l’état d’avancement en octobre 2016.",
 	"from the dev diary": "D’après <a href='/team/%s/blog'>l’agenda de développement</a> :",
 	"change language": "Basculer vers :",
@@ -23,7 +24,8 @@
 	"password": "Mot de passe",
 	"enter password": "Saisir le mot de passe",
 	"no account yet": "Vous n’avez pas encore de compte ? <a href='/register'>L’inscription</a> est rapide et facile.",
-	"enter your info": "Bienvenue dans la communauté lib.reviews ! Veuillez saisir les informations de votre nouveau compte ci-dessous.<p> <b>Nous sommes en cours de développement et vous aurez besoin d’un code d’invitation pour créer un compte. Si vous ne savez pas comment en obtenir un, vous pouvez suivre <a href='https://twitter.com/lib_reviews'>lib_reviews</a>sur Twitter et nous écrire, et nous vous enverrons directement un code.</b>",
+	"invite link needed": "Merci à l'intérêt que vous portez à la création d'un compte ici ! Afin que notre croissance soit harmonieuse, nous souhaitons respecter les besoins de la communauté, et aussi prendre le temps de nous connaître les uns les autres. Pour cette raison vous aurez besoin d'un lien d'invitation pour créer un compte. Il existe trois manières simples d'obtenir un lien d'invitation: <ul><li>Rejoignez notre <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>tchat</a> (#lib.reviews sur irc.freenode.net) et demandez un lien d'invitation. <li>Suivez <a href='http://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter et envoyez-nous un message.<li>Si vous connaissez un membre de la communauté, demandez-lui directement une invitation.</ul><p>Nous souhaitons sincèrement vous accueillir au sein de la communauté lib.reviews !",
+	"enter your info": "Bienvenue dans la communauté lib.reviews! Veuillez saisir les informations de votre nouveau compte ci-dessous.",
 	"already got an account": "Vous avez déjà un compte ? <a href='/signin'>Connectez-vous</a> plutôt.",
 	"enter email": "Saisir l’adresse de courriel",
 	"email optional": "Adresse de courriel (facultative)",
@@ -98,7 +100,7 @@
 		"one": "%s étoile",
 		"other": "%s étoiles"
 	},
-	"captcha intro": "<!-- Prouvez que vous n’êtes pas un robot. Quel est le mot manquant indiqué par ___ ? -->",
+	"captcha intro": "Veuillez prouver que vous n’êtes pas un robot. Quel est le mot manquant indiqué par ___?",
 	"question: famous painting": "Un des tableaux les plus célèbres au monde est la Mona ___ par Léonard de Vinci.",
 	"answer: famous painting": "Lisa",
 	"question: famous composer": "Ludwig van ____ était presque totalement sourd vers la fin de sa vie.",
@@ -328,5 +330,33 @@
 	"no reviews for user": "Cet utilisateur n’a encore publié aucune critique.",
 	"view all": "&raquo; Voir tout",
 	"faq acronym": "FAQ",
-	"faq": "Foire Aux Questions"
+	"faq": "Foire Aux Questions",
+	"help us grow": {
+		"one": "Help lib.review grandit! Vous avez <b>un</b> lien d'invitation.",
+		"other": "Help lib.review grandit! Vous avez <b>%s</b> liens d'invitation."
+	},
+	"invite users intro": "Les nouveaux utilisateurs ont besoin d'un code d'invitation. Pour obtenir des liens d'invitation à donner à vos amis, écrivez simplement <a href='/new/review'> des commentaires</a>.",
+	"you can generate links": {
+		"one": "Vous pouvez actuellement générer <b>un</b> lien d'invitation.",
+		"other": "Vous pouvez actuellement générer jusqu'à <b>%s</b> liens d'invitation."
+	},
+	"generate link": "Générer un lien d'invitation",
+	"out of links": "Vous n’avez plus de lien à générer. Écrivez des critiques pour gagner plus de liens d’invitation.",
+	"link generated": "Nous venons de créer une nouvelle invitation pour vous, que vous trouverez ci-dessous. Copiez-la et partagez-la par courriel, messagerie instantanée ou tout autre moyen. Chaque lien ne peut être utilisé qu’une fois. Merci d’aider la communauté lib.reviews à grandir en invitant les personnes que vous connaissez et à qui vous faites confiance !",
+	"share the love": "Partager l’appréciation",
+	"invite users": "Inviter des utilisateurs",
+	"pending invitations": "Vos liens d'invitation",
+	"accepted invitations": "Accepter des invitations",
+	"invite link": "Lien d'invitation",
+	"created on": "Créé le",
+	"accepted by": "Accepté par",
+	"accepted on": "Accepté le",
+	"copy": "Copier",
+	"invite link invalid title": "Code d'invitation invalide",
+	"invite link invalid": "Le code d’invitation que vous avez fourni n’est pas valide. Veuillez <a href='/register'>en demander un nouveau</a> ou <a href='https://github.com/eloquence/lib.reviews/issues/new'>nous faire savoir</a> si le problème persiste. Merci !",
+	"invite link already used title": "Ce lien d'invitation a déjà été utilisé",
+	"invite link already used": "Ce lien d’invitation a déjà été utilisé pour enregistrer un compte utilisateur sur lib.reviews. Chaque lien d’invitation ne peut être utilisé qu’une seule fois. Veuillez <a href='/register'>demander un nouveau lien d’invitation</a> ou  <a href='https://github.com/eloquence/lib.reviews/issues/new'>nous faire savoir</a> si vous avez reçu ce message par erreur. Merci !",
+	"language temporarily changed": "Du fait de la partie <code>uselang</code> de l’adresse web, vous voyez cette page en <b>anglais</b> au lieu de votre langue actuellement configurée, %1$s. Les pages suivantes que vous chargerez seront de nouveau en %1$s.",
+	"change language permanently": "Basculer vers l’anglais de façon permanente",
+	"reload this page": "Recharger en %s"
 }

@@ -7,7 +7,7 @@
 	"site name": "lib.reviews",
 	"welcome": "欢迎！",
 	"intro lead": "<b>欢迎来到lib.reviews！</b>我们正在打造自由、开放、非盈利，可以使用任何语言审查任何事物的平台。",
-	"intro message": "我们正处于早期开发阶段，并且如您所见，您需要邀请码才能注册。如果您不知道如何获得一个，请在Twitter上关注<a href='https://twitter.com/lib_reviews'>lib_reviews</a>，向我们发送一条推文，然后我们会向您直接发送邮件。",
+	"intro message": "我们正处于早期开发阶段，并且如您所见，您需要邀请链接才能注册。如果您不知道如何获得一个，请在Twitter上关注<a href='https://twitter.com/lib_reviews'>lib_reviews</a>，向我们发送一条推文，然后我们会向您直接发送邮件。",
 	"find us on": "您也可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>（<a href='https://notabug.org/freeyourstuff/lib.reviews'>notabug上的镜像</a>）上找到我们，<a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>加入我们的邮件列表</a>，并在IRC上与我们聊天（<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>频道）。<p>观看有关2016年10月以来相关状态的一段<a href='/static/uploads/screencast2.webm'>短视频</a>（<a href='https://youtu.be/wjUasbFfCbU'>YouTube版</a>）。",
 	"from the dev diary": "来自<a href='/team/%s/blog'>开发日记</a>：",
 	"change language": "切换到：",
@@ -19,7 +19,8 @@
 	"password": "密码",
 	"enter password": "输入密码",
 	"no account yet": "尚未拥有账户么？<a href='/register'>注册</a>是很快很容易的。",
-	"enter your info": "欢迎来到lib.reviews社群！请在下方输入您的新账户的信息。<p><b>我们正处于早期开发阶段，并且您需要邀请码以创建账户。如果您不知道如何获得一个，您可以关注Twitter上的<a href='https://twitter.com/lib_reviews'>lib_reviews</a>，并向我们发送一条推文，这样我们会向您直接发送邮件。</b>",
+	"invite link needed": "感谢您对在此拥有账户感兴趣！此时我们希望慎重地成长，这样我们可以跟得上社群所需要的，并且因此我们有足够的时间互相认识。基于这个原因，您需要邀请链接以创建账户。有三种方式可以获得邀请链接：<ul><li>加入我们的<a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>聊天室</a>（irc.freenode.net上的#lib.reviews），并请求邀请链接。<li>关注Twitter上的<a href='http://twitter.com/lib_reviews'>lib_reviews</a>，并向我们直接发送消息。<li>如果您认识我们社群成员之一，直接向其询问请求邀请。</ul><p>我们真的很期待您加入lib.reviews社群。",
+	"enter your info": "欢迎来到lib.reviews社群！请在下方输入您的新账户的信息。",
 	"already got an account": "已经拥有账户了么？请直接<a href='/signin'>登录</a>。",
 	"enter email": "输入电子邮件地址",
 	"email optional": "电子邮件地址（可选）",
@@ -94,7 +95,7 @@
 		"one": "%s颗星",
 		"other": "%s颗星"
 	},
-	"captcha intro": "<!-- 证明您不是机器人。在___中缺少了哪个词？ -->",
+	"captcha intro": "请证明您不是机器人。在___中缺少了哪个词？",
 	"question: famous painting": "世界上最著名的画作之一是莱昂纳多·达·芬奇的蒙娜___。",
 	"answer: famous painting": "丽莎",
 	"question: famous composer": "路德维希·范·____在生命快要结束的时候完全聋了。",
@@ -324,5 +325,30 @@
 	"no reviews for user": "此用户尚未发布任何审查。",
 	"view all": "&raquo;查看所有",
 	"faq acronym": "常见问题",
-	"faq": "常见问题"
+	"faq": "常见问题",
+	"help us grow": {
+		"one": "帮助lib.reviews成长！您现在已拥有<b>一个</b>邀请链接。",
+		"other": "帮助lib.reviews成长！您现在已拥有<b>%s</b>个邀请链接。"
+	},
+	"invite users intro": "新用户需要邀请码。要取得邀请链接给您的朋友，请<a href='/new/review'>写一段审查</a>。",
+	"you can generate links": {
+		"one": "目前您可以生成<b>一个</b>邀请链接。",
+		"other": "目前您可以生成最多<b>%s</b>个邀请链接。"
+	},
+	"generate link": "生成邀请链接",
+	"out of links": "您已经用完了所有生成的链接。写几段审查以取得更多邀请链接。",
+	"link generated": "我们已为您做出了一个邀请链接，您可以在下方找到。将其复制并通过电子邮件、即时通讯软件或其他方式分享它。任何链接只可以使用一次。感谢通过邀请您知道并信任的人，帮助成长lib.reviews社群！",
+	"share the love": "分享爱好",
+	"invite users": "邀请用户",
+	"pending invitations": "您的邀请链接",
+	"accepted invitations": "接受的邀请",
+	"invite link": "邀请链接",
+	"created on": "创建于",
+	"accepted by": "接受者",
+	"accepted on": "接受于",
+	"copy": "复制",
+	"invite link invalid title": "无效的邀请码",
+	"invite link invalid": "您提供的邀请码无效。请<a href='/register'>请求新邀请码</a>，或如果持续出错，<a href='https://github.com/eloquence/lib.reviews/issues/new'>让我们知道</a>相关问题。感谢您！",
+	"invite link already used title": "邀请链接已被使用",
+	"invite link already used": "此邀请链接已被用于注册lib.reviews上的用户账户。每个邀请链接只可以使用一次。请<a href='/register'>请求新邀请码</a>，或<a href='https://github.com/eloquence/lib.reviews/issues/new'>让我们知道</a>您收到这条消息时发生了什么错误。感谢您！"
 }

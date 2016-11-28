@@ -8,7 +8,7 @@
 	"welcome": "Boas vindas!",
 	"intro lead": "<b>Boas vindas ao lib.reviews!</b> Estamos construindo uma plataforma livre, aberta e sem fins lucrativos para resenhas sobre absolutamente qualquer coisa, em qualquer idioma.",
 	"intro message": "Estamos na fase inicial de desenvolvimento, e por agora, você precisa de um código de convite para se registrar. Se não sabe como o obter, siga <a href=\"https://twitter.com/lib_reviews\">lib_reviews</a> no Twitter, envie-nos um <i>tweet</i>, e nós enviaremos-lhe uma mensagem direta.",
-	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a>, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>participar na nossa lista de discussão</a> e conversar conosco através do IRC (<a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a> em <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Assista a um <a href='/static/uploads/screencast2.webm'>breve vídeo</a> (<a href='https://youtu.be/wjUasbFfCbU'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2016.",
+	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>com um espelho no Notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>participar na nossa lista de discussão</a> e conversar conosco através do IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> em <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Assista a um <a href='/static/uploads/screencast2.webm'>breve vídeo</a> (<a href='https://youtu.be/wjUasbFfCbU'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2016.",
 	"from the dev diary": "Do <a href='/team/%s/blog'>diário de desenvolvimento</a>:",
 	"change language": "Mudar para:",
 	"sign in": "Entrar",
@@ -73,7 +73,7 @@
 	"add http": "Adicionar http://",
 	"add https": "Adicionar https://",
 	"freedom": "lib.reviews respeita a sua liberdade:",
-	"code": "Código-fonte",
+	"code": "<a href='%1$s'>Código-fonte</a> (<a href='%2$s'>espelho no Notabug</a>)",
 	"signin required": "Você deve <a href='/signin'>iniciar a sessão</a> ou <a href='/register'>criar uma conta</a> primeiro.",
 	"complete all required fields": "Por favor, preencha todos os campos obrigatórios (marcados com *).",
 	"correct errors": "Por favor, corrija todos os erros indicados.",
@@ -322,5 +322,7 @@
 	"atom feed of reviews by team": "Feed Atom de todas as resenhas desta equipe",
 	"no reviews for team": "Esta equipe ainda não publicou nenhuma resenha.",
 	"no reviews for user": "Este usuário ainda não publicou nenhuma resenha.",
-	"view all": "&raquo; Ver tudo"
+	"view all": "&raquo; Ver tudo",
+	"faq acronym": "Perguntas frequentes",
+	"faq": "Perguntas mais frequentes"
 }

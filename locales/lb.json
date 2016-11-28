@@ -79,7 +79,7 @@
 		"one": "%s Stär",
 		"other": "%s Stären"
 	},
-	"captcha intro": "<!-- Beweist, datt Dir kee Roboter sidd. Wat ass dat Wuert dat feelt a mat ____ markéiert ass? -->",
+	"captcha intro": "Beweist w.e.g. datt Dir kee Roboter sidd. Wat ass dat Wuert dat feelt a mat ____ markéiert ass?",
 	"question: famous painting": "Eent vun de bekanntste Biller op der Welt ass d'Mona ___ vum Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",
 	"question: famous composer": "Ludwig van ____ war um Ënn vu sengem Liewe bal komplett daf.",

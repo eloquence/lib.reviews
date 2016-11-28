@@ -12,6 +12,7 @@
 	"papers please": "다시 돌아오신 것을 환영합니다! 로그인 개인 정보를 아래에 지정해 주십시오.",
 	"username": "사용자 이름",
 	"password": "비밀번호",
+	"enter your info": "lib.reviews 공동체에 오신 것을 환영합니다! 당신의 새 계정에 대한 정보를 아래에 입력해 주십시오.",
 	"email optional": "이메일 주소 (선택 사항)",
 	"need username": "사용자 이름을 입력해야 합니다.",
 	"need password": "비밀번호를 입력해야 합니다.",
@@ -129,5 +130,14 @@
 	"team page": "(팀 페이지)",
 	"view all": "&raquo; 모두 보기",
 	"faq acronym": "자주 묻는 질문",
-	"faq": "자주 묻는 질문"
+	"faq": "자주 묻는 질문",
+	"generate link": "초대 링크 만들기",
+	"invite users": "사용자 초대",
+	"invite link": "초대 링크",
+	"created on": "작성일:",
+	"accepted by": "수락인:",
+	"accepted on": "수락일:",
+	"copy": "복사",
+	"invite link invalid title": "유효하지 않은 초대 코드",
+	"invite link already used title": "초대 링크는 이미 사용 중입니다"
 }

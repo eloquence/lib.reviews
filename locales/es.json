@@ -9,7 +9,7 @@
 	"site name": "lib.reviews",
 	"welcome": "¡Bienvenidos!",
 	"intro lead": "<b>¡Te damos la bienvenida a lib.reviews!</b> Estamos creando una plataforma libre, abierta y sin fines de lucro para reseñar cualquier cosa, en todas las lenguas.",
-	"intro message": "El desarrollo está en sus primeras etapas y, por ahora, necesitas un código de invitación para registrarte. Si no sabes cómo conseguir uno, sigue a <a href='https://twitter.com/lib_reviews'>lib_reviews</a> en Twitter, envíanos un tuit y te contactaremos por DM.",
+	"intro message": "El desarrollo está en sus primeras etapas y, por ahora, necesitas un enlace de invitación para registrarte. Si no sabes cómo conseguir uno, sigue a <a href='https://twitter.com/lib_reviews'>lib_reviews</a> en Twitter, envíanos un tuit y te contactaremos por DM.",
 	"find us on": "También puedes encontrarnos <a href='https://github.com/eloquence/lib.reviews'>en GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>espejado en notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>suscribirte a nuestra lista</a> y charlar con nosotros por IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> en <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Mira un <a href='/static/uploads/screencast2.webm'>vídeo breve</a> (<a href='https://youtu.be/wjUasbFfCbU'>versión de YouTube</a>) sobre la situación del proyecto a partir de octubre de 2016.",
 	"from the dev diary": "Del <a href='/team/%s/blog'>diario de desarrollo</a>:",
 	"change language": "Cambiar a:",
@@ -21,7 +21,8 @@
 	"password": "Contraseña",
 	"enter password": "Escribe la contraseña",
 	"no account yet": "¿Todavía no tienes una cuenta? Es fácil y rápido <a href='/register'>registrarte</a>.",
-	"enter your info": "¡Te damos la bienvenida a la comunidad de lib.reviews! Proporciona la información de tu cuenta nueva a continuación.<p> <b>Como estamos en las primeras fases de desarrollo, necesitas una invitación para hacer una cuenta. Si no sabes cómo obtener una, puedes seguir a <a href='https://twitter.com/lib_reviews'>lib_reviews</a> en Twitter y enviarnos un tuit; te daremos un código de invitación por DM.</b>",
+	"invite link needed": "¡Gracias por tu interés en crearte una cuenta! Queremos crecer con cautela por ahora, para así ser capaces de permanecer al tanto de las necesidades de la comunidad y tener el tiempo suficiente para conocernos. Por este motivo necesitarás un enlace de invitación para crear una cuenta. Hay tres maneras sencillas de obtener uno:<ul><li>Únete a nuestra <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>sala de chat</a> (#lib.reviews en irc.freenode.net) y pide una invitación.<li>Sigue a <a href='http://twitter.com/lib_reviews'>lib_reviews</a> en Twitter y envíanos un mensaje directo.<li>Si conoces a un miembro de nuestra comunidad, pídele directamente una invitación.</ul><p>¡Estaremos encantados de acogerte en la comunidad de lib.reviews!",
+	"enter your info": "¡Te damos la bienvenida a la comunidad de lib.reviews! Proporciona la información de tu cuenta nueva a continuación.",
 	"already got an account": "¿Ya tienes una cuenta? <a href='/signin'>Entra en ella</a>.",
 	"enter email": "Escribe la dirección de correo electrónico",
 	"email optional": "Dirección de correo electrónico (opcional)",
@@ -75,7 +76,7 @@
 	"add http": "Añadir http://",
 	"add https": "Añadir https://",
 	"freedom": "lib.reviews respeta tu libertad:",
-	"code": "<a href='%1$s'>Código fuente</a> (<a href='%2$s'>espejo en notabug</a>)",
+	"code": "<a href='%1$s'>Código fuente</a> (<a href='%2$s'>réplica en Notabug</a>)",
 	"signin required": "Primero debes <a href='/signin'>acceder a tu cuenta</a> o <a href='/register'>registrarte</a>.",
 	"complete all required fields": "Completa todos los campos obligatorios (marcados con un *).",
 	"correct errors": "Corrige todos los errores encontrados.",
@@ -96,7 +97,7 @@
 		"one": "%s estrella",
 		"other": "%s estrellas"
 	},
-	"captcha intro": "<!-- Demuestra que no eres un robot. ¿Cuál es la palabra faltante indicada por «___»? -->",
+	"captcha intro": "Demuestra que no eres un robot. ¿Cuál es la palabra faltante indicada por «___»?",
 	"question: famous painting": "Una de las pinturas más famosas a nivel mundial es la Mona ___ de Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",
 	"question: famous composer": "Ludwig van ____ quedó sordo casi por completo hacia el final de su vida.",
@@ -326,5 +327,30 @@
 	"no reviews for user": "Esta persona aún no ha publicado reseñas.",
 	"view all": "&rarr; Ver todo",
 	"faq acronym": "Preguntas frecuentes",
-	"faq": "Preguntas frecuentes"
+	"faq": "Preguntas frecuentes",
+	"help us grow": {
+		"one": "¡Ayuda a que lib.reviews crezca! Cuentas con <b>un</b> enlace de invitación.",
+		"other": "¡Ayuda a que lib.reviews crezca! Cuentas con <b>%s</b> enlaces de invitación."
+	},
+	"invite users intro": "Los usuarios recién llegados necesitan un código de invitación. Para obtener enlaces de invitación que compartir con tus amigos, <a href='/new/review'>escribe reseñas</a>.",
+	"you can generate links": {
+		"one": "Por ahora puedes generar <b>un</b> enlace de invitación.",
+		"other": "Por ahora puedes generar hasta <b>%s</b> enlaces de invitación."
+	},
+	"generate link": "Generar un enlace de invitación",
+	"out of links": "Se te han terminado los enlaces de invitación. Escribe reseñas para obtener más.",
+	"link generated": "Hemos generado este enlace de invitación. Cópialo y compártelo por correo electrónico, MI u otros medios. Estos enlaces pueden utilizarse una vez solamente. ¡Gracias por ayudar a hacer crecer la comunidad de lib.reviews al invitar a personas que conoces y en quienes confías!",
+	"share the love": "Comparte lo bueno",
+	"invite users": "Invitar a usuarios",
+	"pending invitations": "Tus enlaces de invitación",
+	"accepted invitations": "Invitaciones aceptadas",
+	"invite link": "Enlace de invitación",
+	"created on": "Creado el",
+	"accepted by": "Aceptado por",
+	"accepted on": "Aceptado el",
+	"copy": "Copiar",
+	"invite link invalid title": "Código de invitación no válido",
+	"invite link invalid": "El código de invitación que has proporcionado no es válido. <a href='/register'>Solicita uno nuevo</a> o <a href='https://github.com/eloquence/lib.reviews/issues/new'>comunícanos del problema</a> si este persiste. ¡Gracias!",
+	"invite link already used title": "Ya se ha utilizado este enlace de invitación",
+	"invite link already used": "Ya se había utilizado este enlace de invitación para registrar una cuenta de usuario en lib.reviews. Cada invitación puede emplearse solo una vez. <a href='/register'>Solicita un enlace de invitación nuevo</a> o  <a href='https://github.com/eloquence/lib.reviews/issues/new'>ponte en contacto con nosotros</a> si has recibido este mensaje por error. ¡Gracias!"
 }

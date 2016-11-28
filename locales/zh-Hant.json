@@ -7,7 +7,7 @@
 	"site name": "lib.reviews",
 	"welcome": "歡迎！",
 	"intro lead": "<b>歡迎來到lib.reviews！</b>我們正打造一個自由、開放、且非營利可使用任何語言來發表任何事物評論的平台。",
-	"intro message": "我們正處於初期開發階段，所以您必須要擁有一個邀請碼來註冊。如果您不清楚如何獲得邀請碼，您可以關注推特上的<a href='https://twitter.com/lib_reviews'>lib_reviews</a>帳戶並發送一個推文給我們，這樣我們將會直接寄送邀請碼給您。</b>",
+	"intro message": "我們正處於初期開發階段，所以您必須要擁有一個邀請連結來註冊。如果您不清楚如何獲得邀請連結，您可以關注推特上的<a href='https://twitter.com/lib_reviews'>lib_reviews</a>帳戶並發送一個推文給我們，這樣我們將會直接寄送邀請連結給您。</b>",
 	"find us on": "您可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>上找到我們（<a href='https://notabug.org/freeyourstuff/lib.reviews'>在notabug的鏡像</a>）、或是在IRC上與我們聊天（在<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>）。<p>觀看自2016年10月以來相關情況的<a href='/static/uploads/screencast2.webm'>短片</a> （<a href='https://youtu.be/wjUasbFfCbU'>YouTube版本</a>）。",
 	"from the dev diary": "來自<a href='/team/%s/blog'>開發日記</a>：",
 	"change language": "切換到：",
@@ -19,7 +19,8 @@
 	"password": "密碼",
 	"enter password": "輸入密碼",
 	"no account yet": "還沒有一個帳號嗎？<a href='/register'>註冊一個帳號</a>是很快完成且容易的。",
-	"enter your info": "歡迎來到lib.reviews社群！請在下方輸入您的新帳號訊息。<p> <b>因我們正處於初期開發階段，所以您必須要擁有一個邀請碼來創建帳號。如果您不清楚如何獲得邀請碼，您可以關注推特上的<a href='https://twitter.com/lib_reviews'>lib_reviews</a>帳戶並發送一個推文給我們，這樣我們將會直接寄送邀請碼給您。</b>",
+	"invite link needed": "感謝您有興趣於此建立一個帳號！此時我們盼能穩定成長；以讓我們可跟上社群方面的需求，因此我們擁有足夠時間來彼此互相瞭解。基於一些因素您需要一個邀請連結來建立帳號。目前有三種方法可獲得邀請連結：<ul><li>加入我們的<a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>聊天室</a>（#lib.reviews on irc.freenode.net）並提出獲得邀請連結請求。<li>關注<a href='http://twitter.com/lib_reviews'>lib_reviews</a>的推特並直接向我們寄送請求訊息。<li>若您認識我們社群成員之一，可直接向他提出邀請需求。</ul><p>我們真誠期待歡迎您加入lib.reviews社群！",
+	"enter your info": "歡迎來到lib.reviews社群！請在下方輸入您的新帳號訊息。",
 	"already got an account": "已經有一個帳號了？請改用<a href='/signin'>登入</a>。",
 	"enter email": "輸入電郵地址",
 	"email optional": "電郵地址（選填）",
@@ -94,7 +95,7 @@
 		"one": "%s顆星",
 		"other": "%s顆星"
 	},
-	"captcha intro": "<!--為了證明您不是一個網路機器人，在底線 ___ 當中缺少了那些字詞？ -->",
+	"captcha intro": "請證明您不是一個網路機器人，在底線 ___ 當中缺少了那些字詞？",
 	"question: famous painting": "世界上最著名的畫作之一是李奧納多·達文西的蒙娜___。",
 	"answer: famous painting": "麗莎",
 	"question: famous composer": "路德維希·范·____在他的生命結束前幾乎全聾了。",
@@ -324,5 +325,33 @@
 	"no reviews for user": "此用戶尚未發佈任何評論。",
 	"view all": "&raquo;查看全部",
 	"faq acronym": "常見問題",
-	"faq": "常見問題"
+	"faq": "常見問題",
+	"help us grow": {
+		"one": "促進lib.reviews成長！您擁有<b>一個</b>邀請連結。",
+		"other": "促進lib.reviews成長！您擁有<b>%s</b>個邀請連結。"
+	},
+	"invite users intro": "新用戶需要一個邀請碼。若要獲得邀請連結來給予您的朋友，只要<a href='/new/review'>寫個評論</a>就行。",
+	"you can generate links": {
+		"one": "您目前產生<b>一個</b>邀請連結。",
+		"other": "您目前最多可產生<b>%s</b>個邀請連結。"
+	},
+	"generate link": "產生一個邀請連結",
+	"out of links": "您已經用完了產生用的連結。請寫幾篇評論來獲得更多邀請連結。",
+	"link generated": "我們已為您產生一個新的邀請連結，您可在下方找到它。複製該連結來透過電子郵件、網路即時通訊、或其它方式分享。任何連結僅可被使用一次。感謝您邀請所熟悉和信賴的朋友來幫助lib.reviews社群成長！",
+	"share the love": "分享愛好",
+	"invite users": "邀請用戶",
+	"pending invitations": "您的邀請連結",
+	"accepted invitations": "已接受邀請",
+	"invite link": "邀請連結",
+	"created on": "創建於",
+	"accepted by": "接受由",
+	"accepted on": "接受於",
+	"copy": "複製",
+	"invite link invalid title": "無效邀請碼",
+	"invite link invalid": "您提供的邀請碼無效。請提出<a href='/register'>請求一個新邀請碼</a>或<a href='https://github.com/eloquence/lib.reviews/issues/new'>讓我們知悉相關問題</a>。感謝！",
+	"invite link already used title": "邀請連結已被使用",
+	"invite link already used": "此邀請連結已被用在註冊一個用戶帳號於lib.reviews上。任一邀請連結僅可被使用一次。請提出<a href='/register'>請求一個新連結</a>或<a href='https://github.com/eloquence/lib.reviews/issues/new'>讓我們知道</a>您在接收訊息時發生的問題。感謝！",
+	"language temporarily changed": "因網址中的<code>uselang</code>段落部份，會讓您查看此頁面是以<b>繁體中文</b>呈現；來取代掉您目前的設置語言，%1$s。後續您載入的頁面將會再次以%1$s顯示。",
+	"change language permanently": "切換為一向使用繁體中文",
+	"reload this page": "重新載入以"
 }

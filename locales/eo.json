@@ -8,7 +8,7 @@
 	"welcome": "Bonvenon!",
 	"intro lead": "<b>Bonvenon al lib.reviews!</b> Ni konstruas liberan, malferman kaj neprofitocelan platformon por recenzi ion ajn, en ajna lingvo.",
 	"intro message": "Ni estas en frua konstruado kaj ĉi-momente, vi bezonas invitkodon por registriĝi. Se vi ne scias kiel akiri ĝin, sekvu <a href='https://twitter.com/lib_reviews'>lib_reviews</a> ĉe Twitter, sendu al ni pepaĵon kaj ni donos ĝin al vi privatmesaĝe.",
-	"find us on": "Vi ankaŭ povas trovi nin <a href=\"https://github.com/eloquence/lib.reviews\">ĉe GitHub</a>, <a href=\"http://lists.freeculture.org/mailman/listinfo/lib.reviews\">aliĝi al nia dissendolisto</a> kaj paroli kun ni sur IRC (#<a href=\"https://webchat.freenode.net/?channels=lib.reviews\">lib.reviews</a> sur <a href=\"https://freenode.net/\">irc.freenode.net</a>).<p>Spektu <a href=\"/static/uploads/screencast2.webm\">mallongan filmeton</a> (<a href=\"https://youtu.be/wjUasbFfCbU\">YouTube-versio</a>) pri la stato de aferoj je oktobro 2016.",
+	"find us on": "Vi ankaŭ povas trovi nin  <a href='https://github.com/eloquence/lib.reviews'>ĉe GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>aŭ nia spegulo ĉe Notabug</a>), <a href=\"http://lists.freeculture.org/mailman/listinfo/lib.reviews\">aliĝi al nia dissendolisto</a> kaj paroli kun ni sur IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> sur <a href=\"https://freenode.net/\">irc.freenode.net</a>).<p>Spektu <a href=\"/static/uploads/screencast2.webm\">mallongan filmeton</a> (<a href=\"https://youtu.be/wjUasbFfCbU\">YouTube-versio</a>) pri la stato de aferoj je oktobro 2016.",
 	"from the dev diary": "El la <a href='/team/%s/blog'>programada taglibro</a>:",
 	"change language": "Ŝanĝi al:",
 	"sign in": "Ensaluti",
@@ -73,7 +73,7 @@
 	"add http": "Aldoni http://",
 	"add https": "Aldoni https://",
 	"freedom": "lib.reviews respektas vian liberecon:",
-	"code": "Fontkodo",
+	"code": "<a href='%1$s'>Fontkodo</a> (<a href='%2$s'>spegulo ĉe Notabug</a>)",
 	"signin required": "Vi devas <a href='/signin'>ensaluti</a> aŭ <a href='/register'>registri konton</a> antaŭe.",
 	"complete all required fields": "Bonvole plenigu ĉiujn postulatajn kampojn (markitaj kun *).",
 	"correct errors": "Bonvole ĝustigu ĉiujn la montritajn erarojn.",
@@ -322,5 +322,7 @@
 	"atom feed of reviews by team": "Atom-fluo de ĉiuj recenzoj de ĉi tiu teamo",
 	"no reviews for team": "Ĉi tiu teamo ankoraŭ ne eldonis recenzojn.",
 	"no reviews for user": "Ĉi tiu uzanto ankoraŭ ne eldonis recenzojn.",
-	"view all": "&raquo; Vidi ĉion"
+	"view all": "&raquo; Vidi ĉion",
+	"faq acronym": "Oftaj demandoj",
+	"faq": "Oftaj demandoj"
 }
