@@ -8,7 +8,7 @@
 	"site name": "lib.reviews",
 	"welcome": "Välkommen!",
 	"intro lead": "<b>Välkommen till lib.reviews!</b> Vi bygger en fri, öppen och ideell plattform för att recensera absolut allting på valfritt språk.",
-	"intro message": "Vi är i början av utvecklingen och du behöver för tillfället en inbjudningskod för att skapa ett konto. Om du inte vet hur man får tag på en kan du följa <a href='https://twitter.com/lib_reviews'>lib_reviews</a> på Twitter och twittra till oss så skickar vi en kod till dig i ett meddelande.",
+	"intro message": "Vi är i början av utvecklingen och du behöver för tillfället en inbjudningslänk för att skapa ett konto. Om du inte vet hur man får tag på en kan du följa <a href='https://twitter.com/lib_reviews'>lib_reviews</a> på Twitter och twittra till oss så skickar vi en kod till dig i ett meddelande.",
 	"find us on": "Du kan också hitta oss <a href='https://github.com/eloquence/lib.reviews'>på GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>speglas på notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>gå med i vår e-postlista</a> och chatta med oss på IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> på <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Titta på en <a href='/static/uploads/screencast2.webm'>kort presentation</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube-version</a>) om hur allt fungerar från och med oktober 2016.",
 	"from the dev diary": "Från <a href='/team/%s/blog'>utvecklingsdagboken</a>:",
 	"change language": "Växla till:",
@@ -20,7 +20,8 @@
 	"password": "Lösenord",
 	"enter password": "Ange lösenord",
 	"no account yet": "Har du inte ett konto ännu? <a href=\"/register\">Registreringen</a> är snabb och enkel.",
-	"enter your info": "Välkommen till lib.reviews gemenskap! Ange informationen för ditt nya konto nedan.<p> <b>Vi är i början av utvecklingen och du behöver för tillfället en inbjudningskod för att göra ett konto. Om du inte vet hur man får tag på en kan du följa <a href='https://twitter.com/lib_reviews'>lib_reviews</a> på Twitter och twittra till oss så skickar vi en kod till dig i ett meddelande.</b>",
+	"invite link needed": "Tack för ditt intresse av att skapa ett konto här! Vi vill växa försiktigt för tillfället så vi kan hänga med gemenskapens behov, och så vi har tillräckligt med tid för att lära känna varandra. Av denna anledning kommer du behöva en inbjudningslänk för att skapa ett konto. Det finns tre enkla sätt att få en inbjudningslänk:<ul><li>Gå med i vårt <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>chattrum</a> (#lib.reviews på irc.freenode.net) och fråga efter en inbjudningslänk.<li>Följ <a href='http://twitter.com/lib_reviews'>lib_reviews</a> på Twitter och skicka ett meddelande till oss.<li>Om du känner någon i vår gemenskap kan du fråga dem om en inbjudan.</ul><p>Vi ser verkligen fram emot att välkomna dig till lib.reviews gemenskap!",
+	"enter your info": "Välkommen till lib.reviews gemenskap! Ange informationen för ditt nya konto nedan.",
 	"already got an account": "Har du redan ett konto? <a href='/signin'>Logga in</a> istället.",
 	"enter email": "Ange e-postadress",
 	"email optional": "E-postadress (valfritt)",
@@ -95,7 +96,7 @@
 		"one": "%s stjärna",
 		"other": "%s stjärnor"
 	},
-	"captcha intro": "<!-- Bevisa att du inte är en robot. Vilket ord är det som saknas vid ___? -->",
+	"captcha intro": "Bevisa att du inte är en robot. Vilket ord är det som saknas vid ___?",
 	"question: famous painting": "En av världens mest berömda målningar är Mona ___ av Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",
 	"question: famous composer": "Ludwig van ____ var nästan helt döv i slutet på sitt liv.",
@@ -325,5 +326,31 @@
 	"no reviews for user": "Denna användare har inte publicerat några recensioner ännu.",
 	"view all": "&raquo; Visa alla",
 	"faq acronym": "Vanliga frågor",
-	"faq": "Vanligtvis ställda frågor"
+	"faq": "Vanligtvis ställda frågor",
+	"help us grow": {
+		"one": "Hjälp lib.reviews att växa! Du har <b>en</b> inbjudningslänk.",
+		"other": "Hjälp lib.reviews att växa! Du har <b>%s</b> inbjudningslänkar."
+	},
+	"invite users intro": "Nya användare behöver en inbjudningskod. För att få  inbjudningslänkar att ge till dina vänner behöver du helt enkelt <a href='/new/review'>  skriva recensioner</a>.",
+	"you can generate links": {
+		"one": "Du kan för närvarande generera <b>en</b> inbjudningslänk.",
+		"other": "Du kan för närvarande generera upp till <b>%s</b> inbjudningslänkar."
+	},
+	"generate link": "Generera en inbjudningslänk",
+	"out of links": "Du har slut på länkar att generera. Skriv recensioner för att tjäna fler inbjudningslänkar.",
+	"share the love": "Dela kärleken",
+	"invite users": "Bjud in användare",
+	"pending invitations": "Dina inbjudningslänkar",
+	"accepted invitations": "Accepterade inbjudningar",
+	"invite link": "Inbjudningslänk",
+	"created on": "Skapades",
+	"accepted by": "Accepterades av",
+	"accepted on": "Accepterades",
+	"copy": "Kopiera",
+	"invite link invalid title": "Ogiltig inbjudningskod",
+	"invite link invalid": "Inbjudningskoden du angav är ogiltig. <a href='/register'>Begär en ny</a> eller <a href='https://github.com/eloquence/lib.reviews/issues/new'>låt oss veta</a> om problemet kvarstår. Tack!",
+	"invite link already used title": "Inbjudningslänken har redan använts",
+	"language temporarily changed": "På grund av <code>uselang</code> i webbadressen besöker du denna sida på <b>svenska</b> istället för språket du för närvarande har konfigurerat, %1$s. Framtida sidor du läser in kommer att vara på %1$s igen.",
+	"change language permanently": "Byt till engelska permanent",
+	"reload this page": "Uppdatera på %s"
 }

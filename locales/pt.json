@@ -7,7 +7,7 @@
 	"site name": "lib.reviews",
 	"welcome": "Boas vindas!",
 	"intro lead": "<b>Boas vindas ao lib.reviews!</b> Estamos construindo uma plataforma livre, aberta e sem fins lucrativos para resenhas sobre absolutamente qualquer coisa, em qualquer idioma.",
-	"intro message": "Estamos na fase inicial de desenvolvimento, e por agora, você precisa de um código de convite para se registrar. Se não sabe como o obter, siga <a href=\"https://twitter.com/lib_reviews\">lib_reviews</a> no Twitter, envie-nos um <i>tweet</i>, e nós enviaremos-lhe uma mensagem direta.",
+	"intro message": "Estamos na fase inicial de desenvolvimento, e por agora, você precisa de um convite para se registrar. Se não sabe como o obter, siga <a href=\"https://twitter.com/lib_reviews\">lib_reviews</a> no Twitter, envie-nos um <i>tweet</i>, e nós enviaremos-lhe uma mensagem direta.",
 	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>com um espelho no Notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>participar na nossa lista de discussão</a> e conversar conosco através do IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> em <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Assista a um <a href='/static/uploads/screencast2.webm'>breve vídeo</a> (<a href='https://youtu.be/wjUasbFfCbU'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2016.",
 	"from the dev diary": "Do <a href='/team/%s/blog'>diário de desenvolvimento</a>:",
 	"change language": "Mudar para:",
@@ -19,7 +19,8 @@
 	"password": "Senha",
 	"enter password": "Digite a senha",
 	"no account yet": "Ainda não tem uma conta? <a href=\"/register\">O registro</a> é rápido e fácil.",
-	"enter your info": "Boas vindas à comunidade lib.reviews! Por favor, introduza abaixo as informações da sua nova conta.<p> <b>Estamos na fase inicial de desenvolvimento, e por enquanto você precisa de um código de convite para se registrar. Se não sabe como o obter, siga <a href=\"https://twitter.com/lib_reviews\">lib_reviews</a> no Twitter, envie-nos um <i>tweet</i>, e nós enviaremos-lhe uma mensagem direta.</b>",
+	"invite link needed": "Agradecemos pelo interesse em criar uma conta aqui! Queremos crescer com cautela neste momento para podermos fazer jus às necessidades da comunidade, e para que tenhamos tempo para conhecer uns aos outros. Por isso, você precisará de um convite para criar uma conta. Há três jeitos fáceis de conseguir um convite:<ul><li>Entre no nosso <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>bate-papo</a> (#lib.reviews em irc.freenode.net) e peça por um convite.<li>Siga <a href='http://twitter.com/lib_reviews'>lib_reviews</a> no Twitter e mande-nos uma mensagem direta.<li>Se você conhecer um membro da nossa comunidade, peça um convite diretamente a ele ou ela.</ul><p>Será muito bacana te dar as boas vindas à comunidade lib.reviews!",
+	"enter your info": "Boas vindas à comunidade lib.reviews! Por favor, introduza abaixo as informações da sua nova conta.",
 	"already got an account": "Já tem uma conta? <a href=\"/signin\">Inicie sessão</a> então.",
 	"enter email": "Forneça o endereço de e-mail",
 	"email optional": "Endereço de e-mail (opcional)",
@@ -94,7 +95,7 @@
 		"one": "%s estrela",
 		"other": "%s estrelas"
 	},
-	"captcha intro": "<!-- Prove que você não é um robô. Qual a palavra que falta na lacuna ___? -->",
+	"captcha intro": "Por gentileza, prove que você não é um robô. Qual a palavra que falta na lacuna ___?",
 	"question: famous painting": "Um dos quadros mais famosos do mundo é a Mona ___ de Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",
 	"question: famous composer": "Edson ____ do Nascimento foi um dos maiores futebolistas do mundo.",
@@ -324,5 +325,33 @@
 	"no reviews for user": "Este usuário ainda não publicou nenhuma resenha.",
 	"view all": "&raquo; Ver tudo",
 	"faq acronym": "Perguntas frequentes",
-	"faq": "Perguntas mais frequentes"
+	"faq": "Perguntas mais frequentes",
+	"help us grow": {
+		"one": "Ajude o lib.reviews a crescer! Você tem <b>um</b> convite.",
+		"other": "Ajude o lib.reviews a crescer! Você tem <b>%s</b> convites."
+	},
+	"invite users intro": "Novos usuários precisam de um código de convite. Para ganhar links de convite para dar para seus amigos, é só <a href='/new/review'>  escrever resenhas</a>.",
+	"you can generate links": {
+		"one": "No momento, você pode gerar <b>um</b> link de convite.",
+		"other": "No momento, você pode gerar até <b>%s</b> links de convite."
+	},
+	"generate link": "Gerar um link de convite",
+	"out of links": "Você não tem mais links para gerar. Escreva resenhas para ganhar mais convites.",
+	"link generated": "Acabamos de fazer um novo link de convite para você, que está logo abaixo. Copie e compartilhe-o por email, mensageiros instantâneos ou outros meios. Cada link só pode ser usado uma vez. Obrigado por ajudar a crescer a comunidade do lib.reviews convidando pessoas que você conhece e confia!",
+	"share the love": "Compartilhe o carinho",
+	"invite users": "Convidar usuários",
+	"pending invitations": "Seus links de convite",
+	"accepted invitations": "Convites aceitos",
+	"invite link": "Link de convite",
+	"created on": "Criado em",
+	"accepted by": "Aceito por",
+	"accepted on": "Aceito em",
+	"copy": "Copiar",
+	"invite link invalid title": "Código de convite inválido",
+	"invite link invalid": "O código de convite que você forneceu é inválido. Por favor, <a href='/register'>peça um novo</a> ou <a href='https://github.com/eloquence/lib.reviews/issues/new'>nos avise</a> se o problema persistir. Obrigado!",
+	"invite link already used title": "Link de convite já usado",
+	"invite link already used": "Este link de convite já foi usado para registrar uma conta de usuário no lib.reviews. Cada link de convite pode ser usado apenas uma vez. Por favor, <a href='/register'>peça um novo link de convite</a> ou  <a href='https://github.com/eloquence/lib.reviews/issues/new'>nos avise</a> se você recebeu essa mensagem devido a um erro. Obrigado!",
+	"language temporarily changed": "Devido à parte <code>uselang</code> deste endereço da web, você está vendo esta página em <b>português</b> em vez do seu idioma configurado, %1$s. As páginas seguintes que você carregar estarão em %1$s novamente.",
+	"change language permanently": "Mudar permanentemente para português",
+	"reload this page": "Recarregar em %s"
 }
