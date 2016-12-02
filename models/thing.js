@@ -91,7 +91,8 @@ Thing.define("getReviewsByUser", function(user) {
       .getJoin({
         creator: {
           _apply: seq => seq.without('password')
-        }
+        },
+        teams: true
       })
       .then(reviews => {
         reviews.forEach(review => review.populateUserInfo(user));
