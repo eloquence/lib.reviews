@@ -24,7 +24,7 @@
 	"password": "Mot de passe",
 	"enter password": "Saisir le mot de passe",
 	"no account yet": "Vous n’avez pas encore de compte ? <a href='/register'>L’inscription</a> est rapide et facile.",
-	"invite link needed": "Merci à l'intérêt que vous portez à la création d'un compte ici ! Afin que notre croissance soit harmonieuse, nous souhaitons respecter les besoins de la communauté, et aussi prendre le temps de nous connaître les uns les autres. Pour cette raison vous aurez besoin d'un lien d'invitation pour créer un compte. Il existe trois manières simples d'obtenir un lien d'invitation: <ul><li>Rejoignez notre <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>tchat</a> (#lib.reviews sur irc.freenode.net) et demandez un lien d'invitation. <li>Suivez <a href='http://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter et envoyez-nous un message.<li>Si vous connaissez un membre de la communauté, demandez-lui directement une invitation.</ul><p>Nous souhaitons sincèrement vous accueillir au sein de la communauté lib.reviews !",
+	"invite link needed": "Merci de l'intérêt que vous portez à la création d'un compte ici ! Afin que notre croissance soit harmonieuse, nous souhaitons respecter les besoins de la communauté, et aussi prendre le temps de nous connaître les uns les autres. Pour cette raison vous aurez besoin d'un lien d'invitation pour créer un compte. Il existe trois manières simples d'obtenir un lien d'invitation: <ul><li>Rejoignez notre <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>tchat</a> (#lib.reviews sur irc.freenode.net) et demandez un lien d'invitation. <li>Suivez <a href='http://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter et envoyez-nous un message.<li>Si vous connaissez un membre de la communauté, demandez-lui directement une invitation.</ul><p>Nous souhaitons sincèrement vous accueillir au sein de la communauté lib.reviews !",
 	"enter your info": "Bienvenue dans la communauté lib.reviews! Veuillez saisir les informations de votre nouveau compte ci-dessous.",
 	"already got an account": "Vous avez déjà un compte ? <a href='/signin'>Connectez-vous</a> plutôt.",
 	"enter email": "Saisir l’adresse de courriel",
@@ -356,7 +356,7 @@
 	"invite link invalid": "Le code d’invitation que vous avez fourni n’est pas valide. Veuillez <a href='/register'>en demander un nouveau</a> ou <a href='https://github.com/eloquence/lib.reviews/issues/new'>nous faire savoir</a> si le problème persiste. Merci !",
 	"invite link already used title": "Ce lien d'invitation a déjà été utilisé",
 	"invite link already used": "Ce lien d’invitation a déjà été utilisé pour enregistrer un compte utilisateur sur lib.reviews. Chaque lien d’invitation ne peut être utilisé qu’une seule fois. Veuillez <a href='/register'>demander un nouveau lien d’invitation</a> ou  <a href='https://github.com/eloquence/lib.reviews/issues/new'>nous faire savoir</a> si vous avez reçu ce message par erreur. Merci !",
-	"language temporarily changed": "Du fait de la partie <code>uselang</code> de l’adresse web, vous voyez cette page en <b>anglais</b> au lieu de votre langue actuellement configurée, %1$s. Les pages suivantes que vous chargerez seront de nouveau en %1$s.",
-	"change language permanently": "Basculer vers l’anglais de façon permanente",
+	"language temporarily changed": "Du fait de la partie <code>uselang</code> de l’adresse web, vous voyez cette page en <b>francais</b> au lieu de votre langue actuellement configurée, %1$s. Les pages suivantes que vous chargerez seront de nouveau en %1$s.",
+	"change language permanently": "Basculer vers français de façon permanente",
 	"reload this page": "Recharger en %s"
 }

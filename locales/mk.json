@@ -350,5 +350,8 @@
 	"invite link invalid title": "Неважечки код за покана",
 	"invite link invalid": "Кодот на поканата што го укажавте е неважечки. <a href='/register'>Побарајте нов</a> или <a href='https://github.com/eloquence/lib.reviews/issues/new'>известете нè</a> ако проблемот упорно се јавува. Ви благодариме!",
 	"invite link already used title": "Врската за покана е веќе искористена",
-	"invite link already used": "Оваа врска за покана е веќе искористена за регистрирање на корисник на lib.reviews. Секоја ваква врска може да се употреби само еднаш. <a href='/register'>Побарајте нова врска за покана</a> или <a href='https://github.com/eloquence/lib.reviews/issues/new'>известете нè</a> ако поракава ја добивате по грешка. Ви благодариме!"
+	"invite link already used": "Оваа врска за покана е веќе искористена за регистрирање на корисник на lib.reviews. Секоја ваква врска може да се употреби само еднаш. <a href='/register'>Побарајте нова врска за покана</a> или <a href='https://github.com/eloquence/lib.reviews/issues/new'>известете нè</a> ако поракава ја добивате по грешка. Ви благодариме!",
+	"language temporarily changed": "Поради делот <code>uselang</code> од адресата, страницава ја гледате на <b>македонски</b> место јазикот што го имате наместено — %1$s. Страниците што ќе ги отворите отсега натаму, ќе бидат повторно на %1$s.",
+	"change language permanently": "Префрли сте трајно на англиски",
+	"reload this page": "Превчитај на %s"
 }

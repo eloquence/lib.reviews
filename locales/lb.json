@@ -223,5 +223,17 @@
 	"no reviews for user": "Dëse Benotzer huet nach keng Bewäertunge publizéiert.",
 	"view all": "&raquo; Alle weisen",
 	"faq acronym": "FAQ",
-	"faq": "Dacks gestallt Froen"
+	"faq": "Dacks gestallt Froen",
+	"generate link": "En Invitatiounslink generéieren",
+	"invite users": "Benotzer invitéieren",
+	"accepted invitations": "Akzeptéiert Invitatiounen",
+	"invite link": "Invitatiounslink",
+	"created on": "Ugeluecht den",
+	"accepted by": "Akzeptéiert vum",
+	"accepted on": "Akzeptéiert de(n)",
+	"copy": "Kopéieren",
+	"invite link invalid title": "Net valabelen Invitatiounslink",
+	"invite link already used title": "Invitatiounslink gouf scho benotzt",
+	"change language permanently": "Definitiv op Englesch wiesselen",
+	"reload this page": "Op %s neilueden"
 }

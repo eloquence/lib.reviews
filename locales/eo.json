@@ -7,7 +7,7 @@
 	"site name": "lib.reviews",
 	"welcome": "Bonvenon!",
 	"intro lead": "<b>Bonvenon al lib.reviews!</b> Ni konstruas liberan, malferman kaj neprofitocelan platformon por recenzi ion ajn, en ajna lingvo.",
-	"intro message": "Ni estas en frua konstruado kaj ĉi-momente, vi bezonas invitkodon por registriĝi. Se vi ne scias kiel akiri ĝin, sekvu <a href='https://twitter.com/lib_reviews'>lib_reviews</a> ĉe Twitter, sendu al ni pepaĵon kaj ni donos ĝin al vi privatmesaĝe.",
+	"intro message": "Ni estas en frua konstruado kaj ĉi-momente, vi bezonas invitilon por registriĝi. Se vi ne scias kiel akiri ĝin, sekvu <a href='https://twitter.com/lib_reviews'>lib_reviews</a> ĉe Twitter, sendu al ni pepaĵon kaj ni donos ĝin al vi privatmesaĝe.",
 	"find us on": "Vi ankaŭ povas trovi nin  <a href='https://github.com/eloquence/lib.reviews'>ĉe GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>aŭ nia spegulo ĉe Notabug</a>), <a href=\"http://lists.freeculture.org/mailman/listinfo/lib.reviews\">aliĝi al nia dissendolisto</a> kaj paroli kun ni sur IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> sur <a href=\"https://freenode.net/\">irc.freenode.net</a>).<p>Spektu <a href=\"/static/uploads/screencast2.webm\">mallongan filmeton</a> (<a href=\"https://youtu.be/wjUasbFfCbU\">YouTube-versio</a>) pri la stato de aferoj je oktobro 2016.",
 	"from the dev diary": "El la <a href='/team/%s/blog'>programada taglibro</a>:",
 	"change language": "Ŝanĝi al:",
@@ -19,7 +19,8 @@
 	"password": "Pasvorto",
 	"enter password": "Entajpu pasvorton",
 	"no account yet": "Ankoraŭ ne havas konton? <a href=\"/register\">Registriĝo</a> estas rapida kaj facila.",
-	"enter your info": "Bonvenon al la lib.reviews-komunumo! Bonvole entajpu informon pri via nova konto sube.<p> <b>Ni estas en frua konstruado kaj vi bezonos invitkodon por krei konton. Se vi ne scias, kiel akiri ĝin, vi povas sekvi <a href='https://twitter.com/lib_reviews'>lib_reviews</a> ĉe Twitter kaj pepi nin, tiel ni sendos al vi kodon privatmesaĝe.</b>",
+	"invite link needed": "Dankoj pro via registra intereso! Ni deziras kreski singarde ĉi-momente, pro ke ni povu prizorgi la bezonojn de la komunumo kaj do ni havu sufiĉan tempon por ekkoni unu la alia. Pro tio, vi bezonos invitilon por krei konton. Estas tri facilaj vojoj por gajni invitilon:<ul><li>Aliĝu al nia <a href=\"https://riot.im/app/#/room/#lib.reviews:matrix.org\">babilejo</a> (#lib.reviews sur irc.freenode.net) kaj petu invitilon.<li>Sekvu lib_reviews ĉe Twitter kaj sendu al ni rektan mesaĝon.<li>Se vi konas membron de nia komunumo, petu inviton rekte.</li></li></li></ul><p>Ni vere ĝojas bonvenigi vin en la lib.reviews-komunumo!</p>",
+	"enter your info": "Bonvenon al la lib.reviews-komunumo! Bonvole entajpu informon pri via nova konto sube.",
 	"already got an account": "Ĉu vi jam havas konton? <a href=\"/signin\">Ensalutu</a>, do.",
 	"enter email": "Entajpu retpoŝtan adreson",
 	"email optional": "Retpoŝta adreso (nedeviga)",
@@ -94,7 +95,7 @@
 		"one": "%s stelo",
 		"other": "%s steloj"
 	},
-	"captcha intro": "<!-- Montru, ke vi ne estas roboto. Kio estas la mankata vorto kaŝita sub ___? -->",
+	"captcha intro": "Montru, ke vi ne estas roboto. Kio estas la mankata vorto kaŝita sub ___?",
 	"question: famous painting": "Unu el plej famaj pentraĵoj tra la mondo estas la Mona ___ de Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",
 	"question: famous composer": "Ludwik Lazar ____ estis kreinto de belega lingvo.",
@@ -324,5 +325,33 @@
 	"no reviews for user": "Ĉi tiu uzanto ankoraŭ ne eldonis recenzojn.",
 	"view all": "&raquo; Vidi ĉion",
 	"faq acronym": "Oftaj demandoj",
-	"faq": "Oftaj demandoj"
+	"faq": "Oftaj demandoj",
+	"help us grow": {
+		"one": "Helpu lib.reviews kreski! Vi havas <b>unu</b> invitilon.",
+		"other": "Helpu lib.reviews kreski! Vi havas <b>%s</b> invitilojn."
+	},
+	"invite users intro": "Novaj uzantoj bezonas invitilon. Por gajni invitilojn por doni al viaj amikoj, simple <a href='/new/review'>  verku recenzojn</a>.",
+	"you can generate links": {
+		"one": "Vi nun povas krei <b>unu</b> invitilon.",
+		"other": "Vi nun povas krei <b>%s</b> invitilojn."
+	},
+	"generate link": "Krei invitilon",
+	"out of links": "Vi ne plu havas ligilojn por krei. Verku recenzojn por gajni pliajn invit-ligilojn",
+	"link generated": "Ni ĵus kreis novan invitilon por vi, jen ĝi sube. Kopiu ĝin kaj kunhavu per retpoŝto, tuja mesaĝilo aŭ aliaj iloj. Iu ligilo povas esti uzata nur unufoje. Dankon pro helpado de la lib.reviews-komunumo invitante homojn, ke vi scias kaj fidas!",
+	"share the love": "Invitu amikojn!",
+	"invite users": "Inviti uzantojn",
+	"pending invitations": "Viaj invitiloj",
+	"accepted invitations": "Akceptitaj invitoj",
+	"invite link": "Invitilo",
+	"created on": "Kreita je",
+	"accepted by": "Akceptita de",
+	"accepted on": "Akceptita je",
+	"copy": "Kopii",
+	"invite link invalid title": "Nevalida invitkodo",
+	"invite link invalid": "La invitkodo, kiun vi donis estas senvalida. Bonvole <a href='/register'>petu novan kodon</a> aŭ <a href='https://github.com/eloquence/lib.reviews/issues/new'>sciigu nin</a> se la problemo daŭras. Dankon!",
+	"invite link already used title": "Oni jam uzis ĉi tiun invit-ligilon",
+	"invite link already used": "Ĉi tiu invitilo jam estis uzita por registri uzantkonton ĉe lib.reviews. Ĉiu invitilo <a href=\"/register\">nur povas</a> esti uzata unufoje. Bonvole petu novan invitilon aŭ <a href=\"https://github.com/eloquence/lib.reviews/issues/new\">sciigu nin</a> se vi ricevis ĉi tiun mesaĝon pro eraro. Dankon!",
+	"language temporarily changed": "Pro la <code>uselang</code>-parto de la retadreso, vi vidas ĉi tiun paĝon en <b>Esperanto</b> anstataŭ via agordita lingvo, %1$s. Paĝoj, kiujn vi malfermos poste estos en %1$s denove.",
+	"change language permanently": "Ŝalti daŭre al Esperanto",
+	"reload this page": "Reŝarĝi en %s"
 }

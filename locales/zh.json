@@ -350,5 +350,8 @@
 	"invite link invalid title": "无效的邀请码",
 	"invite link invalid": "您提供的邀请码无效。请<a href='/register'>请求新邀请码</a>，或如果持续出错，<a href='https://github.com/eloquence/lib.reviews/issues/new'>让我们知道</a>相关问题。感谢您！",
 	"invite link already used title": "邀请链接已被使用",
-	"invite link already used": "此邀请链接已被用于注册lib.reviews上的用户账户。每个邀请链接只可以使用一次。请<a href='/register'>请求新邀请码</a>，或<a href='https://github.com/eloquence/lib.reviews/issues/new'>让我们知道</a>您收到这条消息时发生了什么错误。感谢您！"
+	"invite link already used": "此邀请链接已被用于注册lib.reviews上的用户账户。每个邀请链接只可以使用一次。请<a href='/register'>请求新邀请码</a>，或<a href='https://github.com/eloquence/lib.reviews/issues/new'>让我们知道</a>您收到这条消息时发生了什么错误。感谢您！",
+	"language temporarily changed": "因为网址中的<code>uselang</code>部分，您正在以<b>简体中文</b>而不是您当前配置的语言%1$s访问此页面。您之后加载的页面将再次显示为%1$s。",
+	"change language permanently": "永久切换为简体中文",
+	"reload this page": "以%s重新加载"
 }

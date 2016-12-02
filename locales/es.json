@@ -352,5 +352,8 @@
 	"invite link invalid title": "Código de invitación no válido",
 	"invite link invalid": "El código de invitación que has proporcionado no es válido. <a href='/register'>Solicita uno nuevo</a> o <a href='https://github.com/eloquence/lib.reviews/issues/new'>comunícanos del problema</a> si este persiste. ¡Gracias!",
 	"invite link already used title": "Ya se ha utilizado este enlace de invitación",
-	"invite link already used": "Ya se había utilizado este enlace de invitación para registrar una cuenta de usuario en lib.reviews. Cada invitación puede emplearse solo una vez. <a href='/register'>Solicita un enlace de invitación nuevo</a> o  <a href='https://github.com/eloquence/lib.reviews/issues/new'>ponte en contacto con nosotros</a> si has recibido este mensaje por error. ¡Gracias!"
+	"invite link already used": "Ya se había utilizado este enlace de invitación para registrar una cuenta de usuario en lib.reviews. Cada invitación puede emplearse solo una vez. <a href='/register'>Solicita un enlace de invitación nuevo</a> o  <a href='https://github.com/eloquence/lib.reviews/issues/new'>ponte en contacto con nosotros</a> si has recibido este mensaje por error. ¡Gracias!",
+	"language temporarily changed": "Debido a la parte <code>uselang</code> de la dirección de web, estás viendo esta página en <b>español</b> en vez de u idioma configurado actualmente, %1$s. Las páginas subsiguientes que cargues estarán en %1$s de nuevo.",
+	"change language permanently": "Cambiar permanentemente al español",
+	"reload this page": "Recargar en %s"
 }
