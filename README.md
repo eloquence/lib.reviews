@@ -67,4 +67,4 @@ Debian environment.
 
 - https://critiquebrainz.org/ - music reviews
 - http://revyu.com/ - universal review site from ~2007, now defunct. We're
-  discussing data recovrey options.
+  discussing data recovery options.
