@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kly"
+			"Kly",
+			"LNDDYL"
 		]
 	},
 	"site name": "lib.reviews",
@@ -146,7 +147,7 @@
 	"could not complete action": "很抱歉，在請求行為完成時出現錯誤！這可能是一個網路連接問題、或是我們終端的編碼錯誤。",
 	"site notification": "<b>通知：</b> %s",
 	"site error": "<b>錯誤：</b> %s",
-	"notification language-changed": "您已更改您的語言參數設置。這代表之後當您創建或編輯內容時，我們會假定這是採用<b>繁體中文</b>。當內容採用的語言與您參數設置不同時，我們也會顯示給您一些提示（您可以幫忙協助翻譯）。",
+	"notification language-changed": "您已變更您的語言偏好設定。這代表之後當您建立或編輯內容時，我們會假定這是採用<b>繁體中文</b>。當內容採用的語言與您偏好設定不同時，我們也會顯示給您一些提示（您可以幫忙協助翻譯）。",
 	"invalid language": "請求的語言無效或不被認可。",
 	"edit saved": "您的編輯已儲存。嗶波！",
 	"current language": "語言：%s",
