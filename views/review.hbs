@@ -3,6 +3,7 @@
 <div class="message-box">{{{this}}}</div>
 {{/each}}
 </div>
+<div class="centered-feed">
 <h1 id="page-header">
 {{#if (mlString review.thing.label)}}
 {{{__ "review of" (mlString review.thing.label)}}}
@@ -12,4 +13,5 @@
 </h1>
 <div class="review">
 {{> review review=review}}
+</div>
 </div>
