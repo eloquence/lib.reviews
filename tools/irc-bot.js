@@ -11,7 +11,7 @@ process.env.NODE_CONFIG_DIR = path.join(__dirname, '../config');
 
 const config = require('config');
 const irc = require('irc');
-const bot = new irc.Client(config.irc.server, config.irc.botName, config.irc.options);
+const bot = new irc.Client(config.irc.server, config.irc.options.userName, config.irc.options);
 
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -22,8 +22,8 @@ bot.once('names', function () {
   // nickname, and attempt to regain it if not. (NickServ's "regain" command
   // will modify the bot's nickname, if successful.)
   setInterval(function () {
-    if (bot.nick !== config.botName) {
-      bot.say('NickServ', 'regain ' + config.botName);
+    if (bot.nick !== config.irc.options.userName) {
+      bot.say('NickServ', `regain ${config.irc.options.userName} ${config.irc.options.password}`);
     }
   }, 30 * 1000);
 });
