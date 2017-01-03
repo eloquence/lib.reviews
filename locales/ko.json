@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Jerrykim306",
-			"Ykhwong"
+			"Ykhwong",
+			"아라"
 		]
 	},
 	"site name": "lib.reviews",
@@ -98,7 +99,7 @@
 	"blog post deleted": "블로그 게시물이 삭제되었습니다",
 	"database downloads": "데이터베이스 다운로드",
 	"must agree to team rules": "팀 규칙에 동의해야 합니다.",
-	"number of members": "구성원 수:",
+	"number of members": "회원 수:",
 	"view list": "(목록 보기)",
 	"welcome to the team": "이제 당신은 이 팀의 일원입니다. lib.reviews 공동체에 참가해 주셔서 감사합니다!",
 	"join request message": "메시지:",

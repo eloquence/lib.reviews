@@ -338,6 +338,7 @@
 	},
 	"generate link": "Generera en inbjudningslänk",
 	"out of links": "Du har slut på länkar att generera. Skriv recensioner för att tjäna fler inbjudningslänkar.",
+	"link generated": "Vi har precis gjort en ny inbjudningslänk till dig som du kan hitta nedan. Kopiera den och dela den via e-post, IM eller på något annat sätt. Alla länkar kan endast användas en gång. Tack för att du hjälper lib.reviews gemenskap att växa genom att bjuda in personer du känner och litar på!",
 	"share the love": "Dela kärleken",
 	"invite users": "Bjud in användare",
 	"pending invitations": "Dina inbjudningslänkar",
@@ -350,6 +351,7 @@
 	"invite link invalid title": "Ogiltig inbjudningskod",
 	"invite link invalid": "Inbjudningskoden du angav är ogiltig. <a href='/register'>Begär en ny</a> eller <a href='https://github.com/eloquence/lib.reviews/issues/new'>låt oss veta</a> om problemet kvarstår. Tack!",
 	"invite link already used title": "Inbjudningslänken har redan använts",
+	"invite link already used": "Denna inbjudningslänk har redan använts för att registrera ett användarkonto på lib.reviews. Varje inbjudningslänk kan endast användas en gång. Var god <a href='/register'>begär en ny inbjudningslänk</a> eller <a href='https://github.com/eloquence/lib.reviews/issues/new'>låt oss veta</a> om du har fått detta meddelande av misstag. Tack!",
 	"language temporarily changed": "På grund av <code>uselang</code> i webbadressen besöker du denna sida på <b>svenska</b> istället för språket du för närvarande har konfigurerat, %1$s. Framtida sidor du läser in kommer att vara på %1$s igen.",
 	"change language permanently": "Byt till engelska permanent",
 	"reload this page": "Uppdatera på %s"
