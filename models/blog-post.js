@@ -6,6 +6,7 @@ const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
 const User = require('./user');
+const TeamSlug = require('./team-slug');
 
 /* eslint-disable newline-per-chained-call */ /* for schema readability */
 
@@ -142,6 +143,21 @@ BlogPost.getMostRecentBlogPosts = function(teamID, options) {
 
   });
 
+};
+
+// Helper function to quickly get blog posts for a given slug
+BlogPost.getMostRecentBlogPostsBySlug = function(teamSlugName, options) {
+  return new Promise((resolve, reject) => {
+    TeamSlug
+      .get(teamSlugName)
+      .then(slug => {
+        BlogPost
+          .getMostRecentBlogPosts(slug.teamID, options)
+          .then(result => resolve(result))
+          .catch(error => reject(error));
+      })
+      .catch(error => reject(error)); // Slug not found?
+  });
 };
 
 

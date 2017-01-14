@@ -11,6 +11,7 @@
   // of this file with different ports.
 
   // Omit all logging from tests
+  frontPageTeamBlog: "",
   logger: false,
   dbServers: [
     {

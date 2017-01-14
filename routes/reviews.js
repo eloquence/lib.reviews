@@ -26,14 +26,14 @@ let router = ReviewProvider.bakeRoutes(null, routes);
 
 // We show two query results on the front-page, the team developers blog
 // and a feed of recent reviews, filtered to include only trusted ones.
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
 
   let queries = [Review.getFeed({
     onlyTrusted: true
   })];
 
   if (config.frontPageTeamBlog)
-    queries.push(BlogPost.getMostRecentBlogPosts(config.frontPageTeamBlog, {
+    queries.push(BlogPost.getMostRecentBlogPostsBySlug(config.frontPageTeamBlog, {
       limit: 3
     }));
 
@@ -90,7 +90,8 @@ router.get('/', function(req, res) {
       blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : undefined,
       embeddedFeeds
     });
-  });
+  })
+  .catch(error => next(error));
 
 });
 
