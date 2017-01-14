@@ -6,7 +6,7 @@
   <form class="pure-form pure-form-aligned" method="post" name="delete-form">
   <input type="hidden" value="{{csrfToken}}" name="_csrf">
   <button type="submit" id="delete" name="team-action" value="delete" class="pure-button button-destructive button-rounded" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-trash-o spaced-icon"></span> {{{__ "delete"}}}</button>
-  <a class="cancel-link" href="/team/{{team.id}}">{{{__ "cancel"}}}</a>
+  <a class="cancel-link" href="/team/{{{team.urlID}}}">{{{__ "cancel"}}}</a>
   </form>
 </div>
 {{/if}}
@@ -26,7 +26,7 @@
 {{{mlString team.description.html false}}}
 <p>
 {{!LINK TO ROSTER AND MODERATORS LIST}}
-<b>{{{__ "number of members"}}}</b> {{{team.members.length}}} <a href="/team/{{team.id}}/members">{{{__ "view list"}}}</a>
+<b>{{{__ "number of members"}}}</b> {{{team.members.length}}} <a href="/team/{{{team.urlID}}}/members">{{{__ "view list"}}}</a>
 <p>
 <b>{{{__ "moderators"}}}</b>
 <ul class="team-member-list">
@@ -37,7 +37,7 @@
 {{!/LINK TO ROSTER AND MODERATORS LIST}}
 {{!JOIN FORM}}
 {{#if team.userCanJoin}} {{!Show join form to logged-in users who are not members}}
-<form name="join-team" action="/team/{{team.id}}/join" method="post">
+<form name="join-team" action="/team/{{{team.urlID}}}/join" method="post">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <hr class="team-separator">
 {{>page_errors pageErrors=joinErrors}}
@@ -79,7 +79,7 @@
 {{!/JUST THE RULES}}
 {{!LEAVE FORM}}
 {{#if team.userCanLeave}}
-<form name="leave-team" action="/team/{{team.id}}/leave" method="POST">
+<form name="leave-team" action="/team/{{{team.urlID}}}/leave" method="POST">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <button class="pure-button pure-button-primary button-rounded" type="submit" name="team-action" value="leave">{{{__ "leave team"}}}</button>
 </form>
@@ -88,11 +88,11 @@
 <p>
 {{!EDIT/DELETE}}
 {{#if team.userCanEdit}}
-<a href="/team/{{team.id}}/edit" id="edit-team" class="pure-button button-rounded edit-button" accesskey="e" title="{{{__ "accesskey" "e"}}}"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a>
+<a href="/team/{{{team.urlID}}}/edit" id="edit-team" class="pure-button button-rounded edit-button" accesskey="e" title="{{{__ "accesskey" "e"}}}"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a>
 {{/if}}
 {{#if team.userCanDelete}}
 {{#unless deleteForm}}
-<a href="/team/{{team.id}}/delete" id="edit-team" class="pure-button button-rounded edit-button" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a>
+<a href="/team/{{{team.urlID}}}/delete" id="edit-team" class="pure-button button-rounded edit-button" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a>
 {{/unless}}
 {{/if}}
 </div>
@@ -100,7 +100,7 @@
 {{!/EDIT/DELETE}}
 {{!SECOND COLUMN: REVIEWS}}
 <div class="pure-u-1 pure-u-md-1-2">
-<h2 class="inline-feed-title">{{{__ "latest review"}}}</h2>{{#if team.reviews}}<span class="view-all-link"><a href="/team/{{team.id}}/feed">{{{__ "view all"}}}</a></span>{{/if}}
+<h2 class="inline-feed-title">{{{__ "latest review"}}}</h2>{{#if team.reviews}}<span class="view-all-link"><a href="/team/{{{team.urlID}}}/feed">{{{__ "view all"}}}</a></span>{{/if}}
 <p>
 {{#if team.reviews}}
 {{>feed feedItems=team.reviews teamFeed=true}}
@@ -111,10 +111,11 @@
 {{!/SECOND COLUMN: REVIEWS}}
 {{!SECOND COLUMN: BLOG POSTS}}
 <div class="team-blog">
-<h2 class="inline-feed-title">{{{__ "latest blog posts"}}}</h2>{{#if blogPosts}}<span class="view-all-link"><a href="/team/{{team.id}}/blog">{{{__ "view all"}}}</a></span>{{/if}}
+<h2 class="inline-feed-title">{{{__ "latest blog posts"}}}</h2>{{#if blogPosts}}<span class="view-all-link"><a href="/team/{{{team.urlID}}}/blog">{{{__ "view all"}}}</a></span>{{/if}}
 <p>
 {{>blog_feed}}
 </div>
 </div>
 {{!/SECOND COLUMN: BLOG POSTS}}
 </div>
+<!-- Permanent URL: {{qualifiedURL}}team/{{{team.urlID}}} -->

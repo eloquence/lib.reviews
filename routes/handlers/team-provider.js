@@ -11,7 +11,7 @@ const Team = require('../../models/team');
 const mlString = require('../../models/helpers/ml-string.js');
 const BlogPost = require('../../models/blog-post');
 const feeds = require('../helpers/feeds');
-
+const slugs = require('../helpers/slugs');
 
 class TeamProvider extends AbstractBREADProvider {
 
@@ -88,7 +88,7 @@ class TeamProvider extends AbstractBREADProvider {
 
     this.renderTemplate('team-roster', {
       team,
-      teamURL: `/team/${team.id}`,
+      teamURL: `/team/${team.urlID}`,
       founder,
       moderators,
       titleKey: this.actions.members.titleKey,
@@ -112,7 +112,7 @@ class TeamProvider extends AbstractBREADProvider {
 
     this.renderTemplate('team-manage-requests', {
       team,
-      teamURL: `/team/${team.id}`,
+      teamURL: `/team/${team.urlID}`,
       teamName: mlString.resolve(this.req.locale, team.name).str,
       titleKey: "manage join requests",
       pageErrors,
@@ -136,10 +136,10 @@ class TeamProvider extends AbstractBREADProvider {
     for (let key in this.req.body) {
 
       // Does it look like a request to perform an action?
-      if (/^action\-.+$/.test(key)) {
+      if (/^action-.+$/.test(key)) {
 
         // Safely extract the provided ID
-        let id = (key.match(/action\-(.*)$/) || [])[1];
+        let id = (key.match(/action-(.*)$/) || [])[1];
 
         // Check if we do in fact have a join request that matches the action ID
         let requestIndex, requestObj;
@@ -153,21 +153,22 @@ class TeamProvider extends AbstractBREADProvider {
         // If we do, perform the appropriate wrok
         if (requestObj) {
           switch (this.req.body[key]) {
-            case 'reject': {
-              team.joinRequests[requestIndex].rejectionDate = new Date();
-              team.joinRequests[requestIndex].rejectedBy = this.req.user.id;
-              let reason = this.req.body[`reject-reason-${id}`];
-              if (reason)
-                team.joinRequests[requestIndex].rejectionMessage = escapeHTML(reason);
-              workToBeDone = true;
-              break;
-            }
+            case 'reject':
+              {
+                team.joinRequests[requestIndex].rejectionDate = new Date();
+                team.joinRequests[requestIndex].rejectedBy = this.req.user.id;
+                let reason = this.req.body[`reject-reason-${id}`];
+                if (reason)
+                  team.joinRequests[requestIndex].rejectionMessage = escapeHTML(reason);
+                workToBeDone = true;
+                break;
+              }
             case 'accept':
               team.members.push(team.joinRequests[requestIndex].user);
               team.joinRequests.splice(requestIndex, 1);
               workToBeDone = true;
               break;
-            // no default
+              // no default
           }
 
         }
@@ -180,12 +181,12 @@ class TeamProvider extends AbstractBREADProvider {
         .saveAll()
         .then(() => {
           this.req.flash('pageMessages', this.req.__('requests have been processed'));
-          this.res.redirect(`/team/${team.id}/manage-requests`);
+          this.res.redirect(`/team/${team.urlID}/manage-requests`);
         })
         .catch(error => this.next(error));
     } else {
       this.req.flash('pageErrors', this.req.__('no requests to process'));
-      this.res.redirect(`/team/${team.id}/manage-requests`);
+      this.res.redirect(`/team/${team.urlID}/manage-requests`);
     }
 
 
@@ -204,23 +205,24 @@ class TeamProvider extends AbstractBREADProvider {
 
   }
 
+
   loadData() {
-
-    return Team.getWithData(this.id);
-
+    return slugs.resolveAndLoadTeam(this.req, this.res, this.id);
   }
 
   // We just show a single review on the team entry page
   loadDataWithMostRecentReview() {
 
-    return Team.getWithData(this.id, { withReviews: true });
+    return slugs.resolveAndLoadTeam(this.req, this.res, this.id, {
+      withReviews: true
+    });
 
   }
 
   // This is for feed or feed/before/<date> requests
   loadDataWithFeed() {
 
-    return Team.getWithData(this.id, {
+    return slugs.resolveAndLoadTeam(this.req, this.res, this.id, {
       withReviews: true,
       reviewLimit: 10,
       reviewOffsetDate: this.offsetDate || null
@@ -230,7 +232,9 @@ class TeamProvider extends AbstractBREADProvider {
 
   loadDataWithJoinRequestDetails() {
 
-    return Team.getWithData(this.id, { withJoinRequestDetails: true });
+    return slugs.resolveAndLoadTeam(this.req, this.res, this.id, {
+      withJoinRequestDetails: true
+    });
 
   }
 
@@ -257,17 +261,17 @@ class TeamProvider extends AbstractBREADProvider {
           if (!request.rejectionDate)
             this.req.flash('pageMessages', this.req.__('application received'));
           else
-            if (request.rejectionMessage)
-              this.req.flash('pageMessages',
-                this.req.__('application rejected with reason', request.rejectionDate, request.rejectionMessage));
-            else
-              this.req.flash('pageMessages', this.req.__('application rejected', request.rejectionDate));
+          if (request.rejectionMessage)
+            this.req.flash('pageMessages',
+              this.req.__('application rejected with reason', request.rejectionDate, request.rejectionMessage));
+          else
+            this.req.flash('pageMessages', this.req.__('application rejected', request.rejectionDate));
         }
       });
 
     if (team.userIsModerator) {
       let joinRequestCount = team.joinRequests.filter(request => !request.rejectionDate).length;
-      let url = `/team/${team.id}/manage-requests`;
+      let url = `/team/${team.urlID}/manage-requests`;
       if (joinRequestCount == 1)
         this.req.flash('pageMessages', this.req.__('pending join request', url));
       else if (joinRequestCount > 1)
@@ -294,18 +298,18 @@ class TeamProvider extends AbstractBREADProvider {
         blogPosts.forEach(post => post.populateUserInfo(this.req.user));
 
         let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
-          atomURLPrefix: `/team/${team.id}/blog/atom`,
+          atomURLPrefix: `/team/${team.urlID}/blog/atom`,
           atomURLTitleKey: 'atom feed of blog posts by team'
         });
 
         embeddedFeeds = embeddedFeeds.concat(feeds.getEmbeddedFeeds(this.req, {
-          atomURLPrefix: `/team/${team.id}/feed/atom`,
+          atomURLPrefix: `/team/${team.urlID}/feed/atom`,
           atomURLTitleKey: 'atom feed of reviews by team'
         }));
 
         let paginationURL;
         if (team.reviewOffsetDate)
-          paginationURL = `/team/${team.id}/feed/before/${team.reviewOffsetDate.toISOString()}`;
+          paginationURL = `/team/${team.urlID}/feed/before/${team.reviewOffsetDate.toISOString()}`;
 
         this.renderTemplate('team', {
           team,
@@ -355,11 +359,11 @@ class TeamProvider extends AbstractBREADProvider {
 
     let paginationURL;
     if (team.reviewOffsetDate)
-      paginationURL = `/team/${team.id}/feed/before/${team.reviewOffsetDate.toISOString()}`;
+      paginationURL = `/team/${team.urlID}/feed/before/${team.reviewOffsetDate.toISOString()}`;
 
     let vars = {
       team,
-      teamURL: `/team/${team.id}`,
+      teamURL: `/team/${team.urlID}`,
       feedItems: team.reviews,
       titleKey: 'team feed',
       titleParam,
@@ -418,18 +422,18 @@ class TeamProvider extends AbstractBREADProvider {
         newRev.rules.html[language] = f.rules.html[language];
         newRev.onlyModsCanBlog = f.onlyModsCanBlog;
         newRev.modApprovalToJoin = f.modApprovalToJoin;
+
         newRev
-          .save()
-          .then(savedRev => {
-            this.res.redirect(`/team/${savedRev.id}`);
+          .updateSlug(this.req.user, language)
+          .then(updatedRev => {
+            updatedRev
+              .save()
+              .then(savedRev => this.res.redirect(`/team/${savedRev.id}`))
+              .catch(error => this.next(error));
           })
-          .catch(error => { // Saving new revision failed
-            this.next(error);
-          });
+          .catch(error => this.next(error)); // Slug update failed
       })
-      .catch(error => { // Creating new revision failed
-        this.next(error);
-      });
+      .catch(error => this.next(error)); // Creating new revision failed
 
   }
 
@@ -467,9 +471,15 @@ class TeamProvider extends AbstractBREADProvider {
         team.createdOn = new Date();
 
         team
-          .saveAll()
-          .then(team => this.res.redirect(`/team/${team.id}`))
-          // Problem saving team and/or updating user
+          .updateSlug(this.req.user, team.originalLanguage)
+          .then(team => {
+            team
+              .saveAll()
+              .then(team => this.res.redirect(`/team/${team.urlID}`))
+              // Problem saving team and/or updating user
+              .catch(error => this.next(error));
+          })
+          // Problem updating slug
           .catch(error => this.next(error));
       })
       // Problem getting metadata for new revision

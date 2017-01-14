@@ -7,11 +7,11 @@ const i18n = require('i18n');
 
 // Internal dependencies
 const AbstractBREADProvider = require('./abstract-bread-provider');
-const Team = require('../../models/team');
 const BlogPost = require('../../models/blog-post');
 const mlString = require('../../models/helpers/ml-string.js');
 const languages = require('../../locales/languages');
 const feeds = require('../helpers/feeds');
+const slugs = require('../helpers/slugs');
 
 class BlogPostProvider extends AbstractBREADProvider {
 
@@ -44,7 +44,7 @@ class BlogPostProvider extends AbstractBREADProvider {
   browse_GET(team) {
 
     if (this.action == 'browseAtomDetectLanguage')
-      return this.res.redirect(`/team/${team.id}/blog/atom/${this.req.locale}`);
+      return this.res.redirect(`/team/${team.urlID}/blog/atom/${this.req.locale}`);
 
     if (this.language && !languages.isValid(this.language))
       this.language = 'en';
@@ -78,7 +78,7 @@ class BlogPostProvider extends AbstractBREADProvider {
         });
 
 
-        let atomURLPrefix = `/team/${team.id}/blog/atom`;
+        let atomURLPrefix = `/team/${team.urlID}/blog/atom`;
         let atomURLTitleKey = 'atom feed of blog posts by team';
         let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
           atomURLPrefix,
@@ -91,7 +91,7 @@ class BlogPostProvider extends AbstractBREADProvider {
           blogPosts,
           blogPostsUTCISODate: offsetDate ? offsetDate.toISOString() : undefined,
           team,
-          teamURL: `/team/${team.id}`,
+          teamURL: `/team/${team.urlID}`,
           embeddedFeeds,
           deferPageHeader: true // link in title
         };
@@ -102,7 +102,7 @@ class BlogPostProvider extends AbstractBREADProvider {
             language: this.language,
             updatedDate,
             selfURL: url.resolve(config.qualifiedURL, `${atomURLPrefix}/${this.language}`),
-            htmlURL: url.resolve(config.qualifiedURL, `/team/${team.id}/blog`)
+            htmlURL: url.resolve(config.qualifiedURL, `/team/${team.urlID}/blog`)
           });
           this.res.type('application/atom+xml');
           this.renderTemplate('blog-feed-atom', vars);
@@ -127,7 +127,7 @@ class BlogPostProvider extends AbstractBREADProvider {
           blogPost,
           titleKey: 'blog post page title',
           titleParam: mlString.resolve(this.req.language, blogPost.title).str,
-          teamURL: `/team/${team.id}`,
+          teamURL: `/team/${team.urlID}`,
           deferPageHeader: true,
           pageMessages
         });
@@ -202,7 +202,7 @@ class BlogPostProvider extends AbstractBREADProvider {
             newRev.post.html[language] = formValues.post.html[language];
             newRev.save().then(() => {
                 this.req.flash('pageMessages', this.req.__('edit saved'));
-                this.res.redirect(`/team/${team.id}/post/${newRev.id}`);
+                this.res.redirect(`/team/${team.urlID}/post/${newRev.id}`);
               })
               .catch(error => { // Problem saving  updates
                 this.next(error);
@@ -247,7 +247,7 @@ class BlogPostProvider extends AbstractBREADProvider {
         rev
           .save()
           .then(savedRev => {
-            this.res.redirect(`/team/${team.id}/post/${savedRev.id}`);
+            this.res.redirect(`/team/${team.urlID}/post/${savedRev.id}`);
           })
           .catch(error => { // Problem saving revision
             this.next(error);
@@ -337,7 +337,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
 
   loadData() {
-    return Team.getWithData(this.id);
+    return slugs.resolveAndLoadTeam(this.req, this.res, this.id);
   }
 
 

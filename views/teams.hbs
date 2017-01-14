@@ -12,7 +12,7 @@
 </p>
 <div class="team-list">
 {{#each teams}}
-<b><a href='/team/{{this.id}}'>{{{mlString this.name}}}</a></b><br>
+<b><a href='/team/{{{this.urlID}}}'>{{{mlString this.name}}}</a></b><br>
 <i>{{{mlString this.motto false}}}</i>
 <p>
 {{{mlString this.description.html false}}}

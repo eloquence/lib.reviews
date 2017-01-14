@@ -30,6 +30,8 @@ module.exports = function getResourceErrorHandler(req, res, next, messageKeyPref
           bodyParam
         });
         break;
+      case 'RedirectedError':
+        break;
       default:
         return next(error);
     }
