@@ -50,7 +50,7 @@ let teamSchema = {
   userCanDelete: type.virtual().default(false),
 
   urlID: type.virtual().default(function() {
-    return encodeURIComponent(this.canonicalSlugName) || this.id;
+    return this.canonicalSlugName ? encodeURIComponent(this.canonicalSlugName) : this.id;
   }),
 
   // When a user joins this team, they get the permissions defined here.
