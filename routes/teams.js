@@ -2,12 +2,13 @@
 const escapeHTML = require('escape-html');
 
 const TeamProvider = require('./handlers/team-provider');
-const Team = require('../models/team');
 const TeamJoinRequest = require('../models/team-join-request');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
 const mlString = require('../models/helpers/ml-string');
 const languages = require('../locales/languages');
+const slugs = require('./helpers/slugs');
+
 
 // Default routes for read, edit, add, delete
 let router = TeamProvider.bakeRoutes('team');
@@ -111,8 +112,8 @@ router.post('/team/:id/manage-requests', function(req, res, next) {
 // Process join requests, form is on team page itself
 router.post('/team/:id/join', function(req, res, next) {
   let id = req.params.id.trim();
-  Team
-    .getWithData(id)
+  slugs
+    .resolveAndLoadTeam(req, res, id)
     .then(team => {
       team.populateUserInfo(req.user);
       if (!team.userCanJoin)
@@ -154,8 +155,8 @@ router.post('/team/:id/join', function(req, res, next) {
 // Process leave requests, form is on team page itself
 router.post('/team/:id/leave', function(req, res, next) {
   let id = req.params.id.trim();
-  Team
-    .getWithData(id)
+  slugs
+    .resolveAndLoadTeam(req, res, id)
     .then(team => {
       team.populateUserInfo(req.user);
       if (!team.userCanLeave)
