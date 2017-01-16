@@ -348,5 +348,7 @@
     "invite link already used": "This invitation link has already been used to register a user account on lib.reviews. Each invite link can be used exactly once. Please <a href='/register'>request a new invite link</a> or  <a href='https://github.com/eloquence/lib.reviews/issues/new'>let us know</a> if you have received this message in error. Thank you!",
     "language temporarily changed": "Because of the <code>uselang</code> part of the web address, you are viewing this page in <b>English</b> instead of your currently configured language, %1$s. Subsequent pages you load will be in %1$s again.",
     "change language permanently": "Switch permanently to English",
-    "reload this page": "Reload in %s"
+    "reload this page": "Reload in %s",
+    "explore teams": "Explore teams",
+    "team intro": "<a href='/teams'>Teams</a> are groups of like-minded people reviewing things of common interest. Here are a few examples:"
 }

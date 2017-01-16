@@ -10,6 +10,18 @@
 {{/each}}
 </ul>
 {{/if}}
+<h2 class="inline-feed-title">{{{__ "explore teams"}}}</h2><span class="view-all-link"><a href="/teams">{{{__ "view all"}}}</a></span>
+<p>
+{{{__ "team intro"}}}
+<p>
+{{#each sampleTeams}}
+<b><a href="/team/{{{this.urlID}}}">{{{mlString this.name}}}</a></b>
+{{#unless @last}}
+&ndash;
+{{/unless}}
+{{/each}}
+</p>
+
 <h2 class="inline-feed-title">{{{__ "feed"}}}</h2>{{#if feedItems}}<span class="view-all-link"><a href="/feed">{{{__ "view all"}}}</a></span>{{/if}}
 <p>
 {{>feed}}

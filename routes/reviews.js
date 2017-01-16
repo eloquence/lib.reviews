@@ -6,7 +6,8 @@ const config = require('config');
 // Internal dependencies
 const render = require('./helpers/render');
 const feeds = require('./helpers/feeds');
-const Review = require('../models/review.js');
+const Team = require('../models/team');
+const Review = require('../models/review');
 const ReviewProvider = require('./handlers/review-provider');
 const reviewHandlers = require('./handlers/review-handlers');
 const BlogPost = require('../models/blog-post');
@@ -28,9 +29,16 @@ let router = ReviewProvider.bakeRoutes(null, routes);
 // and a feed of recent reviews, filtered to include only trusted ones.
 router.get('/', function(req, res, next) {
 
-  let queries = [Review.getFeed({
+  let queries = [
+    Review.getFeed({
     onlyTrusted: true
-  })];
+    }),
+    // Random example teams
+    Team
+      .filter({ _revDeleted: false }, { default: true })
+      .filter({ _revOf: false }, { default: true })
+      .sample(3)
+  ];
 
   if (config.frontPageTeamBlog)
     queries.push(BlogPost.getMostRecentBlogPostsBySlug(config.frontPageTeamBlog, {
@@ -44,8 +52,9 @@ router.get('/', function(req, res, next) {
     // Promise.all helpfully keeps order in which promises were passed
     let feedItems = queryResults[0].feedItems;
     let offsetDate = queryResults[0].offsetDate;
-    let blogPosts = config.frontPageTeamBlog ? queryResults[1].blogPosts : undefined;
-    let blogPostsOffsetDate = config.frontPageTeamBlog ? queryResults[1].offsetDate : undefined;
+    let sampleTeams = queryResults[1];
+    let blogPosts = config.frontPageTeamBlog ? queryResults[2].blogPosts : undefined;
+    let blogPostsOffsetDate = config.frontPageTeamBlog ? queryResults[2].offsetDate : undefined;
 
     // Set review permissions
     feedItems.forEach(item => {
@@ -87,6 +96,7 @@ router.get('/', function(req, res, next) {
         id: config.frontPageTeamBlog
       } : undefined,
       paginationURL,
+      sampleTeams,
       blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : undefined,
       embeddedFeeds
     });
