@@ -54,7 +54,7 @@ let render = {
 
     vars.qualifiedURL = config.qualifiedURL;
 
-    vars.urlPath = url.parse(req.url).pathname;
+    vars.urlPath = url.parse(req.originalUrl).pathname;
 
     // Non-page specific, will show up if language is changed for this page
     // only because of ?uselang parameter
