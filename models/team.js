@@ -267,6 +267,7 @@ Team.define("updateSlug", function(user, language) {
                   } else {
                     let e = new Error();
                     e.name = 'DuplicateTeamNameError';
+                    e.details = slugName;
                     reject(e);
                   }
                 })

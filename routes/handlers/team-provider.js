@@ -7,11 +7,13 @@ const i18n = require('i18n');
 
 // Internal deps
 const AbstractBREADProvider = require('./abstract-bread-provider');
+const ErrorMessage = require('../../util/error');
 const Team = require('../../models/team');
-const mlString = require('../../models/helpers/ml-string.js');
+const mlString = require('../../models/helpers/ml-string');
 const BlogPost = require('../../models/blog-post');
 const feeds = require('../helpers/feeds');
 const slugs = require('../helpers/slugs');
+const flashError = require('../helpers/flash-error');
 
 class TeamProvider extends AbstractBREADProvider {
 
@@ -431,7 +433,14 @@ class TeamProvider extends AbstractBREADProvider {
               .then(savedRev => this.res.redirect(`/team/${savedRev.id}`))
               .catch(error => this.next(error));
           })
-          .catch(error => this.next(error)); // Slug update failed
+          // Slug update failed
+          .catch(error => {
+            if (error.name === 'DuplicateTeamNameError') {
+                flashError(this.req, new ErrorMessage('duplicate team name', [`/team/${error.details}`]), 'edit team->update slug');
+                return this.edit_GET(formData.formValues);
+            } else
+              return this.next(error);
+          });
       })
       .catch(error => this.next(error)); // Creating new revision failed
 
@@ -480,7 +489,13 @@ class TeamProvider extends AbstractBREADProvider {
               .catch(error => this.next(error));
           })
           // Problem updating slug
-          .catch(error => this.next(error));
+          .catch(error => {
+            if (error.name === 'DuplicateTeamNameError') {
+              flashError(this.req, new ErrorMessage('duplicate team name', [`/team/${error.details}`]), 'add team->update slug');
+              return this.add_GET(formData.formValues);
+            } else
+              return this.next(error);
+          });
       })
       // Problem getting metadata for new revision
       .catch(error => this.next(error));

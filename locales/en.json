@@ -350,5 +350,6 @@
     "change language permanently": "Switch permanently to English",
     "reload this page": "Reload in %s",
     "explore teams": "Explore teams",
-    "team intro": "<a href='/teams'>Teams</a> are groups of like-minded people reviewing things of common interest. Here are a few examples:"
+    "team intro": "<a href='/teams'>Teams</a> are groups of like-minded people reviewing things of common interest. Here are a few examples:",
+    "duplicate team name": "A <a href='%s' target='_blank'>team with this name</a> already exists. Please try a different name."
 }
