@@ -354,5 +354,7 @@
 	"invite link already used": "此邀請連結已被用在註冊一個用戶帳號於lib.reviews上。任一邀請連結僅可被使用一次。請提出<a href='/register'>請求一個新連結</a>或<a href='https://github.com/eloquence/lib.reviews/issues/new'>讓我們知道</a>您在接收訊息時發生的問題。感謝！",
 	"language temporarily changed": "因網址中的<code>uselang</code>段落部份，會讓您查看此頁面是以<b>繁體中文</b>呈現；來取代掉您目前的設置語言，%1$s。後續您載入的頁面將會再次以%1$s顯示。",
 	"change language permanently": "切換為一向使用繁體中文",
-	"reload this page": "重新載入以"
+	"reload this page": "重新載入以",
+	"explore teams": "探索團隊",
+	"team intro": "<a href='/teams'>團隊</a>是個評論共同興趣之志趣相同人們的群組。於此有些例子："
 }

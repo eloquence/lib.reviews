@@ -133,8 +133,8 @@
 	"need delete-action": "A benyújtás nem tartalmazza 'delete-action' paramétert, amely szükséges.",
 	"review deleted": "Értékelés törölve",
 	"review has been deleted": "Az értékelés törölve van. Még elérhető egy adminisztrátornak, de törlődhet is, egy rutin adatbázis karbantartáskor.",
-	"editing in language": "<b>Tipp:</b> Te most az <b>angol</b> változatot szerkeszted. Hogy egy másik nyelven szerkeszd, válaszd ki a lap alján (formai változások elvesznek).",
-	"writing a review in language": "<b>Tipp:</b> A lib.reviews egy többnyelvű weboldal. Te egy <b>angol</b> nyelvű értékelést írsz. Hogy másik nyelven írd, válaszd ki a lap alján (a tartalom ki fog ürülni).",
+	"editing in language": "<b>Tipp:</b> Te most az <b>magyar</b> változatot szerkeszted. Hogy egy másik nyelven szerkeszd, válaszd ki a lap alján (formai változások elvesznek).",
+	"writing a review in language": "<b>Tipp:</b> A lib.reviews egy többnyelvű weboldal. Te egy <b>magyar</b> nyelvű értékelést írsz. Hogy másik nyelven írd, válaszd ki a lap alján (a tartalom ki fog ürülni).",
 	"never show this again": "Többször ne mutassa",
 	"notice suppressed": "Értesítés elnyomva",
 	"notices of type suppressed": "A következő típusú értesítések többé nem lesznek mutatva:",
@@ -146,7 +146,7 @@
 	"could not complete action": "Volt egy kis probléma a szükséges intézkedés végrehajtásakor, sajnáljuk! Ez talán egy Internetkapcsolódási hiba, vagy egy kódolási hiba, a mi oldalunkról.",
 	"site notification": "<b>Értesítés:</b> %s",
 	"site error": "<b>Hiba:</b> %s",
-	"notification language-changed": "Megváltoztatta a nyelvet. Ez azt jelenti, hogy amikor tartalmat hoz létre vagy szerkeszti azt, feltételezzük, hogy <b>angolul</b> teszi. Mi majd mutatunk neked egy kis jelzőt, mikor a tartalom egy másik nyelven van, mint amit beállítottál (segíthetsz a fordításban).",
+	"notification language-changed": "Megváltoztatta a nyelvet. Ez azt jelenti, hogy amikor tartalmat hoz létre vagy szerkeszti azt, feltételezzük, hogy <b>magyarul</b> teszi. Mi majd mutatunk neked egy kis jelzőt, mikor a tartalom egy másik nyelven van, mint amit beállítottál (segíthetsz a fordításban).",
 	"invalid language": "A szükséges nyelv nem érvényes vagy nem ismert.",
 	"edit saved": "A szerkesztésedet elmentettük. Beep boop!",
 	"current language": "Nyelv: %s",
@@ -351,7 +351,9 @@
 	"invite link invalid": "A meghívó kód, amelyet megadtál érvénytelen. Kérjük, <a href='/register'>kérj még egyet</a> vagy <a href='https://github.com/eloquence/lib.reviews/issues/new'>írd meg nekünk</a>, ha a probléma továbbra is fennáll. Köszönjük!",
 	"invite link already used title": "A meghívó linket már használták",
 	"invite link already used": "Ezt a meghívó linket már használta egy felhasználó, lib.reviews fiók létrehozására. Minden meghívó link csak egyszer használható. Kérjük <a href='/register'>kérj egy másik meghívó linket</a> vagy  <a href='https://github.com/eloquence/lib.reviews/issues/new'>írd meg nekünk</a>, ha a probléma továbbra is fennáll. Köszönjük!",
-	"language temporarily changed": "A webcím <code>uselang</code> része miatt, te most ezt az oldalt <b>angolul</b> nézed, a jelenleg beállított nyelved, a %1$s helyett. A következő oldalak majd újra %1$s nyelven fognak betöltődni.",
+	"language temporarily changed": "A webcím <code>uselang</code> része miatt, te most ezt az oldalt <b>magyarul</b> nézed, a jelenleg beállított nyelved, a %1$s helyett. A következő oldalak majd újra %1$s nyelven fognak betöltődni.",
 	"change language permanently": "Váltás állandóan angolra",
-	"reload this page": "Újratöltés %s nyelven"
+	"reload this page": "Újratöltés %s nyelven",
+	"explore teams": "Csapatok felfedezése",
+	"team intro": "A <a href='/teams'>csapatok</a> olyan személyek csoportja, akiknek hasonló az érdeklődési körük. Itt van néhány példa:"
 }

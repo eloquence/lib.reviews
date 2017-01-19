@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"NMaia"
+			"NMaia",
+			"HenriqueCrang"
 		]
 	},
 	"site name": "lib.reviews",
@@ -353,5 +354,7 @@
 	"invite link already used": "Este link de convite já foi usado para registrar uma conta de usuário no lib.reviews. Cada link de convite pode ser usado apenas uma vez. Por favor, <a href='/register'>peça um novo link de convite</a> ou  <a href='https://github.com/eloquence/lib.reviews/issues/new'>nos avise</a> se você recebeu essa mensagem devido a um erro. Obrigado!",
 	"language temporarily changed": "Devido à parte <code>uselang</code> deste endereço da web, você está vendo esta página em <b>português</b> em vez do seu idioma configurado, %1$s. As páginas seguintes que você carregar estarão em %1$s novamente.",
 	"change language permanently": "Mudar permanentemente para português",
-	"reload this page": "Recarregar em %s"
+	"reload this page": "Recarregar em %s",
+	"explore teams": "Explorar equipes",
+	"team intro": "<a href='/teams'>Equipes</a> são grupos de pessoas com visões semelhantes revisando coisas de interesse comum. Aqui estão alguns exemplos:"
 }
