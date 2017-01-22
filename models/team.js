@@ -8,6 +8,7 @@ const isValidLanguage = require('../locales/languages').isValid;
 const User = require('./user');
 const Review = require('./review');
 const TeamSlug = require('./team-slug');
+const generateSlugName = require('./helpers/slug-name');
 
 let teamSchema = {
   id: type.string(),
@@ -229,7 +230,7 @@ Team.define("updateSlug", function(user, language) {
     let slugName;
 
     try {
-      slugName = TeamSlug.generateSlug(teamName.str);
+      slugName = generateSlugName(teamName.str);
     } catch (error) {
       return reject(error);
     }
