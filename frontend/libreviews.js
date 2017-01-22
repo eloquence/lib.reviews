@@ -185,12 +185,21 @@
     // element, typically an input)
     $('[data-help-for]').each(function() {
       let inputID = $(this).attr('data-help-for');
-      $(`#${inputID}`).focus(showInputHelp);
-      $(`#${inputID}`).blur(hideInputHelp);
+      let $input = $(`#${inputID}`);
+      $input.focus(showInputHelp);
+      $input.blur(hideInputHelp);
+      // Re-calculate positioning of help in case of resizes
+      if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(window.libreviews.repaintFocusedHelp).observe($input[0], {
+          attributes: true,
+          attributeFilter: ['style']
+        });
+      }
     });
 
     // Re-calculate positioning of help on window resize
     $(window).resize(window.libreviews.repaintFocusedHelp);
+
   }
 
   // Show/hide parts of a page dynamically
@@ -253,22 +262,35 @@
     // We want to avoid pushing down the next form field, so we use
     // absolute positioning if available.
     if (this.getBoundingClientRect && $(`label[for=${id}]`)[0]) {
-      let pos, posHelp;
-      pos = $(`label[for=${id}]`)[0].getBoundingClientRect();
+      let posHelp, posLabel;
+      posLabel = $(`label[for=${id}]`)[0].getBoundingClientRect();
       posHelp = $(`#${id}-help`)[0].getBoundingClientRect();
 
-      if (posHelp.left > pos.right) {
-        let newPos = Math.floor(window.scrollY) + Math.floor(pos.top);
+      // Recaculate boundaries for all inputs in case fields have been resized,
+      // e.g., textarea via resize triangle. We don't want any help text to
+      // start before the rightmost one, so that it doesn't bleed into the
+      // control below it
+      let maxRight;
+      $(this)
+        .parents('form')
+        .find('input,textarea')
+        .each(function() {
+          let eleRight = this.getBoundingClientRect().right;
+          if (maxRight === undefined || maxRight < eleRight)
+            maxRight = eleRight;
+        });
+
+      if (posHelp.left > posLabel.right && window.innerWidth > posLabel.width + posHelp.width) {
         // Position vertically aligned with the input we're showing help for
-        let style = `position:absolute;top:${newPos}px;display:inline-block;`;
+        let newTopPos = Math.floor(window.scrollY) + Math.floor(posLabel.top);
+        let newLeftPos = maxRight + 5;
+        let style = `position:absolute;top:${newTopPos}px;display:inline-block;left:${newLeftPos}px;`;
         $(`#${id}-help`).attr('style', style);
       } else {
         // Reset position
         $(`#${id}-help`).attr('style', 'display:inline-block;');
       }
     }
-    // For additional help-related logic
-    $('#help').attr('data-last-shown', id);
   }
 
   function hideInputHelp() {
