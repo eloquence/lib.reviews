@@ -316,7 +316,7 @@
 	"upload needs license": "Wir benötigen Infos über die Lizenz für die Datei '%s'.",
 	"teams to associate": "Verknüpfe diese Rezension mit Teams (optional)",
 	"not member of any teams yet": "Du bist noch nicht Mitglied eines Teams. Durch Mitgliedschaft in einem Team findest du andere Nutzer mit ähnlichen Interessen und organisierst deine Rezensionen. <a href='/teams' target='_blank'>Tritt einem Team bei.</a>",
-	"submitted team could not be found": "Der relevante Eintrag für das Team, dem du beitreten möchtest, konnte nicht gefunden werden. Vielleicht wurde es gelöscht_",
+	"submitted team could not be found": "Der relevante Eintrag für das Team, dem du beitreten möchtest, konnte nicht gefunden werden. Vielleicht wurde es gelöscht?",
 	"user is not member of submitted team": "Du scheinst nicht Mitglied des Teams zu sein, das du eingesendet hast. Vielleicht hast du gerade das Team verlassen?",
 	"posted under": "Einsortiert unter:",
 	"team page": "(Team-Seite)",
