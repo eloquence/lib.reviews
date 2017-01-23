@@ -356,5 +356,7 @@
 	"change language permanently": "切換為一向使用繁體中文",
 	"reload this page": "重新載入以",
 	"explore teams": "探索團隊",
-	"team intro": "<a href='/teams'>團隊</a>是個評論共同興趣之志趣相同人們的群組。於此有些例子："
+	"team intro": "<a href='/teams'>團隊</a>是個由志趣相同人們來評論共同興趣的群組。以下有些例子：",
+	"duplicate team name": "<a href='%s' target='_blank'>此名稱的團隊</a>已存在。請使用別的名稱。",
+	"thing label help": "標籤可識別出一個評論的<i>主題</i>。請使用準確的名稱或不待修飾的標題，例如：<i>2001：太空漫遊</i>或<i>DNA Lounge夜總會</i>。"
 }

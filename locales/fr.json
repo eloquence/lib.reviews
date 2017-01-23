@@ -360,5 +360,7 @@
 	"change language permanently": "Basculer vers français de façon permanente",
 	"reload this page": "Recharger en %s",
 	"explore teams": "Explorer les équipes",
-	"team intro": "Les <a href='/teams'>équipes</a> sont des groupes de personnes ayant les mêmes idées et examinant des choses d’intérêt commun. Voici quelques exemples :"
+	"team intro": "Les <a href='/teams'>équipes</a> sont des groupes de personnes ayant les mêmes idées et examinant des choses d’intérêt commun. Voici quelques exemples :",
+	"duplicate team name": "Une <a href='%s' target='_blank'>équipe portant ce nom</a> existe déjà. Veuillez essayer avec un autre nom.",
+	"thing label help": "Un libellé identifie le <i>sujet</i> d’une critique. Utiliser le nom exact ou le titre sans qualifieurs. Par exemple : <i>2001: Une odyssée de l’espace</i> ou <i>Bar à ADN</i>."
 }
