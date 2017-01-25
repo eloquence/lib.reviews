@@ -188,10 +188,10 @@ function getApp(db = require('./db')) {
     app.use('/', pages);
     app.use('/', reviews);
     app.use('/', actions);
-    app.use('/', things);
     app.use('/', teams);
     app.use('/', blogPosts);
     app.use('/user', users);
+    app.use('/', things);
 
     // Catches 404s and serves "not found" page
     app.use(errorProvider.notFound);

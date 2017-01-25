@@ -96,7 +96,7 @@ hbs.registerHelper('substitute', function(...args) {
 
 hbs.registerHelper('getThingLink', (thing, options) => {
   let label = Thing.getLabel(thing, options.data.root.locale);
-  return `<a href="/thing/${thing.id}">${label}</a>`;
+  return `<a href="/${thing.urlID}">${label}</a>`;
 });
 
 // Filenames cannot contain HTML metacharacters, so URL encoding is sufficient here

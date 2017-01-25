@@ -12,10 +12,10 @@ const isSVG = require('is-svg');
 const config = require('config');
 
 // Internal dependencies
-const Thing = require('../models/thing');
 const File = require('../models/file');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
+const slugs = require('./helpers/slugs');
 const debug = require('../util/debug');
 const ErrorMessage = require('../util/error');
 const flashError = require('./helpers/flash-error');
@@ -30,7 +30,7 @@ const allowedTypes = ['image/png', 'image/gif', 'image/svg+xml', 'image/jpeg', '
 // Whether or not an upload is finished, as long as we have a valid file, we
 // keep it on disk, initially in a temporary directory. We also create a
 // record in the "files" table for it that can be completed later.
-router.post('/thing/:id/upload', function(req, res, next) {
+router.post('/:id/upload', function(req, res, next) {
 
   // req.body won't be populated if this is a multipart request, and we pass
   // it along to the middleware for step 2, which can be found in things.js
@@ -38,7 +38,7 @@ router.post('/thing/:id/upload', function(req, res, next) {
     return next();
 
   let id = req.params.id.trim();
-  Thing.getNotStaleOrDeleted(id)
+  slugs.resolveAndLoadThing(req, res, id)
     .then(thing => {
 
       thing.populateUserInfo(req.user);
@@ -73,7 +73,7 @@ router.post('/thing/:id/upload', function(req, res, next) {
         if (error) {
           cleanupFiles(req);
           flashError(req, error);
-          return res.redirect(`/thing/${thing.id}`);
+          return res.redirect(`/${thing.urlID}`);
         }
 
         if (req.files.length) {
@@ -115,12 +115,12 @@ router.post('/thing/:id/upload', function(req, res, next) {
             .catch(error => { // One of the files couldn't be validated
               cleanupFiles(req);
               flashError(req, error);
-              res.redirect(`/thing/${thing.id}`);
+              res.redirect(`/${thing.urlID}`);
             });
 
         } else {
           req.flash('pageErrors', req.__('no file received'));
-          res.redirect(`/thing/${thing.id}`);
+          res.redirect(`/${thing.urlID}`);
         }
       });
 

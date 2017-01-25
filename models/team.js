@@ -1,14 +1,16 @@
 'use strict';
+// Internal dependencies
 const thinky = require('../db');
 const type = thinky.type;
 const r = thinky.r;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
+const slugName = require('./helpers/slug-name');
+const getSetIDHandler = require('./helpers/set-id');
 const isValidLanguage = require('../locales/languages').isValid;
 const User = require('./user');
 const Review = require('./review');
 const TeamSlug = require('./team-slug');
-const generateSlugName = require('./helpers/slug-name');
 
 let teamSchema = {
   id: type.string(),
@@ -211,96 +213,12 @@ Team.define("populateUserInfo", function(user) {
 
 // Update the slug if an update is needed. Modifies the team object but does
 // not save it.
-//
-// We currently don't limit the number of renames, since we track authorship
-// and can therefore nuke spammers fairly easily.
-Team.define("updateSlug", function(user, language) {
-  let team = this;
-  return new Promise((resolve, reject) => {
+Team.define("updateSlug", slugName.getUpdateSlugHandler({
+  SlugModel: TeamSlug,
+  slugForeignKey: 'teamID',
+  slugSourceField: 'name'
+}));
 
-    // No update needed if changing language other than original.
-    if (language !== team.originalLanguage)
-      return resolve(team);
-
-    let teamName = mlString.resolve(language, team.name);
-
-    if (typeof teamName !== 'object')
-      return reject(new Error('Invalid team name.'));
-
-    let slugName;
-
-    try {
-      slugName = generateSlugName(teamName.str);
-    } catch (error) {
-      return reject(error);
-    }
-
-    // No update needed if name hasn't changed
-    if (slugName === team.canonicalSlugName)
-      return resolve(team);
-
-    team.canonicalSlugName = slugName;
-
-    team
-      // If this is a new revision, it does not have a primary key yet
-      .setID()
-      .then(team => {
-        // Create new slug
-        let slug = new TeamSlug({
-          name: slugName,
-          teamID: team.id,
-          createdOn: new Date(),
-          createdBy: user.id
-        });
-
-        slug
-          .save()
-          .then(() => resolve(team))
-          .catch(error => {
-
-            if (error.name === 'DuplicatePrimaryKeyError') {
-              TeamSlug
-                .get(slugName)
-                .then(slug => {
-                  // We already have this slug; let's call it a day
-                  if (slug.teamID === team.id) {
-                    resolve(team);
-                  } else {
-                    let e = new Error();
-                    e.name = 'DuplicateTeamNameError';
-                    e.details = slugName;
-                    reject(e);
-                  }
-                })
-                .catch(error => reject(error)); // Trouble looking up slug
-            } else {
-              reject(error);
-            }
-          });
-      })
-      .catch(error => reject(error)); // Problem obtaining ID for team
-  });
-
-});
-
-// If no ID is set for this team yet, obtain one and set it. This lets us
-// perform the slug operations before we save the associated team.
-Team.define("setID", function() {
-  let team = this;
-  return new Promise((resolve, reject) => {
-    if (team.id)
-      resolve(team);
-    else {
-      r
-        .uuid()
-        .then(uuid => {
-          team.id = uuid;
-          resolve(team);
-        })
-        .catch(error => reject(error));
-    }
-  });
-
-});
+Team.define("setID", getSetIDHandler());
 
 module.exports = Team;

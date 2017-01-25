@@ -158,7 +158,7 @@ class ReviewProvider extends AbstractBREADProvider {
             this.req.user
               .save()
               .then(() => {
-                this.res.redirect(`/thing/${review.thing.id}#your-review`);
+                this.res.redirect(`/${review.thing.id}#your-review`);
               })
               .catch(error => this.next(error)); // Problem updating invite count
           })

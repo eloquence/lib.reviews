@@ -3,11 +3,15 @@ const thinky = require('../db');
 const r = thinky.r;
 const type = thinky.type;
 
-const ErrorMessage = require('../util/error.js');
+const ErrorMessage = require('../util/error');
 const urlUtils = require('../util/url-utils');
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
+const slugName = require('./helpers/slug-name');
+const getSetIDHandler = require('./helpers/set-id');
 const File = require('./file');
+const ThingSlug = require('./thing-slug');
+const isValidLanguage = require('../locales/languages').isValid;
 
 let thingSchema = {
 
@@ -27,8 +31,16 @@ let thingSchema = {
     maxLength: 512
   }),
 
-  // First element is used for main part of canonical URL given to this thing, others redirect
-  slugs: [type.string()],
+  originalLanguage: type
+    .string()
+    .max(4)
+    .validator(isValidLanguage),
+
+  canonicalSlugName: type.string(),
+
+  urlID: type.virtual().default(function() {
+    return this.canonicalSlugName ? encodeURIComponent(this.canonicalSlugName) : this.id;
+  }),
 
   // We can set one or many types which determine which metadata cen be added about this thing
   isA: [type.string()],
@@ -64,6 +76,10 @@ Thing.hasAndBelongsToMany(File, "files", "id", "id", {
 File.hasAndBelongsToMany(Thing, "things", "id", "id", {
   type: 'media_usage'
 });
+
+Thing.hasOne(ThingSlug, "slug", "id", "thingID");
+
+ThingSlug.belongsTo(Thing, "thing", "thingID", "thing");
 
 Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Thing);
 
@@ -113,6 +129,18 @@ Thing.define("addFile", function(filename) {
 });
 Thing.define("newRevision", revision.getNewRevisionHandler(Thing));
 Thing.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Thing));
+
+// Update the slug if an update is needed. Modifies the team object but does
+// not save it.
+Thing.define("updateSlug", slugName.getUpdateSlugHandler({
+  SlugModel: ThingSlug,
+  slugForeignKey: 'thingID',
+  slugSourceField: 'label'
+}));
+
+Thing.define("setID", getSetIDHandler());
+
+
 Thing.define("populateUserInfo", function(user) {
   if (!user)
     return; // Permissions will be at their default value (false)
@@ -179,22 +207,10 @@ Thing.getLabel = function(thing, language) {
 };
 
 
-// Resolve common errors to standard error messages
-Thing.resolveError = function(error) {
-  let msg = error.message;
-  let matches = msg.match(/Extra field `(.*?)` in \[label\] not allowed./);
-  if (matches)
-    return new ErrorMessage('invalid language code', [matches[1]], error);
-
-  return error;
-
-};
-
-
 // Internal helper functions
 
 function _isValidURL(url) {
-  let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+  let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|\/|\?)*)?$/i;
   if (urlRegex.test(url))
     return true;
   else

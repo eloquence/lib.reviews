@@ -43,11 +43,6 @@ let routeTests = [{
     regex: /Downloads/
   },
   {
-    path: '/+not+a+page+',
-    status: 404,
-    regex: /Page not found/
-  },
-  {
     path: '/review/+not+a+review+',
     status: 404,
     regex: /Review not found/
@@ -58,7 +53,7 @@ let routeTests = [{
     regex: /Team not found/
   },
   {
-    path: '/thing/+not+a+thing+',
+    path: '/+not+a+thing+',
     status: 404,
     regex: /Thing not found/
   }

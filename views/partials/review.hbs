@@ -8,7 +8,7 @@
 {{/if}}
 {{#if review.thing.id}}
 <div class="review-thing-link">
-<span class="fa fa-info-circle spaced-icon"></span><a href="/thing/{{review.thing.id}}">{{{__ "more info"}}}</a>
+<span class="fa fa-info-circle spaced-icon"></span><a href="/{{{review.thing.urlID}}}">{{{__ "more info"}}}</a>
 </div>
 {{/if}}
 </div>
@@ -30,7 +30,7 @@
   {{#if review.teams}}
   {{{__ "posted under"}}}
   {{#each review.teams}}
-  <a href="/team/{{this.id}}">{{{mlString this.name}}}</a>{{#unless @last}},{{/unless}}
+  <a href="/team/{{this.urlID}}">{{{mlString this.name}}}</a>{{#unless @last}},{{/unless}}
   {{/each}}
   <br style="clear:both;">
   {{/if}}

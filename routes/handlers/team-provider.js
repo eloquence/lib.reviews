@@ -353,7 +353,7 @@ class TeamProvider extends AbstractBREADProvider {
     let titleParam = mlString.resolve(this.req.locale, team.name).str;
 
     // Atom feed metadata for <link> tags in HTML version
-    let atomURLPrefix = `/team/${this.id}/feed/atom`;
+    let atomURLPrefix = `/team/${this.urlID}/feed/atom`;
     let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
       atomURLPrefix,
       atomURLTitleKey: 'atom feed of reviews by team'
@@ -382,7 +382,7 @@ class TeamProvider extends AbstractBREADProvider {
           language: this.language,
           updatedDate,
           selfURL: url.resolve(config.qualifiedURL, `${atomURLPrefix}/${this.language}`),
-          htmlURL: url.resolve(config.qualifiedURL, `/team/${this.id}/feed`)
+          htmlURL: url.resolve(config.qualifiedURL, `/team/${this.urlID}/feed`)
         });
         this.res.type('application/atom+xml');
         this.renderTemplate('review-feed-atom', vars);
@@ -430,12 +430,12 @@ class TeamProvider extends AbstractBREADProvider {
           .then(updatedRev => {
             updatedRev
               .save()
-              .then(savedRev => this.res.redirect(`/team/${savedRev.id}`))
+              .then(savedRev => this.res.redirect(`/team/${savedRev.urlID}`))
               .catch(error => this.next(error));
           })
           // Slug update failed
           .catch(error => {
-            if (error.name === 'DuplicateTeamNameError') {
+            if (error.name === 'DuplicateSlugNameError') {
                 flashError(this.req, new ErrorMessage('duplicate team name', [`/team/${error.details}`]), 'edit team->update slug');
                 return this.edit_GET(formData.formValues);
             } else
@@ -490,7 +490,7 @@ class TeamProvider extends AbstractBREADProvider {
           })
           // Problem updating slug
           .catch(error => {
-            if (error.name === 'DuplicateTeamNameError') {
+            if (error.name === 'DuplicateSlugNameError') {
               flashError(this.req, new ErrorMessage('duplicate team name', [`/team/${error.details}`]), 'add team->update slug');
               return this.add_GET(formData.formValues);
             } else

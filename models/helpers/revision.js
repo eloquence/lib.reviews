@@ -3,7 +3,7 @@ const thinky = require('../../db');
 const r = thinky.r;
 const type = thinky.type;
 
-let revision = {
+const revision = {
 
   getNewRevisionHandler(Model) {
     return function(user, options) {

@@ -17,7 +17,7 @@ const BlogPost = require('../models/blog-post');
 let routes = ReviewProvider.getDefaultRoutes('review');
 
 routes.addFromThing = {
-  path: '/new/review/thing/:id',
+  path: '/new/review/:id',
   methods: ['GET', 'POST']
 };
 

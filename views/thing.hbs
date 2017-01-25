@@ -10,11 +10,11 @@
 {{#if edit.label}}
   <h1 id="page-header">{{{__ titleKey}}}</h1>
   <form class="pure-form pure-form-aligned" method="post" action="">
-  <input type="text" class="pure-input-1-2" id="thing-edit-label" name="thing-label" value="{{mlString thing.label false}}" placeholder="{{{__ "enter label"}}}" size="64" data-auto-trim>
+  <input type="text" class="pure-input-1-2" id="thing-edit-label" name="thing-label" value="{{{mlString thing.label false}}}" placeholder="{{{__ "enter label"}}}" size="64" data-auto-trim>
   <input type="hidden" value="{{csrfToken}}" name="_csrf">
   <input type="hidden" name="thing-label-language" value="{{currentLanguage.langKey}}">
   <button type="submit" id="save" name="thing-action" value="save" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "save"}}}</button>
-  <a class="cancel-link" href="/thing/{{thing.id}}">{{__ "cancel"}}</a>
+  <a class="cancel-link" href="/{{{thing.urlID}}}">{{__ "cancel"}}</a>
   <p>
   <span class="fa fa-question-circle info-icon spaced-icon"></span>{{{__ "thing label help"}}}
   </form>
@@ -23,7 +23,7 @@
   <h1 id="page-header">
   {{{getThingLabel thing}}}
   {{#if thing.userCanEdit}}
-  <a href="/thing/{{thing.id}}/edit/label" id="add-label" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>
+  <a href="/{{{thing.urlID}}}/edit/label" id="add-label" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>
     {{#if (mlString thing.label)}}{{{__ "edit"}}}{{else}}{{{__ "add label"}}}{{/if}}
   </a>
   {{/if}}
@@ -69,7 +69,7 @@
 {{#if user}}
 {{#unless userReviews}}
 {{#unless edit.label}}
-<a href="/new/review/thing/{{thing.id}}" id="add-review" class="pure-button button-rounded"><span class="fa fa-plus-circle spaced-icon"></span>{{{__ "add your review"}}}</a>
+<a href="/new/review/{{{thing.urlID}}}" id="add-review" class="pure-button button-rounded"><span class="fa fa-plus-circle spaced-icon"></span>{{{__ "add your review"}}}</a>
 {{/unless}}
 {{/unless}}
 {{#if thing.userCanUpload}}

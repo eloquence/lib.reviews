@@ -68,6 +68,12 @@ let languages = {
     return validLanguages.indexOf(langKey) !== -1;
   },
 
+  // throws InvalidLanguageError
+  validate(langKey) {
+    if (!this.isValid(langKey))
+      throw new InvalidLanguageError(langKey);
+  },
+
   // Returns an array of fallback languages to try first when selecting
   // which language version to show. We return English as a fallback
   // if we don't have a better answer, since it's the most widely spoken
@@ -87,5 +93,15 @@ let languages = {
   }
 
 };
+
+class InvalidLanguageError extends Error {
+  constructor(langCode) {
+    super();
+    this.name = 'InvalidLanguageError';
+    this.message = 'Invalid language error';
+    this.userMessage = 'invalid language code';
+    this.details = langCode;
+  }
+}
 
 module.exports = languages;
