@@ -355,5 +355,7 @@
 	"change language permanently": "永久切换为简体中文",
 	"reload this page": "以%s重新加载",
 	"explore teams": "探索团队",
-	"team intro": "<a href='/teams'>团队</a>是审查共同兴趣事物的志同道合的人们所组建的群组。这里有一些例子："
+	"team intro": "<a href='/teams'>团队</a>是审查共同兴趣事物的志同道合的人们所组建的群组。这里有一些例子：",
+	"duplicate team name": "<a href='%s' target='_blank'>此名称的团队</a>已存在。请尝试不同的名称。",
+	"thing label help": "标签识别审查的<i>主题</i>。使用确切名称或不带修饰词的标题。例如：<i>2001：太空漫游</i>或<i>DNA休息室</i>。"
 }

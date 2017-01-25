@@ -355,5 +355,7 @@
 	"change language permanently": "Váltás állandóan angolra",
 	"reload this page": "Újratöltés %s nyelven",
 	"explore teams": "Csapatok felfedezése",
-	"team intro": "A <a href='/teams'>csapatok</a> olyan személyek csoportja, akiknek hasonló az érdeklődési körük. Itt van néhány példa:"
+	"team intro": "A <a href='/teams'>csapatok</a> olyan személyek csoportja, akiknek hasonló az érdeklődési körük. Itt van néhány példa:",
+	"duplicate team name": "Már létezik egy <a href='%s' target='_blank'>csapat ezzel a névvel</a>. Kérjük, válassz egy másik nevet.",
+	"thing label help": "A címkékkel azonosíthatóak az értékelések <i>témái</i>. Használj pontos nevet vagy címet, minősítés nélkül. Például: <i>2001: Űrodüsszeia</i> vagy <i>DNA Lounge</i>."
 }

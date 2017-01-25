@@ -357,5 +357,7 @@
 	"change language permanently": "Dauerhaft zu Deutsch wechseln",
 	"reload this page": "Auf %s neu laden",
 	"explore teams": "Teams entdecken",
-	"team intro": "<a href='/teams'>Teams</a> sind Gruppen gleichgesinnter Menschen, die Dinge von allgemeinem Interesse rezensieren. Hier sind einige Beispiele:"
+	"team intro": "<a href='/teams'>Teams</a> sind Gruppen gleichgesinnter Menschen, die Dinge von allgemeinem Interesse rezensieren. Hier sind einige Beispiele:",
+	"duplicate team name": "Ein <a href='%s' target='_blank'>Team mit diesem Namen</a> ist bereits vorhanden. Bitte versuche es mit einem anderen Namen.",
+	"thing label help": "Ein Titel kennzeichnet das <i>Thema</i> einer Rezension. Verwende den genauen Namen oder Titel ohne die Qualifikatoren. Zum Beispiel: <i>2001: A Space Odyssey</i> oder <i>DNA Lounge</i>."
 }
