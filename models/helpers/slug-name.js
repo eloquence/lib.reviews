@@ -1,6 +1,7 @@
 'use strict';
 // External dependencies
 const unescapeHTML = require('unescape-html');
+const isUUID = require('is-uuid');
 
 // Internal dependencies
 const mlString = require('./ml-string');
@@ -119,6 +120,9 @@ const slugNameHelper = {
 
     if (!slugName)
       throw new InvalidSlugStringError(`Source string '${str}' cannot be converted to a valid slug.`); // Expected depending on user input
+
+    if (isUUID.v4(slugName))
+      throw new InvalidSlugStringError('Source string cannot be a UUID.');
 
     return slugName;
   }
