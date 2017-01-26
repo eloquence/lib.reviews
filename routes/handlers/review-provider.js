@@ -4,7 +4,6 @@ const config = require('config');
 
 // Internal dependencies
 const Review = require('../../models/review');
-const Thing = require('../../models/thing');
 const Team = require('../../models/team');
 const AbstractBREADProvider = require('./abstract-bread-provider');
 const flashError = require('../helpers/flash-error');
@@ -12,6 +11,7 @@ const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
 const ErrorMessage = require('../../util/error.js');
 const md = require('../../util/md');
+const slugs = require('../helpers/slugs');
 
 class ReviewProvider extends AbstractBREADProvider {
 
@@ -198,7 +198,7 @@ class ReviewProvider extends AbstractBREADProvider {
     // Ensure we show "thing not found" error if user tries to create
     // review from a nonexistent/stale/deleted thing
     this.messageKeyPrefix = 'thing';
-    return Thing.getNotStaleOrDeleted(this.id);
+    return slugs.resolveAndLoadThing(this.req, this.res, this.id);
 
   }
 
