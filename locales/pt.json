@@ -356,5 +356,7 @@
 	"change language permanently": "Mudar permanentemente para português",
 	"reload this page": "Recarregar em %s",
 	"explore teams": "Explorar equipes",
-	"team intro": "<a href='/teams'>Equipes</a> são grupos de pessoas com visões semelhantes revisando coisas de interesse comum. Aqui estão alguns exemplos:"
+	"team intro": "<a href='/teams'>Equipes</a> são grupos de pessoas com visões semelhantes revisando coisas de interesse comum. Aqui estão alguns exemplos:",
+	"duplicate team name": "Uma <a href='%s' target='_blank'>equipe com este nome</a> já existe. Por favor, tente um nome diferente.",
+	"thing label help": "Uma etiqueta identifica o <i>tópico</i> da resenha. Use o nome exato ou título sem alterações. Por exemplo: <i>A Paixão segundo G.H.</i> ou <i>O Ano em que Meus Pais Saíram de Férias</i>."
 }
