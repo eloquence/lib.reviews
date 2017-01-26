@@ -101,7 +101,7 @@ router.get('/', function(req, res, next) {
       embeddedFeeds
     });
   })
-  .catch(error => next(error));
+  .catch(next);
 
 });
 

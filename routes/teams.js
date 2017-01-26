@@ -135,7 +135,7 @@ router.post('/team/:id/join', function(req, res, next) {
         teamJoinRequest.save().then(() => {
           res.redirect(`/team/${id}`);
         })
-        .catch(error => next(error)); // Problem saving join request
+        .catch(next); // Problem saving join request
 
       } else {  // No approval required, just add the new member
 
@@ -146,7 +146,7 @@ router.post('/team/:id/join', function(req, res, next) {
             req.flash('pageMessages', req.__('welcome to the team'));
             res.redirect(`/team/${id}`);
           })
-          .catch(error => next(error)); // Problem saving user changes
+          .catch(next); // Problem saving user changes
       }
     })
     .catch(getResourceErrorHandler(req, res, next, 'team', id));
@@ -170,7 +170,7 @@ router.post('/team/:id/leave', function(req, res, next) {
           req.flash('pageMessages', req.__('goodbye team'));
           res.redirect(`/team/${id}`);
         })
-        .catch(error => next(error)); // Problem saving user changes
+        .catch(next); // Problem saving user changes
     })
     .catch(getResourceErrorHandler(req, res, next, 'team', id));
 });

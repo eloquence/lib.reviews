@@ -108,9 +108,9 @@ router.post('/:id/upload', function(req, res, next) {
                         titleKey: 'add media',
                         thing
                       }))
-                    .catch(error => next(error)); // Problem saving file metadata
+                    .catch(next); // Problem saving file metadata
                 })
-                .catch(error => next(error)); // Problem starting file revisions
+                .catch(next); // Problem starting file revisions
             })
             .catch(error => { // One of the files couldn't be validated
               cleanupFiles(req);

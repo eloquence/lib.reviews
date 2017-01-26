@@ -112,9 +112,7 @@ let reviewHandlers = {
           } else
             throw new Error(`Format '${options.format}' not supported.`);
         })
-        .catch(error => {
-          next(error);
-        });
+        .catch(next);
     };
   }
 };

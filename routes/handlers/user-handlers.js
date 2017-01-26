@@ -48,9 +48,7 @@ let userHandlers = {
             .then(() => {
               res.redirect(`/user/${user.urlName}`);
             })
-            .catch(error => {
-              next(error);
-            });
+            .catch(next);
         } else {
           user.meta
             .newRevision(req.user, {
@@ -67,13 +65,9 @@ let userHandlers = {
                 .then(() => {
                   res.redirect(`/user/${user.urlName}`);
                 })
-                .catch(error => { // Problem saving metadata
-                  next(error);
-                });
+                .catch(next); // Problem saving metadata
             })
-            .catch(error => { // Problem creating metadata revision
-              next(error);
-            });
+            .catch(next); // Problem creating metadata revision
         }
       })
       .catch(userHandlers.getUserNotFoundHandler(req, res, next, name));
@@ -160,7 +154,7 @@ let userHandlers = {
                 embeddedFeeds
               });
             })
-            .catch(error => next(error));
+            .catch(next);
         })
         .catch(userHandlers.getUserNotFoundHandler(req, res, next, name));
     };

@@ -127,9 +127,9 @@ router.post('/:id/edit/label', function(req, res, next) {
                 .then(() => {
                   res.redirect(`/${id}`);
                 })
-                .catch(error => next(error));
+                .catch(next);
             })
-            .catch(error => next(error)); // Slug update failed
+            .catch(next);
 
         })
         .catch(error => { // New revision failed
@@ -193,7 +193,7 @@ router.get('/:id/atom/:language', function(req, res, next) {
           });
 
         })
-        .catch(error => next(error));
+        .catch(next);
 
 
     })
@@ -328,7 +328,7 @@ router.post('/:id/upload', function(req, res, next) {
               req.flash('pageMessages', req.__('upload completed'));
               res.redirect(`/${thing.urlID}`);
             })
-            .catch(error => next(error));
+            .catch(next);
         })
         .catch(error => {
           flashError(req, error);
@@ -388,7 +388,7 @@ function loadThingAndReviews(req, res, next, thing, offsetDate) {
         userReviews: result[1]
       });
     })
-    .catch(error => next(error));
+    .catch(next);
 
 }
 

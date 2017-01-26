@@ -18,7 +18,7 @@ router.get('/terms', function(req, res, next) {
         titleKey: 'terms'
       });
     })
-    .catch(error => next(error));
+    .catch(next);
 });
 
 router.get('/faq', function(req, res, next) {
@@ -29,7 +29,7 @@ router.get('/faq', function(req, res, next) {
         titleKey: 'faq'
       });
     })
-    .catch(error => next(error));
+    .catch(next);
 });
 
 

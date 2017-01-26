@@ -22,23 +22,24 @@ let actionHandler = {
         if (user.suppressedNotices.indexOf(noticeType) == -1)
           user.suppressedNotices.push(noticeType);
 
-        user.save().then(() => {
-          if (req.isAPI) {
-            let response = {};
-            response.message = `Success. Messages of type "${noticeType}" will no longer be shown.`;
-            response.errors = [];
-            res.type('json');
-            res.status(200);
-            res.send(JSON.stringify(response, null, 2));
-          } else {
-            render.template(req, res, 'notice-suppressed', {
-              titleKey: 'notice suppressed',
-              noticeMessage: req.__(`notice type ${noticeType}`)
-            });
-          }
-        }).catch(error => {
-          next(error);
-        });
+        user
+          .save()
+          .then(() => {
+            if (req.isAPI) {
+              let response = {};
+              response.message = `Success. Messages of type "${noticeType}" will no longer be shown.`;
+              response.errors = [];
+              res.type('json');
+              res.status(200);
+              res.send(JSON.stringify(response, null, 2));
+            } else {
+              render.template(req, res, 'notice-suppressed', {
+                titleKey: 'notice suppressed',
+                noticeMessage: req.__(`notice type ${noticeType}`)
+              });
+            }
+          })
+          .catch(next);
         break;
 
       default:

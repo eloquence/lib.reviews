@@ -185,7 +185,7 @@ class TeamProvider extends AbstractBREADProvider {
           this.req.flash('pageMessages', this.req.__('requests have been processed'));
           this.res.redirect(`/team/${team.urlID}/manage-requests`);
         })
-        .catch(error => this.next(error));
+        .catch(this.next);
     } else {
       this.req.flash('pageErrors', this.req.__('no requests to process'));
       this.res.redirect(`/team/${team.urlID}/manage-requests`);
@@ -431,7 +431,7 @@ class TeamProvider extends AbstractBREADProvider {
             updatedRev
               .save()
               .then(savedRev => this.res.redirect(`/team/${savedRev.urlID}`))
-              .catch(error => this.next(error));
+              .catch(this.next);
           })
           // Slug update failed
           .catch(error => {
@@ -442,7 +442,7 @@ class TeamProvider extends AbstractBREADProvider {
               return this.next(error);
           });
       })
-      .catch(error => this.next(error)); // Creating new revision failed
+      .catch(this.next); // Creating new revision failed
 
   }
 
@@ -486,7 +486,7 @@ class TeamProvider extends AbstractBREADProvider {
               .saveAll()
               .then(team => this.res.redirect(`/team/${team.urlID}`))
               // Problem saving team and/or updating user
-              .catch(error => this.next(error));
+              .catch(this.next);
           })
           // Problem updating slug
           .catch(error => {
@@ -498,7 +498,7 @@ class TeamProvider extends AbstractBREADProvider {
           });
       })
       // Problem getting metadata for new revision
-      .catch(error => this.next(error));
+      .catch(this.next);
   }
 
   delete_GET(team) {
@@ -524,9 +524,7 @@ class TeamProvider extends AbstractBREADProvider {
           titleKey: 'team deleted'
         });
       })
-      .catch(error => {
-        this.next(error);
-      });
+      .catch(this.next);
   }
 
 }

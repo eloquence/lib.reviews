@@ -62,7 +62,7 @@ router.post('/actions/invite', function(req, res, next) {
         req.flash('pageMessages', res.__('link generated'));
         return renderInviteLinkPage(req, res, next);
       })
-      .catch(error => next(error));
+      .catch(next);
   }
 
 });
@@ -104,7 +104,7 @@ function renderInviteLinkPage(req, res, next) {
       });
 
     })
-    .catch(error => next(error));
+    .catch(next);
 
 }
 
@@ -315,7 +315,7 @@ router.post('/register/:code', function(req, res, next) {
                 res.redirect('/');
               });
             })
-            .catch(error => next(error)); // Problem updating invite code
+            .catch(next); // Problem updating invite code
         })
         .catch(errorMessage => { // Problem creating user
           flashError(req, errorMessage, 'registration');

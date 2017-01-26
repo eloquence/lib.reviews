@@ -110,7 +110,7 @@ class BlogPostProvider extends AbstractBREADProvider {
           this.renderTemplate('team-blog', vars);
         }
       })
-      .catch(error => this.next(error));
+      .catch(this.next);
   }
 
   read_GET(team) {
@@ -204,13 +204,9 @@ class BlogPostProvider extends AbstractBREADProvider {
                 this.req.flash('pageMessages', this.req.__('edit saved'));
                 this.res.redirect(`/team/${team.urlID}/post/${newRev.id}`);
               })
-              .catch(error => { // Problem saving  updates
-                this.next(error);
-              });
+              .catch(this.next);
           })
-          .catch(error => { // Problem creating new revision
-            this.next(error);
-          });
+          .catch(this.next);
 
       })
       .catch(this.getResourceErrorHandler('post', this.postID));
@@ -249,14 +245,9 @@ class BlogPostProvider extends AbstractBREADProvider {
           .then(savedRev => {
             this.res.redirect(`/team/${team.urlID}/post/${savedRev.id}`);
           })
-          .catch(error => { // Problem saving revision
-            this.next(error);
-          });
+          .catch(this.next);
       })
-      .catch(error => { // Problem getting revision metadata
-        this.next(error);
-      });
-
+      .catch(this.next); // Problem getting revision metadata
   }
 
   delete_GET(team) {
@@ -294,9 +285,7 @@ class BlogPostProvider extends AbstractBREADProvider {
               titleKey: 'blog post deleted'
             });
           })
-          .catch(error => {
-            this.next(error);
-          });
+          .catch(this.next);
 
       })
       .catch(this.getResourceErrorHandler('post', this.postID).bind(this));

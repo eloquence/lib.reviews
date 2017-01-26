@@ -106,7 +106,7 @@ class ReviewProvider extends AbstractBREADProvider {
         }
         this.add_GET(undefined, thing);
       })
-      .catch(error => this.next(error));
+      .catch(this.next);
 
   }
 
@@ -160,7 +160,7 @@ class ReviewProvider extends AbstractBREADProvider {
               .then(() => {
                 this.res.redirect(`/${review.thing.id}#your-review`);
               })
-              .catch(error => this.next(error)); // Problem updating invite count
+              .catch(this.next); // Problem updating invite count
           })
           .catch(errorMessage => {
             flashError(this.req, errorMessage, 'saving review');
@@ -342,9 +342,7 @@ class ReviewProvider extends AbstractBREADProvider {
           titleKey: 'review deleted'
         });
       })
-      .catch(err => {
-        this.next(err);
-      });
+      .catch(this.next);
   }
 
   // Return data for easy external processing after publication, e.g. via IRC
