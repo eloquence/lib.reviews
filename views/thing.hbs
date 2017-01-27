@@ -7,6 +7,7 @@
 {{#if showLanguageNotice}}
 {{> dismissible_notice icon="globe" messageKey="editing in language" id="language-notice-thing" csrfToken=csrfToken}}
 {{/if}}
+<!-- permanent ID of this item: {{{thing.id}}} -->
 {{#if edit.label}}
   <h1 id="page-header">{{{__ titleKey}}}</h1>
   <form class="pure-form pure-form-aligned" method="post" action="">
