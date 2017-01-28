@@ -128,11 +128,6 @@ class ReviewProvider extends AbstractBREADProvider {
     formData.formValues.createdOn = new Date();
     formData.formValues.originalLanguage = language;
 
-    // We're previewing or have basic problems with the submission -- back to form
-    if (this.isPreview || this.req.flashHas('pageErrors')) {
-      formData.formValues.creator = this.req.user; // Needed for username link
-      return this.add_GET(formData.formValues, thing);
-    }
 
     let reviewObj = Object.assign({}, formData.formValues);
 
@@ -142,6 +137,13 @@ class ReviewProvider extends AbstractBREADProvider {
     this
       .validateAndGetTeams(formData.formValues.teams)
       .then(teams => {
+
+        // We're previewing or have basic problems with the submission -- back to form
+        if (this.isPreview || this.req.flashHas('pageErrors')) {
+          formData.formValues.creator = this.req.user; // Needed for username link
+          formData.formValues.teams = teams;
+          return this.add_GET(formData.formValues, thing);
+        }
 
         reviewObj.teams = teams;
 
@@ -229,14 +231,17 @@ class ReviewProvider extends AbstractBREADProvider {
       formData.formValues.creator = review.creator;
       this.isPreview = true;
     }
-    // As with creation, back to edit form if we have errors or
-    // are previewing
-    if (this.isPreview || this.req.flashHas('pageErrors'))
-      return this.add_GET(formData.formValues);
 
     this
       .validateAndGetTeams(formData.formValues.teams)
       .then(teams => {
+        // As with creation, back to edit form if we have errors or
+        // are previewing
+        if (this.isPreview || this.req.flashHas('pageErrors')) {
+          formData.formValues.teams = teams;
+          return this.add_GET(formData.formValues);
+        }
+
         // Save the edit
         review
           .newRevision(this.req.user, {
