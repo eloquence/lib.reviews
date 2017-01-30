@@ -355,5 +355,9 @@
 	"invite link already used": "Ya se había utilizado este enlace de invitación para registrar una cuenta de usuario en lib.reviews. Cada invitación puede emplearse solo una vez. <a href='/register'>Solicita un enlace de invitación nuevo</a> o  <a href='https://github.com/eloquence/lib.reviews/issues/new'>ponte en contacto con nosotros</a> si has recibido este mensaje por error. ¡Gracias!",
 	"language temporarily changed": "Debido a la parte <code>uselang</code> de la dirección de web, estás viendo esta página en <b>español</b> en vez del idioma configurado actualmente, %1$s. Las páginas que cargues posteriormente volverán a estar en %1$s.",
 	"change language permanently": "Cambiar permanentemente al español",
-	"reload this page": "Recargar en %s"
+	"reload this page": "Recargar en %s",
+	"explore teams": "Explorar equipos",
+	"team intro": "Los <a href=\"/teams\">equipos</a> son grupos de personas afines que revisan cosas de interés común. Aquí hay algunos ejemplos:",
+	"duplicate team name": "Ya existe un <a href='%s' target='_blank'>equipo con este nombre</a>. Intenta con otro.",
+	"thing label help": "Una etiqueta identifica el <i>tema</i> de una revisión. Usa el mismo nombre o título sin calificadores. Por ejemplo: <i>2001: una odisea del espacio</i> o <i>Salón del ADN </i>."
 }
