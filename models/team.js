@@ -143,11 +143,15 @@ Team.getWithData = function(id, options) {
       if (options.reviewOffsetDate)
         join.reviews._apply = seq => seq
         .orderBy(r.desc('createdOn'))
+        .filter({ _revDeleted: false }, { default: true })
+        .filter({ _revOf: false }, { default: true })
         .filter(review => review('createdOn').lt(options.reviewOffsetDate))
         .limit(options.reviewLimit + 1);
       else
         join.reviews._apply = seq => seq
         .orderBy(r.desc('createdOn'))
+        .filter({ _revDeleted: false }, { default: true })
+        .filter({ _revOf: false }, { default: true })
         .limit(options.reviewLimit + 1);
     }
 
