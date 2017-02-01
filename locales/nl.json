@@ -356,5 +356,9 @@
 	"invite link already used": "Deze uitnodiging is al gebruikt voor het registreren van een gebruikersaccount op lib.reviews. Elke uitnodiging kan precies één keer gebruikt worden. <a href=\"/register\">Vraag een nieuwe uitnodiging aan</a> of <a href=\"https://github.com/eloquence/lib.reviews/issues/new\">laat het ons weten</a> als u denkt dat dit bericht onjuist is. Dank u wel!",
 	"language temporarily changed": "Vanwege het onderdeel met <code>uselang</code> in het webadres, bekijkt u deze pagina in het <b>Engels</b> in plaats van de momenteel ingestelde taal, %1$s. Volgende pagina's die u bekijkt worden weer in het %1$s weergegeven.",
 	"change language permanently": "Permanent overschakelen naar het Engels",
-	"reload this page": "Opnieuw laden in het %s"
+	"reload this page": "Opnieuw laden in het %s",
+	"explore teams": "Teams verkennen",
+	"team intro": "<a href=\"/teams\">Teams</a> zijn groepen van gelijkgestemde mensen die dingen van gemeenschappelijk belang beoodelen. Hier zijn een paar voorbeelden:",
+	"duplicate team name": "Een <a href=\"%s\" target=\"_blank\">team met deze naam</a> bestaat al. Probeer een andere naam.",
+	"thing label help": "Een label geeft het <i>onderwerp</i> van een beoordeling aan. Gebruik de exacte naam of titel zonder kwalificaties. Bijvoorbeeld: <i>2001: A Space Odyssey</i> of <i>DNA Lounge</i>."
 }
