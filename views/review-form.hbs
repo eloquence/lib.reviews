@@ -68,7 +68,7 @@
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
               <label for="review-title">{{{__ "review title"}}} <span class="required">*</span></label>
-              <input id="review-title" name="review-title" type="text" class="pure-input-1" {{#if editing}}data-focus{{/if}} data-required data-auto-trim placeholder='{{{__ "enter title"}}}' value="{{{mlString formValues.title false}}}">
+              <input id="review-title" name="review-title" type="text" class="pure-input-1" {{#if editing}}data-focus{{/if}} data-required placeholder='{{{__ "enter title"}}}' value="{{{mlString formValues.title false}}}">
           </div>
           <br>
         </div>
@@ -78,7 +78,7 @@
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
               <label for="review-text">{{{__ "review text"}}} <span class="required">*</span></label>
-              <textarea id="review-text" name="review-text" class="pure-input-1" data-required data-auto-trim placeholder="{{{__ "enter review"}}}">{{{mlString formValues.text false}}}</textarea>
+              <textarea id="review-text" name="review-text" class="pure-input-1" data-required placeholder="{{{__ "enter review"}}}">{{{mlString formValues.text false}}}</textarea>
               <br>
           </div>
         </div>

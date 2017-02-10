@@ -14,7 +14,7 @@
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="pure-control-group">
         <label for="post-title">{{{__ "blog post title"}}} <span class="required">*</span></label>
-        <input id="post-title" name="post-title" type="text" class="pure-input-1" data-auto-trim data-required data-focus placeholder="{{{__ "enter blog post title"}}}" value="{{{mlString formValues.title false}}}">
+        <input id="post-title" name="post-title" type="text" class="pure-input-1" data-required data-focus placeholder="{{{__ "enter blog post title"}}}" value="{{{mlString formValues.title false}}}">
       </div>
       <br>
     </div>
@@ -25,7 +25,7 @@
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="pure-control-group">
         <label for="post-text">{{{__ "blog post text"}}} <span class="required">*</span></label>
-        <textarea id="post-text" name="post-text" class="pure-input-1 blog-post-textarea" data-auto-trim data-required placeholder="{{{__ "enter blog post"}}}">{{{mlString formValues.post.text false}}}</textarea>
+        <textarea id="post-text" name="post-text" class="pure-input-1 blog-post-textarea" data-required placeholder="{{{__ "enter blog post"}}}">{{{mlString formValues.post.text false}}}</textarea>
       </div>
       <br>
     </div>
