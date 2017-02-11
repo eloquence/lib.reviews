@@ -70,21 +70,10 @@ router.post('/actions/invite', function(req, res, next) {
 function renderInviteLinkPage(req, res, next) {
 
   // Links that have been generated but not used
-  let p1 = InviteLink.filter({
-    createdBy: req.user.id,
-    usedBy: false
-  }, {
-    default: true
-  });
+  let p1 = InviteLink.getAvailable(req.user);
 
   // Links that have been generated and used
-  let p2 = InviteLink.filter({
-      createdBy: req.user.id
-    })
-    .filter(inviteLink => inviteLink('usedBy').ne(false))
-    .getJoin({
-      usedByUser: true
-    });
+  let p2 = InviteLink.getUsed(req.user);
 
   Promise
     .all([p1, p2])
