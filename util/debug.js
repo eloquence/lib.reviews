@@ -8,17 +8,17 @@ const debug = {
   tests: debugModule('libreviews:tests'),
 
   // For all serious errors that should be examined by a human and fixed or categorized
-  // { context: String - where in the application the error occurred
+  // {
   //   req: Request object, if available
   //   error: standard error object
   // }
   error(errorObj) {
     let log = debugModule('libreviews:error');
-    if (!errorObj.context && errorObj.req && errorObj.req.route)
-      errorObj.context = `Route ${errorObj.req.route.path}`;
-
-    log(`Error occurred in context <${errorObj.context || 'unknown'}>.`);
     if (errorObj && errorObj.req) {
+
+      if (errorObj.req.route)
+        log(`Error occurred in route <${errorObj.req.route.path}>.`);
+
       log(`Request method: ${errorObj.req.method} - URL: ${errorObj.req.originalUrl}`);
       if (errorObj.req.method !== 'GET') {
         log('Request body:');

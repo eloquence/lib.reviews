@@ -4,13 +4,13 @@ const type = thinky.type;
 const r = thinky.r;
 const mlString = require('./helpers/ml-string');
 
-const ErrorMessage = require('../util/error.js');
+const ReportedError = require('../util/reported-error');
 const User = require('./user.js');
 const Thing = require('./thing.js');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
 
-const options = {
+const reviewOptions = {
   maxTitleLength: 255
 };
 
@@ -21,7 +21,7 @@ let reviewSchema = {
   id: type.string().uuid(4),
   thingID: type.string().uuid(4),
   title: mlString.getSchema({
-    maxLength: options.maxTitleLength
+    maxLength: reviewOptions.maxTitleLength
   }),
   text: mlString.getSchema(),
   html: mlString.getSchema(),
@@ -48,6 +48,9 @@ Object.assign(reviewSchema, revision.getSchema());
 
 // Table generation is handled by thinky. URLs for reviews are stored as "things".
 let Review = thinky.createModel("reviews", reviewSchema);
+
+Review.options = reviewOptions;
+Object.freeze(Review.options);
 
 Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
@@ -120,22 +123,15 @@ Review.create = function(reviewObj, options) {
         }).then(review => {
           resolve(review);
         }).catch(error => { // Save failed
-          switch (error.message) {
-            case 'Value for [starRating] must be greater than or equal to 1.':
-            case 'Value for [starRating] must be less than or equal to 5.':
-            case 'Value for [starRating] must be an integer.':
-            case 'Value for [starRating] must be a finite number or null.':
-              reject(new ErrorMessage('invalid star rating', [String(reviewObj.starRating)]));
-              break;
-            case `Value for [title] must be shorter than ${options.maxTitleLength}.`:
-              reject(new ErrorMessage('review title too long'));
-              break;
-            case 'Validator for the field [originalLanguage] returned `false`.':
-              reject(new ErrorMessage('invalid language', [String(reviewObj.originalLanguage)]));
-              break;
-            default:
-              reject(error);
-          }
+          if (error instanceof ReviewError)
+            reject(error);
+          else
+            reject(new ReviewError({
+              parentError: error,
+              payload: {
+                review
+              }
+            }));
         });
       })
       .catch(errorMessage => { // Pre-save code failed
@@ -312,5 +308,32 @@ Review.getFeed = function(options) {
   });
 
 };
+
+class ReviewError extends ReportedError {
+  constructor(options) {
+    if (typeof options == 'object' && options.parentError instanceof Error &&
+      typeof options.payload.review == 'object') {
+      switch (options.parentError.message) {
+        case 'Value for [starRating] must be greater than or equal to 1.':
+        case 'Value for [starRating] must be less than or equal to 5.':
+        case 'Value for [starRating] must be an integer.':
+        case 'Value for [starRating] must be a finite number or null.':
+          options.userMessage = 'invalid star rating';
+          options.userMessageParams = [String(options.payload.review.starRating)];
+          break;
+        case `Value for [title] must be shorter than ${Review.options.maxTitleLength}.`:
+          options.userMessage = 'review title too long';
+          break;
+        case 'Validator for the field [originalLanguage] returned `false`.':
+          options.userMessage = 'invalid language';
+          options.userMessageParams = [String(options.payload.review.originalLanguage)];
+          break;
+        default:
+      }
+    }
+    super(options);
+  }
+
+}
 
 module.exports = Review;

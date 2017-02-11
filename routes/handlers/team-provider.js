@@ -7,13 +7,11 @@ const i18n = require('i18n');
 
 // Internal deps
 const AbstractBREADProvider = require('./abstract-bread-provider');
-const ErrorMessage = require('../../util/error');
 const Team = require('../../models/team');
 const mlString = require('../../models/helpers/ml-string');
 const BlogPost = require('../../models/blog-post');
 const feeds = require('../helpers/feeds');
 const slugs = require('../helpers/slugs');
-const flashError = require('../helpers/flash-error');
 
 class TeamProvider extends AbstractBREADProvider {
 
@@ -436,7 +434,7 @@ class TeamProvider extends AbstractBREADProvider {
           // Slug update failed
           .catch(error => {
             if (error.name === 'DuplicateSlugNameError') {
-                flashError(this.req, new ErrorMessage('duplicate team name', [`/team/${error.details}`]), 'edit team->update slug');
+                this.req.flash('pageErrors', this.req.__('duplicate team name', `/team/${error.payload.slug.name}`));
                 return this.edit_GET(formData.formValues);
             } else
               return this.next(error);
@@ -491,7 +489,7 @@ class TeamProvider extends AbstractBREADProvider {
           // Problem updating slug
           .catch(error => {
             if (error.name === 'DuplicateSlugNameError') {
-              flashError(this.req, new ErrorMessage('duplicate team name', [`/team/${error.details}`]), 'add team->update slug');
+              this.req.flash('pageErrors', this.req.__('duplicate team name', `/team/${error.messageParams[0]}`));
               return this.add_GET(formData.formValues);
             } else
               return this.next(error);

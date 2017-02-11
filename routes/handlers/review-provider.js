@@ -6,10 +6,9 @@ const config = require('config');
 const Review = require('../../models/review');
 const Team = require('../../models/team');
 const AbstractBREADProvider = require('./abstract-bread-provider');
-const flashError = require('../helpers/flash-error');
 const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
-const ErrorMessage = require('../../util/error.js');
+const ReportedError = require('../../util/reported-error.js');
 const md = require('../../util/md');
 const slugs = require('../helpers/slugs');
 
@@ -71,7 +70,7 @@ class ReviewProvider extends AbstractBREADProvider {
         };
       formValues.hasTeam = {};
       if (Array.isArray(formValues.teams))
-       formValues.teams.forEach(team => (formValues.hasTeam[team.id] = true));
+        formValues.teams.forEach(team => (formValues.hasTeam[team.id] = true));
     }
 
     if (user.suppressedNotices &&
@@ -128,7 +127,6 @@ class ReviewProvider extends AbstractBREADProvider {
     formData.formValues.createdOn = new Date();
     formData.formValues.originalLanguage = language;
 
-
     let reviewObj = Object.assign({}, formData.formValues);
 
     if (thing && thing.id)
@@ -164,17 +162,20 @@ class ReviewProvider extends AbstractBREADProvider {
               })
               .catch(this.next); // Problem updating invite count
           })
-          .catch(errorMessage => {
-            flashError(this.req, errorMessage, 'saving review');
+          .catch(error => {
+            this.req.flashError(error);
             this.add_GET(formData.formValues, thing);
           });
 
       })
       .catch(error => {
         if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
-          error = new ErrorMessage('submitted team could not be found', [], error);
+          error = new ReportedError({
+            parentError: error,
+            userMessage: 'submitted team could not be found'
+          });
 
-        flashError(this.req, error, 'add review->get team data');
+        this.req.flashError(error);
         this.add_GET(formData.formValues, thing);
       });
 
@@ -265,20 +266,23 @@ class ReviewProvider extends AbstractBREADProvider {
                 this.res.redirect(`/review/${newRev.id}`);
               })
               .catch(error => {
-                flashError(this.req, error, 'edit review->save');
+                this.req.flashError(error);
                 this.add_GET(formData.formValues);
               });
           })
           .catch(error => {
-            flashError(this.req, error, 'edit review->new revision');
+            this.req.flashError(error);
             this.add_GET(formData.formValues);
           });
       })
       .catch(error => {
         if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
-          error = new ErrorMessage('submitted team could not be found', [], error);
+          error = new ReportedError({
+            parentError: error,
+            userMessage: 'submitted team could not be found'
+          });
 
-        flashError(this.req, error, 'edit review->get team data');
+        this.req.flashError(error);
         this.add_GET(formData.formValues);
       });
 
@@ -302,7 +306,9 @@ class ReviewProvider extends AbstractBREADProvider {
           teams.forEach(team => {
             team.populateUserInfo(this.req.user);
             if (!team.userIsMember)
-              throw new ErrorMessage('user is not member of submitted team');
+              throw new ReportedError({
+                userMessage: 'user is not member of submitted team'
+              });
           });
           resolve(teams);
 

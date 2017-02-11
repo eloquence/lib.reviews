@@ -32,6 +32,7 @@ const processUploads = require('./routes/process-uploads');
 const blogPosts = require('./routes/blog-posts');
 const api = require('./routes/api');
 const apiHelper = require('./routes/helpers/api');
+const flashHelper = require('./routes/helpers/flash');
 const things = require('./routes/things');
 const ErrorProvider = require('./routes/errors');
 const debug = require('./util/debug');
@@ -65,7 +66,7 @@ function getApp(db = require('./db')) {
       cookie: 'locale',
       autoReload: true,
       updateFiles: false,
-      directory: "" + __dirname + "/locales"
+      directory: __dirname + '/locales'
     });
 
 
@@ -115,16 +116,7 @@ function getApp(db = require('./db')) {
     }));
 
     app.use(flash());
-
-    app.use(function(req, res, next) {
-      req.flashHas = (key) => {
-        if (!req.session || !req.session.flash || !req.session.flash[key])
-          return false;
-        else
-          return req.session.flash[key].length > 0;
-      };
-      next();
-    });
+    app.use(flashHelper);
 
     app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
 

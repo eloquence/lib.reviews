@@ -9,7 +9,6 @@ const i18n = require('i18n');
 
 // Internal dependencies
 const render = require('./helpers/render');
-const flashError = require('./helpers/flash-error');
 const forms = require('./helpers/forms');
 const User = require('../models/user');
 const InviteLink = require('../models/invite-link');
@@ -163,11 +162,7 @@ router.post('/signin', function(req, res, next) {
 
   passport.authenticate('local', function(error, user, info) {
     if (error) {
-      debug.error({
-        context: 'signin',
-        req,
-        error
-      });
+      debug.error({ req, error });
       return res.redirect('/signin');
     }
     if (!user) {
@@ -178,11 +173,7 @@ router.post('/signin', function(req, res, next) {
     }
     req.login(user, function(error) {
       if (error) {
-        debug.error({
-          context: 'signin',
-          req,
-          error
-        });
+        debug.error({ req, error });
         return res.redirect('/signin');
       } else {
         return res.redirect('/'); // Success
@@ -254,17 +245,13 @@ if (!config.requireInviteLinks) {
         req.flash('siteMessages', res.__('welcome new user', user.displayName));
         req.login(user, error => {
           if (error) {
-            debug.error({
-              context: 'registration->signin',
-              req,
-              error
-            });
+            debug.error({ req, error });
           }
           res.redirect('/');
         });
       })
-      .catch(errorMessage => { // Problem creating user
-        flashError(req, errorMessage, 'registration');
+      .catch(error => { // Problem creating user
+        req.flashError(error);
         return sendRegistrationForm(req, res, formInfo);
       });
 
@@ -306,19 +293,15 @@ router.post('/register/:code', function(req, res, next) {
               req.flash('siteMessages', res.__('welcome new user', user.displayName));
               req.login(user, error => {
                 if (error) {
-                  debug.error({
-                    context: 'registration->signin',
-                    req,
-                    error
-                  });
+                  debug.error({ req, error });
                 }
                 res.redirect('/');
               });
             })
             .catch(next); // Problem updating invite code
         })
-        .catch(errorMessage => { // Problem creating user
-          flashError(req, errorMessage, 'registration');
+        .catch(error => { // Problem creating user
+          req.flashError(error);
           return sendRegistrationForm(req, res, formInfo);
         });
 

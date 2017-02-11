@@ -5,8 +5,6 @@ const render = require('../helpers/render');
 const feeds = require('../helpers/feeds');
 const User = require('../../models/user');
 const Review = require('../../models/review');
-const flashError = require('../helpers/flash-error');
-const ErrorMessage = require('../../util/error');
 const reviewHandlers = require('./review-handlers');
 const md = require('../../util/md');
 
@@ -28,7 +26,7 @@ let userHandlers = {
         let bio = req.body['bio-text'];
         let bioLanguage = req.body['bio-language'];
         if (bio === undefined || bioLanguage === undefined) {
-          flashError(req, new ErrorMessage('data missing'));
+          req.flash('pageErrors', req.__('data missing'));
           return res.redirect(`/user/${user.urlName}/edit/bio`);
         }
 

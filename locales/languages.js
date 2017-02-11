@@ -7,6 +7,9 @@
 const jsonfile = require('jsonfile');
 const path = require('path');
 
+// Internal dependencies
+const ReportedError = require('../util/reported-error');
+
 // To add support for a new language, first add the locale file (JSON format)
 // with the translations to the locales/ directory. Then add the new language
 // code to this array. Language names will be automatically imported from CLDR
@@ -94,13 +97,12 @@ let languages = {
 
 };
 
-class InvalidLanguageError extends Error {
+class InvalidLanguageError extends ReportedError {
   constructor(langCode) {
-    super();
-    this.name = 'InvalidLanguageError';
-    this.message = 'Invalid language error';
-    this.userMessage = 'invalid language code';
-    this.details = langCode;
+    super({
+      userMessage: 'invalid language code',
+      userMessageParams: [langCode]
+    });
   }
 }
 

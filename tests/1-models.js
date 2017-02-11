@@ -64,7 +64,7 @@ test('Trying to save review with bad rating results in expected error', async t 
   try {
     await dbFixture.models.Review.create(reviewObj);
   } catch (e) {
-    return t.is(e.msgKey, 'invalid star rating');
+    return t.is(e.userMessage, 'invalid star rating');
   }
   t.fail();
 });

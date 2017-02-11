@@ -3,7 +3,6 @@ const thinky = require('../db');
 const r = thinky.r;
 const type = thinky.type;
 
-const ErrorMessage = require('../util/error');
 const urlUtils = require('../util/url-utils');
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
@@ -12,6 +11,7 @@ const getSetIDHandler = require('./helpers/set-id');
 const File = require('./file');
 const ThingSlug = require('./thing-slug');
 const isValidLanguage = require('../locales/languages').isValid;
+const ReportedError = require('../util/reported-error');
 
 let thingSchema = {
 
@@ -214,7 +214,12 @@ function _isValidURL(url) {
   if (urlRegex.test(url))
     return true;
   else
-    throw new ErrorMessage('invalid url');
+    throw new ReportedError({
+      message: 'Thing URL %s is not a valid URL.',
+      messageParams: [url],
+      userMessage: 'invalid url',
+      userMessageParams: []
+    });
 }
 
 function _hasInfo() {

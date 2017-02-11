@@ -9,16 +9,15 @@ const fs = require('fs');
 const path = require('path');
 
 // Internal dependencies
+const ReportedError = require('../util/reported-error');
 const Thing = require('../models/thing');
 const File = require('../models/file');
 const Review = require('../models/review');
 const render = require('./helpers/render');
-const flashError = require('./helpers/flash-error');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const languages = require('../locales/languages');
 const feeds = require('./helpers/feeds');
 const debug = require('../util/debug');
-const ErrorMessage = require('../util/error');
 const forms = require('./helpers/forms');
 const slugs = require('./helpers/slugs');
 
@@ -134,7 +133,7 @@ router.post('/:id/edit/label', function(req, res, next) {
         })
         .catch(error => { // New revision failed
           if (error.name === 'InvalidLanguageError') {
-            flashError(req, new ErrorMessage(error.userMessage, [error.details]), 'edit label->new revision');
+            req.flashError(error);
             sendThing(req, res, thing);
           } else
             return next(error);
@@ -257,32 +256,54 @@ router.post('/:id/upload', function(req, res, next) {
             upload.description = getVal(formData.formValues.descriptions);
 
             if (!upload.description || !upload.description[language])
-              throw new ErrorMessage('upload needs description', [upload.name]);
+              throw new ReportedError({
+                message: `Form data for upload %s lacks a description.`,
+                messageParams: [upload.name],
+                userMessage: 'upload needs description',
+              });
 
             let by = getVal(formData.formValues.creators);
             if (!by)
-              throw new ErrorMessage('data missing');
+              throw new ReportedError({
+                message: `Form data for upload missing creator information.`,
+                userMessage: 'data missing'
+              });
 
             if (by === 'other') {
               upload.creator = getVal(formData.formValues.creatorDetails);
 
               if (!upload.creator || !upload.creator[language])
-                throw new ErrorMessage('upload needs creator', [upload.name]);
+                throw new ReportedError({
+                  message: 'Form data for upload %s lacks creator information.',
+                  messageParams: [upload.name],
+                  userMessage: 'upload needs creator'
+                });
 
               upload.source = getVal(formData.formValues.sources);
 
               if (!upload.source || !upload.source[language])
-                throw new ErrorMessage('upload needs source', [upload.name]);
+                throw new ReportedError({
+                  message: 'Form data for upload %s lacks source information.',
+                  messageParams: [upload.name],
+                  userMessage: 'upload needs source'
+                });
 
               upload.license = getVal(formData.formValues.licenses);
 
               if (!upload.license)
-                throw new ErrorMessage('upload needs license', [upload.name]);
+                throw new ReportedError({
+                  message: 'Form data for upload %s lacks license information.',
+                  messageParams: [upload.name],
+                  userMessage: 'upload needs license'
+                });
 
             } else if (by === 'uploader') {
               upload.license = 'cc-by-sa';
             } else {
-              throw new ErrorMessage('unexpected form data');
+              throw new ReportedError({
+                message: 'Upload form contained unexpected form data.',
+                userMessage: 'unexpected form data'
+              });
             }
             upload.completed = true;
 
@@ -310,11 +331,7 @@ router.post('/:id/upload', function(req, res, next) {
                     // Problem saving the metadata. Move upload back to
                     // temporary stash.
                     fs.rename(newPath, oldPath, renameError => {
-                      debug.error({
-                        context: 'upload->moving unsucessful upload back',
-                        error: renameError,
-                        req
-                      });
+                      debug.error({ error: renameError, req });
                     });
                     reject(error);
                   });
@@ -331,7 +348,7 @@ router.post('/:id/upload', function(req, res, next) {
             .catch(next);
         })
         .catch(error => {
-          flashError(req, error);
+          req.flashError(error);
           return res.redirect(`/${thing.urlID}`);
         });
     })
@@ -449,6 +466,5 @@ function sendThing(req, res, thing, options) {
     }
   });
 }
-
 
 module.exports = router;

@@ -60,6 +60,7 @@
     "serve-index": "^1.8.0",
     "session-rethinkdb": "^2.0.0",
     "sisyphus.js": "^1.1.2",
+    "sprintf-js": "^1.0.3",
     "thinky": "^2.3.4",
     "uglify-save-license": "^0.4.1",
     "unescape-html": "^1.0.0"

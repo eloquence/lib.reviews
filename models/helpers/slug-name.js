@@ -5,6 +5,7 @@ const isUUID = require('is-uuid');
 
 // Internal dependencies
 const mlString = require('./ml-string');
+const AbstractGenericError = require('../../util/abstract-generic-error');
 
 const slugNameHelper = {
 
@@ -41,15 +42,14 @@ const slugNameHelper = {
         let sourceString = mlString.resolve(language, document[slugSourceField]);
 
         if (typeof sourceString !== 'object')
-          return reject(new InvalidSlugStringError('Invalid source for slug string - must be multilingual string object.'));
+          throw new InvalidSlugStringError({
+            message: 'Invalid source for slug string - must be multilingual string object.'
+          });
 
         let slugName;
 
-        try {
-          slugName = slugNameHelper.generateSlugName(sourceString.str);
-        } catch (error) {
-          return reject(error);
-        }
+        // May throw
+        slugName = slugNameHelper.generateSlugName(sourceString.str);
 
         // No update needed if name hasn't changed
         if (slugName === document.canonicalSlugName)
@@ -84,11 +84,10 @@ const slugNameHelper = {
                       if (slug[slugForeignKey] === document.id) {
                         document.canonicalSlugName = slug.name;
                         resolve(document);
-                      } else {
-                        reject(new DuplicateSlugNameError('Slug name is already in use.', slugName));
-                      }
+                      } else
+                        throw new DuplicateSlugNameError(slug);
                     })
-                    .catch(reject); // Trouble looking up slug
+                    .catch(reject);
                 } else {
                   reject(error);
                 }
@@ -104,12 +103,16 @@ const slugNameHelper = {
   // or throws an error if this is not possible. String must be monolingual.
   generateSlugName(str) {
     if (typeof str !== 'string')
-      throw new InvalidSlugStringError('Source string is undefined or not a string.');
+      throw new InvalidSlugStringError({
+        message: 'Source string is undefined or not a string.'
+      });
 
     str = str.trim();
 
     if (str === '')
-      throw new InvalidSlugStringError('Source string cannot be empty.');
+      throw new InvalidSlugStringError({
+        message: 'Source string cannot be empty.'
+      });
 
     let slugName = unescapeHTML(str)
       .trim()
@@ -119,31 +122,31 @@ const slugNameHelper = {
       .replace(/-{2,}/g, '-'); // Avoid consecutive hyphens
 
     if (!slugName)
-      throw new InvalidSlugStringError(`Source string '${str}' cannot be converted to a valid slug.`); // Expected depending on user input
+      throw new InvalidSlugStringError({
+        message: 'Source string %s cannot be converted to a valid slug.',
+        messageParams: [str]
+      }); // Expected depending on user input
 
     if (isUUID.v4(slugName))
-      throw new InvalidSlugStringError('Source string cannot be a UUID.');
+      throw new InvalidSlugStringError({
+        message: 'Source string cannot be a UUID.'
+      });
 
     return slugName;
   }
 
 };
 
-class InvalidSlugStringError extends Error {
-  constructor(...args) {
-    super(args);
-    this.name = 'InvalidSlugStringError';
+class InvalidSlugStringError extends AbstractGenericError {}
+
+class DuplicateSlugNameError extends AbstractGenericError {
+  constructor(slug) {
+    super({
+      message: 'Slug name "%s" is already in use.',
+      messageParams: [slug.name],
+      payload: { slug }
+    });
   }
 }
-
-class DuplicateSlugNameError extends Error {
-  constructor(message, slugName) {
-    super();
-    this.message = message;
-    this.name = 'DuplicateSlugNameError';
-    this.details = slugName;
-  }
-}
-
 
 module.exports = slugNameHelper;

@@ -17,8 +17,7 @@ const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
 const slugs = require('./helpers/slugs');
 const debug = require('../util/debug');
-const ErrorMessage = require('../util/error');
-const flashError = require('./helpers/flash-error');
+const ReportedError = require('../util/reported-error');
 
 const allowedTypes = ['image/png', 'image/gif', 'image/svg+xml', 'image/jpeg', 'video/webm', 'audio/ogg', 'video/ogg', 'audio/mpeg', 'image/webp'];
 
@@ -72,7 +71,7 @@ router.post('/:id/upload', function(req, res, next) {
         // We reject the whole batch and report the bad apple.
         if (error) {
           cleanupFiles(req);
-          flashError(req, error);
+          req.flashError(error);
           return res.redirect(`/${thing.urlID}`);
         }
 
@@ -114,7 +113,7 @@ router.post('/:id/upload', function(req, res, next) {
             })
             .catch(error => { // One of the files couldn't be validated
               cleanupFiles(req);
-              flashError(req, error);
+              req.flashError(error);
               res.redirect(`/${thing.urlID}`);
             });
 
@@ -134,9 +133,12 @@ router.post('/:id/upload', function(req, res, next) {
             return done(error); // Bad CSRF token, reject upload
 
           if (allowedTypes.indexOf(file.mimetype) == -1) {
-            done(new ErrorMessage('unsupported file type', [file.originalname, file.mimetype]), false);
+            done(new ReportedError({
+              userMessage: 'unsupported file type',
+              userMessageParams: [file.originalname, file.mimetype]
+            }));
           } else
-            done(null, true); // Accept file for furhter investigation
+            done(null, true); // Accept file for further investigation
         });
       }
     })
@@ -151,11 +153,7 @@ function cleanupFiles(req) {
   req.files.forEach(file => {
     fs.unlink(file.path, error => {
       if (error)
-        debug.error({
-          context: 'upload',
-          error,
-          req
-        });
+        debug.error({ error, req });
     });
   });
 }
@@ -172,13 +170,19 @@ function validateFile(filePath, claimedType) {
       .then(buffer => {
         let type = fileType(buffer);
         if (!type)
-          return reject(new ErrorMessage('unrecognized file type', [path.basename(filePath)]));
+          return reject(new ReportedError({
+            userMessage: 'unrecognized file type',
+            userMessageParams: [path.basename(filePath)],
+          }));
         if (type.mime === claimedType)
           return resolve();
         if (type.mime !== claimedType)
-          return reject(new ErrorMessage('mime mismatch', [path.basename(filePath), claimedType, type.mime]));
+          return reject(new ReportedError({
+            userMessage: 'mime mismatch',
+            userMessageParams: [path.basename(filePath), claimedType, type.mime],
+          }));
       })
-      .catch(error => reject(error));
+      .catch(reject);
   });
 
 }
@@ -196,7 +200,10 @@ function validateSVG(filePath) {
       if (isSVG(data))
         return resolve();
       else
-        return reject(new ErrorMessage('not valid svg', [path.basename(filePath)]));
+        return reject(new ReportedError({
+          userMessage: 'not valid svg',
+          userMessageParams: [path.basename(filePath)],
+        }));
     });
   });
 

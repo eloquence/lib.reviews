@@ -54,22 +54,13 @@ class ErrorProvider {
             message: 'An error occurred processing your request.',
             errors: showDetails ? [error.message, `Stack: ${error.stack}`] : ['Unknown error. This has been logged.']
           };
-          debug.error({
-            context: 'API',
-            req,
-            error
-          });
+          debug.error({ req, error });
       }
       res.type('json');
       res.send(JSON.stringify(response, null, 2));
     } else {
 
-      debug.error({
-        context: 'web app',
-        req,
-        error
-      });
-
+      debug.error({ req, error });
       render.template(req, res, 'error', {
         titleKey: 'something went wrong',
         showDetails,

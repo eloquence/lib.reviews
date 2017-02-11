@@ -4,10 +4,10 @@ const type = thinky.type;
 const Errors = thinky.Errors;
 const r = thinky.r;
 const bcrypt = require('bcrypt-nodejs');
-const ErrorMessage = require('../util/error.js');
+const ReportedError = require('../util/reported-error');
 const UserMeta = require('./user-meta');
 
-const options = {
+const userOptions = {
   maxChars: 128,
   illegalChars: /[<>;"&?!./_]/,
   minPasswordLength: 6
@@ -16,19 +16,19 @@ const options = {
 /* eslint-disable no-useless-escape */ // False positive
 
 // Erm, if we add [, ] or \ to forbidden chars, we'll have to fix this :)
-options.illegalCharsReadable = options.illegalChars.source.replace(/[\[\]\\]/g, '');
+userOptions.illegalCharsReadable = userOptions.illegalChars.source.replace(/[\[\]\\]/g, '');
 
 /* eslint-enable no-useless-escape */
 
 // Table generation is handled by thinky
 let User = thinky.createModel("users", {
   id: type.string(),
-  displayName: type.string().max(options.maxChars).validator(containsOnlyLegalCharacters),
-  canonicalName: type.string().max(options.maxChars).validator(containsOnlyLegalCharacters),
+  displayName: type.string().max(userOptions.maxChars).validator(containsOnlyLegalCharacters),
+  canonicalName: type.string().max(userOptions.maxChars).validator(containsOnlyLegalCharacters),
   urlName: type.virtual().default(function() {
     return this.displayName ? encodeURIComponent(this.displayName.replace(/ /g, '_')) : undefined;
   }),
-  email: type.string().max(options.maxChars).email(),
+  email: type.string().max(userOptions.maxChars).email(),
   password: type.string(),
   userMetaID: type.string().uuid(4), // Versioned
   trustedBy: [{
@@ -51,12 +51,11 @@ let User = thinky.createModel("users", {
   userCanEditMetadata: type.virtual().default(false)
 });
 
-
 // Relations. For team relations see team model
 
 User.belongsTo(UserMeta, "meta", "userMetaID", "id");
 
-User.options = options; // for external visibility
+User.options = userOptions; // for external visibility
 Object.freeze(User.options);
 
 
@@ -83,9 +82,13 @@ User.define("setName", function(displayName) {
 User.define("setPassword", function(password) {
   let user = this;
   return new Promise((resolve, reject) => {
-    if (password.length < options.minPasswordLength) {
+    if (password.length < userOptions.minPasswordLength) {
       // This check can't be run as a validator since by then it's a fixed-length hash
-      reject(new ErrorMessage('password too short', [String(options.minPasswordLength)]));
+      reject(new NewUserError({
+        message: 'Password for new user is too short, must be at least %s characters.',
+        userMessage: 'password too short',
+        messageParams: [String(userOptions.minPasswordLength)]
+      }));
     } else {
       bcrypt.hash(password, null, null, function(error, hash) {
         if (error)
@@ -115,17 +118,21 @@ User.define("checkPassword", function(password) {
 User.ensureUnique = function(name) {
   name = name.trim();
   return new Promise((resolve, reject) => {
-    User.filter({
-      canonicalName: User.canonicalize(name)
-    }).then(users => {
-      if (users.length)
-        reject(new ErrorMessage('username exists'));
-      else
-        resolve();
-    }).catch(error => {
-      // Most likely, table does not exist. Will be auto-created on restart.
-      reject(error);
-    });
+    User
+      .filter({
+        canonicalName: User.canonicalize(name)
+      })
+      .then(users => {
+        if (users.length)
+          reject(new NewUserError({
+            message: 'A user named %s already exists.',
+            userMessage: 'username exists',
+            messageParams: [name]
+          }));
+        else
+          resolve();
+      })
+      .catch(reject); // Most likely, table does not exist. Will be auto-created on restart.
   });
 };
 
@@ -145,35 +152,25 @@ User.create = function(userObj) {
           .setPassword(userObj.password)
           .then(() => {
             user.save().then(user => {
-              resolve(user);
-            })
-            .catch(error => { // Save failed
-              switch (error.message) {
-                case 'Value for [email] must be a valid email.':
-                  reject(new ErrorMessage('invalid email format', [userObj.email], error));
-                  break;
-                case `Value for [displayName] must be shorter than ${options.maxChars}.`:
-                  reject(new ErrorMessage('username too long', [String(options.maxChars)], error));
-                  break;
-                case `Value for [email] must be shorter than 128.`:
-                  reject(new ErrorMessage('email too long', [String(options.maxChars)], error));
-                  break;
-                default:
+                resolve(user);
+              })
+              .catch(error => { // Save failed
+                if (error instanceof NewUserError)
                   reject(error);
-                }
-            });
+                else
+                  reject(new NewUserError({
+                    payload: { user },
+                    parentError: error
+                  }));
+              });
           })
-          .catch(error => { // Password too short or hash error
-            reject(error);
-          });
+          .catch(reject); // Password too short or hash error
       })
-      .catch(errorMessage => { // Uniqueness check or pre-save code failed
-        reject(errorMessage);
-      });
+      .catch(reject);
   });
 };
 
-User.getWithTeams = function (id) {
+User.getWithTeams = function(id) {
   return User
     .get(id)
     .getJoin({
@@ -207,12 +204,12 @@ User.findByURLName = function(name, options) {
 
     if (options.withTeams)
       p =
-        p.getJoin({
-          teams: true
-        })
-        .getJoin({
-          moderatorOf: true
-        });
+      p.getJoin({
+        teams: true
+      })
+      .getJoin({
+        moderatorOf: true
+      });
 
     p.then(users => {
         if (users.length)
@@ -260,10 +257,43 @@ User.createBio = function(user, bioObj) {
 };
 
 function containsOnlyLegalCharacters(name) {
-  if (options.illegalChars.test(name))
-    throw new ErrorMessage('invalid username characters', [options.illegalCharsReadable]);
+  if (userOptions.illegalChars.test(name))
+    throw new NewUserError({
+      message: 'Username %s contains invalid characters.',
+      messageParams: [name],
+      userMessage: 'invalid username characters',
+      userMessageParams: [userOptions.illegalCharsReadable]
+    });
   else
     return true;
 }
 
 module.exports = User;
+
+// Error class for reporting registration related problems.
+// Behaves as a normal ReportedError, but comes with built-in translation layer
+// for DB level errors.
+class NewUserError extends ReportedError {
+  constructor(options) {
+    if (typeof options == 'object' && options.parentError instanceof Error &&
+      typeof options.payload.user == 'object') {
+      switch (options.parentError.message) {
+        case 'Value for [email] must be a valid email.':
+          options.userMessage = 'invalid email format';
+          options.userMessageParams = [options.payload.user.email];
+          break;
+        case `Value for [displayName] must be shorter than ${User.options.maxChars}.`:
+          options.userMessage = 'username too long';
+          options.userMessageParams = [String(User.options.maxChars)];
+          break;
+        case `Value for [email] must be shorter than ${User.options.maxChars}.`:
+          options.userMessage = 'email too long';
+          options.userMessageParams = [String(User.options.maxChars)];
+          break;
+        default:
+      }
+    }
+    super(options);
+  }
+
+}
