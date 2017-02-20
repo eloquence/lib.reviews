@@ -325,7 +325,11 @@
 	"view all": "&raquo; সব দেখুন",
 	"faq acronym": "প্রাজিপ্র",
 	"faq": "প্রায়শই জিজ্ঞাসিত প্রশ্নসমূহ",
+	"generate link": "আমন্ত্রণের সংযোগ উত্পন্ন করুন",
 	"share the love": "ভালবাসা প্রকাশ করুন",
+	"invite users": "ব্যবহারকারীদের আমন্ত্রণ জানান",
+	"pending invitations": "আপনার আমন্ত্রণের সংযোগ",
+	"accepted invitations": "গৃহীত আমন্ত্রণ",
 	"invite link": "আমন্ত্রণ সংযোগ",
 	"created on": "তৈরী হয়েছিলো",
 	"accepted by": "গ্রহণ করেছেন",
@@ -333,5 +337,6 @@
 	"copy": "অনুলিপি",
 	"invite link invalid title": "অবৈধ আমন্ত্রণ কোড",
 	"change language permanently": "বাংলায় স্থায়ীভাবে সুইচ করুন",
-	"reload this page": "%sতে পুনঃলোড করুন"
+	"reload this page": "%sতে পুনঃলোড করুন",
+	"explore teams": "দল অন্বেষণ"
 }
