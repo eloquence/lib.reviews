@@ -214,6 +214,7 @@
 	"blog post title help label": "タイトル",
 	"blog post title help": "記事のヘッドラインは短く、分かりやすく書いてください。",
 	"blog post text": "テキスト",
+	"blog post text help": "ブログ記事はチームメンバーのリクルート、重要な業績のアナウンス、作業ログの維持、等に使えます。他のチームメンバーに興味があるものであれば、個人的な内容でも構いません。<p><a href='http://help.wtf/md' target='_blank' tabindex=-1>markdown</a>記法を使えます。",
 	"blog post page title": "ブログ記事： %s",
 	"enter blog post title": "ブログ記事のタイトルを入力、例：チーム一周年!",
 	"enter blog post": "ブログ記事のテキストを入力",
@@ -314,6 +315,7 @@
 	"upload needs license": "ファイル '%s' にはライセンスについての情報が必要です。",
 	"teams to associate": "あなたのレビューを関連付けるチーム（省略可能）",
 	"not member of any teams yet": "あなたはまだどのチームにも参加していません。チームに入ればあなたの興味に合致するレビューアとつながることができ、読者があなたのレビューを見つける手助けをしてくれるでしょう。<a href='/teams' target='_blank'>チームに参加または自分で始める</a>。",
+	"submitted team could not be found": "あなたがレビューに追加しようとしているチーム向けの関連記録が見つかりません。削除されたもののようです。",
 	"user is not member of submitted team": "あなたは登録したチームのメンバーではないようです。最近退会しましたか？",
 	"posted under": "次の下に投稿：",
 	"team page": "（チームページ）",
@@ -329,8 +331,14 @@
 		"one": "lib.reviews の発展を手助けしてください!招待リンクが<b>1</b>件あります。",
 		"other": "lib.reviews の発展を手助けしてください!招待リンクが<b>%s</b>件あります。"
 	},
+	"invite users intro": "新しいユーザには招待コードが必要です。友だちに送る招待コードが必要な場合は単に<a href='/new/review'>レビューを書く</a>と得られます。",
+	"you can generate links": {
+		"one": "あなたは現在招待リンクを<b>ひとつ</b>生成できます。",
+		"other": "あなたは現在招待リンクを<b>%s</b>個まで生成できます。"
+	},
 	"generate link": "招待リンクを生成",
 	"out of links": "生成できる招待リンクの数を超えています。レビューを書いて招待できる数を増やしてください。",
+	"link generated": "下記にあなたのための招待リンクを新しく作りました。コピーしてメール、IM、その他の手段で共有してください。どのリンクも使用できるのは1回だけです。信頼できる知り合いを招待してlib.reviews コミュニティの成長にご協力頂きありがとうございます！",
 	"share the love": "知り合いを招待",
 	"invite users": "ユーザを招待",
 	"pending invitations": "あなたの招待リンク",
@@ -341,10 +349,14 @@
 	"accepted on": "承認日",
 	"copy": "コピー",
 	"invite link invalid title": "不適切な招待コード",
+	"invite link invalid": "提供された招待コードは正しくありません。<a href='/register'>新しくリクエスト</a>するか、問題が続くようなら<a href='https://github.com/eloquence/lib.reviews/issues/new'>私たちに連絡</a>してください。ありがとう！",
 	"invite link already used title": "招待リンクは既に使われています",
+	"invite link already used": "この招待リンクはlib.reviews 上にアカウントを作るのに既に使われています。各招待リンクが使用できるのは1回だけです。<a href='/register'>r新しい招待リンクをリクエスト</a>するか、このメッセージを誤って受け取った場合は<a href='https://github.com/eloquence/lib.reviews/issues/new'>私たちに連絡</a>してください。ありがとう！",
+	"language temporarily changed": "ウェブアドレスの<code>uselang</code> の部分により、現在設定している言語, %1$s の代わりにあなたはこのページを<b>English</b>で見ています。あなたがロードする続きのページからは再度 %1$s で表示されます。",
 	"change language permanently": "切り替えてずっと英語にする",
 	"reload this page": "%s でリロード",
 	"explore teams": "チームを探す",
+	"team intro": "<a href='/teams'>チーム</a>は共通的な興味のある物事をレビューする同好の志のグループです。こちらにいくつかの例があります：",
 	"duplicate team name": "<a href='%s' target='_blank'>この名前のチーム</a>は既に存在しています。別の名前で試してください。",
 	"thing label help": "ラベルはレビューの<i>主題</i>を識別します。修飾子なしで、正確な名前またはタイトルを使用してください。例えば： <i>2001: A Space Odyssey</i> または <i>DNA Lounge</i>。"
 }
