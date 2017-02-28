@@ -4,6 +4,7 @@
 const hbs = require('hbs');
 const escapeHTML = require('escape-html');
 const i18n = require('i18n');
+const stripTags = require('striptags');
 
 // Internal dependencies
 const mlString = require('../models/helpers/ml-string');
@@ -36,6 +37,11 @@ hbs.registerHelper('escapeHTML', function(block) {
 
 hbs.registerHelper('link', function(url, title) {
   return `<a href="${url}">${title}</a>`;
+});
+
+// Strips HTML and shortens to specified length
+hbs.registerHelper('summarize', function(html, length) {
+  return stripTags(html.substr(0, length)) + '...';
 });
 
 hbs.registerHelper('userLink', function(user) {

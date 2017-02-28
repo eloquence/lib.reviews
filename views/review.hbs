@@ -1,3 +1,10 @@
+{{#if review.headerImage}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@lib_reviews">
+<meta name="twitter:title" content="{{{mlString review.title false}}}">
+<meta name="twitter:description" content="{{{summarize (mlString review.html false) 200}}}">
+<meta name="twitter:image" content="{{{qualifiedURL}}}static/uploads/{{{review.headerImage}}}">
+{{/if}}
 <div id="page-messages">
 {{#each pageMessages}}
 <div class="message-box">{{{this}}}</div>
