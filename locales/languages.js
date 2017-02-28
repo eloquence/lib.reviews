@@ -14,7 +14,7 @@ const ReportedError = require('../util/reported-error');
 // with the translations to the locales/ directory. Then add the new language
 // code to this array. Language names will be automatically imported from CLDR
 // on the next restart.
-const validLanguages = ['en', 'bn', 'de', 'eo', 'es', 'fr', 'hu', 'it', 'mk', 'nl', 'pt', 'pt-PT', 'sv', 'zh', 'zh-Hant'];
+const validLanguages = ['en', 'bn', 'de', 'eo', 'es', 'fr', 'hu', 'it', 'ja', 'mk', 'nl', 'pt', 'pt-PT', 'sv', 'zh', 'zh-Hant'];
 
 const languageNameMap = {
   // CLDR uses the unqualified key (e.g., "pt" for Portuguese) for the version
