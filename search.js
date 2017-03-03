@@ -296,11 +296,18 @@ let search = {
       properties: {}
     };
 
+    let validLangs = languages.getValidLanguages();
+
     // We add all analyzers for all languages ElasticSearch has stemming support
     // for to the index, even if they're not yet supported by lib.reviews, so
     // we don't have to keep updating the index. Languages without analyzers
-    // will always be processed by the 'standard' analyzer (no stemming)
+    // will be processed by the 'standard' analyzer (no stemming)
     for (let lang in analyzers) {
+
+      // Splice from language array so we can process remaining languages differently
+      let langPos = validLangs.indexOf(lang);
+      if (langPos !== -1)
+        validLangs.splice(langPos, 1);
 
       obj.properties[lang] = {
         type: 'text',
@@ -318,15 +325,33 @@ let search = {
         }
       };
       if (completionMapping)
-        obj.properties[lang].fields.completion = {
-          type: 'completion',
-          analyzer: 'label',
-          max_input_length: 256 // default is 50, our labels are 256
-        };
+        obj.properties[lang].fields.completion = search.getCompletionMapping();
+    }
 
+    // Add remaining languages so we can do completion & offsets for those
+    // as well.
+    for (let lang of validLangs) {
+      obj.properties[lang] = {
+        type: 'text',
+        index_options: 'offsets', // for sentence-based highlighting
+      };
+      if (completionMapping)
+        obj.properties[lang].fields = {
+          completion: search.getCompletionMapping()
+        };
     }
 
     return obj;
+  },
+
+  // Return mapping for label autocompletion
+  getCompletionMapping() {
+    return {
+      type: 'completion',
+      analyzer: 'label',
+      max_input_length: 256 // default is 50, our labels are 256
+    };
+
   }
 
 };
