@@ -271,6 +271,7 @@
         $
           .get(`/api/suggest/thing/${encodeURIComponent(query)}`)
           .done(res => {
+            this.results = [];
             if (res.results) {
 
               // We don't want to show any suggestion more than once, even
