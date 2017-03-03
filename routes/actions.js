@@ -30,15 +30,8 @@ const formDefs = {
   }]
 };
 
-router.get('/actions/search', function(req, res) {
-  render.template(req, res, 'search', {
-    titleKey: 'search lib.reviews',
-    showHelp: true
-  });
-});
-
-router.post('/actions/search', function(req, res, next) {
-  let query = (req.body.query || '').trim();
+router.get('/actions/search', function(req, res, next) {
+  let query = (req.query.query || '').trim();
   if (query) {
     Promise
       .all([search.searchThings(query, req.locale), search.searchReviews(query, req.locale)])
@@ -58,7 +51,10 @@ router.post('/actions/search', function(req, res, next) {
       })
       .catch(next);
   } else {
-    res.redirect('/actions/search');
+    render.template(req, res, 'search', {
+      titleKey: 'search results',
+      showHelp: true
+    });
   }
 });
 
