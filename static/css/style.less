@@ -643,12 +643,22 @@ details.content-warning[open] summary.content-warning-notice:before {
   min-width: 100%;
 }
 
-#upload-label, #upload-input, #start-upload {
+#upload-label, #upload-input, #start-upload, #start-upload-nojs {
   font-size: small;
 }
 
 #upload-input {
   margin-bottom:0.5em;
+}
+
+.upload-list {
+  margin:0;
+  padding-left:1.5em;
+}
+
+.uploads {
+  margin-top:1em;
+  font-size:90%;
 }
 
 .review-text img, #preview-review-text img {
@@ -663,6 +673,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   text-decoration:none;
   color:black;
 }
+
 .invite-icon {
   color:#f66;
 }
@@ -670,4 +681,107 @@ details.content-warning[open] summary.content-warning-notice:before {
 .invite-link {
   font-family: monospace;
   text-overflow: ellipsis;
+}
+
+.invites {
+  display:inline-block;
+  margin-bottom:1em;
+  margin-left:2em;
+  margin-right:2em;
+}
+
+.invite-banner {
+  text-align: center;
+}
+
+#search-input {
+  width:90%;
+  padding-left: 50px;
+}
+
+.search label
+{
+  position:relative;
+  left:40px;
+  font-size:1.1em;
+}
+
+// Autocompletion styles
+
+.ac-wrap {
+  position: absolute;
+}
+
+.ac-rwrap {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid #e6e6e9;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  margin-top: 0px;
+  margin-left: 5%;
+  margin-right: 5%;
+
+}
+
+.ac-row {
+  padding: 7px 10px 5px 10px;;
+  border-bottom: 1px solid #e6e6e9;
+}
+
+.ac-row:hover {
+  background-color: #f2f2f4;
+  cursor: pointer;
+}
+
+.ac-row.selected {
+  background-color: #eee;
+}
+
+.ac-row:last-child {
+  border-bottom: none;
+}
+
+.ac-pr, .ac-sc {
+  vertical-align: baseline;
+  display: block;
+}
+
+.ac-pr {
+  color: #3a3a48;
+}
+
+.ac-sc {
+  font-size: x-small;
+  padding-top: 5px;
+  color: #9d9da3;
+  text-transform:uppercase;
+}
+
+.ac-sc::before {
+  content:'\f0ac';
+  font-family:'FontAwesome';
+  padding-right:3px;
+  font-size: x-small;
+}
+
+.search-highlight {
+  color: red;
+}
+
+.search-excerpt {
+  margin:0;
+  padding: 0.5em;
+  margin-bottom:1em;
+  background: #fcfcfc;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: #ccc;
+  border-radius: 10px;
+  display:inline-block;
+}
+
+.hl {
+  background: #eee;
 }

@@ -11,6 +11,7 @@ const urlUtils = require('../../util/url-utils');
 const ReportedError = require('../../util/reported-error.js');
 const md = require('../../util/md');
 const slugs = require('../helpers/slugs');
+const search = require('../../search');
 
 class ReviewProvider extends AbstractBREADProvider {
 
@@ -159,6 +160,8 @@ class ReviewProvider extends AbstractBREADProvider {
               .save()
               .then(() => {
                 this.res.redirect(`/${review.thing.id}#your-review`);
+                search.indexReview(review);
+                search.indexThing(review.thing);
               })
               .catch(this.next); // Problem updating invite count
           })
@@ -262,6 +265,8 @@ class ReviewProvider extends AbstractBREADProvider {
                 thing: true
               })
               .then(() => {
+                search.indexReview(review);
+                search.indexThing(review.thing);
                 this.req.flash('pageMessages', this.req.__('edit saved'));
                 this.res.redirect(`/review/${newRev.id}`);
               })
@@ -352,6 +357,9 @@ class ReviewProvider extends AbstractBREADProvider {
         this.renderTemplate('review-deleted', {
           titleKey: 'review deleted'
         });
+        search.deleteReview(review);
+        if (withThing)
+          search.deleteThing(review.thing);
       })
       .catch(this.next);
   }

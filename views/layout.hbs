@@ -31,14 +31,6 @@
         <div class="pure-u-1-2">
             <a href="/" id="home-link" accesskey="h" title="{{__ "load frontpage"}}
 {{{__ "accesskey" "h"}}}"><img src="/static/img/logo.svg" id="logo" class="pure-img" alt="{{{__ "site name"}}}"></a>
-{{#if user.inviteLinkCount}}
-{{#unless invitePage}}
-<div class="invites">
-{{{__n "help us grow" user.inviteLinkCount}}}
-<a href="/actions/invite"  class="invite-button pure-button button-rounded"><span class="fa fa-heart spaced-icon invite-icon"></span>{{{__ "share the love"}}}</a>
-</div>
-{{/unless}}
-{{/if}}
       </div>
         <div class="pure-u-1-2">
             {{#if user}}
@@ -61,8 +53,31 @@
                 </ul>
             {{/if}}
         </div>
+          <div class="pure-u-lg-5-24">
+          </div>
+          <div class="pure-u-1-1 pure-u-lg-14-24">
+            <div class="search">
+              <form class="pure-form" autocomplete="off" action="/actions/search" method="post">
+                <input type="hidden" value="{{csrfToken}}" name="_csrf">
+                <label for="search-input"><span class="fa fa-search"></span></label>
+                <input name="query" id="search-input" class="pure-input-rounded" accesskey="f" title="{{{__ "accesskey" "f"}}}" placeholder="{{{__ "search lib.reviews"}}}" value="{{query}}">
+              </form>
+            </div>
+          </div>
+          <div class="pure-u-lg-5-24">
+          </div>
     </div>
 </div>
+{{#if user.inviteLinkCount}}
+{{#unless invitePage}}
+<div class="invite-banner">
+<div class="invites">
+{{{__n "help us grow" user.inviteLinkCount}}}
+<a href="/actions/invite"  class="pure-button button-rounded invite-button"><span class="fa fa-heart spaced-icon invite-icon"></span>{{{__ "share the love"}}}</a>
+</div>
+</div>
+{{/unless}}
+{{/if}}
     <div id="main-body">
     {{#if localeChange}}
     <div id="uselang-notice" class="message-box">
@@ -111,6 +126,7 @@
 </div>
   <script type="text/javascript">
   {{{configScript}}}
+  var module = {}; // For scripts that hardcode requireJS
   </script>
   {{#each scripts}}
   <script src="/static/js/{{this}}"></script>

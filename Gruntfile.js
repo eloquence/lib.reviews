@@ -16,7 +16,8 @@ module.exports = function(grunt) {
           'node_modules/jquery/dist/jquery.js',
           'node_modules/sisyphus.js/sisyphus.js',
           'node_modules/markdown-it/dist/markdown-it.min.js',
-          'node_modules/markdown-it-container/dist/markdown-it-container.min.js'
+          'node_modules/markdown-it-container/dist/markdown-it-container.min.js',
+          'node_modules/remote-ac/ac.js'
         ],
         dest: 'static/js/'
       },
@@ -56,6 +57,7 @@ module.exports = function(grunt) {
         src: [
           'static/js/jquery.js',
           'static/js/sisyphus.js',
+          'static/js/ac.js',
           'static/js/libreviews.js'
         ],
         dest: 'static/js/lib.js'

@@ -345,5 +345,16 @@
 	"invite link already used": "Text for page shown if a given invite link has already been used",
 	"language temporarily changed": "Message shown if the language of a page is temporarily changed using the ?uselang parameter. Change the word 'English' to the name of the language you are translating this message to. %1$s will be substituted with the name of the language the user would see if ?uselang was not set.",
 	"change language permanently": "Label for button that will make a ?uselang selection permanent. Change the word 'English' to the name of the language you are translating this message to.",
-	"reload this page": "Label for link to undo a ?uselang language selection for a given page. %s will be substituted with the name of the user's currently configured language."
+	"reload this page": "Label for link to undo a ?uselang language selection for a given page. %s will be substituted with the name of the user's currently configured language.",
+	"explore teams": "Headline shown on the main page to highlight some randomly selected teams.",
+	"team intro": "Explanation that is shown on the frontpage.",
+	"duplicate team name": "Warning that is shown after saving a team if there is a name collision.",
+	"thing label help": "Help text that is shown next to the input for review subject (thing) labels.",
+	"search lib.reviews": "Text that is shown as a placeholder inside the search box, and as a headline on the standalone search page.",
+	"search results": "Headline that is shown on the search results page.",
+	"no results": "Message that is shown when no search results could be found.",
+	"matches in review subjects": "Headline that is shown on the search result page for text matches in review subjects (thing labels).",
+	"matches in review text": "Headline that is shown on the search result page for text matches in review text.",
+	"one or multiple matches": "Text that is shown on the search result page to highlight how many reviews of a given thing matched the entered search text.",
+	"search help": "Help text that is shown on the search page. Feel free to localize the examples."
 }

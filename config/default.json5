@@ -103,6 +103,14 @@
       }
     ]
  },
+
+ // ElasticSearch settings. Set log to 'error' to minimize spamminess.
+  search: {
+    port: 9200,
+    host: 'localhost',
+    log: 'trace'
+  },
+
  // If you want to run the IRC bot in tools/irc-bot.js,
  // adjust the settings below in your config.
  irc: {

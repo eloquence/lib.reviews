@@ -20,6 +20,7 @@ const feeds = require('./helpers/feeds');
 const debug = require('../util/debug');
 const forms = require('./helpers/forms');
 const slugs = require('./helpers/slugs');
+const search = require('../search');
 
 // For processing uploads
 const uploadFormDef = [{
@@ -124,6 +125,7 @@ router.post('/:id/edit/label', function(req, res, next) {
               updatedRev
                 .save()
                 .then(() => {
+                  search.indexThing(updatedRev);
                   res.redirect(`/${id}`);
                 })
                 .catch(next);
@@ -446,8 +448,8 @@ function sendThing(req, res, thing, options) {
 
   render.template(req, res, 'thing', {
     deferHeader: options.edit ? true : false,
-    titleKey: options.edit ? options.edit.titleKey : undefined,
-    titleString: Thing.getLabel(thing, req.locale),
+    titleKey: options.edit ? options.edit.titleKey : 'reviews of',
+    titleParam: Thing.getLabel(thing, req.locale),
     thing,
     edit: options.edit,
     pageErrors,

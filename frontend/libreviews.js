@@ -1,4 +1,4 @@
-/* global $, jQuery */
+/* global $, jQuery, AC, config */
 /* eslint prefer-reflect: "off" */
 
 /*
@@ -237,6 +237,10 @@
 
   window.libreviews.updateContentClickHandlers();
 
+  // Add autocompletion to search box if present
+  if ($('#search-input').length)
+    setupSearch();
+
   // For content which is hidden by default and can be expanded, e.g., spoiler
   // warnings, NSFW warnings
   function toggleDangerousContent(event) {
@@ -250,6 +254,70 @@
     }
     event.preventDefault();
   }
+
+  function setupSearch() {
+    let ac = new AC($('#search-input')[0], null, queryFn, null, null, triggerFn);
+    ac.secondaryTextKey = 'language';
+
+    function triggerFn(row) {
+      if (row.urlID)
+        window.location = `/${row.urlID}`;
+    }
+
+    function queryFn(query) {
+      this.results = [];
+      query = query.trim();
+      if (query) {
+        $
+          .get(`/api/suggest/thing/${encodeURIComponent(query)}`)
+          .done(res => {
+            if (res.results) {
+
+              // We don't want to show any suggestion more than once, even
+              // if it appears in multiple languages
+              let seenIDs = [];
+
+              // Helper function for adding labels to the suggestions array
+              let processLabelKey = (labelKey, labelLanguage) => {
+                for (let label of res.results[labelKey]) {
+                  // Don't include any result more than once
+                  if (seenIDs.indexOf(label._id) !== -1)
+                    continue;
+                  seenIDs.push(label._id);
+
+                  let suggestion = {
+                    title: label.text,
+                    urlID: label.urlID
+                  };
+                  if (labelLanguage !== config.language)
+                    suggestion.language = labelLanguage;
+
+                  this.results.push(suggestion);
+                }
+                Reflect.deleteProperty(res.results, labelKey);
+              };
+
+              // Process the user's currently selected language before others
+              let myLabelKey = `labels-${config.language}`;
+              if (Array.isArray(res.results[myLabelKey]) && res.results[myLabelKey].length)
+                processLabelKey(myLabelKey, config.language);
+
+              // Process remaining languages
+              for (let labelKey in res.results) {
+                let labelLanguage = (labelKey.match(/labels-(.*)/) || [])[1];
+                if (!labelLanguage)
+                  continue;
+                processLabelKey(labelKey, labelLanguage);
+              }
+            }
+            this.render();
+          });
+      } else {
+        this.render();
+      }
+    }
+  }
+
 
   function showInputHelp() {
     let id = this.id;

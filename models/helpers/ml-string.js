@@ -3,6 +3,8 @@ const languages = require('../../locales/languages');
 const langKeys = languages.getValidLanguages();
 const thinky = require('../../db');
 const type = thinky.type;
+const decodeHTML = require('entities').decodeHTML;
+const stripTags = require('striptags');
 
 let mlString = {
   // Simple thinky type hack for multilingual strings, permitting only strings in
@@ -76,6 +78,31 @@ let mlString = {
     // are empty.
     return undefined;
 
+  },
+
+  // Returns a copy of a given string object with HTML entities decoded and
+  // HTML elements stripped
+  stripHTML(strObj) {
+    if (typeof strObj !== 'object')
+      return strObj;
+
+    let rv = {};
+    for (let lang in strObj) {
+      if (typeof strObj[lang] == 'string')
+        rv[lang] = stripTags(decodeHTML(strObj[lang]));
+      else
+        rv[lang] = strObj[lang];
+    }
+    return rv;
+  },
+
+  // Returns a copy of a given string object array with HTML entities decoded
+  // and HTML elements stripped
+  stripHTMLFromArray(strObjArr) {
+    if (!Array.isArray(strObjArr))
+      return strObjArr;
+    else
+      return strObjArr.map(mlString.stripHTML);
   }
 
 };

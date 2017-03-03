@@ -352,5 +352,15 @@
     "explore teams": "Explore teams",
     "team intro": "<a href='/teams'>Teams</a> are groups of like-minded people reviewing things of common interest. Here are a few examples:",
     "duplicate team name": "A <a href='%s' target='_blank'>team with this name</a> already exists. Please try a different name.",
-    "thing label help": "A label identifies the <i>subject</i> of a review. Use the exact name or title without qualifiers. For example: <i>2001: A Space Odyssey</i> or <i>DNA Lounge</i>."
+    "thing label help": "A label identifies the <i>subject</i> of a review. Use the exact name or title without qualifiers. For example: <i>2001: A Space Odyssey</i> or <i>DNA Lounge</i>.",
+    "search lib.reviews": "Search lib.reviews",
+    "search results": "Search results",
+    "no results": "We could not find any matches for your query, \"%s\".",
+    "matches in review subjects": "Matching review subjects",
+    "matches in review text": "Matching reviews",
+    "one or multiple matches": {
+     "one": "One matching review:",
+     "other": "%s matching reviews:"
+   },
+   "search help": "Search tips: <ul><li>You can exclude terms by prefixing them with <code class='hl'>-</code>, e.g. <code class='hl'>apples -oranges</code>.<li>You can search for an exact phrase by using <code class='hl'>\"quotation marks\"</code>.<li>You can use wildcards at the end to match multiple words, e.g., <code class='hl'>Liz*</code> will match Liz and Lizzy.</ul>"
 }

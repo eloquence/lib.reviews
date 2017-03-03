@@ -30,7 +30,7 @@ let render = {
 
     vars.user = req.user;
 
-    vars.scripts = ['lib.min.js'];
+    vars.scripts = ['lib.js'];
     if (extraVars && Array.isArray(extraVars.scripts))
       vars.scripts = vars.scripts.concat(extraVars.scripts);
 

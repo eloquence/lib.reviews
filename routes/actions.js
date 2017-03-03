@@ -15,6 +15,7 @@ const InviteLink = require('../models/invite-link');
 const debug = require('../util/debug');
 const actionHandler = require('./handlers/action-handler.js');
 const languages = require('../locales/languages');
+const search = require('../search');
 
 const formDefs = {
   'register': [{
@@ -28,6 +29,38 @@ const formDefs = {
     required: false
   }]
 };
+
+router.get('/actions/search', function(req, res) {
+  render.template(req, res, 'search', {
+    titleKey: 'search lib.reviews',
+    showHelp: true
+  });
+});
+
+router.post('/actions/search', function(req, res, next) {
+  let query = (req.body.query || '').trim();
+  if (query) {
+    Promise
+      .all([search.searchThings(query, req.locale), search.searchReviews(query, req.locale)])
+      .then(results => {
+        let labelMatches = results[0].hits.hits;
+        let textMatches = results[1].hits.hits;
+        let noMatches = !labelMatches.length && !textMatches.length;
+
+        render.template(req, res, 'search', {
+          titleKey: 'search results',
+          noMatches,
+          labelMatches,
+          textMatches,
+          query,
+          showHelp: noMatches
+        });
+      })
+      .catch(next);
+  } else {
+    res.redirect('/actions/search');
+  }
+});
 
 router.get('/actions/invite', function(req, res, next) {
   if (!req.user)

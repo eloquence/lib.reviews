@@ -4,6 +4,7 @@
 <div class="message-box">{{{this}}}</div>
 {{/each}}
 </div>
+<div class="centered-feed">
 {{#if showLanguageNotice}}
 {{> dismissible_notice icon="globe" messageKey="editing in language" id="language-notice-thing" csrfToken=csrfToken}}
 {{/if}}
@@ -35,59 +36,39 @@
 {{#if thing.urls}}
 <span class="fa fa-external-link review-icon"></span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}
 {{/if}}
-
 {{#unless edit.label}}
 {{#if thing.files}}
-<p>
+<div class="uploads">
 {{{__ "uploaded media"}}}
-<ul>
+<p>
+<ul class="upload-list">
 {{#each thing.files}}
 <li> {{{getFileLink this.name}}}<br>
   {{{mlString this.description}}}<br>
 {{/each}}
 </ul>
+</div>
 {{/if}}
-
-<div id="thing">
-<div id="thing-label"></div>
-<div id="thing-short-desc"></div>
-<div id="thing-aliases"></div>
-<div id="thing-main-url"></div>
-<div id="thing-other-urls"></div>
-<div id="thing-data">
-  {{#if thing.isA.book}}
-  <div id="book-author" class="link-human"></div>
-  <div id="book-title"></div>
-  {{/if}}
-  {{#if thing.isA.business}}
-  <div id="business-address"></div>
-  <div id="business-map"></div>
-  <div id="business-hours"></div>
-  {{/if}}
-</div>
-</div>
-<p>
-{{#if user}}
-{{#unless userReviews}}
-{{#unless edit.label}}
-<a href="/new/review/{{{thing.urlID}}}" id="add-review" class="pure-button button-rounded"><span class="fa fa-plus-circle spaced-icon"></span>{{{__ "add your review"}}}</a>
-{{/unless}}
-{{/unless}}
 {{#if thing.userCanUpload}}
+<p>
 {{>upload_form}}
-{{/if}}
-{{else}}
-<br><br>
-<b>{{{__ "sign in to review"}}}</b>
 {{/if}}
 {{#if userReviews}}
 <h2 class="sub-header-regular" id="your-review">{{{__ "your review"}}}</h2>
 {{>feed thingFeed=true feedItems=userReviews paginationURL=false}}
 {{/if}}
-<br><br>
-
 {{#if otherReviews}}
 <h2 class="sub-header-regular">{{#if userReviews}}{{{__ "other reviews"}}}{{else}}{{{__ "reviews"}}}{{/if}}</h2>
+{{#if user}}
+{{#unless userReviews}}
+{{#unless edit.label}}
+<p><a href="/new/review/{{{thing.urlID}}}" id="add-review" class="pure-button button-rounded"><span class="fa fa-pencil spaced-icon"></span>{{{__ "add your review"}}}</a></p>
+{{/unless}}
+{{/unless}}
+{{else}}
+<p><b>{{{__ "sign in to review"}}}</b></p>
+{{/if}}
 {{>feed thingFeed=true feedItems=otherReviews}}
 {{/if}}
 {{/unless}}
+</div>

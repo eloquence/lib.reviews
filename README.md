@@ -13,6 +13,7 @@ Our technical choices include:
 - Node.js LTS (currently the Node.js 6 series)
 - Express as lightweight framework
 - RethinkDB as primary backend
+- ElasticSearch as search backend
 - Thinky as ODM
 - Handlebars for front-end templating
 - LESS for CSS
