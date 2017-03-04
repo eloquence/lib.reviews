@@ -75,10 +75,17 @@ let search = {
 
   },
 
-  // Find reviews by their text; performs language fallback and includes
+  // Find reviews by their text or title; performs language fallback and includes
   // the thing via parent-child join. The review is returned as an inner hit.
   searchReviews(query, lang = 'en') {
+    // Add text fields
     let options = search.getSearchOptions('reviews', 'text', lang);
+
+    // Add title fields
+    let titleOptions = search.getSearchOptions('reviews', 'title', lang);
+    options.fields = options.fields.concat(titleOptions.fields);
+
+    Object.assign(options.highlight.fields, titleOptions.highlight.fields);
     return client.search({
       index: 'libreviews',
       type: 'things',
