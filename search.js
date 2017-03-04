@@ -102,6 +102,31 @@ let search = {
     });
   },
 
+  // We may be getting highlighs from both the processed (stememd) index
+  // and the unprocessed one. This function filters the dupes from inner hits.
+  filterDuplicateInnerHighlights(hits, type) {
+    for (let hit of hits) {
+      if (hit.inner_hits && hit.inner_hits[type] && hit.inner_hits[type].hits) {
+        for (let innerHit of hit.inner_hits[type].hits.hits) {
+          if (innerHit.highlight) {
+            let seenHighlights = [];
+            for (let key in innerHit.highlight) {
+              innerHit.highlight[key] = innerHit.highlight[key].filter(highlight => {
+                if (seenHighlights.indexOf(highlight) === -1) {
+                  seenHighlights.push(highlight);
+                  return true;
+                } else {
+                  return false;
+                }
+              });
+            }
+          }
+        }
+      }
+    }
+    return hits;
+  },
+
   // Generate language fallback and highlight options.
   getSearchOptions(type, fieldPrefix, lang) {
     let langs = languages.getFallbacks(lang);
@@ -118,7 +143,7 @@ let search = {
       fields: {}
     };
     for (let lang of langs)
-      highlight.fields[`${fieldPrefix}.${lang}`] = {};
+      highlight.fields[`${fieldPrefix}.${lang}*`] = {};
 
     return {
       fields,
