@@ -46,14 +46,16 @@ router.get('/actions/search', function(req, res, next) {
           labelMatches,
           textMatches,
           query,
-          showHelp: noMatches
+          showHelp: noMatches,
+          deferPageHeader: true
         });
       })
       .catch(next);
   } else {
     render.template(req, res, 'search', {
       titleKey: 'search lib.reviews',
-      showHelp: true
+      showHelp: true,
+      deferPageHeader: true
     });
   }
 });
