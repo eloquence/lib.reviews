@@ -357,5 +357,15 @@
 	"explore teams": "探索团队",
 	"team intro": "<a href='/teams'>团队</a>是审查共同兴趣事物的志同道合的人们所组建的群组。这里有一些例子：",
 	"duplicate team name": "<a href='%s' target='_blank'>此名称的团队</a>已存在。请尝试不同的名称。",
-	"thing label help": "标签识别审查的<i>主题</i>。使用确切名称或不带修饰词的标题。例如：<i>2001：太空漫游</i>或<i>DNA休息室</i>。"
+	"thing label help": "标签识别审查的<i>主题</i>。使用确切名称或不带修饰词的标题。例如：<i>2001：太空漫游</i>或<i>DNA休息室</i>。",
+	"search lib.reviews": "搜索lib.reviews",
+	"search results": "搜索结果",
+	"no results": "我们找不到匹配您的查询（“%s”）的任何结果。",
+	"matches in review subjects": "匹配审查主题",
+	"matches in review text": "匹配审查",
+	"one or multiple matches": {
+		"one": "一个匹配的审查：",
+		"other": "%s个匹配的审查："
+	},
+	"search help": "搜索小提示：<ul><li>您可以通过在关键词前加前缀<code class='hl'>-</code>来排除对应关键词，例如<code class='hl'>苹果 -橘子</code>。<li>您可以通过使用<code class='hl'>\"引号\"</code>搜索精确短语。<li>您可以在末尾使用通配符来匹配多个词，例如<code class='hl'>Liz*</code>会匹配Liz和Lizzy。</ul>"
 }

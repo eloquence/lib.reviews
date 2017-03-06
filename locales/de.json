@@ -359,5 +359,15 @@
 	"explore teams": "Teams entdecken",
 	"team intro": "<a href='/teams'>Teams</a> sind Gruppen gleichgesinnter Menschen, die Dinge von allgemeinem Interesse rezensieren. Hier sind einige Beispiele:",
 	"duplicate team name": "Ein <a href='%s' target='_blank'>Team mit diesem Namen</a> ist bereits vorhanden. Bitte versuche es mit einem anderen Namen.",
-	"thing label help": "Ein Titel kennzeichnet das <i>Thema</i> einer Rezension. Verwende den genauen Namen oder Titel ohne die Qualifikatoren. Zum Beispiel: <i>2001: A Space Odyssey</i> oder <i>DNA Lounge</i>."
+	"thing label help": "Ein Titel kennzeichnet das <i>Thema</i> einer Rezension. Verwende den genauen Namen oder Titel ohne die Qualifikatoren. Zum Beispiel: <i>2001: A Space Odyssey</i> oder <i>DNA Lounge</i>.",
+	"search lib.reviews": "lib.reviews durchsuchen",
+	"search results": "Ergebnisse durchsuchen",
+	"no results": "Wir konnten keine Treffer für deine Anfrage „%s“ finden.",
+	"matches in review subjects": "Übereinstimmende Rezensionsthemen",
+	"matches in review text": "Übereinstimmende Rezensionen",
+	"one or multiple matches": {
+		"one": "Eine übereinstimmende Rezension:",
+		"other": "%s übereinstimmende Rezensionen:"
+	},
+	"search help": "Suchtipps: <ul><li>Du kannst Begriffe mit dem Präfix <code class='hl'>-</code> ausschließen, z.&nbsp;B. <code class='hl'>Äpfel -Orangen</code>.<li>Du kannst nach einem exakten Ausdruck suchen, indem du <code class='hl'>\"Anführungszeichen\"</code> verwendest.<li>Du kannst Wildcards am Ende verwenden, um mehrere Wörter zu finden, z.&nbsp;B. <code class='hl'>Liz*</code> findet Liz und Lizzy.</ul>"
 }

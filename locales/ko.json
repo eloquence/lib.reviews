@@ -142,5 +142,7 @@
 	"invite link invalid title": "유효하지 않은 초대 코드",
 	"invite link already used title": "초대 링크는 이미 사용 중입니다",
 	"change language permanently": "영구적으로 영어로 전환",
-	"duplicate team name": "<a href='%s' target='_blank'>이 이름으로 된 팀</a>이 이미 존재합니다. 다른 이름을 사용해 보십시오."
+	"duplicate team name": "<a href='%s' target='_blank'>이 이름으로 된 팀</a>이 이미 존재합니다. 다른 이름을 사용해 보십시오.",
+	"search lib.reviews": "lib.reviews 검색",
+	"search results": "검색 결과"
 }

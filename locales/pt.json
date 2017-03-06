@@ -44,7 +44,7 @@
 	"write a review": "Escrever uma resenha",
 	"new review": "Nova resenha",
 	"help": "Ajuda",
-	"review url": "URL do tema da resenha",
+	"review url": "URL do tópico da resenha",
 	"review url help label": "URL",
 	"enter web address": "Introduza o endereço web, por exemplo, https://pt.wikipedia.org/wiki/Cristo_Redentor",
 	"review url help": "Escolha um endereço web (URL) que descreva o local, objeto ou coisa que avaliou. Isto pode ser, por exemplo, o sítio oficial que contém uma entrada de um produto de uma loja na Internet, ou qualquer outro URL que identifique o assunto.",
@@ -358,5 +358,15 @@
 	"explore teams": "Explorar equipes",
 	"team intro": "<a href='/teams'>Equipes</a> são grupos de pessoas com visões semelhantes revisando coisas de interesse comum. Aqui estão alguns exemplos:",
 	"duplicate team name": "Uma <a href='%s' target='_blank'>equipe com este nome</a> já existe. Por favor, tente um nome diferente.",
-	"thing label help": "Uma etiqueta identifica o <i>tópico</i> da resenha. Use o nome exato ou título sem alterações. Por exemplo: <i>A Paixão segundo G.H.</i> ou <i>O Ano em que Meus Pais Saíram de Férias</i>."
+	"thing label help": "Uma etiqueta identifica o <i>tópico</i> da resenha. Use o nome exato ou título sem alterações. Por exemplo: <i>A Paixão segundo G.H.</i> ou <i>O Ano em que Meus Pais Saíram de Férias</i>.",
+	"search lib.reviews": "Pesquisar no lib.reviews",
+	"search results": "Resultados da busca",
+	"no results": "Não encontramos resultados para sua busca \"%s\".",
+	"matches in review subjects": "Tópicos de resenha correspondentes",
+	"matches in review text": "Resenhas correspondentes",
+	"one or multiple matches": {
+		"one": "Uma resenha correspondente:",
+		"other": "%s resenhas correspondentes:"
+	},
+	"search help": "Dicas de pesquisa: <ul><li>Você pode excluir termos usando <code class='hl'>-</code> como prefixo, por exemplo: <code class='hl'>maçãs -laranjas</code>.<li>Você pode pesquisar por uma frase exata usando <code class='hl'>\"aspas\"</code>.<li>Você pode usar curingas no fim para ter mais resultados, por exemplo, <code class='hl'>Liz*</code> vai dar como resultados Liz e Lizzy.</ul>"
 }

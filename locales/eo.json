@@ -357,5 +357,15 @@
 	"explore teams": "Foliumu teamojn",
 	"team intro": "<a href=\"/teams\">Teamoj</a> estas grupoj de simil-ideanoj recenzante aĵojn, pri kiuj ili interesiĝas. Jen kelkaj ekzemploj:",
 	"duplicate team name": "Jam ekzistas <a href='%s' target='_blank'>teamo kun ĉi tiu nomo</a>. Bonvole provu malsaman nomon.",
-	"thing label help": "Etikedo identigas la <i>temon</i> de recenzo. Uzu la ĝustan nomon aŭ titolon sen aliaj ecoj. Ekzemple: <i>Gerda Malaperis</i> aŭ <i>Kredu Min, Sinjorino</i>."
+	"thing label help": "Etikedo identigas la <i>temon</i> de recenzo. Uzu la ĝustan nomon aŭ titolon sen aliaj ecoj. Ekzemple: <i>Gerda Malaperis</i> aŭ <i>Kredu Min, Sinjorino</i>.",
+	"search lib.reviews": "Serĉi tra lib.reviews",
+	"search results": "Serĉrezultoj",
+	"no results": "Oni ne eblis trovi koncernaj rezultojn por via peto, \"%s\".",
+	"matches in review subjects": "Koncernaj recenzaj temoj",
+	"matches in review text": "Koncernaj rezultoj",
+	"one or multiple matches": {
+		"one": "Unu koncerna recenzo:",
+		"other": "%s koncernaj recenzoj:"
+	},
+	"search help": "Serĉkonsiloj: <ul><li>Vi povas forigi vortojn el la rezulto uzante <code class='hl'>-</code> antaŭ la vorto, ekzemple <code class='hl'>terpomoj -oranĝoj</code>.<li>Vi povas serĉi tutsaman frazon uzante <code class='hl'>\"citilojn\"</code>.<li>Vi povas uzi ĵokeran esprimon frazfine por trovi pli da vortoj, ekzemple, <code class='hl'>Liz*</code> montros Liz kaj Lizzy.</ul>"
 }

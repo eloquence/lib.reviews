@@ -4,7 +4,8 @@
 			"Irus",
 			"Kareyac",
 			"Okras",
-			"INS Pirat"
+			"INS Pirat",
+			"Redredsonia"
 		]
 	},
 	"site name": "lib.reviews",
@@ -174,5 +175,6 @@
 	"pending invitations": "Ваши пригласительные ссылки",
 	"accepted invitations": "Принятые приглашения",
 	"change language permanently": "Постоянно переключиться на английский",
-	"reload this page": "Перезагрузить в %s"
+	"reload this page": "Перезагрузить в %s",
+	"search results": "Результаты поиска"
 }

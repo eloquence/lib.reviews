@@ -3,7 +3,8 @@
 		"authors": [
 			"Fitoschido",
 			"Koavf",
-			"Macofe"
+			"Macofe",
+			"Frisjon"
 		]
 	},
 	"site name": "lib.reviews",
@@ -359,5 +360,9 @@
 	"explore teams": "Explorar equipos",
 	"team intro": "Los <a href=\"/teams\">equipos</a> son grupos de personas afines que revisan cosas de interés común. Aquí hay algunos ejemplos:",
 	"duplicate team name": "Ya existe un <a href='%s' target='_blank'>equipo con este nombre</a>. Intenta con otro.",
-	"thing label help": "Una etiqueta identifica el <i>tema</i> de una revisión. Usa el mismo nombre o título sin calificadores. Por ejemplo: <i>2001: una odisea del espacio</i> o <i>Salón del ADN </i>."
+	"thing label help": "Una etiqueta identifica el <i>tema</i> de una revisión. Usa el mismo nombre o título sin calificadores. Por ejemplo: <i>2001: una odisea del espacio</i> o <i>Salón del ADN </i>.",
+	"search lib.reviews": "Buscar en lib.reviews",
+	"search results": "Resultados de búsqueda",
+	"no results": "No pudimos encontrar ninguna coincidencia para tu búsqueda, \"%s\".",
+	"matches in review subjects": "Revisiones de temas que coinciden"
 }

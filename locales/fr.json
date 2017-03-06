@@ -362,5 +362,15 @@
 	"explore teams": "Explorer les équipes",
 	"team intro": "Les <a href='/teams'>équipes</a> sont des groupes de personnes ayant les mêmes idées et examinant des choses d’intérêt commun. Voici quelques exemples :",
 	"duplicate team name": "Une <a href='%s' target='_blank'>équipe portant ce nom</a> existe déjà. Veuillez essayer avec un autre nom.",
-	"thing label help": "Un libellé identifie le <i>sujet</i> d’une critique. Utiliser le nom exact ou le titre sans qualifieurs. Par exemple : <i>2001: Une odyssée de l’espace</i> ou <i>Bar à ADN</i>."
+	"thing label help": "Un libellé identifie le <i>sujet</i> d’une critique. Utiliser le nom exact ou le titre sans qualifieurs. Par exemple : <i>2001: Une odyssée de l’espace</i> ou <i>Bar à ADN</i>.",
+	"search lib.reviews": "Rechercher dans lib.reviews",
+	"search results": "Résultats de recherche",
+	"no results": "Nous n’avons pu trouver aucune correspondance pour votre requête, « %s ».",
+	"matches in review subjects": "Correspondance des sujets de critique",
+	"matches in review text": "Correspondance des critiques",
+	"one or multiple matches": {
+		"one": "une critique correspondante :",
+		"other": "%s critiques correspondantes :"
+	},
+	"search help": "Conseils de recherche : <ul><li>Vous pouvez exclure des termes en les préfixant par <code class='hl'>-</code>, par ex. <code class='hl'>pommes -oranges</code>.<li>Vous pouvez rechercher une phrase exacte en utilisant <code class='hl'>\"des guillemets\"</code>.<li>Vous pouvez utiliser des jokers à la fin pour correspondre à plusieurs mors, par ex., <code class='hl'>Liz*</code> correspondra à Liz et Lizzy.</ul>"
 }

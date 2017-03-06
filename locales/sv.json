@@ -358,5 +358,15 @@
 	"explore teams": "Utforska lag",
 	"team intro": "<a href='/teams'>Lag</a> är en grupp av likasinnade personer som recenserar saker av gemensamt intresse. Här är några exempel:",
 	"duplicate team name": "En <a href='%s' target='_blank'>grupp med detta namn</a> finns redan. Försök med ett annat namn.",
-	"thing label help": "Ett etikett identifierar <i>ämnet</i> för en recension. Använd det exakta namnet eller rubriken utan bestämningsord. T.ex.: <i>2001: A Space Odyssey</i> eller <i>DNA Lounge</i>."
+	"thing label help": "Ett etikett identifierar <i>ämnet</i> för en recension. Använd det exakta namnet eller rubriken utan bestämningsord. T.ex.: <i>2001: A Space Odyssey</i> eller <i>DNA Lounge</i>.",
+	"search lib.reviews": "Sök i lib.reviews",
+	"search results": "Sökresultat",
+	"no results": "Vi kunde inte hitta några matchningar för din sökterm \"%s\".",
+	"matches in review subjects": "Matchar recensionsämnen",
+	"matches in review text": "Matchande recensioner",
+	"one or multiple matches": {
+		"one": "En matchande recension:",
+		"other": "%s matchande recensioner:"
+	},
+	"search help": "Söktips: <ul><li>Du kan exkludera termer genom att lägga till prefix med <code class='hl'>-</code>, t.ex. <code class='hl'>äpplen -apelsiner</code>.<li>Du kan söka efter en exakt fras med <code class='hl'>\"citationstecken\"</code>.<li>Du kan använda jokertecken i slutet för att matcha flera ord, t.ex. <code class='hl'>Liz*</code> kommer att matcha Liz och Lizzy.</ul>"
 }

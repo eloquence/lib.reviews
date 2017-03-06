@@ -358,5 +358,15 @@
 	"explore teams": "探索團隊",
 	"team intro": "<a href='/teams'>團隊</a>是個由志趣相同人們來評論共同興趣的群組。以下有些例子：",
 	"duplicate team name": "<a href='%s' target='_blank'>此名稱的團隊</a>已存在。請使用別的名稱。",
-	"thing label help": "標籤可識別出一個評論的<i>主題</i>。請使用準確的名稱或不待修飾的標題，例如：<i>2001：太空漫遊</i>或<i>DNA Lounge夜總會</i>。"
+	"thing label help": "標籤可識別出一個評論的<i>主題</i>。請使用準確的名稱或不待修飾的標題，例如：<i>2001：太空漫遊</i>或<i>DNA Lounge夜總會</i>。",
+	"search lib.reviews": "搜尋 lib.reviews",
+	"search results": "搜尋結果",
+	"no results": "我們找不到任何符合您的查詢「%s」結果。",
+	"matches in review subjects": "比對評論主題",
+	"matches in review text": "比對評論",
+	"one or multiple matches": {
+		"one": "一個符合的評論：",
+		"other": "%s個符合的評論："
+	},
+	"search help": "搜尋提示：<ul><li>您可利用「<code class='hl'>-</code>」來前綴字詞以排除不需要的項目，例如像：<code class='hl'>蘋果 -橘子</code>。<li>您可透過使用引號「<code class='hl'>\"\"</code>」來搜尋精準的字詞組合。<li>您可在末段使用萬用字元來比對出多個字詞，例如像：<code class='hl'>Liz*</code>會比對到 Liz 和 Lizzy。</ul>"
 }

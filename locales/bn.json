@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Aftabuzzaman"
+			"Aftabuzzaman",
+			"Elias Ahmmad"
 		]
 	},
 	"site name": "lib.reviews",
@@ -325,7 +326,7 @@
 	"view all": "&raquo; সব দেখুন",
 	"faq acronym": "প্রাজিপ্র",
 	"faq": "প্রায়শই জিজ্ঞাসিত প্রশ্নসমূহ",
-	"generate link": "আমন্ত্রণের সংযোগ উত্পন্ন করুন",
+	"generate link": "একটি আমন্ত্রণ সংযোগ উৎপন্ন করুন",
 	"share the love": "ভালবাসা প্রকাশ করুন",
 	"invite users": "ব্যবহারকারীদের আমন্ত্রণ জানান",
 	"pending invitations": "আপনার আমন্ত্রণের সংযোগ",
@@ -338,5 +339,7 @@
 	"invite link invalid title": "অবৈধ আমন্ত্রণ কোড",
 	"change language permanently": "বাংলায় স্থায়ীভাবে সুইচ করুন",
 	"reload this page": "%sতে পুনঃলোড করুন",
-	"explore teams": "দল অন্বেষণ"
+	"explore teams": "দল অন্বেষণ",
+	"search lib.reviews": "lib.reviews অনুসন্ধান",
+	"search results": "অনুসন্ধানের ফলাফল"
 }

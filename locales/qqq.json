@@ -351,10 +351,10 @@
 	"duplicate team name": "Warning that is shown after saving a team if there is a name collision.",
 	"thing label help": "Help text that is shown next to the input for review subject (thing) labels.",
 	"search lib.reviews": "Text that is shown as a placeholder inside the search box, and as a headline on the standalone search page.",
-	"search results": "Headline that is shown on the search results page.",
+	"search results": "Headline that is shown on the search results page.\n{{Identical|Search results}}",
 	"no results": "Message that is shown when no search results could be found.",
 	"matches in review subjects": "Headline that is shown on the search result page for text matches in review subjects (thing labels).",
 	"matches in review text": "Headline that is shown on the search result page for text matches in review text.",
 	"one or multiple matches": "Text that is shown on the search result page to highlight how many reviews of a given thing matched the entered search text.",
-	"search help": "Help text that is shown on the search page. Feel free to localize the examples."
+	"search help": "Help text that is shown on the search page. Feel free to localize the examples, however, you're encouraged to keep \"quotation marks (marks \"\", not words)\" as is, i.e. other quotation marks' styles such as <code><nowiki>'', „”, “”, 「」, 『』, ‘’, and «»</nowiki></code> are not handled correctly."
 }

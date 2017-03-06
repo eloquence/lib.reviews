@@ -348,5 +348,6 @@
 	"copy": "Copia",
 	"invite link invalid title": "Codice di invito non valido",
 	"invite link already used title": "Il collegamento di invito è già stato utilizzato",
-	"reload this page": "Ricarica in %s"
+	"reload this page": "Ricarica in %s",
+	"search results": "Risultati della ricerca"
 }
