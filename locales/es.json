@@ -364,5 +364,11 @@
 	"search lib.reviews": "Buscar en lib.reviews",
 	"search results": "Resultados de búsqueda",
 	"no results": "No pudimos encontrar ninguna coincidencia para tu búsqueda, \"%s\".",
-	"matches in review subjects": "Revisiones de temas que coinciden"
+	"matches in review subjects": "Revisiones de temas que coinciden",
+	"matches in review text": "Reseñas coincidentes",
+	"one or multiple matches": {
+		"one": "Una reseña coicide:",
+		"other": "%s reseñas coiciden:"
+	},
+	"search help": "Consejos de búsqueda: <ul><li>puedes excluir términos anteponiendo el prefijo <code class='hl'>-</code>; p. ej. <code class='hl'>manzanas -naranjas</code>.<li>Puedes buscar una frase exacta usando <code class='hl'>\"comillas\"</code>.<li>Puedes usar comodines al final para encontrar múltiples palabras; p. ej. <code class='hl'>Liz*</code> will match Liz and Lizzy.</ul>"
 }

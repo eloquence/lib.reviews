@@ -341,5 +341,11 @@
 	"reload this page": "%sতে পুনঃলোড করুন",
 	"explore teams": "দল অন্বেষণ",
 	"search lib.reviews": "lib.reviews অনুসন্ধান",
-	"search results": "অনুসন্ধানের ফলাফল"
+	"search results": "অনুসন্ধানের ফলাফল",
+	"matches in review subjects": "মিলে যাওয়া বিষয় পর্যালোচনা",
+	"matches in review text": "মিলে যাওয়া পর্যালোচনা",
+	"one or multiple matches": {
+		"one": "মিলে যাওয়া একটি পর্যালোচনা:",
+		"other": "মিলে যাওয়া %sটি পর্যালোচনা:"
+	}
 }

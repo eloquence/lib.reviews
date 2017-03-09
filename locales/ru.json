@@ -176,5 +176,6 @@
 	"accepted invitations": "Принятые приглашения",
 	"change language permanently": "Постоянно переключиться на английский",
 	"reload this page": "Перезагрузить в %s",
-	"search results": "Результаты поиска"
+	"search results": "Результаты поиска",
+	"no results": "Не удалось найти соответствия по запросу, \"%s\"."
 }
