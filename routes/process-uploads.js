@@ -95,17 +95,20 @@ router.post('/:id/upload', function(req, res, next) {
               Promise
                 .all(fileRevPromises)
                 .then(fileRevs => {
+                  let newFiles = [];
                   req.files.forEach((file, index) => {
                     fileRevs[index].name = file.filename;
                     fileRevs[index].uploadedBy = req.user.id;
                     fileRevs[index].uploadedOn = new Date();
                     thing.addFile(fileRevs[index]);
+                    newFiles.push(fileRevs[index]);
                   });
                   thing
                     .saveAll() // saves joined files
                     .then(thing => render.template(req, res, 'thing-upload-step-2', {
                         titleKey: 'add media',
-                        thing
+                        thing,
+                        newFiles
                       }))
                     .catch(next); // Problem saving file metadata
                 })
