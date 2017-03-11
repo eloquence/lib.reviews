@@ -1,3 +1,4 @@
+<div class="centered-column">
 <div id="page-messages">
 {{#each pageMessages}}
 <div class="message-box">{{{this}}}</div>
@@ -5,6 +6,6 @@
 </div>
 <h1 id="page-header">{{{mlString blogPost.title}}}</h1>
 <h2 id="sub-header">{{{__ "team blog" (link teamURL (mlString team.name false))}}}</h2>
-
 {{>blog_post post=blogPost skipTitle=true}}
+</div>
 </div>

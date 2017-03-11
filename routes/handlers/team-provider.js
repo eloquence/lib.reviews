@@ -70,7 +70,8 @@ class TeamProvider extends AbstractBREADProvider {
 
         this.renderTemplate('teams', {
           teams,
-          titleKey: this.actions.browse.titleKey
+          titleKey: this.actions.browse.titleKey,
+          deferPageHeader: true
         });
 
       });
