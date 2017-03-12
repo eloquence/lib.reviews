@@ -39,7 +39,23 @@ pure CSS from LESS
 
 #footer {
   font-size:small;
-  margin-bottom:2em;
+  text-align:center;
+  margin-top: 2em;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 1em;
+}
+
+#footer-links, #languages {
+  margin-bottom:1em;
+  margin-top: 0.5em;
+}
+
+#change-language-container {
+  line-height:3em;
+}
+
+#current-language-container {
+  line-height: 2em;
 }
 
 @media print
@@ -85,11 +101,8 @@ body {
     font-family: "Noto Sans", sans-serif;
 }
 
-#languages {
-    padding-top: 1em;
-    padding-bottom: 1em;
-    margin-top: 2em;
-    border-top: 1px solid #e5e5e5;
+#language-select {
+  height: auto;
 }
 
 #user-menu {
@@ -315,10 +328,6 @@ label.inline-star-label {
 
 #helper-links {
   display: none;
-}
-
-#freedom-notice {
-  float:right;
 }
 
 .required {

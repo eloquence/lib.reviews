@@ -105,20 +105,25 @@
     {{{body}}}
     </div>
     <div id="footer">
-    <form id="languages" action="/actions/change-language" method="post" name="languages">
-    <input type="hidden" value="{{csrfToken}}" name="_csrf">
-    <span class="fa fa-globe spaced-icon"></span>{{__ "current language" currentLanguage.name}} &ndash;
-    {{{__ "change language" }}}
-    {{#each languageNames}}
-      {{#unless this.isCurrentLanguage}}
-      <button class="pure-button button-rounded language-button" type="submit" name="lang" value="{{@key}}">{{{__ this.name}}}</button>
-      {{/unless}}
-    {{/each}}
-    {{#if showLanguageNotice}}
-    <input type="hidden" value="yes" name="has-language-notice">
-    {{/if}}
-    </form>
-    <div id="freedom-notice">{{{__ "freedom"}}} <a href="/terms">{{{__ "terms"}}}</a> &ndash; {{{__ "code" "https://github.com/eloquence/lib.reviews" "https://notabug.org/freeyourstuff/lib.reviews"}}}</a> &ndash; <a href="/static/downloads">{{{__ "database downloads"}}} &ndash; <a href="/faq">{{{__ "faq acronym" }}}</a></div>
+      <form id="languages" action="/actions/change-language" class="pure-form" method="post" name="languages">
+        <span id="current-language-container">
+        {{__ "current language" currentLanguage.name}} &ndash;
+        {{{__ "change language" }}}
+        </span>
+        <input type="hidden" value="{{csrfToken}}" name="_csrf">
+        <select id="language-select" name="lang" accesskey="l" title="{{{__ "accesskey" "l"}}}">
+          {{#each languageNames}}
+            {{#unless this.isCurrentLanguage}}
+            <option value="{{this.langKey}}">{{this.langKey}} &ndash; {{{__ this.name}}}</option>
+            {{/unless}}
+          {{/each}}
+        </select>
+        <span id="change-language-container"><button name="language-action" value="change" type="submit" class="pure-button button-rounded"><span class="fa fa-globe spaced-icon"></span>{{{__ "change language button"}}}</button></span>
+        {{#if showLanguageNotice}}
+        <input type="hidden" value="yes" name="has-language-notice">
+        {{/if}}
+      </form>
+      <div id="footer-links">{{{__ "freedom"}}}<br><a href="/terms">{{{__ "terms"}}}</a> &ndash; {{{__ "code" "https://github.com/eloquence/lib.reviews" "https://notabug.org/freeyourstuff/lib.reviews"}}}</a> &ndash; <a href="/static/downloads">{{{__ "database downloads"}}}</a> &ndash; <a href="/faq">{{{__ "faq acronym" }}}</a></div>
     </div>
   </div>
 </div>

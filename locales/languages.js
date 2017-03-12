@@ -45,6 +45,22 @@ let languages = {
     return validLanguages.slice();
   },
 
+  // Keys sorted alphabetically
+  getValidLanguagesSorted() {
+    let v = languages.getValidLanguages();
+    v.sort((a, b) => {
+      a = a.toUpperCase();
+      b = b.toUpperCase();
+      if (a > b)
+        return 1;
+      else if (a < b)
+        return -1;
+      else
+        return 0;
+    });
+    return v;
+  },
+
   // Returns the native name of a language, e.g. "Deutsch" for German
   getNativeName(langKey) {
     let lookupKey = languageNameMap[langKey] || langKey;

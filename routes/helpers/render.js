@@ -34,19 +34,20 @@ let render = {
     if (extraVars && Array.isArray(extraVars.scripts))
       vars.scripts = vars.scripts.concat(extraVars.scripts);
 
-    vars.languageNames = {};
-
-    languages.getValidLanguages().forEach(langKey => {
-      vars.languageNames[langKey] = {
+    vars.languageNames = [];
+    languages.getValidLanguagesSorted().forEach(langKey => {
+      let nameObj = {
+        langKey,
         name: languages.getCompositeName(langKey, req.locale)
       };
       if (langKey == req.locale)
-        vars.languageNames[langKey].isCurrentLanguage = true;
+        nameObj.isCurrentLanguage = true;
+      vars.languageNames.push(nameObj);
     });
 
     vars.currentLanguage = {
       langKey: req.locale,
-      name: vars.languageNames[req.locale].name
+      name: languages.getNativeName(req.locale)
     };
 
     if (req.csrfToken)
