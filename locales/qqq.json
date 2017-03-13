@@ -12,6 +12,7 @@
 	"find us on": "Introduction shown on frontpage",
 	"from the dev diary": "Link to development diary shown on frontpage",
 	"change language": "Language switcher shown at the bottom of every page",
+	"change language button": "Label fur button in the footer that executes a language change.",
 	"sign in": "Button for signing into the site\n{{Identical|Sign in}}",
 	"register": "Button for registering an account\n{{Identical|Register}}",
 	"papers please": "Intro shown on the login page",
@@ -356,6 +357,5 @@
 	"matches in review subjects": "Headline that is shown on the search result page for text matches in review subjects (thing labels).",
 	"matches in review text": "Headline that is shown on the search result page for text matches in review text.",
 	"one or multiple matches": "Text that is shown on the search result page to highlight how many reviews of a given thing matched the entered search text.",
-	"search help": "Help text that is shown on the search page. Feel free to localize the examples, however, you're encouraged to keep \"quotation marks (marks \"\", not words)\" as is, i.e. other quotation marks' styles such as <code><nowiki>'', „”, “”, 「」, 『』, ‘’, and «»</nowiki></code> are not handled correctly.",
-	"change language button": "Label fur button in the footer that executes a language change."
+	"search help": "Help text that is shown on the search page. Feel free to localize the examples, however, you're encouraged to keep \"quotation marks (marks \"\", not words)\" as is, i.e. other quotation marks' styles such as <code><nowiki>'', „”, “”, 「」, 『』, ‘’, and «»</nowiki></code> are not handled correctly."
 }

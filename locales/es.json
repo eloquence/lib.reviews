@@ -14,6 +14,7 @@
 	"find us on": "También puedes encontrarnos <a href='https://github.com/eloquence/lib.reviews'>en GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>espejado en notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>suscribirte a nuestra lista</a> y charlar con nosotros por IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> en <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Mira un <a href='/static/uploads/screencast2.webm'>vídeo breve</a> (<a href='https://youtu.be/wjUasbFfCbU'>versión de YouTube</a>) sobre la situación del proyecto a partir de octubre de 2016.",
 	"from the dev diary": "Del <a href='/team/%s/blog'>diario de desarrollo</a>:",
 	"change language": "Cambiar a:",
+	"change language button": "Cambiar idioma",
 	"sign in": "Acceder",
 	"register": "Registrarse",
 	"papers please": "¡Qué bueno verte otra vez! Proporciona tus credenciales de acceso a continuación.",

@@ -12,6 +12,7 @@
 	"find us on": "您可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>上找到我們（<a href='https://notabug.org/freeyourstuff/lib.reviews'>在notabug的鏡像</a>）、或是在IRC上與我們聊天（在<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>）。<p>觀看自2016年10月以來相關情況的<a href='/static/uploads/screencast2.webm'>短片</a> （<a href='https://youtu.be/wjUasbFfCbU'>YouTube版本</a>）。",
 	"from the dev diary": "來自<a href='/team/%s/blog'>開發日記</a>：",
 	"change language": "切換到：",
+	"change language button": "變更語言",
 	"sign in": "登入",
 	"register": "註冊",
 	"papers please": "歡迎回來！請在下方提供您的登入憑證。",

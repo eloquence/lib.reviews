@@ -11,6 +11,7 @@
 	"find us on": "Szintén megtalálsz minket <a href='https://github.com/eloquence/lib.reviews'>GitHub</a>-on (<a href='https://notabug.org/freeyourstuff/lib.reviews'>notabug-ra tükrözve</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>csatlakozz a levelezési listánkhoz</a> és beszélgess velünk IRC-n (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> a <a href='https://freenode.net/'>irc.freenode.net oldalon</a>). <p>Néz meg egy <a href='/static/uploads/screencast2.webm'>rövid felvételt</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube változat</a>) a dolgok 2016 októberi állásáról.",
 	"from the dev diary": "A <a href='/team/%s/blog'>fejlesztési naplóból</a>:",
 	"change language": "Nyelvváltás:",
+	"change language button": "Nyelv megváltoztatása",
 	"sign in": "Bejelentkezés",
 	"register": "Regisztráció",
 	"papers please": "Üdvözlünk újra! Kérjük, add meg a bejelentkezési adataid alább.",
@@ -357,5 +358,15 @@
 	"explore teams": "Csapatok felfedezése",
 	"team intro": "A <a href='/teams'>csapatok</a> olyan személyek csoportja, akiknek hasonló az érdeklődési körük. Itt van néhány példa:",
 	"duplicate team name": "Már létezik egy <a href='%s' target='_blank'>csapat ezzel a névvel</a>. Kérjük, válassz egy másik nevet.",
-	"thing label help": "A címkékkel azonosíthatóak az értékelések <i>témái</i>. Használj pontos nevet vagy címet, minősítés nélkül. Például: <i>2001: Űrodüsszeia</i> vagy <i>DNA Lounge</i>."
+	"thing label help": "A címkékkel azonosíthatóak az értékelések <i>témái</i>. Használj pontos nevet vagy címet, minősítés nélkül. Például: <i>2001: Űrodüsszeia</i> vagy <i>DNA Lounge</i>.",
+	"search lib.reviews": "Keresés",
+	"search results": "Keresési eredmények",
+	"no results": "Nem találtunk eredményt a keresett kifejezésre: „%s”.",
+	"matches in review subjects": "Megfelelő értékelési témák",
+	"matches in review text": "Megfelelő értékelések",
+	"one or multiple matches": {
+		"one": "Egy megfelelő értékelés:",
+		"other": "%s megfelelő értékelés:"
+	},
+	"search help": "Keresési javaslatok: <ul><li>Kizárhatsz kifejezéseket a <code class='hl'>-</code> jellel, pl.: <code class='hl'>almák -narancsok</code>.<li>Szó szerint is rákereshetsz egy kifejezésre <code class='hl'>\"idézőjelek\"</code> használatával.<li>Használhatsz helyettesítő karaktereket a szavak végén, hogy több szó is megfeleljen, pl.: <code class='hl'>Liz*</code> esetén a Liz és a Lizzy szavak is meg fognak felelni.</ul>"
 }
