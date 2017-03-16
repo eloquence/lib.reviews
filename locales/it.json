@@ -13,6 +13,7 @@
 	"find us on": "Ci puoi trovare anche <a href='https://github.com/eloquence/lib.reviews'>su GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>mirror su notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>iscriviti alla nostra mailing list</a> e chatta con noi su IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> su <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Guarda un <a href='/static/uploads/screencast2.webm'>breve screencast</a> (<a href='https://youtu.be/wjUasbFfCbU'>versione YouTube</a>) sullo stato delle cose ad ottobre 2016.",
 	"from the dev diary": "Dal <a href='/team/%s/blog'>diario di sviluppo</a>:",
 	"change language": "Cambia in:",
+	"change language button": "Cambia lingua",
 	"sign in": "Entra",
 	"register": "Registrati",
 	"papers please": "Bentornato! Inserisci sotto le tue credenziali di accesso.",

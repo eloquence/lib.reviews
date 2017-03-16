@@ -11,6 +11,7 @@
 	"find us on": "Vi ankaŭ povas trovi nin  <a href='https://github.com/eloquence/lib.reviews'>ĉe GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>aŭ nia spegulo ĉe Notabug</a>), <a href=\"http://lists.freeculture.org/mailman/listinfo/lib.reviews\">aliĝi al nia dissendolisto</a> kaj paroli kun ni sur IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> sur <a href=\"https://freenode.net/\">irc.freenode.net</a>).<p>Spektu <a href=\"/static/uploads/screencast2.webm\">mallongan filmeton</a> (<a href=\"https://youtu.be/wjUasbFfCbU\">YouTube-versio</a>) pri la stato de aferoj je oktobro 2016.",
 	"from the dev diary": "El la <a href='/team/%s/blog'>programada taglibro</a>:",
 	"change language": "Ŝanĝi al:",
+	"change language button": "Ŝanĝi lingvon",
 	"sign in": "Ensaluti",
 	"register": "Registriĝi",
 	"papers please": "Bonrevenon! Bonvole entajpu viajn ensalutajn informojn sube.",

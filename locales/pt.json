@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"NMaia",
-			"HenriqueCrang"
+			"HenriqueCrang",
+			"Maxan"
 		]
 	},
 	"site name": "lib.reviews",
@@ -12,6 +13,7 @@
 	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>com um espelho no Notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>participar na nossa lista de discussão</a> e conversar conosco através do IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> em <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Assista a um <a href='/static/uploads/screencast2.webm'>breve vídeo</a> (<a href='https://youtu.be/wjUasbFfCbU'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2016.",
 	"from the dev diary": "Do <a href='/team/%s/blog'>diário de desenvolvimento</a>:",
 	"change language": "Mudar para:",
+	"change language button": "Alterar idioma",
 	"sign in": "Entrar",
 	"register": "Registrar",
 	"papers please": "Bem-vindo de volta! Por favor, forneça as suas credenciais abaixo para iniciar a sessão.",

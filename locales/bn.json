@@ -12,6 +12,7 @@
 	"find us on": "এছাড়াও আপনি আমাদেরকে <a href='https://github.com/eloquence/lib.reviews'>গিটহাবে</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>নোটাবাগে মিরর</a>) খুঁজে পেতে পারেন, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>আমাদের মেইলিং তালিকা যোগদান করতে পারেন</a> এবং IRC তে আমাদের সাথে চ্যাট করতে পারেন (<a href='https://freenode.net/'>irc.freenode.net</a> এ (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>)।<p>অক্টোবর ২০১৬ অনুযায়ী জিনিসের অবস্থা সম্পর্কে একটি <a href='/static/uploads/screencast2.webm'>সংক্ষিপ্ত স্ক্রীনকাস্ট</a> (<a href='https://youtu.be/wjUasbFfCbU'>ইউটিউব সংস্করণ</a>) দেখুন।",
 	"from the dev diary": "<a href='/team/%s/blog'>উন্নয়নের ডায়েরি</a> থেকে:",
 	"change language": "পরিবর্তন করুন:",
+	"change language button": "ভাষা পরিবর্তন করুন",
 	"sign in": "প্রবেশ",
 	"register": "নিবন্ধন",
 	"papers please": "স্বাগতম! নিচে আপনার প্রবেশের জন্য শংসাপত্র প্রদান করুন।",
