@@ -330,8 +330,8 @@
 	"faq acronym": "FAQ",
 	"faq": "Häufig gestellte Fragen",
 	"help us grow": {
-		"one": "Hilf lib.reviews beim Wachsen! Du hast <b>einen</b> Einladungslink.",
-		"other": "Hilf lib.reviews beim Wachsen! Du hast <b>%s</b> Einladungslinks."
+		"one": "Hilf lib.reviews beim Wachsen! Du hast einen Einladungslink.",
+		"other": "Hilf lib.reviews beim Wachsen! Du hast %s Einladungslinks."
 	},
 	"invite users intro": "Neue Benutzer benötigen einen Einladungscode. Um Einladungslinks zu verdienen, die du deinen Freunden geben kannst, <a href='/new/review'>schreibe einfach Rezensionen</a>.",
 	"you can generate links": {

@@ -4,7 +4,6 @@
     "intro lead": "<b>Welcome to lib.reviews!</b> We're building a free, open and not-for-profit platform for reviewing absolutely anything, in any language.",
     "intro message": "We are in early development, and for now, you need an invitation link to register. If you don't know how to get one, follow <a href='https://twitter.com/lib_reviews'>lib_reviews</a> on Twitter, send us a tweet, and we'll DM you.",
     "find us on": "You can also find us <a href='https://github.com/eloquence/lib.reviews'>on GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>mirrored to notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>join our mailing list</a> and chat with us on IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> on <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Watch a <a href='/static/uploads/screencast2.webm'>short screencast</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube version</a>) about the state of things as of October 2016.",
-    "from the dev diary": "From the <a href='/team/%s/blog'>development diary</a>:",
     "change language": "Switch to:",
     "change language button": "Change language",
     "sign in": "Sign in",
@@ -323,8 +322,8 @@
     "faq acronym": "FAQ",
     "faq": "Frequently Asked Questions",
     "help us grow": {
-      "one": "Help lib.reviews grow! You have <b>one</b> invite link.",
-      "other": "Help lib.reviews grow! You have <b>%s</b> invite links."
+      "one": "Help lib.reviews grow! You have one invite link.",
+      "other": "Help lib.reviews grow! You have %s invite links."
     },
     "invite users intro": "New users need an invitation code. To earn invite links to give to your friends, simply  <a href='/new/review'>  write reviews</a>.",
     "you can generate links": {
@@ -334,7 +333,6 @@
     "generate link": "Generate an invite link",
     "out of links": "You have run out of links to generate. Write reviews to earn more invite links.",
     "link generated": "We've just made a new invite link for you, which you can find below. Copy it and share it by email, IM, or other means. Any link can be used exactly once. Thanks for helping to grow the lib.reviews community by inviting people you know and trust!",
-    "share the love": "Share the love",
     "invite users": "Invite users",
     "pending invitations": "Your invite links",
     "accepted invitations": "Accepted invitations",
@@ -363,5 +361,8 @@
      "one": "One matching review:",
      "other": "%s matching reviews:"
    },
-   "search help": "Search tips: <ul><li>You can exclude terms by prefixing them with <code class='hl'>-</code>, e.g. <code class='hl'>apples -oranges</code>.<li>You can search for an exact phrase by using <code class='hl'>\"quotation marks\"</code>.<li>You can use wildcards at the end to match multiple words, e.g., <code class='hl'>Liz*</code> will match Liz and Lizzy.</ul>"
+   "search help": "Search tips: <ul><li>You can exclude terms by prefixing them with <code class='hl'>-</code>, e.g. <code class='hl'>apples -oranges</code>.<li>You can search for an exact phrase by using <code class='hl'>\"quotation marks\"</code>.<li>You can use wildcards at the end to match multiple words, e.g., <code class='hl'>Liz*</code> will match Liz and Lizzy.</ul>",
+   "show more": "Show more",
+   "show less": "Show less",
+   "development diary": "Development diary"
 }

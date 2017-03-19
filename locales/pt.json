@@ -330,8 +330,8 @@
 	"faq acronym": "Perguntas frequentes",
 	"faq": "Perguntas mais frequentes",
 	"help us grow": {
-		"one": "Ajude o lib.reviews a crescer! Você tem <b>um</b> convite.",
-		"other": "Ajude o lib.reviews a crescer! Você tem <b>%s</b> convites."
+		"one": "Ajude o lib.reviews a crescer! Você tem um convite.",
+		"other": "Ajude o lib.reviews a crescer! Você tem %s convites."
 	},
 	"invite users intro": "Novos usuários precisam de um código de convite. Para ganhar links de convite para dar para seus amigos, é só <a href='/new/review'>  escrever resenhas</a>.",
 	"you can generate links": {

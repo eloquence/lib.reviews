@@ -333,8 +333,8 @@
 	"faq acronym": "FAQ",
 	"faq": "Foire Aux Questions",
 	"help us grow": {
-		"one": "Help lib.review grandit! Vous avez <b>un</b> lien d'invitation.",
-		"other": "Help lib.review grandit! Vous avez <b>%s</b> liens d'invitation."
+		"one": "Help lib.review grandit! Vous avez un lien d'invitation.",
+		"other": "Help lib.review grandit! Vous avez %s liens d'invitation."
 	},
 	"invite users intro": "Les nouveaux utilisateurs ont besoin d'un code d'invitation. Pour obtenir des liens d'invitation à donner à vos amis, écrivez simplement <a href='/new/review'> des commentaires</a>.",
 	"you can generate links": {

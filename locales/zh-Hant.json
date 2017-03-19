@@ -329,8 +329,8 @@
 	"faq acronym": "常見問題",
 	"faq": "常見問題",
 	"help us grow": {
-		"one": "促進lib.reviews成長！您擁有<b>一個</b>邀請連結。",
-		"other": "促進lib.reviews成長！您擁有<b>%s</b>個邀請連結。"
+		"one": "促進lib.reviews成長！您擁有一個邀請連結。",
+		"other": "促進lib.reviews成長！您擁有%s個邀請連結。"
 	},
 	"invite users intro": "新用戶需要一個邀請碼。若要獲得邀請連結來給予您的朋友，只要<a href='/new/review'>寫個評論</a>就行。",
 	"you can generate links": {

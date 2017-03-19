@@ -328,8 +328,8 @@
 	"faq acronym": "よくある質問",
 	"faq": "よくある質問",
 	"help us grow": {
-		"one": "lib.reviews の発展を手助けしてください!招待リンクが<b>1</b>件あります。",
-		"other": "lib.reviews の発展を手助けしてください!招待リンクが<b>%s</b>件あります。"
+		"one": "lib.reviews の発展を手助けしてください!招待リンクが1件あります。",
+		"other": "lib.reviews の発展を手助けしてください!招待リンクが%s件あります。"
 	},
 	"invite users intro": "新しいユーザには招待コードが必要です。友だちに送る招待コードが必要な場合は単に<a href='/new/review'>レビューを書く</a>と得られます。",
 	"you can generate links": {

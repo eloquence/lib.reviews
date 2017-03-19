@@ -165,6 +165,38 @@
     $(this).prepend(`<a href="#${this.id}" class="fragment-link no-print"><span class="fa fa-link"></span></a>`);
   });
 
+  // For toggling visibility of long texts. Looks a bit nicer and is more
+  // hackable than the "spoiler warning" controls but only works with JS.
+  // Example use:
+  //
+  // <div class="expand-container nojs-hidden">
+  // <span class="expand-link" tabindex="0" data-target="some-target-container"
+  // data-toggle-text="Collapse it!"><span class="expand-label">Show it!</span>
+  // <span class="fa fa-chevron-down expand-icon"></span>
+  // </span>
+  // </div>
+  $('.expand-link').click(function() {
+    let target = $(this).attr('data-target');
+    if (target) {
+      let toggleText = $(this).attr('data-toggle-text');
+      if (toggleText) {
+        let oldToggleText = $(this).find('.expand-label').text();
+        $(this).find('.expand-label').text(toggleText);
+        $(this).attr('data-toggle-text', oldToggleText);
+      }
+      let $target = $(`#${target}`);
+      $(this).find('.expand-icon').toggleClass('fa-chevron-down');
+      $(this).find('.expand-icon').toggleClass('fa-chevron-up');
+      $target.slideToggle(200);
+    }
+  });
+
+  // Also toggle if users presses enter key
+  $('.expand-link').keyup(function(e) {
+    if (e.which == 13)
+      $('.expand-link').trigger('click');
+  });
+
   // Dynamic help sidebars
 
   // Exported repaint function, trigger this if you need to repaint the

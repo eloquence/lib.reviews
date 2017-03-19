@@ -328,8 +328,8 @@
 	"faq acronym": "常见问题",
 	"faq": "常见问题",
 	"help us grow": {
-		"one": "帮助lib.reviews成长！您现在已拥有<b>一个</b>邀请链接。",
-		"other": "帮助lib.reviews成长！您现在已拥有<b>%s</b>个邀请链接。"
+		"one": "帮助lib.reviews成长！您现在已拥有一个邀请链接。",
+		"other": "帮助lib.reviews成长！您现在已拥有%s个邀请链接。"
 	},
 	"invite users intro": "新用户需要邀请码。要取得邀请链接给您的朋友，请<a href='/new/review'>写一段审查</a>。",
 	"you can generate links": {

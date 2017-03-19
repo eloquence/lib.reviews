@@ -325,7 +325,7 @@
 	"view all": "Generic label for a link that leads to a list of all items with pagination, e.g., blog posts, reviews, etc.",
 	"faq acronym": "Short form of the 'Frequently Asked Questions' title. If no common acronym in your language, use English if familiar, otherwise spell out.\n{{Identical|FAQ}}",
 	"faq": "Title of the 'Frequently Asked Questions' page (long form).\n{{Identical|Frequently asked questions}}",
-	"help us grow": "Text shown on every page if a user can generate invite links. If more than one, %s is substituted with the number.",
+	"help us grow": "Text shown as a tooltip on every page if a user can generate invite links. If more than one, %s is substituted with the number.",
 	"invite users intro": "Introduction text shown on the page where users can generate invite links used to register an account",
 	"you can generate links": "Text shown on the invite page if the user can generate new invite links. If more than one, %s is substituted with the number.",
 	"generate link": "Label for the button used to generate an invite link (can be translated as infinitive)",
@@ -357,5 +357,8 @@
 	"matches in review subjects": "Headline that is shown on the search result page for text matches in review subjects (thing labels).",
 	"matches in review text": "Headline that is shown on the search result page for text matches in review text.",
 	"one or multiple matches": "Text that is shown on the search result page to highlight how many reviews of a given thing matched the entered search text.",
-	"search help": "Help text that is shown on the search page. Feel free to localize the examples, however, you're encouraged to keep \"quotation marks (marks \"\", not words)\" as is, i.e. other quotation marks' styles such as <code><nowiki>'', „”, “”, 「」, 『』, ‘’, and «»</nowiki></code> are not handled correctly."
+	"search help": "Help text that is shown on the search page. Feel free to localize the examples, however, you're encouraged to keep \"quotation marks (marks \"\", not words)\" as is, i.e. other quotation marks' styles such as <code><nowiki>'', „”, “”, 「」, 『』, ‘’, and «»</nowiki></code> are not handled correctly.",
+	"show more": "Label for a control that expands a section of text shortened to reduce clutter.",
+	"show less": "Label for a control that collapses a previously expanded section of text.",
+	"development diary": "Headline used on the frontpage for the section which shows selected posts from the development diary."
 }

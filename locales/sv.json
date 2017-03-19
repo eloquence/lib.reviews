@@ -328,8 +328,8 @@
 	"faq acronym": "Vanliga frågor",
 	"faq": "Vanligtvis ställda frågor",
 	"help us grow": {
-		"one": "Hjälp lib.reviews att växa! Du har <b>en</b> inbjudningslänk.",
-		"other": "Hjälp lib.reviews att växa! Du har <b>%s</b> inbjudningslänkar."
+		"one": "Hjälp lib.reviews att växa! Du har en inbjudningslänk.",
+		"other": "Hjälp lib.reviews att växa! Du har %s inbjudningslänkar."
 	},
 	"invite users intro": "Nya användare behöver en inbjudningskod. För att få  inbjudningslänkar att ge till dina vänner behöver du helt enkelt <a href='/new/review'>  skriva recensioner</a>.",
 	"you can generate links": {

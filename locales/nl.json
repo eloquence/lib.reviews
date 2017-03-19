@@ -330,8 +330,8 @@
 	"faq acronym": "FAQ",
 	"faq": "Veelgestelde vragen",
 	"help us grow": {
-		"one": "Help lib.reviews groeien! U hebt <b>één</b> weg te geven uitnodiging.",
-		"other": "Help lib.reviews groeien! U hebt <b>%s</b> weg te geven uitnodigingen."
+		"one": "Help lib.reviews groeien! U hebt één weg te geven uitnodiging.",
+		"other": "Help lib.reviews groeien! U hebt %s weg te geven uitnodigingen."
 	},
 	"invite users intro": "Nieuwe gebruikers hebben een uitnodiging nodig. Verdien uitnodigingen voor vrienden door gewoon <a href=\"/new/review\">beoordelingen te schrijven</a>.",
 	"you can generate links": {

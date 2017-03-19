@@ -35,7 +35,12 @@
         <div class="pure-u-1-2">
             {{#if user}}
                 <ul id="user-menu">
+
                     <li><a id="user-link" href="/user/{{user.urlName}}"><span class="fa fa-user spaced-icon"></span>{{user.displayName}}</a>
+                      {{#if user.inviteLinkCount}}
+                      <li>
+                      <a id="invite-action" href="/actions/invite" title="{{{__n "help us grow" user.inviteLinkCount}}}"><span class="fa fa-heart spaced-icon invite-icon"></span>{{{user.inviteLinkCount}}}</a>
+                      {{/if}}
                     </li>
                     <li><a href="/new/review" class="pure-button button-cta button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span class="fa fa-pencil spaced-icon"></span>{{__ "new review"}}</a>
                         <li>
@@ -66,16 +71,6 @@
           </div>
     </div>
 </div>
-{{#if user.inviteLinkCount}}
-{{#unless invitePage}}
-<div class="invite-banner">
-<div class="invites">
-{{{__n "help us grow" user.inviteLinkCount}}}
-<a href="/actions/invite"  class="pure-button button-rounded invite-button"><span class="fa fa-heart spaced-icon invite-icon"></span>{{{__ "share the love"}}}</a>
-</div>
-</div>
-{{/unless}}
-{{/if}}
     <div id="main-body">
     {{#if localeChange}}
     <div id="uselang-notice" class="message-box">

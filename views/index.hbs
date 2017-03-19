@@ -1,14 +1,26 @@
 <div class="centered-column">
 <span class="lead">{{{__ "intro lead" }}}</span>
+<div class="hidden-regular nojs-visible" id="extended-intro">
 <p>{{{__ "intro message" }}}</p>
 <p>{{{__ "find us on" }}}</p>
+</div>
+<p>
+<div class="expand-container nojs-hidden">
+<span class="expand-link" tabindex="0" data-target="extended-intro" data-toggle-text="{{__ "show less"}}"><span class="expand-label">{{__ "show more"}}</span><span class="fa fa-chevron-down expand-icon"></span></span>
+</div>
+<p>
 {{#if showBlog}}
-{{{__ "from the dev diary" team.id}}}</a>
-<ul>
+<h2 class="inline-feed-title">{{{__ "development diary"}}}</h2><span class="view-all-link"><a href="/team/{{team.id}}/blog">{{{__ "view all"}}}</a></span>
+<p>
+<table class="blog-table">
 {{#each blogPosts}}
-<li> {{shortDate this.createdOn}}: <a href="/team/{{../team.id}}/post/{{this.id}}">{{{mlString this.title}}}</a></li>
+<tr>
+<td>{{shortDate this.createdOn}}</td><td><a href="/team/{{../team.id}}/post/{{this.id}}" title="{{{summarize (mlString this.post.html false) 150}}}">{{{mlString this.title}}}</a>
+</td>
+</tr>
 {{/each}}
-</ul>
+</table>
+<p>
 {{/if}}
 <h2 class="inline-feed-title">{{{__ "explore teams"}}}</h2><span class="view-all-link"><a href="/teams">{{{__ "view all"}}}</a></span>
 <p>
@@ -25,5 +37,4 @@
 <h2 class="inline-feed-title">{{{__ "feed"}}}</h2>{{#if feedItems}}<span class="view-all-link"><a href="/feed">{{{__ "view all"}}}</a></span>{{/if}}
 <p>
 {{>feed}}
-
 </div>

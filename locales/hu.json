@@ -328,8 +328,8 @@
 	"faq acronym": "GyIK",
 	"faq": "Gyakran ismételt kérdések",
 	"help us grow": {
-		"one": "Te <b>egy</b> meghívó linkel rendelkezel.",
-		"other": "Segítsd a lib.reviews-t nőni! Te <b>%s</b> meghívó linkkel rendelkezel."
+		"one": "Te egy meghívó linkel rendelkezel.",
+		"other": "Segítsd a lib.reviews-t nőni! Te %s meghívó linkkel rendelkezel."
 	},
 	"invite users intro": "Az új felhasználóknak szükségük van egy meghívó kódra. Hogy meghívó linkeket nyerj a barátaidnak, egyszerűen <a href='/new/review'>  írj értékelésekt</a>.",
 	"you can generate links": {

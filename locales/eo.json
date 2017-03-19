@@ -328,8 +328,8 @@
 	"faq acronym": "Oftaj demandoj",
 	"faq": "Oftaj demandoj",
 	"help us grow": {
-		"one": "Helpu lib.reviews kreski! Vi havas <b>unu</b> invitilon.",
-		"other": "Helpu lib.reviews kreski! Vi havas <b>%s</b> invitilojn."
+		"one": "Helpu lib.reviews kreski! Vi havas unu invitilon.",
+		"other": "Helpu lib.reviews kreski! Vi havas %s invitilojn."
 	},
 	"invite users intro": "Novaj uzantoj bezonas invitilon. Por gajni invitilojn por doni al viaj amikoj, simple <a href='/new/review'>  verku recenzojn</a>.",
 	"you can generate links": {
