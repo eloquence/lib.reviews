@@ -11,7 +11,6 @@
 	"intro lead": "<b>Benvenuto su lib.reviews!</b> Stiamo costruendo una piattaforma libera, aperta e non-profit per la recensione di davvero tutto, in qualsiasi lingua.",
 	"intro message": "Siamo in via di sviluppo e, per ora, avrai bisogno di un collegamento di invito per registrarti. Se non sai come ottenerne uno, puoi seguire <a href='https://twitter.com/lib_reviews'>lib_reviews</a> su Twitter e twittarci, e noi ti invieremo un codice.",
 	"find us on": "Ci puoi trovare anche <a href='https://github.com/eloquence/lib.reviews'>su GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>mirror su notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>iscriviti alla nostra mailing list</a> e chatta con noi su IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> su <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Guarda un <a href='/static/uploads/screencast2.webm'>breve screencast</a> (<a href='https://youtu.be/wjUasbFfCbU'>versione YouTube</a>) sullo stato delle cose ad ottobre 2016.",
-	"from the dev diary": "Dal <a href='/team/%s/blog'>diario di sviluppo</a>:",
 	"change language": "Cambia in:",
 	"change language button": "Cambia lingua",
 	"sign in": "Entra",
@@ -338,7 +337,6 @@
 		"other": "Attualmente puoi generare fino a <b>%s</b> collegamenti di invito."
 	},
 	"generate link": "Genera un collegamento di invito",
-	"share the love": "Condividi l'amore",
 	"invite users": "Invita utenti",
 	"pending invitations": "I tuoi collegamenti di invito",
 	"accepted invitations": "Inviti accettati",

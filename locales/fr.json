@@ -14,7 +14,6 @@
 	"intro lead": "<b>Bienvenue dans lib.reviews !</b> Nous construisons une plateforme libre, ouverte et à but non lucratif pour relire absolument n’importe quoi, dans n’importe quelle langue.",
 	"intro message": "Nous en sommes au début du développement, et pour l’instant, vous avez besoin d’un code d’invitation pour vous inscrire. Si vous ne savez pas comment en obtenir un, suivez <a href='https://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter, envoyez-nous un tweet, et nous vous enverrons directement un message.",
 	"find us on": "Vous pouvez aussi nous trouver <a href='https://github.com/eloquence/lib.reviews'>sur GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>copié sur notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>nous rejoindre sur notre liste de diffusion</a> et discuter avec nous sur IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> sur <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Suivez une <a href='/static/uploads/screencast2.webm'>courte vidéo</a> (<a href='https://youtu.be/wjUasbFfCbU'>version YouTube</a>) sur l’état d’avancement en octobre 2016.",
-	"from the dev diary": "D’après <a href='/team/%s/blog'>l’agenda de développement</a> :",
 	"change language": "Basculer vers :",
 	"change language button": "Changer de langue",
 	"sign in": "Se connecter",
@@ -344,7 +343,6 @@
 	"generate link": "Générer un lien d'invitation",
 	"out of links": "Vous n’avez plus de lien à générer. Écrivez des critiques pour gagner plus de liens d’invitation.",
 	"link generated": "Nous venons de créer une nouvelle invitation pour vous, que vous trouverez ci-dessous. Copiez-la et partagez-la par courriel, messagerie instantanée ou tout autre moyen. Chaque lien ne peut être utilisé qu’une fois. Merci d’aider la communauté lib.reviews à grandir en invitant les personnes que vous connaissez et à qui vous faites confiance !",
-	"share the love": "Partager l’appréciation",
 	"invite users": "Inviter des utilisateurs",
 	"pending invitations": "Vos liens d'invitation",
 	"accepted invitations": "Accepter des invitations",
@@ -373,5 +371,8 @@
 		"one": "une critique correspondante :",
 		"other": "%s critiques correspondantes :"
 	},
-	"search help": "Conseils de recherche : <ul><li>Vous pouvez exclure des termes en les préfixant par <code class='hl'>-</code>, par ex. <code class='hl'>pommes -oranges</code>.<li>Vous pouvez rechercher une phrase exacte en utilisant <code class='hl'>\"des guillemets\"</code>.<li>Vous pouvez utiliser des jokers à la fin pour correspondre à plusieurs mors, par ex., <code class='hl'>Liz*</code> correspondra à Liz et Lizzy.</ul>"
+	"search help": "Conseils de recherche : <ul><li>Vous pouvez exclure des termes en les préfixant par <code class='hl'>-</code>, par ex. <code class='hl'>pommes -oranges</code>.<li>Vous pouvez rechercher une phrase exacte en utilisant <code class='hl'>\"des guillemets\"</code>.<li>Vous pouvez utiliser des jokers à la fin pour correspondre à plusieurs mors, par ex., <code class='hl'>Liz*</code> correspondra à Liz et Lizzy.</ul>",
+	"show more": "Afficher plus",
+	"show less": "Afficher moins",
+	"development diary": "Agenda du développement"
 }

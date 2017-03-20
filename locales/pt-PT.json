@@ -11,7 +11,6 @@
 	"intro lead": "<b>Bem-vindo(a) ao lib.reviews!</b> Estamos a construir uma plataforma livre, aberta e sem fins lucrativos para críticas sobre absolutamente qualquer coisa, em qualquer idioma.",
 	"intro message": "Estamos na fase inicial de desenvolvimento, e por agora, necessita de um código de convite para se registar. Se não sabe como o obter, siga <a href=\"https://twitter.com/lib_reviews\">lib_reviews</a> no Twitter, envie-nos um <i>tweet</i>, e nós enviaremos-lhe uma mensagem direta.",
 	"find us on": "Pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a>, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>participar na nossa lista de discussão</a> e conversar connosco através do IRC (<a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a> em <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Assista a um <a href='/static/uploads/screencast2.webm'>breve vídeo</a> (<a href='https://youtu.be/wjUasbFfCbU'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2016.",
-	"from the dev diary": "Informações do <a href='/team/%s/blog'>diário de desenvolvimento</a>:",
 	"change language": "Mudar para:",
 	"change language button": "Alterar idioma",
 	"sign in": "Entrar",

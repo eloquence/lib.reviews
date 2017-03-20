@@ -11,7 +11,6 @@
 	"intro lead": "<b>Willkommen bei lib.reviews!</b> Wir entwickeln eine freie und offene Plattform, um alles mögliche zu rezensieren, in jeder Sprache.",
 	"intro message": "Derzeit sind wir noch im Anfangsstadium der Entwicklung, weshalb wir einen Einladungslink für die Registrierung eines Benutzerkontos verwenden. Wenn du nicht weißt, wie du einen Link bekommen kannst, kannst du uns auf Twitter <a href='https://twitter.com/lib_reviews'>lib_reviews</a> folgen und uns antweeten und wir schicken dir einen Link.",
 	"find us on": "Du kannst uns <a href='https://github.com/eloquence/lib.reviews'>auf GitHub</a> finden (<a href='https://notabug.org/freeyourstuff/lib.reviews'>gespiegelt auf notabug</a>), unserer <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>Mailing-Liste beitreten</a> und im IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> auf <a href='https://freenode.net/'>irc.freenode.net</a>) mit uns chatten.<p>Du kannst dir auch ein kurzes englischsprachiges <a href='/static/uploads/screencast2.webm'>Video</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube-Version</a>) über den Stand der Dinge im Oktober 2016 anschauen.",
-	"from the dev diary": "Aus dem <a href='/team/%s/blog'>Entwickler-Tagebuch</a>:",
 	"change language": "Wechseln zu:",
 	"change language button": "Sprache ändern",
 	"sign in": "Anmelden",
@@ -341,7 +340,6 @@
 	"generate link": "Einen Einladungslink erzeugen",
 	"out of links": "Alle zu erzeugenden Links sind abgelaufen. Schreibe Rezensionen, um weitere Einladungslinks zu verdienen.",
 	"link generated": "Wir haben gerade einen neuen Einladungslink für dich erstellt, den du unten finden kannst. Kopiere ihn und teile ihn per E-Mail, IM oder durch andere Wege. Jeder Link kann genau einmal verwendet werden. Danke für den Aufbau der lib.reviews-Gemeinschaft durch das Einladen von Leuten, die du kennst und denen du vertraust!",
-	"share the love": "Freunde einladen",
 	"invite users": "Benutzer einladen",
 	"pending invitations": "Deine Einladungslinks",
 	"accepted invitations": "Akzeptierte Einladungen",
@@ -370,5 +368,8 @@
 		"one": "Eine übereinstimmende Rezension:",
 		"other": "%s übereinstimmende Rezensionen:"
 	},
-	"search help": "Suchtipps: <ul><li>Du kannst Begriffe mit dem Präfix <code class='hl'>-</code> ausschließen, z.&nbsp;B. <code class='hl'>Äpfel -Orangen</code>.<li>Du kannst nach einem exakten Ausdruck suchen, indem du <code class='hl'>\"Anführungszeichen\"</code> verwendest.<li>Du kannst Wildcards am Ende verwenden, um mehrere Wörter zu finden, z.&nbsp;B. <code class='hl'>Liz*</code> findet Liz und Lizzy.</ul>"
+	"search help": "Suchtipps: <ul><li>Du kannst Begriffe mit dem Präfix <code class='hl'>-</code> ausschließen, z.&nbsp;B. <code class='hl'>Äpfel -Orangen</code>.<li>Du kannst nach einem exakten Ausdruck suchen, indem du <code class='hl'>\"Anführungszeichen\"</code> verwendest.<li>Du kannst Wildcards am Ende verwenden, um mehrere Wörter zu finden, z.&nbsp;B. <code class='hl'>Liz*</code> findet Liz und Lizzy.</ul>",
+	"show more": "Mehr anzeigen",
+	"show less": "Weniger anzeigen",
+	"development diary": "Entwicklungs-Tagebuch"
 }
