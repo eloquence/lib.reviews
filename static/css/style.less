@@ -136,23 +136,26 @@ body {
   margin-top: -0.67em // offset header's margin-bottom
 }
 
-.sub-header-regular, #sub-header, .inline-feed-title {
+.sub-header-regular, #sub-header, .inline-feed-headline {
   color: @headerColor;
   font-weight:normal;
   font-style: italic;
 }
 
-.inline-feed-title {
+.headline-with-link {
+  display:flex;
+  align-items:center;
+  display:-webkit-flex;
+  -webkit-align-items:center;
+}
+
+.inline-feed-headline {
   margin-top: 0;
-  width:50%; // has additional navigation on the right
-  display:inline-block;
   margin-bottom: 0;
 }
 
 .view-all-link {
-  width:50%;
-  text-align: right;
-  display: inline-block;
+  margin-left:auto;
 }
 
 
@@ -829,4 +832,8 @@ details.content-warning[open] summary.content-warning-notice:before {
 
 .blog-table tr {
   vertical-align:top;
+}
+
+.clear {
+  clear:both;
 }

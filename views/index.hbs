@@ -10,7 +10,10 @@
 </div>
 <p>
 {{#if showBlog}}
-<h2 class="inline-feed-title">{{{__ "development diary"}}}</h2><span class="view-all-link"><a href="/team/{{team.id}}/blog">{{{__ "view all"}}}</a></span>
+<div class="headline-with-link">
+<h2 class="inline-feed-headline">{{{__ "development diary"}}}</h2>
+<span class="view-all-link"><a href="/team/{{team.id}}/blog">{{{__ "view all"}}}</a></span>
+</div>
 <p>
 <table class="blog-table">
 {{#each blogPosts}}
@@ -22,7 +25,10 @@
 </table>
 <p>
 {{/if}}
-<h2 class="inline-feed-title">{{{__ "explore teams"}}}</h2><span class="view-all-link"><a href="/teams">{{{__ "view all"}}}</a></span>
+<div class="headline-with-link">
+<h2 class="inline-feed-headline">{{{__ "explore teams"}}}</h2>
+<span class="view-all-link"><a href="/teams">{{{__ "view all"}}}</a></span>
+</div>
 <p>
 {{{__ "team intro"}}}
 <p>
@@ -33,8 +39,10 @@
 {{/unless}}
 {{/each}}
 </p>
-
-<h2 class="inline-feed-title">{{{__ "feed"}}}</h2>{{#if feedItems}}<span class="view-all-link"><a href="/feed">{{{__ "view all"}}}</a></span>{{/if}}
+<div class="headline-with-link">
+<h2 class="inline-feed-headline">{{{__ "feed"}}}</h2>
+{{#if feedItems}}<span class="view-all-link"><a href="/feed">{{{__ "view all"}}}</a></span>{{/if}}
+</div>
 <p>
 {{>feed}}
 </div>

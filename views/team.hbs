@@ -100,7 +100,10 @@
 {{!/EDIT/DELETE}}
 {{!SECOND COLUMN: REVIEWS}}
 <div class="pure-u-1 pure-u-md-1-2">
-<h2 class="inline-feed-title">{{{__ "latest review"}}}</h2>{{#if team.reviews}}<span class="view-all-link"><a href="/team/{{{team.urlID}}}/feed">{{{__ "view all"}}}</a></span>{{/if}}
+<div class="headline-with-link">
+<h2 class="inline-feed-headline">{{{__ "latest review"}}}</h2>{{#if team.reviews}}
+<span class="view-all-link"><a href="/team/{{{team.urlID}}}/feed">{{{__ "view all"}}}</a></span>{{/if}}
+</div>
 <p>
 {{#if team.reviews}}
 {{>feed feedItems=team.reviews teamFeed=true}}
@@ -111,7 +114,7 @@
 {{!/SECOND COLUMN: REVIEWS}}
 {{!SECOND COLUMN: BLOG POSTS}}
 <div class="team-blog">
-<h2 class="inline-feed-title">{{{__ "latest blog posts"}}}</h2>{{#if blogPosts}}<span class="view-all-link"><a href="/team/{{{team.urlID}}}/blog">{{{__ "view all"}}}</a></span>{{/if}}
+<h2 class="inline-feed-headline">{{{__ "latest blog posts"}}}</h2>{{#if blogPosts}}<span class="view-all-link"><a href="/team/{{{team.urlID}}}/blog">{{{__ "view all"}}}</a></span>{{/if}}
 <p>
 {{>blog_feed}}
 </div>
