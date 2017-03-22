@@ -6,7 +6,6 @@
 		]
 	},
 	"welcome": "స్వాగతం!",
-	"from the dev diary": "<a href='/team/%s/blog'>డెవలమెంట్ డైరీ</a> నుండి:",
 	"change language": "మారండి:",
 	"sign in": "ప్రవేశించండి",
 	"register": "నమోదవ్వండి",
@@ -138,7 +137,6 @@
 	"no reviews for user": "ఈ వాడుకరి ఇంకా సమీక్షలేమీ ప్రచురించలేదు.",
 	"view all": "&raquo; అన్నీ చూడండి",
 	"faq": "తరచూ అడిగే ప్రశ్నలు",
-	"share the love": "ప్రేమను పంచుకోండి",
 	"invite users": "వాడుకరులను ఆహ్వానించండి",
 	"pending invitations": "మీ ఆహ్వానపు లంకెలు",
 	"accepted invitations": "అంగీకరించిన ఆహ్వానాలు",

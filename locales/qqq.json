@@ -10,7 +10,6 @@
 	"intro lead": "Introduction shown on frontpage",
 	"intro message": "Introduction shown on frontpage",
 	"find us on": "Introduction shown on frontpage",
-	"from the dev diary": "Link to development diary shown on frontpage",
 	"change language": "Language switcher shown at the bottom of every page",
 	"change language button": "Label fur button in the footer that executes a language change.",
 	"sign in": "Button for signing into the site\n{{Identical|Sign in}}",
@@ -331,7 +330,6 @@
 	"generate link": "Label for the button used to generate an invite link (can be translated as infinitive)",
 	"out of links": "Error message shown if user attempts to generate links but has exceeded the number they have",
 	"link generated": "Message shown immediately after a user creates an invite link",
-	"share the love": "Label for button that takes user to the page for invite links. This is a somwhat idiomatic phrase, if it does not translate well, feel free to use a more neutral wording like 'Invite friends' or a creative alterntive.",
 	"invite users": "Title for the page where users can generate invite links",
 	"pending invitations": "Headline for section showing invite links that have been generated but not used to register an account yet",
 	"accepted invitations": "Headline for section showing invite links that have been used to register an account",
@@ -358,7 +356,7 @@
 	"matches in review text": "Headline that is shown on the search result page for text matches in review text.",
 	"one or multiple matches": "Text that is shown on the search result page to highlight how many reviews of a given thing matched the entered search text.",
 	"search help": "Help text that is shown on the search page. Feel free to localize the examples, however, you're encouraged to keep \"quotation marks (marks \"\", not words)\" as is, i.e. other quotation marks' styles such as <code><nowiki>'', „”, “”, 「」, 『』, ‘’, and «»</nowiki></code> are not handled correctly.",
-	"show more": "Label for a control that expands a section of text shortened to reduce clutter.",
+	"show more": "Label for a control that expands a section of text shortened to reduce clutter.\n{{Identical|Show more}}",
 	"show less": "Label for a control that collapses a previously expanded section of text.",
 	"development diary": "Headline used on the frontpage for the section which shows selected posts from the development diary."
 }

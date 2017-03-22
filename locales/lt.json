@@ -1,15 +1,16 @@
 {
 	"@metadata": {
 		"authors": [
-			"Eitvys200"
+			"Eitvys200",
+			"Nersip"
 		]
 	},
 	"site name": "lib.reviews",
 	"welcome": "Sveiki atvykę!",
 	"intro message": "Mes tik pradedame kurti ir kol kas registracijai reikalingas pakvietimo kodas. Jei nežinote kaip jį gauti, sekite <a href='https://twitter.com/lib_reviews'>lib_reviews</a> Twitter, atsiųskite mums tweet ir mes jums atsiųsime kodą asmenine žinute.",
 	"find us on": "Taip pat mus galite rasti <a href='https://github.com/eloquence/lib.reviews'>GitHub</a>, <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>prisijunkite prie mūsų naujienlaiškio</a> ir kalbėkite su mumis IRC (<a href='https://webchat.freenode.net/?channels=lib.reviews'>#lib.reviews</a>, <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Žiūrėkite <a href='/static/uploads/screencast2.webm'>trumpą filmuką</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube versija</a>) apie dabartinę būklę, spalis 2016 m..",
-	"from the dev diary": "Iš <a href='/team/%s/blog'>kūrimo dienoraščio</a>:",
 	"change language": "Keisti į:",
+	"change language button": "Keisti kalbą",
 	"sign in": "Prisijungti",
 	"register": "Registruotis",
 	"papers please": "Sveiki sugrįžę! Prašome pateikti savo prisijungimo duomenis žemiau.",

@@ -9,7 +9,6 @@
 	"intro lead": "<b>欢迎来到lib.reviews！</b>我们正在打造自由、开放、非盈利，可以使用任何语言审查任何事物的平台。",
 	"intro message": "我们正处于早期开发阶段，并且如您所见，您需要邀请链接才能注册。如果您不知道如何获得一个，请在Twitter上关注<a href='https://twitter.com/lib_reviews'>lib_reviews</a>，向我们发送一条推文，然后我们会向您直接发送邮件。",
 	"find us on": "您也可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>（<a href='https://notabug.org/freeyourstuff/lib.reviews'>notabug上的镜像</a>）上找到我们，<a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>加入我们的邮件列表</a>，并在IRC上与我们聊天（<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>频道）。<p>观看有关2016年10月以来相关状态的一段<a href='/static/uploads/screencast2.webm'>短视频</a>（<a href='https://youtu.be/wjUasbFfCbU'>YouTube版</a>）。",
-	"from the dev diary": "来自<a href='/team/%s/blog'>开发日记</a>：",
 	"change language": "切换到：",
 	"change language button": "更改语言",
 	"sign in": "登录",
@@ -339,7 +338,6 @@
 	"generate link": "生成邀请链接",
 	"out of links": "您已经用完了所有生成的链接。写几段审查以取得更多邀请链接。",
 	"link generated": "我们已为您做出了一个邀请链接，您可以在下方找到。将其复制并通过电子邮件、即时通讯软件或其他方式分享它。任何链接只可以使用一次。感谢通过邀请您知道并信任的人，帮助成长lib.reviews社群！",
-	"share the love": "分享爱好",
 	"invite users": "邀请用户",
 	"pending invitations": "您的邀请链接",
 	"accepted invitations": "接受的邀请",
@@ -368,5 +366,8 @@
 		"one": "一个匹配的审查：",
 		"other": "%s个匹配的审查："
 	},
-	"search help": "搜索小提示：<ul><li>您可以通过在关键词前加前缀<code class='hl'>-</code>来排除对应关键词，例如<code class='hl'>苹果 -橘子</code>。<li>您可以通过使用<code class='hl'>\"引号\"</code>搜索精确短语。<li>您可以在末尾使用通配符来匹配多个词，例如<code class='hl'>Liz*</code>会匹配Liz和Lizzy。</ul>"
+	"search help": "搜索小提示：<ul><li>您可以通过在关键词前加前缀<code class='hl'>-</code>来排除对应关键词，例如<code class='hl'>苹果 -橘子</code>。<li>您可以通过使用<code class='hl'>\"引号\"</code>搜索精确短语。<li>您可以在末尾使用通配符来匹配多个词，例如<code class='hl'>Liz*</code>会匹配Liz和Lizzy。</ul>",
+	"show more": "显示更多",
+	"show less": "显示更少",
+	"development diary": "开发日记"
 }

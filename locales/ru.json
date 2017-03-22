@@ -13,7 +13,6 @@
 	"intro lead": "<b>Добро пожаловать на lib.reviews!</b> Мы создаём свободную, некоммерческую платформу с открытым исходным кодом, предназначенную для обзора абсолютно всего, на любом языке.",
 	"intro message": "Мы находимся в самом начале развития, и пока вам нужна пригласительная ссылка для регистрации. Если Вы не знаете, как её получить, подпишитесь на <a href=\"https://twitter.com/lib_reviews\">lib_reviews</a> в Twitter, отправьте нам твит, и мы ответим вам в личных сообщениях.",
 	"find us on": "Вы также можете найти нас <a href='https://github.com/eloquence/lib.reviews'>на GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>зеркало на notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>подписаться на нашу почтовую рассылку</a> и пообщаться с нами в IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>.<p>Посмотрите <a href='/static/uploads/screencast2.webm'>короткий деморолик</a> (<a href='https://youtu.be/wjUasbFfCbU'>версия на YouTube</a>) о текущем положении дел на октябрь 2016 года.",
-	"from the dev diary": "Из <a href=\"/team/%s/blog\">дневника разработчиков</a>:",
 	"change language": "Переключиться на:",
 	"change language button": "Изменить язык",
 	"sign in": "Войти",
@@ -178,5 +177,8 @@
 	"change language permanently": "Постоянно переключиться на английский",
 	"reload this page": "Перезагрузить в %s",
 	"search results": "Результаты поиска",
-	"no results": "Не удалось найти соответствия по запросу, \"%s\"."
+	"no results": "Не удалось найти соответствия по запросу, \"%s\".",
+	"show more": "Показать больше",
+	"show less": "Показать меньше",
+	"development diary": "Дневник разработчиков"
 }
