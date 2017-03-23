@@ -370,5 +370,5 @@
 	"search help": "搜尋提示：<ul><li>您可利用「<code class='hl'>-</code>」來前綴字詞以排除不需要的項目，例如像：<code class='hl'>蘋果 -橘子</code>。<li>您可透過使用引號「<code class='hl'>\"\"</code>」來搜尋精準的字詞組合。<li>您可在末段使用萬用字元來比對出多個字詞，例如像：<code class='hl'>Liz*</code>會比對到 Liz 和 Lizzy。</ul>",
 	"show more": "顯示更多內容",
 	"show less": "顯示較少內容",
-	"development diary": "開發團隊日誌"
+	"development diary": "開發日誌"
 }

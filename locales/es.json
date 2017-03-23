@@ -369,5 +369,8 @@
 		"one": "Una reseña coicide:",
 		"other": "%s reseñas coiciden:"
 	},
-	"search help": "Consejos de búsqueda: <ul><li>puedes excluir términos anteponiendo el prefijo <code class='hl'>-</code>; p. ej. <code class='hl'>manzanas -naranjas</code>.<li>Puedes buscar una frase exacta usando <code class='hl'>\"comillas\"</code>.<li>Puedes usar comodines al final para encontrar múltiples palabras; p. ej. <code class='hl'>Liz*</code> will match Liz and Lizzy.</ul>"
+	"search help": "Consejos de búsqueda: <ul><li>puedes excluir términos anteponiendo el prefijo <code class='hl'>-</code>; p. ej. <code class='hl'>manzanas -naranjas</code>.<li>Puedes buscar una frase exacta usando <code class='hl'>\"comillas\"</code>.<li>Puedes usar comodines al final para encontrar múltiples palabras; p. ej. <code class='hl'>Liz*</code> will match Liz and Lizzy.</ul>",
+	"show more": "Mostrar más",
+	"show less": "Mostrar menos",
+	"development diary": "Noticias de desarrollo"
 }

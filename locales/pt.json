@@ -368,5 +368,8 @@
 		"one": "Uma resenha correspondente:",
 		"other": "%s resenhas correspondentes:"
 	},
-	"search help": "Dicas de pesquisa: <ul><li>Você pode excluir termos usando <code class='hl'>-</code> como prefixo, por exemplo: <code class='hl'>maçãs -laranjas</code>.<li>Você pode pesquisar por uma frase exata usando <code class='hl'>\"aspas\"</code>.<li>Você pode usar curingas no fim para ter mais resultados, por exemplo, <code class='hl'>Liz*</code> vai dar como resultados Liz e Lizzy.</ul>"
+	"search help": "Dicas de pesquisa: <ul><li>Você pode excluir termos usando <code class='hl'>-</code> como prefixo, por exemplo: <code class='hl'>maçãs -laranjas</code>.<li>Você pode pesquisar por uma frase exata usando <code class='hl'>\"aspas\"</code>.<li>Você pode usar curingas no fim para ter mais resultados, por exemplo, <code class='hl'>Liz*</code> vai dar como resultados Liz e Lizzy.</ul>",
+	"show more": "Mostrar mais",
+	"show less": "Mostrar menos",
+	"development diary": "Diário de desenvolvimento"
 }

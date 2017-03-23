@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"BanKris"
+			"BanKris",
+			"Tacsipacsi"
 		]
 	},
 	"site name": "lib.reviews",
@@ -327,8 +328,8 @@
 	"faq acronym": "GyIK",
 	"faq": "Gyakran ismételt kérdések",
 	"help us grow": {
-		"one": "Te egy meghívó linkel rendelkezel.",
-		"other": "Segítsd a lib.reviews-t nőni! Te %s meghívó linkkel rendelkezel."
+		"one": "Segítsd a lib.reviews-t nőni! Egy meghívó linked van.",
+		"other": "Segítsd a lib.reviews-t nőni! %s meghívó linked van."
 	},
 	"invite users intro": "Az új felhasználóknak szükségük van egy meghívó kódra. Hogy meghívó linkeket nyerj a barátaidnak, egyszerűen <a href='/new/review'>  írj értékelésekt</a>.",
 	"you can generate links": {

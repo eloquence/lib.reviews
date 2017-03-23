@@ -366,5 +366,8 @@
 		"one": "Unu koncerna recenzo:",
 		"other": "%s koncernaj recenzoj:"
 	},
-	"search help": "Serĉkonsiloj: <ul><li>Vi povas forigi vortojn el la rezulto uzante <code class='hl'>-</code> antaŭ la vorto, ekzemple <code class='hl'>terpomoj -oranĝoj</code>.<li>Vi povas serĉi tutsaman frazon uzante <code class='hl'>\"citilojn\"</code>.<li>Vi povas uzi ĵokeran esprimon frazfine por trovi pli da vortoj, ekzemple, <code class='hl'>Liz*</code> montros Liz kaj Lizzy.</ul>"
+	"search help": "Serĉkonsiloj: <ul><li>Vi povas forigi vortojn el la rezulto uzante <code class='hl'>-</code> antaŭ la vorto, ekzemple <code class='hl'>terpomoj -oranĝoj</code>.<li>Vi povas serĉi tutsaman frazon uzante <code class='hl'>\"citilojn\"</code>.<li>Vi povas uzi ĵokeran esprimon frazfine por trovi pli da vortoj, ekzemple, <code class='hl'>Liz*</code> montros Liz kaj Lizzy.</ul>",
+	"show more": "Montri pli",
+	"show less": "Montri malpli",
+	"development diary": "Evoluiga taglibro"
 }

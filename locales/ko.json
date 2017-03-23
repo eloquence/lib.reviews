@@ -145,5 +145,7 @@
 	"change language permanently": "영구적으로 영어로 전환",
 	"duplicate team name": "<a href='%s' target='_blank'>이 이름으로 된 팀</a>이 이미 존재합니다. 다른 이름을 사용해 보십시오.",
 	"search lib.reviews": "lib.reviews 검색",
-	"search results": "검색 결과"
+	"search results": "검색 결과",
+	"show more": "더 보기",
+	"show less": "덜 보기"
 }

@@ -348,5 +348,8 @@
 	"invite link invalid title": "Codice di invito non valido",
 	"invite link already used title": "Il collegamento di invito è già stato utilizzato",
 	"reload this page": "Ricarica in %s",
-	"search results": "Risultati della ricerca"
+	"search results": "Risultati della ricerca",
+	"show more": "Mostra altro",
+	"show less": "Mostra meno",
+	"development diary": "Diario di sviluppo"
 }
