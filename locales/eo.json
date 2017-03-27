@@ -352,7 +352,7 @@
 	"invite link already used": "Ĉi tiu invitilo jam estis uzita por registri uzantkonton ĉe lib.reviews. Ĉiu invitilo <a href=\"/register\">nur povas</a> esti uzata unufoje. Bonvole petu novan invitilon aŭ <a href=\"https://github.com/eloquence/lib.reviews/issues/new\">sciigu nin</a> se vi ricevis ĉi tiun mesaĝon pro eraro. Dankon!",
 	"language temporarily changed": "Pro la <code>uselang</code>-parto de la retadreso, vi vidas ĉi tiun paĝon en <b>Esperanto</b> anstataŭ via agordita lingvo, %1$s. Paĝoj, kiujn vi malfermos poste estos en %1$s denove.",
 	"change language permanently": "Ŝalti daŭre al Esperanto",
-	"reload this page": "Reŝarĝi en %s",
+	"reload this page": "Reŝarĝi en la %s",
 	"explore teams": "Foliumu teamojn",
 	"team intro": "<a href=\"/teams\">Teamoj</a> estas grupoj de simil-ideanoj recenzante aĵojn, pri kiuj ili interesiĝas. Jen kelkaj ekzemploj:",
 	"duplicate team name": "Jam ekzistas <a href='%s' target='_blank'>teamo kun ĉi tiu nomo</a>. Bonvole provu malsaman nomon.",
