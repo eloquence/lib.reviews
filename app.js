@@ -183,6 +183,8 @@ function getApp(db = require('./db')) {
     app.use('/', teams);
     app.use('/', blogPosts);
     app.use('/user', users);
+
+    // Goes last to avoid accidental overlap w/ reserved routes
     app.use('/', things);
 
     // Catches 404s and serves "not found" page
