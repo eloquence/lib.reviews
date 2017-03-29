@@ -20,7 +20,7 @@ const debug = {
         log(`Error occurred in route <${errorObj.req.route.path}>.`);
 
       log(`Request method: ${errorObj.req.method} - URL: ${errorObj.req.originalUrl}`);
-      if (errorObj.req.method !== 'GET') {
+      if (errorObj.req.method !== 'GET' && errorObj.req.body !== undefined) {
         log('Request body:');
         if (typeof errorObj.req.body == "object")
           log(JSON.stringify(errorObj.req.body, null, 2));
