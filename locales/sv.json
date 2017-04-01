@@ -367,5 +367,8 @@
 		"one": "En matchande recension:",
 		"other": "%s matchande recensioner:"
 	},
-	"search help": "Söktips: <ul><li>Du kan exkludera termer genom att lägga till prefix med <code class='hl'>-</code>, t.ex. <code class='hl'>äpplen -apelsiner</code>.<li>Du kan söka efter en exakt fras med <code class='hl'>\"citationstecken\"</code>.<li>Du kan använda jokertecken i slutet för att matcha flera ord, t.ex. <code class='hl'>Liz*</code> kommer att matcha Liz och Lizzy.</ul>"
+	"search help": "Söktips: <ul><li>Du kan exkludera termer genom att lägga till prefix med <code class='hl'>-</code>, t.ex. <code class='hl'>äpplen -apelsiner</code>.<li>Du kan söka efter en exakt fras med <code class='hl'>\"citationstecken\"</code>.<li>Du kan använda jokertecken i slutet för att matcha flera ord, t.ex. <code class='hl'>Liz*</code> kommer att matcha Liz och Lizzy.</ul>",
+	"show more": "Visa mer",
+	"show less": "Visa mindre",
+	"development diary": "Utvecklingsdagbok"
 }
