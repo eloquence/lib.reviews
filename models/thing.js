@@ -58,8 +58,11 @@ let thingSchema = {
   userCanDelete: type.virtual().default(false),
   userCanEdit: type.virtual().default(false),
   userCanUpload: type.virtual().default(false),
-  userIsCreator: type.virtual().default(false)
+  userIsCreator: type.virtual().default(false),
 
+  // Populated asynchronously using the populateReviewMetrics method
+  numberOfReviews: type.virtual().default(0),
+  averageStarRating: type.virtual().default(0)
 };
 
 // Add versioning related fields
@@ -119,6 +122,48 @@ Thing.define("getReviewsByUser", function(user) {
   });
 });
 
+Thing.define("getAverageStarRating", function() {
+  return new Promise((resolve, reject) => {
+    r.table('reviews')
+      .filter({
+        thingID: this.id,
+      })
+      .filter({ _revOf: false }, { default: true })
+      .filter({ _revDeleted: false }, { default: true })
+      .avg('starRating')
+      .then(resolve)
+      .catch(reject);
+  });
+});
+
+Thing.define("getReviewCount", function() {
+  return new Promise((resolve, reject) => {
+    r.table('reviews')
+      .filter({
+        thingID: this.id,
+      })
+      .filter({ _revOf: false }, { default: true })
+      .filter({ _revDeleted: false }, { default: true })
+      .count()
+      .then(resolve)
+      .catch(reject);
+  });
+
+});
+
+Thing.define("populateReviewMetrics", function() {
+  return new Promise((resolve, reject) => {
+    Promise
+      .all([this.getAverageStarRating(), this.getReviewCount()])
+      .then(metrics => {
+        this.averageStarRating = metrics[0];
+        this.numberOfReviews = metrics[1];
+        resolve(this);
+      })
+      .catch(reject);
+  });
+});
+
 // Helper function to deal with array initialization
 Thing.define("addFile", function(filename) {
   if (this.files === undefined)
@@ -157,7 +202,8 @@ Thing.define("populateUserInfo", function(user) {
 Thing.getWithData = function(id, options) {
 
   options = Object.assign({ // Default: all first-level joins
-    withFiles: true
+    withFiles: true,
+    withReviewMetrics: true
   }, options);
 
   return new Promise((resolve, reject) => {
@@ -177,10 +223,17 @@ Thing.getWithData = function(id, options) {
 
         if (thing._revOf)
           return reject(revision.staleError);
-        resolve(thing);
+
+        if (options.withReviewMetrics)
+          thing
+            .populateReviewMetrics()
+            .then(resolve)
+            .catch(reject);
+        else
+          resolve(thing);
 
       })
-      .catch(error => reject(error));
+      .catch(reject);
   });
 
 };

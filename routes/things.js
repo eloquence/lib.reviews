@@ -459,6 +459,7 @@ function sendThing(req, res, thing, options) {
     showLanguageNotice,
     userReviews: options.userReviews,
     paginationURL,
+    hasMoreThanOneReview: thing.numberOfReviews > 1,
     otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined,
     scripts: ['upload.js']
   }, {

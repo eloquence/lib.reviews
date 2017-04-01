@@ -87,9 +87,14 @@
     "invalid language code": "The submitted language code, '%s', is not valid or recognized.",
     "feed": "Latest reviews",
     "one or multiple stars": {
-        "one": "%s star",
-        "other": "%s stars"
+      "one": "%f star",
+      "other": "%f stars"
     },
+    "one or multiple reviews": {
+      "one": "%d review",
+      "other": "%d reviews"
+    },
+    "review metrics": "<b>Average rating:</b> %1$s (%2$s)",
     "captcha intro": "Please prove that you're not a robot. What's the missing word indicated with ___?",
     "question: famous painting": "One of the world's most famous paintings is the Mona ___ by Leonardo da Vinci.",
     "answer: famous painting": "Lisa",

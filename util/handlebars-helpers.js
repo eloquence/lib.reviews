@@ -135,3 +135,5 @@ hbs.registerHelper('mlString', function(str, addLanguageSpan, options) {
       `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
   }
 });
+
+hbs.registerHelper('round', (num, dec) => +num.toFixed(dec));

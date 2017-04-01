@@ -9,6 +9,7 @@
 {{> dismissible_notice icon="globe" messageKey="editing in language" id="language-notice-thing" csrfToken=csrfToken}}
 {{/if}}
 <!-- permanent ID of this item: {{{thing.id}}} -->
+<span itemscope itemtype="https://schema.org/Product">
 {{#if edit.label}}
   <h1 id="page-header">{{{__ titleKey}}}</h1>
   <form class="pure-form pure-form-aligned" method="post" action="">
@@ -23,7 +24,7 @@
   <p>
 {{else}}
   <h1 id="page-header">
-  {{{getThingLabel thing}}}
+  <span itemprop="name">{{{getThingLabel thing}}}</span>
   {{#if thing.userCanEdit}}
   <a href="/{{{thing.urlID}}}/edit/label" id="add-label" class="pure-button button-rounded edit-button"><span class="fa fa-pencil spaced-icon"></span>
     {{#if (mlString thing.label)}}{{{__ "edit"}}}{{else}}{{{__ "add label"}}}{{/if}}
@@ -31,8 +32,6 @@
   {{/if}}
   </h1>
 {{/if}}
-
-
 {{#if thing.urls}}
 <span class="fa fa-external-link review-icon"></span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}
 {{/if}}
@@ -53,6 +52,16 @@
 <p>
 {{>upload_form}}
 {{/if}}
+{{#if hasMoreThanOneReview}}
+<div class="review-metrics">
+{{{__ "review metrics" (__n "one or multiple stars" (round thing.averageStarRating 1)) (__n "one or multiple reviews" thing.numberOfReviews)}}}
+</div>
+{{/if}}
+<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+<meta itemprop="ratingValue" content="{{{round thing.averageStarRating 1}}}"/>
+<meta itemprop="ratingCount" content="{{{thing.numberOfReviews}}}"/>
+</span>
+</span>
 {{#if userReviews}}
 <h2 class="sub-header-regular" id="your-review">{{{__ "your review"}}}</h2>
 {{>feed thingFeed=true feedItems=userReviews paginationURL=false}}
