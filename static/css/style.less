@@ -796,6 +796,26 @@ details.content-warning[open] summary.content-warning-notice:before {
   margin-right:auto;
 }
 
+
+// For markdown captions, we swallow single linebreaks after images, and style
+// any text in bold or italic that follows as a caption.
+.review-text img + br, #preview-review-text img + br {
+  display:none;
+}
+
+.review-text img + br + em, #preview-review-text img + br + em,
+.review-text img + br + strong, #preview-review-text img + br + strong
+ {
+  font-size:95%;
+  color:#333;
+  display:block;
+  margin:0.5em 1em 0 1em;
+  padding-bottom:0.5em;
+  border-width:0 0 2px 0;
+  border-style:solid;
+  border-color:#ccc;
+}
+
 .invite-link {
   font-family: monospace;
   text-overflow: ellipsis;
