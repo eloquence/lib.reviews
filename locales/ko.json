@@ -146,6 +146,7 @@
 	"duplicate team name": "<a href='%s' target='_blank'>이 이름으로 된 팀</a>이 이미 존재합니다. 다른 이름을 사용해 보십시오.",
 	"search lib.reviews": "lib.reviews 검색",
 	"search results": "검색 결과",
+	"no results": "\"%s\" 쿼리와 일치하는 항목을 찾을 수 없습니다.",
 	"show more": "더 보기",
 	"show less": "덜 보기"
 }

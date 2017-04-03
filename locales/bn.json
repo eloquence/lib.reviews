@@ -92,9 +92,14 @@
 	"invalid language code": "জমাদানকৃত ভাষা কোড, '%s', বৈধ নয় অথবা অ-স্বীকৃত।",
 	"feed": "সর্বশেষ পর্যালোচনাগুলি",
 	"one or multiple stars": {
-		"one": "%sটি তারকা",
-		"other": "%sটি তারকা"
+		"one": "%fটি তারকা",
+		"other": "%fটি তারকা"
 	},
+	"one or multiple reviews": {
+		"one": "%dটি পর্যালোচনা",
+		"other": "%dটি পর্যালোচনা"
+	},
+	"review metrics": "<b>গড় মূল্যায়ন:</b> %1$s (%2$s)",
 	"captcha intro": "দয়া করে প্রমাণ করুন যে আপনি রোবট নন। \"___\" দিয়ে নির্দেশ করা অনুপস্থিত শব্দটি কি?",
 	"question: famous painting": "লিওনার্দো দ্য ভিঞ্চি দ্বারা অঙ্কিত বিশ্বের সবচেয়ে বিখ্যাত চিত্রকর্ম হচ্ছে মোনা ___।",
 	"answer: famous painting": "লিসা",
@@ -326,6 +331,10 @@
 	"view all": "&raquo; সব দেখুন",
 	"faq acronym": "প্রাজিপ্র",
 	"faq": "প্রায়শই জিজ্ঞাসিত প্রশ্নসমূহ",
+	"help us grow": {
+		"one": "lib.reviews কে বড় হতে সাহায্য করুন! আপনার একটি আমন্ত্রণ সংযোগ আছে।",
+		"other": "lib.reviews কে বড় হতে সাহায্য করুন! আপনার %sটি আমন্ত্রণ সংযোগ আছে।"
+	},
 	"generate link": "একটি আমন্ত্রণ সংযোগ উৎপন্ন করুন",
 	"invite users": "ব্যবহারকারীদের আমন্ত্রণ জানান",
 	"pending invitations": "আপনার আমন্ত্রণের সংযোগ",
@@ -336,6 +345,7 @@
 	"accepted on": "গ্রহণ হয়েছিল",
 	"copy": "অনুলিপি",
 	"invite link invalid title": "অবৈধ আমন্ত্রণ কোড",
+	"invite link already used title": "আমন্ত্রণের সংযোগ ইতিমধ্যেই ব্যবহার করা হয়েছে",
 	"change language permanently": "বাংলায় স্থায়ীভাবে সুইচ করুন",
 	"reload this page": "%sতে পুনঃলোড করুন",
 	"explore teams": "দল অন্বেষণ",
@@ -348,5 +358,6 @@
 		"other": "মিলে যাওয়া %sটি পর্যালোচনা:"
 	},
 	"show more": "আরো দেখান",
-	"show less": "কম দেখান"
+	"show less": "কম দেখান",
+	"development diary": "উন্নয়নের ডায়েরি"
 }

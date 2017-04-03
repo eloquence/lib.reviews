@@ -11,6 +11,7 @@
 	"intro message": "開発の初期段階にあるため、現時点では登録には招待リンクが必要です。やり方がよく分からない場合はTwitterで<a href='https://twitter.com/lib_reviews'>lib_reviews</a>をフォローして@ツイートして頂ければDMを送ります。",
 	"find us on": "私たちの活動は<a href='https://github.com/eloquence/lib.reviews'>GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>notabugにミラー</a>)上でチェックしたり、<a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>メーリングリスト</a>や<a href='https://freenode.net/'>irc.freenode.net</a>上の<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>チャネルでのIRCチャットに参加したりすることができます。<p>2016年10月時点の開発状況は<a href='/static/uploads/screencast2.webm'>短いスクリーンキャスト</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTubeバージョン</a>)でご覧ください。",
 	"change language": "言語切替：",
+	"change language button": "言語を変更",
 	"sign in": "サインイン",
 	"register": "登録",
 	"papers please": "ようこそ!あなたのログイン情報を以下に入力してください。",
@@ -356,5 +357,11 @@
 	"explore teams": "チームを探す",
 	"team intro": "<a href='/teams'>チーム</a>は共通的な興味のある物事をレビューする同好の志のグループです。こちらにいくつかの例があります：",
 	"duplicate team name": "<a href='%s' target='_blank'>この名前のチーム</a>は既に存在しています。別の名前で試してください。",
-	"thing label help": "ラベルはレビューの<i>主題</i>を識別します。修飾子なしで、正確な名前またはタイトルを使用してください。例えば： <i>2001: A Space Odyssey</i> または <i>DNA Lounge</i>。"
+	"thing label help": "ラベルはレビューの<i>主題</i>を識別します。修飾子なしで、正確な名前またはタイトルを使用してください。例えば： <i>2001: A Space Odyssey</i> または <i>DNA Lounge</i>。",
+	"search lib.reviews": "lib.reviewsを検索",
+	"search results": "検索結果",
+	"no results": "%s を見つけられませんでした。",
+	"show more": "表示を広げる",
+	"show less": "表示を折りたたむ",
+	"development diary": "開発チームの日記"
 }

@@ -93,9 +93,14 @@
 	"invalid language code": "提交的語言代碼「%s」無效且不被認可。",
 	"feed": "最近評論",
 	"one or multiple stars": {
-		"one": "%s顆星",
-		"other": "%s顆星"
+		"one": "%f顆星",
+		"other": "%f顆星"
 	},
+	"one or multiple reviews": {
+		"one": "%d個評論",
+		"other": "%d個評論"
+	},
+	"review metrics": "<b>平均評比：</b> %1$s（%2$s）",
 	"captcha intro": "請證明您不是一個網路機器人，在底線 ___ 當中缺少了那些字詞？",
 	"question: famous painting": "世界上最著名的畫作之一是李奧納多·達文西的蒙娜___。",
 	"answer: famous painting": "麗莎",

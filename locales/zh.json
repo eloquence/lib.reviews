@@ -92,9 +92,14 @@
 	"invalid language code": "提交的语言代码“%s”无效或不被认可。",
 	"feed": "最近审查",
 	"one or multiple stars": {
-		"one": "%s颗星",
-		"other": "%s颗星"
+		"one": "%f颗星",
+		"other": "%f颗星"
 	},
+	"one or multiple reviews": {
+		"one": "%d个审查",
+		"other": "%d个审查"
+	},
+	"review metrics": "<b>平均评级：</b>%1$s（%2$s）",
 	"captcha intro": "请证明您不是机器人。在___中缺少了哪个词？",
 	"question: famous painting": "世界上最著名的画作之一是莱昂纳多·达·芬奇的蒙娜___。",
 	"answer: famous painting": "丽莎",

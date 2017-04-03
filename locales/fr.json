@@ -6,7 +6,8 @@
 			"Jean-Frédéric",
 			"Wladek92",
 			"Eloquence",
-			"Derugon"
+			"Derugon",
+			"Urhixidur"
 		]
 	},
 	"site name": "lib.reviews",
@@ -24,7 +25,7 @@
 	"password": "Mot de passe",
 	"enter password": "Saisir le mot de passe",
 	"no account yet": "Vous n’avez pas encore de compte ? <a href='/register'>L’inscription</a> est rapide et facile.",
-	"invite link needed": "Merci de l'intérêt que vous portez à la création d'un compte ici ! Afin que notre croissance soit harmonieuse, nous souhaitons respecter les besoins de la communauté, et aussi prendre le temps de nous connaître les uns les autres. Pour cette raison vous aurez besoin d'un lien d'invitation pour créer un compte. Il existe trois manières simples d'obtenir un lien d'invitation: <ul><li>Rejoignez notre <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>tchat</a> (#lib.reviews sur irc.freenode.net) et demandez un lien d'invitation. <li>Suivez <a href='http://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter et envoyez-nous un message.<li>Si vous connaissez un membre de la communauté, demandez-lui directement une invitation.</ul><p>Nous souhaitons sincèrement vous accueillir au sein de la communauté lib.reviews !",
+	"invite link needed": "Merci de l’intérêt que vous portez à la création d’un compte ici ! Afin que notre croissance soit harmonieuse, nous souhaitons respecter les besoins de la communauté, et aussi prendre le temps de nous connaître les uns les autres. Pour cette raison vous aurez besoin d’un lien d’invitation pour créer un compte. Il existe trois manières simples d’obtenir un lien d’invitation : <ul><li>Rejoignez notre <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>clavardage</a> (#lib.reviews sur irc.freenode.net) et demandez un lien d’invitation. <li>Suivez <a href='http://twitter.com/lib_reviews'>lib_reviews</a> sur Twitter et envoyez-nous un message.<li>Si vous connaissez un membre de la communauté, demandez-lui directement une invitation.</ul><p>Nous souhaitons sincèrement vous accueillir au sein de la communauté lib.reviews !",
 	"enter your info": "Bienvenue dans la communauté lib.reviews! Veuillez saisir les informations de votre nouveau compte ci-dessous.",
 	"already got an account": "Vous avez déjà un compte ? <a href='/signin'>Connectez-vous</a> plutôt.",
 	"enter email": "Saisir l’adresse de courriel",
@@ -97,9 +98,14 @@
 	"invalid language code": "Le code de langue envoyé, '%s', n’est pas valide ou reconnu.",
 	"feed": "Dernières critiques",
 	"one or multiple stars": {
-		"one": "%s étoile",
-		"other": "%s étoiles"
+		"one": "%f étoile",
+		"other": "%f étoiles"
 	},
+	"one or multiple reviews": {
+		"one": "%d relecture",
+		"other": "%d relectures"
+	},
+	"review metrics": "<b>Note moyenne:</b> %1$s (%2$s)",
 	"captcha intro": "Veuillez prouver que vous n’êtes pas un robot. Quel est le mot manquant indiqué par ___?",
 	"question: famous painting": "Un des tableaux les plus célèbres au monde est la Mona ___ par Léonard de Vinci.",
 	"answer: famous painting": "Lisa",

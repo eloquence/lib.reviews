@@ -76,9 +76,10 @@
 	"invalid language code": "De Sproochcode '%s' ass net valabel oder gouf net erkannt.",
 	"feed": "Lescht Bewäertungen",
 	"one or multiple stars": {
-		"one": "%s Stär",
-		"other": "%s Stären"
+		"one": "%f Stär",
+		"other": "%f Stären"
 	},
+	"review metrics": "<b>Duerchschnëttlech Bewäertung:</b> %1$s (%2$s)",
 	"captcha intro": "Beweist w.e.g. datt Dir kee Roboter sidd. Wat ass dat Wuert dat feelt a mat ____ markéiert ass?",
 	"question: famous painting": "Eent vun de bekanntste Biller op der Welt ass d'Mona ___ vum Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",
