@@ -79,9 +79,10 @@
 	"got it": "Понятно!",
 	"feed": "Последние обзоры",
 	"one or multiple stars": {
-		"one": "%s звезда",
-		"other": "%s звезды"
+		"one": "%f звезда",
+		"other": "%f звезды"
 	},
+	"review metrics": "<b>Средний рейтинг:</b> %1$s (%2$s)",
 	"question: famous painting": "Одной из самых известных в мире картин является «Мона ___», написанная Леонардо да Винчи.",
 	"answer: famous painting": "Лиза",
 	"question: famous composer": "Людвиг ван ___ почти полностью оглох к концу своей жизни.",

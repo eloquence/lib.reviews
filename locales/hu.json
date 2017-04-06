@@ -93,9 +93,14 @@
 	"invalid language code": "A benyújtott nyelvi kód, '%s', nem érvényes vagy nem elismert.",
 	"feed": "Legutóbbi értékelések",
 	"one or multiple stars": {
-		"one": "%s csillag",
-		"other": "%s csillag"
+		"one": "%f csillag",
+		"other": "%f csillag"
 	},
+	"one or multiple reviews": {
+		"one": "%d értékelés",
+		"other": "%d értékelés"
+	},
+	"review metrics": "<b>Átlagos értékelés:</b> %1$s (%2$s)",
 	"captcha intro": "Kérjük, bizonyítsd be, hogy nem vagy robot. Melyik a hiányzó szó, amelyet a ___ jelöl?",
 	"question: famous painting": "A világ egyik leghíresebb festménye a Mona ___ , Leonardo da Vinci festménye.",
 	"answer: famous painting": "Lisa",

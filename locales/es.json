@@ -95,9 +95,14 @@
 	"invalid language code": "El código de idioma enviado, «%s», no es válido o no se reconoce.",
 	"feed": "Reseñas más recientes",
 	"one or multiple stars": {
-		"one": "%s estrella",
-		"other": "%s estrellas"
+		"one": "%f estrella",
+		"other": "%f estrellas"
 	},
+	"one or multiple reviews": {
+		"one": "%d revisión",
+		"other": "%d revisiones"
+	},
+	"review metrics": "<b>Puntaje promedio:</b> %1$s (%2$s)",
 	"captcha intro": "Demuestra que no eres un robot. ¿Cuál es la palabra faltante indicada por «___»?",
 	"question: famous painting": "Una de las pinturas más famosas a nivel mundial es la Mona ___ de Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",

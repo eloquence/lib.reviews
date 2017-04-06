@@ -93,8 +93,8 @@
 	"invalid language code": "Il codice lingua fornito, '%s', non è valido o riconosciuto.",
 	"feed": "Ultime recensioni",
 	"one or multiple stars": {
-		"one": "%s stella",
-		"other": "%s stelle"
+		"one": "%f stella",
+		"other": "%f stelle"
 	},
 	"captcha intro": "Dimostra di non essere un robot. Qual è la parola mancante indicata con ___?",
 	"question: famous painting": "Uno dei dipinti più famosi del mondo è il Mona ___ di Leonardo da Vinci.",

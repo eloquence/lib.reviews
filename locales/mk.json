@@ -92,9 +92,14 @@
 	"invalid language code": "Поднесениот јазичен код „%s“ е неважечки или непрепознаен.",
 	"feed": "Најнови осврти",
 	"one or multiple stars": {
-		"one": "%s ѕвезда",
-		"other": "%s ѕвезди"
+		"one": "%f ѕвезда",
+		"other": "%f ѕвезди"
 	},
+	"one or multiple reviews": {
+		"one": "%d осврт",
+		"other": "%d осврти"
+	},
+	"review metrics": "<b>Прос. оценка:</b> %1$s (%2$s)",
 	"captcha intro": "<!-- Докажете дека не сте робот. Кој е зборот што недостасува во полето ___? -->",
 	"question: famous painting": "Една од најславните слики на светот е „Мона ___“ на Леонардо да Винчи.",
 	"answer: famous painting": "Лиза",
