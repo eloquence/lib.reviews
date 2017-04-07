@@ -10,7 +10,11 @@
 @visitedColor: #373180;
 @infoColor: #ccc;
 @headerColor: #414042;
-@sideMargin: 2em;
+@sidePadding: 2em;
+
+body {
+  background: #fafafa;
+}
 
 // PureCSS has .hidden defined with !important
 .hidden-regular {
@@ -35,20 +39,15 @@
 // ------------- End variables + generic classes -------------------------------
 // ------------- Begin navigation/logo -----------------------------------------
 
-.nav {
+#nav {
   background: #fafafa;
   padding-top: 1em;
   padding-bottom: 1em;
-  padding-left: @sideMargin;
-  padding-right: @sideMargin;
-  margin-bottom: 1em;
+  padding-left: @sidePadding;
+  padding-right: @sidePadding;
   border-width: 1px;
   border-color: #f2f2f2 ;
   border-bottom-style:solid;
-}
-
-.nav h1 {
-  margin-bottom:0;
 }
 
 #user-menu {
@@ -201,8 +200,11 @@
 // ------------- End search ----------------------------------------------------
 // ------------- Begin content styles ------------------------------------------
 #main-body {
-  margin-left: @sideMargin;
-  margin-right: @sideMargin;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: @sidePadding;
+  padding-right: @sidePadding;
+  background: white;
 }
 
 #footer a,
@@ -858,8 +860,7 @@ details.content-warning[open] summary.content-warning-notice:before {
 #footer {
   font-size:small;
   text-align:center;
-  margin-top: 2em;
-  padding-top: 1em;
+  padding-top:1em;
   background: #fafafa;
   border-width: 1px;
   border-color: #f2f2f2 ;
