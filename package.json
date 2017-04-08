@@ -16,7 +16,7 @@
     "auto-sni": "^1.2.1",
     "babel-preset-es2015": "^6.9.0",
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "~1.13.2",
+    "body-parser": "~1.17.1",
     "cldr-core": "^29.0.0",
     "cldr-localenames-full": "^29.0.0",
     "compression": "^1.6.2",
