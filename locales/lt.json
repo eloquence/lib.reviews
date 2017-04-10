@@ -77,9 +77,14 @@
 	"invalid language code": "Pateiktas kalbos kodas, '%s', yra negalimas arba nebuvo atpažintas.",
 	"feed": "Naujausios apžvalgos",
 	"one or multiple stars": {
-		"one": "%s žvaigždė",
-		"other": "%s žvaigždės"
+		"one": "%f žvaigždė",
+		"other": "%f žvaigždės"
 	},
+	"one or multiple reviews": {
+		"one": "%d apžvalga",
+		"other": "%d apžvalgos"
+	},
+	"review metrics": "<b>Vidutinis įvertinimas:</b> %1$ž (%2$ž)",
 	"captcha intro": "<!-- Įrodykite, kad esate ne robotas. Koks yra trūkstamas pažymėtas ___? -->",
 	"question: famous painting": "Vienas iš žymiausių paveikslų yra Mona ___, nutapytas Leonardo da Vinci.",
 	"answer: famous painting": "Liza",

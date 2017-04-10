@@ -349,6 +349,7 @@
 	"change language permanently": "বাংলায় স্থায়ীভাবে সুইচ করুন",
 	"reload this page": "%sতে পুনঃলোড করুন",
 	"explore teams": "দল অন্বেষণ",
+	"duplicate team name": "<a href='%s' target='_blank'>এই নামে একটি দল</a> ইতিমধ্যে বিদ্যমান। দয়া করে একটি ভিন্ন নাম বাছুন।",
 	"search lib.reviews": "lib.reviews অনুসন্ধান",
 	"search results": "অনুসন্ধানের ফলাফল",
 	"matches in review subjects": "মিলে যাওয়া বিষয় পর্যালোচনা",
