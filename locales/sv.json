@@ -93,9 +93,14 @@
 	"invalid language code": "Den angivna språkkoden \"%s\" är varken giltig eller igenkännbar.",
 	"feed": "Senaste recensioner",
 	"one or multiple stars": {
-		"one": "%s stjärna",
-		"other": "%s stjärnor"
+		"one": "%f stjärna",
+		"other": "%f stjärnor"
 	},
+	"one or multiple reviews": {
+		"one": "%d recension",
+		"other": "%d recensioner"
+	},
+	"review metrics": "<b>Medelbetyg:</b> %1$s (%2$s)",
 	"captcha intro": "Bevisa att du inte är en robot. Vilket ord är det som saknas vid ___?",
 	"question: famous painting": "En av världens mest berömda målningar är Mona ___ av Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",

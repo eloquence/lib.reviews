@@ -45,8 +45,8 @@
 	"got it": "알겠습니다!",
 	"feed": "최신 리뷰",
 	"one or multiple stars": {
-		"one": "%s개의 별",
-		"other": "%s개의 별"
+		"one": "%f개의 별",
+		"other": "%f개의 별"
 	},
 	"enter captcha answer": "답변을 입력하십시오 (대소문자 구분 안 함)",
 	"more info": "더 많은 리뷰와 정보",
@@ -148,5 +148,6 @@
 	"search results": "검색 결과",
 	"no results": "\"%s\" 쿼리와 일치하는 항목을 찾을 수 없습니다.",
 	"show more": "더 보기",
-	"show less": "덜 보기"
+	"show less": "덜 보기",
+	"development diary": "개발 일지"
 }
