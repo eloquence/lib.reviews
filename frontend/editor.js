@@ -154,6 +154,16 @@ function renderRTE($textarea) {
       $textarea[0].setSelectionRange(0, 0);
     }
   });
+
+  $ce.focus(function() {
+    $rteContainer.addClass('rte-focused');
+  });
+
+  $ce.focusout(function() {
+    $rteContainer.removeClass('rte-focused');
+  });
+
+
   rteCount++;
 
   $(window).on('beforeunload', function() {
