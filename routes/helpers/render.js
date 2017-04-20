@@ -2,6 +2,7 @@
 // External dependencies
 const config = require('config');
 const url = require('url');
+const getJS = require('../../util/get-js');
 
 // Internal dependencies
 const languages = require('../../locales/languages');
@@ -30,7 +31,7 @@ let render = {
 
     vars.user = req.user;
 
-    vars.scripts = ['lib.js'];
+    vars.scripts = [getJS('lib')];
     if (extraVars && Array.isArray(extraVars.scripts))
       vars.scripts = vars.scripts.concat(extraVars.scripts);
 

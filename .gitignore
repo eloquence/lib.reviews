@@ -49,6 +49,7 @@ config/development.json5
 
 # Built via grunt
 static/js
+static/css/editor
 
 # Generated
 *-es5.js*

@@ -6,18 +6,8 @@ const MarkdownIt = require('markdown-it');
 const container = require('markdown-it-container');
 const i18n = require('i18n');
 
-
 const markdownMessages = ['nsfw warning', 'spoiler warning'];
-MarkdownIt.prototype.getMarkdownMessages = language => {
-  let messagesObj = {};
-  markdownMessages.forEach(key => {
-    messagesObj[key] = i18n.__({
-      phrase: key,
-      locale: language
-    });
-  });
-  return messagesObj;
-};
+MarkdownIt.prototype.getMarkdownMessages = () => markdownMessages.slice();
 
 const md = new MarkdownIt({
   linkify: true,

@@ -20,7 +20,7 @@
 {{else}}
 <span class="user-label">{{{__ "user bio"}}}</span><br>
 <form id="bio-form" name="bio-form" action="" method="post">
-<textarea id="bio-textarea" name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>
+<textarea id="bio-textarea" data-markdown name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>
 <input type="hidden" value="{{currentLanguage.langKey}}" name="bio-language">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <div id="character-caption">

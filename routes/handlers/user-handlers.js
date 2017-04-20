@@ -7,6 +7,9 @@ const User = require('../../models/user');
 const Review = require('../../models/review');
 const reviewHandlers = require('./review-handlers');
 const md = require('../../util/md');
+const getJS = require('../../util/get-js');
+const getMessages = require('../../util/get-messages');
+const getEditorMessages = require('../../frontend/editor-messages');
 
 let userHandlers = {
 
@@ -143,14 +146,17 @@ let userHandlers = {
                 userInfo: user,
                 feedItems,
                 edit,
-                scripts: ['user.js'],
+                scripts: ['user.js', getJS('editor')],
                 pageErrors,
                 teams: user.teams,
                 modOf,
                 founderOf,
                 paginationURL,
                 embeddedFeeds
-              });
+              }, {
+                messages: getMessages(req.locale, getEditorMessages())
+              }
+            );
             })
             .catch(next);
         })

@@ -12,6 +12,9 @@ const ReportedError = require('../../util/reported-error.js');
 const md = require('../../util/md');
 const slugs = require('../helpers/slugs');
 const search = require('../../search');
+const getJS = require('../../util/get-js');
+const getMessages = require('../../util/get-messages');
+const getEditorMessages = require('../../frontend/editor-messages');
 
 class ReviewProvider extends AbstractBREADProvider {
 
@@ -84,14 +87,17 @@ class ReviewProvider extends AbstractBREADProvider {
       pageErrors: !this.isPreview ? pageErrors : undefined, // Don't show errors on preview
       isPreview: this.isPreview,
       preview: this.preview,
-      scripts: ['markdown.min.js', 'review.js'],
+      scripts: ['markdown.min.js', 'review.js', getJS('editor')],
       showLanguageNotice,
       pageMessages,
       thing,
       editing: this.editing ? true : false
     }, {
       editing: this.editing ? true : false,
-      messages: md.getMarkdownMessages(this.req.locale)
+      messages: getMessages(this.req.locale,
+        md.getMarkdownMessages(this.req.locale),
+        getEditorMessages()
+      )
     });
   }
 

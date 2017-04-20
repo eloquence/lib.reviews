@@ -12,6 +12,7 @@ const mlString = require('../../models/helpers/ml-string.js');
 const languages = require('../../locales/languages');
 const feeds = require('../helpers/feeds');
 const slugs = require('../helpers/slugs');
+const getJS = require('../../util/get-js');
 
 class BlogPostProvider extends AbstractBREADProvider {
 
@@ -144,7 +145,8 @@ class BlogPostProvider extends AbstractBREADProvider {
       formValues,
       team,
       isPreview: this.isPreview,
-      editing: this.editing
+      editing: this.editing,
+      scripts: [getJS('editor')]
     });
 
   }

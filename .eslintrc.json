@@ -63,7 +63,7 @@
             "property"
         ],
         "dot-notation": [
-            "error",
+            "off",
             {
                 "allowKeywords": true
             }
@@ -221,7 +221,7 @@
         "semi": "error",
         "semi-spacing": "error",
         "sort-imports": "warn",
-        "sort-vars": "error",
+        "sort-vars": "off",
         "space-before-blocks": "error",
         "space-before-function-paren": "off",
         "space-in-parens": [

@@ -395,7 +395,6 @@ textarea#review-text {
   height: 12em;
 }
 
-
 #help {
   margin-left:1em;
 }
@@ -791,7 +790,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   font-size:90%;
 }
 
-.review-text img, #preview-review-text img {
+.review-text img, #preview-review-text img, .rte-container img {
   max-width: 95%;
   display:block;
   margin-left:auto;
@@ -855,6 +854,125 @@ details.content-warning[open] summary.content-warning-notice:before {
 }
 
 // ------------- End content styles --------------------------------------------
+// ------------- Begin editor styles -------------------------------------------
+
+.ProseMirror {
+  background:#fff;
+  overflow-y:auto;
+  padding:0em 1em 0em 1em;
+  max-height:10.35em;
+  min-height:10.35em;
+}
+
+.rte-container {
+    width:inherit;
+    height:inherit;
+    margin-bottom:0.25em;
+}
+
+.ProseMirror:focus {
+  outline:none;
+}
+
+.ProseMirror-menubar-wrapper {
+  border-style:solid;
+  border-width:1px;
+  border-color:silver;
+}
+
+
+.ProseMirror-prompt {
+  background: white;
+  padding: 5px 10px 5px 15px;
+  border: 1px solid silver;
+  position: fixed;
+  border-radius: 3px;
+  z-index: 11;
+  box-shadow: -.5px 2px 5px rgba(0, 0, 0, .2);
+}
+
+.ProseMirror-prompt h5 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 100%;
+  color: #444;
+}
+
+.ProseMirror-prompt input[type="text"],
+.ProseMirror-prompt textarea {
+  background: #eee;
+  border: none;
+  outline: none;
+}
+
+.ProseMirror-prompt input[type="text"] {
+  padding: 0 4px;
+}
+
+.ProseMirror-prompt-close {
+  position: absolute;
+  left: 2px; top: 1px;
+  color: #666;
+  border: none; background: transparent; padding: 0;
+}
+
+.ProseMirror-prompt-close:after {
+  content: "✕";
+  font-size: 12px;
+}
+
+.ProseMirror-invalid {
+  background: #ffc;
+  border: 1px solid #cc7;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  min-width: 10em;
+}
+
+.ProseMirror-prompt-buttons {
+  margin-top: 5px;
+  display: none;
+}
+
+.switcher-control {
+  text-transform:uppercase;
+  font-size:small;
+  font-family:sans-serif;
+  display:inline-block;
+  margin-bottom:0.5em;
+}
+
+.switcher-option {
+  margin-right:-1px;
+  padding:10px;
+  display:inline-block;
+}
+
+.switcher-control .switcher-option-selected {
+  border-style:solid;
+  border-width:1px;
+  background:#fff;
+  border-color:#ddd;
+  font-weight:bold;
+  cursor:default;
+}
+
+.switcher-control :not(.switcher-option-selected) {
+  border-style:solid;
+  border-width:1px;
+  background:#f0f0f0;
+  color:#333;
+  border-color:#ddd;
+  cursor:pointer;
+}
+
+.ProseMirror-menu-dropdown, .ProseMirror-menu-dropdown-item, .ProseMirror-prompt {
+  font-family:sans-serif;
+}
+
+
+// ------------- End editor styles -------------------------------------------
 // ------------- Begin footer --------------------------------------------------
 
 #footer {

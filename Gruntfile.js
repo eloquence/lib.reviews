@@ -21,6 +21,21 @@ module.exports = function(grunt) {
         ],
         dest: 'static/js/'
       },
+      editorStyles: {
+        expand: true,
+        flatten: true,
+        src: [
+          'node_modules/prosemirror-view/style/prosemirror.css',
+          'node_modules/prosemirror-menu/style/menu.css'
+        ],
+        dest: 'static/css/editor/'
+      }
+    },
+    browserify: {
+      main: {
+        src: 'frontend/editor.js',
+        dest: 'static/js/editor-es6-bundle.js'
+      }
     },
     babel: {
       tests: {
@@ -48,7 +63,8 @@ module.exports = function(grunt) {
           'static/js/review.js': 'frontend/review.js',
           'static/js/upload.js': 'frontend/upload.js',
           'static/js/user.js': 'frontend/user.js',
-          'static/js/markdown-init.js': 'frontend/markdown-init.js'
+          'static/js/markdown-init.js': 'frontend/markdown-init.js',
+          'static/js/editor.js': 'static/js/editor-es6-bundle.js'
         }
       }
     },
@@ -77,12 +93,13 @@ module.exports = function(grunt) {
       },
       mainJS: {
         files: {
-          'static/js/lib.min.js': ['static/js/lib.js']
+          'static/js/lib.min.js': ['static/js/lib.js'],
+          'static/js/editor.min.js': ['static/js/editor.js']
         }
       },
     }
   });
 
-  grunt.registerTask('default', ['copy', 'babel', 'concat', 'uglify']);
+  grunt.registerTask('default', ['copy', 'browserify', 'babel', 'concat', 'uglify']);
 
 };
