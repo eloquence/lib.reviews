@@ -31,7 +31,7 @@ let rteCount = 0;
 let rtes = [];
 
 // Add control for switching between modes
-$('<div class="switcher-control" data-markdown-enabled>' +
+let $switcher = $('<div class="switcher-control" data-markdown-enabled>' +
     '<span class="switcher-option switcher-option-selected" data-enable-markdown>' +
     window.config.messages['markdown format'] +
     '</span>' +
@@ -40,6 +40,9 @@ $('<div class="switcher-control" data-markdown-enabled>' +
     '</span>' +
     '</div>')
   .insertAfter('textarea[data-markdown]');
+
+// Add little checkbox indicator to show which mode is enabled
+addIndicator($switcher, '[data-enable-markdown]');
 
 // We keep track of the RTE's caret and scroll position, but only if the
 // markdown representation hasn't been changed.
@@ -175,12 +178,27 @@ function isSelectable(optionElement, activeOptionAttr) {
 function toggleSwitcher(switcher) {
   let activateOption, activateState, deactivateOption, deactivateState;
   let controlData = ['[data-enable-rte]', '[data-enable-markdown]', 'data-rte-enabled', 'data-markdown-enabled'];
-  if (switcher.hasAttribute('data-rte-enabled')) // => switch to markdown
+  if (switcher.hasAttribute('data-rte-enabled')) { // => switch to markdown
     [activateOption, deactivateOption, deactivateState, activateState] = controlData;
-  else // => switch to RTE
+    addIndicator($(switcher), '[data-enable-markdown]');
+    removeIndicator($(switcher), '[data-enable-rte]');
+  } else { // => switch to RTE
     [deactivateOption, activateOption, activateState, deactivateState] = controlData;
+    removeIndicator($(switcher), '[data-enable-markdown]');
+    addIndicator($(switcher), '[data-enable-rte]');
+  }
 
   $(switcher).removeAttr(deactivateState).attr(activateState, '');
   $(switcher).find(activateOption).removeClass('switcher-option-selected');
   $(switcher).find(deactivateOption).addClass('switcher-option-selected');
+}
+
+// Checkbox indicator for mode switcher
+function addIndicator($switcher, selector) {
+  let $selectedIndicator = $('<span class="fa fa-check-circle spaced-icon switcher-selected-indicator">');
+  $switcher.find(selector).prepend($selectedIndicator);
+}
+
+function removeIndicator($switcher, selector) {
+  $switcher.find(selector + ' .switcher-selected-indicator').remove();
 }
