@@ -13,6 +13,8 @@ const BlogPost = require('../../models/blog-post');
 const feeds = require('../helpers/feeds');
 const slugs = require('../helpers/slugs');
 const getJS = require('../../util/get-js');
+const getMessages = require('../../util/get-messages');
+const getEditorMessages = require('../../frontend/editor-messages');
 
 class TeamProvider extends AbstractBREADProvider {
 
@@ -204,8 +206,9 @@ class TeamProvider extends AbstractBREADProvider {
       formValues,
       isPreview: this.isPreview,
       scripts: [getJS('editor')]
+    }, {
+      messages: getMessages(this.req.locale, getEditorMessages())
     });
-
   }
 
 
@@ -437,8 +440,8 @@ class TeamProvider extends AbstractBREADProvider {
           // Slug update failed
           .catch(error => {
             if (error.name === 'DuplicateSlugNameError') {
-                this.req.flash('pageErrors', this.req.__('duplicate team name', `/team/${error.payload.slug.name}`));
-                return this.edit_GET(formData.formValues);
+              this.req.flash('pageErrors', this.req.__('duplicate team name', `/team/${error.payload.slug.name}`));
+              return this.edit_GET(formData.formValues);
             } else
               return this.next(error);
           });
