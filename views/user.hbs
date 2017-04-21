@@ -4,7 +4,7 @@
 {{/each}}
 </div>
 <div class="pure-g">
-<div class="pure-u-1 pure-u-md-2-5">
+<div class="pure-u-1 pure-u-md-1-2">
 <div class="user-info">
 <h1 id="page-header">{{{__ titleKey titleParam}}}</h1>
 {{#unless edit.bio}}
@@ -19,8 +19,8 @@
 {{/if}}
 {{else}}
 <span class="user-label">{{{__ "user bio"}}}</span><br>
-<form id="bio-form" name="bio-form" action="" method="post">
-<textarea id="bio-textarea" data-markdown name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>
+<form id="bio-form" name="bio-form" class="pure-form" action="" method="post">
+<textarea id="bio-textarea" class="pure-input-1" data-markdown name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>
 <input type="hidden" value="{{currentLanguage.langKey}}" name="bio-language">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <div id="character-caption">
@@ -60,7 +60,7 @@
 {{!End team list}}
 </div>
 </div>
-<div class="pure-u-1 pure-u-md-3-5">
+<div class="pure-u-1 pure-u-md-1-2">
 <h2 class="inline-feed-headline">{{{__ "feed"}}}</h2>
 <p>
 {{#if feedItems}}

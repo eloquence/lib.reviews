@@ -28,21 +28,20 @@ const { saveSelection, restoreSelection } = require('./editor-selection');
 // Since we can have multiple RTE instances on a page, we use this array and
 // counter to keep track of them
 let rteCount = 0;
+
+// Array of objects containing active view instances and associated information
 let rtes = [];
 
-// Add control for switching between modes
-let $switcher = $('<div class="switcher-control" data-markdown-enabled>' +
-    '<span class="switcher-option switcher-option-selected" data-enable-markdown>' +
-    window.config.messages['markdown format'] +
-    '</span>' +
-    '<span class="switcher-option" data-enable-rte>' +
-    window.config.messages['rich text format'] +
-    '</span>' +
-    '</div>')
-  .insertAfter('textarea[data-markdown]');
+let textareaCount = 0;
 
-// Add little checkbox indicator to show which mode is enabled
-addIndicator($switcher, '[data-enable-markdown]');
+$('textarea[data-markdown]').each(function() {
+  textareaCount++;
+  let $switcherTemplate = getSwitcherTemplate({
+    accessKeys: textareaCount == 1 ? true : false
+  });
+  let $switcher = $switcherTemplate.insertAfter($(this));
+  addIndicator($switcher, '[data-enable-markdown]');
+});
 
 // We keep track of the RTE's caret and scroll position, but only if the
 // markdown representation hasn't been changed.
@@ -69,17 +68,18 @@ $('[data-enable-rte]').click(function enableRTE() {
   let $rteContainer = renderRTE($textarea),
     $contentEditable = $rteContainer.find('[contenteditable="true"]');
 
-  if (selStart !== undefined && selEnd !== undefined)
-    restoreSelection($contentEditable[0], { start: selStart, end: selEnd });
-
   if (scrollY !== undefined)
     $contentEditable.scrollTop(scrollY);
 
   $contentEditable.focus();
+
+  if (selStart !== undefined && selEnd !== undefined)
+    restoreSelection($contentEditable[0], { start: selStart, end: selEnd });
+
 });
 
 // Switch back to markdown
-$('[data-enable-markdown]').click(function enableMarkdown() {
+$('[data-enable-markdown]').click(function enableMarkdown(event) {
   if (!isSelectable(this, 'data-markdown-enabled'))
     return false;
 
@@ -88,8 +88,17 @@ $('[data-enable-markdown]').click(function enableMarkdown() {
     $contentEditable = $rteContainer.find('[contenteditable="true"]'),
     editorID = $rteContainer[0].id.match(/\d+/)[0];
 
+  // .detail contains number of clicks. If 0, user likely got here via
+  // accesskey, so the blur() event never fired.
+  if (event.originalEvent.detail === 0) {
+    console.log('no blur');
+    updateRTESelectionData($textarea, $contentEditable);
+    updateTextarea($textarea, $contentEditable, rtes[editorID].editorView);
+  }
+
   $contentEditable.off();
-  rtes[editorID].destroy();
+  $(window).off('resize', rtes[editorID].resizeEventHandler);
+  rtes[editorID].editorView.destroy();
   $rteContainer.remove();
   $textarea.show();
   $textarea.focus();
@@ -97,7 +106,7 @@ $('[data-enable-markdown]').click(function enableMarkdown() {
 
 
 // Create a new RTE (ProseMirror) instance and add it to the DOM; register
-// relevant event handlers.
+// relevant event handlers. FIXME: Refactor me!
 function renderRTE($textarea) {
   let $rteContainer = $(`<div id="pm-edit-${rteCount}" class="rte-container"></div>`)
     .insertAfter($textarea);
@@ -119,40 +128,44 @@ function renderRTE($textarea) {
     ]
   });
 
-  let rte = new EditorView($(`#pm-edit-${rteCount}`)[0], {
+  let editorView = new EditorView($(`#pm-edit-${rteCount}`)[0], {
     state
   });
-  rtes.push(rte);
+
+  rtes.push({
+    editorView
+  });
 
   let $ce = $rteContainer.find('[contenteditable="true"]');
 
-  // We want to be able to preserve the user's place in the document unless
-  // they've changed it. To do so, we stash the current RTE selection in the
-  // textarea, since we create a new RTE instance every time the user switches
-  // between editing environments.
-  $ce.blur(function updateRTESelection() {
-    if (saveSelection) {
-      let sel = saveSelection(this);
-      let scrollY = $(this).scrollTop();
-      $textarea.attr('data-rte-sel-start', sel.start);
-      $textarea.attr('data-rte-sel-end', sel.end);
-      $textarea.attr('data-rte-scroll-y', scrollY);
-    }
+  // Adjust height to match textarea
+  let setRTEHeight = () => {
+    let textareaHeight = $textarea.css('height');
+    if (textareaHeight)
+      $rteContainer.css('height', textareaHeight);
+    else
+      $rteContainer.css('height', '10em');
+    textareaHeight = parseInt($textarea.css('height'), 10);
+    let menuHeight = parseInt($rteContainer.find('.ProseMirror-menubar').css('height'), 10) || 41;
+    let rteHeight = textareaHeight - (menuHeight + 2);
+    $ce.css('height', rteHeight + 'px');
+  };
+  setRTEHeight();
+
+  // Menu can wrap, so keep an eye on the height
+  $(window).resize(setRTEHeight);
+  rtes[rteCount].resizeEventHandler = setRTEHeight;
+
+  $ce.blur(function() {
+    updateRTESelectionData($textarea, $(this));
+    // Re-generating the markdown on blur is a performance compromise; we may want
+    // to add more triggers if this is insufficient.
+    updateTextarea($textarea, $(this), editorView);
   });
 
-  // So the textarea value can be safely submitted or queried, we update the
-  // markdown representation on blur. (We could update more frequently, but
-  // there are few obvious advantages.)
-  $ce.blur(function updateTextarea() {
-    let markdown = defaultMarkdownSerializer.serialize(rte.state.doc);
-    if (markdown !== $textarea.val()) {
-      $textarea.val(markdown);
-      $textarea
-        .trigger('keyup')
-        .trigger('change');
-      // Reset cursor, otherwise it will be at the end due to value reset
-      $textarea[0].setSelectionRange(0, 0);
-    }
+  $(window).on('beforeunload', function() {
+    // Let's be nice to scripts that try to rescue form data
+    updateTextarea($textarea, $ce, editorView);
   });
 
   $ce.focus(function() {
@@ -163,14 +176,37 @@ function renderRTE($textarea) {
     $rteContainer.removeClass('rte-focused');
   });
 
-
   rteCount++;
-
-  $(window).on('beforeunload', function() {
-    $ce.blur();
-  });
-
   return $rteContainer;
+}
+
+// Serialize RTE content into Markdown and update textarea
+function updateTextarea($textarea, $ce, editorView) {
+  let markdown = defaultMarkdownSerializer.serialize(editorView.state.doc);
+  if (markdown !== $textarea.val()) {
+    $textarea.val(markdown);
+    $textarea
+      .trigger('keyup')
+      .trigger('change');
+    // Reset cursor, otherwise it will be at the end due to value reset
+    $textarea[0].setSelectionRange(0, 0);
+  }
+}
+
+// We want to be able to preserve the user's place in the document unless
+// they've changed it. To do so, we stash the current RTE selection in the
+// textarea, since we create a new RTE instance every time the user switches
+// between editing environments.
+function updateRTESelectionData($textarea, $ce) {
+  if (saveSelection) {
+    let sel = saveSelection($ce[0]);
+    let scrollY = $($ce[0]).scrollTop();
+    if (typeof sel == 'object' && typeof sel.start == 'number' && typeof sel.end == 'number') {
+      $textarea.attr('data-rte-sel-start', sel.start);
+      $textarea.attr('data-rte-sel-end', sel.end);
+    }
+    $textarea.attr('data-rte-scroll-y', scrollY);
+  }
 }
 
 // Toggle a switcher if it is selectable, return status
@@ -182,6 +218,35 @@ function isSelectable(optionElement, activeOptionAttr) {
     toggleSwitcher(switcher);
     return true;
   }
+}
+
+// The actual template for the switcher. Can have access keys, but for multiple
+// textareas, we want to only add them to one.
+function getSwitcherTemplate(options) {
+  options = Object.assign({
+    accessKeys: false // Should we generate access keys for this switcher?
+  }, options);
+
+  let $switcherTemplate = $(
+    '<div class="switcher-control" data-markdown-enabled>' +
+    '<span class="switcher-option switcher-option-selected" data-enable-markdown>' +
+    window.config.messages['markdown format'] +
+    '</span>' +
+    '<span class="switcher-option" data-enable-rte>' +
+    window.config.messages['rich text format'] +
+    '</span>' +
+    '</div>'
+  );
+
+  if (options.accessKeys) {
+    let addAccessKey = (selector, key) => $switcherTemplate
+        .find(selector)
+        .attr('accesskey', key)
+        .attr('title', window.config.messages['accesskey'].replace('%s', key));
+    addAccessKey('[data-enable-markdown]', 'm');
+    addAccessKey('[data-enable-rte]', ',');
+  }
+  return $switcherTemplate;
 }
 
 // Flip classes and data- attributes for the two modes (markdown, RTE)

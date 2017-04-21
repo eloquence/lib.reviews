@@ -8,8 +8,7 @@ const Review = require('../../models/review');
 const reviewHandlers = require('./review-handlers');
 const md = require('../../util/md');
 const getJS = require('../../util/get-js');
-const getMessages = require('../../util/get-messages');
-const getEditorMessages = require('../../frontend/editor-messages');
+const { getEditorMessages } = require('../../frontend/editor-messages');
 
 let userHandlers = {
 
@@ -117,6 +116,8 @@ let userHandlers = {
                 bio: options.editBio
               };
 
+              let loadEditor = options.editBio;
+
               // For easy lookup in template
               let modOf = {};
               user.moderatorOf.forEach(t => (modOf[t.id] = true));
@@ -146,7 +147,7 @@ let userHandlers = {
                 userInfo: user,
                 feedItems,
                 edit,
-                scripts: ['user.js', getJS('editor')],
+                scripts: loadEditor ? ['user.js', getJS('editor')] : ['user.js'],
                 pageErrors,
                 teams: user.teams,
                 modOf,
@@ -154,7 +155,7 @@ let userHandlers = {
                 paginationURL,
                 embeddedFeeds
               }, {
-                messages: getMessages(req.locale, getEditorMessages())
+                messages: loadEditor ? getEditorMessages(req.locale) : {}
               }
             );
             })

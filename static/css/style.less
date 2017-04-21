@@ -656,8 +656,9 @@ hr.feed-separator, hr.team-separator {
 }
 
 #bio-textarea {
-  width: 90%;
-  height: 7em;
+  width: 100%;
+  height: 12em;
+  margin-bottom:0.25em;
 }
 
 #character-caption {
@@ -856,16 +857,22 @@ details.content-warning[open] summary.content-warning-notice:before {
 // ------------- End content styles --------------------------------------------
 // ------------- Begin editor styles -------------------------------------------
 
+// Container height is obtained from textarea via JS
 .rte-container {
-    width:inherit;
-    height:inherit;
-    margin-bottom:0.25em;
-    // Standard pure form styles
-    padding: 0.5em 0.6em;
-    border: 1px solid #ccc;
-    box-shadow: inset 0 1px 3px #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width:inherit;
+  margin-bottom:0.25em;
+  padding-left:0.5em;
+  padding-right:1px;
+  // Standard pure form styles
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display:block;
+}
+
+.ProseMirror-menubar-wrapper {
+  display:block;
 }
 
 .rte-focused {
@@ -876,14 +883,15 @@ details.content-warning[open] summary.content-warning-notice:before {
 
 .ProseMirror {
   background:#fff;
-  overflow-y:auto;
-  padding:0em 1em 0em 1em;
-  max-height:8.9em;
-  min-height:8.9em;
+  overflow:auto;
+  margin-left:4px;
 }
 
 .ProseMirror-menubar {
-  padding-bottom:0.5em;
+  padding-right:0;
+  padding-left:0;
+  padding-top:8px;
+  padding-bottom:8px;
   border-color:#f0f0f0;
 }
 

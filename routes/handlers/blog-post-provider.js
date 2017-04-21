@@ -13,6 +13,7 @@ const languages = require('../../locales/languages');
 const feeds = require('../helpers/feeds');
 const slugs = require('../helpers/slugs');
 const getJS = require('../../util/get-js');
+const { getEditorMessages } = require('../../frontend/editor-messages');
 
 class BlogPostProvider extends AbstractBREADProvider {
 
@@ -147,6 +148,8 @@ class BlogPostProvider extends AbstractBREADProvider {
       isPreview: this.isPreview,
       editing: this.editing,
       scripts: [getJS('editor')]
+    }, {
+      messages: getEditorMessages(this.req.locale)
     });
 
   }

@@ -1,5 +1,6 @@
 'use strict';
 const msgArr = [
+  'accesskey',
   'markdown format',
   'rich text format',
   'insert image',
@@ -25,6 +26,12 @@ const msgArr = [
   'format as level heading help',
   'format as level heading'
 ];
-module.exports = function getEditorMessages() {
+const getMessages = require('../util/get-messages');
+
+module.exports.getEditorMessageKeys = function() {
   return msgArr.slice();
+};
+
+module.exports.getEditorMessages = function(locale) {
+  return getMessages(locale, msgArr.slice());
 };

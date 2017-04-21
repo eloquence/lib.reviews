@@ -7,7 +7,7 @@ const container = require('markdown-it-container');
 const i18n = require('i18n');
 
 const markdownMessages = ['nsfw warning', 'spoiler warning'];
-MarkdownIt.prototype.getMarkdownMessages = () => markdownMessages.slice();
+MarkdownIt.prototype.getMarkdownMessageKeys = () => markdownMessages.slice();
 
 const md = new MarkdownIt({
   linkify: true,

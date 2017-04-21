@@ -13,8 +13,7 @@ const BlogPost = require('../../models/blog-post');
 const feeds = require('../helpers/feeds');
 const slugs = require('../helpers/slugs');
 const getJS = require('../../util/get-js');
-const getMessages = require('../../util/get-messages');
-const getEditorMessages = require('../../frontend/editor-messages');
+const { getEditorMessages } = require('../../frontend/editor-messages');
 
 class TeamProvider extends AbstractBREADProvider {
 
@@ -207,7 +206,7 @@ class TeamProvider extends AbstractBREADProvider {
       isPreview: this.isPreview,
       scripts: [getJS('editor')]
     }, {
-      messages: getMessages(this.req.locale, getEditorMessages())
+      messages: getEditorMessages(this.req.locale)
     });
   }
 
