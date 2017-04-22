@@ -80,13 +80,13 @@ $('[data-enable-rte]').click(function enableRTE() {
   let $rteContainer = renderRTE($textarea),
     $contentEditable = $rteContainer.find('[contenteditable="true"]');
 
+  if (selStart !== undefined && selEnd !== undefined)
+    restoreSelection($contentEditable[0], { start: selStart, end: selEnd });
+
   if (scrollY !== undefined)
     $contentEditable.scrollTop(scrollY);
 
   $contentEditable.focus();
-
-  if (selStart !== undefined && selEnd !== undefined)
-    restoreSelection($contentEditable[0], { start: selStart, end: selEnd });
 
 });
 
@@ -251,9 +251,9 @@ function getSwitcherTemplate(options) {
 
   if (options.accessKeys) {
     let addAccessKey = (selector, key) => $switcherTemplate
-        .find(selector)
-        .attr('accesskey', key)
-        .attr('title', window.config.messages['accesskey'].replace('%s', key));
+      .find(selector)
+      .attr('accesskey', key)
+      .attr('title', window.config.messages['accesskey'].replace('%s', key));
     addAccessKey('[data-enable-markdown]', 'm');
     addAccessKey('[data-enable-rte]', ',');
   }
