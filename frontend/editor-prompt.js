@@ -79,12 +79,6 @@ exports.openPrompt = function(options) {
       event.preventDefault();
       submit();
     }
-    // else if (event.keyCode == 9) {
-    //   window.setTimeout(() => {
-    //     if (!$wrapper[0].contains(document.activeElement))
-    //       close();
-    //   }, 500);
-    // }
   });
 
   $form.find('input').first().focus();
