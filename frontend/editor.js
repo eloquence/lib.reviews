@@ -2,28 +2,40 @@
 'use strict';
 
 // ProseMirror editor components
-const EditorState = require('prosemirror-state').EditorState;
-const EditorView = require('prosemirror-view').EditorView;
+const { EditorState } = require('prosemirror-state');
+const { EditorView } = require('prosemirror-view');
 const { schema, defaultMarkdownParser, defaultMarkdownSerializer } = require('prosemirror-markdown');
-const history = require('prosemirror-history');
-const keymap = require('prosemirror-keymap').keymap;
-const baseKeymap = require('prosemirror-commands').baseKeymap;
-const menuBar = require('prosemirror-menu').menuBar;
+const { keymap } = require('prosemirror-keymap');
+const { baseKeymap } = require('prosemirror-commands');
+const { menuBar } = require('prosemirror-menu');
 // For indicating the drop target when dragging a text selection
-const dropCursor = require('prosemirror-dropcursor').dropCursor;
+const { dropCursor } = require('prosemirror-dropcursor');
 const inputRules = require('prosemirror-inputrules');
-
-// For on-the-fly conversion of "--", "..."
-const activeInputRules = [inputRules.emDash, inputRules.ellipsis];
+const history = require('prosemirror-history');
 
 // Custom keymap
-const getExtendedKeymap = require('./editor-extended-keymap').getExtendedKeymap;
+const { getExtendedKeymap } = require('./editor-extended-keymap');
 
 // Custom menu
-const buildMenuItems = require('./editor-menu').buildMenuItems;
+const { buildMenuItems } = require('./editor-menu');
 
 // For tracking contentEditable selection
 const { saveSelection, restoreSelection } = require('./editor-selection');
+
+const activeInputRules = [
+  // Convert -- to —
+  inputRules.emDash,
+  // Convert ... to …
+  inputRules.ellipsis,
+  // Convert 1. , 2. .. at beginning of line to numbered list
+  inputRules.orderedListRule(schema.nodes.ordered_list),
+  // Convert * or - at beginning of line to bullet list
+  inputRules.wrappingInputRule(/^\s*([-*]) $/, schema.nodes.bullet_list),
+  // Convert > at beginning of line to quote
+  inputRules.blockQuoteRule(schema.nodes.blockquote),
+  // Convert #, ##, .. at beginning of line to heading
+  inputRules.headingRule(schema.nodes.heading, 6)
+];
 
 // Since we can have multiple RTE instances on a page, we use this array and
 // counter to keep track of them
@@ -91,7 +103,6 @@ $('[data-enable-markdown]').click(function enableMarkdown(event) {
   // .detail contains number of clicks. If 0, user likely got here via
   // accesskey, so the blur() event never fired.
   if (event.originalEvent.detail === 0) {
-    console.log('no blur');
     updateRTESelectionData($textarea, $contentEditable);
     updateTextarea($textarea, $contentEditable, rtes[editorID].editorView);
   }
@@ -117,8 +128,8 @@ function renderRTE($textarea) {
       inputRules.inputRules({
         rules: activeInputRules
       }),
-      keymap(baseKeymap),
       keymap(getExtendedKeymap(schema)),
+      keymap(baseKeymap),
       history.history(),
       dropCursor(),
       menuBar({

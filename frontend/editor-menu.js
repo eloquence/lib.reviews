@@ -1,3 +1,5 @@
+/* global $ */
+
 const {
   wrapItem,
   blockTypeItem,
@@ -11,6 +13,11 @@ const {
   MenuItem
 } = require("prosemirror-menu");
 
+// Load proper translations for built-in items
+undoItem.spec.title = msg('undo');
+redoItem.spec.title = msg('redo');
+joinUpItem.spec.title = msg('join with item above');
+liftItem.spec.title = msg('decrease item indentation');
 
 // Tables not supported for now
 //
@@ -27,6 +34,7 @@ const { NodeSelection } = require("prosemirror-state");
 const { toggleMark } = require("prosemirror-commands");
 const { wrapInList } = require("prosemirror-schema-list");
 const { TextField, openPrompt } = require("./editor-prompt");
+
 
 // Helpers to create specific types of items
 
@@ -53,7 +61,8 @@ function insertImageItem(nodeType) {
       if (state.selection instanceof NodeSelection && state.selection.node.type == nodeType)
         attrs = state.selection.node.attrs;
       openPrompt({
-        title: "Insert image",
+        rteContainer: $(view.dom).parent().parent()[0],
+        title: msg('insert image dialog title'),
         fields: {
           src: new TextField({ label: msg('image url'), required: true, value: attrs && attrs.src }),
           alt: new TextField({
@@ -140,7 +149,7 @@ function markItem(markType, options) {
 
 function linkItem(markType) {
   return new MenuItem({
-    title: "Add or remove link",
+    title: msg('add or remove link'),
     icon: icons.link,
     active(state) {
       return markActive(state, markType);
@@ -155,18 +164,18 @@ function linkItem(markType) {
         return true;
       }
       openPrompt({
-        title: "Create a link",
+        rteContainer: $(view.dom).parent().parent()[0],
+        title: msg('add link dialog title'),
         fields: {
           href: new TextField({
-            label: "Link target",
+            label: msg('web address'),
             required: true,
             clean: (val) => {
               if (!/^https?:\/\//i.test(val))
                 val = 'http://' + val;
               return val;
             }
-          }),
-          title: new TextField({ label: "Title" })
+          })
         },
         callback(attrs) {
           toggleMark(markType, attrs)(view.state, view.dispatch);
@@ -283,8 +292,8 @@ function buildMenuItems(schema) {
     });
   if (type = schema.nodes.code_block)
     r.makeCodeBlock = blockTypeItem(type, {
-      title: "Change to code block",
-      label: "Code"
+      title: msg('format as code block help'),
+      label: msg('format as code block')
     });
   if (type = schema.nodes.heading)
     for (let i = 1; i <= 10; i++)

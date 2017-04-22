@@ -5,11 +5,15 @@ const msgArr = [
   'rich text format',
   'insert image',
   'insert image help',
+  'insert image dialog title',
   'insert',
   'insert horizontal rule',
   'insert horizontal rule help',
   'image url',
   'image alt text',
+  'add or remove link',
+  'add link dialog title',
+  'web address',
   'toggle bold',
   'toggle italic',
   'toggle code',
@@ -24,7 +28,14 @@ const msgArr = [
   'format as code block help',
   'format as heading',
   'format as level heading help',
-  'format as level heading'
+  'format as level heading',
+  'undo',
+  'redo',
+  'join with item above',
+  'decrease item indentation',
+  'required field',
+  'ok',
+  'cancel'
 ];
 const getMessages = require('../util/get-messages');
 

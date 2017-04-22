@@ -1,45 +1,62 @@
+/* global $ */
+
+// Helper module for menu prompts. Derived from
+// https://github.com/ProseMirror/prosemirror-example-setup/blob/master/src/prompt.js
 const prefix = "ProseMirror-prompt";
 
-function openPrompt(options) {
-  let wrapper = document.body.appendChild(document.createElement("div"));
-  wrapper.className = prefix;
+exports.openPrompt = function(options) {
+  // Options: title (string), fields (object), rteContainer (DOM element)
 
-  let mouseOutside = e => {
-    if (!wrapper.contains(e.target)) close();
-  };
-  setTimeout(() => window.addEventListener("mousedown", mouseOutside), 50);
-  let close = () => {
-    window.removeEventListener("mousedown", mouseOutside);
-    if (wrapper.parentNode) wrapper.parentNode.removeChild(wrapper);
-  };
+  let $wrapper = $('<div>').addClass(prefix).appendTo('body');
+
+  // Close prompt
+  function close() {
+    $('window').off('mousedown', maybeClose);
+    $wrapper.remove();
+  }
+
+  // Close prompt on outside clicks
+  function maybeClose(event) {
+    if ($wrapper[0].contains(event.target))
+      close();
+  }
+
+  setTimeout(() => $('window').on('mousedown', maybeClose), 50);
 
   let domFields = [];
-  for (let name in options.fields) domFields.push(options.fields[name].render());
+  for (let name in options.fields)
+    domFields.push(options.fields[name].render());
 
-  let submitButton = document.createElement("button");
-  submitButton.type = "submit";
-  submitButton.className = prefix + "-submit";
-  submitButton.textContent = "OK";
-  let cancelButton = document.createElement("button");
-  cancelButton.type = "button";
-  cancelButton.className = prefix + "-cancel";
-  cancelButton.textContent = "Cancel";
-  cancelButton.addEventListener("click", close);
+  let $submitButton = $('<button>')
+    .attr('type', 'submit')
+    .addClass(`${prefix}-submit pure-button pure-button-primary`)
+    .text(window.config.messages['ok']);
 
-  let form = wrapper.appendChild(document.createElement("form"));
-  if (options.title) form.appendChild(document.createElement("h5")).textContent = options.title;
-  domFields.forEach(field => {
-    form.appendChild(document.createElement("div")).appendChild(field);
+  let $cancelButton = $('<button>')
+    .attr('type', 'button')
+    .addClass(`${prefix}-cancel pure-button`)
+    .text(window.config.messages['cancel']);
+
+  $cancelButton.click(close);
+
+  let $form = $('<form>').appendTo($wrapper);
+  if (options.title)
+    $('<h5>').text(options.title).appendTo($form);
+
+  domFields.forEach(field => $('<div>').append($(field)).appendTo($form));
+
+  let $buttons = $('<div>')
+    .addClass(`${prefix}-buttons`)
+    .appendTo($form);
+  $buttons.append($submitButton, ' ', $cancelButton);
+
+  let box = options.rteContainer ? options.rteContainer.getBoundingClientRect() :
+    $wrapper[0].getBoundingClientRect();
+
+  $wrapper.css({
+    top: (box.top + (box.height / 3)) + "px",
+    left: (box.left + (box.width / 3)) + "px"
   });
-  let buttons = form.appendChild(document.createElement("div"));
-  buttons.className = prefix + "-buttons";
-  buttons.appendChild(submitButton);
-  buttons.appendChild(document.createTextNode(" "));
-  buttons.appendChild(cancelButton);
-
-  let box = wrapper.getBoundingClientRect();
-  wrapper.style.top = (box.height / 2) + "px";
-  wrapper.style.left = (box.width / 2) + "px";
 
   let submit = () => {
     let params = getValues(options.fields, domFields);
@@ -49,30 +66,29 @@ function openPrompt(options) {
     }
   };
 
-  form.addEventListener("submit", e => {
-    e.preventDefault();
+  $form.on('submit', event => {
+    event.preventDefault();
     submit();
   });
 
-  form.addEventListener("keydown", e => {
-    if (e.keyCode == 27) {
-      e.preventDefault();
+  $form.on('keydown', event => {
+    if (event.keyCode == 27) {
+      event.preventDefault();
       close();
-    } else if (e.keyCode == 13 && !(e.ctrlKey || e.metaKey || e.shiftKey)) {
-      e.preventDefault();
+    } else if (event.keyCode == 13 && !(event.ctrlKey || event.metaKey || event.shiftKey)) {
+      event.preventDefault();
       submit();
-    } else if (e.keyCode == 9) {
-      window.setTimeout(() => {
-        if (!wrapper.contains(document.activeElement))
-          close();
-      }, 500);
     }
+    // else if (event.keyCode == 9) {
+    //   window.setTimeout(() => {
+    //     if (!$wrapper[0].contains(document.activeElement))
+    //       close();
+    //   }, 500);
+    // }
   });
 
-  let input = form.elements[0];
-  if (input) input.focus();
-}
-exports.openPrompt = openPrompt;
+  $form.find('input').first().focus();
+};
 
 function getValues(fields, domFields) {
   let i = 0,
@@ -140,7 +156,7 @@ class Field {
 
   validate(value) {
     if (!value && this.options.required)
-      return "Required field";
+      return window.config.messages['required field'];
     return this.validateType(value) || (this.options.validate && this.options.validate(value));
   }
 
