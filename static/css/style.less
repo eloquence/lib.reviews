@@ -543,12 +543,12 @@ a#upload, a#upload:visited, a#upload:hover,
   font-size: small;
 }
 
-#preview-review-text h1, .review-text h1 {
+#preview-review-text h1, .review-text h1, .rte-container h1 {
   font-size: 1.3em;
   font-weight: normal;
 }
 
-#preview-review-text h2, .review-text h2 {
+#preview-review-text h2, .review-text h2, .rte-container h2 {
   font-size: 1.2em;
   font-weight: normal;
 }
@@ -801,12 +801,12 @@ details.content-warning[open] summary.content-warning-notice:before {
 
 // For markdown captions, we swallow single linebreaks after images, and style
 // any text in bold or italic that follows as a caption.
-.review-text img + br, #preview-review-text img + br {
+.review-text img + br, #preview-review-text img + br, .rte-container img + br {
   display:none;
 }
 
-.review-text img + br + em, #preview-review-text img + br + em,
-.review-text img + br + strong, #preview-review-text img + br + strong
+.review-text img + br + em, #preview-review-text img + br + em, .rte-container img + br + em,
+.review-text img + br + strong, #preview-review-text img + br + strong, .rte-container img + br + strong
  {
   font-size:95%;
   color:#333;
