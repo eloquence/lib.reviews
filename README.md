@@ -22,6 +22,7 @@ Our technical choices include:
 - Babel to transpile ES6+ code
 - ava as a test runner
 - pm2 for process management, monitoring and deployment
+- ProseMirror as the rich-text editing framework
 
 This project follows a strong philosophy of progressive enhancement. That means that client-side UI features should always be optional, not required -- the primary functionality of the site should be available without JavaScript and on low-end devices.
 
