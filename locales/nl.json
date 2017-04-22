@@ -4,7 +4,8 @@
 			"Effeietsanders",
 			"Hex",
 			"Keunes",
-			"Siebrand"
+			"Siebrand",
+			"Sjoerddebruin"
 		]
 	},
 	"site name": "lib.reviews",
@@ -94,8 +95,8 @@
 	"invalid language code": "De opgegeven taalcode, \"%2\", is niet geldig of wordt niet herkend.",
 	"feed": "Recente beoordelingen",
 	"one or multiple stars": {
-		"one": "%s ster",
-		"other": "%s sterren"
+		"one": "%f ster",
+		"other": "%f sterren"
 	},
 	"captcha intro": "Bewijs dat u geen robot bent. Wat is het ontbrekende woord aangeduid met ___?",
 	"question: famous painting": "Een van de bekendste schilderijen ter wereld is de Mona ___ van Leonardo da Vinci.",
