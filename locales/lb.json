@@ -243,5 +243,21 @@
 	"search lib.reviews": "Op lib.reviews sichen",
 	"search results": "An de Resultater sichen",
 	"show more": "Méi weisen",
-	"show less": "Manner weisen"
+	"show less": "Manner weisen",
+	"insert image": "Bild",
+	"insert image help": "Bild duerch eng URL drasetzen",
+	"insert help": "Inhalt drasetzen",
+	"image url": "URL vum Bild",
+	"image alt text": "Alternativen Text",
+	"add link dialog title": "E Link derbäisetzen",
+	"web address": "Internet-Adress (URL)",
+	"format block": "Format",
+	"format as bullet list": "Als Lëscht mat Punkte formatéieren",
+	"format as quote": "Als Zitat formatéieren",
+	"format as code block": "Code",
+	"format as heading": "Iwwerschrëft",
+	"format as level heading": "Niveau %d",
+	"undo": "Lescht Ännerung réckgängeg maachen",
+	"required field": "Obligatorescht Feld",
+	"ok": "OK"
 }

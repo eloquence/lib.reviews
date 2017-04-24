@@ -360,5 +360,17 @@
 	},
 	"show more": "আরো দেখান",
 	"show less": "কম দেখান",
-	"development diary": "উন্নয়নের ডায়েরি"
+	"development diary": "উন্নয়নের ডায়েরি",
+	"insert image": "চিত্র",
+	"insert": "যোগ করুন",
+	"insert help": "বিষয়বস্তু সন্নিবেশ করে",
+	"image url": "চিত্রের URL",
+	"image alt text": "বিকল্প লেখা",
+	"web address": "ওয়েব ঠিকানা (URL)",
+	"format block": "বিন্যাস",
+	"format as code block": "কোড",
+	"format as level heading": "স্তর %d",
+	"join with item above": "উপরে আইটেমটি যুক্ত করে",
+	"required field": "প্রয়োজনীয় ক্ষেত্র",
+	"ok": "ঠিক আছে"
 }

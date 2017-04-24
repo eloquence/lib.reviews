@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Higa4",
-			"ネイ"
+			"ネイ",
+			"Omotecho"
 		]
 	},
 	"site name": "lib.reviews",
@@ -93,8 +94,8 @@
 	"invalid language code": "送信された言語コード '%s' は正しくないか認識できません。",
 	"feed": "最新のレビュー",
 	"one or multiple stars": {
-		"one": "%s star",
-		"other": "%s stars"
+		"one": "%f star",
+		"other": "%f stars"
 	},
 	"captcha intro": "あなたがロボットでないことを確認します。___ の部分に入るべき文字を入力してください。",
 	"question: famous painting": "レオナルド・ダ・ビンチによる世界で最も有名な絵画のひとつはモナ・___ です。",

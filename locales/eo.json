@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"NMaia"
+			"NMaia",
+			"Tirifto"
 		]
 	},
 	"site name": "lib.reviews",
@@ -31,7 +32,7 @@
 	"bad password": "Tiu pasvorto ne aspektas ĝusta.",
 	"accesskey": "Klavara mallongirejo: [Modifila ŝlosilo(s) + %s]",
 	"welcome new user": "Dankon pro la registrado de via konto ĉe lib.reviews, %s! Ni esperas, ke vi ŝatu ĉi tie kaj decidu resti.",
-	"sign out": "Ensaluti",
+	"sign out": "Elsaluti",
 	"already logged in": "Bonvole rimarku, ke vi jam estas ensalutita. Bonvole ne kreu pli ol unu konto po persone, krom se ĝi estas por klare distingitaj roloj (ekz., profesia kaj propra).",
 	"invalid email format": "\"%s\" ne ŝajnas esti valida retpoŝtadreso.",
 	"invalid username characters": "La uzantnomo ne povas enhavi iun ajn el la jenaj signoj: %s",
@@ -92,9 +93,14 @@
 	"invalid language code": "La sendita lingvokodo '%s' ne validas aŭ ne agnoskeblas.",
 	"feed": "Plej freŝaj recenzoj",
 	"one or multiple stars": {
-		"one": "%s stelo",
-		"other": "%s steloj"
+		"one": "%f stelo",
+		"other": "%f steloj"
 	},
+	"one or multiple reviews": {
+		"one": "%d recenzo",
+		"other": "%d recenzoj"
+	},
+	"review metrics": "<b>Meza takso:</b> %1$s (%2$s)",
 	"captcha intro": "Montru, ke vi ne estas roboto. Kio estas la mankata vorto kaŝita sub ___?",
 	"question: famous painting": "Unu el plej famaj pentraĵoj tra la mondo estas la Mona ___ de Leonardo da Vinci.",
 	"answer: famous painting": "Lisa",
@@ -369,5 +375,28 @@
 	"search help": "Serĉkonsiloj: <ul><li>Vi povas forigi vortojn el la rezulto uzante <code class='hl'>-</code> antaŭ la vorto, ekzemple <code class='hl'>terpomoj -oranĝoj</code>.<li>Vi povas serĉi tutsaman frazon uzante <code class='hl'>\"citilojn\"</code>.<li>Vi povas uzi ĵokeran esprimon frazfine por trovi pli da vortoj, ekzemple, <code class='hl'>Liz*</code> montros Liz kaj Lizzy.</ul>",
 	"show more": "Montri pli",
 	"show less": "Montri malpli",
-	"development diary": "Evoluiga taglibro"
+	"development diary": "Evoluiga taglibro",
+	"insert image": "Bildo",
+	"insert image help": "Enmeti bildon per URL",
+	"insert image dialog title": "Enmeti bildon",
+	"insert": "Enmeti",
+	"insert help": "Enmeti enhavon",
+	"insert horizontal rule": "Horizontala linio",
+	"insert horizontal rule help": "Enmeti horizontalan linion (dividilon)",
+	"image url": "URL de bildo",
+	"image alt text": "Alternativa teksto",
+	"add or remove link": "Aldoni aŭ forigi ligilon",
+	"add link dialog title": "Aldoni ligilon",
+	"web address": "Retadreso (URL)",
+	"toggle bold": "Ŝalti grasan tiparon",
+	"toggle italic": "Ŝalti kursivan tiparon",
+	"format as paragraph": "Alineo",
+	"format as heading": "Titolo",
+	"format as level heading": "Nivelo %d",
+	"undo": "Malfari lastan ŝanĝon",
+	"redo": "Refari lastan ŝanĝon",
+	"join with item above": "Kunigi kun la ĉi-supra ero",
+	"decrease item indentation": "Malpligrandigi deŝovon",
+	"required field": "Nepra kampo",
+	"ok": "Bone"
 }
