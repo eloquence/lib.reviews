@@ -149,7 +149,7 @@ function markItem(markType, options) {
 
 function linkItem(markType) {
   return new MenuItem({
-    title: msg('add or remove link'),
+    title: msg('add or remove link', 'k'),
     icon: icons.link,
     active(state) {
       return markActive(state, markType);
@@ -260,11 +260,11 @@ function buildMenuItems(schema) {
   let r = {},
     type;
   if (type = schema.marks.strong)
-    r.toggleStrong = markItem(type, { title: msg('toggle bold'), icon: icons.strong });
+    r.toggleStrong = markItem(type, { title: msg('toggle bold', 'b'), icon: icons.strong });
   if (type = schema.marks.em)
-    r.toggleEm = markItem(type, { title: msg('toggle italic'), icon: icons.em });
+    r.toggleEm = markItem(type, { title: msg('toggle italic', 'i'), icon: icons.em });
   if (type = schema.marks.code)
-    r.toggleCode = markItem(type, { title: msg('toggle code'), icon: icons.code });
+    r.toggleCode = markItem(type, { title: msg('toggle code', '`'), icon: icons.code });
   if (type = schema.marks.link)
     r.toggleLink = linkItem(type);
 
@@ -272,22 +272,22 @@ function buildMenuItems(schema) {
     r.insertImage = insertImageItem(type);
   if (type = schema.nodes.bullet_list)
     r.wrapBulletList = wrapListItem(type, {
-      title: msg('format as bullet list'),
+      title: msg('format as bullet list', '8'),
       icon: icons.bulletList
     });
   if (type = schema.nodes.ordered_list)
     r.wrapOrderedList = wrapListItem(type, {
-      title: msg('format as numbered list'),
+      title: msg('format as numbered list', '9'),
       icon: icons.orderedList
     });
   if (type = schema.nodes.blockquote)
     r.wrapBlockQuote = wrapItem(type, {
-      title: msg('format as quote'),
+      title: msg('format as quote', '>'),
       icon: icons.blockquote
     });
   if (type = schema.nodes.paragraph)
     r.makeParagraph = blockTypeItem(type, {
-      title: msg('format as paragraph help'),
+      title: msg('format as paragraph help', '0'),
       label: msg('format as paragraph')
     });
   if (type = schema.nodes.code_block)
@@ -298,14 +298,14 @@ function buildMenuItems(schema) {
   if (type = schema.nodes.heading)
     for (let i = 1; i <= 10; i++)
       r["makeHead" + i] = blockTypeItem(type, {
-        title: msg('format as level heading help').replace('%d', i),
+        title: msg('format as level heading help', String(i)).replace('%d', i),
         label: msg('format as level heading').replace('%d', i),
         attrs: { level: i }
       });
   if (type = schema.nodes.horizontal_rule) {
     let hr = type;
     r.insertHorizontalRule = new MenuItem({
-      title: msg('insert horizontal rule help'),
+      title: msg('insert horizontal rule help', '_'),
       label: msg('insert horizontal rule'),
       select(state) {
         return canInsert(state, hr);
@@ -349,11 +349,16 @@ function buildMenuItems(schema) {
   return r;
 }
 
-function msg(key) {
-  if (window.config && window.config.messages && window.config.messages[key])
-    return window.config.messages[key];
-  else
-    return '?' + key + '?';
+// Simple helper function, should be replaced w/ proper client-side i18n
+// down the road. Supports adding access key (keyboard shortcut) as second line.
+function msg(messageKey, accessKey) {
+  if (window.config && window.config.messages && window.config.messages[messageKey]) {
+    let accessKeyString = '';
+    if (accessKey && window.config.messages['accesskey'])
+      accessKeyString = '\n' + window.config.messages['accesskey'].replace('%s', accessKey);
+    return window.config.messages[messageKey] + accessKeyString;
+  } else
+    return '?' + messageKey + '?';
 }
 
 exports.buildMenuItems = buildMenuItems;
