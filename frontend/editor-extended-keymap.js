@@ -9,8 +9,7 @@ const mac = typeof navigator != "undefined" ? /Mac/.test(navigator.platform) : f
 
 // In order to avoid having to keep updating this file, we check the schema
 // for supported node and mark types.
-exports.getExtendedKeymap = function getExtendedKeymap(schema) {
-
+exports.getExtendedKeymap = function getExtendedKeymap(schema, menu) {
   let keymap = {};
 
   keymap['Mod-z'] = undo;
@@ -110,6 +109,11 @@ exports.getExtendedKeymap = function getExtendedKeymap(schema) {
       return true;
     };
   }
+
+  keymap['Mod-k'] = (state, dispatch, view) => {
+    menu.toggleLink.spec.run(state, dispatch, view);
+    return true;
+  };
 
   return keymap;
 };
