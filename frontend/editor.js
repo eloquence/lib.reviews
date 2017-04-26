@@ -101,7 +101,8 @@ $('[data-enable-rte]').click(function enableRTE() {
 
   // Do the heavy lifting of creating a new RTE instance
   let $rteContainer = renderRTE($textarea),
-    $contentEditable = $rteContainer.find('[contenteditable="true"]');
+    $contentEditable = $rteContainer.find('[contenteditable="true"]'),
+    editorID = $rteContainer[0].id.match(/\d+/)[0];
 
   if (selStart !== undefined && selEnd !== undefined)
     restoreSelection($contentEditable[0], { start: selStart, end: selEnd });
@@ -109,7 +110,7 @@ $('[data-enable-rte]').click(function enableRTE() {
   if (scrollY !== undefined)
     $contentEditable.scrollTop(scrollY);
 
-  $contentEditable.focus();
+  rtes[editorID].editorView.focus();
 
 });
 
