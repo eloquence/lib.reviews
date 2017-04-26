@@ -861,8 +861,6 @@ details.content-warning[open] summary.content-warning-notice:before {
 .rte-container {
   width:inherit;
   margin-bottom:0.25em;
-  padding-left:0.5em;
-  padding-right:1px;
   // Standard pure form styles
   border: 1px solid #ccc;
   box-shadow: inset 0 1px 3px #ddd;
@@ -873,6 +871,7 @@ details.content-warning[open] summary.content-warning-notice:before {
 
 .ProseMirror-menubar-wrapper {
   display:block;
+  border-radius:inherit;
 }
 
 .rte-focused {
@@ -884,15 +883,18 @@ details.content-warning[open] summary.content-warning-notice:before {
 .ProseMirror {
   background:#fff;
   overflow:auto;
-  margin-left:4px;
+  padding-left:1em;
+  border-radius:inherit;
 }
 
 .ProseMirror-menubar {
-  padding-right:0;
+  margin-right:0.5em;
+  margin-left:0.5em;
   padding-left:0;
   padding-top:8px;
   padding-bottom:8px;
   border-color:#f0f0f0;
+  color:#333;
 }
 
 .ProseMirror:focus {
@@ -988,6 +990,24 @@ details.content-warning[open] summary.content-warning-notice:before {
 
 .ProseMirror-menu-dropdown, .ProseMirror-menu-dropdown-item, .ProseMirror-prompt {
   font-family:sans-serif;
+}
+
+// For styling the editor as disabled when dialogs are opened
+
+.ProseMirror-disabled {
+  background:#eee;
+  cursor: not-allowed;
+  pointer-events:none;
+  user-select:none;
+  -moz-user-select:none;
+}
+
+.ProseMirror-menubar-disabled {
+  color:#ccc;
+  cursor: not-allowed;
+  pointer-events:none;
+  user-select:none;
+  -moz-user-select:none;
 }
 
 

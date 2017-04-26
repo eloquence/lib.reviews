@@ -1,4 +1,5 @@
 /* global $ */
+/* eslint prefer-reflect: "off" */
 'use strict';
 
 // ProseMirror editor components
@@ -36,6 +37,28 @@ const activeInputRules = [
   // Convert #, ##, .. at beginning of line to heading
   inputRules.headingRule(schema.nodes.heading, 6)
 ];
+
+// ProseMirror provides no native way to enable/disable the editor, so
+// we add it here
+EditorView.prototype.disable = function() {
+  let editorElement = this.dom;
+  $(editorElement)
+    .removeAttr('contenteditable')
+    .addClass('ProseMirror-disabled');
+  $(editorElement)
+    .prev('.ProseMirror-menubar')
+    .addClass('ProseMirror-menubar-disabled');
+};
+
+EditorView.prototype.enable = function() {
+  let editorElement = this.dom;
+  $(editorElement)
+    .attr('contenteditable', true)
+    .removeClass('ProseMirror-disabled');
+  $(editorElement)
+    .prev('.ProseMirror-menubar')
+    .removeClass('ProseMirror-menubar-disabled');
+};
 
 // Since we can have multiple RTE instances on a page, we use this array and
 // counter to keep track of them
@@ -110,6 +133,8 @@ $('[data-enable-markdown]').click(function enableMarkdown(event) {
   $contentEditable.off();
   $(window).off('resize', rtes[editorID].resizeEventHandler);
   rtes[editorID].editorView.destroy();
+  delete rtes[editorID].editorView;
+  delete rtes[editorID].resizeEventHandler;
   $rteContainer.remove();
   $textarea.show();
   $textarea.focus();

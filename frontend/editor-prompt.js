@@ -4,8 +4,13 @@
 // https://github.com/ProseMirror/prosemirror-example-setup/blob/master/src/prompt.js
 const prefix = "ProseMirror-prompt";
 
-exports.openPrompt = function(options) {
-  // Options: title (string), fields (object), rteContainer (DOM element)
+exports.openPrompt = function(spec) {
+  // Spec: title (string), fields (object), view (EditorView), callback (function)
+
+  // We want modal-like behavior, so we disable the active view
+  spec.view.disable();
+
+  let rteContainer = $(spec.view.dom).parent().parent()[0];
 
   let $wrapper = $('<div>').addClass(prefix).appendTo('body');
 
@@ -13,6 +18,7 @@ exports.openPrompt = function(options) {
   function close() {
     $('window').off('mousedown', maybeClose);
     $wrapper.remove();
+    spec.view.enable();
   }
 
   // Close prompt on outside clicks
@@ -24,8 +30,8 @@ exports.openPrompt = function(options) {
   setTimeout(() => $('window').on('mousedown', maybeClose), 50);
 
   let domFields = [];
-  for (let name in options.fields)
-    domFields.push(options.fields[name].render());
+  for (let name in spec.fields)
+    domFields.push(spec.fields[name].render());
 
   let $submitButton = $('<button>')
     .attr('type', 'submit')
@@ -40,8 +46,8 @@ exports.openPrompt = function(options) {
   $cancelButton.click(close);
 
   let $form = $('<form>').appendTo($wrapper);
-  if (options.title)
-    $('<h5>').text(options.title).appendTo($form);
+  if (spec.title)
+    $('<h5>').text(spec.title).appendTo($form);
 
   domFields.forEach(field => $('<div>').append($(field)).appendTo($form));
 
@@ -50,8 +56,7 @@ exports.openPrompt = function(options) {
     .appendTo($form);
   $buttons.append($submitButton, ' ', $cancelButton);
 
-  let box = options.rteContainer ? options.rteContainer.getBoundingClientRect() :
-    $wrapper[0].getBoundingClientRect();
+  let box = rteContainer.getBoundingClientRect();
 
   $wrapper.css({
     top: (box.top + (box.height / 3)) + "px",
@@ -59,10 +64,10 @@ exports.openPrompt = function(options) {
   });
 
   let submit = () => {
-    let params = getValues(options.fields, domFields);
+    let params = getValues(spec.fields, domFields);
     if (params) {
       close();
-      options.callback(params);
+      spec.callback(params);
     }
   };
 

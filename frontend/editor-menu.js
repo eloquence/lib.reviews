@@ -1,5 +1,3 @@
-/* global $ */
-
 const {
   wrapItem,
   blockTypeItem,
@@ -61,7 +59,7 @@ function insertImageItem(nodeType) {
       if (state.selection instanceof NodeSelection && state.selection.node.type == nodeType)
         attrs = state.selection.node.attrs;
       openPrompt({
-        rteContainer: $(view.dom).parent().parent()[0],
+        view,
         title: msg('insert image dialog title'),
         fields: {
           src: new TextField({ label: msg('image url'), required: true, value: attrs && attrs.src }),
@@ -164,7 +162,7 @@ function linkItem(markType) {
         return true;
       }
       openPrompt({
-        rteContainer: $(view.dom).parent().parent()[0],
+        view,
         title: msg('add link dialog title'),
         fields: {
           href: new TextField({
