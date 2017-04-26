@@ -137,6 +137,10 @@ $('[data-enable-markdown]').click(function enableMarkdown(event) {
   delete rtes[editorID].resizeEventHandler;
   $rteContainer.remove();
   $textarea.show();
+  if ($textarea[0].hasAttribute('data-reset-textarea')) {
+    $textarea.removeAttr('data-reset-textarea');
+    $textarea[0].setSelectionRange(0, 0);
+  }
   $textarea.focus();
 });
 
@@ -225,8 +229,9 @@ function updateTextarea($textarea, $ce, editorView) {
     $textarea
       .trigger('keyup')
       .trigger('change');
-    // Reset cursor, otherwise it will be at the end due to value reset
-    $textarea[0].setSelectionRange(0, 0);
+    // Make a note that cursor needs to be reset. This must happen after
+    // the textarea's visibility is restored to work correctly in Firefox.
+    $textarea.attr('data-reset-textarea', '');
   }
 }
 
