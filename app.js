@@ -118,6 +118,8 @@ function getApp(db = require('./db')) {
     app.use(flash());
     app.use(flashHelper);
 
+    app.use(compression());
+
     app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
 
     if (config.get('logger'))
@@ -151,8 +153,6 @@ function getApp(db = require('./db')) {
     app.use(bodyParser.urlencoded({
       extended: false
     }));
-
-    app.use(compression());
 
     let errorProvider = new ErrorProvider(app);
 
