@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"ديفيد",
-			"Zpizza"
+			"Zpizza",
+			"Mido"
 		]
 	},
 	"site name": "lib.reviews",
@@ -267,5 +268,18 @@
 	"no reviews for team": "هذا الفريق لم ينشر أية مراجعات حتى الآن.",
 	"no reviews for user": "هذا المستخدم لم ينشر أية مراجعات حتى الآن.",
 	"view all": "&raquo; عرض الكل",
-	"faq acronym": "الأسئلة المتكررة"
+	"faq acronym": "الأسئلة المتكررة",
+	"image alt text": "نص بديل",
+	"toggle code": "التحويل من وإلى نسق الكود",
+	"format block": "تنسيق",
+	"format as bullet list": "تنسيق كقائمة منقطة",
+	"format as numbered list": "تنسيق كقائمة مرقمة",
+	"format as quote": "تنسيق كاقتباس",
+	"format as paragraph help": "تنسيق كفقرة عادية",
+	"format as heading": "عنوان",
+	"format as level heading": "المستوى %d",
+	"redo": "تكرار أخر تعديل",
+	"decrease item indentation": "إنقاص المحاذاة",
+	"required field": "حقل مطلوب",
+	"ok": "موافق"
 }
