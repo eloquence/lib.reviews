@@ -60,12 +60,29 @@ EditorView.prototype.enable = function() {
     .removeClass('ProseMirror-menubar-disabled');
 };
 
-// Since we can have multiple RTE instances on a page, we use this array and
-// counter to keep track of them
-let rteCount = 0;
+// We can have multiple RTEs on a page, and we keep generating new instances.
+// The page-level counter keeps track of them. Access it only via its
+// .current property.
+const rteCounter = {
+  _counter: 0,
+  increase() {
+    this._counter++;
+  },
+  get current() {
+    return this._counter;
+  },
+  set current(c) {
+    throw new Error('Counter should only be increase()d or accessed.');
+  }
+};
 
-// Array of objects containing active view instances and associated information
-let rtes = [];
+// Active view instances and associated information. Uses numbers as keys
+// but not an array to ensure consistent access even if instances are removed.
+let rtes = {};
+
+// Export for access to other parts of the application, if available
+if (window.libreviews)
+  window.libreviews.activeRTEs = rtes;
 
 let textareaCount = 0;
 
@@ -131,12 +148,9 @@ $('[data-enable-markdown]').click(function enableMarkdown(event) {
     updateTextarea($textarea, $contentEditable, rtes[editorID].editorView);
   }
 
-  $contentEditable.off();
-  $(window).off('resize', rtes[editorID].resizeEventHandler);
-  rtes[editorID].editorView.destroy();
-  delete rtes[editorID].editorView;
-  delete rtes[editorID].resizeEventHandler;
-  $rteContainer.remove();
+  // Delete the old RTE and all event handlers
+  rtes[editorID].nuke();
+
   $textarea.show();
   if ($textarea[0].hasAttribute('data-reset-textarea')) {
     $textarea.removeAttr('data-reset-textarea');
@@ -149,7 +163,11 @@ $('[data-enable-markdown]').click(function enableMarkdown(event) {
 // Create a new RTE (ProseMirror) instance and add it to the DOM; register
 // relevant event handlers. FIXME: Refactor me!
 function renderRTE($textarea) {
-  let $rteContainer = $(`<div id="pm-edit-${rteCount}" class="rte-container"></div>`)
+
+  // Local copy for this instance; only access count if you want to increase
+  let myID = rteCounter.current;
+
+  let $rteContainer = $(`<div id="pm-edit-${myID}" class="rte-container"></div>`)
     .insertAfter($textarea);
 
   const menu = buildMenuItems(schema);
@@ -170,13 +188,11 @@ function renderRTE($textarea) {
     ]
   });
 
-  let editorView = new EditorView($(`#pm-edit-${rteCount}`)[0], {
+  let editorView = new EditorView($(`#pm-edit-${myID}`)[0], {
     state
   });
 
-  rtes.push({
-    editorView
-  });
+  rtes[myID] = { editorView };
 
   let $ce = $rteContainer.find('[contenteditable="true"]');
 
@@ -196,7 +212,7 @@ function renderRTE($textarea) {
 
   // Menu can wrap, so keep an eye on the height
   $(window).resize(setRTEHeight);
-  rtes[rteCount].resizeEventHandler = setRTEHeight;
+  rtes[myID].resizeEventHandler = setRTEHeight;
 
   $ce.blur(function() {
     updateRTESelectionData($textarea, $(this));
@@ -210,6 +226,22 @@ function renderRTE($textarea) {
     updateTextarea($textarea, $ce, editorView);
   });
 
+  // Full remove this control and all associated event handlers
+  rtes[myID].nuke = function() {
+    $ce.off();
+    $(window).off('resize', rtes[myID].resizeEventHandler);
+    rtes[myID].editorView.destroy();
+    delete rtes[myID];
+    $rteContainer.remove();
+  };
+
+  // Helper for external access to re-generate RTE
+  rtes[myID].reRender = function() {
+    rtes[myID].nuke();
+    renderRTE($textarea);
+  };
+
+  // Style whole container (incl. menu bar etc.) like all inputs
   $ce.focus(function() {
     $rteContainer.addClass('rte-focused');
   });
@@ -218,7 +250,7 @@ function renderRTE($textarea) {
     $rteContainer.removeClass('rte-focused');
   });
 
-  rteCount++;
+  rteCounter.increase();
   return $rteContainer;
 }
 

@@ -104,6 +104,8 @@
     clearStars();
     $('#review-url,#review-title,#review-text,#review-rating').val('');
     $('#review-url').trigger('change');
+    for (let rte in window.libreviews.activeRTEs)
+      window.libreviews.activeRTEs[rte].reRender();
     sisyphus.manuallyReleaseData();
     hideDraftNotice();
     event.preventDefault();
