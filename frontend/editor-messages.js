@@ -1,8 +1,6 @@
 'use strict';
 const msgArr = [
   'accesskey',
-  'markdown format',
-  'rich text format',
   'insert image',
   'insert image help',
   'insert image dialog title',
