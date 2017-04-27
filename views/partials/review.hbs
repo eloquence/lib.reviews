@@ -4,11 +4,11 @@
 <b>{{{mlString review.thing.label}}}</b>
 {{!Show prettified URL, if available}}
 {{#if review.thing.urls.[0]}}
-<div class="review-url"><span class="fa fa-external-link review-icon"></span>{{{link review.thing.urls.[0] (prettify review.thing.urls.[0])}}}</div>
+<div class="review-url"><span class="fa fa-fw fa-external-link review-icon spaced-icon">&nbsp;</span>{{{link review.thing.urls.[0] (prettify review.thing.urls.[0])}}}</div>
 {{/if}}
 {{#if review.thing.id}}
 <div class="review-thing-link">
-<span class="fa fa-info-circle spaced-icon"></span><a href="/{{{review.thing.urlID}}}">{{{__ "more info"}}}</a>
+<span class="fa fa-fw fa-info-circle spaced-icon">&nbsp;</span><a href="/{{{review.thing.urlID}}}">{{{__ "more info"}}}</a>
 </div>
 {{/if}}
 </div>
@@ -16,7 +16,7 @@
 <div class="review-rating">
 {{!Star rating. Per https://www.w3.org/WAI/tutorials/images/groups/ we show ALT text for the first image}}
 {{#times review.starRating}}
-<img src="/static/img/star-{{../review.starRating}}-full.svg" width="25" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../review.starRating}}}"{{/if}}>
+<img src="/static/img/star-{{../review.starRating}}-full.svg" width="25" height="35" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../review.starRating}}}"{{/if}}>
 {{/times}}
 </div>
 <div class="review-title">{{{mlString review.title}}}</div>
@@ -38,15 +38,15 @@
 {{!Review actions: Delete, edit, permanent link}}
 <div class="review-actions">
 {{#if feed}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}"><span class="fa fa-link spaced-icon"></span>{{{__ "permanent link"}}}</a></span>
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}"><span class="fa fa-fw fa-link">&nbsp;</span>{{{__ "permanent link"}}}</a></span>
 {{/if}}
 {{#unless hideDeleteControls}}
 {{#if review.userCanDelete}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/delete"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a></span>
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/delete"><span class="fa fa-fw fa-trash-o">&nbsp;</span>{{{__ "delete"}}}</a></span>
 {{/if}}
 {{/unless}}
 {{#if review.userCanEdit}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/edit"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a></span>
+&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/edit"><span class="fa fa-fw fa-pencil">&nbsp;</span>{{{__ "edit"}}}</a></span>
 {{/if}}
 </div>
 

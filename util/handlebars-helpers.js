@@ -132,7 +132,7 @@ hbs.registerHelper('mlString', function(str, addLanguageSpan, options) {
   else {
     let languageName = languages.getCompositeName(mlRv.lang, options.data.root.locale);
     return `${mlRv.str} <span class="language-identifier" title="${languageName}">` +
-      `<span class="fa fa-globe spaced-icon" style="color:#777;"></span>${mlRv.lang}</span>`;
+      `<span class="fa fa-fw fa-globe" style="color:#777;">&nbsp;</span>${mlRv.lang}</span>`;
   }
 });
 

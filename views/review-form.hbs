@@ -34,8 +34,8 @@
 
 {{>page_errors}}
 <div id="draft-notice" class="message-box">
-<span class="fa fa-info-circle spaced-icon"></span>{{{__ "draft loaded"}}}
-<button id="abandon-draft" class="pure-button button-rounded message-button message-button-destructive"><span class="fa fa-trash-o spaced-icon"></span>{{__ "abandon draft"}}</a></button> <button class="pure-button button-rounded message-button" id="dismiss-draft-notice"><span class="fa fa-check-circle spaced-icon"></span>{{{__ "got it"}}}</button>
+<span class="fa fa-info-circle fa-fw spaced-icon">&nbsp;</span>{{{__ "draft loaded"}}}
+<button id="abandon-draft" class="pure-button button-rounded message-button message-button-destructive"><span class="fa fa-fw fa-trash-o spaced-icon">&nbsp;</span>{{__ "abandon draft"}}</a></button> <button class="pure-button button-rounded message-button" id="dismiss-draft-notice"><span class="fa fa-fw fa-check-circle spaced-icon">&nbsp;</span>{{{__ "got it"}}}</button>
 </div>
 <form class="pure-form pure-form-stacked" id="review-form" name="review-form" method="post">
   <input type="hidden" value="{{csrfToken}}" name="_csrf" id="review-token">
@@ -61,7 +61,7 @@
           <br>
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
-          {{>help input="review-url" helpLabel="review url help label" helpText="review url help"}}
+          {{>help input="review-url" helpLabel="review url help label" helpText="review url help" initiallyVisible=true}}
         </div>
         {{/unless}}
         {{/if}}
@@ -93,7 +93,7 @@
             {{! We store this POST value in the DOM, so it is available to the JS-only control }}
             <span id="star-rating-control" data-post="{{formValues.starRating}}">
             {{#times 5}}
-            <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" class="star-holder" id="star-button-{{this}}"
+            <img tabindex="0" src="/static/img/star-placeholder.svg" width="35" height="49" class="star-holder" id="star-button-{{this}}"
             alt="{{__n "one or multiple stars" this}}">
             {{/times}}
             </span>
@@ -111,7 +111,7 @@
         <div class="pure-u-1 pure-u-md-1-3">
           <noscript>
             <div style="margin-left:1em;">
-            <span class="help-heading"><span class="fa fa-question-circle info-icon spaced-icon"></span>{{{__ "review rating"}}}</span><P>
+            <span class="help-heading"><span class="fa fa-fw fa-question-circle info-icon spaced-icon">&nbsp;</span>{{{__ "review rating"}}}</span><P>
             {{{__ "1 star help"}}}<br>
             {{{__ "2 stars help"}}}<br>
             {{{__ "3 stars help"}}}<br>
@@ -135,7 +135,7 @@
       <input type="checkbox" id="review-team-{{this.id}}" name="review-team-{{this.id}}"{{#if (lookup ../formValues.hasTeam this.id)}} checked{{/if}}> <label for="review-team-{{this.id}}" class="inline-label"><span class="team-name" data-team-name="{{{mlString this.name false}}}">{{{mlString this.name}}}</span> <a class="team-link" href="/team/{{this.urlID}}" target="_blank">{{{__ "team page"}}}</a></label><br>
       {{/each}}
       {{else}}
-      <span class="fa fa-info-circle info-icon"></span> {{{__ "not member of any teams yet"}}}
+      <span class="fa fa-info-circle fa-fw info-icon">&nbsp;</span> {{{__ "not member of any teams yet"}}}
       {{/if}}
 
     </div>

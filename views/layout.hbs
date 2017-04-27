@@ -39,17 +39,17 @@
             {{#if user}}
                 <ul id="user-menu">
 
-                    <li><a id="user-link" href="/user/{{user.urlName}}"><span class="fa fa-user spaced-icon menu-icon"></span>{{user.displayName}}</a>
+                    <li><a id="user-link" href="/user/{{user.urlName}}"><span class="fa fa-fw fa-user menu-icon">&nbsp;</span>{{user.displayName}}</a>
                       {{#if user.inviteLinkCount}}
                       <li>
-                      <a id="invite-action" href="/actions/invite" title="{{{__n "help us grow" user.inviteLinkCount}}}"><span class="fa fa-heart spaced-icon invite-icon menu-icon"></span><span>{{{user.inviteLinkCount}}}</span></a>
+                      <a id="invite-action" href="/actions/invite" title="{{{__n "help us grow" user.inviteLinkCount}}}"><span class="fa fa-fw fa-heart invite-icon menu-icon">&nbsp;</span><span>{{{user.inviteLinkCount}}}</span></a>
                       {{/if}}
                     </li><br id="menu-break" class="hidden-regular">
-                    <li><a href="/new/review" id="new-review-button" class="pure-button pure-button-primary button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span  class="fa fa-pencil spaced-icon menu-icon"></span><span id="new-review-button-label">{{__ "new review"}}</span></a></li>
+                    <li><a href="/new/review" id="new-review-button" class="pure-button pure-button-primary button-rounded" accesskey="n" title="{{{__ "accesskey" "n"}}}"><span  class="fa fa-fw fa-pencil spaced-icon menu-icon">&nbsp;</span><span id="new-review-button-label">{{__ "new review"}}</span></a></li>
                         <li>
                             <form action="/signout" method="post" id="signout-form" name="signout-form">
                                 <input type="hidden" value="{{csrfToken}}" name="_csrf">
-                                <button class="pure-button button-rounded" id="signout-button" type="submit" accesskey="o" title="{{{__ "accesskey" "o"}}}"><span class="fa fa-sign-out spaced-icon menu-icon"></span><span id="signout-button-label">{{{__ "sign out"}}}</span></button>
+                                <button class="pure-button button-rounded" id="signout-button" type="submit" accesskey="o" title="{{{__ "accesskey" "o"}}}"><span class="fa fa-fw fa-sign-out spaced-icon menu-icon">&nbsp;</span><span id="signout-button-label">{{{__ "sign out"}}}</span></button>
                             </form>
                         </li>
 
@@ -86,12 +86,12 @@
     {{/if}}
     <div id="site-messages">
     {{#each siteMessages}}
-    <div class="message-box"><span class="fa fa-bell-o spaced-icon"></span>{{{__ "site notification" this}}}</div>
+    <div class="message-box"><span class="fa fa-fw fa-bell-o spaced-icon">&nbsp;</span>{{{__ "site notification" this}}}</div>
     {{/each}}
     </div>
     <div id="site-errors">
     {{#each siteErrors}}
-    <div class="error-box"><span class="fa fa-exclamation-triangle spaced-icon"></span>{{{__ "site error" this}}}</div>
+    <div class="error-box"><span class="fa fa-fw fa-exclamation-triangle spaced-icon">&nbsp;</span>{{{__ "site error" this}}}</div>
     {{/each}}
     </div>
     {{#unless deferPageHeader}}
@@ -114,7 +114,7 @@
             {{/unless}}
           {{/each}}
         </select>
-        <span id="change-language-container"><button name="language-action" value="change" type="submit" class="pure-button button-rounded"><span class="fa fa-globe spaced-icon"></span>{{{__ "change language button"}}}</button></span>
+        <span id="change-language-container"><button name="language-action" value="change" type="submit" class="pure-button button-rounded"><span class="fa fa-fw fa-globe spaced-icon">&nbsp;</span>{{{__ "change language button"}}}</button></span>
         {{#if showLanguageNotice}}
         <input type="hidden" value="yes" name="has-language-notice">
         {{/if}}

@@ -5,7 +5,7 @@
   </div>
   <form class="pure-form pure-form-aligned" method="post" name="delete-form">
   <input type="hidden" value="{{csrfToken}}" name="_csrf">
-  <button type="submit" id="delete" name="team-action" value="delete" class="pure-button button-destructive button-rounded" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-trash-o spaced-icon"></span> {{{__ "delete"}}}</button>
+  <button type="submit" id="delete" name="team-action" value="delete" class="pure-button button-destructive button-rounded" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-fw fa-trash-o spaced-icon">&nbsp;</span> {{{__ "delete"}}}</button>
   <a class="cancel-link" href="/team/{{{team.urlID}}}">{{{__ "cancel"}}}</a>
   </form>
 </div>
@@ -88,11 +88,11 @@
 <p>
 {{!EDIT/DELETE}}
 {{#if team.userCanEdit}}
-<a href="/team/{{{team.urlID}}}/edit" id="edit-team" class="pure-button button-rounded edit-button" accesskey="e" title="{{{__ "accesskey" "e"}}}"><span class="fa fa-pencil spaced-icon"></span>{{{__ "edit"}}}</a>
+<a href="/team/{{{team.urlID}}}/edit" id="edit-team" class="pure-button button-rounded edit-button" accesskey="e" title="{{{__ "accesskey" "e"}}}"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>{{{__ "edit"}}}</a>
 {{/if}}
 {{#if team.userCanDelete}}
 {{#unless deleteForm}}
-<a href="/team/{{{team.urlID}}}/delete" id="edit-team" class="pure-button button-rounded edit-button" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-trash-o spaced-icon"></span>{{{__ "delete"}}}</a>
+<a href="/team/{{{team.urlID}}}/delete" id="edit-team" class="pure-button button-rounded edit-button" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-fw fa-trash-o spaced-icon">&nbsp;</span>{{{__ "delete"}}}</a>
 {{/unless}}
 {{/if}}
 </div>

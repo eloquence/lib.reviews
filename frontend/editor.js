@@ -308,7 +308,7 @@ function toggleSwitcher($switcher) {
 
 // Checkbox indicator for mode switcher
 function addIndicator($switcher, selector) {
-  let $selectedIndicator = $('<span class="fa fa-check-circle spaced-icon switcher-selected-indicator">');
+  let $selectedIndicator = $('<span class="fa fa-fw fa-check-circle spaced-icon switcher-selected-indicator">&nbsp;</span>');
   $switcher.find(selector).prepend($selectedIndicator);
 }
 
