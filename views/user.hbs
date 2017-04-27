@@ -21,6 +21,7 @@
 <span class="user-label">{{{__ "user bio"}}}</span><br>
 <form id="bio-form" name="bio-form" class="pure-form" action="" method="post">
 <textarea id="bio-textarea" class="pure-input-1" data-markdown name="bio-text">{{{mlString userInfo.meta.bio.text false}}}</textarea>
+{{>editor_switcher}}
 <input type="hidden" value="{{currentLanguage.langKey}}" name="bio-language">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <div id="character-caption">

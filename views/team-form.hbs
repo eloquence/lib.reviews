@@ -47,6 +47,7 @@
       <div class="pure-control-group">
         <label for="team-description">{{{__ "team description"}}} <span class="required">*</span></label>
         <textarea id="team-description" name="team-description" class="pure-input-1 team-textarea" data-required data-markdown placeholder="{{{__ "enter team description"}}}">{{{mlString formValues.description.text false}}}</textarea>
+        {{>editor_switcher}}
       </div>
       <br>
     </div>
@@ -57,6 +58,7 @@
       <div class="pure-control-group">
         <label for="team-rules">{{{__ "team rules"}}}</label>
         <textarea id="team-rules" name="team-rules" class="pure-input-1 team-textarea" data-markdown placeholder="{{{__ "enter team rules"}}}">{{{mlString formValues.rules.text false}}}</textarea>
+        {{>editor_switcher noaccesskeys=true}}
       </div>
       <br>
     </div>

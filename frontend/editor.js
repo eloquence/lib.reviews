@@ -2,6 +2,10 @@
 /* eslint prefer-reflect: "off" */
 'use strict';
 
+// This file integrates the ProseMirror RTE for textareas that have the
+// data-markdown attribute set. The switcher between the two modes is rendered
+// server-side from the views/partial/editor-switcher.hbs template.
+
 // ProseMirror editor components
 const { EditorState } = require('prosemirror-state');
 const { EditorView } = require('prosemirror-view');
@@ -83,17 +87,6 @@ let rtes = {};
 // Export for access to other parts of the application, if available
 if (window.libreviews)
   window.libreviews.activeRTEs = rtes;
-
-let textareaCount = 0;
-
-$('textarea[data-markdown]').each(function() {
-  textareaCount++;
-  let $switcherTemplate = getSwitcherTemplate({
-    accessKeys: textareaCount == 1 ? true : false
-  });
-  let $switcher = $switcherTemplate.insertAfter($(this));
-  addIndicator($switcher, '[data-enable-markdown]');
-});
 
 // We keep track of the RTE's caret and scroll position, but only if the
 // markdown representation hasn't been changed.
@@ -286,61 +279,31 @@ function updateRTESelectionData($textarea, $ce) {
 
 // Toggle a switcher if it is selectable, return status
 function isSelectable(optionElement, activeOptionAttr) {
-  let switcher = $(optionElement).parent()[0];
-  if (switcher.hasAttribute(activeOptionAttr))
+  let $switcher = $(optionElement).parent();
+  if ($switcher[0].hasAttribute(activeOptionAttr))
     return false;
   else {
-    toggleSwitcher(switcher);
+    toggleSwitcher($switcher);
     return true;
   }
 }
 
-// The actual template for the switcher. Can have access keys, but for multiple
-// textareas, we want to only add them to one.
-function getSwitcherTemplate(options) {
-  options = Object.assign({
-    accessKeys: false // Should we generate access keys for this switcher?
-  }, options);
-
-  let $switcherTemplate = $(
-    '<div class="switcher-control" data-markdown-enabled>' +
-    '<span class="switcher-option switcher-option-selected" data-enable-markdown>' +
-    window.config.messages['markdown format'] +
-    '</span>' +
-    '<span class="switcher-option" data-enable-rte>' +
-    window.config.messages['rich text format'] +
-    '</span>' +
-    '</div>'
-  );
-
-  if (options.accessKeys) {
-    let addAccessKey = (selector, key) => $switcherTemplate
-      .find(selector)
-      .attr('accesskey', key)
-      .attr('title', window.config.messages['accesskey'].replace('%s', key));
-    addAccessKey('[data-enable-markdown]', 'm');
-    addAccessKey('[data-enable-rte]', ',');
-  }
-  return $switcherTemplate;
-}
-
 // Flip classes and data- attributes for the two modes (markdown, RTE)
-function toggleSwitcher(switcher) {
+function toggleSwitcher($switcher) {
   let activateOption, activateState, deactivateOption, deactivateState;
   let controlData = ['[data-enable-rte]', '[data-enable-markdown]', 'data-rte-enabled', 'data-markdown-enabled'];
-  if (switcher.hasAttribute('data-rte-enabled')) { // => switch to markdown
+  if ($switcher[0].hasAttribute('data-rte-enabled')) { // => switch to markdown
     [activateOption, deactivateOption, deactivateState, activateState] = controlData;
-    addIndicator($(switcher), '[data-enable-markdown]');
-    removeIndicator($(switcher), '[data-enable-rte]');
+    addIndicator($switcher, '[data-enable-markdown]');
+    removeIndicator($switcher, '[data-enable-rte]');
   } else { // => switch to RTE
     [deactivateOption, activateOption, activateState, deactivateState] = controlData;
-    removeIndicator($(switcher), '[data-enable-markdown]');
-    addIndicator($(switcher), '[data-enable-rte]');
+    removeIndicator($switcher, '[data-enable-markdown]');
+    addIndicator($switcher, '[data-enable-rte]');
   }
-
-  $(switcher).removeAttr(deactivateState).attr(activateState, '');
-  $(switcher).find(activateOption).removeClass('switcher-option-selected');
-  $(switcher).find(deactivateOption).addClass('switcher-option-selected');
+  $switcher.removeAttr(deactivateState).attr(activateState, '');
+  $switcher.find(activateOption).removeClass('switcher-option-selected');
+  $switcher.find(deactivateOption).addClass('switcher-option-selected');
 }
 
 // Checkbox indicator for mode switcher

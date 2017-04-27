@@ -79,7 +79,7 @@
           <div class="pure-control-group">
               <label for="review-text">{{{__ "review text"}}} <span class="required">*</span></label>
               <textarea id="review-text" name="review-text" class="pure-input-1" data-required data-markdown  placeholder="{{{__ "enter review"}}}">{{{mlString formValues.text false}}}</textarea>
-              <br>
+              {{>editor_switcher}}
           </div>
         </div>
         <div class="pure-u-1 pure-u-md-1-3">

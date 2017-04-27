@@ -26,6 +26,7 @@
       <div class="pure-control-group">
         <label for="post-text">{{{__ "blog post text"}}} <span class="required">*</span></label>
         <textarea id="post-text" name="post-text" class="pure-input-1 blog-post-textarea" data-markdown data-required placeholder="{{{__ "enter blog post"}}}">{{{mlString formValues.post.text false}}}</textarea>
+        {{>editor_switcher}}
       </div>
       <br>
     </div>
