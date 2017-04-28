@@ -132,6 +132,14 @@ function getApp(db = require('./db')) {
 
     let cssPath = path.join(__dirname, 'static', 'css');
     app.use('/static/css', lessMiddleware(cssPath));
+
+    // Cache immutable assets for one year
+    app.use('/static', function(req, res, next) {
+      if (/.*\.(svg|jpg|webm|gif|png|ogg|tgz|zip|woff2)$/.test(req.path))
+        res.set('Cache-Control', 'public, max-age=31536000');
+      return next();
+    });
+
     app.use('/static', express.static(path.join(__dirname, 'static')));
     app.use('/robots.txt', (req, res) => {
       res.type('text');
