@@ -9,6 +9,9 @@ const User = require('../models/user');
 const actionHandler = require('./handlers/action-handler');
 const search = require('../search');
 
+// For true/false user preferences.
+router.post('/actions/:modify-preference', actionHandler.modifyPreference);
+
 router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 
 // Search suggestions

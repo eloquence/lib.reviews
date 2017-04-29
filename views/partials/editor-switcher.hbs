@@ -1,3 +1,12 @@
-<div class="switcher-control nojs-hidden" data-markdown-enabled>
-<span class="switcher-option switcher-option-selected" data-enable-markdown {{#unless noaccesskeys}}title="{{{__ "accesskey" "m"}}}" accesskey="m"{{/unless}}><span class="fa fa-fw fa-check-circle switcher-selected-indicator">&nbsp;</span>{{{__ "markdown format"}}}</span><span class="switcher-option" data-enable-rte {{#unless noaccesskeys}}title="{{{__ "accesskey" ","}}}" accesskey=","{{/unless}}>{{{__ "rich text format"}}}</span>
+{{!This template generates the markdown/RTE mode switcher below each markdown-powered textarea. It's rendered server-side for performance reasons (hidden if JS is disabled), and has to take into account the user preference for RTE or markdown.
+
+If there are multiple textareas on a page, we want to only give access keys to the first one. This is done with the noaccesskeys parameter to the template.}}
+<div class="editor-switcher-control nojs-hidden" {{#if user.prefersRichTextEditor}}data-rte-enabled{{else}}data-markdown-enabled{{/if}}>
+{{!Markdown button begins}}
+<span class="editor-switcher-option{{#unless user.prefersRichTextEditor}} editor-switcher-option-selected{{/unless}}"
+data-enable-markdown {{#unless noaccesskeys}}title="{{{__ "accesskey" "m"}}}" accesskey="m"{{/unless}}>{{#unless user.prefersRichTextEditor}}<span class="fa fa-fw fa-check-circle editor-switcher-selected-indicator">&nbsp;</span>{{/unless}}{{{__ "markdown format"}}}</span>{{!RTE button begins}}<span class="editor-switcher-option {{#if user.prefersRichTextEditor}} editor-switcher-option-selected{{/if}}"  data-enable-rte
+{{#unless noaccesskeys}}title="{{{__ "accesskey" ","}}}" accesskey=","{{/unless}}>{{#if user.prefersRichTextEditor}}<span class="fa fa-fw fa-check-circle editor-switcher-selected-indicator">&nbsp;</span>{{/if}}{{{__ "rich text format"}}}</span>
+{{!Control to remember the preference for the RTE begins}}
+<span class="fa fa-fw fa-thumb-tack editor-switcher-pin {{#if user.prefersRichTextEditor}}editor-switcher-pinned{{else}}editor-switcher-unpinned hidden{{/if}}"
+{{#if user.prefersRichTextEditor}}title="{{{__ "forget rte preference"}}}{{else}}title="{{{__ "remember rte preference"}}}{{/if}}">&nbsp;</span>
 </div>

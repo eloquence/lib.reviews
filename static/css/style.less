@@ -955,7 +955,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   margin-top: 5px;
 }
 
-.switcher-control {
+.editor-switcher-control {
   text-transform:uppercase;
   font-size:small;
   font-family:sans-serif;
@@ -963,7 +963,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   margin-bottom:0.5em;
 }
 
-.switcher-option {
+.editor-switcher-option {
   margin-right:-1px;
   padding:10px;
   display:inline-block;
@@ -971,7 +971,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   -moz-user-select:none;
 }
 
-.switcher-control .switcher-option-selected {
+.editor-switcher-control .editor-switcher-option-selected {
   border-style:solid;
   border-width:1px;
   background:#fff;
@@ -980,13 +980,36 @@ details.content-warning[open] summary.content-warning-notice:before {
   cursor:default;
 }
 
-.switcher-control :not(.switcher-option-selected):not(.switcher-selected-indicator) {
+.editor-switcher-control :not(.editor-switcher-option-selected):not(.editor-switcher-selected-indicator):not(.editor-switcher-pin) {
   border-style:solid;
   border-width:1px;
   background:#f0f0f0;
   color:#333;
   border-color:#ddd;
   cursor:pointer;
+}
+
+.editor-switcher-pin {
+  cursor:pointer;
+  font-size:120% !important;
+}
+
+.editor-switcher-pinned {
+  color:#3a3;
+}
+
+.editor-switcher-unpinned {
+  color:#aaa;
+}
+
+.editor-switcher-working {
+  pointer-events:none;
+  color:#aaa !important;
+  cursor:default;
+}
+
+.editor-switcher-unpinned:hover {
+  color:#333;
 }
 
 .ProseMirror-menu-dropdown, .ProseMirror-menu-dropdown-item, .ProseMirror-prompt {

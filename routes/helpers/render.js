@@ -18,7 +18,8 @@ let render = {
 
     let jsConfig = {
       userName: req.user ? req.user.displayName : undefined,
-      language: req.locale
+      language: req.locale,
+      userPrefersRichTextEditor: req.user ? req.user.prefersRichTextEditor : undefined
     };
 
     if (extraJSConfig)

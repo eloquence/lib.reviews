@@ -24,6 +24,18 @@ let api = {
     res.type('json');
     res.status(401);
     res.send(JSON.stringify(response, null, 2));
+  },
+  // Send one or multiple errors. Can be array of strings, or single string.
+  // Error status is 400 (bad request) if not specified
+  error(req, res, errors, status) {
+    if (!Array.isArray(errors))
+      errors = errors === undefined ? ['Unspecified error.'] : [errors];
+    res.type('json');
+    res.status(status ? status : 400);
+    res.send({
+      message: 'Could not perform action.',
+      errors
+    });
   }
 };
 

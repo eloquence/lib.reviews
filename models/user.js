@@ -31,10 +31,6 @@ let User = thinky.createModel("users", {
   email: type.string().max(userOptions.maxChars).email(),
   password: type.string(),
   userMetaID: type.string().uuid(4), // Versioned
-  trustedBy: [{
-    trustedByUser: type.string().uuid(4),
-    trustedOnDate: type.date(),
-  }],
   // Trusted users gain invite codes as they write reviews
   inviteLinkCount: type.number().integer().default(0),
   registrationDate: type.date().default(() => new Date()),
@@ -48,7 +44,8 @@ let User = thinky.createModel("users", {
   suppressedNotices: [type.string()],
   // Permission field, populated using _currently logged in user_, to determine
   // whether they can edit _this_ user's metadata.
-  userCanEditMetadata: type.virtual().default(false)
+  userCanEditMetadata: type.virtual().default(false),
+  prefersRichTextEditor: type.boolean().default(false)
 });
 
 // Relations. For team relations see team model
@@ -113,6 +110,12 @@ User.define("checkPassword", function(password) {
         resolve(result);
     });
   });
+});
+
+// Which preferences can be toggled via the API for/by this user? May be
+// restricted in future based on access control limits.
+User.define("getValidPreferences", function() {
+  return ['prefersRichTextEditor'];
 });
 
 User.ensureUnique = function(name) {
@@ -253,7 +256,6 @@ User.createBio = function(user, bioObj) {
         reject(error);
       });
   });
-
 };
 
 function containsOnlyLegalCharacters(name) {

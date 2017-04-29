@@ -404,5 +404,7 @@
    "join with item above": "Join with the item above",
    "decrease item indentation": "Decrease indentation",
    "required field": "Required field",
-   "ok": "OK"
+   "ok": "OK",
+   "remember rte preference": "Remember preference for rich-text editor",
+   "forget rte preference": "Forget preference for rich-text editor"
 }

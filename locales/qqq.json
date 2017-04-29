@@ -395,5 +395,7 @@
 	"join with item above": "Tooltip for the button that combines items,  e.g. two bullet point items into one, in the rich text editor",
 	"decrease item indentation": "Tooltip for the button that decreases the indentation level of items in the rich text editor",
 	"required field": "Label for the balloon message shown in dialogs in the rich-text editor that have required fields (e.g., image URL for images)",
-	"ok": "Label for the button to confirm a dialog in the rich-text editor\n{{Identical|OK}}"
+	"ok": "Label for the button to confirm a dialog in the rich-text editor\n{{Identical|OK}}",
+	"remember rte preference": "Tooltip for the pin that is shown next to the rich-text editor mode switcher to let the user make the preference 'sticky'.",
+	"forget rte preference": "Tooltip for the pin that is shown next to the rich-text editor mode switcher to go back to the default markdown editor."
 }

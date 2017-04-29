@@ -4,6 +4,52 @@ const api = require('../helpers/api');
 
 let actionHandler = {
 
+  // Handler for enabling, disabling or toggling a Boolean preference. Currently
+  // accepts one preference at a time, but should be easy to modify to handle
+  // bulk operations if needed.
+  modifyPreference(req, res, next) {
+    let user = req.user;
+    let preferenceName = req.body['preferenceName'].trim();
+    let modifyAction = req.params['modify'];
+
+    if (!user)
+      return api.signinRequired(req, res);
+
+    if (!user.getValidPreferences().includes(preferenceName))
+      return api.error(req, res, 'Unknown preference: ' + preferenceName);
+
+    let message;
+    let oldValue = user[preferenceName] === undefined ? 'not set' : String(user[preferenceName]);
+    switch (modifyAction) {
+      case 'enable':
+        user[preferenceName] = true;
+        break;
+      case 'disable':
+        user[preferenceName] = false;
+        break;
+      case 'toggle':
+        user[preferenceName] = !user[preferenceName];
+        break;
+      default:
+        return api.error(req, res, 'Unknown preference action: ' + modifyAction);
+    }
+    let newValue = String(user[preferenceName]);
+    message = oldValue === newValue ? `Preference not altered.` :
+      `Preference changed.`;
+
+    user
+      .save()
+      .then(() => {
+        res.status(200);
+        res.send(JSON.stringify({
+          message,
+          oldValue,
+          newValue,
+          errors: []
+        }, null, 2));
+      })
+      .catch(next);
+  },
   // Handler for hiding interface messages, announcements, etc., permanently for a given user
   suppressNotice(req, res, next) {
 

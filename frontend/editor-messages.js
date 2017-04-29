@@ -33,7 +33,9 @@ const msgArr = [
   'decrease item indentation',
   'required field',
   'ok',
-  'cancel'
+  'cancel',
+  'remember rte preference',
+  'forget rte preference'
 ];
 const getMessages = require('../util/get-messages');
 

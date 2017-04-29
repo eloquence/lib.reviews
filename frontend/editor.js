@@ -4,7 +4,7 @@
 
 // This file integrates the ProseMirror RTE for textareas that have the
 // data-markdown attribute set. The switcher between the two modes is rendered
-// server-side from the views/partial/editor-switcher.hbs template.
+// server-side from the views/partial/editor-switcher-cher.hbs template.
 
 // ProseMirror editor components
 const { EditorState } = require('prosemirror-state');
@@ -152,6 +152,63 @@ $('[data-enable-markdown]').click(function enableMarkdown(event) {
   $textarea.focus();
 });
 
+// Let users toggle preference for the RTE using a "sticky" pin next to the
+// RTE control
+$('.editor-switcher-pin').click(function() {
+  let $pin = $(this);
+  let spin = () => $pin
+    .removeClass('fa-thumb-tack')
+    .addClass('fa-spinner fa-spin editor-switcher-working');
+  let unspin = () => $pin
+    .removeClass('fa-spinner fa-spin editor-switcher-working')
+    .addClass('fa-thumb-tack');
+
+  let done = false;
+  setTimeout(() => {
+    if (!done) spin();
+  }, 100);
+  $.ajax({
+      type: 'POST',
+      url: `/api/actions/toggle-preference/`,
+      data: JSON.stringify({
+        preferenceName: 'prefersRichTextEditor'
+      }),
+      contentType: 'application/json',
+      dataType: 'json'
+    })
+    .done(res => {
+      done = true;
+      unspin();
+      let { newValue } = res;
+
+      if (newValue === 'true')
+        // Because we may have multiple editors on a page, all pins need to be restyled
+        $('.editor-switcher-pin')
+          .removeClass('editor-switcher-unpinned')
+          .addClass('editor-switcher-pinned')
+          .attr('title', window.config.messages['forget rte preference']);
+      else
+        $('.editor-switcher-pin')
+          .removeClass('editor-switcher-pinned')
+          .addClass('editor-switcher-unpinned')
+          .attr('title', window.config.messages['remember rte preference']);
+    })
+    .fail(() => {
+      done = true;
+      unspin();
+      $('#generic-action-error').removeClass('hidden');
+    });
+});
+
+// Switch all RTEs on if this is the user's preference. The switcher controls
+// are already rendered server-side to be in RTE state.
+if (window.config.userPrefersRichTextEditor) {
+  $('textarea[data-markdown]').each(function() {
+    let $textarea = $(this);
+    $textarea.hide();
+    renderRTE($textarea);
+  });
+}
 
 // Create a new RTE (ProseMirror) instance and add it to the DOM; register
 // relevant event handlers. FIXME: Refactor me!
@@ -294,24 +351,45 @@ function toggleSwitcher($switcher) {
   let controlData = ['[data-enable-rte]', '[data-enable-markdown]', 'data-rte-enabled', 'data-markdown-enabled'];
   if ($switcher[0].hasAttribute('data-rte-enabled')) { // => switch to markdown
     [activateOption, deactivateOption, deactivateState, activateState] = controlData;
-    addIndicator($switcher, '[data-enable-markdown]');
-    removeIndicator($switcher, '[data-enable-rte]');
+    addIndicator({
+      $switcher,
+      selector: '[data-enable-markdown]',
+      addPin: false
+    });
+    removeIndicator({
+      $switcher,
+      selector: '[data-enable-rte]'
+    });
   } else { // => switch to RTE
     [deactivateOption, activateOption, activateState, deactivateState] = controlData;
-    removeIndicator($switcher, '[data-enable-markdown]');
-    addIndicator($switcher, '[data-enable-rte]');
+    removeIndicator({
+      $switcher,
+      selector: '[data-enable-markdown]',
+      pinEnabled: false
+    });
+    addIndicator({
+      $switcher,
+      selector: '[data-enable-rte]',
+      pinEnabled: true
+    });
   }
   $switcher.removeAttr(deactivateState).attr(activateState, '');
-  $switcher.find(activateOption).removeClass('switcher-option-selected');
-  $switcher.find(deactivateOption).addClass('switcher-option-selected');
+  $switcher.find(activateOption).removeClass('editor-switcher-option-selected');
+  $switcher.find(deactivateOption).addClass('editor-switcher-option-selected');
 }
 
 // Checkbox indicator for mode switcher
-function addIndicator($switcher, selector) {
-  let $selectedIndicator = $('<span class="fa fa-fw fa-check-circle switcher-selected-indicator">&nbsp;</span>');
+function addIndicator(spec) {
+  let { pinEnabled, selector, $switcher } = spec;
+  let $selectedIndicator = $('<span class="fa fa-fw fa-check-circle editor-switcher-selected-indicator">&nbsp;</span>');
   $switcher.find(selector).prepend($selectedIndicator);
+  if (pinEnabled)
+    $switcher.find('.editor-switcher-pin').removeClass('hidden');
 }
 
-function removeIndicator($switcher, selector) {
-  $switcher.find(selector + ' .switcher-selected-indicator').remove();
+function removeIndicator(spec) {
+  let { pinEnabled, selector, $switcher } = spec;
+  $switcher.find(selector + ' .editor-switcher-selected-indicator').remove();
+  if (!pinEnabled)
+    $switcher.find('.editor-switcher-pin').addClass('hidden');
 }
