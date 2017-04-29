@@ -70,3 +70,5 @@ Debian environment.
 - https://critiquebrainz.org/ - music reviews
 - http://revyu.com/ - universal review site from ~2007, now defunct. We're
   discussing data recovery options.
+- https://extensions.gnome.org/ - the GNOME extensions database includes reviews
+  under a free license
