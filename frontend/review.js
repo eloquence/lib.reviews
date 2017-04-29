@@ -31,9 +31,6 @@
   if (postRating)
     selectStar.apply($(`#star-button-${postRating}`)[0]);
 
-  $('#live-preview').change(toggleLivePreview);
-  $('#preview').click(showPreviewOnce);
-
   if (!editing) {
     $(textFields).change(hideAbandonDraft);
     $('#review-url').change(validateURL);
@@ -50,7 +47,7 @@
 
     sisyphus = $('#review-form').sisyphus({
       onRestore: processLoadedData,
-      excludeFields: $('#live-preview,#review-token,#review-language' + maybeExcludeURL)
+      excludeFields: $('#review-token,#review-language' + maybeExcludeURL)
     });
   }
 
@@ -154,7 +151,6 @@
     }
   }
 
-
   function indicateStar() {
     let selectedStar = Number(this.id.match(/\d/)[0]); // We want to set all stars to the color of the selected star
     for (let i = 1; i <= selectedStar; i++)
@@ -178,111 +174,5 @@
     if (event.keyCode == 13 || event.keyCode == 32) {
       selectStar.apply(this);
     }
-  }
-
-  function showPreviewOnce(event) {
-    $('#preview-contents').removeClass('hidden');
-    renderPreview();
-    event.preventDefault();
-  }
-
-  function renderPreview() {
-    let text = $('#review-text').val();
-    let parsed = window.markdown.render(text);
-    let reviewURL = $('#review-url').val();
-    let rating = $('#review-rating').val();
-    if (reviewURL) {
-      $('#preview-review-url').removeClass('hidden');
-      $('#preview-review-url-link').attr('href', encodeURI(reviewURL));
-      $('#preview-review-url-link').html(escapeHTML(prettifyURL(reviewURL)));
-    } else {
-      $('#preview-review-url').addClass('hidden');
-    }
-    if (rating)
-      renderPreviewStars(rating);
-
-    renderPreviewTeams();
-
-    $('#preview-review-text').html(parsed);
-    $('#preview-review-title').html(escapeHTML($('#review-title').val()));
-    $('#preview-review-byline-date').html(new Date().toLocaleString(window.config.language));
-
-    // For handling events inside content, e.g., spoiler warnings
-    window.libreviews.updateContentClickHandlers();
-    // Re-render help in case it got pushed down by preview
-    window.libreviews.repaintFocusedHelp();
-  }
-
-  // Extract team names and URLs and render checked ones as part of preview
-  function renderPreviewTeams() {
-    let showPreview = false,
-      teams = [];
-    $('[name^="review-team-"]').each(function() {
-      if (this.checked) {
-        showPreview = true;
-        let teamName = $(this)
-          .next()
-          .find('.team-name')
-          .attr('data-team-name'); // Plain text without language suffix
-        let teamURL = $(this)
-          .next()
-          .find('.team-link')
-          .attr('href');
-        teams.push(`<a href="${teamURL}" target="_blank">${teamName}</a>`);
-      }
-    });
-    if (showPreview) {
-      let teamStr = teams.join(', ');
-      $('#preview-team-list').html(teamStr);
-      $('#preview-teams').removeClass('hidden');
-    } else
-      $('#preview-teams').addClass('hidden');
-  }
-
-  function renderPreviewStars(rating) {
-    if (!rating || Number($('#preview-review-rating').attr('data-preview-stars')) == rating)
-      return; // Nothing to do
-
-    let img = `<img src="/static/img/star-${rating}-full.svg" width="20" class="preview-star">`;
-
-    $('#preview-review-rating').html('');
-    for (let i = 1; i <= rating; i++) {
-      $('#preview-review-rating').append(img);
-    }
-    $('#preview-review-rating').attr('data-preview-stars', rating);
-
-  }
-
-  function toggleLivePreview() {
-    if ($(this).prop('checked')) {
-      renderPreview();
-      $('#preview-contents').removeClass('hidden');
-      $('#review-title').keyup(renderPreview);
-      $('#review-text').keyup(renderPreview);
-      $('#review-url').change(renderPreview);
-      $('#review-rating').change(renderPreview);
-      $('[name^="review-team"]').change(renderPreview);
-    } else {
-      $('#preview-contents').addClass('hidden');
-      $('#review-text').off('keyup', renderPreview);
-      $('#review-title').off('keyup', renderPreview);
-      $('#review-url').off('change', renderPreview);
-      $('#review-rating').off('change', renderPreview);
-      $('[name^="review-team"]').off('change', renderPreview);
-    }
-  }
-
-  function escapeHTML(html) {
-    return html
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
-  // For link labels when we only have a URL
-  function prettifyURL(url) {
-    return url
-      .replace(/^.*?:\/\//, '') // strip protocol
-      .replace(/\/$/, ''); // remove trailing slashes for display only
   }
 }());

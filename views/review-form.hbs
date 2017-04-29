@@ -6,7 +6,8 @@
 {{> dismissible_notice icon="globe" messageKey="writing a review in language" id="language-notice-review" csrfToken=csrfToken}}
 {{/if}}
 </div>
-<div id="preview-contents" {{#unless isPreview}}class="hidden"{{/unless}}>
+{{#if isPreview}}
+<div id="preview-contents">
 <h2 id="preview-review-url" {{#unless formValues.url}}class="hidden"{{/unless}}><span id="preview-review-url-label">{{{__ "preview of"}}}</span> <a href="{{{formValues.url}}}" id="preview-review-url-link" target="_blank">{{prettify formValues.url}}</a></h2>
 <h2 id="preview-review-title">{{{mlString formValues.title}}}</h2>
 <span id="preview-review-rating">
@@ -31,7 +32,7 @@
 </div>
 </div>
 </div>
-
+{{/if}}
 {{>page_errors}}
 <div id="draft-notice" class="message-box">
 <span class="fa fa-info-circle fa-fw spaced-icon">&nbsp;</span>{{{__ "draft loaded"}}}
@@ -151,10 +152,6 @@
     <div class="buttons-group">
     <button data-check-required type="submit" id="publish" name="review-action" value="publish" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{#if editing}}{{{__ "save"}}}{{else}}{{{__ "publish"}}}{{/if}}</button>
     <button type="submit" id="preview" name="review-action" value="preview" class="pure-button button-rounded" accesskey="p" title="{{{__ "accesskey" "p"}}}">{{{__ "preview"}}}</button>
-    <span class="nojs-hidden" id="live-preview-control">
-    <input type="checkbox" id="live-preview">
-    <label for="live-preview" class="inline-label" accesskey="l" title="{{{__ "accesskey" "l"}}}">{{__ "live preview"}}</label>
-    </span>
     </div>
     </form>
   <div id="review-terms-notice">{{{__ "new review terms"}}}</div>

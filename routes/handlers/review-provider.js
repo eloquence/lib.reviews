@@ -87,7 +87,7 @@ class ReviewProvider extends AbstractBREADProvider {
       pageErrors: !this.isPreview ? pageErrors : undefined, // Don't show errors on preview
       isPreview: this.isPreview,
       preview: this.preview,
-      scripts: ['markdown.min.js', 'review.js', getJS('editor')],
+      scripts: ['review.js', getJS('editor')],
       showLanguageNotice,
       pageMessages,
       thing,
