@@ -1,3 +1,4 @@
+/* global $ */
 const {
   wrapItem,
   blockTypeItem,
@@ -53,7 +54,7 @@ function insertImageItem(nodeType) {
     select(state) {
       return canInsert(state, nodeType);
     },
-    run(state, _, view) {
+    run(state, _dispatch, view) {
       let { from, to } = state.selection,
         attrs = null;
       if (state.selection instanceof NodeSelection && state.selection.node.type == nodeType)
@@ -143,6 +144,28 @@ function markItem(markType, options) {
   for (let prop in options)
     passedOptions[prop] = options[prop];
   return cmdItem(toggleMark(markType), passedOptions);
+}
+
+function fullScreenItem() {
+  return new MenuItem({
+    title: msg('full screen mode', 'u'),
+    icon: { dom: $('<span class="fa fa-arrows-alt"></span>')[0] },
+    active() {
+      return this.enabled || false;
+    },
+    run(state, _dispatch, view) {
+      let $rteContainer = $(view.dom).closest('.rte-container');
+      let id = Number($rteContainer[0].id.match(/\d+/)[0]);
+      if (!this.enabled) {
+        window.libreviews.activeRTEs[id].enterFullScreen();
+        this.enabled = true;
+      } else {
+        window.libreviews.activeRTEs[id].exitFullScreen();
+        this.enabled = false;
+      }
+      view.updateState(state);
+    }
+  });
 }
 
 function linkItem(markType) {
@@ -336,12 +359,17 @@ function buildMenuItems(schema) {
   // if (tableItems.length)
   //   r.tableMenu = new Dropdown(tableItems, { label: "Table" });
 
+  r.fullScreen = fullScreenItem();
+
   r.inlineMenu = [cut([r.toggleStrong, r.toggleEm, r.toggleCode, r.toggleLink]), [r.insertMenu]];
   r.blockMenu = [cut([r.typeMenu, r.tableMenu, r.wrapBulletList, r.wrapOrderedList, r.wrapBlockQuote, joinUpItem,
     liftItem
   ])];
+
   r.fullMenu = r.inlineMenu.concat(r.blockMenu).concat([
     [undoItem, redoItem]
+  ]).concat([
+    [r.fullScreen]
   ]);
 
   return r;

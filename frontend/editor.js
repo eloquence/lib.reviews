@@ -112,7 +112,7 @@ $('[data-enable-rte]').click(function enableRTE() {
   // Do the heavy lifting of creating a new RTE instance
   let $rteContainer = renderRTE($textarea),
     $contentEditable = $rteContainer.find('[contenteditable="true"]'),
-    editorID = $rteContainer[0].id.match(/\d+/)[0];
+    editorID = Number($rteContainer[0].id.match(/\d+/)[0]);
 
   if (selStart !== undefined && selEnd !== undefined)
     restoreSelection($contentEditable[0], { start: selStart, end: selEnd });
@@ -246,6 +246,12 @@ function renderRTE($textarea) {
 
   let $ce = $rteContainer.find('[contenteditable="true"]');
 
+  // Style whole container (incl. menu bar etc.) like all inputs
+  let addFocusStyle = () => $rteContainer.addClass('rte-focused');
+  let removeFocusStyle = () => $rteContainer.removeClass('rte-focused');
+  $ce.focus(addFocusStyle);
+  $ce.focusout(removeFocusStyle);
+
   // Adjust height to match textarea
   let setRTEHeight = () => {
     let textareaHeight = $textarea.css('height');
@@ -260,8 +266,45 @@ function renderRTE($textarea) {
   };
   setRTEHeight();
 
+  // Adjust height to full window
+  let setRTEHeightFullScreen = () => {
+    $rteContainer.addClass('rte-container-full-screen');
+    $rteContainer.find('.ProseMirror,.ProseMirror-menubar').addClass('ProseMirror-full-screen');
+    let menuHeight = parseInt($rteContainer.find('.ProseMirror-menubar').css('height'), 10) || 41;
+    let rteHeight = parseInt($rteContainer.css('height'), 10) - (menuHeight + 2);
+    $ce.css('height', rteHeight + 'px');
+  };
+
+  // Helper to use full available window (or full screen if enabled) for editor
+  rtes[myID].enterFullScreen = () => {
+    $('.rte-container').not(`[id="pm-edit-${myID}"]`).hide();
+    $(window).off('resize', setRTEHeight);
+    $(window).on('resize', setRTEHeightFullScreen);
+    setRTEHeightFullScreen();
+    $ce.off('focus', addFocusStyle);
+    $ce.off('focusout', removeFocusStyle);
+    removeFocusStyle();
+    rtes[myID].editorView.focus();
+  };
+
+  // Back to normal
+  rtes[myID].exitFullScreen = () => {
+    $('.rte-container').not(`[id="pm-edit-${myID}"]`).show();
+    $(window).off('resize', setRTEHeightFullScreen);
+    $(window).on('resize', setRTEHeight);
+    $rteContainer.removeClass('rte-container-full-screen');
+    $rteContainer.find('.ProseMirror,.ProseMirror-menubar').removeClass('ProseMirror-full-screen');
+    setRTEHeight();
+    $ce.focus(addFocusStyle);
+    $ce.focusout(removeFocusStyle);
+    addFocusStyle();
+    rtes[myID].editorView.focus();
+  };
+
   // Menu can wrap, so keep an eye on the height
   $(window).resize(setRTEHeight);
+
+  // Stash the handler to make it easy to unregister
   rtes[myID].resizeEventHandler = setRTEHeight;
 
   $ce.blur(function() {
@@ -290,15 +333,6 @@ function renderRTE($textarea) {
     rtes[myID].nuke();
     renderRTE($textarea);
   };
-
-  // Style whole container (incl. menu bar etc.) like all inputs
-  $ce.focus(function() {
-    $rteContainer.addClass('rte-focused');
-  });
-
-  $ce.focusout(function() {
-    $rteContainer.removeClass('rte-focused');
-  });
 
   rteCounter.increase();
   return $rteContainer;

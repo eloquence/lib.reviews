@@ -35,7 +35,8 @@ const msgArr = [
   'ok',
   'cancel',
   'remember rte preference',
-  'forget rte preference'
+  'forget rte preference',
+  'full screen mode'
 ];
 const getMessages = require('../util/get-messages');
 

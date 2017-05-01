@@ -406,5 +406,6 @@
    "required field": "Required field",
    "ok": "OK",
    "remember rte preference": "Remember preference for rich-text editor",
-   "forget rte preference": "Forget preference for rich-text editor"
+   "forget rte preference": "Forget preference for rich-text editor",
+   "full screen mode": "Toggle full-screen mode"
 }

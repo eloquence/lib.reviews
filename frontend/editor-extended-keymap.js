@@ -1,7 +1,7 @@
 'use strict';
 const { undo, redo } = require("prosemirror-history");
 const { undoInputRule } = require("prosemirror-inputrules");
-const { wrapIn, setBlockType, chainCommands, toggleMark, exitCode } = require("prosemirror-commands");
+const { wrapIn, setBlockType, chainCommands, toggleMark, exitCode, selectParentNode } = require("prosemirror-commands");
 const { wrapInList, splitListItem, liftListItem, sinkListItem } = require("prosemirror-schema-list");
 const { selectNextCell, selectPreviousCell } = require("prosemirror-schema-table");
 
@@ -112,6 +112,25 @@ exports.getExtendedKeymap = function getExtendedKeymap(schema, menu) {
 
   keymap['Mod-k'] = (state, dispatch, view) => {
     menu.toggleLink.spec.run(state, dispatch, view);
+    return true;
+  };
+
+  // This is useful primarily as an easter egg for advanced users; it lets you
+  // progressively create larger selection blocks (e.g., an image with its
+  // caption, a list item and then the whole list), which is nice for bulk
+  // deletions and such.
+  keymap['Mod-\\'] = selectParentNode;
+
+  // Toggle full screen mode
+  keymap['Mod-u'] = (state, dispatch, view) => {
+    menu.fullScreen.spec.run(state, dispatch, view);
+    return true;
+  };
+
+  // Exit full screen on escape as well
+  keymap['Escape'] = (state, dispatch, view) => {
+    if (menu.fullScreen.spec.enabled)
+      menu.fullScreen.spec.run(state, dispatch, view);
     return true;
   };
 
