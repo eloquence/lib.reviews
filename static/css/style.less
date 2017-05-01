@@ -11,6 +11,8 @@
 @infoColor: #ccc;
 @headerColor: #414042;
 @sidePadding: 2em;
+@editorZIndex: 1000;
+@editorPromptZIndex: 1001;
 
 body {
   background: #fafafa;
@@ -907,7 +909,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   border: 1px solid silver;
   position: fixed;
   border-radius: 3px;
-  z-index: 11;
+  z-index:@editorPromptZIndex;
   box-shadow: -.5px 2px 5px rgba(0, 0, 0, .2);
 }
 
@@ -1042,7 +1044,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   width:100%;
   height:100% !important;
   background:white;
-  z-index:1000;
+  z-index:@editorZIndex;
 }
 
 .ProseMirror-full-screen {
