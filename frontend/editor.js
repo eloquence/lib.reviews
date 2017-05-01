@@ -277,7 +277,6 @@ function renderRTE($textarea) {
 
   // Helper to use full available window (or full screen if enabled) for editor
   rtes[myID].enterFullScreen = () => {
-    $('.rte-container').not(`[id="pm-edit-${myID}"]`).hide();
     $(window).off('resize', setRTEHeight);
     $(window).on('resize', setRTEHeightFullScreen);
     setRTEHeightFullScreen();
@@ -289,7 +288,6 @@ function renderRTE($textarea) {
 
   // Back to normal
   rtes[myID].exitFullScreen = () => {
-    $('.rte-container').not(`[id="pm-edit-${myID}"]`).show();
     $(window).off('resize', setRTEHeightFullScreen);
     $(window).on('resize', setRTEHeight);
     $rteContainer.removeClass('rte-container-full-screen');
