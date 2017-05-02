@@ -211,7 +211,7 @@ if (window.config.userPrefersRichTextEditor) {
 }
 
 // Create a new RTE (ProseMirror) instance and add it to the DOM; register
-// relevant event handlers. FIXME: Refactor me!
+// relevant event handlers.
 function renderRTE($textarea) {
 
   // Local copy for this instance; only access count if you want to increase
@@ -244,6 +244,20 @@ function renderRTE($textarea) {
 
   rtes[myID] = { editorView };
 
+  addCustomFeatures({ $rteContainer, myID, $textarea });
+
+  rteCounter.increase();
+  return $rteContainer;
+}
+
+// Adds the following:
+// - Full screen editing
+// - Automatic sizing of control to match textarea
+// - Helpers to nuke/re-render RTE
+// - Event handler to update markdown textarea from RTE
+// - Event handler to track selection data within RTE even if mode is switched
+function addCustomFeatures(spec) {
+  const { $rteContainer, $textarea, myID } = spec;
   let $ce = $rteContainer.find('[contenteditable="true"]');
 
   // Style whole container (incl. menu bar etc.) like all inputs
@@ -309,12 +323,12 @@ function renderRTE($textarea) {
     updateRTESelectionData($textarea, $(this));
     // Re-generating the markdown on blur is a performance compromise; we may want
     // to add more triggers if this is insufficient.
-    updateTextarea($textarea, $(this), editorView);
+    updateTextarea($textarea, $(this), rtes[myID].editorView);
   });
 
   $(window).on('beforeunload', function() {
     // Let's be nice to scripts that try to rescue form data
-    updateTextarea($textarea, $ce, editorView);
+    updateTextarea($textarea, $ce, rtes[myID].editorView);
   });
 
   // Full remove this control and all associated event handlers
@@ -331,9 +345,6 @@ function renderRTE($textarea) {
     rtes[myID].nuke();
     renderRTE($textarea);
   };
-
-  rteCounter.increase();
-  return $rteContainer;
 }
 
 // Serialize RTE content into Markdown and update textarea
