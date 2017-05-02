@@ -409,5 +409,8 @@
 	"join with item above": "加入上方的项目",
 	"decrease item indentation": "减少缩进",
 	"required field": "必填字段",
-	"ok": "确定"
+	"ok": "确定",
+	"remember rte preference": "为富文本编辑器记住参数设置",
+	"forget rte preference": "为富文本编辑器忘记参数设置",
+	"full screen mode": "切换为全屏模式"
 }

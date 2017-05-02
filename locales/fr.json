@@ -415,5 +415,7 @@
 	"join with item above": "Relier à l'élément ci-dessus",
 	"decrease item indentation": "Réduire l'indentation",
 	"required field": "Champ obligatoire",
-	"ok": "OK"
+	"ok": "OK",
+	"remember rte preference": "Se souvenir des préférences pour les éditeurs de texte riche.",
+	"forget rte preference": "Ignorer les préférences pour les éditeurs de texte riche."
 }

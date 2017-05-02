@@ -411,5 +411,8 @@
 	"join with item above": "Mit obigem Element verknüpfen",
 	"decrease item indentation": "Einrückung reduzieren",
 	"required field": "Erforderliches Feld",
-	"ok": "OK"
+	"ok": "OK",
+	"remember rte preference": "Einstellung für den Rich-Text-Editor merken",
+	"forget rte preference": "Einstellung für den Rich-Text-Editor vergessen",
+	"full screen mode": "Vollbildmodus umschalten"
 }
