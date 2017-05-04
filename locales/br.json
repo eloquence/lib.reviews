@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Gwenn-Ael",
-			"Fulup"
+			"Fulup",
+			"Y-M D"
 		]
 	},
 	"site name": "lib.reviews",
@@ -170,5 +171,13 @@
 	"copy": "Eilañ",
 	"invite link invalid title": "Kod pediñ direizh",
 	"reload this page": "Adkargañ e %s",
-	"explore teams": "Ergerzhiñ ar skipailhoù"
+	"explore teams": "Ergerzhiñ ar skipailhoù",
+	"insert image": "Skeudenn",
+	"insert image dialog title": "Ensoc'hañ ur skeudenn",
+	"insert": "Ensoc'hañ",
+	"add link dialog title": "Ouzhpennañ ul liamm",
+	"format block": "Furmad",
+	"format as paragraph": "Rannbennad",
+	"format as code block": "Kod",
+	"ok": "Mat eo"
 }

@@ -400,7 +400,7 @@
 	"toggle code": "Selectionner la fonte du code",
 	"format block": "Format",
 	"format block help": "Formate le paragraphe ou le bloc courant",
-	"format as bullet list": "Formater comme un élément de liste avec puce",
+	"format as bullet list": "Disposer comme une liste à puces",
 	"format as numbered list": "Formater en tant que liste numérotée",
 	"format as quote": "Formater en tant que citation",
 	"format as paragraph help": "Formater en tant que paragraphe régulier",
@@ -417,5 +417,6 @@
 	"required field": "Champ obligatoire",
 	"ok": "OK",
 	"remember rte preference": "Se souvenir des préférences pour les éditeurs de texte riche.",
-	"forget rte preference": "Ignorer les préférences pour les éditeurs de texte riche."
+	"forget rte preference": "Ignorer les préférences pour les éditeurs de texte riche.",
+	"full screen mode": "Basculer en mode plein écran"
 }

@@ -410,5 +410,8 @@
 	"join with item above": "Slå samman med elementet ovan",
 	"decrease item indentation": "Minska indrag",
 	"required field": "Obligatoriskt fält",
-	"ok": "OK"
+	"ok": "OK",
+	"remember rte preference": "Kom ihåg inställning för rich-text-redigeraren",
+	"forget rte preference": "Glöm inställning för rich-text-redigeraren",
+	"full screen mode": "Växla helskärmsläge"
 }
