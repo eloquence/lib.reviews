@@ -15,7 +15,7 @@
     "test"
   ],
   "dependencies": {
-    "auto-sni": "^1.2.1",
+    "auto-sni": "^1.6.0",
     "babel-preset-es2015": "^6.9.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.17.1",
