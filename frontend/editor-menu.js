@@ -29,7 +29,7 @@ liftItem.spec.title = msg('decrease item indentation');
 //   addRowAfter,
 //   removeRow
 // } = require("prosemirror-schema-table");
-const { NodeSelection } = require("prosemirror-state");
+const { NodeSelection, TextSelection } = require("prosemirror-state");
 const { toggleMark } = require("prosemirror-commands");
 const { wrapInList } = require("prosemirror-schema-list");
 const { TextField, openPrompt } = require("./editor-prompt");
@@ -199,6 +199,12 @@ function linkItem(markType) {
           })
         },
         callback(attrs) {
+          // Transform selected text into link
+          toggleMark(markType, attrs)(view.state, view.dispatch);
+          // Advance cursor to head of text selection
+          let head = view.state.selection.$head;
+          view.dispatch(view.state.tr.setSelection(TextSelection.between(head, head)));
+          // Disable link mark so user can now type normally again
           toggleMark(markType, attrs)(view.state, view.dispatch);
           view.focus();
         }
