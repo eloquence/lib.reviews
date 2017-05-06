@@ -356,7 +356,7 @@ class TeamProvider extends AbstractBREADProvider {
     let titleParam = mlString.resolve(this.req.locale, team.name).str;
 
     // Atom feed metadata for <link> tags in HTML version
-    let atomURLPrefix = `/team/${this.urlID}/feed/atom`;
+    let atomURLPrefix = `/team/${team.urlID}/feed/atom`;
     let embeddedFeeds = feeds.getEmbeddedFeeds(this.req, {
       atomURLPrefix,
       atomURLTitleKey: 'atom feed of reviews by team'
@@ -385,7 +385,7 @@ class TeamProvider extends AbstractBREADProvider {
           language: this.language,
           updatedDate,
           selfURL: url.resolve(config.qualifiedURL, `${atomURLPrefix}/${this.language}`),
-          htmlURL: url.resolve(config.qualifiedURL, `/team/${this.urlID}/feed`)
+          htmlURL: url.resolve(config.qualifiedURL, `/team/${team.urlID}/feed`)
         });
         this.res.type('application/atom+xml');
         this.renderTemplate('review-feed-atom', vars);
