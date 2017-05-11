@@ -286,6 +286,7 @@ function buildMenuItems(schema) {
 
   let r = {},
     type;
+
   if (type = schema.marks.strong)
     r.toggleStrong = markItem(type, { title: msg('toggle bold', 'b'), icon: icons.strong });
   if (type = schema.marks.em)
@@ -322,6 +323,19 @@ function buildMenuItems(schema) {
       title: msg('format as code block help'),
       label: msg('format as code block')
     });
+  if (type = schema.nodes.container_warning) {
+    r.formatSpoilerWarning = wrapItem(type, {
+      title: msg('format as spoiler help'),
+      label: msg('format as spoiler'),
+      attrs: { markup: 'spoiler', message: msg('spoiler warning') }
+    });
+    r.formatNSFWWarning = wrapItem(type, {
+      title: msg('format as nsfw help'),
+      label: msg('format as nsfw'),
+      attrs: { markup: 'nsfw', message: msg('nsfw warning') }
+    });
+  }
+
   if (type = schema.nodes.heading)
     for (let i = 1; i <= 10; i++)
       r["makeHead" + i] = blockTypeItem(type, {
@@ -358,7 +372,7 @@ function buildMenuItems(schema) {
     label: msg('insert'),
     title: msg('insert help')
   });
-  r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.makeHead1 && new DropdownSubmenu(cut([
+  r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.formatSpoilerWarning, r.formatNSFWWarning, r.makeHead1 && new DropdownSubmenu(cut([
     r.makeHead1, r.makeHead2, r.makeHead3, r.makeHead4, r.makeHead5, r.makeHead6
   ]), { label: msg('format as heading') })]), { label: msg('format block'), title: msg('format block help') });
   // let tableItems = cut([r.addRowBefore, r.addRowAfter, r.removeRow, r.addColumnBefore, r.addColumnAfter, r.removeColumn]);

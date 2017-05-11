@@ -27,6 +27,10 @@ const msgArr = [
   'format as heading',
   'format as level heading help',
   'format as level heading',
+  'format as spoiler',
+  'format as spoiler help',
+  'format as nsfw',
+  'format as nsfw help',
   'undo',
   'redo',
   'join with item above',
@@ -36,7 +40,9 @@ const msgArr = [
   'cancel',
   'remember rte preference',
   'forget rte preference',
-  'full screen mode'
+  'full screen mode',
+  'spoiler warning',
+  'nsfw warning'
 ];
 const getMessages = require('../util/get-messages');
 

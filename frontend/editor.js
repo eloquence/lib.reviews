@@ -9,10 +9,10 @@
 // ProseMirror editor components
 const { EditorState } = require('prosemirror-state');
 const { EditorView } = require('prosemirror-view');
-const { schema, defaultMarkdownParser, defaultMarkdownSerializer } = require('prosemirror-markdown');
 const { keymap } = require('prosemirror-keymap');
 const { baseKeymap } = require('prosemirror-commands');
 const { menuBar } = require('prosemirror-menu');
+
 // For indicating the drop target when dragging a text selection
 const { dropCursor } = require('prosemirror-dropcursor');
 const inputRules = require('prosemirror-inputrules');
@@ -27,19 +27,23 @@ const { buildMenuItems } = require('./editor-menu');
 // For tracking contentEditable selection
 const { saveSelection, restoreSelection } = require('./editor-selection');
 
+// For parsing, serializing and tokenizing markdown including our custom
+// markup for spoiler/NSFW warnings
+const { markdownParser, markdownSerializer, markdownSchema } = require('./editor-markdown');
+
 const activeInputRules = [
   // Convert -- to —
   inputRules.emDash,
   // Convert ... to …
   inputRules.ellipsis,
   // Convert 1. , 2. .. at beginning of line to numbered list
-  inputRules.orderedListRule(schema.nodes.ordered_list),
+  inputRules.orderedListRule(markdownSchema.nodes.ordered_list),
   // Convert * or - at beginning of line to bullet list
-  inputRules.wrappingInputRule(/^\s*([-*]) $/, schema.nodes.bullet_list),
+  inputRules.wrappingInputRule(/^\s*([-*]) $/, markdownSchema.nodes.bullet_list),
   // Convert > at beginning of line to quote
-  inputRules.blockQuoteRule(schema.nodes.blockquote),
+  inputRules.blockQuoteRule(markdownSchema.nodes.blockquote),
   // Convert #, ##, .. at beginning of line to heading
-  inputRules.headingRule(schema.nodes.heading, 6)
+  inputRules.headingRule(markdownSchema.nodes.heading, 6)
 ];
 
 // ProseMirror provides no native way to enable/disable the editor, so
@@ -220,14 +224,14 @@ function renderRTE($textarea) {
   let $rteContainer = $(`<div id="pm-edit-${myID}" class="rte-container"></div>`)
     .insertAfter($textarea);
 
-  const menu = buildMenuItems(schema);
+  const menu = buildMenuItems(markdownSchema);
   const state = EditorState.create({
-    doc: defaultMarkdownParser.parse($textarea.val()),
+    doc: markdownParser.parse($textarea.val()),
     plugins: [
       inputRules.inputRules({
         rules: activeInputRules
       }),
-      keymap(getExtendedKeymap(schema, menu)),
+      keymap(getExtendedKeymap(markdownSchema, menu)),
       keymap(baseKeymap),
       history.history(),
       dropCursor(),
@@ -349,7 +353,7 @@ function addCustomFeatures(spec) {
 
 // Serialize RTE content into Markdown and update textarea
 function updateTextarea($textarea, $ce, editorView) {
-  let markdown = defaultMarkdownSerializer.serialize(editorView.state.doc);
+  let markdown = markdownSerializer.serialize(editorView.state.doc);
   if (markdown !== $textarea.val()) {
     $textarea.val(markdown);
     $textarea
