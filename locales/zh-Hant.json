@@ -412,5 +412,6 @@
 	"required field": "必填欄位",
 	"ok": "確定",
 	"remember rte preference": "記住用於多文字編輯器的偏好設定",
-	"forget rte preference": "捨棄用於多文字編輯器的偏好設定"
+	"forget rte preference": "捨棄用於多文字編輯器的偏好設定",
+	"full screen mode": "切換成全螢幕模式"
 }

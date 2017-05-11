@@ -181,5 +181,9 @@
 	"no results": "Не удалось найти соответствия по запросу, \"%s\".",
 	"show more": "Показать больше",
 	"show less": "Показать меньше",
-	"development diary": "Дневник разработчиков"
+	"development diary": "Дневник разработчиков",
+	"insert image dialog title": "Вставить изображение",
+	"insert": "Вставить",
+	"add link dialog title": "Добавить ссылку",
+	"format as paragraph": "Абзац"
 }
