@@ -37,13 +37,14 @@ const markdownSchema = new Schema({
           "details",
           {
             open: "true",
-            class: "content-warning",
+            class: "content-warning"
           },
           [
             "summary",
             {
               class: "content-warning-notice",
-              style: "pointer-events:none;"
+              style: "pointer-events:none;user-select:none;-moz-user-select:none;",
+              contenteditable: "false"
             },
             node.attrs.message
           ],
