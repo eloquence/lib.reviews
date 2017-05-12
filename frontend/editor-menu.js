@@ -30,7 +30,7 @@ liftItem.spec.title = msg('decrease item indentation');
 //   removeRow
 // } = require("prosemirror-schema-table");
 const { NodeSelection, TextSelection } = require("prosemirror-state");
-const { toggleMark } = require("prosemirror-commands");
+const { toggleMark, wrapIn } = require("prosemirror-commands");
 const { wrapInList } = require("prosemirror-schema-list");
 const { TextField, openPrompt } = require("./editor-prompt");
 
@@ -164,6 +164,32 @@ function fullScreenItem() {
         this.enabled = false;
       }
       view.updateState(state);
+    }
+  });
+}
+
+function formatCustomWarningItem(nodeType) {
+  return new MenuItem({
+    title: msg('format as custom warning help'),
+    label: msg('format as custom warning'),
+    run(state, dispatch, view) {
+      let prompt = {
+        view,
+        title: msg('format as custom warning dialog title'),
+        fields: {
+          message: new TextField({
+            label: msg('custom warning text'),
+            required: true
+          })
+        },
+        callback(attrs) {
+          // Used to translate node back into markdown
+          attrs.markup = `warning ${attrs.message}`;
+          wrapIn(nodeType, attrs)(state, dispatch);
+          view.focus();
+        }
+      };
+      openPrompt(prompt);
     }
   });
 }
@@ -334,6 +360,7 @@ function buildMenuItems(schema) {
       label: msg('format as nsfw'),
       attrs: { markup: 'nsfw', message: msg('nsfw warning') }
     });
+    r.formatCustomWarning = formatCustomWarningItem(type);
   }
 
   if (type = schema.nodes.heading)
@@ -372,7 +399,7 @@ function buildMenuItems(schema) {
     label: msg('insert'),
     title: msg('insert help')
   });
-  r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.formatSpoilerWarning, r.formatNSFWWarning, r.makeHead1 && new DropdownSubmenu(cut([
+  r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.formatSpoilerWarning, r.formatNSFWWarning, r.formatCustomWarning, r.makeHead1 && new DropdownSubmenu(cut([
     r.makeHead1, r.makeHead2, r.makeHead3, r.makeHead4, r.makeHead5, r.makeHead6
   ]), { label: msg('format as heading') })]), { label: msg('format block'), title: msg('format block help') });
   // let tableItems = cut([r.addRowBefore, r.addRowAfter, r.removeRow, r.addColumnBefore, r.addColumnAfter, r.removeColumn]);
