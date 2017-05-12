@@ -230,9 +230,11 @@ function linkItem(markType) {
         callback(attrs) {
           // Transform selected text into link
           toggleMark(markType, attrs)(view.state, view.dispatch);
-          // Advance cursor to head of text selection
-          let head = view.state.selection.$head;
-          view.dispatch(view.state.tr.setSelection(TextSelection.between(head, head)));
+          // Advance cursor to end of selection (not necessarily head,
+          // depending on selection direction)
+          let rightmost = view.state.selection.$anchor.pos > view.state.selection.$head.pos ?
+              view.state.selection.$anchor : view.state.selection.$head;
+          view.dispatch(view.state.tr.setSelection(TextSelection.between(rightmost, rightmost)));
           // Disable link mark so user can now type normally again
           toggleMark(markType, attrs)(view.state, view.dispatch);
           view.focus();
