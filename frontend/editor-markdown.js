@@ -24,12 +24,18 @@ md.use(container, 'warning', {
   validate: params => /^(spoiler|nsfw)$/.test(params.trim()) || /^warning\s+\S{1}.*$/.test(params.trim())
 });
 
-// Customize the schema to add a new node type that ProseMirror can understand
+// Customize the schema to add a new node type that ProseMirror can understand.
+// We treat 'warning' as a top-level group to prevent warnings from being
+// nested.
 const markdownSchema = new Schema({
-  nodes: schema.spec.nodes.append({
+  nodes: schema.spec.nodes
+  .update('doc', {
+    content: '(paragraph | block | warning)+'
+  })
+  .append({
     container_warning: {
       content: "block+",
-      group: "block",
+      group: "warning",
       attrs: { message: { default: "" }, markup: { default: "" } },
       parseDOM: [{ tag: "details" }],
       toDOM(node) {

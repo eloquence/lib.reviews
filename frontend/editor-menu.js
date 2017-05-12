@@ -190,6 +190,9 @@ function formatCustomWarningItem(nodeType) {
         }
       };
       openPrompt(prompt);
+    },
+    select(state) {
+      return wrapIn(nodeType)(state);
     }
   });
 }
