@@ -7,6 +7,7 @@ const msgArr = [
   'insert',
   'insert horizontal rule',
   'insert horizontal rule help',
+  'insert help',
   'image url',
   'image alt text',
   'add or remove link',
