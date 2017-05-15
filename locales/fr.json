@@ -91,7 +91,7 @@
 	"unexpected form data": "Nous avons reçu des données non attendues lors de votre envoi. Cela peut provenir d’une erreur de codage de notre part, ou de la vôtre. Désolé pour la gêne occasionnée.",
 	"live preview": "Aperçu en direct",
 	"byline": "Écrit par %1$s sur <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Afficher l’aperçu de votre critique de",
+	"preview of": "Afficher l’aperçu de votre critique de %s",
 	"got it": "C’est bon !",
 	"invalid star rating": "La note envoyée, '%s', n’est pas valide.",
 	"review title too long": "Le titre de la critique envoyé est trop long.",

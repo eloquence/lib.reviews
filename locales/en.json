@@ -80,7 +80,7 @@
     "unexpected form data": "We received unexpected data as part of your submission. This may be a coding error on our end, or on yours. Sorry for the inconvenience.",
     "live preview": "Live preview",
     "byline": "Written by %1$s on <span id='preview-review-byline-date'>%2$s</span>",
-    "preview of": "Previewing your review of ",
+    "preview of": "Previewing your review of %s",
     "got it": "Got it!",
     "invalid star rating": "The submitted rating, '%s', is not valid.",
     "review title too long": "The submitted review title is too long.",

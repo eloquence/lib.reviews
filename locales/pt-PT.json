@@ -86,7 +86,7 @@
 	"unexpected form data": "Recebemos dados inesperados através do formulário submetido. Pode tratar-se de um erro de codificação, se responsabilidade sua ou nossa. Lamentamos a inconveniência.",
 	"live preview": "Antevisão de página",
 	"byline": "Escrita por %1$s a <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "A pré-visualizar a sua crítica de",
+	"preview of": "A pré-visualizar a sua crítica de %s",
 	"got it": "Entendido!",
 	"invalid star rating": "A classificação atribuída, '%s', não é válida.",
 	"review title too long": "O título da crítica é demasiado longo.",

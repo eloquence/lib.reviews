@@ -89,7 +89,7 @@
 	"unexpected form data": "Hemos recibido algunos datos imprevistos junto con tu envío. Esto podría deberse a un error de programación de nuestro lado o del tuyo. Sentimos las molestias.",
 	"live preview": "Previsualización instantánea",
 	"byline": "Escrita por %1$s el <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Previsualización de tu reseña de",
+	"preview of": "Previsualización de tu reseña de %s",
 	"got it": "Entendido",
 	"invalid star rating": "La calificación enviada, «%s», no es válida.",
 	"review title too long": "El título de la reseña enviado es demasiado largo.",

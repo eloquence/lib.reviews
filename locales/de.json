@@ -87,7 +87,7 @@
 	"unexpected form data": "Die Formulardaten enthielten unerwartete Daten.",
 	"live preview": "Live-Vorschau",
 	"byline": "Geschrieben von %1$s am <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Vorschau deiner Rezension von",
+	"preview of": "Vorschau deiner Rezension von %s",
 	"got it": "Alles klar!",
 	"invalid star rating": "Die Bewertung '%s' ist ungültig.",
 	"review title too long": "Der Rezensionstitel ist zu lang.",

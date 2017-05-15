@@ -86,7 +86,7 @@
 	"unexpected form data": "Generic error when a form is submitted with unexpected data",
 	"live preview": "Label for checkbox that toggles preview as the user creates content",
 	"byline": "Byline shown under a review. %1$s is replaced with username link, %2$s is replaced with date.",
-	"preview of": "Headline that is shown above the preview contents of a review",
+	"preview of": "Headline that is shown above the preview contents of a review. %s is substituted with the URL or label of the review subject.",
 	"got it": "Button for dismissing a notice without additional action\n{{Identical|Got it}}",
 	"invalid star rating": "Error that is shown if a user submits a form with an invalid rating",
 	"review title too long": "Error that is shown if a user submits a form with text that is too long for the given field",

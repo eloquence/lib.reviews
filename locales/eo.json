@@ -86,7 +86,7 @@
 	"unexpected form data": "Ni ricevis neatenditan datumon kiel parto de via sendo. Tio ĉi povas esti programada eraro de ni aŭ de vi. Pardonu por la ĝeno.",
 	"live preview": "Dumredakta antaŭrigardo",
 	"byline": "Skribita de %1$s je <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Antaŭvidante vian recenzon pri",
+	"preview of": "Antaŭvidante vian recenzon pri %s",
 	"got it": "Komprenite!",
 	"invalid star rating": "La takso sendita, '%s', ne validas.",
 	"review title too long": "La titolo de recenzo sendita estas tro longa.",

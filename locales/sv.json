@@ -86,7 +86,7 @@
 	"unexpected form data": "Vi fick oväntad data som en del av din inlämning. Detta kan vara ett kodningsfel hos oss, eller hos dig. Beklagar besväret.",
 	"live preview": "Direktförhandsvisning",
 	"byline": "Skriven av %1$s den <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Förhandsvisar din recension av",
+	"preview of": "Förhandsvisar din recension av %s",
 	"got it": "Uppfattat!",
 	"invalid star rating": "Det inskickade betyget \"%s\" är inte giltigt.",
 	"review title too long": "Den angivna recensionsrubriken är för lång.",

@@ -8,7 +8,7 @@
 </div>
 {{#if isPreview}}
 <div id="preview-contents">
-<h2 id="preview-review-url" {{#unless formValues.url}}class="hidden"{{/unless}}><span id="preview-review-url-label">{{{__ "preview of"}}}</span> <a href="{{{formValues.url}}}" id="preview-review-url-link" target="_blank">{{prettify formValues.url}}</a></h2>
+<h2 id="preview-review-url" {{#unless formValues.url}}class="hidden"{{/unless}}><span id="preview-review-url-label">{{{__ "preview of" (link formValues.url (prettify formValues.url))}}}</span></h2>
 <h2 id="preview-review-title">{{{mlString formValues.title}}}</h2>
 <span id="preview-review-rating">
 {{#times formValues.starRating}}

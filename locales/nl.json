@@ -88,7 +88,7 @@
 	"unexpected form data": "Wij hebben onverwachte gegevens ontvangen als onderdeel van uw aanvraag. Dit kan een coderingsfout aan onze kant zijn, of aan de uwe. Excuses voor het ongemak.",
 	"live preview": "Live voorvertoning",
 	"byline": "Geschreven door %1$s op <span id=\"preview-review-byline-date\">%2$s</span>",
-	"preview of": "Voorbeeld van uw beoordeling van",
+	"preview of": "Voorbeeld van uw beoordeling van %s",
 	"got it": "Begrepen!",
 	"invalid star rating": "De opgegeven waardering, \"%s\" is niet geldig.",
 	"review title too long": "De opgegeven naam voor de beoordeling is te lang.",
