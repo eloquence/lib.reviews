@@ -110,7 +110,7 @@
         <select id="language-select" name="lang" accesskey="l" title="{{{__ "accesskey" "l"}}}">
           {{#each languageNames}}
             {{#unless this.isCurrentLanguage}}
-            <option value="{{this.langKey}}">{{this.langKey}} &ndash; {{{__ this.name}}}</option>
+            <option value="{{this.langKey}}">{{this.langKey}} &ndash; {{{this.name}}}</option>
             {{/unless}}
           {{/each}}
         </select>
