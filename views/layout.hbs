@@ -37,7 +37,7 @@
       </div>
         <div class="pure-u-1-1 pure-u-md-1-2">
             {{#if user}}
-                <ul id="user-menu">
+                <ul id="user-menu" class="no-print">
 
                     <li><a id="user-link" href="/user/{{user.urlName}}"><span class="fa fa-fw fa-user menu-icon">&nbsp;</span>{{user.displayName}}</a>
                       {{#if user.inviteLinkCount}}
@@ -55,7 +55,7 @@
 
                 </ul>
             {{else}}
-                <ul id="user-menu">
+                <ul id="user-menu" class="no-print">
                     <li><a href="/signin" class="pure-button pure-button-primary button-rounded" accesskey="i" title="{{{__ "accesskey" "i"}}}">{{{__ "sign in"}}}</a>
                         <li><a href="/register" class="pure-button button-rounded">{{{__ "register"}}}</a>
                 </ul>
@@ -63,7 +63,7 @@
         </div>
           <div class="pure-u-lg-7-24 pure-u-md-5-24">
           </div>
-          <div class="search pure-u-1-1 pure-u-lg-10-24 pure-u-md-14-24">
+          <div class="search pure-u-1-1 pure-u-lg-10-24 pure-u-md-14-24 no-print">
             <form class="pure-form search-form" autocomplete="off" action="/actions/search" method="get">
               <label for="search-input"><span class="fa fa-search"></span></label><input name="query" id="search-input" class="pure-input-rounded" accesskey="f" title="{{{__ "accesskey" "f"}}}" placeholder="{{{__ "search lib.reviews"}}}" value="{{query}}">
             </form>
@@ -100,7 +100,7 @@
 
     {{{body}}}
     </div>
-    <div id="footer">
+    <div id="footer" class="no-print">
       <form id="languages" action="/actions/change-language" class="pure-form" method="post" name="languages">
         <span id="current-language-container">
         {{__ "current language" currentLanguage.name}} &ndash;

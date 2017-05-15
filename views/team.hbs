@@ -37,7 +37,7 @@
 {{!/LINK TO ROSTER AND MODERATORS LIST}}
 {{!JOIN FORM}}
 {{#if team.userCanJoin}} {{!Show join form to logged-in users who are not members}}
-<form name="join-team" action="/team/{{{team.urlID}}}/join" method="post">
+<form name="join-team" action="/team/{{{team.urlID}}}/join" method="post" class="no-print">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <hr class="team-separator">
 {{>page_errors pageErrors=joinErrors}}
@@ -79,7 +79,7 @@
 {{!/JUST THE RULES}}
 {{!LEAVE FORM}}
 {{#if team.userCanLeave}}
-<form name="leave-team" action="/team/{{{team.urlID}}}/leave" method="POST">
+<form name="leave-team" action="/team/{{{team.urlID}}}/leave" class="no-print" method="POST">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <button class="pure-button pure-button-primary button-rounded" type="submit" name="team-action" value="leave">{{{__ "leave team"}}}</button>
 </form>
@@ -88,11 +88,11 @@
 <p>
 {{!EDIT/DELETE}}
 {{#if team.userCanEdit}}
-<a href="/team/{{{team.urlID}}}/edit" id="edit-team" class="pure-button button-rounded edit-button" accesskey="e" title="{{{__ "accesskey" "e"}}}"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>{{{__ "edit"}}}</a>
+<a href="/team/{{{team.urlID}}}/edit" id="edit-team" class="no-print pure-button button-rounded edit-button" accesskey="e" title="{{{__ "accesskey" "e"}}}"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>{{{__ "edit"}}}</a>
 {{/if}}
 {{#if team.userCanDelete}}
 {{#unless deleteForm}}
-<a href="/team/{{{team.urlID}}}/delete" id="edit-team" class="pure-button button-rounded edit-button" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-fw fa-trash-o spaced-icon">&nbsp;</span>{{{__ "delete"}}}</a>
+<a href="/team/{{{team.urlID}}}/delete" id="edit-team" class="no-print pure-button button-rounded edit-button" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-fw fa-trash-o spaced-icon">&nbsp;</span>{{{__ "delete"}}}</a>
 {{/unless}}
 {{/if}}
 </div>
@@ -102,7 +102,7 @@
 <div class="pure-u-1 pure-u-md-1-2">
 <div class="headline-with-link">
 <h2 class="inline-feed-headline">{{{__ "latest review"}}}</h2>{{#if team.reviews}}
-<span class="view-all-link"><a href="/team/{{{team.urlID}}}/feed">{{{__ "view all"}}}</a></span>{{/if}}
+<span class="view-all-link no-print"><a href="/team/{{{team.urlID}}}/feed">{{{__ "view all"}}}</a></span>{{/if}}
 </div>
 <p>
 {{#if team.reviews}}
@@ -114,7 +114,7 @@
 {{!/SECOND COLUMN: REVIEWS}}
 {{!SECOND COLUMN: BLOG POSTS}}
 <div class="team-blog">
-<h2 class="inline-feed-headline">{{{__ "latest blog posts"}}}</h2>{{#if blogPosts}}<span class="view-all-link"><a href="/team/{{{team.urlID}}}/blog">{{{__ "view all"}}}</a></span>{{/if}}
+<h2 class="inline-feed-headline">{{{__ "latest blog posts"}}}</h2>{{#if blogPosts}}<span class="view-all-link no-print"><a href="/team/{{{team.urlID}}}/blog">{{{__ "view all"}}}</a></span>{{/if}}
 <p>
 {{>blog_feed}}
 </div>
