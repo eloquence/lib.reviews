@@ -464,7 +464,7 @@ function sendThing(req, res, thing, options) {
     scripts: ['upload.js']
   }, {
     messages: {
-      "one file selected": req.__('1 file selected'),
+      "one file selected": req.__('one file selected'),
       "files selected": req.__('files selected')
     }
   });
