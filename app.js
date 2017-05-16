@@ -66,6 +66,7 @@ function getApp(db = require('./db')) {
       cookie: 'locale',
       autoReload: true,
       updateFiles: false,
+      retryInDefaultLocale: true,
       directory: __dirname + '/locales'
     });
 
