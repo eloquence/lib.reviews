@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"BanKris",
-			"Tacsipacsi"
+			"Tacsipacsi",
+			"Urbalazs"
 		]
 	},
 	"site name": "lib.reviews",
@@ -86,7 +87,7 @@
 	"unexpected form data": "Váratlan adatokat kaptunk a beküldésed részeként. Ez lehet, hogy kódolási hiba, vagy a tiéd. Elnézést a kellemetlenségekért.",
 	"live preview": "Élő értékelés",
 	"byline": "Írta %1$s itt <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Az értékelésed elölnézete",
+	"preview of": "%s értékelésed elölnézete",
 	"got it": "Értettem!",
 	"invalid star rating": "A benyújtott minősítés, '%s', nem érvényes.",
 	"review title too long": "A benyújtott értékelés címe túl hosszú.",

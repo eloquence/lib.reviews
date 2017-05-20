@@ -5,7 +5,8 @@
 			"Kareyac",
 			"Okras",
 			"INS Pirat",
-			"Redredsonia"
+			"Redredsonia",
+			"Esukhovnina"
 		]
 	},
 	"site name": "lib.reviews",
@@ -185,5 +186,7 @@
 	"insert image dialog title": "Вставить изображение",
 	"insert": "Вставить",
 	"add link dialog title": "Добавить ссылку",
-	"format as paragraph": "Абзац"
+	"format as paragraph": "Абзац",
+	"format as custom warning": "обычное предупреждение",
+	"custom warning text": "обычный предупреждающий текст"
 }

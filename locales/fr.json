@@ -7,7 +7,8 @@
 			"Wladek92",
 			"Eloquence",
 			"Derugon",
-			"Urhixidur"
+			"Urhixidur",
+			"Thibaut120094"
 		]
 	},
 	"site name": "lib.reviews",
@@ -91,7 +92,7 @@
 	"unexpected form data": "Nous avons reçu des données non attendues lors de votre envoi. Cela peut provenir d’une erreur de codage de notre part, ou de la vôtre. Désolé pour la gêne occasionnée.",
 	"live preview": "Aperçu en direct",
 	"byline": "Écrit par %1$s sur <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Afficher l’aperçu de votre critique de %s",
+	"preview of": "Afficher l’aperçu de votre relecture concernant %s",
 	"got it": "C’est bon !",
 	"invalid star rating": "La note envoyée, '%s', n’est pas valide.",
 	"review title too long": "Le titre de la critique envoyé est trop long.",
@@ -410,6 +411,14 @@
 	"format as heading": "Titre",
 	"format as level heading help": "Formater en tant que titre de niveau %d",
 	"format as level heading": "Niveau %d",
+	"format as spoiler": "Spoiler",
+	"format as spoiler help": "Formater en tant que spoiler (masqué avec avertissement)",
+	"format as nsfw": "Contenu adulte ou explicite",
+	"format as nsfw help": "Formater en tant que contenu adulte ou explicite (masqué avec avertissement)",
+	"format as custom warning": "Avertissement personnalisé",
+	"format as custom warning help": "Formater en tant que texte masqué avec un avertissement personnalisé",
+	"format as custom warning dialog title": "Entrez une description pour le contenu masqué :",
+	"custom warning text": "Texte d'avertissement personnalisé",
 	"undo": "Annuler la dernière modification",
 	"redo": "Re-appliquer la dernière modification",
 	"join with item above": "Relier à l'élément ci-dessus",
