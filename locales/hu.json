@@ -373,5 +373,7 @@
 		"one": "Egy megfelelő értékelés:",
 		"other": "%s megfelelő értékelés:"
 	},
-	"search help": "Keresési javaslatok: <ul><li>Kizárhatsz kifejezéseket a <code class='hl'>-</code> jellel, pl.: <code class='hl'>almák -narancsok</code>.<li>Szó szerint is rákereshetsz egy kifejezésre <code class='hl'>\"idézőjelek\"</code> használatával.<li>Használhatsz helyettesítő karaktereket a szavak végén, hogy több szó is megfeleljen, pl.: <code class='hl'>Liz*</code> esetén a Liz és a Lizzy szavak is meg fognak felelni.</ul>"
+	"search help": "Keresési javaslatok: <ul><li>Kizárhatsz kifejezéseket a <code class='hl'>-</code> jellel, pl.: <code class='hl'>almák -narancsok</code>.<li>Szó szerint is rákereshetsz egy kifejezésre <code class='hl'>\"idézőjelek\"</code> használatával.<li>Használhatsz helyettesítő karaktereket a szavak végén, hogy több szó is megfeleljen, pl.: <code class='hl'>Liz*</code> esetén a Liz és a Lizzy szavak is meg fognak felelni.</ul>",
+	"remember rte preference": "Beállítás megjegyzése a Rich-text szerkesztőnél",
+	"forget rte preference": "Beállítás elfelejtése a Rich-text szerkesztőnél"
 }
