@@ -415,5 +415,7 @@
    "ok": "OK",
    "remember rte preference": "Remember preference for rich-text editor",
    "forget rte preference": "Forget preference for rich-text editor",
-   "full screen mode": "Toggle full-screen mode"
+   "full screen mode": "Toggle full-screen mode",
+   "not a member of team title": "Not a member of this team",
+   "not a member of team": "You are not a member of <a href='%s'>this team</a>. Please join the team in order to associate reviews with it."
 }

@@ -21,6 +21,11 @@ routes.addFromThing = {
   methods: ['GET', 'POST']
 };
 
+routes.addFromTeam = {
+  path: '/team/:id/new/review',
+  methods: ['GET', 'POST']
+};
+
 let router = ReviewProvider.bakeRoutes(null, routes);
 
 // Additional routes
@@ -121,6 +126,5 @@ router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler({ deferPage
 router.get('/new', (req, res) => {
   res.redirect('/new/review');
 });
-
 
 module.exports = router;

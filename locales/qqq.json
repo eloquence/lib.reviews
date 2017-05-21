@@ -406,5 +406,7 @@
 	"ok": "Label for the button to confirm a dialog in the rich-text editor\n{{Identical|OK}}",
 	"remember rte preference": "Tooltip for the pin that is shown next to the rich-text editor mode switcher to let the user make the preference 'sticky'.",
 	"forget rte preference": "Tooltip for the pin that is shown next to the rich-text editor mode switcher to go back to the default markdown editor.",
-	"full screen mode": "Tooltip for the button that switches into full screen mode in the rich-text editor."
+	"full screen mode": "Tooltip for the button that switches into full screen mode in the rich-text editor.",
+	"not a member of team title": "Title for the page that is shown when the user attempts to access the form to create a new review for a given team, but is not a member of said team.",
+	"not a member of team": "Body for the page that is shown when the user attempts to access the form to create a new review for a given team, but is not a member of said team."
 }

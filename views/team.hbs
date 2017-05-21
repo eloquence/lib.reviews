@@ -105,10 +105,15 @@
 <span class="view-all-link no-print"><a href="/team/{{{team.urlID}}}/feed">{{{__ "view all"}}}</a></span>{{/if}}
 </div>
 <p>
+{{#unless team.reviews}}
+{{{__ "no reviews for team"}}}
+<p>
+{{/unless}}
+{{#if team.userIsMember}}
+<a href="/team/{{team.urlID}}/new/review" id="write-review" class="pure-button button-rounded edit-button"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>{{{__ "write a review"}}}</a><p>
+{{/if}}
 {{#if team.reviews}}
 {{>feed feedItems=team.reviews teamFeed=true}}
-{{else}}
-{{{__ "no reviews for team"}}}
 {{/if}}
 <p>
 {{!/SECOND COLUMN: REVIEWS}}

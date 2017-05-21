@@ -34,6 +34,14 @@ class ReviewProvider extends AbstractBREADProvider {
       preFlightChecks: [this.userIsSignedIn]
     };
 
+    this.actions.addFromTeam = {
+      GET: this.addFromTeam_GET,
+      POST: this.addFromTeam_POST,
+      loadData: this.loadTeam,
+      titleKey: 'new review',
+      preFlightChecks: [this.userIsSignedIn]
+    };
+
 
   }
 
@@ -113,6 +121,34 @@ class ReviewProvider extends AbstractBREADProvider {
         this.add_GET(undefined, thing);
       })
       .catch(this.next);
+
+  }
+
+  addFromTeam_GET(team) {
+
+    team.populateUserInfo(this.req.user);
+    if (!team.userIsMember) {
+      this.res.status(403);
+      this.renderResourceError({
+        titleKey: 'not a member of team title',
+        bodyKey: 'not a member of team',
+        bodyParam: `/team/${team.urlID}`
+      });
+    } else {
+      let formValues = {
+        teams: [team]
+      };
+      return this.add_GET(formValues);
+    }
+
+  }
+
+  addFromTeam_POST(_team) {
+
+    // Standard submission has checks against submitting from team you're not
+    // a member of, so we don't have to check again here. The loaded team itself
+    // will be passed along through the form, so we don't need to pass it here.
+    return this.add_POST();
 
   }
 
@@ -212,6 +248,11 @@ class ReviewProvider extends AbstractBREADProvider {
     this.messageKeyPrefix = 'thing';
     return slugs.resolveAndLoadThing(this.req, this.res, this.id);
 
+  }
+
+  loadTeam() {
+    this.messageKeyPrefix = 'team';
+    return slugs.resolveAndLoadTeam(this.req, this.res, this.id);
   }
 
 
