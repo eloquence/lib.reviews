@@ -62,7 +62,12 @@
 </div>
 </div>
 <div class="pure-u-1 pure-u-md-1-2">
+<div class="headline-with-link">
 <h2 class="inline-feed-headline">{{{__ "feed"}}}</h2>
+{{#if feedItems}}
+<span class="view-all-link no-print"><a href="/user/{{{userInfo.urlName}}}/feed">{{{__ "view all"}}}</a></span>
+{{/if}}
+</div>
 <p>
 {{#if feedItems}}
 {{>feed userFeed=true}}
