@@ -3,7 +3,8 @@
 		"authors": [
 			"NMaia",
 			"HenriqueCrang",
-			"Maxan"
+			"Maxan",
+			"Walesson"
 		]
 	},
 	"site name": "lib.reviews",
@@ -406,6 +407,10 @@
 	"format as heading": "Cabeçalho",
 	"format as level heading help": "Formatar como nível de cabeçalho %d",
 	"format as level heading": "Nível %d",
+	"format as custom warning": "Aviso personalizado",
+	"format as custom warning help": "Formatar como texto recolhido com aviso personalizado",
+	"format as custom warning dialog title": "Insira a descrição do conteúdo recolhido:",
+	"custom warning text": "Texto de aviso personalizado",
 	"undo": "Desfazer a última mudança",
 	"redo": "Refazer a última mudança",
 	"join with item above": "Unir com o ponto anterior",

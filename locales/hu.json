@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"BanKris",
-			"Tacsipacsi"
+			"Tacsipacsi",
+			"Urbalazs"
 		]
 	},
 	"site name": "lib.reviews",
@@ -86,7 +87,7 @@
 	"unexpected form data": "Váratlan adatokat kaptunk a beküldésed részeként. Ez lehet, hogy kódolási hiba, vagy a tiéd. Elnézést a kellemetlenségekért.",
 	"live preview": "Élő értékelés",
 	"byline": "Írta %1$s itt <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "Az értékelésed elölnézete",
+	"preview of": "%s értékelésed elölnézete",
 	"got it": "Értettem!",
 	"invalid star rating": "A benyújtott minősítés, '%s', nem érvényes.",
 	"review title too long": "A benyújtott értékelés címe túl hosszú.",
@@ -372,5 +373,7 @@
 		"one": "Egy megfelelő értékelés:",
 		"other": "%s megfelelő értékelés:"
 	},
-	"search help": "Keresési javaslatok: <ul><li>Kizárhatsz kifejezéseket a <code class='hl'>-</code> jellel, pl.: <code class='hl'>almák -narancsok</code>.<li>Szó szerint is rákereshetsz egy kifejezésre <code class='hl'>\"idézőjelek\"</code> használatával.<li>Használhatsz helyettesítő karaktereket a szavak végén, hogy több szó is megfeleljen, pl.: <code class='hl'>Liz*</code> esetén a Liz és a Lizzy szavak is meg fognak felelni.</ul>"
+	"search help": "Keresési javaslatok: <ul><li>Kizárhatsz kifejezéseket a <code class='hl'>-</code> jellel, pl.: <code class='hl'>almák -narancsok</code>.<li>Szó szerint is rákereshetsz egy kifejezésre <code class='hl'>\"idézőjelek\"</code> használatával.<li>Használhatsz helyettesítő karaktereket a szavak végén, hogy több szó is megfeleljen, pl.: <code class='hl'>Liz*</code> esetén a Liz és a Lizzy szavak is meg fognak felelni.</ul>",
+	"remember rte preference": "Beállítás megjegyzése a Rich-text szerkesztőnél",
+	"forget rte preference": "Beállítás elfelejtése a Rich-text szerkesztőnél"
 }
