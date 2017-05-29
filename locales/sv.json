@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"WikiPhoenix",
-			"Ainali"
+			"Ainali",
+			"Skalman"
 		]
 	},
 	"site name": "lib.reviews",
@@ -405,6 +406,14 @@
 	"format as heading": "Rubrik",
 	"format as level heading help": "Formatera som rubriknivå %d",
 	"format as level heading": "Nivå %d",
+	"format as spoiler": "Spoiler",
+	"format as spoiler help": "Formatera som spoiler (hopfälld med varning)",
+	"format as nsfw": "Inte lämplig för arbetsplatser",
+	"format as nsfw help": "Formatera som olämplig för arbetsplatser (hopfälld med varning)",
+	"format as custom warning": "Anpassad varning",
+	"format as custom warning help": "Formatera som hopfälld text med anpassad varning",
+	"format as custom warning dialog title": "Ange beskrivningen för hopfällt innehåll:",
+	"custom warning text": "Anpassad varningstext",
 	"undo": "Ångra senaste ändring",
 	"redo": "Gör om senaste ändring",
 	"join with item above": "Slå samman med elementet ovan",
@@ -413,5 +422,7 @@
 	"ok": "OK",
 	"remember rte preference": "Kom ihåg inställning för rich-text-redigeraren",
 	"forget rte preference": "Glöm inställning för rich-text-redigeraren",
-	"full screen mode": "Växla helskärmsläge"
+	"full screen mode": "Växla helskärmsläge",
+	"not a member of team title": "Inte medlem i denna grupp",
+	"not a member of team": "Du är inte medlem i <a href='%s'>denna grupp</a>. Gå med i gruppen för att associera recensioner med den."
 }

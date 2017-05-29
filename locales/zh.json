@@ -420,5 +420,7 @@
 	"ok": "确定",
 	"remember rte preference": "为富文本编辑器记住参数设置",
 	"forget rte preference": "为富文本编辑器忘记参数设置",
-	"full screen mode": "切换为全屏模式"
+	"full screen mode": "切换为全屏模式",
+	"not a member of team title": "不是此团队的成员",
+	"not a member of team": "您并不是<a href='%s'>此团队</a>的成员。为了将审查与该团队相关联，请加入该团队。"
 }

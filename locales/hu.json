@@ -3,7 +3,8 @@
 		"authors": [
 			"BanKris",
 			"Tacsipacsi",
-			"Urbalazs"
+			"Urbalazs",
+			"Csigabi"
 		]
 	},
 	"site name": "lib.reviews",
@@ -87,7 +88,7 @@
 	"unexpected form data": "Váratlan adatokat kaptunk a beküldésed részeként. Ez lehet, hogy kódolási hiba, vagy a tiéd. Elnézést a kellemetlenségekért.",
 	"live preview": "Élő értékelés",
 	"byline": "Írta %1$s itt <span id='preview-review-byline-date'>%2$s</span>",
-	"preview of": "%s értékelésed elölnézete",
+	"preview of": "%s értékelésed előnézete",
 	"got it": "Értettem!",
 	"invalid star rating": "A benyújtott minősítés, '%s', nem érvényes.",
 	"review title too long": "A benyújtott értékelés címe túl hosszú.",
@@ -313,7 +314,7 @@
 	"cc-by-sa": "Creative Commons Nevezd meg! - Így add tovább! licenc (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
 	"unsupported file type": "'%1$s' fájl '%2$s' típusú, amely nem támogatott.",
 	"unrecognized file type": "Nem ismerjük a(z) '%s' fájl típusát és ezért nem tudjuk elfogadni.",
-	"mime mismatch": "'%1$s' fájl MIME típusának '%2$s' típusnak kéne lennie, de '%3$s' típusnak tűnik.",
+	"mime mismatch": "A(z) '%1$s' fájlnak '%2$s' MIME-típusúnak kellene lennie, de '%3$s' típusúnak tűnik.",
 	"not valid svg": "'%s' fájl nem tűnik érvényes SVG fájlnak.",
 	"upload needs description": "Szükségünk van a(z) '%s' fájl leírására.",
 	"upload needs creator": "Szükségünk van információra a(z) '%s' fájl készítőjéről.",

@@ -422,5 +422,7 @@
 	"ok": "OK",
 	"remember rte preference": "Einstellung für den Rich-Text-Editor merken",
 	"forget rte preference": "Einstellung für den Rich-Text-Editor vergessen",
-	"full screen mode": "Vollbildmodus umschalten"
+	"full screen mode": "Vollbildmodus umschalten",
+	"not a member of team title": "Kein Mitglied dieses Teams",
+	"not a member of team": "Du bist kein Mitglied <a href='%s'>dieses Teams</a>. Bitte trete dem Team bei, um Rezensionen mit dem Team zu verknüpfen."
 }

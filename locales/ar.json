@@ -281,5 +281,7 @@
 	"redo": "تكرار أخر تعديل",
 	"decrease item indentation": "إنقاص المحاذاة",
 	"required field": "حقل مطلوب",
-	"ok": "موافق"
+	"ok": "موافق",
+	"not a member of team title": "لست عضوا في هذا الفريق",
+	"not a member of team": "أنت لست عضوا في <a href='%s'>هذا الفريق</a>. فضلا اشترك أولا بهذا الفريق لتصبح قادرا على المراجعة ضمنهم."
 }

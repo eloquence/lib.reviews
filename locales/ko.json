@@ -174,5 +174,6 @@
 	"join with item above": "위의 항목에 추가",
 	"decrease item indentation": "들여쓰기 낮추기",
 	"required field": "필수 필드",
-	"ok": "확인"
+	"ok": "확인",
+	"not a member of team title": "이 팀의 일원이 아닙니다"
 }

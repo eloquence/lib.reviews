@@ -421,5 +421,7 @@
 	"ok": "確定",
 	"remember rte preference": "記住用於多文字編輯器的偏好設定",
 	"forget rte preference": "捨棄用於多文字編輯器的偏好設定",
-	"full screen mode": "切換成全螢幕模式"
+	"full screen mode": "切換成全螢幕模式",
+	"not a member of team title": "不是此團隊的成員",
+	"not a member of team": "您不是<a href='%s'>此團隊</a>的成員。請加入該團隊來將評論與此相關。"
 }

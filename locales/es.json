@@ -424,5 +424,7 @@
 	"ok": "Aceptar",
 	"remember rte preference": "Recordar la preferencia por el editor de texto enriquecido",
 	"forget rte preference": "Olvidar la preferencia por el editor de texto enriquecido",
-	"full screen mode": "Activar o desactivar pantalla completa"
+	"full screen mode": "Activar o desactivar pantalla completa",
+	"not a member of team title": "No eres miembro de este equipo",
+	"not a member of team": "No eres miembro de <a href='%s'>este equipo</a>. Únete al equipo para poder asociar reseñas a él."
 }

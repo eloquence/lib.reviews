@@ -373,5 +373,6 @@
 	"undo": "Annulla l'ultima modifica",
 	"decrease item indentation": "Riduci indentazione",
 	"required field": "Campo obbligatorio",
-	"ok": "OK"
+	"ok": "OK",
+	"not a member of team title": "Non è un membro di questo team"
 }
