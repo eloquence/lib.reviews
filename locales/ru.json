@@ -6,7 +6,8 @@
 			"Okras",
 			"INS Pirat",
 			"Redredsonia",
-			"Esukhovnina"
+			"Esukhovnina",
+			"ЛосЯш"
 		]
 	},
 	"site name": "lib.reviews",
@@ -187,6 +188,7 @@
 	"insert": "Вставить",
 	"add link dialog title": "Добавить ссылку",
 	"format as paragraph": "Абзац",
+	"format as spoiler": "Спойлер",
 	"format as custom warning": "обычное предупреждение",
 	"custom warning text": "обычный предупреждающий текст"
 }
