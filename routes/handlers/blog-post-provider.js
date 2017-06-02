@@ -156,7 +156,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
   edit_GET(team) {
     BlogPost
-      .get(this.postID)
+      .getWithCreator(this.postID)
       .then(blogPost => {
 
         if (!this.userCanEditPost(blogPost))
@@ -171,7 +171,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
   edit_POST(team) {
     BlogPost
-      .get(this.postID)
+      .getWithCreator(this.postID)
       .then(blogPost => {
 
         if (!this.userCanEditPost(blogPost))
@@ -232,6 +232,7 @@ class BlogPostProvider extends AbstractBREADProvider {
 
     postObj.createdBy = this.req.user.id;
     postObj.createdOn = new Date();
+    postObj.creator = this.req.user;
     postObj.teamID = team.id;
 
     // We're previewing or have basic problems with the submission -- back to form

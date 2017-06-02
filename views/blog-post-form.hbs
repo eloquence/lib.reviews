@@ -5,6 +5,7 @@
 <h2 id="preview-header">{{{__ "preview title"}}}</h2>
 <h3>{{{mlString formValues.title false}}}</h3>
 {{{mlString formValues.post.html false}}}
+<div id="preview-blog-post-byline">{{{__ "byline" (userLink formValues.creator) (longDate formValues.createdOn)}}}</div>
 </div>
 {{/if}}
 <form class="pure-form pure-form-stacked" id="blog-post-form" name="blog-post-form" method="post">
