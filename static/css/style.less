@@ -515,6 +515,10 @@ label.inline-star-label {
   margin-bottom: 0;
 }
 
+#preview-review-byline {
+  font-size: small;
+}
+
 a#abandon-draft, a#abandon-draft:visited {
   color: white;
   font-style: normal;
@@ -537,21 +541,33 @@ a#upload, a#upload:visited, a#upload:hover,
   font-style:normal;
 }
 
-
-#preview-review-byline, .review-byline, .blog-post-byline {
-  font-size: small;
+.content-meta {
+  font-size:small;
+  display:flex;
+  display:-webkit-flex;
+  align-items:flex-end;
+  -webkit-align-items:flex-end;
+  flex-wrap:wrap;
+  -webkit-flex-wrap:wrap;
 }
 
-.review-actions, .blog-post-actions {
-  font-size: small;
-  float: right;
-  padding-left: 2px;
-  padding-bottom: 2px;
+.review-teams-and-byline {
+  margin-right:2em;
 }
 
-.review-teams {
-  font-size: small;
+// Right-align with byline/teams info on larger screens
+@media (min-width: 35.501em) {
+
+  .content-actions {
+    margin-left:auto;
+  }
 }
+
+// Space between action spans
+.content-actions span.content-action + span {
+  margin-left:0.5em;
+}
+
 
 #preview-review-text h1, .review-text h1, .rte-container h1 {
   font-size: 1.3em;
@@ -588,7 +604,7 @@ hr.feed-separator, hr.team-separator {
   font-weight: bold;
 }
 
-.review-action, .blog-post-action {
+.content-action {
   white-space: nowrap;
 }
 

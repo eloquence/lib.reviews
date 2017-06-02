@@ -26,31 +26,39 @@
 </div>
 <p>
 
-<div class="review-teams">
-  {{#if review.teams}}
-  {{{__ "posted under"}}}
-  {{#each review.teams}}
-  <a href="/team/{{this.urlID}}">{{{mlString this.name}}}</a>{{#unless @last}},{{/unless}}
-  {{/each}}
-  <br style="clear:both;">
-  {{/if}}
-</div>
+
+<div class="content-meta">
+
+  <div class="review-teams-and-byline">
+    {{!Teams, if any}}
+    <div class="review-teams">
+    {{#if review.teams}}
+    {{{__ "posted under"}}}
+    {{#each review.teams}}
+    <a href="/team/{{this.urlID}}">{{{mlString this.name}}}</a>{{#unless @last}},{{/unless}}
+    {{/each}}
+    <br style="clear:both;">
+    {{/if}}
+  </div>
+
+    {{! Date and author}}
+    <div class="review-byline">
+    {{{__ "byline" (userLink review.creator) (longDate review.createdOn)}}}
+    </div>
+  </div>
+
 {{!Review actions: Delete, edit, permanent link}}
-<div class="review-actions no-print">
+<div class="content-actions no-print">
 {{#if feed}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}"><span class="fa fa-fw fa-link">&nbsp;</span>{{{__ "permanent link"}}}</a></span>
+<span class="content-action"><a href="/review/{{review.id}}"><span class="fa fa-fw fa-link">&nbsp;</span>{{{__ "permanent link"}}}</a></span>
 {{/if}}
 {{#unless hideDeleteControls}}
 {{#if review.userCanDelete}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/delete"><span class="fa fa-fw fa-trash-o">&nbsp;</span>{{{__ "delete"}}}</a></span>
+<span class="content-action"><a href="/review/{{review.id}}/delete"><span class="fa fa-fw fa-trash-o">&nbsp;</span>{{{__ "delete"}}}</a></span>
 {{/if}}
 {{/unless}}
 {{#if review.userCanEdit}}
-&nbsp;&nbsp;<span class="review-action"><a href="/review/{{review.id}}/edit"><span class="fa fa-fw fa-pencil">&nbsp;</span>{{{__ "edit"}}}</a></span>
+<span class="content-action"><a href="/review/{{review.id}}/edit"><span class="fa fa-fw fa-pencil">&nbsp;</span>{{{__ "edit"}}}</a></span>
 {{/if}}
 </div>
-
-{{! Date and author}}
-<div class="review-byline">
-{{{__ "byline" (userLink review.creator) (longDate review.createdOn)}}}
 </div>
