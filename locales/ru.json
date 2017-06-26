@@ -7,7 +7,8 @@
 			"INS Pirat",
 			"Redredsonia",
 			"Esukhovnina",
-			"ЛосЯш"
+			"ЛосЯш",
+			"Jack who built the house"
 		]
 	},
 	"site name": "lib.reviews",
@@ -64,7 +65,7 @@
 	"publish": "Опубликовать",
 	"preview": "Предпросмотр",
 	"preview title": "Предпросмотр",
-	"add more": "Добавить ещё информации",
+	"add more": "Добавить ещё информацию",
 	"review language": "Язык этот комментарий",
 	"draft loaded": "Предыдущий неопубликованный шаблон загружен из вашего браузера.",
 	"abandon draft": "Отказаться от проекта",
