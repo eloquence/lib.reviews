@@ -33,7 +33,9 @@
 
   if (!editing) {
     $(textFields).change(hideAbandonDraft);
-    $('#review-url').change(validateURL);
+    $('#review-url').keyup(handleURLLookup);
+    $('#review-url').change(handleURLLookup);
+    $('#review-url').change(handleURLValidation);
     $('#dismiss-draft-notice').click(hideDraftNotice);
     $('#abandon-draft').click(emptyAllFormFields);
     $('#add-http').click(addHTTP);
@@ -68,23 +70,34 @@
 
   function addHTTP(event) {
     addProtocol('http');
-    $('#review-title').focus();
+    $('#review-label').focus();
     event.preventDefault();
   }
 
   function addHTTPS(event) {
     addProtocol('https');
-    $('#review-title').focus();
+    $('#review-label').focus();
     event.preventDefault();
   }
 
-  function validateURL() {
-    let maybeURL = this.value;
-    let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|\/|\?)*)?$/i;
+  function handleURLLookup() {
+    let inputURL = this.value;
+    if (validateURL(inputURL))
+      lookupThing(inputURL);
+    else {
+      // Clean out any old URL metadata and show the label field again
+      $('#resolved-url').empty();
+      $('.review-label-group').slideDown(200, window.libreviews.repaintFocusedHelp);
+    }
+  }
+
+  // Show warning and helper links as appropriate
+  function handleURLValidation() {
+    let inputURL = this.value;
     let protocolRegex = /^(https?|ftp):\/\//;
-    if (maybeURL && !urlRegex.test(maybeURL)) {
+    if (inputURL && !validateURL(inputURL)) {
       $('#review-url-error').show();
-      if (!protocolRegex.test(maybeURL)) {
+      if (!protocolRegex.test(inputURL)) {
         $('#helper-links').show();
         $('#add-https').focus();
       } else {
@@ -94,6 +107,44 @@
       $('#review-url-error').hide();
       $('#helper-links').hide();
     }
+  }
+
+  // Check if entered URL is valid; if not, show error. Offer adding HTTP/HTTPS
+  // prefix if missing.
+  function validateURL(inputURL) {
+    let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|\/|\?)*)?$/i;
+    return urlRegex.test(inputURL);
+  }
+
+  // Check if we already have a record for this URL; if so, show relevant data.
+  function lookupThing(inputURL) {
+    $.get('/api/thing', { url: inputURL })
+      .then(result => {
+
+        let wasFocused = $('#resolved-url a').is(':focus');
+
+        let label = window.libreviews.resolveString(window.config.language, result.thing.label) || result.thing.urls[0];
+        $('#resolved-url')
+          .empty()
+          .append(`<a href="${result.thing.urls[0]}" target="_blank">${label}</a>`)
+          .show();
+        if (wasFocused)
+          $('#resolved-url a').focus();
+
+        $('.review-label-group').slideUp(200, () => {
+          window.libreviews.repaintFocusedHelp();
+          // If now hidden field is focused, focus on title field instead (next in form)
+          if ($('#review-label').is(':focus')) {
+            $('#review-title').focus();
+          }
+        });
+      })
+      .catch(_error => {
+        // Clear out previously loaded site metadata
+        $('#resolved-url').empty().hide();
+        $('.review-label-group').slideDown(200, window.libreviews.repaintFocusedHelp);
+      });
+
   }
 
   // For clearing out old drafts
@@ -126,8 +177,10 @@
     }
 
     // Show URL issues if appropriate
-    if ($('#review-url').length)
-      validateURL.apply($('#review-url')[0]);
+    if ($('#review-url').length) {
+      handleURLLookup.apply($('#review-url')[0]);
+      handleURLValidation.apply($('#review-url')[0]);
+    }
   }
 
   function clearStars(start) {

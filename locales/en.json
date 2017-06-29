@@ -417,5 +417,10 @@
    "forget rte preference": "Forget preference for rich-text editor",
    "full screen mode": "Toggle full-screen mode",
    "not a member of team title": "Not a member of this team",
-   "not a member of team": "You are not a member of <a href='%s'>this team</a>. Please join the team in order to associate reviews with it."
+   "not a member of team": "You are not a member of <a href='%s'>this team</a>. Please join the team in order to associate reviews with it.",
+   "review label": "Label for the thing you are reviewing",
+   "enter label for review subject": "Enter label, e.g.: Multnomah Falls",
+   "review label help label": "Label",
+   "review label help": "What does the web address point to to? For creative works, use only the title of the work (e.g., <i>The Descent of Man</i> instead of <i>Charles Darwin: The Descent of Man</i>)."
+
 }

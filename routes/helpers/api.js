@@ -6,7 +6,8 @@ let api = {
   // from a browser or an application.
   prepareRequest(req, res, next) {
     req.isAPI = true;
-    if (req.get('x-requested-with') != 'XMLHttpRequest' &&
+    if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) &&
+      req.get('x-requested-with') != 'XMLHttpRequest' &&
       req.get('x-requested-with') != 'app') {
       let response = {};
       response.message = 'Access denied.';

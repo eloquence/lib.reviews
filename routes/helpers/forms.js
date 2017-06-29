@@ -94,56 +94,60 @@ let forms = {
         continue;
 
       let val;
-      switch (field.type) {
 
-        case 'number':
-          val = Number(req.body[field.name].trim());
-          break;
+      // Coerce type if we have a value
+      if (req.body[field.name] !== undefined) {
+        switch (field.type) {
 
-        case 'url':
-          val = urlUtils.normalize(req.body[field.name].trim());
-          val = encodeURI(val);
-          break;
+          case 'number':
+            val = Number(req.body[field.name].trim());
+            break;
 
-          // Multilingual text that needs to be trimmed and escaped
-        case 'text':
-          val = {
-            [options.language]: escapeHTML(req.body[field.name].trim())
-          };
-          break;
+          case 'url':
+            val = urlUtils.normalize(req.body[field.name].trim());
+            val = encodeURI(val);
+            break;
 
-          // Multilingual markdown, we preserve both the escaped text and the
-          // rendered markdown
-        case 'markdown':
-          if (!field.flat)
+            // Multilingual text that needs to be trimmed and escaped
+          case 'text':
             val = {
-              text: {
-                [options.language]: escapeHTML(req.body[field.name].trim())
-              },
-              html: {
-                [options.language]: md.render(req.body[field.name].trim(), { language: req.locale })
-              }
-            };
-
-          // For schemas with a single text field, we support a flat structure
-          else {
-            formValues[key] = {
               [options.language]: escapeHTML(req.body[field.name].trim())
             };
+            break;
 
-            formValues[field.htmlKey] = {
-              [options.language]: md.render(req.body[field.name].trim(), { language: req.locale })
-            };
-          }
-          break;
+            // Multilingual markdown, we preserve both the escaped text and the
+            // rendered markdown
+          case 'markdown':
+            if (!field.flat)
+              val = {
+                text: {
+                  [options.language]: escapeHTML(req.body[field.name].trim())
+                },
+                html: {
+                  [options.language]: md.render(req.body[field.name].trim(), { language: req.locale })
+                }
+              };
 
-        case 'boolean':
-          val = Boolean(req.body[field.name]);
-          break;
+            // For schemas with a single text field, we support a flat structure
+            else {
+              formValues[key] = {
+                [options.language]: escapeHTML(req.body[field.name].trim())
+              };
 
-        default:
-          val = req.body[field.name];
+              formValues[field.htmlKey] = {
+                [options.language]: md.render(req.body[field.name].trim(), { language: req.locale })
+              };
+            }
+            break;
 
+          case 'boolean':
+            val = Boolean(req.body[field.name]);
+            break;
+
+          default:
+            val = req.body[field.name];
+
+        }
       }
 
       // Assign value. We push it into an array for wildcard fields.

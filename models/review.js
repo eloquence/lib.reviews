@@ -169,11 +169,25 @@ Review.findOrCreateThing = function(reviewObj) {
           thing._revDate = date;
           thing._revUser = reviewObj.createdBy;
           thing._revID = r.uuid();
-          thing.save().then(thing => {
-            resolve(thing);
-          }).catch(error => {
-            reject(error);
-          });
+
+          // Only create a short identifier (slug) for this thing if the user
+          // specified a label
+          let updateSlug;
+          if (reviewObj.label && reviewObj.label[reviewObj.originalLanguage]) {
+            thing.label = reviewObj.label;
+            updateSlug = thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage);
+          } else {
+            updateSlug = Promise.resolve(thing);
+          }
+
+          updateSlug
+            .then(thing => {
+              thing
+                .save()
+                .then(resolve)
+                .catch(reject);
+            })
+            .catch(reject);
         }
       })
       .catch(error => {

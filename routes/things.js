@@ -120,7 +120,7 @@ router.post('/:id/edit/label', function(req, res, next) {
             newRev.originalLanguage = language;
 
           newRev
-            .updateSlug(req.user, language)
+            .updateSlug(req.user.id, language)
             .then(updatedRev => {
               updatedRev
                 .save()
@@ -446,6 +446,7 @@ function sendThing(req, res, thing, options) {
   if (offsetDate)
     paginationURL = `/before/${offsetDate.toISOString()}`;
 
+  console.log(thing);
   render.template(req, res, 'thing', {
     deferHeader: options.edit ? true : false,
     titleKey: options.edit ? options.edit.titleKey : 'reviews of',

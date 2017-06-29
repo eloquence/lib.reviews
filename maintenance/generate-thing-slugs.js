@@ -20,7 +20,7 @@ Thing
 
       // Only update slug if we have a label we can use to derive it
       if (thing.label) {
-        p.push(thing.updateSlug({}, 'en')); // User will be undefined
+        p.push(thing.updateSlug(undefined, 'en')); // User will be undefined
       }
     }
 

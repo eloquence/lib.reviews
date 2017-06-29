@@ -29,7 +29,7 @@ const slugNameHelper = {
       slugSourceField
     } = modelConfig;
 
-    return function(user, language) {
+    return function(userID, language) {
       let document = this;
       return new Promise((resolve, reject) => {
 
@@ -65,7 +65,7 @@ const slugNameHelper = {
               name: slugName,
               [slugForeignKey]: document.id,
               createdOn: new Date(),
-              createdBy: user.id
+              createdBy: userID
             });
 
             slug

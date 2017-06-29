@@ -448,7 +448,14 @@ ReviewProvider.formDefs = {
       required: true,
       type: 'text',
       key: 'title'
-    }, {
+    },
+    {
+      name: 'review-label',
+      required: false,
+      type: 'text',
+      key: 'label'
+    },
+    {
       name: 'review-text',
       required: true,
       type: 'markdown',

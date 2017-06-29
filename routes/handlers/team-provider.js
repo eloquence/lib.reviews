@@ -429,7 +429,7 @@ class TeamProvider extends AbstractBREADProvider {
         newRev.modApprovalToJoin = f.modApprovalToJoin;
 
         newRev
-          .updateSlug(this.req.user, language)
+          .updateSlug(this.req.user.id, language)
           .then(updatedRev => {
             updatedRev
               .save()
@@ -483,7 +483,7 @@ class TeamProvider extends AbstractBREADProvider {
         team.createdOn = new Date();
 
         team
-          .updateSlug(this.req.user, team.originalLanguage)
+          .updateSlug(this.req.user.id, team.originalLanguage)
           .then(team => {
             team
               .saveAll()

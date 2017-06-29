@@ -87,6 +87,27 @@
   // Global namespace for lib.reviews-specific functions
   window.libreviews = {};
 
+  // A simplified resolver for multilingual string. Tries chosen language
+  // & falls back on English, then first available. Returns string
+  // or undefined
+  window.libreviews.resolveString = function(lang, strObj) {
+    if (strObj === undefined)
+      return undefined;
+
+    // Direct language match
+    if (typeof strObj[lang] === 'string' && strObj[lang] !== '')
+      return strObj[lang];
+
+    // Fall back to non-empty key
+    for (let k in strObj) {
+      if (typeof strObj[k] === 'string' && strObj[k] !== '')
+        return strObj[k];
+    }
+
+    return undefined;
+
+  };
+
   window.libreviews.trimInput = function() {
     this.value = this.value.trim();
   };
