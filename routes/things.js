@@ -446,7 +446,6 @@ function sendThing(req, res, thing, options) {
   if (offsetDate)
     paginationURL = `/before/${offsetDate.toISOString()}`;
 
-  console.log(thing);
   render.template(req, res, 'thing', {
     deferHeader: options.edit ? true : false,
     titleKey: options.edit ? options.edit.titleKey : 'reviews of',
