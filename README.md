@@ -17,3 +17,5 @@ Please see our [contribution guidelines](https://github.com/eloquence/lib.review
   discussing data recovery options.
 - https://extensions.gnome.org/ - the GNOME extensions database includes reviews
   under a free license
+- https://github.com/attogram/shared-media-tagger - ratings for media on
+  Wikimedia Commons
