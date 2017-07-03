@@ -422,5 +422,8 @@
 	"forget rte preference": "为富文本编辑器忘记参数设置",
 	"full screen mode": "切换为全屏模式",
 	"not a member of team title": "不是此团队的成员",
-	"not a member of team": "您并不是<a href='%s'>此团队</a>的成员。为了将审查与该团队相关联，请加入该团队。"
+	"not a member of team": "您并不是<a href='%s'>此团队</a>的成员。为了将审查与该团队相关联，请加入该团队。",
+	"review label": "用于您正在审查的事物标签",
+	"enter label for review subject": "输入标签，例如马特诺玛瀑布",
+	"review label help label": "标签"
 }

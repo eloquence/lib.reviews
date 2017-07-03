@@ -275,5 +275,6 @@
 	"remember rte preference": "Astellunge fir de Rich-Text-Editor verhalen",
 	"forget rte preference": "Astellunge fir de Rich-Text-Editor vergiessen",
 	"not a member of team title": "Net Member vun dëser Equipe.",
-	"not a member of team": "Dir sidd net Member vun <a href='%s'>dëser Equipe</a>. Gitt w.e.g. Member vun dëser Equipe fir Bewäertunge mat hinnen ze deelen."
+	"not a member of team": "Dir sidd net Member vun <a href='%s'>dëser Equipe</a>. Gitt w.e.g. Member vun dëser Equipe fir Bewäertunge mat hinnen ze deelen.",
+	"review label help label": "Etikett"
 }

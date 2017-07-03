@@ -424,5 +424,9 @@
 	"forget rte preference": "Einstellung für den Rich-Text-Editor vergessen",
 	"full screen mode": "Vollbildmodus umschalten",
 	"not a member of team title": "Kein Mitglied dieses Teams",
-	"not a member of team": "Du bist kein Mitglied <a href='%s'>dieses Teams</a>. Bitte trete dem Team bei, um Rezensionen mit dem Team zu verknüpfen."
+	"not a member of team": "Du bist kein Mitglied <a href='%s'>dieses Teams</a>. Bitte trete dem Team bei, um Rezensionen mit dem Team zu verknüpfen.",
+	"review label": "Titel für das Ding, das du rezensierst.",
+	"enter label for review subject": "Titel eingeben, z.&nbsp;B.: Multnomah Falls",
+	"review label help label": "Titel",
+	"review label help": "Auf was zeigt die Webadresse? Verwende für kreative Werke nur den Titel des Werks (z.&nbsp;B. <i>The Descent of Man</i> anstatt <i>Charles Darwin: The Descent of Man</i>)."
 }

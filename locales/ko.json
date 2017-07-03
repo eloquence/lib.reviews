@@ -175,5 +175,7 @@
 	"decrease item indentation": "들여쓰기 낮추기",
 	"required field": "필수 필드",
 	"ok": "확인",
-	"not a member of team title": "이 팀의 일원이 아닙니다"
+	"not a member of team title": "이 팀의 일원이 아닙니다",
+	"enter label for review subject": "레이블을 입력하십시오 (예: Multnomah Falls)",
+	"review label help label": "레이블"
 }

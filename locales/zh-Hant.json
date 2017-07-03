@@ -423,5 +423,9 @@
 	"forget rte preference": "捨棄用於多文字編輯器的偏好設定",
 	"full screen mode": "切換成全螢幕模式",
 	"not a member of team title": "不是此團隊的成員",
-	"not a member of team": "您不是<a href='%s'>此團隊</a>的成員。請加入該團隊來將評論與此相關。"
+	"not a member of team": "您不是<a href='%s'>此團隊</a>的成員。請加入該團隊來將評論與此相關。",
+	"review label": "用於您所評論事物的標籤",
+	"enter label for review subject": "輸入標籤，例如：馬特諾瑪瀑布",
+	"review label help label": "標籤",
+	"review label help": "網址要指向什麼？對於創作物品來說，僅用在作品的標題上（例如：<i>人類的由來</i>；而不是<i>查爾斯·達爾文：人類的由來</i>）"
 }
