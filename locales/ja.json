@@ -323,7 +323,7 @@
 	"not member of any teams yet": "あなたはまだどのチームにも参加していません。チームに入ればあなたの興味に合致するレビューアとつながることができ、読者があなたのレビューを見つける手助けをしてくれるでしょう。<a href='/teams' target='_blank'>チームに参加または自分で始める</a>。",
 	"submitted team could not be found": "あなたがレビューに追加しようとしているチーム向けの関連記録が見つかりません。削除されたもののようです。",
 	"user is not member of submitted team": "あなたは登録したチームのメンバーではないようです。最近退会しましたか？",
-	"posted under": "次の下に投稿：",
+	"posted under": "投稿先：",
 	"team page": "（チームページ）",
 	"latest review": "最新のレビュー",
 	"team feed": "レビュー関連チーム： %s",

@@ -429,5 +429,9 @@
 	"forget rte preference": "Ignorer les préférences pour les éditeurs de texte riche.",
 	"full screen mode": "Basculer en mode plein écran",
 	"not a member of team title": "Pas membre de cette équipe",
-	"not a member of team": "Vous n’êtes pas membre de <a href='%s'>cette équipe</a>. Veuillez rejoindre l’équipe pour vous associer à leurs révisions."
+	"not a member of team": "Vous n’êtes pas membre de <a href='%s'>cette équipe</a>. Veuillez rejoindre l’équipe pour vous associer à leurs révisions.",
+	"review label": "Libellé pour la chose que vous allez commenter",
+	"enter label for review subject": "Saisir le libellé, par ex. : Chutes de Multnomah",
+	"review label help label": "Libellé",
+	"review label help": "Vers quoi pointe l’adresse web ? Pour les œuvres créatives, utiliser uniquement le titre de l’œuvre (par ex., <i>La descendance de l’homme</i> au lieu de <i>Charles Darwin : La descendance de l’homme</i>)."
 }
