@@ -426,5 +426,9 @@
 	"forget rte preference": "Olvidar la preferencia por el editor de texto enriquecido",
 	"full screen mode": "Activar o desactivar pantalla completa",
 	"not a member of team title": "No eres miembro de este equipo",
-	"not a member of team": "No eres miembro de <a href='%s'>este equipo</a>. Únete al equipo para poder asociar reseñas a él."
+	"not a member of team": "No eres miembro de <a href='%s'>este equipo</a>. Únete al equipo para poder asociar reseñas a él.",
+	"review label": "Etiqueta para la cosa que estás reseñando",
+	"enter label for review subject": "Escribe una etiqueta. Por ejemplo, Cataratas del Iguazú",
+	"review label help label": "Etiqueta",
+	"review label help": "¿A qué apunta la dirección web? Para obras creativas, solo usa el título de la obrea (p.ej., <i>El origen del hombre</i> en lugar de <i>Charles Darwin: El origen del hombre</i>)."
 }
