@@ -16,6 +16,7 @@ const bot = new irc.Client(config.irc.server, config.irc.options.userName, confi
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+const decodeHTML = require('entities').decodeHTML;
 
 bot.once('names', function () {
   // Every thirty seconds, check that the bot is operating under its canonical
@@ -36,7 +37,10 @@ app.post('/reviews', function (req, res) {
   if (Array.isArray(data.thingURLs) && data.thingURLs[0])
     url = data.thingURLs[0];
 
-  let subject = resolve(data.thingLabel) || url || 'unknown subject';
+  let resolvedLabel = resolve(data.thingLabel);
+  if (resolvedLabel)
+    resolvedLabel = decodeHTML(resolvedLabel);
+  let subject = resolvedLabel || url || 'unknown subject';
   let message = `New review of ${subject} by ${data.author} at ${data.reviewURL}`;
 
   config.irc.options.channels.forEach(function (channel) {
