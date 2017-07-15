@@ -4,7 +4,8 @@
 			"NMaia",
 			"HenriqueCrang",
 			"Maxan",
-			"Walesson"
+			"Walesson",
+			"Felipe L. Ewald"
 		]
 	},
 	"site name": "lib.reviews",
@@ -407,6 +408,10 @@
 	"format as heading": "Cabeçalho",
 	"format as level heading help": "Formatar como nível de cabeçalho %d",
 	"format as level heading": "Nível %d",
+	"format as spoiler": "Spoiler",
+	"format as spoiler help": "Formatar como spoiler (colapsado com aviso prévio)",
+	"format as nsfw": "Não é seguro para o trabalho",
+	"format as nsfw help": "Formatar como inseguro para o trabalho (colapsado com aviso prévio)",
 	"format as custom warning": "Aviso personalizado",
 	"format as custom warning help": "Formatar como texto recolhido com aviso personalizado",
 	"format as custom warning dialog title": "Insira a descrição do conteúdo recolhido:",
@@ -419,5 +424,11 @@
 	"ok": "OK",
 	"remember rte preference": "Lembrar a preferência pelo editor de texto formatado",
 	"forget rte preference": "Esquecer a preferência pelo editor de texto formatado",
-	"full screen mode": "Alternar modo de tela cheia"
+	"full screen mode": "Alternar modo de tela cheia",
+	"not a member of team title": "Não é um membro desta equipe",
+	"not a member of team": "Você não é membro <a href='%s'>desta equipe</a>. Por favor, junte-se à equipe para associar comentários com ela.",
+	"review label": "Etiqueta para o assunto que você está revisando",
+	"enter label for review subject": "Digite a etiqueta, por exemplo, Multnomah Falls",
+	"review label help label": "Etiqueta",
+	"review label help": "O que o endereço da web indica? Para trabalhos criativos, use apenas o título do trabalho (por exemplo, <i>The Descent of Man</i> em vez de <i>Charles Darwin: The Descent of Man</i>)."
 }
