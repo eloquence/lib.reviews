@@ -13,6 +13,7 @@
 @sidePadding: 2em;
 @editorZIndex: 1000;
 @editorPromptZIndex: 1001;
+@acZIndex: 1002;
 
 body {
   background: #fafafa;
@@ -148,6 +149,9 @@ body {
 .ac-row {
   padding: 7px 10px 5px 10px;;
   border-bottom: 1px solid #e6e6e9;
+  z-index:@acZIndex;
+  position:relative;
+  background:white;
 }
 
 .ac-row:hover {
@@ -184,6 +188,97 @@ body {
   font-family:'FontAwesome';
   padding-right:3px;
   font-size: x-small;
+}
+
+// Autocomplete for adapters
+.ac-adapter-get-more {
+  padding: 7px 10px 5px 10px;
+  display:flex;
+  align-items:center;
+}
+
+.ac-adapter-no-relevant-results {
+  color:grey;
+  padding: 7px 10px 5px 10px;
+  font-style:italic;
+}
+
+.ac-adapter-more-results {
+  font-weight:bold;
+  font-size:small;
+  text-transform:uppercase;
+  text-align:center;
+  color:#999;
+  width:33.33%;
+}
+
+.ac-adapter-get-active {
+  cursor:pointer;
+  color:#4848ca;
+}
+
+.ac-adapter-get-prev, .ac-adapter-get-next {
+  display:inline-block;
+  width:33.33%;
+  font-size:xx-large;
+  font-weight:bold;
+}
+
+.ac-adapter-get-next {
+  text-align:right;
+}
+
+.ac-adapter-get-prev {
+  text-align:left;
+}
+
+.ac-adapter-wrap {
+  position:absolute;
+}
+
+.ac-adapter-rwrap {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid #e6e6e9;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-top: 0px;
+}
+
+.ac-adapter-row {
+  padding: 7px 10px 5px 10px;
+  border-bottom: 1px solid #e6e6e9;
+  z-index:@acZIndex;
+  position:relative;
+  background:white;
+}
+
+.ac-adapter-row:hover {
+  background-color: #f2f2f4;
+  cursor: pointer;
+}
+
+.ac-adapter-row.selected {
+  background-color: #eee;
+}
+
+.ac-adapter-row:last-child {
+  border-bottom: none;
+}
+
+.ac-adapter-pr, .ac-adapter-sc {
+  vertical-align: baseline;
+  display: block;
+}
+
+.ac-adapter-pr {
+  color: #3a3a48;
+}
+
+.ac-adapter-sc {
+  font-size: small;
+  padding-top: 5px;
+  color:#333;
 }
 
 .search-highlight {
@@ -517,6 +612,15 @@ label.inline-star-label {
 
 #preview-review-byline, #preview-blog-post-byline {
   font-size: small;
+}
+
+#review-subject {
+  display:none;
+  margin-top:1em;
+}
+
+#resolved-description, #resolved-thing {
+  font-size:small;
 }
 
 a#abandon-draft, a#abandon-draft:visited {
@@ -983,7 +1087,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   margin-top: 5px;
 }
 
-.editor-switcher-control {
+.switcher-control {
   text-transform:uppercase;
   font-size:small;
   font-family:sans-serif;
@@ -991,7 +1095,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   margin-bottom:0.5em;
 }
 
-.editor-switcher-option {
+.switcher-option {
   margin-right:-1px;
   padding:10px;
   display:inline-block;
@@ -999,7 +1103,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   -moz-user-select:none;
 }
 
-.editor-switcher-control .editor-switcher-option-selected {
+.switcher-control .switcher-option-selected {
   border-style:solid;
   border-width:1px;
   background:#fff;
@@ -1008,7 +1112,7 @@ details.content-warning[open] summary.content-warning-notice:before {
   cursor:default;
 }
 
-.editor-switcher-control :not(.editor-switcher-option-selected):not(.editor-switcher-selected-indicator):not(.editor-switcher-pin) {
+.switcher-control :not(.switcher-option-selected):not(.switcher-selected-indicator):not(.switcher-pin) {
   border-style:solid;
   border-width:1px;
   background:#f0f0f0;
@@ -1017,26 +1121,26 @@ details.content-warning[open] summary.content-warning-notice:before {
   cursor:pointer;
 }
 
-.editor-switcher-pin {
+.switcher-pin {
   cursor:pointer;
   font-size:120% !important;
 }
 
-.editor-switcher-pinned {
+.switcher-pinned {
   color:#3a3;
 }
 
-.editor-switcher-unpinned {
+.switcher-unpinned {
   color:#aaa;
 }
 
-.editor-switcher-working {
+.switcher-working {
   pointer-events:none;
   color:#aaa !important;
   cursor:default;
 }
 
-.editor-switcher-unpinned:hover {
+.switcher-unpinned:hover {
   color:#333;
 }
 
@@ -1113,9 +1217,6 @@ div.dangerous-content-in-editor {
 
 #current-language-container {
   line-height: 2em;
-}
-#resolved-url {
-  display:none;
 }
 
 // ------------- End footer ----------------------------------------------------

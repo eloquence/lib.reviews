@@ -1,3 +1,4 @@
+/* global libreviews */
 'use strict';
 
 // For parsing markdown
@@ -90,7 +91,7 @@ defaultMarkdownParserTokens.container_warning = {
       rv = {};
     rv.markup = info;
     if (info === 'spoiler' || info === 'nsfw') {
-      rv.message = window.config.messages[`${info} warning`];
+      rv.message = libreviews.msg(`${info} warning`);
     } else if (/^warning\s+\S{1}.*/.test(info)) {
       rv.message = (info.match(/^warning\s+(\S{1}.*)$/) || [])[1];
     }

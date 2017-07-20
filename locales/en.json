@@ -419,8 +419,16 @@
    "not a member of team title": "Not a member of this team",
    "not a member of team": "You are not a member of <a href='%s'>this team</a>. Please join the team in order to associate reviews with it.",
    "review label": "Label for the thing you are reviewing",
+   "review subject": "Review subject",
    "enter label for review subject": "Enter label, e.g.: Multnomah Falls",
    "review label help label": "Label",
-   "review label help": "What does the web address point to to? For creative works, use only the title of the work (e.g., <i>The Descent of Man</i> instead of <i>Charles Darwin: The Descent of Man</i>)."
-
+   "review label help": "What does the web address point to to? For creative works, use only the title of the work (e.g., <i>The Descent of Man</i> instead of <i>Charles Darwin: The Descent of Man</i>).",
+   "review by url button label": "Review by URL",
+   "search wikidata button label": "Search Wikidata",
+   "review via wikidata help label": "Search Wikidata",
+   "review via wikidata help text": "<a href='https://www.wikidata.org' target='_blank'>Wikidata</a> is a vast, ever-expanding database of concepts. You can review anything that has an entry there, with the exception of living people per our <a href='/terms' target='_blank'>terms of use</a>. Your search will only match the item's name and aliases, not its description.",
+   "no relevant results": "No relevant results on this page.",
+   "load next page": "Load next page of results",
+   "load previous page": "Load previous page of results",
+   "more results": "more results"
 }

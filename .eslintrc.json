@@ -137,7 +137,7 @@
         "no-invalid-this": "off",
         "no-iterator": "error",
         "no-label-var": "error",
-        "no-labels": "error",
+        "no-labels": "off",
         "no-lone-blocks": "error",
         "no-lonely-if": "error",
         "no-loop-func": "error",

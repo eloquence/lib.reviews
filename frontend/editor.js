@@ -1,10 +1,10 @@
-/* global $ */
+/* global $, libreviews */
 /* eslint prefer-reflect: "off" */
 'use strict';
 
 // This file integrates the ProseMirror RTE for textareas that have the
 // data-markdown attribute set. The switcher between the two modes is rendered
-// server-side from the views/partial/editor-switcher-cher.hbs template.
+// server-side from the views/partial/editor-switcher.hbs template.
 
 // ProseMirror editor components
 const { EditorState } = require('prosemirror-state');
@@ -102,9 +102,7 @@ $('textarea[data-markdown]').change(function() {
 });
 
 // Switch to the RTE
-$('[data-enable-rte]').click(function enableRTE() {
-  if (!isSelectable(this, 'data-rte-enabled'))
-    return false;
+$('[data-enable-rte]').conditionalSwitcherClick(function enableRTE() {
 
   let $textarea = $(this).parent().prev(),
     selStart = $textarea.attr('data-rte-sel-start'),
@@ -129,9 +127,7 @@ $('[data-enable-rte]').click(function enableRTE() {
 });
 
 // Switch back to markdown
-$('[data-enable-markdown]').click(function enableMarkdown(event) {
-  if (!isSelectable(this, 'data-markdown-enabled'))
-    return false;
+$('[data-enable-markdown]').conditionalSwitcherClick(function enableMarkdown(event) {
 
   let $rteContainer = $(this).parent().prev(),
     $textarea = $rteContainer.prev(),
@@ -158,13 +154,13 @@ $('[data-enable-markdown]').click(function enableMarkdown(event) {
 
 // Let users toggle preference for the RTE using a "sticky" pin next to the
 // RTE control
-$('.editor-switcher-pin').click(function() {
+$('.switcher-pin[data-toggle-rte-preference]').click(function() {
   let $pin = $(this);
   let spin = () => $pin
     .removeClass('fa-thumb-tack')
-    .addClass('fa-spinner fa-spin editor-switcher-working');
+    .addClass('fa-spinner fa-spin switcher-working');
   let unspin = () => $pin
-    .removeClass('fa-spinner fa-spin editor-switcher-working')
+    .removeClass('fa-spinner fa-spin switcher-working')
     .addClass('fa-thumb-tack');
 
   let done = false;
@@ -187,15 +183,15 @@ $('.editor-switcher-pin').click(function() {
 
       if (newValue === 'true')
         // Because we may have multiple editors on a page, all pins need to be restyled
-        $('.editor-switcher-pin')
-          .removeClass('editor-switcher-unpinned')
-          .addClass('editor-switcher-pinned')
-          .attr('title', window.config.messages['forget rte preference']);
+        $('.switcher-pin[data-toggle-rte-preference]')
+          .removeClass('switcher-unpinned')
+          .addClass('switcher-pinned')
+          .attr('title', libreviews.msg('forget rte preference'));
       else
-        $('.editor-switcher-pin')
-          .removeClass('editor-switcher-pinned')
-          .addClass('editor-switcher-unpinned')
-          .attr('title', window.config.messages['remember rte preference']);
+        $('.switcher-pin[data-toggle-rte-preference]')
+          .removeClass('switcher-pinned')
+          .addClass('switcher-unpinned')
+          .attr('title', libreviews.msg('remember rte preference'));
     })
     .fail(() => {
       done = true;
@@ -379,64 +375,4 @@ function updateRTESelectionData($textarea, $ce) {
     }
     $textarea.attr('data-rte-scroll-y', scrollY);
   }
-}
-
-// Toggle a switcher if it is selectable, return status
-function isSelectable(optionElement, activeOptionAttr) {
-  let $switcher = $(optionElement).parent();
-  if ($switcher[0].hasAttribute(activeOptionAttr))
-    return false;
-  else {
-    toggleSwitcher($switcher);
-    return true;
-  }
-}
-
-// Flip classes and data- attributes for the two modes (markdown, RTE)
-function toggleSwitcher($switcher) {
-  let activateOption, activateState, deactivateOption, deactivateState;
-  let controlData = ['[data-enable-rte]', '[data-enable-markdown]', 'data-rte-enabled', 'data-markdown-enabled'];
-  if ($switcher[0].hasAttribute('data-rte-enabled')) { // => switch to markdown
-    [activateOption, deactivateOption, deactivateState, activateState] = controlData;
-    addIndicator({
-      $switcher,
-      selector: '[data-enable-markdown]',
-      addPin: false
-    });
-    removeIndicator({
-      $switcher,
-      selector: '[data-enable-rte]'
-    });
-  } else { // => switch to RTE
-    [deactivateOption, activateOption, activateState, deactivateState] = controlData;
-    removeIndicator({
-      $switcher,
-      selector: '[data-enable-markdown]',
-      pinEnabled: false
-    });
-    addIndicator({
-      $switcher,
-      selector: '[data-enable-rte]',
-      pinEnabled: true
-    });
-  }
-  $switcher.removeAttr(deactivateState).attr(activateState, '');
-  $switcher.find(activateOption).removeClass('editor-switcher-option-selected');
-  $switcher.find(deactivateOption).addClass('editor-switcher-option-selected');
-}
-
-// Checkbox indicator for mode switcher
-function addIndicator(spec) {
-  let { pinEnabled, selector, $switcher } = spec;
-  let $selectedIndicator = $('<span class="fa fa-fw fa-check-circle editor-switcher-selected-indicator">&nbsp;</span>');
-  $switcher.find(selector).prepend($selectedIndicator);
-  if (pinEnabled)
-    $switcher.find('.editor-switcher-pin').removeClass('hidden');
-}
-
-function removeIndicator(spec) {
-  let { pinEnabled, selector, $switcher } = spec;
-  $switcher.find(selector + ' .editor-switcher-selected-indicator').remove();
-  if (!pinEnabled)
-    $switcher.find('.editor-switcher-pin').addClass('hidden');
 }

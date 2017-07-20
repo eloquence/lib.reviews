@@ -80,12 +80,134 @@
 
   };
 
+  // Toggle a two-state switcher control defined like so (simplified, see
+  // review-form.hbs for an example):
+  //
+  // <div class="switcher-control">
+  // <span class="switcher-option switcher-option-selected"
+  // data-action="some-descriptive-string">Option label</span>
+  // ...
+  // </div>
+  //
+  // While it only supports two states for now, it shouldn't be too hard to extend it down the line.
+  // </div>
+  //
+  // Use the click handler below for business logic attached to each switcher
+  // option.
+  $.fn.toggleSwitcher = function() {
+
+    // If this is set on the control, we also toggle the pushpin icon next
+    // to the second option, which can be used to make the secondary choice
+    // "stick".
+    let pinnable = this[0].hasAttribute('data-pinnable');
+
+    // Checkmark to highlight currently selected option
+    let $selectedIndicator = $('<span class="fa fa-fw fa-check-circle switcher-selected-indicator">&nbsp;</span>');
+
+    let $from = this.find('.switcher-option.switcher-option-selected'),
+      $to = this.find('.switcher-option').not('.switcher-option-selected');
+
+    $from
+      .removeClass('switcher-option-selected')
+      .find('.switcher-selected-indicator')
+      .remove();
+
+    $to
+      .addClass('switcher-option-selected')
+      .prepend($selectedIndicator);
+
+    if (pinnable)
+      this
+      .find('.switcher-pin')
+      .toggleClass('hidden');
+
+  };
+
+  // Toggle the switcher and call an event handler if the user clicked on
+  // a selectable option
+  $.fn.conditionalSwitcherClick = function(eventHandler) {
+
+    this.click(function(event) {
+      if ($(this).hasClass('switcher-option-selected'))
+        return false;
+      $(this).parent().toggleSwitcher();
+      eventHandler.call(this, event);
+    });
+
+  };
+
 }(jQuery));
 
 (function() {
   'use strict';
   // Global namespace for lib.reviews-specific functions
   window.libreviews = {};
+
+  // Simple helper function, should be replaced w/ proper client-side i18n
+  // down the road.
+  //
+  // The first parameter is always a message key. Optionally, pass an object
+  // as the second parameter, like so:
+  //
+  // {
+  //   stringParam: 'text'
+  //   accessKey: 'b',
+  // }
+  //
+  // accessKey above will add a second line of text hinting the "b" access key.
+  //
+  // stringParam above will replace a single instance of %s with the value text.
+  // You can also include an array, stringParams, for substitutions of
+  // the type %1$s, %2$s
+  //
+  // numberParam / numberParams has the same effect for %d, %1$d
+  //
+  // If the message key cannot be found, the string '?<key>?' will be returned.
+  window.libreviews.msg = function(messageKey, options) {
+
+    if (!window.config || !window.config.messages || !window.config.messages[messageKey])
+      return `?${messageKey}?`;
+
+    let rv = window.config.messages[messageKey];
+
+    // Just a simple lookup? Okay!
+    if (typeof options !== 'object')
+      return rv;
+
+    // Destructure options
+    const { accessKey, stringParam, stringParams, numberParam, numberParams } = options;
+
+    // We're partially reinventing sprintf here, switch to module if we want
+    // to add any more.
+    if (typeof stringParam === 'string')
+      rv = processSingleParam(rv, 's', stringParam);
+
+    if (Array.isArray(stringParams))
+      rv = processOrderedParams(stringParams, 's', stringParams);
+
+    if (typeof numberParam === 'number')
+      rv = processSingleParam(rv, 'd', numberParam);
+
+    if (Array.isArray(numberParams))
+      rv = processOrderedParams(rv, 'd', numberParams);
+
+    if (accessKey && window.config.messages['accesskey'])
+      rv += '\n' + window.config.messages['accesskey'].replace('%s', accessKey);
+
+    return rv;
+
+    function processSingleParam(str, typeStr, param) {
+      return str.replace(`%${typeStr}`, param);
+    }
+
+    function processOrderedParams(str, typeStr, paramArr) {
+      paramArr.forEach((orderedParam, index) => {
+        index++; // Array starts at 0
+        str = str.replace(new RegExp(`%${index}\\$${typeStr}`, 'g'), orderedParam);
+      });
+      return str;
+    }
+  };
 
   // A simplified resolver for multilingual string. Tries chosen language
   // & falls back on English, then first available. Returns string
@@ -290,6 +412,11 @@
 
   window.libreviews.updateContentClickHandlers();
 
+  window.libreviews.validateURL = function(url) {
+      const urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|\/|\?)*)?$/i;
+      return urlRegex.test(url);
+  };
+
   // Add autocompletion to search box if present
   if ($('#search-input').length)
     setupSearch();
@@ -423,13 +550,13 @@
       $(`#${id}-help`).hide();
   }
 
-console.log(
-'\n' +
-'    ___ __\n' +
-'   / (_) /_    ________ _   __(_)__ _      _______\n' +
-'  / / / __ \\  / ___/ _ \\ | / / / _ \\ | /| / / ___/\n' +
-' / / / /_/ / / /  /  __/ |/ / /  __/ |/ |/ (__  )\n' +
-'/_/_/_.___(_)_/   \\___/|___/_/\\___/|__/|__/____/\n' +
-'Happy hacking! https://github.com/eloquence/lib.reviews\n\n'
-);
+  console.log(
+    '\n' +
+    '    ___ __\n' +
+    '   / (_) /_    ________ _   __(_)__ _      _______\n' +
+    '  / / / __ \\  / ___/ _ \\ | / / / _ \\ | /| / / ___/\n' +
+    ' / / / /_/ / / /  /  __/ |/ / /  __/ |/ |/ (__  )\n' +
+    '/_/_/_.___(_)_/   \\___/|___/_/\\___/|__/|__/____/\n' +
+    'Happy hacking! https://github.com/eloquence/lib.reviews\n\n'
+  );
 }());

@@ -15,6 +15,7 @@ const search = require('../../search');
 const getJS = require('../../util/get-js');
 const getMessages = require('../../util/get-messages');
 const { getEditorMessageKeys } = require('../../frontend/editor-messages');
+const { getAdapterMessageKeys } = require('../../frontend/adapters/adapter-messages');
 
 class ReviewProvider extends AbstractBREADProvider {
 
@@ -104,7 +105,9 @@ class ReviewProvider extends AbstractBREADProvider {
       editing: this.editing ? true : false,
       messages: getMessages(this.req.locale,
         md.getMarkdownMessageKeys(),
-        getEditorMessageKeys()
+        getEditorMessageKeys(),
+        getAdapterMessageKeys(),
+        ['more info']
       )
     });
   }

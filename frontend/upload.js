@@ -1,4 +1,4 @@
-/* global $, config */
+/* global $, libreviews */
 (function() {
   'use strict';
   let originalLabel = $('#upload-label').text();
@@ -10,7 +10,7 @@
       $('#start-upload').prop('disabled', true);
       $('#upload-label').text(originalLabel);
     } else {
-      let countLabel = count == 1 ? config.messages['one file selected'] : config.messages['files selected'];
+      let countLabel = count == 1 ? libreviews.msg('one file selected') : libreviews.msg('files selected');
       // We use a different icon to represent multiple files
       if (count == 1)
         $('#upload-icon').removeClass('fa-files-o').addClass('fa-file-image-o');

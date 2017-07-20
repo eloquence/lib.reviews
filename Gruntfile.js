@@ -30,9 +30,13 @@ module.exports = function(grunt) {
       }
     },
     browserify: {
-      main: {
+      editor: {
         src: 'frontend/editor.js',
-        dest: 'static/js/editor-es6-bundle.js'
+        dest: 'build/editor-es6-bundle.js'
+      },
+      review: {
+        src: 'frontend/review.js',
+        dest: 'build/review-es6-bundle.js'
       }
     },
     babel: {
@@ -58,10 +62,10 @@ module.exports = function(grunt) {
         files: {
           'static/js/libreviews.js': 'frontend/libreviews.js',
           'static/js/register.js': 'frontend/register.js',
-          'static/js/review.js': 'frontend/review.js',
+          'static/js/review.js': 'build/review-es6-bundle.js',
           'static/js/upload.js': 'frontend/upload.js',
           'static/js/user.js': 'frontend/user.js',
-          'static/js/editor.js': 'static/js/editor-es6-bundle.js'
+          'static/js/editor.js': 'build/editor-es6-bundle.js'
         }
       }
     },

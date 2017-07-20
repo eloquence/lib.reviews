@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, libreviews */
 const {
   wrapItem,
   blockTypeItem,
@@ -13,10 +13,10 @@ const {
 } = require("prosemirror-menu");
 
 // Load proper translations for built-in items
-undoItem.spec.title = msg('undo');
-redoItem.spec.title = msg('redo');
-joinUpItem.spec.title = msg('join with item above');
-liftItem.spec.title = msg('decrease item indentation');
+undoItem.spec.title = libreviews.msg('undo');
+redoItem.spec.title = libreviews.msg('redo');
+joinUpItem.spec.title = libreviews.msg('join with item above');
+liftItem.spec.title = libreviews.msg('decrease item indentation');
 
 // Tables not supported for now
 //
@@ -49,8 +49,8 @@ function canInsert(state, nodeType, attrs) {
 
 function insertImageItem(nodeType) {
   return new MenuItem({
-    title: msg('insert image help'),
-    label: msg('insert image'),
+    title: libreviews.msg('insert image help'),
+    label: libreviews.msg('insert image'),
     select(state) {
       return canInsert(state, nodeType);
     },
@@ -61,11 +61,11 @@ function insertImageItem(nodeType) {
         attrs = state.selection.node.attrs;
       openPrompt({
         view,
-        title: msg('insert image dialog title'),
+        title: libreviews.msg('insert image dialog title'),
         fields: {
-          src: new TextField({ label: msg('image url'), required: true, value: attrs && attrs.src }),
+          src: new TextField({ label: libreviews.msg('image url'), required: true, value: attrs && attrs.src }),
           alt: new TextField({
-            label: msg('image alt text'),
+            label: libreviews.msg('image alt text'),
             value: attrs ? attrs.title : state.doc.textBetween(from, to, " ")
           })
         },
@@ -148,7 +148,7 @@ function markItem(markType, options) {
 
 function fullScreenItem() {
   return new MenuItem({
-    title: msg('full screen mode', 'u'),
+    title: libreviews.msg('full screen mode', { accessKey: 'u' }),
     icon: { dom: $('<span class="fa fa-arrows-alt"></span>')[0] },
     active() {
       return this.enabled || false;
@@ -157,10 +157,10 @@ function fullScreenItem() {
       let $rteContainer = $(view.dom).closest('.rte-container');
       let id = Number($rteContainer[0].id.match(/\d+/)[0]);
       if (!this.enabled) {
-        window.libreviews.activeRTEs[id].enterFullScreen();
+        libreviews.activeRTEs[id].enterFullScreen();
         this.enabled = true;
       } else {
-        window.libreviews.activeRTEs[id].exitFullScreen();
+        libreviews.activeRTEs[id].exitFullScreen();
         this.enabled = false;
       }
       view.updateState(state);
@@ -170,15 +170,15 @@ function fullScreenItem() {
 
 function formatCustomWarningItem(nodeType) {
   return new MenuItem({
-    title: msg('format as custom warning help'),
-    label: msg('format as custom warning'),
+    title: libreviews.msg('format as custom warning help'),
+    label: libreviews.msg('format as custom warning'),
     run(state, dispatch, view) {
       let prompt = {
         view,
-        title: msg('format as custom warning dialog title'),
+        title: libreviews.msg('format as custom warning dialog title'),
         fields: {
           message: new TextField({
-            label: msg('custom warning text'),
+            label: libreviews.msg('custom warning text'),
             required: true
           })
         },
@@ -199,7 +199,7 @@ function formatCustomWarningItem(nodeType) {
 
 function linkItem(markType) {
   return new MenuItem({
-    title: msg('add or remove link', 'k'),
+    title: libreviews.msg('add or remove link', { accessKey: 'k' }),
     icon: icons.link,
     active(state) {
       return markActive(state, markType);
@@ -215,10 +215,10 @@ function linkItem(markType) {
       }
       openPrompt({
         view,
-        title: msg('add link dialog title'),
+        title: libreviews.msg('add link dialog title'),
         fields: {
           href: new TextField({
-            label: msg('web address'),
+            label: libreviews.msg('web address'),
             required: true,
             clean: (val) => {
               if (!/^https?:\/\//i.test(val))
@@ -319,11 +319,11 @@ function buildMenuItems(schema) {
     type;
 
   if (type = schema.marks.strong)
-    r.toggleStrong = markItem(type, { title: msg('toggle bold', 'b'), icon: icons.strong });
+    r.toggleStrong = markItem(type, { title: libreviews.msg('toggle bold', { accessKey: 'b' }), icon: icons.strong });
   if (type = schema.marks.em)
-    r.toggleEm = markItem(type, { title: msg('toggle italic', 'i'), icon: icons.em });
+    r.toggleEm = markItem(type, { title: libreviews.msg('toggle italic', { accessKey: 'i' }), icon: icons.em });
   if (type = schema.marks.code)
-    r.toggleCode = markItem(type, { title: msg('toggle code', '`'), icon: icons.code });
+    r.toggleCode = markItem(type, { title: libreviews.msg('toggle code', { accessKey: '`' }), icon: icons.code });
   if (type = schema.marks.link)
     r.toggleLink = linkItem(type);
 
@@ -331,39 +331,39 @@ function buildMenuItems(schema) {
     r.insertImage = insertImageItem(type);
   if (type = schema.nodes.bullet_list)
     r.wrapBulletList = wrapListItem(type, {
-      title: msg('format as bullet list', '8'),
+      title: libreviews.msg('format as bullet list', { accessKey: '8' }),
       icon: icons.bulletList
     });
   if (type = schema.nodes.ordered_list)
     r.wrapOrderedList = wrapListItem(type, {
-      title: msg('format as numbered list', '9'),
+      title: libreviews.msg('format as numbered list', { accessKey: '9' }),
       icon: icons.orderedList
     });
   if (type = schema.nodes.blockquote)
     r.wrapBlockQuote = wrapItem(type, {
-      title: msg('format as quote', '>'),
+      title: libreviews.msg('format as quote', { accessKey: '>' }),
       icon: icons.blockquote
     });
   if (type = schema.nodes.paragraph)
     r.makeParagraph = blockTypeItem(type, {
-      title: msg('format as paragraph help', '0'),
-      label: msg('format as paragraph')
+      title: libreviews.msg('format as paragraph help', { accessKey: '0' }),
+      label: libreviews.msg('format as paragraph')
     });
   if (type = schema.nodes.code_block)
     r.makeCodeBlock = blockTypeItem(type, {
-      title: msg('format as code block help'),
-      label: msg('format as code block')
+      title: libreviews.msg('format as code block help'),
+      label: libreviews.msg('format as code block')
     });
   if (type = schema.nodes.container_warning) {
     r.formatSpoilerWarning = wrapItem(type, {
-      title: msg('format as spoiler help'),
-      label: msg('format as spoiler'),
-      attrs: { markup: 'spoiler', message: msg('spoiler warning') }
+      title: libreviews.msg('format as spoiler help'),
+      label: libreviews.msg('format as spoiler'),
+      attrs: { markup: 'spoiler', message: libreviews.msg('spoiler warning') }
     });
     r.formatNSFWWarning = wrapItem(type, {
-      title: msg('format as nsfw help'),
-      label: msg('format as nsfw'),
-      attrs: { markup: 'nsfw', message: msg('nsfw warning') }
+      title: libreviews.msg('format as nsfw help'),
+      label: libreviews.msg('format as nsfw'),
+      attrs: { markup: 'nsfw', message: libreviews.msg('nsfw warning') }
     });
     r.formatCustomWarning = formatCustomWarningItem(type);
   }
@@ -371,15 +371,15 @@ function buildMenuItems(schema) {
   if (type = schema.nodes.heading)
     for (let i = 1; i <= 10; i++)
       r["makeHead" + i] = blockTypeItem(type, {
-        title: msg('format as level heading help', String(i)).replace('%d', i),
-        label: msg('format as level heading').replace('%d', i),
+        title: libreviews.msg('format as level heading help', { accessKey: String(i), numberParam: i }),
+        label: libreviews.msg('format as level heading', { numberParam: i }),
         attrs: { level: i }
       });
   if (type = schema.nodes.horizontal_rule) {
     let hr = type;
     r.insertHorizontalRule = new MenuItem({
-      title: msg('insert horizontal rule help', '_'),
-      label: msg('insert horizontal rule'),
+      title: libreviews.msg('insert horizontal rule help', { accessKey: '_' }),
+      label: libreviews.msg('insert horizontal rule'),
       select(state) {
         return canInsert(state, hr);
       },
@@ -401,12 +401,12 @@ function buildMenuItems(schema) {
 
   let cut = arr => arr.filter(x => x);
   r.insertMenu = new Dropdown(cut([r.insertImage, r.insertHorizontalRule, r.insertTable]), {
-    label: msg('insert'),
-    title: msg('insert help')
+    label: libreviews.msg('insert'),
+    title: libreviews.msg('insert help')
   });
   r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.formatSpoilerWarning, r.formatNSFWWarning, r.formatCustomWarning, r.makeHead1 && new DropdownSubmenu(cut([
     r.makeHead1, r.makeHead2, r.makeHead3, r.makeHead4, r.makeHead5, r.makeHead6
-  ]), { label: msg('format as heading') })]), { label: msg('format block'), title: msg('format block help') });
+  ]), { label: libreviews.msg('format as heading') })]), { label: libreviews.msg('format block'), title: libreviews.msg('format block help') });
   // let tableItems = cut([r.addRowBefore, r.addRowAfter, r.removeRow, r.addColumnBefore, r.addColumnAfter, r.removeColumn]);
   // if (tableItems.length)
   //   r.tableMenu = new Dropdown(tableItems, { label: "Table" });
@@ -425,18 +425,6 @@ function buildMenuItems(schema) {
   ]);
 
   return r;
-}
-
-// Simple helper function, should be replaced w/ proper client-side i18n
-// down the road. Supports adding access key (keyboard shortcut) as second line.
-function msg(messageKey, accessKey) {
-  if (window.config && window.config.messages && window.config.messages[messageKey]) {
-    let accessKeyString = '';
-    if (accessKey && window.config.messages['accesskey'])
-      accessKeyString = '\n' + window.config.messages['accesskey'].replace('%s', accessKey);
-    return window.config.messages[messageKey] + accessKeyString;
-  } else
-    return '?' + messageKey + '?';
 }
 
 exports.buildMenuItems = buildMenuItems;

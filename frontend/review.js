@@ -1,12 +1,26 @@
-/* global $ */
+/* global $, config, libreviews */
 /* eslint prefer-reflect: "off" */
-
 (function() {
   'use strict';
 
+  require('es6-promise').polyfill();
+
+  const NativeAdapter = require('./adapters/native-adapter');
+  const WikidataAdapter = require('./adapters/wikidata-adapter');
+
+  // All adapters will be tried against a provided review subject URL. If they
+  // support it, they will perform a parallel, asynchronous lookup. The array order
+  // matters in that the first element in the array (not the first to return
+  // a result) will be used for the review subject metadata. The native (lib.reviews)
+  // lookup therefore always takes precedence.
+  const adapters = [
+    new NativeAdapter(),
+    new WikidataAdapter(updateURLAndReviewSubject)
+  ];
+
   // Our form's behavior depends significantly on whether we're creating
   // a new review, or editing an old one.
-  let editing = window.config.editing;
+  let editing = config.editing;
   let textFields = editing ? '#review-title,#review-text' :
     '#review-url,#review-title,#review-text';
 
@@ -49,9 +63,15 @@
 
     sisyphus = $('#review-form').sisyphus({
       onRestore: processLoadedData,
-      excludeFields: $('#review-token,#review-language' + maybeExcludeURL)
+      excludeFields: $('[data-ignore-autosave]' + maybeExcludeURL)
     });
   }
+
+  // Setup all adapters
+  adapters.forEach(adapter => {
+    if (adapter.setup)
+      adapter.setup();
+  });
 
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))
@@ -82,20 +102,48 @@
 
   function handleURLLookup() {
     let inputURL = this.value;
-    if (validateURL(inputURL))
-      lookupThing(inputURL);
-    else {
-      // Clean out any old URL metadata and show the label field again
-      $('#resolved-url').empty();
-      $('.review-label-group').slideDown(200, window.libreviews.repaintFocusedHelp);
-    }
+    let promises = [];
+
+    // We look up this URL using all adapters that support it. The native
+    // adapter performs its own URL schema validation, and other adapters
+    // are more restrictive.
+    adapters.forEach(adapter => {
+      if (adapter.ask && adapter.lookup && adapter.ask(inputURL))
+        promises.push(adapter.lookup(inputURL));
+    });
+
+    // We use a mapped array so we can catch failing promises and pass along
+    // the error as payload, instead of aborting the whole process if even
+    // one of the queries fails.
+    Promise
+      .all(promises.map(promise => promise.catch(error => ({ error }))))
+      .then(results => {
+        // Use first valid result in order of the array. Since the native lookup
+        // is the first array element, it will take precedence over any adapters.
+        for (let result of results) {
+          if (result.data && result.data.label)
+            return updateReviewSubject({
+              url: inputURL,
+              label: result.data.label,
+              description: result.data.description, // may be undefined
+              thing: result.data.thing // may be undefined
+            });
+        }
+
+        // No valid results.
+        // Clean out any old URL metadata and show the label field again
+        $('.resolved-info').empty();
+        $('#review-subject').hide();
+        $('.review-label-group').show();
+        window.libreviews.repaintFocusedHelp();
+      });
   }
 
   // Show warning and helper links as appropriate
   function handleURLValidation() {
     let inputURL = this.value;
     let protocolRegex = /^(https?|ftp):\/\//;
-    if (inputURL && !validateURL(inputURL)) {
+    if (inputURL && !libreviews.validateURL(inputURL)) {
       $('#review-url-error').show();
       if (!protocolRegex.test(inputURL)) {
         $('#helper-links').show();
@@ -109,42 +157,36 @@
     }
   }
 
-  // Check if entered URL is valid; if not, show error. Offer adding HTTP/HTTPS
-  // prefix if missing.
-  function validateURL(inputURL) {
-    let urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|\/|\?)*)?$/i;
-    return urlRegex.test(inputURL);
+  // Update the URL and the review subject, typically called from an adapter.
+  // Does NOT trigger the change handler on the URL element.
+  function updateURLAndReviewSubject(data) {
+    if (!data.url)
+      throw new Error('To update a URL, we must get one.');
+    $('#review-url').val(data.url);
+    updateReviewSubject(data);
   }
 
-  // Check if we already have a record for this URL; if so, show relevant data.
-  function lookupThing(inputURL) {
-    $.get('/api/thing', { url: inputURL })
-      .then(result => {
-
-        let wasFocused = $('#resolved-url a').is(':focus');
-
-        let label = window.libreviews.resolveString(window.config.language, result.thing.label) || result.thing.urls[0];
-        $('#resolved-url')
-          .empty()
-          .append(`<a href="${result.thing.urls[0]}" target="_blank">${label}</a>`)
-          .show();
-        if (wasFocused)
-          $('#resolved-url a').focus();
-
-        $('.review-label-group').slideUp(200, () => {
-          window.libreviews.repaintFocusedHelp();
-          // If now hidden field is focused, focus on title field instead (next in form)
-          if ($('#review-label').is(':focus')) {
-            $('#review-title').focus();
-          }
-        });
-      })
-      .catch(_error => {
-        // Clear out previously loaded site metadata
-        $('#resolved-url').empty().hide();
-        $('.review-label-group').slideDown(200, window.libreviews.repaintFocusedHelp);
-      });
-
+  // Update review subject info with data from a lookup. Hides the label group
+  // (label is mandatory).
+  function updateReviewSubject(data) {
+    const { url, label, description, thing } = data;
+    if (!label)
+      throw new Error('Review subject must have a label.');
+    let wasFocused = $('#resolved-url a').is(':focus');
+    $('.resolved-info').empty();
+    $('#resolved-url').append(`<a href="${url}" target="_blank">${label}</a>`);
+    if (description)
+      $('#resolved-description').html(description);
+    if (thing) {
+      $('#resolved-thing').append(`<a href="/${thing.urlID}" target="_blank">${libreviews.msg('more info')}</a>`);
+    }
+    $('#review-subject').show();
+    if (wasFocused)
+      $('#resolved-url a').focus();
+    $('.review-label-group').hide();
+    // If now hidden field is focused, focus on title field instead (next in form)
+    if ($('#review-label').is(':focus') || document.activeElement === document.body)
+      $('#review-title').focus();
   }
 
   // For clearing out old drafts
