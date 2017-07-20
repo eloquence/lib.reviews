@@ -164,6 +164,8 @@
       throw new Error('To update a URL, we must get one.');
     $('#review-url').val(data.url);
     updateReviewSubject(data);
+    // Make sure we save draft in case user aborts here
+    sisyphus.saveAllData();
   }
 
   // Update review subject info with data from a lookup. Hides the label group
