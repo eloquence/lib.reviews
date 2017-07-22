@@ -65,7 +65,7 @@
             <span class="fa fa-spinner fa-spin input-spinner hidden"></span>
             </div>
             {{! Switcher control that lets us activate Wikidata as a source.}}
-            <div class="switcher-control" id="review-source-switcher">
+            <div class="switcher-control nojs-hidden" id="review-source-switcher">
             <span class="switcher-option switcher-option-selected" id="review-via-url" accesskey="u" title="{{{__ "accesskey" "u"}}}"><span class="fa fa-fw fa-check-circle switcher-selected-indicator">&nbsp;</span>{{{__ "review by url button label"}}}</span><span class="switcher-option" id="review-via-wikidata" accesskey="d" title="{{{__ "accesskey" "d"}}}">{{{__ "search wikidata button label"}}}</span>
             </div>
             <div id="review-url-error" class="validation-error">{{{__ "not a url"}}}</div>
@@ -81,7 +81,7 @@
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
           {{>help input="review-url" helpLabel="review url help label" helpText="review url help"}}
-          {{>help input="review-search-wikidata" helpLabel="review via wikidata help label" helpText="review via wikidata help text"}}
+          {{>help input="review-search-wikidata" helpLabel="review via wikidata help label" helpText="review via wikidata help text" nojsHidden=true}}
         </div>
         <div class="pure-u-1 pure-u-md-2-3 review-label-group nojs-hidden">
           <div class="pure-control-group">

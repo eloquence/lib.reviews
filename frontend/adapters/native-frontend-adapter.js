@@ -19,9 +19,11 @@ class NativeFrontendAdapter extends AbstractFrontendAdapter {
           let thing = data.thing;
           let thingURL = thing.urls[0];
           let label = window.libreviews.resolveString(config.language, thing.label) || thingURL;
+          let description = window.libreviews.resolveString(config.language, thing.description);
           resolve({
             data: {
               label,
+              description,
               thing
             }
           });
