@@ -1,12 +1,28 @@
 /* global $, AC, config, libreviews */
 'use strict';
 
-// Perform Wikidata lookups
+// This module performs shallow lookups on Wikidata. They are shallow in that
+// they only load the information that needs to be displayed to the user in
+// their current language. The backend version of this adapter performs the
+// actual deep lookup for all languages.
 
+// Internal deps
+
+const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
+
+
+// Adapter settings
 const supportedPattern = new RegExp('http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
 const apiBaseURL = 'https://www.wikidata.org/w/api.php';
-const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
 const sourceID = 'wikidata';
+
+// Because we use a blacklist to exclude certain results (e.g., disambiguation
+// pages), we fetch a larger number of results than we may need, since we may
+// eliminate some of them client-side. The ratio below has proven to strike a
+// good balance where few queries result in zero "good" results.
+const fetchResults = 25;
+const displayResults = 7;
+
 // How do lib.reviews language code translate to Wikidata language codes?
 // Since Wikidata supports a superset of languages and most language codes
 // are identical, we only enumerate exceptions.
@@ -111,19 +127,17 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       event.stopPropagation();
     });
 
-    const searchBoxSelector = $('#review-search-wikidata');
+    const searchBoxSelector = '#review-search-wikidata';
 
-    // Exclude certain meta-content by testing these regexes against the
-    // description in the given language. We fetch more results than we need in
-    // case the blacklist reduces the set too much.
-    const blacklist = {
-      en: [/^Wikimedia template$/, /^Wikimedia category$/, /^Wikimedia list article$/, /disambiguation page$/, /^Wikinews article$/],
-      de: [/^Wikimedia-Begriffsklärungsseite$/, /^Wikimedia-Liste$/, /^Artikel bei Wikinews$/, /^Wikinews-Artikel$/]
-    };
 
-    // We obtain more results than we need, and exclude Wikimedia-specific stuff client-side
-    const fetchResults = 25;
-    const displayResults = 7;
+    // We exclude certain meta-content (e.g., Wikimedia disambiguation pages)
+    // by testing descriptions against a blacklist. This is different for
+    // each language, and loaded from a UI message, which gets parsed into
+    // regular expressions.
+    const blacklist = config.messages['wikidata title blacklist']
+      .split('\n')
+      .filter(entry => typeof entry === 'string' && entry.length) // Ignore empty lines
+      .map(entry => new RegExp(entry));
 
     // `this` refers to adapter
     const triggerFn = row => {
@@ -159,8 +173,14 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       query = query.trim();
 
       // Nothing to do - clear out the display & abort
-      if (!query)
+      if (!query) {
+        // Turn off spinner
+        $(`${searchBoxSelector} + span.input-spinner`).addClass('hidden');
         return this.render();
+      }
+
+      // Turn on spinner
+      $(`${searchBoxSelector} + span.input-spinner`).removeClass('hidden');
 
       const language = nativeToWikidata[config.language] || config.language;
 
@@ -198,6 +218,9 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
           if (time < this.latestQuery)
             return;
 
+          // Turn off spinner
+          $(`${searchBoxSelector} + span.input-spinner`).addClass('hidden');
+
           this.results = [];
 
           // Keep track of how many results we get that we can use (that don't
@@ -211,8 +234,8 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
             // Client-side filtering of results per blacklist
             itemloop: for (let item of data.search) {
               resultIndex++;
-              if (blacklist[config.language]) {
-                for (let regex of blacklist[config.language])
+              if (blacklist.length) {
+                for (let regex of blacklist)
                   if (regex.test(item.description))
                     continue itemloop;
               }
@@ -300,6 +323,13 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
                 .appendTo($getMore);
             }
           }
+        })
+        .fail(_error => {
+          // Show generic error
+          $('#generic-action-error').removeClass('hidden');
+          window.libreviews.repaintFocusedHelp();
+          // Turn off spinner
+          $(`${searchBoxSelector} + span.input-spinner`).addClass('hidden');
         });
     }
     let ac = new AC($(searchBoxSelector)[0], null, requestFn, null, null, triggerFn);

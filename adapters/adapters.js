@@ -1,5 +1,5 @@
 'use strict';
-
+const debug = require('../util/debug');
 const WikidataBackendAdapter = require('./wikidata-backend-adapter');
 const wikidata = new WikidataBackendAdapter();
 const adapters = [wikidata];
@@ -19,7 +19,10 @@ module.exports = {
       let p = [];
       adapters.forEach(adapter => {
         if (adapter.ask(url))
-          p.push(adapter.lookup(url).catch(error => ({ error })));
+          p.push(adapter.lookup(url).catch(error => {
+            debug.error({ error });
+            return { error };
+          }));
       });
       return p;
     },

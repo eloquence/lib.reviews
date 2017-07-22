@@ -3,7 +3,8 @@ const msgArr = [
   'no relevant results',
   'load next page',
   'load previous page',
-  'more results'
+  'more results',
+  'wikidata title blacklist'
 ];
 const getMessages = require('../../util/get-messages');
 
