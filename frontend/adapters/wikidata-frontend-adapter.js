@@ -7,6 +7,13 @@ const supportedPattern = new RegExp('http(s)*://(www.)*wikidata.org/(entity|wiki
 const apiBaseURL = 'https://www.wikidata.org/w/api.php';
 const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
 const sourceID = 'wikidata';
+// How do lib.reviews language code translate to Wikidata language codes?
+// Since Wikidata supports a superset of languages and most language codes
+// are identical, we only enumerate exceptions.
+const nativeToWikidata = {
+  pt: 'pt-br',
+  'pt-PT': 'pt'
+};
 
 // Even when selecting via search, we still want to check whether there's a
 // native entry for this URL
@@ -29,11 +36,13 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       // in case the URL had a lower case "q"
       qNumber = qNumber.toUpperCase();
 
+      const language = nativeToWikidata[config.language] || config.language;
+
       let queryObj = {
         action: 'wbgetentities',
         format: 'json',
-        languages: config.language,
-        uselang: config.language,
+        languages: language,
+        uselang: language,
         languagefallback: 1,
         props: 'labels|descriptions',
         ids: qNumber
@@ -55,14 +64,14 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
           if (!entity.labels || !entity.descriptions)
             return reject(new Error('Did not get label and description information for query: ' + qNumber));
 
-          if (!entity.labels[config.language])
-            return reject(new Error('Did not get a label for ' + qNumber + 'for the specified language: ' + config.language));
+          if (!entity.labels[language])
+            return reject(new Error('Did not get a label for ' + qNumber + 'for the specified language: ' + language));
 
-          let label = entity.labels[config.language].value,
+          let label = entity.labels[language].value,
             description;
 
-          if (entity.descriptions[config.language])
-            description = entity.descriptions[config.language].value;
+          if (entity.descriptions[language])
+            description = entity.descriptions[language].value;
 
           resolve({
             data: {
@@ -153,11 +162,13 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       if (!query)
         return this.render();
 
+      const language = nativeToWikidata[config.language] || config.language;
+
       let queryObj = {
         action: 'wbsearchentities',
         search: query,
-        language: config.language,
-        uselang: config.language,
+        language,
+        uselang: language,
         format: 'json',
         limit: fetchResults
       };
