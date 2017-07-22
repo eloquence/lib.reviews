@@ -412,5 +412,17 @@
 	"review label": "Label for label field in the review form (e.g., for entering the title of a book)",
 	"enter label for review subject": "Placeholder for label field in the review form. Feel free to localize the example consistent with the other form placeholders.",
 	"review label help label": "Label (headline) for context-sensitive help for the label field in the review form\n{{Identical|Label}}",
-	"review label help": "Text for context-sensitive help for the label field in the review form. Feel free to localize the examples."
+	"review label help": "Text for context-sensitive help for the label field in the review form. Feel free to localize the examples.",
+	"review by url button label": "Button for switcher control that lets the user choose between reviewing something by specifying a URL, and other sources.",
+	"search wikidata button label": "Button for switcher control that lets the user choose between reviewing something by searching Wikdiata, and by other means",
+	"review via wikidata help label": "Title for help text that is shown when the user accesses the feature that lets them search Wikidata",
+	"review via wikidata help text": "Help text that is shown to the user when searching Wikidata",
+	"pick a review subject": "Label for the form input field that lets the user search Wikidata",
+	"start typing to search wikidata": "Placeholder text for the form input field that lets the user search Wikidata",
+	"no relevant results": "Text that is shown when a search in Wikidata has yielded some results, but they have all eliminated by the title blacklist.",
+	"load next page": "Navigation tooltip that is shown when a Wikidata search yields more than a certain number of results",
+	"load previous page": "Navigation tooltip that is shown when the user has paginated through a search with more than a certain number of results",
+	"more results": "Text, rendered in all-caps, that is shown below the Wikidata search results to indicate to the user that more results than shown are available.",
+	"wikidata title blacklist": "Newline-separated list of regular expressions which is tested against each description that is returned by a Wikidata search. If a regex matches, the search result is eliminated from the displayed results. Just ignore this message unless you know what you're doing. This is used to exclude stuff like disambiguation pages, templates, categories, and Wikinews articles -- content not relevant to the lib.reviews project."
+
 }
