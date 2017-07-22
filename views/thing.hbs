@@ -33,7 +33,10 @@
   </h1>
 {{/if}}
 {{#if thing.urls}}
-<span class="fa fa-fw fa-external-link review-icon">&nbsp;</span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}
+<div id="item-url"><span class="fa fa-fw fa-external-link review-icon">&nbsp;</span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</div>
+{{/if}}
+{{# if (mlString thing.description)}}
+<div id="item-description"><span class="fa fa-fw fa-info-circle review-icon">&nbsp;</span>{{{mlString thing.description}}}</div>
 {{/if}}
 {{#unless edit.label}}
 {{#if thing.files}}

@@ -1,22 +1,14 @@
 'use strict';
 
-class AbstractAdapter {
+// There is a corresponding abstract frontend class in the frontend/ directory.
+// While similar, due to client/server differences and likely functional
+// divergence, we are keeping these separate.
+class AbstractBackendAdapter {
 
-  // Any extension to the constructor should run synchronously.
-  //
-  // updateCallback: (function) optional callback to run after a lookup
-  constructor(updateCallback) {
+  constructor() {
     // Replace w/ new.target after upgrading to Babel 7.0
-    if (this.constructor.name === AbstractAdapter.name)
-      throw new TypeError('AbstractAdapter is an abstract class, please instantiate a derived class.');
-
-    this.updateCallback = updateCallback;
-  }
-
-  // Perform any necessary UI setup. May in future be parametrized to
-  // distinguish between different pages/contexts.
-  setup() {
-    return;
+    if (new.target === AbstractBackendAdapter)
+      throw new TypeError('AbstractBackendAdapter is an abstract class, please instantiate a derived class.');
   }
 
   // Does this adapter support a given URL? Usually a simple regex check.
@@ -41,4 +33,4 @@ class AbstractAdapter {
 
 }
 
-module.exports = AbstractAdapter;
+module.exports = AbstractBackendAdapter;

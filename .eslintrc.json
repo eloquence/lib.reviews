@@ -203,7 +203,7 @@
         "one-var-declaration-per-line": "error",
         "operator-assignment": "error",
         "operator-linebreak": [
-            "error",
+            "warn",
             "after"
         ],
         "padded-blocks": "off",

@@ -60,8 +60,8 @@
             <input id="review-url" name="review-url" type="text" class="pure-input-1" spellcheck=false data-required data-focus data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{{formValues.url}}}">
             </div>
             <div id="review-via-wikidata-inputs" class="hidden">
-            <label for="review-search-wikidata">Pick a review subject <span class="required">*</span></label>
-            <input id="review-search-wikidata" type="text" class="pure-input-1" data-ignore-autosave placeholder="Start typing to search Wikidata">
+            <label for="review-search-wikidata">{{{__ "pick a review subject"}}} <span class="required">*</span></label>
+            <input id="review-search-wikidata" type="text" class="pure-input-1" autocomplete="off" data-ignore-autosave placeholder="{{{__ "start typing to search wikidata"}}}">
             </div>
             {{! Switcher control that lets us activate Wikidata as a source.}}
             <div class="switcher-control" id="review-source-switcher">

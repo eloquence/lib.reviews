@@ -427,6 +427,8 @@
    "search wikidata button label": "Search Wikidata",
    "review via wikidata help label": "Search Wikidata",
    "review via wikidata help text": "<a href='https://www.wikidata.org' target='_blank'>Wikidata</a> is a vast, ever-expanding database of concepts. You can review anything that has an entry there, with the exception of living people per our <a href='/terms' target='_blank'>terms of use</a>. Your search will only match the item's name and aliases, not its description.",
+   "pick a review subject": "Pick a review subject",
+   "start typing to search wikidata": "Start typing to search Wikidata",
    "no relevant results": "No relevant results on this page.",
    "load next page": "Load next page of results",
    "load previous page": "Load previous page of results",

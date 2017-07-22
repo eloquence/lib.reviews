@@ -5,8 +5,8 @@
 
   require('es6-promise').polyfill();
 
-  const NativeAdapter = require('./adapters/native-adapter');
-  const WikidataAdapter = require('./adapters/wikidata-adapter');
+  const NativeFrontendAdapter = require('./adapters/native-frontend-adapter');
+  const WikidataFrontendAdapter = require('./adapters/wikidata-frontend-adapter');
 
   // All adapters will be tried against a provided review subject URL. If they
   // support it, they will perform a parallel, asynchronous lookup. The array order
@@ -14,8 +14,8 @@
   // a result) will be used for the review subject metadata. The native (lib.reviews)
   // lookup therefore always takes precedence.
   const adapters = [
-    new NativeAdapter(),
-    new WikidataAdapter(updateURLAndReviewSubject)
+    new NativeFrontendAdapter(),
+    new WikidataFrontendAdapter(updateURLAndReviewSubject)
   ];
 
   // Our form's behavior depends significantly on whether we're creating

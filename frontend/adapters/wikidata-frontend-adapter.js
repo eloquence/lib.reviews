@@ -5,15 +5,16 @@
 
 const supportedPattern = new RegExp('http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
 const apiBaseURL = 'https://www.wikidata.org/w/api.php';
-const AbstractAdapter = require('./abstract-adapter');
+const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
+const sourceID = 'wikidata';
 
 // Even when selecting via search, we still want to check whether there's a
 // native entry for this URL
-const NativeAdapter = require('./native-adapter');
-const nativeAdapter = new NativeAdapter();
+const NativeFrontendAdapter = require('./native-frontend-adapter');
+const nativeFrontendAdapter = new NativeFrontendAdapter();
 
 // See abstract-adapter.js for method documentation.
-class WikidataAdapter extends AbstractAdapter {
+class WikidataFrontendAdapter extends AbstractFrontendAdapter {
 
   ask(url) {
     return supportedPattern.test(url);
@@ -45,7 +46,7 @@ class WikidataAdapter extends AbstractAdapter {
           data: queryObj
         })
         .done(data => {
-          if (!data || !data.success || !data.entities || !data.entities[qNumber])
+          if (typeof data !== 'object' || !data.success || !data.entities || !data.entities[qNumber])
             return reject(new Error('Did not get a valid Wikidata entity for query: ' + qNumber));
 
           const entity = data.entities[qNumber];
@@ -67,7 +68,8 @@ class WikidataAdapter extends AbstractAdapter {
             data: {
               label,
               description
-            }
+            },
+            sourceID
           });
         })
         .fail(reject);
@@ -121,7 +123,7 @@ class WikidataAdapter extends AbstractAdapter {
         this.updateCallback(row);
         // Check if we have local record and if so, replace Wikidata lookup
         // results
-        nativeAdapter
+        nativeFrontendAdapter
           .lookup(row.url)
           .then(result => {
             if (result && result.data) {
@@ -303,4 +305,4 @@ class WikidataAdapter extends AbstractAdapter {
 
 }
 
-module.exports = WikidataAdapter;
+module.exports = WikidataFrontendAdapter;

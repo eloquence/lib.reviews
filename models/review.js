@@ -9,6 +9,7 @@ const User = require('./user.js');
 const Thing = require('./thing.js');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
+const adapters = require('../adapters/adapters');
 
 const reviewOptions = {
   maxTitleLength: 255
@@ -141,22 +142,25 @@ Review.create = function(reviewObj, options) {
 };
 
 Review.findOrCreateThing = function(reviewObj) {
+
   return new Promise((resolve, reject) => {
 
     // We have an existing thing to add this review to
     if (reviewObj.thing)
       return resolve(reviewObj.thing);
 
-    Thing.filter(function(thing) {
-        return thing('urls').contains(reviewObj.url);
-      })
-      .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
-        default: true
-      })
-      .filter(r.row('_revOf').eq(false), { // Exclude old revisions
-        default: true
-      })
-      .then(things => {
+    let queries = [Thing.lookupByURL(reviewObj.url)];
+
+    // Look up this URL in adapters that support it. Promises will not reject,
+    // so can be added to Promise.all below. Order is specified in adapters.js
+    // and is important (see below)
+    queries = queries.concat(adapters.getSupportedLookupsAsSafePromises(reviewObj.url));
+
+    Promise
+      .all(queries)
+      .then(results => {
+        let things = results.shift();
+
         if (things.length) {
           resolve(things[0]); // we have an entry with this URL already
         } else {
@@ -170,11 +174,26 @@ Review.findOrCreateThing = function(reviewObj) {
           thing._revUser = reviewObj.createdBy;
           thing._revID = r.uuid();
 
-          // Only create a short identifier (slug) for this thing if the user
-          // specified a label
+          let firstResultWithData = adapters.getFirstResultWithData(results);
+          if (firstResultWithData && firstResultWithData.data.description)
+            thing.description = firstResultWithData.data.description;
+
+          // Do we have a label and description for this thing that could be
+          // used to generate a short identifier (slug)?
+          //
+          // 1) If one is provided by the user, it always takes precedence.
+          // 2) If one is provided by an adapter, the first adapter (in the
+          //    order of the queries array) to return a valid result will be used.
+          // 3) If we don't have one, we will skip this step. A label can be
+          //    added later.
           let updateSlug;
           if (reviewObj.label && reviewObj.label[reviewObj.originalLanguage]) {
             thing.label = reviewObj.label;
+            updateSlug = thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage);
+          } else if (firstResultWithData) {
+            thing.label = firstResultWithData.data.label;
+            // updateSlug will detect the best possible language match against
+            // the multilingual string obtained by the adapter.
             updateSlug = thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage);
           } else {
             updateSlug = Promise.resolve(thing);
@@ -190,10 +209,7 @@ Review.findOrCreateThing = function(reviewObj) {
             .catch(reject);
         }
       })
-      .catch(error => {
-        // Most likely, table does not exist. Will be auto-created on restart.
-        reject(error);
-      });
+      .catch(reject);
   });
 };
 
