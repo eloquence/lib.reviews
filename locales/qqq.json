@@ -410,6 +410,7 @@
 	"not a member of team title": "Title for the page that is shown when the user attempts to access the form to create a new review for a given team, but is not a member of said team.",
 	"not a member of team": "Body for the page that is shown when the user attempts to access the form to create a new review for a given team, but is not a member of said team.",
 	"review label": "Label for label field in the review form (e.g., for entering the title of a book)",
+	"review subject": "Label for section of the review form that identifies the thing that is being reviewed (e.g., the title of a book). Translate as a noun, not verb.",
 	"enter label for review subject": "Placeholder for label field in the review form. Feel free to localize the example consistent with the other form placeholders.",
 	"review label help label": "Label (headline) for context-sensitive help for the label field in the review form\n{{Identical|Label}}",
 	"review label help": "Text for context-sensitive help for the label field in the review form. Feel free to localize the examples.",
