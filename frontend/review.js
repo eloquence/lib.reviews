@@ -101,8 +101,12 @@
   }
 
   function handleURLLookup() {
-    let inputURL = this.value;
+    let inputEle = this;
+    let inputURL = inputEle.value;
     let promises = [];
+
+    if (!inputURL)
+      return clearResolvedInfo();
 
     // We look up this URL using all adapters that support it. The native
     // adapter performs its own URL schema validation, and other adapters
@@ -118,6 +122,10 @@
     Promise
       .all(promises.map(promise => promise.catch(error => ({ error }))))
       .then(results => {
+        // If the URL field has been cleared since the user started the query,
+        // don't bother with the result of the lookup
+        if (!inputEle.value)
+          return;
         // Use first valid result in order of the array. Since the native lookup
         // is the first array element, it will take precedence over any adapters.
         for (let result of results) {
@@ -130,13 +138,17 @@
             });
         }
 
-        // No valid results.
-        // Clean out any old URL metadata and show the label field again
-        $('.resolved-info').empty();
-        $('#review-subject').hide();
-        $('.review-label-group').show();
-        window.libreviews.repaintFocusedHelp();
+        clearResolvedInfo();
+
       });
+  }
+
+  // Clean out any old URL metadata and show the label field again
+  function clearResolvedInfo() {
+    $('.resolved-info').empty();
+    $('#review-subject').hide();
+    $('.review-label-group').show();
+    window.libreviews.repaintFocusedHelp();
   }
 
   // Show warning and helper links as appropriate

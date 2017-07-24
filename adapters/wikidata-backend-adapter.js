@@ -11,7 +11,7 @@ const languages = require('../locales/languages');
 // Adapter settings
 
 // Which URL pattern can this adapter handle?
-const supportedPattern = new RegExp('http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
+const supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
 const sourceID = 'wikidata';
 
 // How do lib.reviews language code translate to Wikidata language codes?

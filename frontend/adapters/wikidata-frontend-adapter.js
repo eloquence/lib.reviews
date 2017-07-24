@@ -12,7 +12,7 @@ const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
 
 
 // Adapter settings
-const supportedPattern = new RegExp('http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
+const supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
 const apiBaseURL = 'https://www.wikidata.org/w/api.php';
 const sourceID = 'wikidata';
 
