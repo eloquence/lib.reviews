@@ -425,7 +425,19 @@
 	"not a member of team title": "不是此團隊的成員",
 	"not a member of team": "您不是<a href='%s'>此團隊</a>的成員。請加入該團隊來將評論與此相關。",
 	"review label": "用於您所評論事物的標籤",
+	"review subject": "評論主題",
 	"enter label for review subject": "輸入標籤，例如：馬特諾瑪瀑布",
 	"review label help label": "標籤",
-	"review label help": "網址要指向什麼？對於創作物品來說，僅用在作品的標題上（例如：<i>人類的由來</i>；而不是<i>查爾斯·達爾文：人類的由來</i>）"
+	"review label help": "網址要指向什麼？對於創作物品來說，僅用在作品的標題上（例如：<i>人類的由來</i>；而不是<i>查爾斯·達爾文：人類的由來</i>）",
+	"review by url button label": "依指定 URL 的評論",
+	"search wikidata button label": "搜尋維基數據",
+	"review via wikidata help label": "搜尋維基數據",
+	"review via wikidata help text": "<a href='https://www.wikidata.org' target='_blank'>維基數據</a>是個龐大，不斷擴充的概念內容資料庫。除了在我們<a href='/terms' target='_blank'>使用條款</a>裡的各人物以外，您可以查看任何在裡頭的項目內容。您的搜尋僅能符合項目的名稱和別名，而不能包括描述。",
+	"pick a review subject": "挑出一個評論主題",
+	"start typing to search wikidata": "開始輸入來在維基數據搜尋",
+	"no relevant results": "在此頁面沒有相關結果。",
+	"load next page": "載入下一頁的結果",
+	"load previous page": "載入上一頁的結果",
+	"more results": "更多結果",
+	"wikidata title blacklist": "^維基媒體模板名稱$\n^維基媒體分類名稱$\n^維基媒體清單條目名稱$\n消歧義頁面名稱$\n^維基新聞條目名稱$"
 }

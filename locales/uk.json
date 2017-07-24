@@ -4,7 +4,8 @@
 			"Choomaq",
 			"KHMELNYTSKYIA",
 			"Piramidion",
-			"Олександр"
+			"Олександр",
+			"SimondR"
 		]
 	},
 	"site name": "lib.reviews",
@@ -371,5 +372,7 @@
 	"format as code block": "Код",
 	"format as heading": "Заголовок",
 	"format as level heading": "Рівень %d",
-	"ok": "Гаразд"
+	"ok": "Гаразд",
+	"review label help label": "Позначення",
+	"more results": "більше результатів"
 }

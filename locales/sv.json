@@ -426,7 +426,19 @@
 	"not a member of team title": "Inte medlem i denna grupp",
 	"not a member of team": "Du är inte medlem i <a href='%s'>denna grupp</a>. Gå med i gruppen för att associera recensioner med den.",
 	"review label": "Etikett för saken du recenserar",
+	"review subject": "Recensionsämne",
 	"enter label for review subject": "Ange etikett, t.ex. Multnomah Falls",
 	"review label help label": "Etikett",
-	"review label help": "Vad pekar webbadressen till? För kreativa verk, använd endast verkets titel (d.v.s. <i>The Descent of Man</i> istället för <i>Charles Darwin: The Descent of Man</i>)."
+	"review label help": "Vad pekar webbadressen till? För kreativa verk, använd endast verkets titel (d.v.s. <i>The Descent of Man</i> istället för <i>Charles Darwin: The Descent of Man</i>).",
+	"review by url button label": "Recensera efter URL",
+	"search wikidata button label": "Sök på Wikipedia",
+	"review via wikidata help label": "Sök på Wikipedia",
+	"review via wikidata help text": "<a href='https://www.wikidata.org' target='_blank'>Wikidata</a> en omfattande, ständigt växande konceptdatabas. Du kan recensera vad som helst där, med undantag för levande personer enligt våra <a href='/terms' target='_blank'>användarvillkor</a>. Din sökning kommer endast att matcha objektets namn och alias, inte dess beskrivning.",
+	"pick a review subject": "Välj ett recensionsämne",
+	"start typing to search wikidata": "Börja skriva för att söka på Wikidata",
+	"no relevant results": "Inga relevanta resultat på denna sida.",
+	"load next page": "Läs in nästa sida med resultat",
+	"load previous page": "Läs in föregående sida med resultat",
+	"more results": "fler resultat",
+	"wikidata title blacklist": "^Wikimedia-mall$\n^Wikimedia-kategori$\n^Wikimedia-listartiklar$\nförgreningssida$\n^Wikinews-artikel$"
 }

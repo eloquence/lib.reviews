@@ -177,5 +177,8 @@
 	"ok": "확인",
 	"not a member of team title": "이 팀의 일원이 아닙니다",
 	"enter label for review subject": "레이블을 입력하십시오 (예: Multnomah Falls)",
-	"review label help label": "레이블"
+	"review label help label": "레이블",
+	"search wikidata button label": "위키데이터 검색",
+	"review via wikidata help label": "위키데이터 검색",
+	"start typing to search wikidata": "위키데이터를 검색하려면 입력을 시작하세요"
 }

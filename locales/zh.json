@@ -424,6 +424,19 @@
 	"not a member of team title": "不是此团队的成员",
 	"not a member of team": "您并不是<a href='%s'>此团队</a>的成员。为了将审查与该团队相关联，请加入该团队。",
 	"review label": "用于您正在审查的事物标签",
+	"review subject": "审查主题",
 	"enter label for review subject": "输入标签，例如马特诺玛瀑布",
-	"review label help label": "标签"
+	"review label help label": "标签",
+	"review label help": "网址指向哪里？对于创意作品，只使用作品标题即可（例如<i>人类的由来</i>而不是<i>查尔斯·达尔文：人类的由来</i>）。",
+	"review by url button label": "由URL审查",
+	"search wikidata button label": "搜索维基数据",
+	"review via wikidata help label": "搜索维基数据",
+	"review via wikidata help text": "<a href='https://www.wikidata.org' target='_blank'>Wikidata</a>是一个巨大，并且仍在不断扩大的概念数据库。您可以审查记录在此的任何事物，但在世人物除外（请参见我们的<a href='/terms' target='_blank'>使用条款</a>以获知原因）。您的搜索将只匹配数据项的名称及别名，而不会匹配其描述。",
+	"pick a review subject": "选取审查主题",
+	"start typing to search wikidata": "开始输入以搜索维基数据",
+	"no relevant results": "此页面没有相关结果。",
+	"load next page": "加载结果下一页",
+	"load previous page": "加载结果上一页",
+	"more results": "更多结果",
+	"wikidata title blacklist": "^维基媒体模板$\n^维基媒体分类$\n^维基媒体列表条目$\n消歧义页$\n^维基新闻新闻稿$"
 }
