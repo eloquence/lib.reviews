@@ -436,21 +436,33 @@
   }
 
   function setupSearch() {
-    let ac = new AC($('#search-input')[0], null, queryFn, null, null, triggerFn);
+    let ac = new AC($('#search-input')[0], null, requestFn, null, null, triggerFn);
     ac.secondaryTextKey = 'language';
+    ac.delay = 0;
 
     function triggerFn(row) {
       if (row.urlID)
         window.location = `/${row.urlID}`;
     }
 
-    function queryFn(query) {
+    function requestFn(query) {
+      const time = Date.now();
+
+      // Keep track of most recently fired query so we can ignore responses
+      // coming in late
+      if (this.latestQuery === undefined || this.latestQuery < time)
+        this.latestQuery = time;
+
       this.results = [];
       query = query.trim();
       if (query) {
         $
           .get(`/api/suggest/thing/${encodeURIComponent(query)}`)
           .done(res => {
+            // Don't update if a more recent query has superseded this one
+            if (time < this.latestQuery)
+              return;
+
             this.results = [];
             if (res.results) {
 
