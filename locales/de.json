@@ -439,6 +439,5 @@
 	"no relevant results": "Keine relevanten Ergebnisse auf dieser Seite.",
 	"load next page": "Nächste Ergebnisseite laden",
 	"load previous page": "Vorherige Ergebnisseite laden",
-	"more results": "weitere Ergebnisse",
-	"wikidata title blacklist": "^Wikimedia-Begriffsklärungsseite$\n^Wikimedia-Liste$\n^Artikel bei Wikinews$\n^Wikinews-Artikel$"
+	"more results": "weitere Ergebnisse"
 }

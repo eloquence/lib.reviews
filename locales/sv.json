@@ -439,6 +439,5 @@
 	"no relevant results": "Inga relevanta resultat på denna sida.",
 	"load next page": "Läs in nästa sida med resultat",
 	"load previous page": "Läs in föregående sida med resultat",
-	"more results": "fler resultat",
-	"wikidata title blacklist": "^Wikimedia-mall$\n^Wikimedia-kategori$\n^Wikimedia-listartiklar$\nförgreningssida$\n^Wikinews-artikel$"
+	"more results": "fler resultat"
 }

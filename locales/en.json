@@ -432,6 +432,5 @@
    "no relevant results": "No relevant results on this page.",
    "load next page": "Load next page of results",
    "load previous page": "Load previous page of results",
-   "more results": "more results",
-   "wikidata title blacklist": "^Wikimedia template$\n^Wikimedia category$\n^Wikimedia list article$\ndisambiguation page$\n^Wikinews article$"
+   "more results": "more results"
 }

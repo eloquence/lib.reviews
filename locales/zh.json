@@ -437,6 +437,5 @@
 	"no relevant results": "此页面没有相关结果。",
 	"load next page": "加载结果下一页",
 	"load previous page": "加载结果上一页",
-	"more results": "更多结果",
-	"wikidata title blacklist": "^维基媒体模板$\n^维基媒体分类$\n^维基媒体列表条目$\n消歧义页$\n^维基新闻新闻稿$"
+	"more results": "更多结果"
 }

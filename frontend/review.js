@@ -15,7 +15,7 @@
   // lookup therefore always takes precedence.
   const adapters = [
     new NativeFrontendAdapter(),
-    new WikidataFrontendAdapter(updateURLAndReviewSubject)
+    new WikidataFrontendAdapter(updateURLAndReviewSubject, '#review-search-wikidata')
   ];
 
   // Our form's behavior depends significantly on whether we're creating

@@ -438,6 +438,5 @@
 	"no relevant results": "在此頁面沒有相關結果。",
 	"load next page": "載入下一頁的結果",
 	"load previous page": "載入上一頁的結果",
-	"more results": "更多結果",
-	"wikidata title blacklist": "^維基媒體模板名稱$\n^維基媒體分類名稱$\n^維基媒體清單條目名稱$\n消歧義頁面名稱$\n^維基新聞條目名稱$"
+	"more results": "更多結果"
 }

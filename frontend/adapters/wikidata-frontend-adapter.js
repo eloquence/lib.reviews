@@ -14,14 +14,27 @@ const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
 // Adapter settings
 const supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
 const apiBaseURL = 'https://www.wikidata.org/w/api.php';
+const queryServiceBaseURL = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql';
 const sourceID = 'wikidata';
 
-// Because we use a blacklist to exclude certain results (e.g., disambiguation
-// pages), we fetch a larger number of results than we may need, since we may
-// eliminate some of them client-side. The ratio below has proven to strike a
+// Because we exclude certain item classes (e.g., disambiguation pages), we
+// fetch a larger number of results than we may need, since we may
+// eliminate some of them. The ratio below has proven to strike a
 // good balance where few queries result in zero "good" results.
 const fetchResults = 25;
 const displayResults = 7;
+
+// Timeout for query service validation requests in milliseconds
+const queryServiceTimeout = 5000;
+
+// Items with these classes are typically not going to be the target of reviews.
+const excludedItemClasses = [
+  'Q4167410', // disambiguation page
+  'Q17633526', // Wikinews article
+  'Q11266439', // Template
+  'Q4167836', // Category
+  'Q14204246' // Wikimedia project page
+];
 
 // How do lib.reviews language code translate to Wikidata language codes?
 // Since Wikidata supports a superset of languages and most language codes
@@ -38,6 +51,11 @@ const nativeFrontendAdapter = new NativeFrontendAdapter();
 
 // See abstract-adapter.js for method documentation.
 class WikidataFrontendAdapter extends AbstractFrontendAdapter {
+
+  constructor(updateCallback, searchBoxSelector) {
+    super(updateCallback);
+    this.searchBoxSelector = searchBoxSelector;
+  }
 
   ask(url) {
     return supportedPattern.test(url);
@@ -64,7 +82,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
         ids: qNumber
       };
 
-      $.ajax({
+      $.get({
           url: apiBaseURL,
           jsonp: 'callback',
           dataType: 'jsonp',
@@ -74,8 +92,8 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
           if (typeof data !== 'object' || !data.success || !data.entities || !data.entities[qNumber])
             return reject(new Error('Did not get a valid Wikidata entity for query: ' + qNumber));
 
-          const entity = data.entities[qNumber];
           // Descriptions result will be an empty object if no description is available, so
+          const entity = data.entities[qNumber];
           // will always pass this test
           if (!entity.labels || !entity.descriptions)
             return reject(new Error('Did not get label and description information for query: ' + qNumber));
@@ -103,8 +121,6 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
 
   setup() {
 
-    const self = this;
-
     // Wire up switcher for source of review subject
     $('#review-via-url').conditionalSwitcherClick(function() {
       $('#review-via-wikidata-inputs').addClass('hidden');
@@ -127,23 +143,28 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       event.stopPropagation();
     });
 
-    const searchBoxSelector = '#review-search-wikidata';
+    let ac = new AC($(this.searchBoxSelector)[0], null, this.getRequestRowsFn(), null, null, this.getSelectRowFn());
+    ac.secondaryTextKey = 'description';
+    ac.delay = 0;
+    ac.cssPrefix = 'ac-adapter-';
+    ac.renderNav = this.renderACNav.bind(ac);
+  }
 
+  disableSpinner() {
+    $(`${this.searchBoxSelector} + span.input-spinner`).addClass('hidden');
+  }
 
-    // We exclude certain meta-content (e.g., Wikimedia disambiguation pages)
-    // by testing descriptions against a blacklist. This is different for
-    // each language, and loaded from a UI message, which gets parsed into
-    // regular expressions.
-    const blacklist = config.messages['wikidata title blacklist']
-      .split('\n')
-      .filter(entry => typeof entry === 'string' && entry.length) // Ignore empty lines
-      .map(entry => new RegExp(entry));
+  enableSpinner() {
+    $(`${this.searchBoxSelector} + span.input-spinner`).removeClass('hidden');
+  }
 
-    // `this` refers to adapter
-    const triggerFn = row => {
+  // Get the callback for selecting a row within the autocomplete widget
+  getSelectRowFn() {
+    const thisAdapter = this;
+    return function(row) {
       if (row.url && row.label) {
         // Perform appropriate UI updates
-        this.updateCallback(row);
+        thisAdapter.updateCallback(row);
         // Check if we have local record and if so, replace Wikidata lookup
         // results
         nativeFrontendAdapter
@@ -151,7 +172,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
           .then(result => {
             if (result && result.data) {
               result.data.url = row.url;
-              this.updateCallback(result.data);
+              thisAdapter.updateCallback(result.data);
             }
           })
           .catch(() => {
@@ -159,28 +180,36 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
           });
       }
     };
+  }
 
-    // `this` refers to AC instance
-    function requestFn(query, requestedOffset) {
+  // Get the callback for requesting/validating rows from the API + query
+  // service, for the autocomplete widget
+  getRequestRowsFn() {
+    const thisAdapter = this;
+    return function(query, requestedOffset) {
       const time = Date.now();
+
+      // `this` refers to AC instance here; to keep things readable,
+      // we consistently use thisAC below
+      const thisAC = this;
 
       // Keep track of most recently fired query so we can ignore responses
       // coming in late
-      if (this.latestQuery === undefined || this.latestQuery < time)
-        this.latestQuery = time;
+      if (thisAC.latestQuery === undefined || thisAC.latestQuery < time)
+        thisAC.latestQuery = time;
 
-      this.results = [];
+      thisAC.results = [];
       query = query.trim();
 
       // Nothing to do - clear out the display & abort
       if (!query) {
-        // Turn off spinner
-        $(`${searchBoxSelector} + span.input-spinner`).addClass('hidden');
-        return this.render();
+        thisAdapter.disableSpinner();
+        thisAC.render();
+        return;
       }
 
       // Turn on spinner
-      $(`${searchBoxSelector} + span.input-spinner`).removeClass('hidden');
+      thisAdapter.enableSpinner();
 
       const language = nativeToWikidata[config.language] || config.language;
 
@@ -204,10 +233,10 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
         isFirstPage = true;
         // Keep track of the exact offsets used on previous pages, since
         // they vary due to client-side filtering
-        this.prevStack = [];
+        thisAC.prevStack = [];
       }
 
-      $.ajax({
+      $.get({
           url: apiBaseURL,
           jsonp: 'callback',
           dataType: 'jsonp',
@@ -218,130 +247,208 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
           if (time < this.latestQuery)
             return;
 
-          // Turn off spinner
-          $(`${searchBoxSelector} + span.input-spinner`).addClass('hidden');
+          thisAdapter.disableSpinner();
+          thisAC.results = [];
 
-          this.results = [];
-
-          // Keep track of how many results we get that we can use (that don't
-          // match a blacklist)
+          // Keep track of how many results we get that we can use
           let goodResults = 0;
           // Keep track of where in the result set we want to continue from
           let resultIndex = 0;
 
-          if (typeof data === 'object' && data.search) {
+          if (typeof data !== 'object' || !data.search || !data.search.length)
+            return thisAC.render(); // Render blank results, abort
 
-            // Client-side filtering of results per blacklist
-            itemloop: for (let item of data.search) {
-              resultIndex++;
-              if (blacklist.length) {
-                for (let regex of blacklist)
-                  if (regex.test(item.description))
-                    continue itemloop;
+
+          // Build SPARQL list of items to validate against excluded classes via
+          // query service
+          let prefixedItemsStr = data.search
+            .map(item => `wd:${item.id}`)
+            .join(' ');
+
+          // Build SPARQL list of classes to exclude via query service
+          let excludedClassesStr = excludedItemClasses.reduce((str, qNumber) => {
+            str += `MINUS { ?item wdt:P31 wd:${qNumber} }\n`;
+            return str;
+          }, '');
+
+          let sparqlQuery = 'SELECT DISTINCT ?item WHERE { \n' +
+            '?item ?property ?value \n' +
+            excludedClassesStr + ' \n' +
+            'VALUES ?item { ' + prefixedItemsStr + '} \n' +
+            '}';
+
+          // Validate result against list of excluded classes
+          $.get({
+              url: queryServiceBaseURL,
+              dataType: 'json',
+              data: {
+                query: sparqlQuery,
+                format: 'json'
+              },
+              timeout: queryServiceTimeout
+            })
+            .done(filteredData => {
+
+              // Ignore late results
+              if (time < thisAC.latestQuery)
+                return;
+
+              let isExcludedURI = uri => {
+                if (typeof filteredData !== 'object' || !filteredData.results ||
+                  !filteredData.results.bindings)
+                return false;
+
+                for (let dataItem of filteredData.results.bindings) {
+                  if (dataItem.item.value === uri)
+                    return false;
+                }
+                return true;
+              };
+
+              for (let item of data.search) {
+                resultIndex++;
+                if (isExcludedURI(item.concepturi))
+                  continue;
+
+                let result = thisAdapter.extractRow(item, query);
+
+                thisAC.results.push(result);
+                goodResults++;
+
+                if (goodResults >= displayResults)
+                  break;
               }
-              let result = {};
-              result.url = self.canonicalize(item.concepturi);
-              // Modified below
-              result.title = item.label;
-              // We preserve the original label
-              result.label = item.label;
-              result.description = item.description;
-              // Result does not contain query string directly, but some part of
-              // match does. Following example of Wikidata.org search box,
-              // append match to result.
-              if (item.label && item.label.toUpperCase().indexOf(query.toUpperCase()) === -1)
-                result.title += ` (${item.match.text})`;
-              else if (!item.label)
-                result.title = item.match.text;
+              thisAC.render();
+              thisAC.renderNav({
+                isFirstPage,
+                apiResult: data,
+                goodResults,
+                resultIndex,
+                requestedOffset,
+                queryString: query
+              });
+            })
+            .fail(_error => {
+              // In case of problems contacting the query service, we still
+              // want to show unfiltered results
+              if (time < thisAC.latestQuery)
+                return;
 
-              this.results.push(result);
-              goodResults++;
-
-              if (goodResults >= displayResults)
-                break;
-            }
-            this.render();
-
-
-            // Navigation templates
-            const $navPlaceholder = $('<div class="ac-adapter-get-prev">&nbsp;</div>'),
-              $navWrapper = $('<div class="ac-adapter-get-more"></div>'),
-              $navMoreResultsText = $('<div class="ac-adapter-more-results">' + libreviews.msg('more results') + '</div>'),
-              $navNoResultsText = $('<div class="ac-adapter-no-relevant-results">' + libreviews.msg('no relevant results') + '</div>'),
-              $navPreviousPage = $('<div accesskey="<" class="ac-adapter-get-prev ac-adapter-get-active" title="' + libreviews.msg('load previous page', { accessKey: '<' }) + '"><span class="fa fa-caret-left">&nbsp;</span></div>'),
-              $navNextPage = $('<div class="ac-adapter-get-next ac-adapter-get-active" accesskey=">" title="' + libreviews.msg('load next page', { accessKey: '>' }) + '"><span class="fa fa-caret-right">&nbsp;</span></div>');
-
-            // The API only returns the 'search-continue' offset up to the 50th
-            // result. It is useful only in edge cases but we track it for those.
-            let apiSaysMoreResults = data['search-continue'] !== undefined;
-            let weKnowAboutMoreResults = data.search.length > goodResults;
-            let hasPagination = !isFirstPage || apiSaysMoreResults || weKnowAboutMoreResults;
-
-            let $getMore,
-              $wrapper = $(this.rowWrapperEl);
-
-
-            // Add basic pagination template
-            if (hasPagination) {
-              $getMore = $navWrapper.appendTo($wrapper);
-              // Show "no relevant results" text
-              if (goodResults === 0)
-                $wrapper
-                .prepend($navNoResultsText)
-                .show();
-            }
-
-            // Add "previous page" navigation
-            if (!isFirstPage) {
-              $navPreviousPage
-                .appendTo($getMore)
-                .click(() => this.requestFn(query, this.prevStack.pop()));
-            }
-
-            if (apiSaysMoreResults || weKnowAboutMoreResults) {
-              let nextOffset = (requestedOffset || 0) + resultIndex;
-
-              // Add whitespace placeholder
-              if (isFirstPage)
-                $navPlaceholder
-                .appendTo($getMore);
-
-              // Add "MORE RESULTS" centered text
-              $navMoreResultsText
-                .appendTo($getMore);
-
-              // Add "next page" navigation
-              $navNextPage
-                .appendTo($getMore)
-                .click(() => {
-                  this.prevStack.push(requestedOffset);
-                  this.requestFn(query, nextOffset);
-                });
-            } else if (!isFirstPage) {
-              // Add "MORE RESULTS" centered text
-              $navMoreResultsText
-                .appendTo($getMore);
-            }
-          }
+              thisAC.results = data.search
+                .slice(0, displayResults)
+                .map(item => thisAdapter.extractRow(item, query));
+              let goodResults = thisAC.results.length,
+                resultIndex = goodResults;
+              thisAC.render();
+              thisAC.renderNav({
+                isFirstPage,
+                apiResult: data,
+                goodResults,
+                resultIndex,
+                requestedOffset,
+                queryString: query
+              });
+            });
         })
         .fail(_error => {
           // Show generic error
           $('#generic-action-error').removeClass('hidden');
           window.libreviews.repaintFocusedHelp();
           // Turn off spinner
-          $(`${searchBoxSelector} + span.input-spinner`).addClass('hidden');
+          thisAdapter.disableSpinner();
         });
-    }
-    let ac = new AC($(searchBoxSelector)[0], null, requestFn, null, null, triggerFn);
-    ac.secondaryTextKey = 'description';
-    ac.delay = 0;
-    ac.cssPrefix = 'ac-adapter-';
+    };
   }
 
-  // Transforms HTTP to HTTPS, and switches from the /entity to the /wiki
-  // format, since the latter is the one users are likely to copy/paste.
-  canonicalize(url) {
-    return url.replace(/^http:/g, 'https:').replace(/\/entity\//, '/wiki/');
+  // Transform a result from the Wikidata item into a row that can be rendered
+  // by the autocomplete control
+  extractRow(item, queryString) {
+    let row = {};
+    row.url = `https:${item.url}`; // Returned URL is protocol relative
+    // Modified below
+    row.title = item.label;
+    // We preserve the original label
+    row.label = item.label;
+    row.description = item.description;
+    // Result does not contain query string directly, but some part of
+    // match does. Following example of Wikidata.org search box,
+    // append match to result.
+    if (item.label && item.label.toUpperCase().indexOf(queryString.toUpperCase()) === -1)
+      row.title += ` (${item.match.text})`;
+    else if (!item.label)
+      row.title = item.match.text;
+
+    return row;
+  }
+
+  // Function for rendering next/previous navigation within the autocomplete
+  // widget. This is not a native feature of the widget, so it is provided
+  // by the adapter -- but it expects to be bound to the widget.
+  renderACNav(spec) {
+
+    const thisAC = this;
+    const { isFirstPage, apiResult, goodResults, resultIndex, requestedOffset, queryString } = spec;
+
+    // Navigation templates
+    const $navPlaceholder = $('<div class="ac-adapter-get-prev">&nbsp;</div>'),
+      $navWrapper = $('<div class="ac-adapter-get-more"></div>'),
+      $navMoreResultsText = $('<div class="ac-adapter-more-results">' + libreviews.msg('more results') + '</div>'),
+      $navNoResultsText = $('<div class="ac-adapter-no-relevant-results">' + libreviews.msg('no relevant results') + '</div>'),
+      $navPreviousPage = $('<div accesskey="<" class="ac-adapter-get-prev ac-adapter-get-active" title="' + libreviews.msg('load previous page', { accessKey: '<' }) + '"><span class="fa fa-caret-left">&nbsp;</span></div>'),
+      $navNextPage = $('<div class="ac-adapter-get-next ac-adapter-get-active" accesskey=">" title="' + libreviews.msg('load next page', { accessKey: '>' }) + '"><span class="fa fa-caret-right">&nbsp;</span></div>');
+
+    // The API only returns the 'search-continue' offset up to the 50th
+    // result. It is useful only in edge cases but we track it for those.
+    let apiSaysMoreResults = apiResult['search-continue'] !== undefined;
+    let weKnowAboutMoreResults = apiResult.search.length > resultIndex;
+    let hasPagination = !isFirstPage || apiSaysMoreResults || weKnowAboutMoreResults;
+
+    let $getMore,
+      $wrapper = $(thisAC.rowWrapperEl);
+
+
+    // Add basic pagination template
+    if (hasPagination) {
+      $getMore = $navWrapper.appendTo($wrapper);
+      // Show "no relevant results" text
+      if (goodResults === 0)
+        $wrapper
+        .prepend($navNoResultsText)
+        .show();
+    }
+
+    // Add "previous page" navigation
+    if (!isFirstPage) {
+      $navPreviousPage
+        .appendTo($getMore)
+        .click(() => thisAC.requestFn(queryString, thisAC.prevStack.pop()));
+    }
+
+    if (apiSaysMoreResults || weKnowAboutMoreResults) {
+      let nextOffset = (requestedOffset || 0) + resultIndex;
+
+      // Add whitespace placeholder
+      if (isFirstPage)
+        $navPlaceholder
+        .appendTo($getMore);
+
+      // Add "MORE RESULTS" centered text
+      $navMoreResultsText
+        .appendTo($getMore);
+
+      // Add "next page" navigation
+      $navNextPage
+        .appendTo($getMore)
+        .click(() => {
+          thisAC.prevStack.push(requestedOffset);
+          thisAC.requestFn(queryString, nextOffset);
+        });
+    } else if (!isFirstPage) {
+      // Add "MORE RESULTS" centered text
+      $navMoreResultsText
+        .appendTo($getMore);
+    }
+
   }
 
 }
