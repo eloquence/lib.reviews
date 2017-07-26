@@ -143,11 +143,12 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       event.stopPropagation();
     });
 
-    let ac = new AC($(this.searchBoxSelector)[0], null, this.getRequestRowsFn(), null, null, this.getSelectRowFn());
+    let ac = new AC($(this.searchBoxSelector)[0]);
+    this.registerAutocompleteFunctions(ac);
     ac.secondaryTextKey = 'description';
     ac.delay = 0;
     ac.cssPrefix = 'ac-adapter-';
-    ac.renderNav = this.renderACNav.bind(ac);
+    ac.adapter = this;
   }
 
   disableSpinner() {
@@ -158,211 +159,214 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
     $(`${this.searchBoxSelector} + span.input-spinner`).removeClass('hidden');
   }
 
-  // Get the callback for selecting a row within the autocomplete widget
-  getSelectRowFn() {
-    const thisAdapter = this;
-    return function(row) {
-      if (row.url && row.label) {
-        // Perform appropriate UI updates
-        thisAdapter.updateCallback(row);
-        // Check if we have local record and if so, replace Wikidata lookup
-        // results
-        nativeFrontendAdapter
-          .lookup(row.url)
-          .then(result => {
-            if (result && result.data) {
-              result.data.url = row.url;
-              thisAdapter.updateCallback(result.data);
-            }
-          })
-          .catch(() => {
-            // Do nothing
-          });
-      }
-    };
+  // Bind autocomplete callbacks to AC widget, and add custom helper functions
+  registerAutocompleteFunctions(ac) {
+    // Standard callbacks
+    ac.requestFn = this._requestRows.bind(ac);
+    ac.triggerFn = this._selectRow.bind(ac);
+    // Custom helper functions
+    ac.renderNav = this._renderNav.bind(ac);
+    ac.extractRow = this._extractRow.bind(ac);
   }
 
-  // Get the callback for requesting/validating rows from the API + query
-  // service, for the autocomplete widget
-  getRequestRowsFn() {
-    const thisAdapter = this;
-    return function(query, requestedOffset) {
-      const time = Date.now();
-
-      // `this` refers to AC instance here; to keep things readable,
-      // we consistently use thisAC below
-      const thisAC = this;
-
-      // Keep track of most recently fired query so we can ignore responses
-      // coming in late
-      if (thisAC.latestQuery === undefined || thisAC.latestQuery < time)
-        thisAC.latestQuery = time;
-
-      thisAC.results = [];
-      query = query.trim();
-
-      // Nothing to do - clear out the display & abort
-      if (!query) {
-        thisAdapter.disableSpinner();
-        thisAC.render();
-        return;
-      }
-
-      // Turn on spinner
-      thisAdapter.enableSpinner();
-
-      const language = nativeToWikidata[config.language] || config.language;
-
-      let queryObj = {
-        action: 'wbsearchentities',
-        search: query,
-        language,
-        uselang: language,
-        format: 'json',
-        limit: fetchResults
-      };
-
-      // Track if this is the first page we're rendering, in which case there's
-      // no "previous" button
-      let isFirstPage;
-
-      if (requestedOffset) {
-        // Pass along the offset
-        queryObj.continue = requestedOffset;
-      } else {
-        isFirstPage = true;
-        // Keep track of the exact offsets used on previous pages, since
-        // they vary due to client-side filtering
-        thisAC.prevStack = [];
-      }
-
-      $.get({
-          url: apiBaseURL,
-          jsonp: 'callback',
-          dataType: 'jsonp',
-          data: queryObj
+  // Must be bound to an autocomplete widget:
+  // Callback for selecting a row within the autocomplete widget
+  _selectRow(row) {
+    if (row.url && row.label) {
+      // Perform appropriate UI updates
+      this.adapter.updateCallback(row);
+      // Check if we have local record and if so, replace Wikidata lookup
+      // results
+      nativeFrontendAdapter
+        .lookup(row.url)
+        .then(result => {
+          if (result && result.data) {
+            result.data.url = row.url;
+            this.adapter.updateCallback(result.data);
+          }
         })
-        .done(data => {
-          // Don't update if a more recent query has superseded this one
-          if (time < this.latestQuery)
-            return;
+        .catch(() => {
+          // Do nothing
+        });
+    }
+  }
 
-          thisAdapter.disableSpinner();
-          thisAC.results = [];
+  // Must be bound to an autocomplete widget:
+  // Callback for requesting/validating rows from the API + query
+  // service.
+  _requestRows(query, requestedOffset) {
+    const time = Date.now();
 
-          // Keep track of how many results we get that we can use
-          let goodResults = 0;
-          // Keep track of where in the result set we want to continue from
-          let resultIndex = 0;
+    // Keep track of most recently fired query so we can ignore responses
+    // coming in late
+    if (this.latestQuery === undefined || this.latestQuery < time)
+      this.latestQuery = time;
 
-          if (typeof data !== 'object' || !data.search || !data.search.length)
-            return thisAC.render(); // Render blank results, abort
+    this.results = [];
+    query = query.trim();
+
+    // Nothing to do - clear out the display & abort
+    if (!query) {
+      this.adapter.disableSpinner();
+      this.render();
+      return;
+    }
+
+    // Turn on spinner
+    this.adapter.enableSpinner();
+
+    const language = nativeToWikidata[config.language] || config.language;
+
+    let queryObj = {
+      action: 'wbsearchentities',
+      search: query,
+      language,
+      uselang: language,
+      format: 'json',
+      limit: fetchResults
+    };
+
+    // Track if this is the first page we're rendering, in which case there's
+    // no "previous" button
+    let isFirstPage;
+
+    if (requestedOffset) {
+      // Pass along the offset
+      queryObj.continue = requestedOffset;
+    } else {
+      isFirstPage = true;
+      // Keep track of the exact offsets used on previous pages, since
+      // they vary due to client-side filtering
+      this.prevStack = [];
+    }
+
+    $.get({
+        url: apiBaseURL,
+        jsonp: 'callback',
+        dataType: 'jsonp',
+        data: queryObj
+      })
+      .done(data => {
+        // Don't update if a more recent query has superseded this one
+        if (time < this.latestQuery)
+          return;
+
+        this.adapter.disableSpinner();
+        this.results = [];
+
+        // Keep track of how many results we get that we can use
+        let goodResults = 0;
+        // Keep track of where in the result set we want to continue from
+        let resultIndex = 0;
+
+        if (typeof data !== 'object' || !data.search || !data.search.length)
+          return this.render(); // Render blank results, abort
 
 
-          // Build SPARQL list of items to validate against excluded classes via
-          // query service
-          let prefixedItemsStr = data.search
-            .map(item => `wd:${item.id}`)
-            .join(' ');
+        // Build SPARQL list of items to validate against excluded classes via
+        // query service
+        let prefixedItemsStr = data.search
+          .map(item => `wd:${item.id}`)
+          .join(' ');
 
-          // Build SPARQL list of classes to exclude via query service
-          let excludedClassesStr = excludedItemClasses.reduce((str, qNumber) => {
-            str += `MINUS { ?item wdt:P31 wd:${qNumber} }\n`;
-            return str;
-          }, '');
+        // Build SPARQL list of classes to exclude via query service
+        let excludedClassesStr = excludedItemClasses.reduce((str, qNumber) => {
+          str += `MINUS { ?item wdt:P31 wd:${qNumber} }\n`;
+          return str;
+        }, '');
 
-          let sparqlQuery = 'SELECT DISTINCT ?item WHERE { \n' +
-            '?item ?property ?value \n' +
-            excludedClassesStr + ' \n' +
-            'VALUES ?item { ' + prefixedItemsStr + '} \n' +
-            '}';
+        let sparqlQuery = 'SELECT DISTINCT ?item WHERE { \n' +
+          '?item ?property ?value \n' +
+          excludedClassesStr + ' \n' +
+          'VALUES ?item { ' + prefixedItemsStr + '} \n' +
+          '}';
 
-          // Validate result against list of excluded classes
-          $.get({
-              url: queryServiceBaseURL,
-              dataType: 'json',
-              data: {
-                query: sparqlQuery,
-                format: 'json'
-              },
-              timeout: queryServiceTimeout
-            })
-            .done(filteredData => {
+        // Validate result against list of excluded classes
+        $.get({
+            url: queryServiceBaseURL,
+            dataType: 'json',
+            data: {
+              query: sparqlQuery,
+              format: 'json'
+            },
+            timeout: queryServiceTimeout
+          })
+          .done(filteredData => {
 
-              // Ignore late results
-              if (time < thisAC.latestQuery)
-                return;
+            // Ignore late results
+            if (time < this.latestQuery)
+              return;
 
-              let isExcludedURI = uri => {
-                if (typeof filteredData !== 'object' || !filteredData.results ||
-                  !filteredData.results.bindings)
+            let isExcludedURI = uri => {
+              if (typeof filteredData !== 'object' || !filteredData.results ||
+                !filteredData.results.bindings)
                 return false;
 
-                for (let dataItem of filteredData.results.bindings) {
-                  if (dataItem.item.value === uri)
-                    return false;
-                }
-                return true;
-              };
-
-              for (let item of data.search) {
-                resultIndex++;
-                if (isExcludedURI(item.concepturi))
-                  continue;
-
-                let result = thisAdapter.extractRow(item, query);
-
-                thisAC.results.push(result);
-                goodResults++;
-
-                if (goodResults >= displayResults)
-                  break;
+              for (let dataItem of filteredData.results.bindings) {
+                if (dataItem.item.value === uri)
+                  return false;
               }
-              thisAC.render();
-              thisAC.renderNav({
-                isFirstPage,
-                apiResult: data,
-                goodResults,
-                resultIndex,
-                requestedOffset,
-                queryString: query
-              });
-            })
-            .fail(_error => {
-              // In case of problems contacting the query service, we still
-              // want to show unfiltered results
-              if (time < thisAC.latestQuery)
-                return;
+              return true;
+            };
 
-              thisAC.results = data.search
-                .slice(0, displayResults)
-                .map(item => thisAdapter.extractRow(item, query));
-              let goodResults = thisAC.results.length,
-                resultIndex = goodResults;
-              thisAC.render();
-              thisAC.renderNav({
-                isFirstPage,
-                apiResult: data,
-                goodResults,
-                resultIndex,
-                requestedOffset,
-                queryString: query
-              });
+            for (let item of data.search) {
+              resultIndex++;
+              if (isExcludedURI(item.concepturi))
+                continue;
+
+              let result = this.extractRow(item, query);
+
+              this.results.push(result);
+              goodResults++;
+
+              if (goodResults >= displayResults)
+                break;
+            }
+            this.render();
+            this.renderNav({
+              isFirstPage,
+              apiResult: data,
+              goodResults,
+              resultIndex,
+              requestedOffset,
+              queryString: query
             });
-        })
-        .fail(_error => {
-          // Show generic error
-          $('#generic-action-error').removeClass('hidden');
-          window.libreviews.repaintFocusedHelp();
-          // Turn off spinner
-          thisAdapter.disableSpinner();
-        });
-    };
+          })
+          .fail(_error => {
+            // In case of problems contacting the query service, we still
+            // want to show unfiltered results
+            if (time < this.latestQuery)
+              return;
+
+            this.results = data.search
+              .slice(0, displayResults)
+              .map(item => this.extractRow(item, query));
+            let goodResults = this.results.length,
+              resultIndex = goodResults;
+            this.render();
+            this.renderNav({
+              isFirstPage,
+              apiResult: data,
+              goodResults,
+              resultIndex,
+              requestedOffset,
+              queryString: query
+            });
+          });
+      })
+      .fail(_error => {
+        // Show generic error
+        $('#generic-action-error').removeClass('hidden');
+        window.libreviews.repaintFocusedHelp();
+        // Turn off spinner
+        this.adapter.disableSpinner();
+      });
   }
 
+  // Bound to the autocomplete widget:
   // Transform a result from the Wikidata item into a row that can be rendered
   // by the autocomplete control
-  extractRow(item, queryString) {
+  _extractRow(item, queryString) {
     let row = {};
     row.url = `https:${item.url}`; // Returned URL is protocol relative
     // Modified below
@@ -381,12 +385,10 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
     return row;
   }
 
-  // Function for rendering next/previous navigation within the autocomplete
-  // widget. This is not a native feature of the widget, so it is provided
-  // by the adapter -- but it expects to be bound to the widget.
-  renderACNav(spec) {
+  // Must be bound to an autocomplete widget:
+  // Render next/previous navigation within the autocomplete widget.
+  _renderNav(spec) {
 
-    const thisAC = this;
     const { isFirstPage, apiResult, goodResults, resultIndex, requestedOffset, queryString } = spec;
 
     // Navigation templates
@@ -404,7 +406,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
     let hasPagination = !isFirstPage || apiSaysMoreResults || weKnowAboutMoreResults;
 
     let $getMore,
-      $wrapper = $(thisAC.rowWrapperEl);
+      $wrapper = $(this.rowWrapperEl);
 
 
     // Add basic pagination template
@@ -421,7 +423,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
     if (!isFirstPage) {
       $navPreviousPage
         .appendTo($getMore)
-        .click(() => thisAC.requestFn(queryString, thisAC.prevStack.pop()));
+        .click(() => this.requestFn(queryString, this.prevStack.pop()));
     }
 
     if (apiSaysMoreResults || weKnowAboutMoreResults) {
@@ -440,8 +442,8 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       $navNextPage
         .appendTo($getMore)
         .click(() => {
-          thisAC.prevStack.push(requestedOffset);
-          thisAC.requestFn(queryString, nextOffset);
+          this.prevStack.push(requestedOffset);
+          this.requestFn(queryString, nextOffset);
         });
     } else if (!isFirstPage) {
       // Add "MORE RESULTS" centered text
