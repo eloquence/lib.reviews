@@ -438,8 +438,11 @@
 	"review by url button label": "Relire par URL",
 	"search wikidata button label": "Rechercher dans Wikidata",
 	"review via wikidata help label": "Rechercher dans Wikidata",
+	"review via wikidata help text": "<a href='https://www.wikidata.org' target='_blank'>Wikidata</a> est une vaste base de données de concepts, toujours en croissance. Vous pouvez critiquer n’importe quoi qui a une entrée ici, à l’exception de personnes vivantes, d’après nos <a href='/terms' target='_blank'>conditions d’utilisation</a>. Votre recherche ne correspondra qu’aux nom et alias de l’élément, et non à sa description.",
 	"pick a review subject": "Choisir un sujet de relecture",
+	"start typing to search wikidata": "Commencer à saisir pour rechercher dans Wikidata",
 	"no relevant results": "Pas de résultats significatifs sur cette page.",
 	"load next page": "Charger la page suivante des résultats",
+	"load previous page": "Charger la page de résultats précédente",
 	"more results": "plus de résultats"
 }

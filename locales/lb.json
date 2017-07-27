@@ -276,5 +276,9 @@
 	"forget rte preference": "Astellunge fir de Rich-Text-Editor vergiessen",
 	"not a member of team title": "Net Member vun dëser Equipe.",
 	"not a member of team": "Dir sidd net Member vun <a href='%s'>dëser Equipe</a>. Gitt w.e.g. Member vun dëser Equipe fir Bewäertunge mat hinnen ze deelen.",
-	"review label help label": "Etikett"
+	"review label help label": "Etikett",
+	"search wikidata button label": "Op Wikidata sichen",
+	"review via wikidata help label": "Op Wikidata sichen",
+	"start typing to search wikidata": "Mat Tippen ufänke fir op Wikidata ze sichen",
+	"more results": "méi Resultater"
 }
