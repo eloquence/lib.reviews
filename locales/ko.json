@@ -176,10 +176,15 @@
 	"required field": "필수 필드",
 	"ok": "확인",
 	"not a member of team title": "이 팀의 일원이 아닙니다",
+	"review subject": "검토 주제",
 	"enter label for review subject": "레이블을 입력하십시오 (예: Multnomah Falls)",
 	"review label help label": "레이블",
+	"review by url button label": "URL로 검토",
 	"search wikidata button label": "위키데이터 검색",
 	"review via wikidata help label": "위키데이터 검색",
+	"pick a review subject": "검토 주제 선택",
 	"start typing to search wikidata": "위키데이터를 검색하려면 입력을 시작하세요",
+	"no relevant results": "이 문서에 적절한 결과가 없습니다.",
+	"load previous page": "이전 결과 페이지 불러오기",
 	"more results": "더 많은 결과"
 }

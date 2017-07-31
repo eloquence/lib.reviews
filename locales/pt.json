@@ -5,7 +5,8 @@
 			"HenriqueCrang",
 			"Maxan",
 			"Walesson",
-			"Felipe L. Ewald"
+			"Felipe L. Ewald",
+			"Eduardo Addad de Oliveira"
 		]
 	},
 	"site name": "lib.reviews",
@@ -428,7 +429,13 @@
 	"not a member of team title": "Não é um membro desta equipe",
 	"not a member of team": "Você não é membro <a href='%s'>desta equipe</a>. Por favor, junte-se à equipe para associar comentários com ela.",
 	"review label": "Etiqueta para o assunto que você está revisando",
+	"review subject": "Assunto da revisão",
 	"enter label for review subject": "Digite a etiqueta, por exemplo, Multnomah Falls",
 	"review label help label": "Etiqueta",
-	"review label help": "O que o endereço da web indica? Para trabalhos criativos, use apenas o título do trabalho (por exemplo, <i>The Descent of Man</i> em vez de <i>Charles Darwin: The Descent of Man</i>)."
+	"review label help": "O que o endereço da web indica? Para trabalhos criativos, use apenas o título do trabalho (por exemplo, <i>The Descent of Man</i> em vez de <i>Charles Darwin: The Descent of Man</i>).",
+	"review by url button label": "Revisão por URL",
+	"search wikidata button label": "Pesquisar na Wikidata",
+	"review via wikidata help label": "Pesquisar na Wikidata",
+	"pick a review subject": "Escolha um assunto de revisão",
+	"more results": "Mais resultados"
 }
