@@ -423,5 +423,6 @@
 	"load next page": "Navigation tooltip that is shown when a Wikidata search yields more than a certain number of results",
 	"load previous page": "Navigation tooltip that is shown when the user has paginated through a search with more than a certain number of results",
 	"more results": "Text, rendered in all-caps, that is shown below the Wikidata search results to indicate to the user that more results than shown are available.",
-	"no search results": "Short text shown below the Wikidata search results to indicate that a search was unsuccessful."
+	"no search results": "Short text shown below the Wikidata search results to indicate that a search was unsuccessful.",
+	"clear review subject": "Tooltip for icon that lets the user undo the choice of review subject for a review they are writing from scratch."
 }

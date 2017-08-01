@@ -41,6 +41,12 @@
     .click(selectStar)
     .keyup(maybeSelectStar);
 
+  // Little "X" icon that makes previously looked up information from Wikidata
+  // and other sources go away and clears out the URL field
+  $('#remove-resolved-info')
+    .click(removeResolvedInfo)
+    .keyup(maybeRemoveResolvedInfo);
+
   // Highlight rating from POST request
   if (postRating)
     selectStar.apply($(`#star-button-${postRating}`)[0]);
@@ -76,6 +82,28 @@
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))
       $('#draft-notice').fadeOut(200);
+  }
+
+  // Handler for removing a previously added review subject from a review
+  function removeResolvedInfo() {
+    clearResolvedInfo();
+    $('#review-url').val('');
+    // Trigger change-related event handlers
+    handleURLLookup.apply($('#review-url')[0]);
+    handleURLValidation.apply($('#review-url')[0]);
+    // Update saved data w/ empty URL
+    sisyphus.saveAllData();
+
+    // Focus back on URL field.
+    // We don't clear out any search fields in case the user quickly wants
+    // to get back to the text they previously entered.
+    $('#review-via-url').click();
+  }
+
+  // "Enter" / "Space" keyboard handler for above
+  function maybeRemoveResolvedInfo() {
+    if (event.keyCode == 13 || event.keyCode == 32)
+      removeResolvedInfo();
   }
 
   function hideAbandonDraft() {

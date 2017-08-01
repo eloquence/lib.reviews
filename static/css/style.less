@@ -194,7 +194,8 @@ body {
 .ac-adapter-get-more {
   padding: 7px 10px 5px 10px;
   display:flex;
-  align-items:center;
+  display:-webkit-flex;
+  -webkit-align-items:center;
   background:white;
   position:relative;
   z-index:@acZIndex;
@@ -643,6 +644,22 @@ label.inline-star-label {
 #review-subject {
   display:none;
   margin-top:1em;
+}
+
+#resolved-info-container {
+  display:flex;
+  display:-webkit-flex;
+  align-items:center;
+  -webkit-align-items:center;
+}
+
+#resolved-info-controls {
+  margin-left:0.5em;
+}
+
+#remove-resolved-info {
+  color:#444;
+  cursor:pointer;
 }
 
 #resolved-description, #resolved-thing {
