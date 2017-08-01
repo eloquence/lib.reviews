@@ -166,6 +166,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
     ac.triggerFn = this._selectRow.bind(ac);
     // Custom helper functions
     ac.renderNav = this._renderNav.bind(ac);
+    ac.renderNoResults = this._renderNoResults.bind(ac);
     ac.extractRow = this._extractRow.bind(ac);
   }
 
@@ -259,9 +260,12 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
         // Keep track of where in the result set we want to continue from
         let resultIndex = 0;
 
-        if (typeof data !== 'object' || !data.search || !data.search.length)
-          return this.render(); // Render blank results, abort
-
+        if (typeof data !== 'object' || !data.search || !data.search.length) {
+          // Render blank results and error, abort
+          this.render();
+          this.renderNoResults();
+          return;
+        }
 
         // Build SPARQL list of items to validate against excluded classes via
         // query service
@@ -323,7 +327,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
                 break;
             }
             this.render();
-            this.renderNav({
+            let hasPagination = this.renderNav({
               isFirstPage,
               apiResult: data,
               goodResults,
@@ -331,6 +335,9 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
               requestedOffset,
               queryString: query
             });
+            if (!hasPagination && goodResults === 0)
+              this.renderNoResults();
+
           })
           .fail(_error => {
             // In case of problems contacting the query service, we still
@@ -344,7 +351,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
             let goodResults = this.results.length,
               resultIndex = goodResults;
             this.render();
-            this.renderNav({
+            let hasPagination = this.renderNav({
               isFirstPage,
               apiResult: data,
               goodResults,
@@ -352,6 +359,8 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
               requestedOffset,
               queryString: query
             });
+            if (!hasPagination && goodResults === 0)
+              this.renderNoResults();
           });
       })
       .fail(_error => {
@@ -386,7 +395,18 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
   }
 
   // Must be bound to an autocomplete widget:
+  // Render & display text indicating that there are no results for a given query
+  _renderNoResults() {
+    const $wrapper = $(this.rowWrapperEl);
+    const $noResults = $('<div class="ac-adapter-no-results">' + libreviews.msg('no search results') + '</div>');
+    $wrapper
+      .append($noResults)
+      .show();
+  }
+
+  // Must be bound to an autocomplete widget:
   // Render next/previous navigation within the autocomplete widget.
+  // Returns true if any navigation elements were added, false if not.
   _renderNav(spec) {
 
     const { isFirstPage, apiResult, goodResults, resultIndex, requestedOffset, queryString } = spec;
@@ -450,6 +470,8 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       $navMoreResultsText
         .appendTo($getMore);
     }
+
+    return hasPagination;
 
   }
 

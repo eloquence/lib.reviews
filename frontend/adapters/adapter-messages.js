@@ -4,7 +4,8 @@ const msgArr = [
   'load next page',
   'load previous page',
   'more results',
-  'wikidata title blacklist'
+  'wikidata title blacklist',
+  'no search results'
 ];
 const getMessages = require('../../util/get-messages');
 
