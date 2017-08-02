@@ -422,7 +422,7 @@
    "review subject": "Review subject",
    "enter label for review subject": "Enter label, e.g.: Multnomah Falls",
    "review label help label": "Label",
-   "review label help": "What does the web address point to to? For creative works, use only the title of the work (e.g., <i>The Descent of Man</i> instead of <i>Charles Darwin: The Descent of Man</i>).",
+   "review label help": "What does the web address point to? For creative works, use only the title of the work (e.g., <i>The Descent of Man</i> instead of <i>Charles Darwin: The Descent of Man</i>).",
    "review by url button label": "Review by URL",
    "search wikidata button label": "Search Wikidata",
    "review via wikidata help label": "Search Wikidata",
