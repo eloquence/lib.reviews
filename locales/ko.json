@@ -3,22 +3,28 @@
 		"authors": [
 			"Jerrykim306",
 			"Ykhwong",
-			"아라"
+			"아라",
+			"Revi"
 		]
 	},
 	"site name": "lib.reviews",
 	"welcome": "환영합니다!",
+	"intro lead": "<b>lib.reviews에 오신 것을 환영합니다!</b> 어떤 언어로든 모든 것을 검토할 수 있는 자유롭고 열려 있으며 비영리적인 플랫폼을 구축하고 있습니다.",
 	"change language button": "언어 변경",
 	"sign in": "로그인",
 	"register": "등록",
 	"papers please": "다시 돌아오신 것을 환영합니다! 로그인 개인 정보를 아래에 지정해 주십시오.",
 	"username": "사용자 이름",
+	"enter username": "사용자 이름 입력",
 	"password": "비밀번호",
+	"enter password": "비밀번호 입력",
 	"enter your info": "lib.reviews 공동체에 오신 것을 환영합니다! 당신의 새 계정에 대한 정보를 아래에 입력해 주십시오.",
+	"enter email": "이메일 주소를 입력하세요",
 	"email optional": "이메일 주소 (선택 사항)",
 	"need username": "사용자 이름을 입력해야 합니다.",
 	"need password": "비밀번호를 입력해야 합니다.",
 	"bad username": "이 이름의 사용자를 알 수 없습니다.",
+	"bad password": "비밀번호가 일치하지 않는 것 같습니다.",
 	"sign out": "로그아웃",
 	"invalid email format": "\"%s\"은(는) 유효한 이메일 주소로 보이지 않습니다.",
 	"invalid username characters": "사용자 이름은 다음 문자를 포함할 수 없습니다: %s",
@@ -26,7 +32,10 @@
 	"username too long": "사용자 이름이 너무 깁니다. (최대 %s자)",
 	"password too short": "비밀번호가 너무 짧습니다. 보안을 위해 적어도 %s자의 비밀번호를 지정해 주십시오.",
 	"username exists": "이 이름의 사용자가 이미 있습니다.",
+	"write a review": "리뷰 작성하기",
+	"new review": "새 리뷰",
 	"help": "도움말",
+	"review url": "리뷰 주제의 URL",
 	"review url help label": "URL",
 	"review title help label": "제목",
 	"publish": "게시",
@@ -186,5 +195,6 @@
 	"start typing to search wikidata": "위키데이터를 검색하려면 입력을 시작하세요",
 	"no relevant results": "이 문서에 적절한 결과가 없습니다.",
 	"load previous page": "이전 결과 페이지 불러오기",
-	"more results": "더 많은 결과"
+	"more results": "더 많은 결과",
+	"no search results": "결과가 없습니다"
 }
