@@ -79,6 +79,13 @@
       adapter.setup();
   });
 
+  // In case we're in preview mode and have a URL, make sure we fire the URL
+  // validation/lookup handlers
+  if ($('#preview-contents').length && $('#review-url').val()) {
+    handleURLLookup.apply($('#review-url')[0]);
+    handleURLValidation.apply($('#review-url')[0]);
+  }
+
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))
       $('#draft-notice').fadeOut(200);
