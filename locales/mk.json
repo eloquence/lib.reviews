@@ -437,5 +437,7 @@
 	"no relevant results": "Не најдов релевантни ставки на страницава.",
 	"load next page": "Вчитај ја следната исходна страница",
 	"load previous page": "Вчитај ја претходната исходна страница",
-	"more results": "повеќе ставки"
+	"more results": "повеќе ставки",
+	"no search results": "Нема исход",
+	"clear review subject": "Исчисти ја темата на осврт"
 }
