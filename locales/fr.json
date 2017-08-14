@@ -8,7 +8,8 @@
 			"Eloquence",
 			"Derugon",
 			"Urhixidur",
-			"Thibaut120094"
+			"Thibaut120094",
+			"Envlh"
 		]
 	},
 	"site name": "lib.reviews",
@@ -368,7 +369,7 @@
 	"explore teams": "Explorer les équipes",
 	"team intro": "Les <a href='/teams'>équipes</a> sont des groupes de personnes ayant les mêmes idées et examinant des choses d’intérêt commun. Voici quelques exemples :",
 	"duplicate team name": "Une <a href='%s' target='_blank'>équipe portant ce nom</a> existe déjà. Veuillez essayer avec un autre nom.",
-	"thing label help": "Un libellé identifie le <i>sujet</i> d’une critique. Utiliser le nom exact ou le titre sans qualifieurs. Par exemple : <i>2001: Une odyssée de l’espace</i> ou <i>Bar à ADN</i>.",
+	"thing label help": "Un libellé identifie le <i>sujet</i> d’une critique. Utiliser le nom exact ou le titre sans qualificatif. Par exemple : <i>2001: Une odyssée de l’espace</i> ou <i>Bar à ADN</i>.",
 	"search lib.reviews": "Rechercher dans lib.reviews",
 	"search results": "Résultats de la recherche",
 	"no results": "Nous n’avons pu trouver aucune correspondance pour votre requête, « %s ».",
