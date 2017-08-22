@@ -1,0 +1,10 @@
+<div class="uploads">
+{{{__ "uploaded media"}}}
+<p>
+<ul class="upload-list">
+{{#each thing.files}}
+<li> {{{getFileLink this.name}}}<br>
+  {{{mlString this.description}}}<br>
+{{/each}}
+</ul>
+</div>

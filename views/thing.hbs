@@ -40,16 +40,7 @@
 {{/if}}
 {{#unless edit.label}}
 {{#if thing.files}}
-<div class="uploads">
-{{{__ "uploaded media"}}}
-<p>
-<ul class="upload-list">
-{{#each thing.files}}
-<li> {{{getFileLink this.name}}}<br>
-  {{{mlString this.description}}}<br>
-{{/each}}
-</ul>
-</div>
+{{>uploads}}
 {{/if}}
 {{#if thing.userCanUpload}}
 <p>
