@@ -54,6 +54,7 @@
   if (!editing) {
     $(textFields).change(hideAbandonDraft);
     $('#review-url').keyup(handleURLLookup);
+    $('#review-url').keyup(handleURLFixes);
     $('#review-url').change(handleURLLookup);
     $('#review-url').change(handleURLValidation);
     $('#dismiss-draft-notice').click(hideDraftNotice);
@@ -201,6 +202,18 @@
     } else {
       $('#review-url-error').hide();
       $('#helper-links').hide();
+    }
+  }
+
+  // Handle only URL corrections. This is done on keyup so fixes are instantly
+  // detected.
+  function handleURLFixes() {
+    let inputURL = this.value;
+    if ($('#review-url-error').is(':visible')) {
+      if (libreviews.validateURL(inputURL)) {
+        $('#review-url-error').hide();
+        $('#helper-links').hide();
+      }
     }
   }
 
