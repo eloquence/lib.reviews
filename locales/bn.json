@@ -388,6 +388,14 @@
 	"ok": "ঠিক আছে",
 	"full screen mode": "পূর্ণ-পর্দা মোড চালু করে",
 	"not a member of team title": "এই দলের সদস্য নন।",
+	"enter label for review subject": "লেবেল লিখুন, উদা: ঢাকার মসজিদ",
 	"review label help label": "লেবেল",
+	"search wikidata button label": "উইকিউপাত্ত অনুসন্ধান করুন",
+	"review via wikidata help label": "উইকিউপাত্ত অনুসন্ধান",
+	"start typing to search wikidata": "উইকিউপাত্তে অনুসন্ধান করতে টাইপ করা শুরু করুন",
+	"no relevant results": "এই পৃষ্ঠায় কোন প্রাসঙ্গিক ফলাফল নেই।",
+	"load next page": "ফলাফলের পরবর্তী পৃষ্ঠা লোড করুন",
+	"load previous page": "ফলাফলের পূর্ববর্তী পৃষ্ঠা লোড করুন",
+	"more results": "আরও ফলাফল",
 	"no search results": "ফলাফল নেই"
 }
