@@ -109,7 +109,7 @@ let search = {
     });
   },
 
-  // We may be getting highlighs from both the processed (stememd) index
+  // We may be getting highlights from both the processed (stememd) index
   // and the unprocessed one. This function filters the dupes from inner hits.
   filterDuplicateInnerHighlights(hits, type) {
     for (let hit of hits) {
