@@ -175,8 +175,17 @@ Review.findOrCreateThing = function(reviewObj) {
           thing._revID = r.uuid();
 
           let firstResultWithData = adapters.getFirstResultWithData(results);
-          if (firstResultWithData && firstResultWithData.data.description)
+          if (firstResultWithData && firstResultWithData.data.description) {
             thing.description = firstResultWithData.data.description;
+            // Mark description as synchronized from external source
+            thing.sync = {
+              description: {
+                active: true,
+                source: firstResultWithData.sourceID,
+                updated: new Date()
+              }
+            };
+          }
 
           // Do we have a label and description for this thing that could be
           // used to generate a short identifier (slug)?

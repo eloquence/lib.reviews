@@ -31,6 +31,21 @@ let thingSchema = {
     maxLength: 512
   }),
 
+  // Data for fields can be pulled from external sources. For fields that
+  // support this, we record whether a sync is currently active (in which
+  // case the field is not editable), when the last sync took place,
+  // and from where.
+  //
+  // Note we don't initialize the "active" property -- if (and only if) it is
+  // undefined, it may be switched on by the /adapters/sync scripts.
+  sync: {
+    description: {
+      active: type.boolean(),
+      lastUpdate: type.date(),
+      source: type.string().enum(['wikidata'])
+    }
+  },
+
   originalLanguage: type
     .string()
     .max(4)
@@ -233,9 +248,9 @@ Thing.getWithData = function(id, options) {
 
         if (options.withReviewMetrics)
           thing
-            .populateReviewMetrics()
-            .then(resolve)
-            .catch(reject);
+          .populateReviewMetrics()
+          .then(resolve)
+          .catch(reject);
         else
           resolve(thing);
 

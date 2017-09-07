@@ -65,6 +65,10 @@ hbs.registerHelper('longDate', function(date) {
     return date.toLocaleString();
 });
 
+hbs.registerHelper('getSourceMsgKey', function(sourceID) {
+  return `${sourceID} source label`;
+});
+
 hbs.registerHelper('__', function(...args) {
   let options = args.pop();
   return Reflect.apply(i18n.__, options.data.root, args);

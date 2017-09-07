@@ -5,40 +5,30 @@
 {{/each}}
 </div>
 <div class="centered-column">
-{{#if showLanguageNotice}}
-{{> dismissible_notice icon="globe" messageKey="editing in language" id="language-notice-thing" csrfToken=csrfToken}}
-{{/if}}
 <!-- permanent ID of this item: {{{thing.id}}} -->
 <span itemscope itemtype="https://schema.org/Product">
-{{#if edit.label}}
-  <h1 id="page-header">{{{__ titleKey}}}</h1>
-  <form class="pure-form pure-form-aligned" method="post" action="">
-  <input type="text" class="pure-input-1-2" id="thing-edit-label" name="thing-label" value="{{{mlString thing.label false}}}" placeholder="{{{__ "enter label"}}}" size="64" data-auto-trim>
-  <input type="hidden" value="{{csrfToken}}" name="_csrf">
-  <input type="hidden" name="thing-label-language" value="{{currentLanguage.langKey}}">
-  <button type="submit" id="save" name="thing-action" value="save" class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">{{{__ "save"}}}</button>
-  <a class="cancel-link" href="/{{{thing.urlID}}}">{{__ "cancel"}}</a>
-  <p>
-  <span class="fa fa-fw fa-question-circle info-icon spaced-icon">&nbsp;</span>{{{__ "thing label help"}}}
-  </form>
-  <p>
-{{else}}
-  <h1 id="page-header">
-  <span itemprop="name">{{{getThingLabel thing}}}</span>
-  {{#if thing.userCanEdit}}
-  <a href="/{{{thing.urlID}}}/edit/label" id="add-label" class="pure-button button-rounded edit-button"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>
-    {{#if (mlString thing.label)}}{{{__ "edit"}}}{{else}}{{{__ "add label"}}}{{/if}}
-  </a>
-  {{/if}}
-  </h1>
+<h1 id="page-header">
+<span itemprop="name">{{{getThingLabel thing}}}</span>
+{{#if thing.userCanEdit}}
+<a href="/{{{thing.urlID}}}/edit/label" id="add-label" class="pure-button button-rounded edit-button"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>
+{{#if (mlString thing.label)}}{{{__ "edit"}}}{{else}}{{{__ "add label"}}}{{/if}}
+</a>
 {{/if}}
+</h1>
 {{#if thing.urls}}
 <div id="item-url"><span class="fa fa-fw fa-external-link review-icon">&nbsp;</span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</div>
 {{/if}}
-{{# if (mlString thing.description)}}
-<div id="item-description"><span class="fa fa-fw fa-info-circle review-icon">&nbsp;</span>{{{mlString thing.description}}}</div>
-{{/if}}
-{{#unless edit.label}}
+<div id="item-description">
+{{#if (mlString thing.description)}}<span class="fa fa-fw fa-info-circle review-icon">&nbsp;</span>{{{mlString thing.description}}}{{/if}} {{#unless thing.sync.description.active}}
+<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>
+{{#if (mlString thing.description)}}{{{__ "edit"}}}{{else}}{{{__ "add description"}}}{{/if}}
+{{else}}
+<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
+{{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
+{{{__ "sync date" (longDate thing.sync.description.updated)}}}"></span>
+{{/unless}}
+
+</a></div>
 {{#if thing.files}}
 {{>uploads}}
 {{/if}}
@@ -64,14 +54,11 @@
 <h2 class="sub-header-regular">{{#if userReviews}}{{{__ "other reviews"}}}{{else}}{{{__ "reviews"}}}{{/if}}</h2>
 {{#if user}}
 {{#unless userReviews}}
-{{#unless edit.label}}
 <p><a href="/new/review/{{{thing.urlID}}}" id="add-review" class="pure-button button-rounded"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>{{{__ "add your review"}}}</a></p>
-{{/unless}}
 {{/unless}}
 {{else}}
 <p><b>{{{__ "sign in to review"}}}</b></p>
 {{/if}}
 {{>feed thingFeed=true feedItems=otherReviews}}
 {{/if}}
-{{/unless}}
 </div>

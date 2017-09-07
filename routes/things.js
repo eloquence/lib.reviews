@@ -22,6 +22,9 @@ const forms = require('./helpers/forms');
 const slugs = require('./helpers/slugs');
 const search = require('../search');
 
+// For handling form fields
+const editableFields = ['description', 'label'];
+
 // For processing uploads
 const uploadFormDef = [{
     name: 'upload-language',
@@ -68,82 +71,38 @@ router.get('/:id', function(req, res, next) {
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
-router.get('/:id/edit/label', function(req, res, next) {
-  if (!req.user)
-    return render.signinRequired(req, res, {
-      titleKey: 'edit label'
-    });
+router.get('/:id/edit/:field', function(req, res, next) {
 
-  let id = req.params.id.trim();
+  if (!editableFields.includes(req.params.field))
+    return next();
+
+  const titleKey = `edit ${req.params.field}`;
+  const edit = { [req.params.field]: true };
+  const id = req.params.id.trim();
+
+  if (!req.user)
+    return render.signinRequired(req, res, { titleKey });
+
   slugs
     .resolveAndLoadThing(req, res, id)
     .then(thing => {
       thing.populateUserInfo(req.user);
       if (!thing.userCanEdit)
+        return render.permissionError(req, res, { titleKey });
+
+      let descriptionSyncActive = thing.sync && thing.sync.description && thing.sync.description.active;
+      if (req.params.field === 'description' && descriptionSyncActive)
         return render.permissionError(req, res, {
-          titleKey: 'edit label'
+          titleKey,
+          detailsKey: 'cannot edit synced field'
         });
 
-      let edit = {
-        label: true,
-        titleKey: 'edit label'
-      };
-      sendThing(req, res, thing, {
-        edit
-      });
+      sendForm(req, res, thing, edit, titleKey);
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
-router.post('/:id/edit/label', function(req, res, next) {
-  let id = req.params.id.trim();
-  slugs.resolveAndLoadThing(req, res, id)
-    .then(thing => {
-
-      thing.populateUserInfo(req.user);
-      if (!thing.userCanEdit)
-        return render.permissionError(req, res, {
-          titleKey: 'edit label'
-        });
-
-      thing
-        .newRevision(req.user)
-        .then(newRev => {
-          if (!newRev.label)
-            newRev.label = {};
-
-          languages.validate(req.body['thing-label-language']);
-          let language = req.body['thing-label-language'];
-
-          newRev.label[language] = escapeHTML(req.body['thing-label']);
-          if (!newRev.originalLanguage)
-            newRev.originalLanguage = language;
-
-          newRev
-            .updateSlug(req.user.id, language)
-            .then(updatedRev => {
-              updatedRev
-                .save()
-                .then(() => {
-                  search.indexThing(updatedRev);
-                  res.redirect(`/${id}`);
-                })
-                .catch(next);
-            })
-            .catch(next);
-
-        })
-        .catch(error => { // New revision failed
-          if (error.name === 'InvalidLanguageError') {
-            req.flashError(error);
-            sendThing(req, res, thing);
-          } else
-            return next(error);
-        });
-    })
-    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
-});
-
+router.post('/:id/edit/:field', processTextFieldUpdate);
 
 router.get('/:id/before/:utcisodate', function(req, res, next) {
   let id = req.params.id.trim();
@@ -411,12 +370,103 @@ function loadThingAndReviews(req, res, next, thing, offsetDate) {
 
 }
 
+function processTextFieldUpdate(req, res, next) {
+
+ const field = req.params.field,
+   id = req.params.id.trim();
+
+ if (!editableFields.includes(field))
+   return next();
+
+ const titleKey = `edit ${field}`;
+
+ slugs.resolveAndLoadThing(req, res, id)
+   .then(thing => {
+     thing.populateUserInfo(req.user);
+     if (!thing.userCanEdit)
+       return render.permissionError(req, res, {
+         titleKey
+       });
+
+     let descriptionSyncActive = thing.sync && thing.sync.description && thing.sync.description.active;
+     if (req.params.field === 'description' && descriptionSyncActive)
+       return render.permissionError(req, res, {
+         titleKey,
+         detailsKey: 'cannot edit synced field'
+       });
+
+     thing
+       .newRevision(req.user)
+       .then(newRev => {
+         if (!newRev[field])
+           newRev[field] = {};
+
+         let language = req.body['thing-language'];
+         languages.validate(language);
+         let text = req.body[`thing-${field}`];
+         newRev[field][language] = escapeHTML(text);
+         if (!newRev.originalLanguage)
+           newRev.originalLanguage = language;
+
+         let maybeUpdateSlug;
+         if (field === 'label') // Must update slug to match label change
+           maybeUpdateSlug = newRev.updateSlug(req.user.id, language);
+         else
+           maybeUpdateSlug = Promise.resolve(newRev); // Nothing to do
+
+         maybeUpdateSlug
+           .then(updatedRev => {
+             updatedRev
+               .save()
+               .then(() => {
+                 search.indexThing(updatedRev);
+                 res.redirect(`/${id}`);
+               })
+               .catch(next);
+           })
+           .catch(error => {
+             if (error.name === 'InvalidLanguageError') {
+               req.flashError(error);
+               sendThing(req, res, thing);
+             } else
+               return next(error);
+           });
+       });
+
+   })
+   .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+}
+
+function sendForm(req, res, thing, edit, titleKey) {
+  edit = Object.assign({
+    label: false,
+    description: false
+  }, edit);
+  let pageErrors = req.flash('pageErrors');
+  let pageMessages = req.flash('pageMessages');
+  let showLanguageNotice = false;
+  let user = req.user;
+
+  // If not suppressed, show a notice informing the user that UI language
+  // is content language
+  if (req.method == 'GET' && (!user.suppressedNotices ||
+      user.suppressedNotices.indexOf('language-notice-thing') == -1))
+    showLanguageNotice = true;
+
+  render.template(req, res, 'thing-form', {
+    titleKey,
+    deferPageHeader: true,
+    thing,
+    pageErrors,
+    showLanguageNotice,
+    pageMessages,
+    edit
+  });
+
+}
+
 function sendThing(req, res, thing, options) {
   options = Object.assign({
-    // Set to an object that specifies which part of the thing are to be
-    // loaded into edit mode, e.g. { titleKey: 'some title', label: true },
-    // otherwise leave undefined
-    edit: undefined,
     // Set to a feed of reviews not written by the currently logged in user
     otherReviews: [],
     // Set to a feed of reviews written by the currently logged in user.
@@ -425,15 +475,6 @@ function sendThing(req, res, thing, options) {
 
   let pageErrors = req.flash('pageErrors');
   let pageMessages = req.flash('pageMessages');
-  let showLanguageNotice = false;
-  let user = req.user;
-
-  // In edit mode, show a notice informing the user that UI language == content
-  // language
-  if (options.edit && req.method == 'GET' && (!user.suppressedNotices ||
-      user.suppressedNotices.indexOf('language-notice-thing') == -1))
-    showLanguageNotice = true;
-
   let embeddedFeeds = feeds.getEmbeddedFeeds(req, {
     atomURLPrefix: `/${thing.urlID}/atom`,
     atomURLTitleKey: 'atom feed of all reviews of this item'
@@ -447,16 +488,13 @@ function sendThing(req, res, thing, options) {
     paginationURL = `/before/${offsetDate.toISOString()}`;
 
   render.template(req, res, 'thing', {
-    deferHeader: options.edit ? true : false,
-    titleKey: options.edit ? options.edit.titleKey : 'reviews of',
+    titleKey: 'reviews of',
     titleParam: Thing.getLabel(thing, req.locale),
     thing,
-    edit: options.edit,
     pageErrors,
     pageMessages,
     embeddedFeeds,
     deferPageHeader: true,
-    showLanguageNotice,
     userReviews: options.userReviews,
     paginationURL,
     hasMoreThanOneReview: thing.numberOfReviews > 1,
