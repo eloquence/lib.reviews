@@ -60,10 +60,13 @@
 	"enter captcha answer": "답변을 입력하십시오 (대소문자 구분 안 함)",
 	"more info": "더 많은 리뷰와 정보",
 	"add label": "여기에 레이블 추가",
+	"add description": "여기에 설명을 추가",
 	"edit": "편집",
 	"edit label": "레이블 편집",
+	"edit description": "설명 편집",
 	"thing not found title": "항목을 찾을 수 없습니다",
 	"review not found title": "리뷰를 찾을 수 없습니다",
+	"enter thing description": "간략한 설명을 입력하세요",
 	"save": "저장",
 	"cancel": "취소",
 	"permanent link": "고유 링크",
@@ -197,5 +200,10 @@
 	"load next page": "다음 결과 페이지 불러오기",
 	"load previous page": "이전 결과 페이지 불러오기",
 	"more results": "더 많은 결과",
-	"no search results": "결과가 없습니다"
+	"no search results": "결과가 없습니다",
+	"wikidata source label": "위키데이터",
+	"synced info": "이 정보는 자동으로 갱신됩니다.",
+	"sync source": "출처: %s",
+	"sync date": "마지막 동기일: %s",
+	"cannot edit synced field": "이 칸은 외부 출처로부터 자동으로 업데이트되기 때문에 편집할 수 없습니다."
 }
