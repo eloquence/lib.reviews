@@ -19,9 +19,10 @@
 <div id="item-url"><span class="fa fa-fw fa-external-link review-icon">&nbsp;</span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</div>
 {{/if}}
 <div id="item-description">
-{{#if (mlString thing.description)}}<span class="fa fa-fw fa-info-circle review-icon">&nbsp;</span>{{{mlString thing.description}}}{{/if}} {{#unless thing.sync.description.active}}
+{{#if (mlString thing.description)}}<span class="fa fa-fw fa-info-circle review-icon">&nbsp;</span>{{{mlString thing.description}}}{{/if}}{{#unless thing.sync.description.active}}{{#if thing.userCanEdit}}
 <a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>
 {{#if (mlString thing.description)}}{{{__ "edit"}}}{{else}}{{{__ "add description"}}}{{/if}}
+{{/if}}
 {{else}}
 <span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
 {{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
