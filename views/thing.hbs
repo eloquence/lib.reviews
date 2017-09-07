@@ -16,7 +16,7 @@
 {{/if}}
 </h1>
 {{#if thing.urls}}
-<div id="item-url"><span class="fa fa-fw fa-external-link review-icon">&nbsp;</span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</div>
+<div id="item-url" class="review-url"><span class="fa fa-fw fa-external-link review-icon">&nbsp;</span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</div>
 {{/if}}
 <div id="item-description">
 {{#if (mlString thing.description)}}<span class="fa fa-fw fa-info-circle review-icon">&nbsp;</span>{{{mlString thing.description}}}{{/if}}{{#unless thing.sync.description.active}}{{#if thing.userCanEdit}}
