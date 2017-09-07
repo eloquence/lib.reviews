@@ -414,6 +414,7 @@
 	"not a member of team title": "Title for the page that is shown when the user attempts to access the form to create a new review for a given team, but is not a member of said team.",
 	"not a member of team": "Body for the page that is shown when the user attempts to access the form to create a new review for a given team, but is not a member of said team.",
 	"review label": "Label for label field in the review form (e.g., for entering the title of a book)",
+	"review subject": "Label that is shown above the review subject in the review form when a review subject is chosen, e.g., from Wikidata.",
 	"enter label for review subject": "Placeholder for label field in the review form. Feel free to localize the example consistent with the other form placeholders.",
 	"review label help label": "Label (headline) for context-sensitive help for the label field in the review form\n{{Identical|Label}}",
 	"review label help": "Text for context-sensitive help for the label field in the review form. Feel free to localize the examples.",
@@ -433,6 +434,5 @@
 	"synced info": "Tooltip that is shown for information synchronized from an external source",
 	"sync source": "Information that is shown for information synchronized from an external source. %s is replaced with the name of the source, such as 'Wikidata'.",
 	"sync date": "Information that is shown for information synchronized from an external source. %s is replaced with the date.",
-	"cannot edit synced field": "Error message that is shown when attempting to edit a field that is automatically updated from an external source.",
-	"review subject": "Label that is shown above the review subject in the review form when a review subject is chosen, e.g., from Wikidata."
+	"cannot edit synced field": "Error message that is shown when attempting to edit a field that is automatically updated from an external source."
 }
