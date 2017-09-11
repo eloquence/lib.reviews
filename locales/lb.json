@@ -96,13 +96,16 @@
 	"invalid url": "D'URL schéngt net valabel ze sinn. Denkt drun datt mir de Prefix vum Protokoll net fir Iech rode kënnen (typischerweis: http:// oder https://).",
 	"more info": "Méi Bewäertungen an Informatiounen",
 	"add label": "Eng Etikett hei derbäisetzen",
+	"add description": "Setzt hei eng Beschreiwung dobäi",
 	"edit": "Änneren",
 	"edit label": "Etikett änneren",
+	"edit description": "Beschreiwung änneren",
 	"thing not found title": "Saach net fonnt",
 	"thing not found": "Mir hunn näischt mat der spezifizéierter Adress fonnt, '%s'. Vläicht gouf et geläscht?",
 	"review not found title": "Bewäertung net fonnt",
 	"review not found": "Mir hu keng Bewäertung mat der spezifizéierter Adress fonnt, '%s'. Vläicht gouf se geläscht?",
 	"enter label": "Gitt en kuerz Beschreiwung fir d'Etikett an.",
+	"enter thing description": "Gitt eng kuerz Beschreiwung an",
 	"save": "Späicheren",
 	"cancel": "Ofbriechen",
 	"review of": "Bewäertung: %s",
@@ -289,5 +292,9 @@
 	"start typing to search wikidata": "Mat Tippen ufänke fir op Wikidata ze sichen",
 	"load next page": "Nächst Säit mat Resultater lueden",
 	"more results": "méi Resultater",
-	"no search results": "Keng Resultater"
+	"no search results": "Keng Resultater",
+	"wikidata source label": "Wikidata",
+	"synced info": "Dës Informatioun gëtt automatesch aktualiséiert.",
+	"sync source": "Quell: %s",
+	"sync date": "Lescht Synchronisatioun: %s"
 }
