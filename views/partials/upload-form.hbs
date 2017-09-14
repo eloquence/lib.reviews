@@ -1,4 +1,4 @@
-<form method="post" enctype="multipart/form-data" action="/{{thing.urlID}}/upload">
+<form method="post" enctype="multipart/form-data" action="/{{thing.urlID}}/upload" class="upload-form">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
 <input type="file" name="media" multiple id="upload-input" accept="image/*,video/*,audio/*" class="hidden nojs-visible">
 <label id="upload-label" for="upload-input" data-upload-count class="pure-button button-rounded nojs-hidden">

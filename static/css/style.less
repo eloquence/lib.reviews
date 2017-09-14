@@ -504,7 +504,8 @@ a#invite-action:hover {
 
 .sync-icon {
   color:#77bb77;
-
+  display: inline !important; // Prevent wrapping icon by itself, overriding default
+  margin-left:0.5em;
 }
 
 .review {
@@ -694,6 +695,11 @@ a#upload, a#upload:visited, a#upload:hover,
   font-style:normal;
 }
 
+a#add-description {
+  display:inline;
+  margin-left:0.5em;
+}
+
 .content-meta {
   font-size:small;
   display:flex;
@@ -787,11 +793,15 @@ hr.feed-separator, hr.team-separator {
 
 .language-button {
   font-size:small;
-  margin-bottom:0.5em                       ;
+  margin-bottom:0.5em;
 }
 
 .inline-form {
   display: inline;
+}
+
+.upload-form {
+  margin-top:2em;
 }
 
 .language-identifier, .user-team-badge {
@@ -858,6 +868,10 @@ hr.feed-separator, hr.team-separator {
 
 .thing-data {
   margin-bottom:1em;
+}
+
+.thing-data-list-item {
+  margin-bottom:0.7em;
 }
 
 .review-url {

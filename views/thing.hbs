@@ -15,26 +15,38 @@
 </a>
 {{/if}}
 </h1>
+
+
+<ul class="fa-ul">
 {{#if thing.urls}}
-<div id="item-url" class="review-url"><span class="fa fa-fw fa-external-link review-icon">&nbsp;</span>{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</div>
+<li class="thing-data-list-item"><span class="fa fa-li fa-external-link">&nbsp;</span><span id="item-url" class="review-url">
+{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</span></li>
 {{/if}}
-<div id="item-description">
-{{#if (mlString thing.description)}}<span class="fa fa-fw fa-info-circle review-icon">&nbsp;</span>{{{mlString thing.description}}}{{/if}}{{#unless thing.sync.description.active}}{{#if thing.userCanEdit}}
-<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>
-{{#if (mlString thing.description)}}{{{__ "edit"}}}{{else}}{{{__ "add description"}}}{{/if}}
+<li class="thing-data-list-item"><span class="fa fa-li fa-info-circle">&nbsp;</span>
+{{#if (mlString thing.description)}}
+{{{mlString thing.description}}}{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
+{{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
+{{{__ "sync date" (longDate thing.sync.description.updated)}}}">&nbsp;</span>
+{{else}}
+{{#if thing.userCanEdit}}
+<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>
+{{{__ "edit"}}}
+</a>
+{{/if}}
 {{/if}}
 {{else}}
-<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
-{{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
-{{{__ "sync date" (longDate thing.sync.description.updated)}}}"></span>
-{{/unless}}
-
-</a></div>
+{{#if thing.userCanEdit}}
+<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>
+{{{__ "add description"}}}
+</a>
+{{/if}}
+{{/if}}
+</li>
+</ul>
 {{#if thing.files}}
 {{>uploads}}
 {{/if}}
 {{#if thing.userCanUpload}}
-<p>
 {{>upload_form}}
 {{/if}}
 {{#if hasMoreThanOneReview}}
