@@ -24,7 +24,7 @@
 {{/if}}
 <li class="thing-data-list-item"><span class="fa fa-li fa-info-circle">&nbsp;</span>
 {{#if (mlString thing.description)}}
-{{{mlString thing.description}}}{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
+<span itemprop="description">{{{mlString thing.description}}}</span>{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
 {{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
 {{{__ "sync date" (longDate thing.sync.description.updated)}}}">&nbsp;</span>
 {{else}}
