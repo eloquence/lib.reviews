@@ -26,12 +26,7 @@
 {{#if (mlString thing.description)}}
 <span itemprop="description">{{{mlString thing.description}}}</span>{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
 {{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
-{{{__ "sync date" (longDate thing.sync.description.updated)}}}">&nbsp;</span>
-{{else}}
-{{#if thing.userCanEdit}}
-<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>
-{{{__ "edit"}}}
-</a>
+{{{__ "sync date" (longDate thing.sync.description.updated)}}}">&nbsp;</span>{{else}}{{#if thing.userCanEdit}}<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>{{{__ "edit"}}}</a>
 {{/if}}
 {{/if}}
 {{else}}
