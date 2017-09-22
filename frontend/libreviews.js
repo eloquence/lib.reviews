@@ -230,16 +230,14 @@
 
   };
 
-  // A simplified function to render a language identifier in the same style
-  // as the server-side template. However, it does not add the tooltip since
-  // we're not sending all localized language names to the client.
-  //
+  // Render a language identifier in the same style as the server-side helper.
   // Returns jQuery object.
   window.libreviews.getLanguageIDSpan = function(lang) {
     if (typeof lang !== 'string')
       throw new Error('Need valid language identifier.');
 
-    return $('<span class="language-identifier">')
+    let title = window.libreviews.msg(`language ${lang} composite name`);
+    return $(`<span class="language-identifier" title="${title}">`)
       .text(lang.toUpperCase())
       .prepend('<span class="fa fa-fw fa-globe language-identifier-icon">&nbsp;</span>');
   };

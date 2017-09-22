@@ -83,6 +83,17 @@ let languages = {
       return nativeName;
   },
 
+  // Returns a message object that includes composite language names,
+  // with keys in the following format:
+  // `language ${languageKey} composite name`.
+  getCompositeNamesAsMessageObject(langKey) {
+    let rv = {};
+    validLanguages.forEach(k => {
+      rv[`language ${k} composite name`] = languages.getCompositeName(k, langKey);
+    });
+    return rv;
+  },
+
   isValid(langKey) {
     return validLanguages.indexOf(langKey) !== -1;
   },

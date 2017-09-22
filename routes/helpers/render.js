@@ -19,11 +19,14 @@ let render = {
     let jsConfig = {
       userName: req.user ? req.user.displayName : undefined,
       language: req.locale,
-      userPrefersRichTextEditor: req.user ? req.user.prefersRichTextEditor : undefined
+      userPrefersRichTextEditor: req.user ? req.user.prefersRichTextEditor : undefined,
+      messages: {}
     };
 
     if (extraJSConfig)
       Object.assign(jsConfig, extraJSConfig);
+
+    Object.assign(jsConfig.messages, languages.getCompositeNamesAsMessageObject(req.locale));
 
     vars.configScript = `window.config = ${JSON.stringify(jsConfig)};`;
 
