@@ -230,6 +230,21 @@
 
   };
 
+  // A simplified function to render a language identifier in the same style
+  // as the server-side template. However, it does not add the tooltip since
+  // we're not sending all localized language names to the client.
+  //
+  // Returns jQuery object.
+  window.libreviews.getLanguageIDSpan = function(lang) {
+    if (typeof lang !== 'string')
+      throw new Error('Need valid language identifier.');
+
+    return $('<span class="language-identifier">')
+      .text(lang.toUpperCase())
+      .prepend('<span class="fa fa-fw fa-globe language-identifier-icon">&nbsp;</span>');
+  };
+
+
   window.libreviews.trimInput = function() {
     this.value = this.value.trim();
   };
@@ -413,8 +428,8 @@
   window.libreviews.updateContentClickHandlers();
 
   window.libreviews.validateURL = function(url) {
-      const urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|\/|\?)*)?$/i;
-      return urlRegex.test(url);
+    const urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!$&'()*+,;=]|:|@)|\/|\?)*)?$/i;
+    return urlRegex.test(url);
   };
 
   // Add autocompletion to search box if present
@@ -436,13 +451,36 @@
   }
 
   function setupSearch() {
-    let ac = new AC($('#search-input')[0], null, requestFn, null, null, triggerFn);
-    ac.secondaryTextKey = 'language';
+    let ac = new AC($('#search-input')[0], null, requestFn, null, rowFn, triggerFn);
     ac.delay = 0;
 
     function triggerFn(row) {
       if (row.urlID)
         window.location = `/${row.urlID}`;
+    }
+
+    function rowFn(row) {
+      // Row-level CSS gets added by library
+      let $el = $('<div>');
+
+      let $primary = $('<span>')
+        .addClass(this.getCSS('PRIMARY_SPAN'))
+        .append($(AC.createMatchTextEls(this.value,
+          row[this.primaryTextKey])))
+        .appendTo($el);
+
+      if (row.language)
+        $primary
+          .append(window.libreviews.getLanguageIDSpan(row.language)
+            .addClass('language-identifier-search-row'));
+
+      if (row.description) {
+        $('<span>')
+          .addClass(this.getCSS('SECONDARY_SPAN'))
+          .text(row.description)
+          .appendTo($el);
+      }
+      return $el[0];
     }
 
     function requestFn(query) {
@@ -480,7 +518,8 @@
 
                   let suggestion = {
                     title: label.text,
-                    urlID: label.urlID
+                    urlID: label.urlID,
+                    description: window.libreviews.resolveString(config.language, label.description)
                   };
                   if (labelLanguage !== config.language)
                     suggestion.language = labelLanguage;

@@ -89,6 +89,7 @@ router.get('/suggest/thing/:prefix', function(req, res, next) {
         for (let option of rv.results[k]) {
           option.urlID = option._source.urlID;
           option.urls = option._source.urls;
+          option.description = option._source.description;
           Reflect.deleteProperty(option, '_source');
           Reflect.deleteProperty(option, '_index');
         }

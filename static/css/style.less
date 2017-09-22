@@ -177,18 +177,11 @@ body {
 }
 
 .ac-sc {
-  font-size: x-small;
+  font-size: small;
   padding-top: 5px;
-  color: #9d9da3;
-  text-transform:uppercase;
+  color: #666;
 }
 
-.ac-sc::before {
-  content:'\f0ac';
-  font-family:'FontAwesome';
-  padding-right:3px;
-  font-size: x-small;
-}
 
 // Autocomplete for adapters
 .ac-adapter-get-more {
@@ -819,6 +812,20 @@ hr.feed-separator, hr.team-separator {
   font-style: normal;
   white-space: nowrap;
   color:black;
+}
+
+.language-identifier-icon {
+  color:#777;
+}
+
+// For inline display in search results, we add a border to lift it up from
+// background when row is highlighted.
+.language-identifier-search-row {
+  margin-left:0.5em;
+  border-style:solid;
+  border-width:1px;
+  border-color:#ccc;
+  font-size:xx-small;
 }
 
 .user-team-badge {
