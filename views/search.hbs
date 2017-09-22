@@ -8,7 +8,11 @@
 {{#if labelMatches}}
 <h2 class="sub-header-regular">{{{__ "matches in review subjects"}}}</h2>
 {{#each labelMatches}}
-<h3><a href="/{{{this._source.urlID}}}">{{{mlString this._source.label}}}</a></h3>{{/each}}
+<h3 class="search-match-heading"><a href="/{{{this._source.urlID}}}">{{{mlString this._source.label}}}</a></h3>
+{{#if (mlString this._source.description)}}
+<div class="search-result-description"> <span class="fa fa-info-circle fa-fw">&nbsp;</span> {{{mlString this._source.description}}}</div>
+{{/if}}
+{{/each}}
 {{/if}}
 {{#if textMatches}}
 <h2 class="sub-header-regular">{{{__ "matches in review text"}}}</h2>

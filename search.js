@@ -55,9 +55,13 @@ let search = {
     return client.search(obj);
   },
 
-  // Find things by their label; performs language fallback
+  // Find things by their label or description; performs language fallback
   searchThings(query, lang = 'en') {
     let options = search.getSearchOptions('things', 'label', lang);
+    let descriptionOptions = search.getSearchOptions('things', 'description', lang);
+    options.fields = options.fields.concat(descriptionOptions.fields);
+    Object.assign(options.highlight.fields, descriptionOptions.highlight.fields);
+
     return client.search({
       index: 'libreviews',
       type: 'things',
