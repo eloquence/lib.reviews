@@ -10,7 +10,7 @@
 <h1 id="page-header">
 <span itemprop="name">{{{getThingLabel thing}}}</span>
 {{#if thing.userCanEdit}}
-<a href="/{{{thing.urlID}}}/edit/label" id="add-label" class="pure-button button-rounded edit-button"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>
+<a href="/{{{thing.urlID}}}/edit/label" id="add-label" class="pure-button button-rounded"><span class="fa fa-fw fa-pencil spaced-icon">&nbsp;</span>
 {{#if (mlString thing.label)}}{{{__ "edit"}}}{{else}}{{{__ "add label"}}}{{/if}}
 </a>
 {{/if}}
@@ -22,21 +22,23 @@
 <li class="thing-data-list-item"><span class="fa fa-li fa-external-link">&nbsp;</span><span id="item-url" class="review-url">
 {{{link thing.urls.[0] (prettify thing.urls.[0])}}}</span></li>
 {{/if}}
+{{#ifCond (mlString thing.description) '||' thing.userCanEdit}}
 <li class="thing-data-list-item"><span class="fa fa-li fa-info-circle">&nbsp;</span>
 {{#if (mlString thing.description)}}
 <span itemprop="description">{{{mlString thing.description}}}</span>{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
 {{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
-{{{__ "sync date" (longDate thing.sync.description.updated)}}}">&nbsp;</span>{{else}}{{#if thing.userCanEdit}}<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>{{{__ "edit"}}}</a>
+{{{__ "sync date" (longDate thing.sync.description.updated)}}}">&nbsp;</span>{{else}}{{#if thing.userCanEdit}}<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded inline-edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>{{{__ "edit"}}}</a>
 {{/if}}
 {{/if}}
 {{else}}
 {{#if thing.userCanEdit}}
-<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>
+<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>
 {{{__ "add description"}}}
 </a>
 {{/if}}
-{{/if}}
 </li>
+{{/if}}
+{{/ifCond}}
 </ul>
 {{#if thing.files}}
 {{>uploads}}
