@@ -6,14 +6,20 @@
 class AbstractBackendAdapter {
 
   constructor() {
+
+    // Define in derived classes
+    this.sourceID = undefined; // a short lower-case string, e.g., 'wikidata'
+    this.sourceURL = undefined; // the most canonical URL for the source
+    this.supportedPattern = undefined; // a RegExp object
+
     // Replace w/ new.target after upgrading to Babel 7.0
     if (new.target === AbstractBackendAdapter)
       throw new TypeError('AbstractBackendAdapter is an abstract class, please instantiate a derived class.');
   }
 
-  // Does this adapter support a given URL? Usually a simple regex check.
-  ask(_url) {
-    return false;
+  // Does this adapter support a given URL?
+  ask(url) {
+    return this.supportedPattern.test(url);
   }
 
   // Perform a lookup for a given URL. Return a promise that resolves
@@ -29,6 +35,14 @@ class AbstractBackendAdapter {
   // }
   lookup(_url) {
     return Promise.reject(new Error('Not implemented.'));
+  }
+
+  getSourceURL() {
+    return this.sourceURL || 'no source URL defined';
+  }
+
+  getSourceID() {
+    return this.sourceID || 'no source ID defined';
   }
 
 }

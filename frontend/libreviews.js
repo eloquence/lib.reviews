@@ -402,6 +402,15 @@
   // Focus input
   $('[data-focus]').focus();
 
+  // Activate tooltips
+  $('[data-powertip]')
+    .attr('title', '') // Clear title attribute, which would overlap
+    .powerTip({
+      placement: "s", // Try to place below the element
+      smartPlacement: true, // If that doesn't work, pick best placement
+      mouseOnToPopup: true // Allow user to interact with links inside the tooltip
+    });
+
   // Buttons that copy text into the clipboard
   $('[data-copy]').click(function() {
     let copySourceID = $(this).attr('data-copy');
@@ -469,8 +478,8 @@
 
       if (row.language)
         $primary
-          .append(window.libreviews.getLanguageIDSpan(row.language)
-            .addClass('language-identifier-search-row'));
+        .append(window.libreviews.getLanguageIDSpan(row.language)
+          .addClass('language-identifier-search-row'));
 
       if (row.description) {
         $('<span>')

@@ -8,12 +8,6 @@ const escapeHTML = require('escape-html');
 const AbstractBackendAdapter = require('./abstract-backend-adapter');
 const languages = require('../locales/languages');
 
-// Adapter settings
-
-// Which URL pattern can this adapter handle?
-const supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
-const sourceID = 'wikidata';
-
 // How do lib.reviews language code translate to Wikidata language codes?
 // Since Wikidata supports a superset of languages and most language codes
 // are identical, we only enumerate exceptions.
@@ -26,14 +20,17 @@ const apiBaseURL = 'https://www.wikidata.org/w/api.php';
 
 class WikidataBackendAdapter extends AbstractBackendAdapter {
 
-  ask(url) {
-    return supportedPattern.test(url);
+  constructor() {
+    super();
+    this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
+    this.sourceID = 'wikidata';
+    this.sourceURL = 'https://www.wikidata.org/';
   }
 
   lookup(url) {
     return new Promise((resolve, reject) => {
 
-      let qNumber = (url.match(supportedPattern) || [])[4];
+      let qNumber = (url.match(this.supportedPattern) || [])[4];
       if (!qNumber)
         return reject(new Error('URL does not appear to contain a Q number (e.g., Q42) or is not a Wikidata URL.'));
 
@@ -81,7 +78,7 @@ class WikidataBackendAdapter extends AbstractBackendAdapter {
               label,
               description
             },
-            sourceID
+            sourceID: this.sourceID
           });
         })
         .catch(reject);

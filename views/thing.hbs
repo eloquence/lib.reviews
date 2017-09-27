@@ -25,7 +25,8 @@
 {{#ifCond (mlString thing.description) '||' thing.userCanEdit}}
 <li class="thing-data-list-item"><span class="fa fa-li fa-info-circle">&nbsp;</span>
 {{#if (mlString thing.description)}}
-<span itemprop="description">{{{mlString thing.description}}}</span>{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" title="{{{__ "synced info"}}}
+{{! The powertip is shown for JS users, and includes a clickable link to the source from which the data was synced.}}
+<span itemprop="description">{{{mlString thing.description}}}</span>{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" data-powertip="{{{__ "synced info"}}}<br>{{{__ "sync source" (link (getSourceURL thing.sync.description.source) (__ (getSourceMsgKey thing.sync.description.source)) true)}}}<br>{{{__ "sync date" (longDate thing.sync.description.updated)}}}" title="{{{__ "synced info"}}}
 {{{__ "sync source" (__ (getSourceMsgKey thing.sync.description.source))}}}
 {{{__ "sync date" (longDate thing.sync.description.updated)}}}">&nbsp;</span>{{else}}{{#if thing.userCanEdit}}<a href="/{{{thing.urlID}}}/edit/description" id="add-description" class="pure-button button-rounded inline-edit-button"><span class="fa fa fa-pencil spaced-icon">&nbsp;</span>{{{__ "edit"}}}</a>
 {{/if}}

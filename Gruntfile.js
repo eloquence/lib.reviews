@@ -15,7 +15,8 @@ module.exports = function(grunt) {
         src: [
           'node_modules/jquery/dist/jquery.js',
           'node_modules/sisyphus.js/sisyphus.js',
-          'node_modules/remote-ac/ac.js'
+          'node_modules/remote-ac/ac.js',
+          'node_modules/jquery-powertip/dist/jquery.powertip.js'
         ],
         dest: 'static/js/'
       },
@@ -73,6 +74,7 @@ module.exports = function(grunt) {
       libJS: {
         src: [
           'static/js/jquery.js',
+          'static/js/jquery.powertip.js',
           'static/js/sisyphus.js',
           'static/js/ac.js',
           'static/js/libreviews.js'

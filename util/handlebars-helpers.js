@@ -11,6 +11,7 @@ const mlString = require('../models/helpers/ml-string');
 const languages = require('../locales/languages');
 const Thing = require('../models/thing');
 const urlUtils = require('./url-utils');
+const adapters = require('../adapters/adapters');
 
 // Current iteration value will be passed as {{this}} into the block,
 // starts at 1 for more human-readable counts. First and last set @first, @last
@@ -35,8 +36,9 @@ hbs.registerHelper('escapeHTML', function(block) {
   return escapeHTML(block.fn(this));
 });
 
-hbs.registerHelper('link', function(url, title) {
-  return `<a href="${url}">${title}</a>`;
+hbs.registerHelper('link', function(url, title, singleQuotes) {
+  let q = singleQuotes ? "'" : '"';
+  return `<a href=${q}${url}${q}>${title}</a>`;
 });
 
 // Strips HTML and shortens to specified length
@@ -67,6 +69,11 @@ hbs.registerHelper('longDate', function(date) {
 
 hbs.registerHelper('getSourceMsgKey', function(sourceID) {
   return `${sourceID} source label`;
+});
+
+
+hbs.registerHelper('getSourceURL', function(sourceID) {
+  return adapters.getSourceURL(sourceID);
 });
 
 hbs.registerHelper('__', function(...args) {
