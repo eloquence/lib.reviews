@@ -218,11 +218,14 @@
   }
 
   // Update the URL and the review subject, typically called from an adapter.
-  // Does NOT trigger the change handler on the URL element.
   function updateURLAndReviewSubject(data) {
     if (!data.url)
       throw new Error('To update a URL, we must get one.');
     $('#review-url').val(data.url);
+
+    // Re-validate URL. There shouldn't be any problems with the new URL, so
+    // this will mainly clear out old validation errors.
+    handleURLValidation.apply($('#review-url')[0]);
     updateReviewSubject(data);
     // Make sure we save draft in case user aborts here
     sisyphus.saveAllData();
