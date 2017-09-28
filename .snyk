@@ -11,3 +11,6 @@ patch:
   'npm:ms:20170412':
     - compression > debug > ms:
         patched: '2017-05-26T06:49:13.569Z'
+  'npm:debug:20170905':
+    - serve-index > debug:
+        patched: '2017-09-28T23:17:46.903Z'
