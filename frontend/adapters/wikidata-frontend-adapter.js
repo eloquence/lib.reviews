@@ -172,7 +172,8 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
 
   // Must be bound to an autocomplete widget:
   // Callback for selecting a row within the autocomplete widget
-  _selectRow(row) {
+  _selectRow(row, event) {
+    event.preventDefault();
     if (row.url && row.label) {
       // Perform appropriate UI updates
       this.adapter.updateCallback(row);
