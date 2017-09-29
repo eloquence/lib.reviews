@@ -15,8 +15,10 @@ const { menuBar } = require('prosemirror-menu');
 
 // For indicating the drop target when dragging a text selection
 const { dropCursor } = require('prosemirror-dropcursor');
-const inputRules = require('prosemirror-inputrules');
 const history = require('prosemirror-history');
+
+// Custom input rules, e.g. # for headline
+const { buildInputRules } = require('./editor-inputrules');
 
 // Custom keymap
 const { getExtendedKeymap } = require('./editor-extended-keymap');
@@ -30,21 +32,6 @@ const { saveSelection, restoreSelection } = require('./editor-selection');
 // For parsing, serializing and tokenizing markdown including our custom
 // markup for spoiler/NSFW warnings
 const { markdownParser, markdownSerializer, markdownSchema } = require('./editor-markdown');
-
-const activeInputRules = [
-  // Convert -- to —
-  inputRules.emDash,
-  // Convert ... to …
-  inputRules.ellipsis,
-  // Convert 1. , 2. .. at beginning of line to numbered list
-  inputRules.orderedListRule(markdownSchema.nodes.ordered_list),
-  // Convert * or - at beginning of line to bullet list
-  inputRules.wrappingInputRule(/^\s*([-*]) $/, markdownSchema.nodes.bullet_list),
-  // Convert > at beginning of line to quote
-  inputRules.blockQuoteRule(markdownSchema.nodes.blockquote),
-  // Convert #, ##, .. at beginning of line to heading
-  inputRules.headingRule(markdownSchema.nodes.heading, 6)
-];
 
 // ProseMirror provides no native way to enable/disable the editor, so
 // we add it here
@@ -224,9 +211,7 @@ function renderRTE($textarea) {
   const state = EditorState.create({
     doc: markdownParser.parse($textarea.val()),
     plugins: [
-      inputRules.inputRules({
-        rules: activeInputRules
-      }),
+      buildInputRules(markdownSchema),
       keymap(getExtendedKeymap(markdownSchema, menu)),
       keymap(baseKeymap),
       history.history(),
