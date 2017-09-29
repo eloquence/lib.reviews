@@ -3,7 +3,6 @@ const { undo, redo } = require("prosemirror-history");
 const { undoInputRule } = require("prosemirror-inputrules");
 const { wrapIn, setBlockType, chainCommands, toggleMark, exitCode, selectParentNode } = require("prosemirror-commands");
 const { wrapInList, splitListItem, liftListItem, sinkListItem } = require("prosemirror-schema-list");
-const { selectNextCell, selectPreviousCell } = require("prosemirror-schema-table");
 
 const mac = typeof navigator != "undefined" ? /Mac/.test(navigator.platform) : false;
 
@@ -64,14 +63,6 @@ exports.getExtendedKeymap = function getExtendedKeymap(schema, menu) {
     'Shift-Ctrl-\\': {
       type: schema.nodes.code_block,
       fn: setBlockType
-    },
-    'Tab': {
-      type: schema.nodes.table_cell,
-      fn: selectNextCell
-    },
-    'Shift-Tab': {
-      type: schema.nodes.table_cell,
-      fn: selectPreviousCell
     }
   };
 
