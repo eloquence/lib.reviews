@@ -51,6 +51,8 @@
   if (postRating)
     selectStar.apply($(`#star-button-${postRating}`)[0]);
 
+  // We only have to worry about review subject lookup for new reviews,
+  // not when editing existing reviews
   if (!editing) {
     $(textFields).change(hideAbandonDraft);
     $('#review-url').keyup(handleURLLookup);
@@ -72,13 +74,13 @@
       onRestore: processLoadedData,
       excludeFields: $('[data-ignore-autosave]' + maybeExcludeURL)
     });
-  }
 
-  // Setup all adapters
-  adapters.forEach(adapter => {
-    if (adapter.setup)
-      adapter.setup();
-  });
+    // Set up adapters for looking up review subjects
+    adapters.forEach(adapter => {
+      if (adapter.setup)
+        adapter.setup();
+    });
+  }
 
   // In case we're in preview mode and have a URL, make sure we fire the URL
   // validation/lookup handlers
