@@ -72,7 +72,7 @@
     "prosemirror-state": "^0.24.0",
     "prosemirror-view": "^0.24.0",
     "read-chunk": "^2.0.0",
-    "remote-ac": "git://github.com/eloquence/autocomplete.git#eventbubbling",
+    "remote-ac": "^0.4.1",
     "request-promise-native": "^1.0.4",
     "rethinkdb": "^2.3.2",
     "rethinkdbdash": "^2.3.8",
