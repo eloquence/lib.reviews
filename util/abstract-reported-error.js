@@ -32,6 +32,9 @@ class AbstractReportedError extends AbstractGenericError {
     // arguments. If not provided, we sprintf the user message + parameters.
     this.translateFn = options.translateFn || sprintf;
 
+    // Locale used for "Messages displayed to the user:" section of traces
+    this.locale = 'en';
+
     this.initializeUserMessage();
 
   }
