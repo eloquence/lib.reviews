@@ -20,11 +20,11 @@
 <ul class="fa-ul">
 {{#if thing.urls}}
 <li class="thing-data-list-item"><span class="fa fa-li fa-external-link">&nbsp;</span><span id="item-url" class="review-url">
-{{{link thing.urls.[0] (prettify thing.urls.[0])}}}{{#if thing.userCanEdit}} <a href="/{{{thing.urlID}}}/manage/urls" id="manage-urls" class="pure-button button-rounded"><span class="fa fa-fw fa-cogs spaced-icon">&nbsp;</span>
+{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</span> {{#if thing.userCanEdit}}<a href="/{{{thing.urlID}}}/manage/urls" id="manage-urls" class="pure-button button-rounded"><span class="fa fa-fw fa-cogs spaced-icon">&nbsp;</span>
 {{{__ "manage links"}}}
 </a>
 {{/if}}
-</span>
+
 </li>
 {{/if}}
 {{#ifCond (mlString thing.description) '||' thing.userCanEdit}}
