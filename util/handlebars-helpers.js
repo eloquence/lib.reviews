@@ -23,6 +23,7 @@ hbs.registerHelper('times', function(n, block) {
     data = hbs.handlebars.createFrame(block.data);
 
   for (let i = 1; i <= n; i++) {
+    data.zeroIndex = i - 1;
     data.first = i == 1 ? true : false;
     data.last = i == n ? true : false;
     rv += block.fn(i, {

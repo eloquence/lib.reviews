@@ -9,7 +9,8 @@ const languages = require('../../locales/languages');
 const uuidRegex = '([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})';
 
 let forms = {
-
+  // TODO: refactor me
+  /* eslint complexity: "off" */
   parseSubmission(req, options) {
     options = Object.assign({
       // A form schema that tells us what to do with specific fields

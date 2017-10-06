@@ -71,6 +71,52 @@ router.get('/:id', function(req, res, next) {
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
+router.get('/:id/manage/urls', function(req, res, next) {
+  const id = req.params.id.trim();
+  const titleKey = 'manage links';
+
+  if (!req.user)
+    return render.signinRequired(req, res, { titleKey });
+
+  slugs
+    .resolveAndLoadThing(req, res, id)
+    .then(thing => {
+      thing.populateUserInfo(req.user);
+      if (!thing.userCanEdit)
+        return render.permissionError(req, res, { titleKey });
+
+      sendThingURLsForm({ req, res, titleKey, thing });
+
+    })
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+
+});
+
+
+// Update the set of URLs associated with a given thing from user input. The
+// first URL in the array is the "primary" URL, used wherever we want to
+// offer a convenient single external link related to a review subject.
+router.post('/:id/manage/urls', function(req, res, next) {
+  const id = req.params.id.trim();
+  const titleKey = 'manage links';
+
+  if (!req.user)
+    return render.signinRequired(req, res, { titleKey });
+
+  slugs
+    .resolveAndLoadThing(req, res, id)
+    .then(thing => {
+      thing.populateUserInfo(req.user);
+      if (!thing.userCanEdit)
+        return render.permissionError(req, res, { titleKey });
+
+      processThingURLsUpdate({ req, res, thing, titleKey });
+    })
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+
+});
+
+
 router.get('/:id/edit/:field', function(req, res, next) {
 
   if (!editableFields.includes(req.params.field))
@@ -372,69 +418,69 @@ function loadThingAndReviews(req, res, next, thing, offsetDate) {
 
 function processTextFieldUpdate(req, res, next) {
 
- const field = req.params.field,
-   id = req.params.id.trim();
+  const field = req.params.field,
+    id = req.params.id.trim();
 
- if (!editableFields.includes(field))
-   return next();
+  if (!editableFields.includes(field))
+    return next();
 
- const titleKey = `edit ${field}`;
+  const titleKey = `edit ${field}`;
 
- slugs.resolveAndLoadThing(req, res, id)
-   .then(thing => {
-     thing.populateUserInfo(req.user);
-     if (!thing.userCanEdit)
-       return render.permissionError(req, res, {
-         titleKey
-       });
+  slugs.resolveAndLoadThing(req, res, id)
+    .then(thing => {
+      thing.populateUserInfo(req.user);
+      if (!thing.userCanEdit)
+        return render.permissionError(req, res, {
+          titleKey
+        });
 
-     let descriptionSyncActive = thing.sync && thing.sync.description && thing.sync.description.active;
-     if (req.params.field === 'description' && descriptionSyncActive)
-       return render.permissionError(req, res, {
-         titleKey,
-         detailsKey: 'cannot edit synced field'
-       });
+      let descriptionSyncActive = thing.sync && thing.sync.description && thing.sync.description.active;
+      if (req.params.field === 'description' && descriptionSyncActive)
+        return render.permissionError(req, res, {
+          titleKey,
+          detailsKey: 'cannot edit synced field'
+        });
 
-     thing
-       .newRevision(req.user)
-       .then(newRev => {
-         if (!newRev[field])
-           newRev[field] = {};
+      thing
+        .newRevision(req.user)
+        .then(newRev => {
+          if (!newRev[field])
+            newRev[field] = {};
 
-         let language = req.body['thing-language'];
-         languages.validate(language);
-         let text = req.body[`thing-${field}`];
-         newRev[field][language] = escapeHTML(text);
-         if (!newRev.originalLanguage)
-           newRev.originalLanguage = language;
+          let language = req.body['thing-language'];
+          languages.validate(language);
+          let text = req.body[`thing-${field}`];
+          newRev[field][language] = escapeHTML(text);
+          if (!newRev.originalLanguage)
+            newRev.originalLanguage = language;
 
-         let maybeUpdateSlug;
-         if (field === 'label') // Must update slug to match label change
-           maybeUpdateSlug = newRev.updateSlug(req.user.id, language);
-         else
-           maybeUpdateSlug = Promise.resolve(newRev); // Nothing to do
+          let maybeUpdateSlug;
+          if (field === 'label') // Must update slug to match label change
+            maybeUpdateSlug = newRev.updateSlug(req.user.id, language);
+          else
+            maybeUpdateSlug = Promise.resolve(newRev); // Nothing to do
 
-         maybeUpdateSlug
-           .then(updatedRev => {
-             updatedRev
-               .save()
-               .then(() => {
-                 search.indexThing(updatedRev);
-                 res.redirect(`/${id}`);
-               })
-               .catch(next);
-           })
-           .catch(error => {
-             if (error.name === 'InvalidLanguageError') {
-               req.flashError(error);
-               sendThing(req, res, thing);
-             } else
-               return next(error);
-           });
-       });
+          maybeUpdateSlug
+            .then(updatedRev => {
+              updatedRev
+                .save()
+                .then(() => {
+                  search.indexThing(updatedRev);
+                  res.redirect(`/${id}`);
+                })
+                .catch(next);
+            })
+            .catch(error => {
+              if (error.name === 'InvalidLanguageError') {
+                req.flashError(error);
+                sendThing(req, res, thing);
+              } else
+                return next(error);
+            });
+        });
 
-   })
-   .catch(getResourceErrorHandler(req, res, next, 'thing', id));
+    })
+    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 }
 
 function sendForm(req, res, thing, edit, titleKey) {
@@ -506,6 +552,96 @@ function sendThing(req, res, thing, options) {
       "files selected": req.__('files selected')
     }
   });
+}
+
+// Send the form for the "manage URLs" route, either with the current
+// URLs, or with data from the POST request
+function sendThingURLsForm(paramsObj) {
+  const { req, res, titleKey, thing, formValues } = paramsObj;
+  const pageErrors = req.flash('pageErrors'),
+    pageMessages = req.flash('pageMessages');
+  let numberOfFields = 7;
+
+  if (thing.urls.length > 4)
+    numberOfFields = thing.urls.length + 3;
+  render.template(req, res, 'thing-urls', {
+    titleKey,
+    thing,
+    numberOfFields,
+    pageErrors,
+    pageMessages,
+    singleColumn: true,
+    // Preserve submission content, if any
+    urls: formValues ? formValues.urls : thing.urls,
+    primary: formValues ? formValues.primary : 0
+  });
+}
+
+// Handle data from a POST request for the "manage URLs" route
+function processThingURLsUpdate(paramsObj) {
+  const { req, res, titleKey, thing } = paramsObj;
+  const formDef = [{
+    name: 'primary',
+    type: 'number',
+    required: true
+  }];
+  // This will parse fields like url-0 to an array of URLs
+  for (let field in req.body) {
+    if (/^url-[0-9]+$/.test(field))
+      formDef.push({
+        name: field,
+        type: 'url',
+        required: false,
+        keyValueMap: 'urls'
+      });
+  }
+
+  let parsed = forms.parseSubmission(req, { formDef, formKey: 'thing-urls' });
+
+  // Process errors handled by form parser
+  if (parsed.hasUnknownFields || !parsed.hasRequiredFields)
+    return sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
+
+  // Detect additional case of primary pointing to a blank field
+  let primaryURL = parsed.formValues.urls[parsed.formValues.primary];
+  if (typeof primaryURL !== 'string' || !primaryURL.length) {
+    req.flash('pageErrors', req.__('need primary'));
+    return sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
+  }
+
+  // The primary URL is simply the first one in the array, so we
+  // have to re-order -- and also filter any empty fields. Validation
+  // is done by the model (and client-side for JS users).
+  let thingURLs = [primaryURL].concat(parsed.formValues.urls.filter(
+    url => url !== primaryURL && typeof url === 'string' && url.length
+  ));
+
+  thing
+    .newRevision(req.user)
+    .then(newRev => {
+      // Reset sync settings for adapters
+      newRev.setURLs(thingURLs);
+      // Fetch external data for any URLs that support it
+      newRev
+        .updateActiveSyncs()
+        .then(newRev => {
+          newRev
+            .save()
+            .then(savedRev => {
+              req.flash('pageMessages', req.__('links updated'));
+              sendThingURLsForm({ req, res, titleKey, thing: savedRev });
+              search.indexThing(savedRev);
+            })
+            .catch(error => { // Problem with save, e.g., validation
+              req.flashError(error);
+              sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
+            });
+        })
+        .catch(error => { // Problem with syncs
+          req.flashError(error);
+          sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
+        });
+    });
 }
 
 module.exports = router;

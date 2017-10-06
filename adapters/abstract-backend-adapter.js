@@ -11,6 +11,7 @@ class AbstractBackendAdapter {
     this.sourceID = undefined; // a short lower-case string, e.g., 'wikidata'
     this.sourceURL = undefined; // the most canonical URL for the source
     this.supportedPattern = undefined; // a RegExp object
+    this.supportedFields = undefined; // array of 'thing' properties this adapter supports
 
     // Replace w/ new.target after upgrading to Babel 7.0
     if (new.target === AbstractBackendAdapter)

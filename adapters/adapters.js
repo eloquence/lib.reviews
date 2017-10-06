@@ -16,8 +16,17 @@ module.exports = {
       return adapters;
     },
 
+    // Returns the canonical URL that represents a specific source, typically
+    // a project's main website. Used for "About this source" links and such.
     getSourceURL(sourceID) {
       return sourceURLs[sourceID];
+    },
+
+    // Returns the adapter that handles a specific source (undefined if not found)
+    getAdapterForSource(sourceID) {
+      for (let adapter of adapters)
+        if (adapter.sourceID === sourceID)
+          return adapter;
     },
 
     // Return a lookup promise from every adapter that can support metadata

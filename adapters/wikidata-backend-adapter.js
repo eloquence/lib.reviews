@@ -23,6 +23,10 @@ class WikidataBackendAdapter extends AbstractBackendAdapter {
   constructor() {
     super();
     this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
+
+    // Fields we can synchronize using this adapter. Does not include label until
+    // https://github.com/eloquence/lib.reviews/issues/163 is resolved.
+    this.supportedFields = ['description'];
     this.sourceID = 'wikidata';
     this.sourceURL = 'https://www.wikidata.org/';
   }

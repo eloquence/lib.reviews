@@ -434,5 +434,15 @@
 	"synced info": "Tooltip that is shown for information synchronized from an external source",
 	"sync source": "Information that is shown for information synchronized from an external source. %s is replaced with the name of the source, such as 'Wikidata'.",
 	"sync date": "Information that is shown for information synchronized from an external source. %s is replaced with the date.",
-	"cannot edit synced field": "Error message that is shown when attempting to edit a field that is automatically updated from an external source."
+	"cannot edit synced field": "Error message that is shown when attempting to edit a field that is automatically updated from an external source.",
+	"manage links" : "Button label for managing links associated with a review subject; also used as title for the resulting page.",
+	"manage links intro 1": "Introductory text shown on the page for managing links associated with a review subject.",
+	"manage links intro 2": "Introductory text shown on the page for managing links associated with a review subject.",
+	"enter web address short": "Placeholder text for form field on page for managing links associated iwth a review subject.",
+	"update links": "Submit button label on page for managing links associated with a review subject.",
+	"web address": "Form header on page for managing links associated with a review subject.",
+	"primary link": "Form header on page for managing links associated with a review subject. The primary link is the one chiefly identified with this subject.",
+	"need primary": "Error message shown if user attempts to update links associated with a review subject without providing a primary link.",
+	"links updated": "Success message shown if user has updated links associated with a review subject."
+
 }

@@ -443,5 +443,14 @@
    "synced info": "This information is updated automatically.",
    "sync source": "Source: %s",
    "sync date": "Last synchronized: %s",
-   "cannot edit synced field": "This field cannot be edited, because it is updated automatically from an external source."
+   "cannot edit synced field": "This field cannot be edited, because it is updated automatically from an external source.",
+   "manage links" : "Manage links",
+   "manage links intro 1": "You can configure which web addresses are associated with this review subject:",
+   "manage links intro 2": "We will extract as much information as we can from the provided addresses. The primary link should be the official website (e.g., a movie or book website). If none exists, we recommend choosing a record from an open database as the primary link (e.g., <a href='https://www.wikidata.org'>Wikidata</a>, <a href='https://www.openstreetmap.org'>OpenStreetMap</a>, <a href='https://openlibrary.org/'>OpenLibrary</a>).",
+   "enter web address short": "Enter a web address",
+   "update links": "Update links",
+   "web address": "Web address",
+   "primary link": "Primary link",
+   "need primary": "We need at least one valid primary link.",
+   "links updated": "All links associated with this review subject have been updated. Beep boop!"
 }

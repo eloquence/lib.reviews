@@ -12,6 +12,7 @@ const File = require('./file');
 const ThingSlug = require('./thing-slug');
 const isValidLanguage = require('../locales/languages').isValid;
 const ReportedError = require('../util/reported-error');
+const adapters = require('../adapters/adapters');
 
 let thingSchema = {
 
@@ -23,10 +24,12 @@ let thingSchema = {
   label: mlString.getSchema({
     maxLength: 256
   }),
+
   aliases: mlString.getSchema({
     maxLength: 256,
     array: true
   }),
+
   description: mlString.getSchema({
     maxLength: 512
   }),
@@ -41,7 +44,7 @@ let thingSchema = {
   sync: {
     description: {
       active: type.boolean(),
-      lastUpdate: type.date(),
+      updated: type.date(),
       source: type.string().enum(['wikidata'])
     }
   },
@@ -57,17 +60,9 @@ let thingSchema = {
     return this.canonicalSlugName ? encodeURIComponent(this.canonicalSlugName) : this.id;
   }),
 
-  // We can set one or many types which determine which metadata cen be added about this thing
-  isA: [type.string()],
-
-  // Information for specific types.
-  bookAuthor: type.string().uuid(4), // => human
-
   // Track original authorship across revisions
   createdOn: type.date().required(true),
   createdBy: type.string().uuid(4).required(true),
-
-  hasInfo: type.virtual().default(_hasInfo), // Helper for determining whether this is more than a single URL
 
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
@@ -107,6 +102,104 @@ Thing.lookupByURL = function(url) {
     .filter({ _revOf: false }, { default: true })
     .filter({ _revDeleted: false }, { default: true });
 };
+
+// Update URL array without saving. Will also update synchronization settings.
+Thing.define("setURLs", function(urls) {
+
+  // Turn off all synchronization
+  if (typeof this.sync == 'object') {
+    for (let field in this.sync) {
+      this.sync[field].active = false;
+    }
+  }
+
+  // Turn on synchronization for supported fields. The first adapter
+  // from the getAll() array to claim a supported field will be responsible
+  // for it.
+  urls.forEach(url => {
+    adapters.getAll().forEach(adapter => {
+      if (adapter.ask(url)) {
+        adapter.supportedFields.forEach(field => {
+          if (!this.sync || !this.sync[field] || !this.sync[field].active)
+            if (!this.sync)
+              this.sync = {};
+
+          this.sync[field] = {
+            active: true,
+            source: adapter.sourceID
+          };
+        });
+      }
+    });
+  });
+
+  this.urls = urls;
+
+});
+
+// Fetch new external data for all fields set to be synchronized.
+// Does not create a new revision or save it; resolves with updated thing object.
+Thing.define("updateActiveSyncs", function() {
+  const thing = this; // For readability
+  return new Promise((resolve, reject) => {
+    // No active syncs of any kind? Just give the thing back.
+    if (!thing.urls || !thing.urls.length || typeof thing.sync !== 'object')
+      resolve(thing);
+
+    // Determine which external sources we need to contact. While one source
+    // may give us updates for many fields, we obviously only want to contact
+    // it once.
+    let sources = [];
+    for (let field in thing.sync) {
+      if (thing.sync[field].active && thing.sync[field].source &&
+        !sources.includes(thing.sync[field].source))
+        sources.push(thing.sync[field].source);
+    }
+
+    //  Build array of lookup promises from currently used sources
+    let p = [];
+    sources.forEach(source => {
+      let adapter = adapters.getAdapterForSource(source);
+      // Will use first matching URL in the array
+      let url = _getURLForAdapter(adapter, thing.urls);
+
+      if (!adapter || !url)
+        p.push(Promise.resolve(null)); // Null result to preserve result oder
+      else
+        p.push(adapter.lookup(url));
+    });
+
+    // Perform all lookups, then update thing from the results, which will be
+    // returned in the same order as the sources array.
+    Promise
+      .all(p)
+      .then(results => {
+        sources.forEach((source, index) => {
+          if (typeof results[index] == 'object' && results[index].data) {
+            for (let field in thing.sync) {
+              // Only update if everything looks good: sync is active, source
+              // ID matches
+              if (thing.sync[field].active && thing.sync[field].source === source &&
+                results[index].sourceID === source) {
+                thing.sync[field].updated = new Date();
+                this[field] = results[index].data[field];
+              }
+            }
+          }
+        });
+        resolve(thing);
+      })
+      .catch(reject);
+  });
+
+  // Internal helper to return the first URL that's supported by the given adapter
+  function _getURLForAdapter(adapter, urls) {
+    for (let url of urls)
+      if (adapter.ask(url))
+        return url;
+  }
+
+});
 
 // There _should_ only be one review per user+thing. But the user of the model
 // should be prepared to deal with edge cases where there might be more.
@@ -294,14 +387,6 @@ function _isValidURL(url) {
       userMessage: 'invalid url',
       userMessageParams: []
     });
-}
-
-function _hasInfo() {
-  if ((!this.urls || this.urls.length == 1) &&
-    !this.aliases && !this.description && !this.slugs && !this.isA)
-    return false;
-  else
-    return true;
 }
 
 module.exports = Thing;

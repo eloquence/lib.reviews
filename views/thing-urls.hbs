@@ -1,0 +1,29 @@
+<div id="page-messages">
+{{#each pageMessages}}
+<div class="message-box">{{{this}}}</div>
+{{/each}}
+</div>
+{{{__ "manage links intro 1"}}}
+<p>
+<b>{{{getThingLink thing}}}</b>
+<p>
+{{{__ "manage links intro 2"}}}
+<p>
+{{>page_errors}}
+<p>
+<form class="pure-form" method="post">
+<input type="hidden" value="{{csrfToken}}" name="_csrf">
+<table class="pure-table">
+<thead>
+<tr><th>{{{__ "web address"}}}</th><th>{{{__ "primary link" }}}</th></tr>
+</thead>
+{{#times numberOfFields}}
+<tr>
+<td class="max-width"><input name="url-{{@zeroIndex}}" type="text" class="max-width" value="{{{lookup ../urls @zeroIndex}}}" placeholder="{{{__ "enter web address short"}}}" {{#if @first}}data-focus{{/if}}></td>
+<td><input type="radio" name="primary" value="{{@zeroIndex}}" {{#ifCond @zeroIndex '===' ../primary}}checked{{/ifCond}}></td>
+{{/times}}
+</tr>
+</table>
+<p>
+<input type="submit" class="pure-button pure-button-primary button-rounded" value="{{{__ "update links"}}}">
+</form>

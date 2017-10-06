@@ -73,6 +73,7 @@
     </div>
 </div>
     <div id="main-body">
+    {{#if singleColumn}}<div class="centered-column">{{/if}}
     {{#if localeChange}}
     <div id="uselang-notice" class="message-box">
     {{{__ "language temporarily changed" (getLanguageName localeChange.old)}}}
@@ -99,6 +100,7 @@
     {{/unless}}
 
     {{{body}}}
+    {{#if singleColumn}}</div>{{/if}}
     </div>
     <div id="footer" class="no-print">
       <form id="languages" action="/actions/change-language" class="pure-form" method="post" name="languages">
