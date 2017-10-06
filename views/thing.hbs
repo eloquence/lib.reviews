@@ -17,10 +17,12 @@
 </h1>
 
 
-<ul class="fa-ul">
+<ul class="fa-ul thing-data-list">
 {{#if thing.urls}}
-<li class="thing-data-list-item"><span class="fa fa-li fa-external-link">&nbsp;</span><span id="item-url" class="review-url">
-{{{link thing.urls.[0] (prettify thing.urls.[0])}}}</span> {{#if thing.userCanEdit}}<a href="/{{{thing.urlID}}}/manage/urls" id="manage-urls" class="pure-button button-rounded"><span class="fa fa-fw fa-cogs spaced-icon">&nbsp;</span>
+<li class="thing-data-list-item"><span class="fa fa-li fa-external-link thing-data-icon">&nbsp;</span>
+{{{link thing.urls.[0] (prettify thing.urls.[0])}}}
+
+{{#if thing.userCanEdit}}<a href="/{{{thing.urlID}}}/manage/urls" id="manage-urls" class="pure-button button-rounded"><span class="fa fa-fw fa-cogs spaced-icon">&nbsp;</span>
 {{{__ "manage links"}}}
 </a>
 {{/if}}
@@ -28,7 +30,7 @@
 </li>
 {{/if}}
 {{#ifCond (mlString thing.description) '||' thing.userCanEdit}}
-<li class="thing-data-list-item"><span class="fa fa-li fa-info-circle">&nbsp;</span>
+<li class="thing-data-list-item"><span class="fa fa-li fa-info-circle thing-data-icon">&nbsp;</span>
 {{#if (mlString thing.description)}}
 {{! The powertip is shown for JS users, and includes a clickable link to the source from which the data was synced.}}
 <span itemprop="description">{{{mlString thing.description}}}</span>{{#if thing.sync.description.active}}<span class="fa fa-refresh fa-fw sync-icon" data-powertip="{{{__ "synced info"}}}<br>{{{__ "sync source" (link (getSourceURL thing.sync.description.source) (__ (getSourceMsgKey thing.sync.description.source)) true)}}}{{#if thing.sync.description.updated}}<br>{{{__ "sync date" (longDate thing.sync.description.updated)}}}{{/if}}" title="{{{__ "synced info"}}}

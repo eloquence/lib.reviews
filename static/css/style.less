@@ -894,16 +894,26 @@ hr.feed-separator, hr.team-separator {
   margin-bottom:1em;
 }
 
+.thing-data-list li > * {
+  vertical-align:baseline;
+}
+
 .thing-data-list-item {
-  margin-bottom:0.7em;
+  // Leave room for buttons
+  line-height:2em;
+  margin-bottom:0.5em;
+}
+
+// Tweak alignment from FontAwesome defaults
+.thing-data-icon {
+  top:0.5em !important;
 }
 
 .review-url {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display:inline-block;
-  width:100%;
+  display:block;
 }
 
 .review-text {
