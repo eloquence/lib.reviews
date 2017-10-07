@@ -123,7 +123,9 @@ router.get('/:id/edit/:field', function(req, res, next) {
     return next();
 
   const titleKey = `edit ${req.params.field}`;
-  const edit = { [req.params.field]: true };
+  const edit = {
+    [req.params.field]: true
+  };
   const id = req.params.id.trim();
 
   if (!req.user)
@@ -616,31 +618,65 @@ function processThingURLsUpdate(paramsObj) {
     url => url !== primaryURL && typeof url === 'string' && url.length
   ));
 
-  thing
-    .newRevision(req.user)
-    .then(newRev => {
-      // Reset sync settings for adapters
-      newRev.setURLs(thingURLs);
-      // Fetch external data for any URLs that support it
-      newRev
-        .updateActiveSyncs()
+  // Now we need to make sure that none of the URLs are currently in use.
+  let urlLookups = [];
+  thingURLs.forEach(url => {
+    urlLookups.push(
+      Thing
+      .filter(t => t('urls').contains(url))
+      .filter(t => t('id').ne(thing.id))
+      .filter({ _revOf: false }, { default: true })
+      .filter({ _revDeleted: false }, { default: true })
+    );
+  });
+
+  // Perform lookups
+  Promise
+    .all(urlLookups)
+    .then(results => {
+      let hasDuplicate = false;
+      results.forEach((r, index) => {
+        if (r.length) {
+          req.flash('pageErrors', req.__('web address already in use', thingURLs[index], `/${r[0].urlID}`));
+          hasDuplicate = true;
+        }
+      });
+
+      if (hasDuplicate)
+        return sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
+
+      // No dupes -- continue!
+      thing
+        .newRevision(req.user)
         .then(newRev => {
+          // Reset sync settings for adapters
+          newRev.setURLs(thingURLs);
+          // Fetch external data for any URLs that support it
           newRev
-            .save()
-            .then(savedRev => {
-              req.flash('pageMessages', req.__('links updated'));
-              sendThingURLsForm({ req, res, titleKey, thing: savedRev });
-              search.indexThing(savedRev);
+            .updateActiveSyncs()
+            .then(newRev => {
+              newRev
+                .save()
+                .then(savedRev => {
+                  req.flash('pageMessages', req.__('links updated'));
+                  sendThingURLsForm({ req, res, titleKey, thing: savedRev });
+                  search.indexThing(savedRev);
+                })
+                .catch(error => { // Problem with save, e.g., validation
+                  req.flashError(error);
+                  sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
+                });
             })
-            .catch(error => { // Problem with save, e.g., validation
+            .catch(error => { // Problem with syncs
               req.flashError(error);
               sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
             });
-        })
-        .catch(error => { // Problem with syncs
-          req.flashError(error);
-          sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
         });
+
+    })
+    .catch(error => { // Problem with lookup
+      req.flashError(error);
+      sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
     });
 }
 
