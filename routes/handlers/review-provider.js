@@ -107,7 +107,7 @@ class ReviewProvider extends AbstractBREADProvider {
         md.getMarkdownMessageKeys(),
         getEditorMessageKeys(),
         getAdapterMessageKeys(),
-        ['more info']
+        ['more info', 'not a url', 'add http', 'add https']
       )
     });
   }

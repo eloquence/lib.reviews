@@ -54,6 +54,7 @@
   // We only have to worry about review subject lookup for new reviews,
   // not when editing existing reviews
   if (!editing) {
+    initializeURLValidation();
     $(textFields).change(hideAbandonDraft);
     $('#review-url').keyup(handleURLLookup);
     $('#review-url').keyup(handleURLFixes);
@@ -336,5 +337,12 @@
     if (event.keyCode == 13 || event.keyCode == 32) {
       selectStar.apply(this);
     }
+  }
+
+  function initializeURLValidation() {
+    $('#url-validation').append(
+      `<div id="review-url-error" class="validation-error">${libreviews.msg('not a url')}</div>` +
+      `<div id="helper-links"><a href="#" id="add-https">${libreviews.msg('add https')}</a> &ndash; <a href="#" id="add-http">${libreviews.msg('add http')}</a></div>`
+    );
   }
 }());
