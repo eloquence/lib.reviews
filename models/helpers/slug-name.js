@@ -118,7 +118,7 @@ const slugNameHelper = {
       .trim()
       .toLowerCase()
       .replace(/[?&"″'`’<>]/g, '')
-      .replace(/[ _]/g, '-')
+      .replace(/[ _/]/g, '-')
       .replace(/-{2,}/g, '-'); // Avoid consecutive hyphens
 
     if (!slugName)

@@ -96,10 +96,14 @@ function _resolveAndLoad(req, res, id, loadOptions, modelConfig) {
 
 // Redirect from current page to the canonical URL
 function _redirectToCanonical(req, res, id, basePath, canonicalSlugName) {
-  // Match the encoded or non-encoded version of the slug (we might get either)
-  let regex = new RegExp(`^${basePath}(${encodeURIComponent(id)}|${id})`);
-  // Replace relevant substring of path so this works for any page
-  let newPath = req.path.replace(regex, basePath + encodeURIComponent(canonicalSlugName));
+  let newPath = basePath + encodeURIComponent(canonicalSlugName);
+
+  // Append additional path or query string info
+  let regex = new RegExp(`^${basePath}(.*?)([?/].*)*$`); // Match path or query string as [2]
+  let match = req.originalUrl.match(regex) || [];
+  if (match[2])
+    newPath += match[2];
+
   res.redirect(newPath);
 }
 
