@@ -264,7 +264,7 @@
 	"image alt text": "Alternativen Text",
 	"add or remove link": "E Link derbäisetzen oder ewechhuelen",
 	"add link dialog title": "E Link derbäisetzen",
-	"web address": "Internet-Adress (URL)",
+	"web address": "Internet-Adress",
 	"format block": "Format",
 	"format block help": "Den aktuellen Abschnitt oder Block formatéieren",
 	"format as bullet list": "Als Lëscht mat Punkte formatéieren",
@@ -296,5 +296,9 @@
 	"wikidata source label": "Wikidata",
 	"synced info": "Dës Informatioun gëtt automatesch aktualiséiert.",
 	"sync source": "Quell: %s",
-	"sync date": "Lescht Synchronisatioun: %s"
+	"sync date": "Lescht Synchronisatioun: %s",
+	"manage links": "Linke geréieren",
+	"enter web address short": "Gitt eng Internet-Adress an",
+	"update links": "Linken aktualiséieren",
+	"primary link": "Primäre Link"
 }

@@ -3,7 +3,8 @@
 		"authors": [
 			"Higa4",
 			"ネイ",
-			"Omotecho"
+			"Omotecho",
+			"Hinaloe"
 		]
 	},
 	"site name": "lib.reviews",
@@ -411,5 +412,7 @@
 	"join with item above": "すぐ上の項目と結合",
 	"decrease item indentation": "インデント解除",
 	"required field": "必須フィールド",
-	"ok": "OK"
+	"ok": "OK",
+	"manage links": "リンクを管理",
+	"update links": "リンクを更新"
 }

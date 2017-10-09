@@ -394,7 +394,7 @@
 	"image alt text": "Alternativer Text",
 	"add or remove link": "Link hinzufügen oder entfernen",
 	"add link dialog title": "Link hinzufügen",
-	"web address": "Web-Adresse (URL)",
+	"web address": "Web-Adresse",
 	"toggle bold": "Fett-Formatierung umschalten",
 	"toggle italic": "Kursiv-Formatierung umschalten",
 	"toggle code": "Code-Formatierung umschalten",
@@ -450,5 +450,14 @@
 	"synced info": "Diese Information wird automatisch aktualisiert.",
 	"sync source": "Quelle: %s",
 	"sync date": "Zuletzt synchronisiert: %s",
-	"cannot edit synced field": "Dieses Feld kann nicht bearbeitet werden, da es von einer externen Quelle automatisch aktualisiert wird."
+	"cannot edit synced field": "Dieses Feld kann nicht bearbeitet werden, da es von einer externen Quelle automatisch aktualisiert wird.",
+	"manage links": "Links verwalten",
+	"manage links intro 1": "Du kannst konfigurieren, welche Web-Adressen mit diesem Rezensionsobjekt verknüpft sind:",
+	"manage links intro 2": "Wir werden so viele Informationen wie möglich aus den angegebenen Adressen extrahieren. Der primäre Link sollte die offizielle Website sein (z.&nbsp;B. ein Film oder eine Buchwebsite). Falls keine vorhanden ist, empfehlen wir eine Aufzeichnung einer offenen Datenbank (z.&nbsp;B. <a href='https://www.wikidata.org'>Wikidata</a>, <a href='https://www.openstreetmap.org'>OpenStreetMap</a> oder <a href='https://openlibrary.org/'>OpenLibrary</a>) als primären Link.",
+	"enter web address short": "Gib eine Web-Adresse ein",
+	"update links": "Links aktualisieren",
+	"primary link": "Primärer Link",
+	"need primary": "Wir benötigen mindestens einen gültigen primären Link.",
+	"links updated": "Alle mit diesem Rezensionsobjekt verknüpften Links wurden aktualisiert.",
+	"web address already in use": "Die Web-Adresse <code><b>%1$s</b></code> wird bereits von <a href='%2$s' target='_blank'>einem anderen Rezensionsobjekt</a> verwendet."
 }

@@ -374,7 +374,7 @@
 	"image alt text": "বিকল্প লেখা",
 	"add or remove link": "সংযোগ যোগ করুন বা সরান",
 	"add link dialog title": "একটি সংযোগ যোগ করুন",
-	"web address": "ওয়েব ঠিকানা (URL)",
+	"web address": "ওয়েব ঠিকানা",
 	"format block": "বিন্যাস",
 	"format as bullet list": "বিন্দুযুক্ত তালিকা হিসেবে বিন্যাস করুন",
 	"format as numbered list": "সংখ্যায়িত তালিকা হিসেবে বিন্যাস করুন",
@@ -404,5 +404,9 @@
 	"wikidata source label": "উইকিউপাত্ত",
 	"synced info": "এই তথ্য স্বয়ংক্রিয়ভাবে হালনাগাদ করা হয়।",
 	"sync source": "উত্স: $1",
-	"cannot edit synced field": "এই ঘরটি সম্পাদনা করা যাবে না, কারণ এটি স্বয়ংক্রিয়ভাবে একটি বহিরাগত উত্স থেকে হালনাগাদ করা হয়।"
+	"cannot edit synced field": "এই ঘরটি সম্পাদনা করা যাবে না, কারণ এটি স্বয়ংক্রিয়ভাবে একটি বহিরাগত উত্স থেকে হালনাগাদ করা হয়।",
+	"manage links": "সংযোগ পরিচালনা করুন",
+	"enter web address short": "একটি ওয়েব ঠিকানা লিখুন",
+	"update links": "সংযোগ হালনাগাদ করুন",
+	"primary link": "প্রাথমিক সংযোগ"
 }

@@ -392,7 +392,7 @@
 	"image alt text": "替代文本",
 	"add or remove link": "添加或移除链接",
 	"add link dialog title": "添加链接",
-	"web address": "网址（URL）",
+	"web address": "网址",
 	"toggle bold": "切换加粗格式",
 	"toggle italic": "切换斜体格式",
 	"toggle code": "切换代码字体",
@@ -448,5 +448,14 @@
 	"synced info": "此信息自动更新。",
 	"sync source": "来源：%s",
 	"sync date": "最近同步：%s",
-	"cannot edit synced field": "此字段不能编辑，因为它从外部来源自动更新。"
+	"cannot edit synced field": "此字段不能编辑，因为它从外部来源自动更新。",
+	"manage links": "管理链接",
+	"manage links intro 1": "您可以哪些配置网址与该审查主题相关：",
+	"manage links intro 2": "我们将从地址中提取尽可能多的信息。主要链接应为官方网站（例如电影或图书的网站）。如果不存在，我们建议从开放数据库中选择记录作为主要链接（例如<a href='https://www.wikidata.org'>维基数据</a>、<a href='https://www.openstreetmap.org'>OpenStreetMap</a>、<a href='https://openlibrary.org/'>OpenLibrary</a>）。",
+	"enter web address short": "输入一个网址",
+	"update links": "更新链接",
+	"primary link": "主要链接",
+	"need primary": "我们需要至少一个有效的主要链接。",
+	"links updated": "所有与该审查主题相关的链接已更新。哗哗！",
+	"web address already in use": "网址<code><b>%1$s</b></code>已用于<a href='%2$s' target='_blank'>另一个审查主题</a>。"
 }

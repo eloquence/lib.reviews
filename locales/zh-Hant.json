@@ -393,7 +393,7 @@
 	"image alt text": "替代文字",
 	"add or remove link": "增加或移除連結",
 	"add link dialog title": "增加一個連結",
-	"web address": "網址（URL）",
+	"web address": "網址",
 	"toggle bold": "切換粗體格式",
 	"toggle italic": "切換斜體格式",
 	"toggle code": "切換代碼字型",
@@ -449,5 +449,14 @@
 	"synced info": "此訊息為自動更新。",
 	"sync source": "來源：%s",
 	"sync date": "上一次同步：%s",
-	"cannot edit synced field": "此欄位不可編輯，因為是從外部來源作自動更新。"
+	"cannot edit synced field": "此欄位不可編輯，因為是從外部來源作自動更新。",
+	"manage links": "管理連結",
+	"manage links intro 1": "您可設置相關於此評論主題的網址：",
+	"manage links intro 2": "我們會從所提供的網址盡可能取得可用訊息。主要連結應是官方網站（例如：電影或書籍網站）。如果不存在，我們建議從開放資料庫裡挑選記錄內容作為主要連結（例如：<a href='https://www.wikidata.org'>維基數據</a>、<a href='https://www.openstreetmap.org'>開放街圖</a>、<a href='https://openlibrary.org/'>OpenLibrary</a>）。",
+	"enter web address short": "輸入網址",
+	"update links": "更新連結",
+	"primary link": "主要連結",
+	"need primary": "我們至少需要一個有效的主要連結。",
+	"links updated": "所有相關於此評論主題的連結已被更新。嗶碰！",
+	"web address already in use": "網址 <code><b>%1$s</b></code> 已被用在<a href='%2$s' target='_blank'>其它評論主題</a>裡。"
 }
