@@ -66,6 +66,7 @@ module.exports = function(grunt) {
           'static/js/review.js': 'build/review-es6-bundle.js',
           'static/js/upload.js': 'frontend/upload.js',
           'static/js/user.js': 'frontend/user.js',
+          'static/js/manage-urls.js': 'frontend/manage-urls.js',
           'static/js/editor.js': 'build/editor-es6-bundle.js'
         }
       }

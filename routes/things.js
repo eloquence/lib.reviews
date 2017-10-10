@@ -21,6 +21,7 @@ const debug = require('../util/debug');
 const forms = require('./helpers/forms');
 const slugs = require('./helpers/slugs');
 const search = require('../search');
+const getMessages = require('../util/get-messages');
 
 // For handling form fields
 const editableFields = ['description', 'label'];
@@ -575,7 +576,10 @@ function sendThingURLsForm(paramsObj) {
     singleColumn: true,
     // Preserve submission content, if any
     urls: formValues ? formValues.urls : thing.urls,
-    primary: formValues ? formValues.primary : 0
+    primary: formValues ? formValues.primary : 0,
+    scripts: ['manage-urls.js']
+  }, {
+    messages: getMessages(req.locale, ['not a url', 'add http', 'add https'])
   });
 }
 

@@ -439,6 +439,11 @@
     return urlRegex.test(url);
   };
 
+  window.libreviews.urlHasSupportedProtocol = function(url) {
+    let protocolRegex = /^(https?|ftp):\/\//;
+    return protocolRegex.test(url);
+  };
+
   // Add autocompletion to search box if present
   if ($('#search-input').length)
     setupSearch();

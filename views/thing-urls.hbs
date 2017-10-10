@@ -18,12 +18,20 @@
 <tr><th>{{{__ "web address"}}}</th><th>{{{__ "primary link" }}}</th></tr>
 </thead>
 {{#times numberOfFields}}
-<tr>
-<td class="max-width"><input name="url-{{@zeroIndex}}" type="text" class="max-width" value="{{{lookup ../urls @zeroIndex}}}" placeholder="{{{__ "enter web address short"}}}" {{#if @first}}data-focus{{/if}}></td>
+<tr valign="top">
+<td class="max-width"><input name="url-{{@zeroIndex}}" data-url-input type="text" class="max-width" value="{{{lookup ../urls @zeroIndex}}}" placeholder="{{{__ "enter web address short"}}}" {{#if @first}}data-focus{{/if}}>
+{{! Placeholder, used by client-side validation code}}
+<div id="url-validation-{{@zeroIndex}}"></div>
+</td>
 <td><input type="radio" name="primary" value="{{@zeroIndex}}" {{#ifCond @zeroIndex '===' ../primary}}checked{{/ifCond}}></td>
 {{/times}}
 </tr>
 </table>
 <p>
-<input type="submit" class="pure-button pure-button-primary button-rounded" value="{{{__ "update links"}}}">
+<div class="validation-error" id="form-error-message">
+{{{__ "correct errors"}}}
+</div>
+<button type="submit" data-check-required class="pure-button pure-button-primary button-rounded">
+{{{__ "update links"}}}
+</button>
 </form>

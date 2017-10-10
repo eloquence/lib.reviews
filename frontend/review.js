@@ -193,18 +193,18 @@
   // Show warning and helper links as appropriate
   function handleURLValidation() {
     let inputURL = this.value;
-    let protocolRegex = /^(https?|ftp):\/\//;
+
     if (inputURL && !libreviews.validateURL(inputURL)) {
       $('#review-url-error').show();
-      if (!protocolRegex.test(inputURL)) {
-        $('#helper-links').show();
+      if (!libreviews.urlHasSupportedProtocol(inputURL)) {
+        $('.helper-links').show();
         $('#add-https').focus();
       } else {
-        $('#helper-links').hide();
+        $('.helper-links').hide();
       }
     } else {
       $('#review-url-error').hide();
-      $('#helper-links').hide();
+      $('.helper-links').hide();
     }
   }
 
@@ -215,7 +215,7 @@
     if ($('#review-url-error').is(':visible')) {
       if (libreviews.validateURL(inputURL)) {
         $('#review-url-error').hide();
-        $('#helper-links').hide();
+        $('.helper-links').hide();
       }
     }
   }
@@ -342,7 +342,7 @@
   function initializeURLValidation() {
     $('#url-validation').append(
       `<div id="review-url-error" class="validation-error">${libreviews.msg('not a url')}</div>` +
-      `<div id="helper-links"><a href="#" id="add-https">${libreviews.msg('add https')}</a> &ndash; <a href="#" id="add-http">${libreviews.msg('add http')}</a></div>`
+      `<div class="helper-links"><a href="#" id="add-https">${libreviews.msg('add https')}</a> &ndash; <a href="#" id="add-http">${libreviews.msg('add http')}</a></div>`
     );
   }
 }());
