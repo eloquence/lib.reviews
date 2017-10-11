@@ -1,10 +1,9 @@
-<div class="uploads">
+<li class="thing-data-list-item"> <span class="fa fa-li fa-picture-o thing-data-icon">&nbsp;</span>
 {{{__ "uploaded media"}}}
 <p>
-<ul class="upload-list">
-{{#each thing.files}}
-<li> {{{getFileLink this.name}}}<br>
-  {{{mlString this.description}}}<br>
+  {{#each thing.files}}
+<div class="thing-data-file-list"><span class="thing-data-file-name">{{{getFileLink this.name}}}</span>
+<br>{{{mlString this.description}}}</div>
+<p>
 {{/each}}
-</ul>
-</div>
+</li>

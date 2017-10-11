@@ -26,7 +26,6 @@
 {{{__ "manage links"}}}
 </a>
 {{/if}}
-
 </li>
 {{/if}}
 {{#ifCond (mlString thing.description) '||' thing.userCanEdit}}
@@ -47,10 +46,10 @@
 </li>
 {{/if}}
 {{/ifCond}}
-</ul>
 {{#if thing.files}}
 {{>uploads}}
 {{/if}}
+</ul>
 {{#if thing.userCanUpload}}
 {{>upload_form}}
 {{/if}}
