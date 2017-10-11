@@ -563,10 +563,7 @@ function sendThingURLsForm(paramsObj) {
   const { req, res, titleKey, thing, formValues } = paramsObj;
   const pageErrors = req.flash('pageErrors'),
     pageMessages = req.flash('pageMessages');
-  let numberOfFields = 7;
-
-  if (thing.urls.length > 4)
-    numberOfFields = thing.urls.length + 3;
+  let numberOfFields = thing.urls.length + 2;
   render.template(req, res, 'thing-urls', {
     titleKey,
     thing,
@@ -579,7 +576,8 @@ function sendThingURLsForm(paramsObj) {
     primary: formValues ? formValues.primary : 0,
     scripts: ['manage-urls.js']
   }, {
-    messages: getMessages(req.locale, ['not a url', 'add http', 'add https'])
+    messages: getMessages(req.locale,
+      ['not a url', 'add http', 'add https', 'enter web address short'])
   });
 }
 

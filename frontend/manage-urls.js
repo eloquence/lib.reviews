@@ -4,7 +4,18 @@
 // Front-end code for the /some-thing/manage/urls interface
 
 // Initialize validation messages
-$('[id^=url-validation-]').each(function() {
+$('[id^=url-validation-]').each(initializeValidationTemplate);
+
+// Protocol helpers
+$('[data-add-protocol]').click(addProtocol);
+
+// Combined validation handler
+$('input[name^=url-]').change(handleURLValidation);
+
+// Add new URL row to table
+$('button#add-more').click(addNewURLRow);
+
+function initializeValidationTemplate() {
   // data-url-input is used to mark inputs with URL validation
   let input = $(this).parent().find('input[data-url-input]')[0];
   // data-add-protocol-for is used to look up input element
@@ -12,13 +23,7 @@ $('[id^=url-validation-]').each(function() {
     `<div class="helper-links"><a href="#" data-add-protocol="https://" data-add-protocol-for="${input.name}">` +
     `${libreviews.msg('add https')}</a> &ndash; <a href="#" data-add-protocol="http://"` +
     `data-add-protocol-for="${input.name}">${libreviews.msg('add http')}</div>`);
-});
-
-// Protocol helpers
-$('[data-add-protocol]').click(addProtocol);
-
-// Combined validation handler
-$('input[name^=url-]').change(handleURLValidation);
+}
 
 function handleURLValidation() {
   let $parent = $(this).parent();
@@ -35,5 +40,44 @@ function addProtocol(e) {
   let $input = $(`input[name=${inputName}]`);
   $input.val(protocol + $input.val());
   $input.trigger('change');
+  e.preventDefault();
+}
+
+function addNewURLRow(e) {
+
+  // Will be count or NaN if something goes wrong
+  let count = +(
+    $('input[name^=url-]')
+    .last()
+    .attr('name')
+    .match(/[0-9]+/) || []
+  )[0];
+
+  // We're adding a new row
+  count++;
+
+  if (!isNaN(count)) {
+    let $newRow = $(`<tr valign="top"><td class="max-width">` +
+        `<input name="url-${count}" data-url-input type="text" class="max-width" ` +
+        `placeholder="${libreviews.msg('enter web address short')}">` +
+        `<div id="url-validation-${count}"></div></td>` +
+        `<td><input type="radio" name="primary"></td></tr>`)
+      .insertBefore('#add-more-row');
+
+    // Wire new row up as above
+    $newRow
+      .find('[id^=url-validation-]')
+      .each(initializeValidationTemplate);
+
+    $newRow
+      .find('[data-add-protocol]')
+      .click(addProtocol);
+
+    $newRow
+      .find('input[name^=url-]')
+      .change(handleURLValidation);
+
+  }
+
   e.preventDefault();
 }

@@ -26,12 +26,13 @@
 <td><input type="radio" name="primary" value="{{@zeroIndex}}" {{#ifCond @zeroIndex '===' ../primary}}checked{{/ifCond}}></td>
 {{/times}}
 </tr>
+<tr id="add-more-row" class="nojs-hidden"><td colspan="2" align="right"><button type="button" id="add-more" class="pure-button button-rounded" accesskey="a" title="{{{__ "accesskey" "a"}}}">{{{__ "add more links"}}}</button></td>
 </table>
 <p>
 <div class="validation-error" id="form-error-message">
 {{{__ "correct errors"}}}
 </div>
-<button type="submit" data-check-required class="pure-button pure-button-primary button-rounded">
+<button type="submit" data-check-required class="pure-button pure-button-primary button-rounded" accesskey="s" title="{{{__ "accesskey" "s"}}}">
 {{{__ "update links"}}}
 </button>
 </form>

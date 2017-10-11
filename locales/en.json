@@ -453,5 +453,6 @@
    "primary link": "Primary link",
    "need primary": "We need at least one valid primary link.",
    "links updated": "All links associated with this review subject have been updated. Beep boop!",
-   "web address already in use": "The web address <code><b>%1$s</b></code> is already in use by <a href='%2$s' target='_blank'>another review subject</a>."
+   "web address already in use": "The web address <code><b>%1$s</b></code> is already in use by <a href='%2$s' target='_blank'>another review subject</a>.",
+   "add more links": "Add more"
 }

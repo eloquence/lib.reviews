@@ -443,5 +443,6 @@
 	"primary link": "Form header on page for managing links associated with a review subject. The primary link is the one chiefly identified with this subject.",
 	"need primary": "Error message shown if user attempts to update links associated with a review subject without providing a primary link.",
 	"links updated": "Success message shown if user has updated links associated with a review subject.",
-	"web address already in use": "Error message shown if one of the addresses provided through the interface for managing links is already associated with another review subject."
+	"web address already in use": "Error message shown if one of the addresses provided through the interface for managing links is already associated with another review subject.",
+	"add more links": "Label for button that adds rows to the form for managing links associated with a review subject."
 }
