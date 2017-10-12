@@ -364,7 +364,7 @@
 	"image alt text": "Testo alternativo",
 	"add or remove link": "Aggiungi o rimuovi collegamento",
 	"add link dialog title": "Aggiungi un collegamento",
-	"web address": "Indirizzo web (URL)",
+	"web address": "Indirizzo web",
 	"format block": "Formato",
 	"format as bullet list": "Formatta come elenco puntato",
 	"format as numbered list": "Formatta come elenco numerato",
@@ -385,5 +385,7 @@
 	"synced info": "Questa informazione viene aggiornata automaticamente.",
 	"sync source": "Fonte: %s",
 	"sync date": "Ultima sincronizzazione: %s",
-	"cannot edit synced field": "Questo campo non può essere modificato, perché viene aggiornato automaticamente da una fonte esterna."
+	"cannot edit synced field": "Questo campo non può essere modificato, perché viene aggiornato automaticamente da una fonte esterna.",
+	"enter web address short": "Inserisci un indirizzo web",
+	"update links": "Aggiorna collegamenti"
 }

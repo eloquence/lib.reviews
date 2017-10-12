@@ -457,5 +457,6 @@
 	"primary link": "主要链接",
 	"need primary": "我们需要至少一个有效的主要链接。",
 	"links updated": "所有与该审查主题相关的链接已更新。哗哗！",
-	"web address already in use": "网址<code><b>%1$s</b></code>已用于<a href='%2$s' target='_blank'>另一个审查主题</a>。"
+	"web address already in use": "网址<code><b>%1$s</b></code>已用于<a href='%2$s' target='_blank'>另一个审查主题</a>。",
+	"add more links": "添加更多"
 }

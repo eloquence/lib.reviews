@@ -209,5 +209,6 @@
 	"manage links intro 1": "어느 웹 주소를 이 검토 주제와 연결할 것인지 구성할 수 있습니다.",
 	"enter web address short": "웹 주소를 입력하십시오",
 	"update links": "링크 업데이트",
-	"web address already in use": "<code><b>%1$s</b></code> 웹 주소는 <a href='%2$s' target='_blank'>다른 검토 주제</a>가 이미 사용 중입니다"
+	"web address already in use": "<code><b>%1$s</b></code> 웹 주소는 <a href='%2$s' target='_blank'>다른 검토 주제</a>가 이미 사용 중입니다",
+	"add more links": "더 추가"
 }

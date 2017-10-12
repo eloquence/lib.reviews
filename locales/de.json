@@ -459,5 +459,6 @@
 	"primary link": "Primärer Link",
 	"need primary": "Wir benötigen mindestens einen gültigen primären Link.",
 	"links updated": "Alle mit diesem Rezensionsobjekt verknüpften Links wurden aktualisiert.",
-	"web address already in use": "Die Web-Adresse <code><b>%1$s</b></code> wird bereits von <a href='%2$s' target='_blank'>einem anderen Rezensionsobjekt</a> verwendet."
+	"web address already in use": "Die Web-Adresse <code><b>%1$s</b></code> wird bereits von <a href='%2$s' target='_blank'>einem anderen Rezensionsobjekt</a> verwendet.",
+	"add more links": "Weitere hinzufügen"
 }

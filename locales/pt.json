@@ -393,7 +393,7 @@
 	"image alt text": "Texto alternativo",
 	"add or remove link": "Adicionar ou remover link",
 	"add link dialog title": "Adicionar um link",
-	"web address": "Endereço web (URL)",
+	"web address": "Endereço web",
 	"toggle bold": "Alternar formatação em negrito",
 	"toggle italic": "Alternar formatação em itálico",
 	"toggle code": "Alternar código-fonte",
@@ -437,5 +437,7 @@
 	"search wikidata button label": "Pesquisar na Wikidata",
 	"review via wikidata help label": "Pesquisar na Wikidata",
 	"pick a review subject": "Escolha um assunto de revisão",
-	"more results": "Mais resultados"
+	"more results": "Mais resultados",
+	"enter web address short": "Insira um endereço da Web",
+	"update links": "Atualizar links"
 }

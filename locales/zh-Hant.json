@@ -458,5 +458,6 @@
 	"primary link": "主要連結",
 	"need primary": "我們至少需要一個有效的主要連結。",
 	"links updated": "所有相關於此評論主題的連結已被更新。嗶碰！",
-	"web address already in use": "網址 <code><b>%1$s</b></code> 已被用在<a href='%2$s' target='_blank'>其它評論主題</a>裡。"
+	"web address already in use": "網址 <code><b>%1$s</b></code> 已被用在<a href='%2$s' target='_blank'>其它評論主題</a>裡。",
+	"add more links": "增加更多"
 }
