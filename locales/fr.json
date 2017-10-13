@@ -400,7 +400,7 @@
 	"image alt text": "Texte de remplacement",
 	"add or remove link": "Ajouter ou suppromer un lien",
 	"add link dialog title": "Ajouter un lien",
-	"web address": "Adresse Web (URL)",
+	"web address": "Adresse Web",
 	"toggle bold": "Sélection du formatage en gras",
 	"toggle italic": "Sélectionner la mise en forme itallique",
 	"toggle code": "Selectionner la fonte du code",
@@ -456,5 +456,15 @@
 	"synced info": "Cette information est mise à jour automatiquement.",
 	"sync source": "Source : %s",
 	"sync date": "Dernière synchronisation : %s",
-	"cannot edit synced field": "Ce champ ne peut pas être modifié parce qu’il est mis à jour automatiquement depuis une source externe."
+	"cannot edit synced field": "Ce champ ne peut pas être modifié parce qu’il est mis à jour automatiquement depuis une source externe.",
+	"manage links": "Gérer les liens",
+	"manage links intro 1": "Vous pouvez configurer quelle adresses web sont associées avec ce sujet de revue :",
+	"manage links intro 2": "Nous extrairons autant d’informations que possible à partir  des adresses fournies. Le lien principal doit être le site web officiel (par ex., le site web d’un film ou d’un livre). Si aucun n’existe, nous recommandons de choisir un enregistrement d’une base de données libre comme lien principal (par ex., <a href='https://www.wikidata.org'>Wikidata</a>, <a href='https://www.openstreetmap.org'>OpenStreetMap</a>, <a href='https://openlibrary.org/'>OpenLibrary</a>).",
+	"enter web address short": "Saisir une adresse web",
+	"update links": "Mettre à jour les liens",
+	"primary link": "Lien principal",
+	"need primary": "Nous avons besoin au moins d’un lien principal valide.",
+	"links updated": "Tous les liens associés avec ce sujet de revue ont été mis à jour. Bravo !",
+	"web address already in use": "L’adresse web <code><b>%1$s</b></code> est déjà utilisée par <a href='%2$s' target='_blank'>un autre sujet de revue</a>.",
+	"add more links": "Ajouter davantage"
 }

@@ -394,7 +394,7 @@
 	"image alt text": "Alternativ text",
 	"add or remove link": "Lägg till eller ta bort länk",
 	"add link dialog title": "Lägg till en länk",
-	"web address": "Webbadress (URL)",
+	"web address": "Webbadress",
 	"toggle bold": "Växla fetstilad formatering",
 	"toggle italic": "Växla kursiverad formatering",
 	"toggle code": "Växla kodtypsnitt",
@@ -450,5 +450,15 @@
 	"synced info": "Denna information uppdateras automatiskt.",
 	"sync source": "Källa: %s",
 	"sync date": "Senast synkroniserad: %s",
-	"cannot edit synced field": "Detta fält kan inte redigeras eftersom det uppdateras automatiskt från en extern källa."
+	"cannot edit synced field": "Detta fält kan inte redigeras eftersom det uppdateras automatiskt från en extern källa.",
+	"manage links": "Hantera länkar",
+	"manage links intro 1": "Kon kan konfigurera vilka webbadresser som associeras med detta recensionsämne:",
+	"manage links intro 2": "Vi vill extrahera så mycket information som vi kan från de angivna adresserna. Den primära länken bör vara den officiella webbplatsen (t.ex. en film- eller bokrelaterad webbplats). Om ingen finns rekommenderar vi att du väljer en post från en öppen databas som primär länk (t.ex. <a href='https://www.wikidata.org'>Wikidata</a>, <a href='https://www.openstreetmap.org'>OpenStreetMap</a>, <a href='https://openlibrary.org/'>OpenLibrary</a>).",
+	"enter web address short": "Ange en webbadress",
+	"update links": "Uppdatera länkar",
+	"primary link": "Primär länk",
+	"need primary": "Vi behöver minst en giltig primär länk.",
+	"links updated": "Alla länkar som associeras med detta ämne har uppdaterats. Pip-pip!",
+	"web address already in use": "Webbadressen <code><b>%1$s</b></code> används redan av <a href='%2$s' target='_blank'>ett annat recensionsämne</a>.",
+	"add more links": "Lägg till fler"
 }
