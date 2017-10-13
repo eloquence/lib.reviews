@@ -68,8 +68,16 @@ hbs.registerHelper('longDate', function(date) {
     return date.toLocaleString();
 });
 
+// Sources are external sites we interface with; if they're known sources,
+// they have a message key of this standard format.
 hbs.registerHelper('getSourceMsgKey', function(sourceID) {
   return `${sourceID} source label`;
+});
+
+// Tags are used to classify sources into domains like "Databases"; these, too,
+// have message keys.
+hbs.registerHelper('getTagMsgKey', function(sourceID) {
+  return `${sourceID} tag label`;
 });
 
 
@@ -110,7 +118,6 @@ hbs.registerHelper('substitute', function(...args) {
   }
   return string;
 });
-
 
 hbs.registerHelper('getThingLink', (thing, options) => {
   let label = Thing.getLabel(thing, options.data.root.locale);

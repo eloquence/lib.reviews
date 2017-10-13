@@ -22,6 +22,7 @@ const forms = require('./helpers/forms');
 const slugs = require('./helpers/slugs');
 const search = require('../search');
 const getMessages = require('../util/get-messages');
+const urlUtils = require('../util/url-utils');
 
 // For handling form fields
 const editableFields = ['description', 'label'];
@@ -536,6 +537,11 @@ function sendThing(req, res, thing, options) {
   if (offsetDate)
     paginationURL = `/before/${offsetDate.toISOString()}`;
 
+  // If there are URLs beyond the main URL, we show them in categorized form
+  let taggedURLs = Array.isArray(thing.urls) && thing.urls.length > 1 ?
+    urlUtils.getURLsByTag(thing.urls.slice(1), { onlyOneTag: true, sortResults: true }) :
+    {};
+
   render.template(req, res, 'thing', {
     titleKey: 'reviews of',
     titleParam: Thing.getLabel(thing, req.locale),
@@ -548,6 +554,7 @@ function sendThing(req, res, thing, options) {
     paginationURL,
     hasMoreThanOneReview: thing.numberOfReviews > 1,
     otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined,
+    taggedURLs,
     scripts: ['upload.js']
   }, {
     messages: {

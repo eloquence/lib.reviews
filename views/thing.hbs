@@ -26,6 +26,25 @@
 {{{__ "manage links"}}}
 </a>
 {{/if}}
+{{!Additional URLs beyond the primary URL are presented in a compact table, categorized:}}
+{{#if taggedURLs}}
+<table class="thing-data-urls-table">
+{{#each taggedURLs}}
+<tr>
+<td class="thing-data-urls-table-tag">{{{__ (getTagMsgKey @key)}}}</td>
+<td>
+{{#each (lookup ../taggedURLs @key)}}
+{{#ifCond this.id '==' 'unknown'}}
+<span class="thing-data-urls-table-link">{{{link this.url (prettify this.url)}}}</span>
+{{else}}
+<span class="thing-data-urls-table-link"><a href="{{{this.url}}}">{{{__ (getSourceMsgKey this.id)}}}</a></span>
+{{/ifCond}}
+{{/each}}
+</td>
+</tr>
+{{/each}}
+</table>
+{{/if}}
 </li>
 {{/if}}
 {{#ifCond (mlString thing.description) '||' thing.userCanEdit}}
