@@ -61,7 +61,7 @@ function addNewURLRow(e) {
         `<input name="url-${count}" data-url-input type="text" class="max-width" ` +
         `placeholder="${libreviews.msg('enter web address short')}">` +
         `<div id="url-validation-${count}"></div></td>` +
-        `<td><input type="radio" name="primary"></td></tr>`)
+        `<td><input type="radio" name="primary" value="${count}"></td></tr>`)
       .insertBefore('#add-more-row');
 
     // Wire new row up as above
