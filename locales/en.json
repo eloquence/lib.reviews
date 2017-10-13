@@ -469,5 +469,6 @@
    "openlibrary source label": "Open Library",
    "yelp source label": "Yelp",
    "tripadvisor source label": "TripAdvisor",
-   "wikipedia source label": "Wikipedia"
+   "wikipedia source label": "Wikipedia",
+   "indiebound source label": "IndieBound"
 }

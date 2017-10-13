@@ -59,6 +59,12 @@ const rules = [{
     id: 'yelp'
   },
   {
+    host: /^(www\.)?indiebound\.org$/,
+    tags: ['shops'],
+    id: 'indiebound'
+  },
+
+  {
     host: /^([a-z]*)?wikipedia\.org$/,
     tags: ['summaries', 'databases', 'opendata'],
     id: 'yelp'
@@ -66,12 +72,13 @@ const rules = [{
 
 ];
 
-// Preferred order
+// Preferred order. We generally rank open data before proprietary data, and
+// nonprofit platforms before for-profit ones.
 const placement = {
   databases: ['wikidata', 'imdb'],
   maps: ['openstreetmap'],
   reviews: ['yelp', 'tripadvisor', 'goodreads'],
-  shopping: ['amazon'],
+  shopping: ['indiebound', 'amazon'],
   summaries: ['wikipedia']
 };
 

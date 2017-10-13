@@ -454,6 +454,7 @@
 	"wikidata source label": "Label that is used when describing review subject metadata sourced to Wikidata, or links to Wikidata.",
 	"imdb source label": "Label that is used when describing review subject metadata sourced to IMDb, or links to IMDb.",
 	"amazon source label": "Label that is used when describing review subject metadata sourced to Amazon, or links to Amazon.",
+	"indiebound source label": "Label that is used when describing review subject metadata sourced to IndieBound, or links to IndieBound.",
 	"goodreads source label": "Label that is used when describing review subject metadata sourced to Goodreads, or links to Goodreads.",
 	"openstreetmap source label": "Label that is used when describing review subject metadata sourced to OpenStreetMap, or links to OpenStreetMap.",
 	"openlibrary source label": "Label that is used when describing review subject metadata sourced to Open Library, or links to Open Library.",
