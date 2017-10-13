@@ -78,7 +78,7 @@ const placement = {
   databases: ['wikidata', 'imdb'],
   maps: ['openstreetmap'],
   reviews: ['yelp', 'tripadvisor', 'goodreads'],
-  shopping: ['indiebound', 'amazon'],
+  shops: ['indiebound', 'amazon'],
   summaries: ['wikipedia']
 };
 
