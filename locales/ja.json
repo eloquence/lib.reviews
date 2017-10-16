@@ -4,7 +4,8 @@
 			"Higa4",
 			"ネイ",
 			"Omotecho",
-			"Hinaloe"
+			"Hinaloe",
+			"Phantomize"
 		]
 	},
 	"site name": "lib.reviews",
@@ -414,5 +415,8 @@
 	"required field": "必須フィールド",
 	"ok": "OK",
 	"manage links": "リンクを管理",
-	"update links": "リンクを更新"
+	"update links": "リンクを更新",
+	"add more links": "さらに追加",
+	"databases tag label": "データベース",
+	"imdb source label": "IMDb"
 }

@@ -247,5 +247,22 @@
 	"faq": "Dažnai Užduodami Klausimai",
 	"search results": "Paieškos rezultatai",
 	"show more": "Rodyti daugiau",
-	"show less": "Rodyti mažiau"
+	"show less": "Rodyti mažiau",
+	"web address": "Tinklapio adresas",
+	"manage links": "Tvarkyti nuorodas",
+	"enter web address short": "Įveskite tinklapio adresą",
+	"update links": "Atnaujinti nuorodas",
+	"add more links": "Pridėti daugiau",
+	"databases tag label": "Duomenų bazės",
+	"other tag label": "Papildomos nuorodos",
+	"summaries tag label": "Apibendrinimai",
+	"maps tag label": "Žemėlapiai",
+	"reviews tag label": "Peržiūrėti puslapius",
+	"opendata tag label": "Atviri duomenys",
+	"imdb source label": "IMDb",
+	"amazon source label": "Amazon",
+	"openstreetmap source label": "OpenStreetMap",
+	"yelp source label": "Yelp",
+	"tripadvisor source label": "TripAdvisor",
+	"wikipedia source label": "Vikipedija"
 }

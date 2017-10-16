@@ -457,5 +457,22 @@
 	"primary link": "Главна врска",
 	"need primary": "Се бара барем една важечка главна врска.",
 	"links updated": "Сите врски поврзани со оваа тема на осврт се подновени.",
-	"web address already in use": "Семрежната адреса <code><b>%1$s</b></code> веќе се користи во <a href='%2$s' target='_blank'>друг предмет на осврт</a>."
+	"web address already in use": "Семрежната адреса <code><b>%1$s</b></code> веќе се користи во <a href='%2$s' target='_blank'>друг предмет на осврт</a>.",
+	"add more links": "Додај уште",
+	"databases tag label": "Бази",
+	"other tag label": "Дополнителни врски",
+	"summaries tag label": "Кратки описи",
+	"maps tag label": "Карти",
+	"reviews tag label": "Освртни страници",
+	"opendata tag label": "Отворени податоци",
+	"shops tag label": "Семрежни продавници",
+	"imdb source label": "IMDb",
+	"amazon source label": "Amazon",
+	"goodreads source label": "Goodreads",
+	"openstreetmap source label": "OpenStreetMap",
+	"openlibrary source label": "Open Library",
+	"yelp source label": "Yelp",
+	"tripadvisor source label": "TripAdvisor",
+	"wikipedia source label": "Википедија",
+	"indiebound source label": "IndieBound"
 }

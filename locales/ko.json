@@ -210,5 +210,19 @@
 	"enter web address short": "웹 주소를 입력하십시오",
 	"update links": "링크 업데이트",
 	"web address already in use": "<code><b>%1$s</b></code> 웹 주소는 <a href='%2$s' target='_blank'>다른 검토 주제</a>가 이미 사용 중입니다",
-	"add more links": "더 추가"
+	"add more links": "더 추가",
+	"databases tag label": "데이터베이스",
+	"other tag label": "추가 링크",
+	"summaries tag label": "요약",
+	"maps tag label": "지도",
+	"reviews tag label": "검토 사이트",
+	"opendata tag label": "개방형 데이터",
+	"shops tag label": "온라인 스토어",
+	"imdb source label": "IMDb",
+	"amazon source label": "아마존",
+	"openstreetmap source label": "오픈스트리트맵",
+	"openlibrary source label": "오픈 라이브러리",
+	"yelp source label": "옐프",
+	"tripadvisor source label": "트립어드바이저",
+	"wikipedia source label": "위키백과"
 }

@@ -301,5 +301,16 @@
 	"enter web address short": "Gitt eng Internet-Adress an",
 	"update links": "Linken aktualiséieren",
 	"primary link": "Primäre Link",
-	"add more links": "Méi derbäisetzen"
+	"add more links": "Méi derbäisetzen",
+	"databases tag label": "Datebanken",
+	"other tag label": "Zousätzlech Linken",
+	"summaries tag label": "Resuméen",
+	"maps tag label": "Kaarten",
+	"opendata tag label": "Open Data",
+	"imdb source label": "IMDb",
+	"amazon source label": "Amazon",
+	"openstreetmap source label": "OpenStreetMap",
+	"openlibrary source label": "Open Library",
+	"tripadvisor source label": "TripAdvisor",
+	"wikipedia source label": "Wikipedia"
 }

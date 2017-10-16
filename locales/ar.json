@@ -285,5 +285,9 @@
 	"ok": "موافق",
 	"not a member of team title": "لست عضوا في هذا الفريق",
 	"not a member of team": "أنت لست عضوا في <a href='%s'>هذا الفريق</a>. فضلا اشترك أولا بهذا الفريق لتصبح قادرا على المراجعة ضمنهم.",
-	"wikidata source label": "ويكي بيانات"
+	"wikidata source label": "ويكي بيانات",
+	"add more links": "إضافة المزيد",
+	"summaries tag label": "ملخصات",
+	"reviews tag label": "مواقع المراجعة",
+	"wikipedia source label": "ويكيبيديا"
 }

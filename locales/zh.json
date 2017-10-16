@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"NeverBehave"
 		]
 	},
 	"site name": "lib.reviews",
@@ -458,5 +459,21 @@
 	"need primary": "我们需要至少一个有效的主要链接。",
 	"links updated": "所有与该审查主题相关的链接已更新。哗哗！",
 	"web address already in use": "网址<code><b>%1$s</b></code>已用于<a href='%2$s' target='_blank'>另一个审查主题</a>。",
-	"add more links": "添加更多"
+	"add more links": "添加更多",
+	"databases tag label": "数据库",
+	"other tag label": "额外链接",
+	"summaries tag label": "摘要",
+	"maps tag label": "地图",
+	"reviews tag label": "审查网站",
+	"opendata tag label": "开放数据",
+	"shops tag label": "在线商店",
+	"imdb source label": "IMDb",
+	"amazon source label": "亚马逊",
+	"goodreads source label": "推荐阅读",
+	"openstreetmap source label": "OpenStreetMap",
+	"openlibrary source label": "Open Library",
+	"yelp source label": "Yelp",
+	"tripadvisor source label": "猫途鹰",
+	"wikipedia source label": "维基百科",
+	"indiebound source label": "IndieBound"
 }

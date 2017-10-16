@@ -460,5 +460,8 @@
 	"need primary": "Vi behöver minst en giltig primär länk.",
 	"links updated": "Alla länkar som associeras med detta ämne har uppdaterats. Pip-pip!",
 	"web address already in use": "Webbadressen <code><b>%1$s</b></code> används redan av <a href='%2$s' target='_blank'>ett annat recensionsämne</a>.",
-	"add more links": "Lägg till fler"
+	"add more links": "Lägg till fler",
+	"databases tag label": "Databaser",
+	"other tag label": "Ytterligare länkar",
+	"summaries tag label": "Sammanfattningar"
 }
