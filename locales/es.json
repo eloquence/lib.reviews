@@ -6,7 +6,8 @@
 			"Macofe",
 			"Frisjon",
 			"Luzcaru",
-			"Luisangelrg"
+			"Luisangelrg",
+			"RicardoSGZ"
 		]
 	},
 	"site name": "lib.reviews",
@@ -462,6 +463,7 @@
 	"primary link": "Enlace principal",
 	"need primary": "Se necesita un enlace principal válido por lo menos.",
 	"links updated": "Se han actualizado todos los enlaces asociados a este tema de reseña. ¡De pelos!",
+	"web address already in use": "La dirección <code><b>%1$s</b></code> ya está en uso por <a href='%2$s' target='_blank'>otro tema de revisión</a>",
 	"add more links": "Añadir más",
 	"databases tag label": "Bases de datos",
 	"other tag label": "Enlaces adicionales",

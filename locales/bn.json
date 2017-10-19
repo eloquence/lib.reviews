@@ -418,5 +418,12 @@
 	"primary link": "প্রাথমিক সংযোগ",
 	"need primary": "আমাদের অন্তত একটি বৈধ প্রাথমিক লিঙ্ক প্রয়োজন।",
 	"web address already in use": "এই  <code><b>%1$s</b></code> ওয়েব ঠিকানাটি ইতিমধ্যে <a href='%2$s' target='_blank'>আরেকটি পর্যালোচনার বিষয়</a> দ্বারা ব্যবহৃত হয়েছে।",
-	"add more links": "আরও যোগ করুন"
+	"add more links": "আরও যোগ করুন",
+	"databases tag label": "ডেটাবেজ",
+	"other tag label": "অতিরিক্ত লিঙ্ক",
+	"summaries tag label": "সারসংক্ষেপ",
+	"maps tag label": "মানচিত্র",
+	"reviews tag label": "পর্যালোচনার সাইটগুলি",
+	"shops tag label": "অনলাইন দোকান",
+	"wikipedia source label": "উইকিপিডিয়া"
 }
