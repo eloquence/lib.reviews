@@ -146,7 +146,8 @@ hbs.registerHelper('mlString', function(str, addLanguageSpan, options) {
   if (mlRv === undefined || mlRv.str === undefined || mlRv.str === '')
     return undefined;
 
-  if (!addLanguageSpan || mlRv.lang === options.data.root.locale)
+  // Note that we don't show the label if we can't identify the language ('und')
+  if (!addLanguageSpan || mlRv.lang === options.data.root.locale || mlRv.lang == 'und')
     return mlRv.str;
   else {
     let languageName = languages.getCompositeName(mlRv.lang, options.data.root.locale);

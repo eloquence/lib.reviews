@@ -7,6 +7,7 @@
 
   const NativeFrontendAdapter = require('./adapters/native-frontend-adapter');
   const WikidataFrontendAdapter = require('./adapters/wikidata-frontend-adapter');
+  const OpenLibraryFrontendAdapter = require('./adapters/openlibrary-frontend-adapter');
 
   // All adapters will be tried against a provided review subject URL. If they
   // support it, they will perform a parallel, asynchronous lookup. The array order
@@ -15,8 +16,12 @@
   // lookup therefore always takes precedence.
   const adapters = [
     new NativeFrontendAdapter(),
-    new WikidataFrontendAdapter(updateURLAndReviewSubject, '#review-search-wikidata')
+    new WikidataFrontendAdapter(updateURLAndReviewSubject, '#review-search-wikidata'),
+    new OpenLibraryFrontendAdapter()
   ];
+
+  // Track repeated lookups of URLs via adapters
+  let lastLookup;
 
   // Our form's behavior depends significantly on whether we're creating
   // a new review, or editing an old one.
@@ -144,6 +149,13 @@
     let inputURL = inputEle.value;
     let promises = [];
 
+    // Avoid duplicate lookups on keyup
+    if (inputURL === lastLookup)
+      return;
+
+    // Track lookups, regardless of success or failure
+    lastLookup = inputURL;
+
     if (!inputURL)
       return clearResolvedInfo();
 
@@ -173,6 +185,7 @@
               url: inputURL,
               label: result.data.label,
               description: result.data.description, // may be undefined
+              subtitle: result.data.subtitle,
               thing: result.data.thing // may be undefined
             });
         }
@@ -237,7 +250,7 @@
   // Update review subject info with data from a lookup. Hides the label group
   // (label is mandatory).
   function updateReviewSubject(data) {
-    const { url, label, description, thing } = data;
+    const { url, label, description, subtitle, thing } = data;
     if (!label)
       throw new Error('Review subject must have a label.');
     let wasFocused = $('#resolved-url a').is(':focus');
@@ -245,6 +258,9 @@
     $('#resolved-url').append(`<a href="${url}" target="_blank">${label}</a>`);
     if (description)
       $('#resolved-description').html(description);
+    if (subtitle)
+      $('#resolved-subtitle').html(`<i>${subtitle}</i>`);
+
     if (thing) {
       $('#resolved-thing').append(`<a href="/${thing.urlID}" target="_blank">${libreviews.msg('more info')}</a>`);
     }

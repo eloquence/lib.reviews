@@ -1,10 +1,13 @@
 'use strict';
-const languages = require('../../locales/languages');
-const langKeys = languages.getValidLanguages();
-const thinky = require('../../db');
-const type = thinky.type;
+// External deps
 const decodeHTML = require('entities').decodeHTML;
 const stripTags = require('striptags');
+
+// Internal deps
+const languages = require('../../locales/languages');
+const langKeys = languages.getValidLanguagesAndUndetermined();
+const thinky = require('../../db');
+const type = thinky.type;
 
 let mlString = {
   // Simple thinky type hack for multilingual strings, permitting only strings in
@@ -14,6 +17,9 @@ let mlString = {
 
     let options = {
       maxLength: undefined,
+      // For strings of the form { en: [ 'something', 'other'], de: [ 'something ] }.
+      // For arrays of multilingual strings, instead encapsulate getSchema in
+      // an array in the schema definition.
       array: false
     };
 

@@ -332,7 +332,7 @@ let search = {
       properties: {}
     };
 
-    let validLangs = languages.getValidLanguages();
+    let validLangs = languages.getValidLanguagesAndUndetermined();
 
     // We add all analyzers for all languages ElasticSearch has stemming support
     // for to the index, even if they're not yet supported by lib.reviews, so

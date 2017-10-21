@@ -70,7 +70,8 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       // in case the URL had a lower case "q"
       qNumber = qNumber.toUpperCase();
 
-      const language = nativeToWikidata[config.language] || config.language;
+      let language = nativeToWikidata[config.language] || config.language;
+      language = language.toLowerCase();
 
       let queryObj = {
         action: 'wbgetentities',

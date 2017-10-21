@@ -161,6 +161,7 @@ Review.findOrCreateThing = function(reviewObj) {
       .then(results => {
         let things = results.shift();
 
+
         if (things.length) {
           resolve(things[0]); // we have an entry with this URL already
         } else {
@@ -173,40 +174,25 @@ Review.findOrCreateThing = function(reviewObj) {
           thing._revDate = date;
           thing._revUser = reviewObj.createdBy;
           thing._revID = r.uuid();
+          thing.originalLanguage = reviewObj.originalLanguage;
 
-          let firstResultWithData = adapters.getFirstResultWithData(results);
-          if (firstResultWithData && firstResultWithData.data.description) {
-            thing.description = firstResultWithData.data.description;
-            // Mark description as synchronized from external source
-            thing.sync = {
-              description: {
-                active: true,
-                source: firstResultWithData.sourceID,
-                updated: new Date()
-              }
-            };
-          }
+          // The first result ("first" in the array of adapters) for the URL
+          // specified by the user will be used to initalize values like label,
+          // description, subtitle, authors, or other supported fields. These
+          // fields will also be set to read-only, with synchronization metadata
+          // stored in the thing.sync property.
+          thing.initializeFieldsFromAdapter(adapters.getFirstResultWithData(results));
 
-          // Do we have a label and description for this thing that could be
-          // used to generate a short identifier (slug)?
-          //
-          // 1) If one is provided by the user, it always takes precedence.
-          // 2) If one is provided by an adapter, the first adapter (in the
-          //    order of the queries array) to return a valid result will be used.
-          // 3) If we don't have one, we will skip this step. A label can be
-          //    added later.
-          let updateSlug;
-          if (reviewObj.label && reviewObj.label[reviewObj.originalLanguage]) {
+          // If the user provided a valid label, it always overrides any label
+          // from an adapter.
+          if (reviewObj.label && reviewObj.label[reviewObj.originalLanguage])
             thing.label = reviewObj.label;
-            updateSlug = thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage);
-          } else if (firstResultWithData) {
-            thing.label = firstResultWithData.data.label;
-            // updateSlug will detect the best possible language match against
-            // the multilingual string obtained by the adapter.
-            updateSlug = thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage);
-          } else {
-            updateSlug = Promise.resolve(thing);
-          }
+
+          // If we have a label, we need to set the "slug" (short URL identifier)
+          // for this thing. Otherwise the promise is just a pass-through.
+          const updateSlug = thing.label ?
+            thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage) :
+            Promise.resolve(thing);
 
           updateSlug
             .then(thing => {

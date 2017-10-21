@@ -46,6 +46,10 @@ class AbstractBackendAdapter {
     return this.sourceID || 'no source ID defined';
   }
 
+  getSupportedFields() {
+    return this.supportedFields || [];
+  }
+
 }
 
 module.exports = AbstractBackendAdapter;

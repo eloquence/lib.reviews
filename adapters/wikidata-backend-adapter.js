@@ -3,6 +3,7 @@
 const request = require('request-promise-native');
 const config = require('config');
 const escapeHTML = require('escape-html');
+const debug = require('../util/debug');
 
 // Internal deps
 const AbstractBackendAdapter = require('./abstract-backend-adapter');
@@ -23,10 +24,7 @@ class WikidataBackendAdapter extends AbstractBackendAdapter {
   constructor() {
     super();
     this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
-
-    // Fields we can synchronize using this adapter. Does not include label until
-    // https://github.com/eloquence/lib.reviews/issues/163 is resolved.
-    this.supportedFields = ['description'];
+    this.supportedFields = ['label', 'description'];
     this.sourceID = 'wikidata';
     this.sourceURL = 'https://www.wikidata.org/';
   }
@@ -61,6 +59,8 @@ class WikidataBackendAdapter extends AbstractBackendAdapter {
 
       request(options)
         .then(data => {
+          debug.adapters('Received data from Wikidata adapter:\n' + JSON.stringify(data, null, 2));
+
           if (typeof data !== 'object' || !data.success || !data.entities || !data.entities[qNumber])
             return reject(new Error('Did not get a valid Wikidata entity for query: ' + qNumber));
           const entity = data.entities[qNumber];
@@ -119,7 +119,9 @@ class WikidataBackendAdapter extends AbstractBackendAdapter {
 
   // Return the Wikimedia code for a lib.reviews language code
   getWikidataLanguageCode(language) {
-    return nativeToWikidata[language] || language;
+    let code = nativeToWikidata[language] || language;
+    // WMF codes are consistently lower case
+    return code.toLowerCase();
   }
 
   // Return the native code for a Wikidata language code. Returns null if

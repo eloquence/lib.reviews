@@ -6,6 +6,7 @@ const debug = {
   app: debugModule('libreviews:app'),
   util: debugModule('libreviews:util'),
   tests: debugModule('libreviews:tests'),
+  adapters: debugModule('libreviews:adapters'),
 
   // For all serious errors that should be examined by a human and fixed or categorized
   // {

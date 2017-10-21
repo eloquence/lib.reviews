@@ -6,6 +6,7 @@ const isUUID = require('is-uuid');
 // Internal dependencies
 const mlString = require('./ml-string');
 const AbstractGenericError = require('../../util/abstract-generic-error');
+const debug = require('../../util/debug');
 
 const slugNameHelper = {
 
@@ -55,6 +56,7 @@ const slugNameHelper = {
         if (slugName === document.canonicalSlugName)
           return resolve(document);
 
+        debug.app(`Changing slug for document with ID ${document.id} from ${document.canonicalSlugName} to ${slugName}`);
 
         document
           // If this is a new revision, it does not have a primary key yet
@@ -117,7 +119,7 @@ const slugNameHelper = {
     let slugName = unescapeHTML(str)
       .trim()
       .toLowerCase()
-      .replace(/[?&"″'`’<>]/g, '')
+      .replace(/[?&"″'`’<>:]/g, '')
       .replace(/[ _/]/g, '-')
       .replace(/-{2,}/g, '-'); // Avoid consecutive hyphens
 

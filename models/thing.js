@@ -4,6 +4,7 @@ const r = thinky.r;
 const type = thinky.type;
 
 const urlUtils = require('../util/url-utils');
+const debug = require('../util/debug');
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 const slugName = require('./helpers/slug-name');
@@ -13,6 +14,7 @@ const ThingSlug = require('./thing-slug');
 const isValidLanguage = require('../locales/languages').isValid;
 const ReportedError = require('../util/reported-error');
 const adapters = require('../adapters/adapters');
+const search = require('../search');
 
 let thingSchema = {
 
@@ -33,6 +35,21 @@ let thingSchema = {
   description: mlString.getSchema({
     maxLength: 512
   }),
+
+  // Many creative works have a subtitle that we don't typically include as part
+  // of the label.
+  subtitle: mlString.getSchema({
+    maxlength: 256
+  }),
+
+  // For creative works like books, magazine articles. Author names can be
+  // transliterated, hence also a multilingual field. However, it is advisable
+  // to treat it as monolingual in presentation (i.e. avoid indicating language),
+  // since cross-language differences are the exception and not the norm.
+  authors: [mlString.getSchema({
+    maxLength: 256
+  })],
+
 
   // Data for fields can be pulled from external sources. For fields that
   // support this, we record whether a sync is currently active (in which
@@ -115,14 +132,19 @@ Thing.define("setURLs", function(urls) {
 
   // Turn on synchronization for supported fields. The first adapter
   // from the getAll() array to claim a supported field will be responsible
-  // for it.
+  // for it. The order of the URLs also matters -- adapters handling earlier
+  // URLs can claim fields before adapters handling later URLs get to them.
+  // We could change the order to enforce precedence, but for now, we leave
+  // it up to the editor.
   urls.forEach(url => {
     adapters.getAll().forEach(adapter => {
       if (adapter.ask(url)) {
         adapter.supportedFields.forEach(field => {
-          if (!this.sync || !this.sync[field] || !this.sync[field].active)
-            if (!this.sync)
-              this.sync = {};
+          // Another adapter is already handling this field
+          if (this.sync && this.sync[field] && this.sync[field].active)
+            return;
+          if (!this.sync)
+            this.sync = {};
 
           this.sync[field] = {
             active: true,
@@ -132,14 +154,40 @@ Thing.define("setURLs", function(urls) {
       }
     });
   });
-
   this.urls = urls;
-
 });
 
-// Fetch new external data for all fields set to be synchronized.
-// Does not create a new revision or save it; resolves with updated thing object.
-Thing.define("updateActiveSyncs", function() {
+// Initialize supported fields from a single adapter result. Does not save,
+// resets all sync settings, so should only be invoked on new objects.
+// Silently ignores empty results, will throw error on malformed objects.
+Thing.define("initializeFieldsFromAdapter", function(adapterResult) {
+  if (typeof adapterResult != 'object')
+    return;
+
+  let responsibleAdapter = adapters.getAdapterForSource(adapterResult.sourceID);
+  let supportedFields = responsibleAdapter.getSupportedFields();
+  for (let field in adapterResult.data) {
+    if (supportedFields.includes(field)) {
+      this[field] = adapterResult.data[field];
+      if (typeof this.sync != 'object')
+        this.sync = {};
+      this.sync[field] = {
+        active: true,
+        source: adapterResult.sourceID,
+        updated: new Date()
+      };
+    }
+  }
+});
+
+
+// Fetch new external data for all fields set to be synchronized. Saves.
+// - Does not create a new revision, so if you need one, create it first.
+// - Performs search index update.
+// - Resolves with updated thing object.
+// - May result in a slug update, so if initiated by a user, should be passed the
+//   user ID. Otherwise, any slug changes will be without attribution
+Thing.define("updateActiveSyncs", function(userID) {
   const thing = this; // For readability
   return new Promise((resolve, reject) => {
     // No active syncs of any kind? Just give the thing back.
@@ -158,46 +206,96 @@ Thing.define("updateActiveSyncs", function() {
 
     //  Build array of lookup promises from currently used sources
     let p = [];
+
+    // Keep track of all URLs we're contacting for convenience
+    let allURLs = [];
+
     sources.forEach(source => {
       let adapter = adapters.getAdapterForSource(source);
-      // Will use first matching URL in the array
-      let url = _getURLForAdapter(adapter, thing.urls);
-
-      if (!adapter || !url)
-        p.push(Promise.resolve(null)); // Null result to preserve result oder
-      else
-        p.push(adapter.lookup(url));
+      // Find all matching URLs in array (we might have, e.g., a URL for
+      // a work and one for an edition, and need to contact both).
+      let relevantURLs = thing.urls.filter(url => adapter.ask(url));
+      allURLs = allURLs.concat(relevantURLs);
+      // Add relevant lookups as individual elements to array
+      p.push(...relevantURLs.map(url => adapter.lookup(url)));
     });
+
+    if (allURLs.length)
+      debug.app(`Retrieving item metadata for ${thing.id} from the following URL(s):\n` +
+        allURLs.join(', '));
 
     // Perform all lookups, then update thing from the results, which will be
     // returned in the same order as the sources array.
     Promise
       .all(p)
       .then(results => {
-        sources.forEach((source, index) => {
-          if (typeof results[index] == 'object' && results[index].data) {
-            for (let field in thing.sync) {
-              // Only update if everything looks good: sync is active, source
-              // ID matches
-              if (thing.sync[field].active && thing.sync[field].source === source &&
-                results[index].sourceID === source) {
-                thing.sync[field].updated = new Date();
-                this[field] = results[index].data[field];
+        // If the label has changed, we need to update the short identifier
+        // (slug). This means a possible URL change! Redirects are put in
+        // place automatically.
+        let needSlugUpdate;
+
+        // Get obj w/ key = source ID, value = reverse order array of
+        // result.data objects
+        let dataBySource = _organizeDataBySource(results);
+        sources.forEach((source) => {
+          for (let field in thing.sync) {
+            // Only update if everything looks good: sync is active, source
+            // ID matches, we may have new data
+            if (thing.sync[field].active && thing.sync[field].source === source &&
+              Array.isArray(dataBySource[source])) {
+              // Earlier results get priority, i.e. need to be assigned last
+              for (let d of dataBySource[source]) {
+                if (d[field] !== undefined) {
+                  thing.sync[field].updated = new Date();
+                  this[field] = d[field];
+                  if (field == 'label')
+                    needSlugUpdate = true;
+                }
               }
             }
           }
         });
-        resolve(thing);
+
+        const updateSlug = needSlugUpdate ?
+          thing.updateSlug(userID, thing.originalLanguage || 'en') :
+          Promise.resolve(thing);
+
+        updateSlug
+          .then(thing => {
+            thing
+              .save()
+              .then(thing => {
+                resolve(thing);
+                search.indexThing(thing);
+              })
+              .catch(reject);
+          });
       })
       .catch(reject);
-  });
 
-  // Internal helper to return the first URL that's supported by the given adapter
-  function _getURLForAdapter(adapter, urls) {
-    for (let url of urls)
-      if (adapter.ask(url))
-        return url;
-  }
+    // Put valid data from results array into an object with sourceID as
+    // the key and data as a reverse-order array. There may be multiple
+    // URLs from one source, assigning value to the same field. URLs earlier
+    // in the original thing.urls array take priority, so we have to ensure
+    // they come last.
+    function _organizeDataBySource(results) {
+      let rv = {};
+      results.forEach(result => {
+        // Correctly formatted result object with all relevant information
+        if (typeof result == 'object' && typeof result.sourceID == 'string' &&
+          typeof result.data == 'object') {
+          // Initialize array if needed
+          if (!Array.isArray(rv[result.sourceID]))
+            rv[result.sourceID] = [];
+
+          // See above on why this array is in reverse order
+          rv[result.sourceID].unshift(result.data);
+        }
+      });
+      return rv;
+    }
+
+  });
 
 });
 

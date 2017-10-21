@@ -45,6 +45,13 @@ let languages = {
     return validLanguages.slice();
   },
 
+  // For applications where "undetermined" is a permitted value, i.e. storage
+  getValidLanguagesAndUndetermined() {
+    let arr = this.getValidLanguages();
+    arr.push('und');
+    return arr;
+  },
+
   // Keys sorted alphabetically
   getValidLanguagesSorted() {
     let v = languages.getValidLanguages();
@@ -60,6 +67,7 @@ let languages = {
     });
     return v;
   },
+
 
   // Returns the native name of a language, e.g. "Deutsch" for German
   getNativeName(langKey) {
@@ -94,22 +102,25 @@ let languages = {
     return rv;
   },
 
+  // und (undtermined) is a valid language for storage, but not for interface
+  // selection.
   isValid(langKey) {
-    return validLanguages.indexOf(langKey) !== -1;
+    return validLanguages.indexOf(langKey) !== -1 && langKey != 'und';
   },
 
   // throws InvalidLanguageError
   validate(langKey) {
-    if (!this.isValid(langKey))
+    if (!this.isValid(langKey) && langKey != 'und')
       throw new InvalidLanguageError(langKey);
   },
 
   // Returns an array of fallback languages to try first when selecting
   // which language version to show. We return English as a fallback
   // if we don't have a better answer, since it's the most widely spoken
-  // secondary language.
+  // secondary language. 'Undetermined'/ambiguous languages are also an
+  // acceptable fallback (most commonly used for personal names).
   getFallbacks(langKey) {
-    let fallbacks = ['en'];
+    let fallbacks = ['en', 'und'];
     switch (langKey) {
       case 'pt':
         fallbacks.unshift('pt-PT');

@@ -539,8 +539,7 @@ function sendThing(req, res, thing, options) {
 
   // If there are URLs beyond the main URL, we show them in categorized form
   let taggedURLs = Array.isArray(thing.urls) && thing.urls.length > 1 ?
-    urlUtils.getURLsByTag(thing.urls.slice(1), { onlyOneTag: true, sortResults: true }) :
-    {};
+    urlUtils.getURLsByTag(thing.urls.slice(1), { onlyOneTag: true, sortResults: true }) : {};
 
   render.template(req, res, 'thing', {
     titleKey: 'reviews of',
@@ -583,8 +582,7 @@ function sendThingURLsForm(paramsObj) {
     primary: formValues ? formValues.primary : 0,
     scripts: ['manage-urls.js']
   }, {
-    messages: getMessages(req.locale,
-      ['not a url', 'add http', 'add https', 'enter web address short'])
+    messages: getMessages(req.locale, ['not a url', 'add http', 'add https', 'enter web address short'])
   });
 }
 
@@ -660,21 +658,12 @@ function processThingURLsUpdate(paramsObj) {
         .then(newRev => {
           // Reset sync settings for adapters
           newRev.setURLs(thingURLs);
-          // Fetch external data for any URLs that support it
+          // Fetch external data for any URLs that support it and update thing, search index
           newRev
-            .updateActiveSyncs()
-            .then(newRev => {
-              newRev
-                .save()
-                .then(savedRev => {
-                  req.flash('pageMessages', req.__('links updated'));
-                  sendThingURLsForm({ req, res, titleKey, thing: savedRev });
-                  search.indexThing(savedRev);
-                })
-                .catch(error => { // Problem with save, e.g., validation
-                  req.flashError(error);
-                  sendThingURLsForm({ req, res, titleKey, thing, formValues: parsed.formValues });
-                });
+            .updateActiveSyncs(req.user.id)
+            .then(savedRev => {
+              req.flash('pageMessages', req.__('links updated'));
+              sendThingURLsForm({ req, res, titleKey, thing: savedRev });
             })
             .catch(error => { // Problem with syncs
               req.flashError(error);
