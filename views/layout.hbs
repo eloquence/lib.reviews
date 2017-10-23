@@ -105,15 +105,12 @@
     <div id="footer" class="no-print">
       <form id="languages" action="/actions/change-language" class="pure-form" method="post" name="languages">
         <span id="current-language-container">
-        {{__ "current language" currentLanguage.name}} &ndash;
-        {{{__ "change language" }}}
+        {{__ "current language"}}
         </span>
         <input type="hidden" value="{{csrfToken}}" name="_csrf">
         <select id="language-select" name="lang" accesskey="l" title="{{{__ "accesskey" "l"}}}">
           {{#each languageNames}}
-            {{#unless this.isCurrentLanguage}}
-            <option value="{{this.langKey}}">{{this.langKey}} &ndash; {{{this.name}}}</option>
-            {{/unless}}
+            <option value="{{this.langKey}}" {{#if this.isCurrentLanguage}}selected{{/if}}>{{this.langKey}} &ndash; {{{this.name}}}</option>
           {{/each}}
         </select>
         <span id="change-language-container"><button name="language-action" value="change" type="submit" class="pure-button button-rounded"><span class="fa fa-fw fa-globe spaced-icon">&nbsp;</span>{{{__ "change language button"}}}</button></span>
