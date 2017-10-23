@@ -152,7 +152,7 @@
 	"notification language-changed": "<b>Please change the language name from 'English' to the language you're translating to.</b> Site-wide notification that is shown when the user has changed their language to the language you're translating this message to",
 	"invalid language": "Error message that is shown when user attempts to switch to a language that is not recognized",
 	"edit saved": "Slightly whimsical success message that is shown when an edit has been saved",
-	"current language": "Label that is shown for the currently selected language in the language menu at the bottom. %s is substituted with name of the language.\n{{Identical|Language}}",
+	"current language": "Label that is shown next to the language selector.\n{{Identical|Language}}",
 	"user": "Title for a user page. %s is substituded with the user's name\n{{Identical|User}}",
 	"user not found": "Title message that is shown when a given user page could not bef ound",
 	"user not found text": "Content for message that is shown when a given user page could not be found",
