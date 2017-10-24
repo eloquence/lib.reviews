@@ -345,7 +345,14 @@ Thing.define("getAverageStarRating", function() {
       .filter({ _revDeleted: false }, { default: true })
       .avg('starRating')
       .then(resolve)
-      .catch(reject);
+      .catch(error => {
+        // Throws if the stream is empty. We consider a subject with 0 reviews
+        // to have an average rating of 0.
+        if (error.name == 'ReqlRuntimeError')
+          resolve(0);
+        else
+          reject(error);
+      });
   });
 });
 
@@ -364,6 +371,8 @@ Thing.define("getReviewCount", function() {
 
 });
 
+
+// Obtain metrics for this review subject.
 Thing.define("populateReviewMetrics", function() {
   return new Promise((resolve, reject) => {
     Promise
