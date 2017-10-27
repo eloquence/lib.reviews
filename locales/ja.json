@@ -5,7 +5,8 @@
 			"ネイ",
 			"Omotecho",
 			"Hinaloe",
-			"Phantomize"
+			"Phantomize",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -158,7 +159,7 @@
 	"notification language-changed": "言語設定が変更されました。そのためあなたがコンテンツを作成または編集した場合はそれが<b>日本語</b>であると認識します。あなたが設定したものと異なる言語のコンテンツの場合は小さなインジケータも表示されます(翻訳支援者も募集しています)。",
 	"invalid language": "リクエストされた言語は正しくないか認識できません。",
 	"edit saved": "編集は保存されました。",
-	"current language": "言語： %s",
+	"current language": "言語：",
 	"user": "ユーザ： %s",
 	"user not found": "ユーザが見つかりません",
 	"user not found text": "指定された名前のユーザが見つかりません '%s'。",

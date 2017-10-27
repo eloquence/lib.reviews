@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"NMaia",
-			"Tirifto"
+			"Tirifto",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -155,7 +156,7 @@
 	"notification language-changed": "Vi ŝanĝis vian lingvan agordon. Tio ĉi signifas, ke kiam vi kreas aŭ redaktas enhavon, ni supozas, ke ĝi estas en <b>Esperanto</b>. Ni ankaŭ montros al vi malgrandan indikilon kiam la enhavo estas en malsama lingvo rilate al kion vi agordis (vi povas helpi traduki).",
 	"invalid language": "La petita lingvo ne estis valida aŭ ne estis agnoskita.",
 	"edit saved": "Via redakto estis konservita. Bip bip!",
-	"current language": "Lingvo: %s",
+	"current language": "Lingvo:",
 	"user": "Uzanto: %s",
 	"user not found": "Uzanto ne trovita",
 	"user not found text": "Ni ne trovis uzanton per la donita nomo, '%s'.",

@@ -165,7 +165,7 @@
 	"notification language-changed": "Vous avez modifié votre préférence de langue. Cela veut dire que quand vous créez ou modifiez du contenu, nous supposons que c’est en <b>français</b>. Nous vous afficherons aussi un petit indicateur quand le contenu est dans une autre langue de celle que vous avez choisie (vous pouvez aider à traduire).",
 	"invalid language": "La langue demandée n’était pas valide ou reconnue.",
 	"edit saved": "Votre modification a été enregistrée. Bip bip !",
-	"current language": "Langue : %s",
+	"current language": "Langue :",
 	"user": "Utilisateur : %s",
 	"user not found": "Utilisateur non trouvé",
 	"user not found text": "Nous n’avons pas trouvé d’utilisateur avec le nom spécifié, '%s'.",

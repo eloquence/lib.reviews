@@ -5,7 +5,8 @@
 			"Hex",
 			"Keunes",
 			"Siebrand",
-			"Sjoerddebruin"
+			"Sjoerddebruin",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -152,7 +153,7 @@
 	"notification language-changed": "U hebt uw taalvoorkeur gewijzigd. Dit betekent dat als u inhoud maakt of bewerkt, we ervan uitgaan dat het in <b>het Nederlands</b> gebeurt. We laten u ook een kleine melding zien als de inhoud in een andere taal is dan de taal die u hebt ingesteld (u kunt helpen met vertalen).",
 	"invalid language": "De gevraagde taal was niet geldig of werd niet herkend.",
 	"edit saved": "Uw bewerking is opgeslagen. Joepie!",
-	"current language": "Taal: %s",
+	"current language": "Taal:",
 	"user": "Gebruiker: %s",
 	"user not found": "Gebruiker niet gevonden",
 	"user not found text": "We hebben geen gebruiker kunnen vinden met de opgegeven naam \"%s\".",

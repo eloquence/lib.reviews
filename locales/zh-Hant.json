@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Kly",
-			"LNDDYL"
+			"LNDDYL",
+			"Liuxinyu970226"
 		]
 	},
 	"site name": "lib.reviews",
@@ -158,7 +159,7 @@
 	"notification language-changed": "您已變更您的語言偏好設定。這代表之後當您建立或編輯內容時，我們會假定這是採用<b>繁體中文</b>。當內容採用的語言與您偏好設定不同時，我們也會顯示給您一些提示（您可以幫忙協助翻譯）。",
 	"invalid language": "請求的語言無效或不被認可。",
 	"edit saved": "您的編輯已儲存。嗶波！",
-	"current language": "語言：%s",
+	"current language": "語言：",
 	"user": "使用者：%s",
 	"user not found": "找不到使用者",
 	"user not found text": "我們找不到指定名稱為「%s」的使用者。",

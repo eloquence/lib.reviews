@@ -3,7 +3,8 @@
 		"authors": [
 			"Anto",
 			"Beta16",
-			"Fitoschido"
+			"Fitoschido",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -153,7 +154,7 @@
 	"notification language-changed": "Hai cambiato le preferenze per la tua lingua. Questo significa che quando crei o modifichi contenuti, diamo per scontato che sia in <b>italiano</b>. Ti mostreremo anche un piccolo indicatore quando il contenuto è in una lingua diversa da quella che hai impostato (puoi aiutare traducendolo).",
 	"invalid language": "La lingua richiesta non è valida o non è stata riconosciuta.",
 	"edit saved": "La modifica è stata salvata. Bip bip!",
-	"current language": "Lingua: %s",
+	"current language": "Lingua:",
 	"user": "Utente: %s",
 	"user not found": "Utente non trovato",
 	"user not found text": "Non è stato trovato alcun utente con il nome specificato, '%s'.",

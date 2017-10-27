@@ -4,7 +4,8 @@
 			"BanKris",
 			"Tacsipacsi",
 			"Urbalazs",
-			"Csigabi"
+			"Csigabi",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -157,7 +158,7 @@
 	"notification language-changed": "Megváltoztatta a nyelvet. Ez azt jelenti, hogy amikor tartalmat hoz létre vagy szerkeszti azt, feltételezzük, hogy <b>magyarul</b> teszi. Mi majd mutatunk neked egy kis jelzőt, mikor a tartalom egy másik nyelven van, mint amit beállítottál (segíthetsz a fordításban).",
 	"invalid language": "A szükséges nyelv nem érvényes vagy nem ismert.",
 	"edit saved": "A szerkesztésedet elmentettük. Beep boop!",
-	"current language": "Nyelv: %s",
+	"current language": "Nyelv:",
 	"user": "Felhasználó: %s",
 	"user not found": "A felhasználó nem található",
 	"user not found text": "Nem találtunk felhasználót a megadott névvel, '%s'.",

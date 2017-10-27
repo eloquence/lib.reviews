@@ -7,7 +7,8 @@
 			"Frisjon",
 			"Luzcaru",
 			"Luisangelrg",
-			"RicardoSGZ"
+			"RicardoSGZ",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -163,7 +164,7 @@
 	"notification language-changed": "Has cambiado tu preferencia de idioma. Esto significa que cuando crees o modifiques contenido, asumiremos que estará en <b>español</b>. También te mostraremos un pequeño indicador cuando el contenido esté en un idioma distinto del que configuraste (pero puedes ayudar a traducirlo).",
 	"invalid language": "El idioma seleccionado no es válido o no se reconoció.",
 	"edit saved": "Se ha guardado tu edición. ¡Tachán!",
-	"current language": "Idioma: %s",
+	"current language": "Idioma:",
 	"user": "Usuario: %s",
 	"user not found": "Usuario no encontrado",
 	"user not found text": "No encontramos ningún usuario con el nombre especificado, «%s».",

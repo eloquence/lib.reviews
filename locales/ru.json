@@ -191,5 +191,8 @@
 	"format as paragraph": "Абзац",
 	"format as spoiler": "Спойлер",
 	"format as custom warning": "обычное предупреждение",
-	"custom warning text": "обычный предупреждающий текст"
+	"custom warning text": "обычный предупреждающий текст",
+	"add more links": "Добавить еще",
+	"maps tag label": "Карты",
+	"wikipedia source label": "Википедия"
 }

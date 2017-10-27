@@ -6,7 +6,8 @@
 			"Maxan",
 			"Walesson",
 			"Felipe L. Ewald",
-			"Eduardo Addad de Oliveira"
+			"Eduardo Addad de Oliveira",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -159,7 +160,7 @@
 	"notification language-changed": "Você mudou o seu idioma de preferência. Isto significa que ao criar ou editar conteúdo, presumimos que este está escrito em <b>português</b>. Iremos mostrar também um pequeno indicador quando o conteúdo estiver num idioma diferente daquele que você selecionou (pode ajudar a traduzir).",
 	"invalid language": "O idioma solicitado não era válido ou não foi reconhecido.",
 	"edit saved": "A sua edição foi gravada. Beep boop!",
-	"current language": "Idioma: %s",
+	"current language": "Idioma:",
 	"user": "Usuário(a): %s",
 	"user not found": "Usuário não encontrado",
 	"user not found text": "Não encontramos um usuário com o nome especificado, '%s'.",

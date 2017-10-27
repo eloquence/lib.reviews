@@ -3,7 +3,8 @@
 		"authors": [
 			"WikiPhoenix",
 			"Ainali",
-			"Skalman"
+			"Skalman",
+			"Eloquence"
 		]
 	},
 	"site name": "lib.reviews",
@@ -159,7 +160,7 @@
 	"notification language-changed": "Du har ändrat dina språkinställningar. Detta innebär att när du skapar eller redigera innehåll kommer vi anta att det är på <b>svenska</b>. Vi kommer även att visa dig en liten indikator när innehåll är på ett annat språk än vad du har ställt in (du kan hjälpa till att översätta).",
 	"invalid language": "Det begärda språket var inte giltigt eller kändes inte igen.",
 	"edit saved": "Din redigering har sparats. Pip pip!",
-	"current language": "Språk: %s",
+	"current language": "Språk:",
 	"user": "Användare: %s",
 	"user not found": "Användaren hittades inte",
 	"user not found text": "Vi hittade inte en användare med det angivna namnet \"%s\".",

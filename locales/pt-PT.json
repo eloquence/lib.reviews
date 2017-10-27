@@ -150,7 +150,7 @@
 	"notification language-changed": "Alterou o seu idioma de preferência. Isto significa que ao criar ou editar conteúdo, assumimos que este está escrito em <b>português europeu</b>. Iremos mostrar também um pequeno indicador quando o conteúdo estiver num idioma diferente daquele que selecionou (pode ajudar a traduzir).",
 	"invalid language": "O idioma solicitado não era válido ou não foi reconhecido.",
 	"edit saved": "A sua edição foi gravada. Beep boop!",
-	"current language": "Idioma: %s",
+	"current language": "Idioma:",
 	"user": "Utilizador(a): %s",
 	"user not found": "Utilizador(a) não encontrado(a)",
 	"user not found text": "Não encontrámos um(a) utilizador(a) com o nome especificado, '%s'.",

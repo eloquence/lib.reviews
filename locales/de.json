@@ -159,7 +159,7 @@
 	"notification language-changed": "Du hast deine Sprachwahl geändert. Wenn du nun Inhalte anlegst oder bearbeitest, werden wir davon ausgehen, dass sie auf <b>Deutsch</b> geschrieben sind. Wir zeigen dir auch einen kleinen Indikator neben Texten, die in einer anderen Sprache verfasst wurden (du kannst bei der Übersetzung helfen).",
 	"invalid language": "Die angefragte Sprachversion war ungültig oder wurde nicht erkannt.",
 	"edit saved": "Deine Änderung wurde gespeichert. Piep-piep!",
-	"current language": "Sprache: %s",
+	"current language": "Sprache:",
 	"user": "Benutzer: %s",
 	"user not found": "Benutzer nicht gefunden",
 	"user not found text": "Wir konnten keinen Benutzer mit dem Namen '%s' finden.",
