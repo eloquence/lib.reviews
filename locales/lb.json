@@ -130,7 +130,7 @@
 	"notification language-changed": "Dir hutt Är Sproochastellunge geännert. Dat heescht datt wann Dir Inhalt uleet oder ännert dann huele mir un dat et op <b>lëtzebuergesch</b> ass. Mir weisen Iech och e klengen Indikateur wann den Inhalt an enger anerer Sprooch ass wéi déi déi Dir agestallt hutt (Dir kënnt beim Iwwersetzen hëllefen).",
 	"invalid language": "Déi ugefrote Sprooch war net valabel oder gouf net erkannt.",
 	"edit saved": "Är Ännerung gouf gespäichert. Piep-piep!",
-	"current language": "Sprooch: %s",
+	"current language": "Sprooch:",
 	"user": "Benotzer: %s",
 	"user not found": "Benotzer net fonnt",
 	"user not found text": "Mir hu keee Benotzer mat deem spezifizéierten Numm fonnt, '%s'.",
