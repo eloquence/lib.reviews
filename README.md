@@ -10,6 +10,8 @@ At this point, you need an invite code to make an account. Follow [lib_reviews o
 
 Please see our [contribution guidelines](https://github.com/eloquence/lib.reviews/blob/master/CONTRIBUTING.md) and our [code of conduct](https://github.com/eloquence/lib.reviews/blob/master/CODE_OF_CONDUCT.md).
 
+As of October 2017, we've also started generating jsdoc documentation [here](https://lib.reviews/static/devdocs/) (initially just for frontend code).
+
 # Relevant related projects
 
 - https://critiquebrainz.org/ - music reviews
@@ -17,5 +19,4 @@ Please see our [contribution guidelines](https://github.com/eloquence/lib.review
   discussing data recovery options.
 - https://extensions.gnome.org/ - the GNOME extensions database includes reviews
   under a free license
-- https://github.com/attogram/shared-media-tagger - ratings for media on
-  Wikimedia Commons
+- https://github.com/attogram/shared-media-tagger - ratings for media on Wikimedia Commons
