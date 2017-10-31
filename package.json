@@ -72,7 +72,7 @@
     "prosemirror-schema-list": "^0.24.0",
     "prosemirror-state": "^0.24.0",
     "prosemirror-view": "^0.24.0",
-    "remote-ac": "../autocomplete",
+    "remote-ac": "git://github.com/eloquence/autocomplete.git#deactivate-method",
     "request-promise-native": "^1.0.4",
     "rethinkdb": "^2.3.2",
     "rethinkdbdash": "^2.3.8",
