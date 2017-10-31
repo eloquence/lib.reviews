@@ -419,7 +419,6 @@
 	"review label help label": "Label (headline) for context-sensitive help for the label field in the review form\n{{Identical|Label}}",
 	"review label help": "Text for context-sensitive help for the label field in the review form. Feel free to localize the examples.",
 	"review by url button label": "Button for switcher control that lets the user choose between reviewing something by specifying a URL, and other sources.",
-	"search wikidata button label": "Button for switcher control that lets the user choose between reviewing something by searching Wikdiata, and by other means",
 	"review via wikidata help label": "Title for help text that is shown when the user accesses the feature that lets them search Wikidata",
 	"review via wikidata help text": "Help text that is shown to the user when searching Wikidata",
 	"pick a review subject": "Label for the form input field that lets the user search Wikidata",
@@ -460,5 +459,15 @@
 	"yelp source label": "Label that is used when describing review subject metadata sourced to Yelp, or links to Yelp.",
 	"tripadvisor source label": "Label that is used when describing review subject metadata sourced to TripAdvisor, or links to TripAdvisor.",
 	"wikipedia source label": "Label that is used when describing links to Wikipedia.\n{{Identical|Wikipedia}}",
-	"indiebound source label": "Label that is used when describing review subject metadata sourced to IndieBound, or links to IndieBound."
+	"indiebound source label": "Label that is used when describing review subject metadata sourced to IndieBound, or links to IndieBound.",
+	"review via openlibrary help text": "Help text that is shown when searching Open Library for review subjects.",
+	"start typing to search openlibrary": "Placeholder for input field when searching Open Library for review subjects.",
+	"search databases button label": "Label for button that lets users search external databases for review subjects.",
+	"review via openlibrary help label": "Help title that is shown when searching Open Library for review subjects.",
+	"choose database": "Tooltip that is shown on the source selector dropdown for searching databases for review subjects.",
+	"one edition": "Text that is shown in Open Library book searches for records with only a single known edition.",
+	"multiple editions": "Text that is shown in Open Library book searches for records with multiple editions. %d is substituted with the number of editions as a decimal, and %s is substituted with a year string such as \"(1955 - 2015)\".",
+	"single year": "Text that is shown in Open Library book searches to identify the year of an edition. %s is substituted with the year or the message \"unknown year\".",
+	"year range": "Text that is shown in Open Library book searches to identify a range of years for the available editions. %1$d is substituted with the beginning of the range (longest ago) and %2$d with the end of the range (most recent year).",
+	"unknown year": "Text that is shown in Open Library book searches for records without a year."
 }

@@ -89,17 +89,12 @@
   // ...
   // </div>
   //
-  // While it only supports two states for now, it shouldn't be too hard to extend it down the line.
-  // </div>
+  // While it only supports two states for now, it shouldn't be too hard to
+  // extend it down the line.
   //
   // Use the click handler below for business logic attached to each switcher
   // option.
   $.fn.toggleSwitcher = function() {
-
-    // If this is set on the control, we also toggle the pushpin icon next
-    // to the second option, which can be used to make the secondary choice
-    // "stick".
-    let pinnable = this[0].hasAttribute('data-pinnable');
 
     // Checkmark to highlight currently selected option
     let $selectedIndicator = $('<span class="fa fa-fw fa-check-circle switcher-selected-indicator">&nbsp;</span>');
@@ -109,17 +104,14 @@
 
     $from
       .removeClass('switcher-option-selected')
+      .addClass('switcher-option-selectable')
       .find('.switcher-selected-indicator')
       .remove();
 
     $to
+      .removeClass('switcher-option-selectable')
       .addClass('switcher-option-selected')
       .prepend($selectedIndicator);
-
-    if (pinnable)
-      this
-      .find('.switcher-pin')
-      .toggleClass('hidden');
 
   };
 
@@ -179,14 +171,14 @@
 
     // We're partially reinventing sprintf here, switch to module if we want
     // to add any more.
-    if (typeof stringParam === 'string')
-      rv = processSingleParam(rv, 's', stringParam);
+    if (stringParam !== undefined)
+      rv = processSingleParam(rv, 's', String(stringParam));
 
     if (Array.isArray(stringParams))
       rv = processOrderedParams(stringParams, 's', stringParams);
 
-    if (typeof numberParam === 'number')
-      rv = processSingleParam(rv, 'd', numberParam);
+    if (numberParam !== undefined)
+      rv = processSingleParam(rv, 'd', Number(numberParam));
 
     if (Array.isArray(numberParams))
       rv = processOrderedParams(rv, 'd', numberParams);

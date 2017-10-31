@@ -41,7 +41,8 @@ const rules = [{
   {
     host: /^openlibrary\.org$/,
     tags: ['databases', 'opendata'],
-    id: 'openlibrary'
+    id: 'openlibrary',
+    converter: _stripOpenLibraryTitleSuffix
   },
   {
     host: /^(www\.)?imdb\.com$/,
@@ -181,6 +182,23 @@ let urlUtils = {
   }
 
 };
+
+
+/**
+ * Open Library "work" and "edition" URLs contain a human-readable string at
+ * the end, derived from the title. This string is optional, and it causes
+ * problems matching URLs against each other, so we remove it.
+ *
+ * @param {string} inputURL - the Open Library URL
+ * @returns {string} canonicalized URL
+ */
+function _stripOpenLibraryTitleSuffix(inputURL) {
+  let match = inputURL.match(new RegExp('^https*://openlibrary.org/(works|books)/(OL[^/]+)/*(.*)$', 'i'));
+  if (match === null)
+    return inputURL;
+  else
+    return `https://openlibrary.org/${match[1]}/${match[2]}`;
+}
 
 function _stripAmazonQueryStrings(inputURL) {
   let regex = /(.*\/)ref=.*$/;

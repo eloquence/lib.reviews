@@ -54,20 +54,17 @@
         {{#unless editing}}
         <div class="pure-u-1 pure-u-md-2-3">
           <div class="pure-control-group">
-            {{! We can use a URL or Wikidata as a source. The default is to review by URL.}}
+            {{! We can use a URL as a source, or acquire one via an external database search.}}
             <div id="review-via-url-inputs">
             <label for="review-url">{{{__ "review url"}}} <span class="required">*</span></label>
             <input id="review-url" name="review-url" type="text" class="pure-input-1" spellcheck=false data-required data-focus data-auto-trim placeholder="{{{__ "enter web address"}}}" value="{{{formValues.url}}}">
             </div>
-            <div id="review-via-wikidata-inputs" class="hidden">
-            <label for="review-search-wikidata">{{{__ "pick a review subject"}}} <span class="required">*</span></label>
-            <input id="review-search-wikidata" type="text" class="pure-input-1" autocomplete="off" data-ignore-autosave placeholder="{{{__ "start typing to search wikidata"}}}">
+            <div id="review-via-database-inputs" class="hidden">
+            <label for="review-search-database">{{{__ "pick a review subject"}}} <span class="required">*</span></label>
+            <input id="review-search-database" type="text" class="pure-input-1" autocomplete="off" data-ignore-autosave placeholder="{{{__ "start typing to search wikidata"}}}">
             <span class="fa fa-spinner fa-spin input-spinner hidden"></span>
             </div>
-            {{! Switcher control that lets us activate Wikidata as a source.}}
-            <div class="switcher-control nojs-hidden" id="review-source-switcher">
-            <span class="switcher-option switcher-option-selected" id="review-via-url" accesskey="u" title="{{{__ "accesskey" "u"}}}"><span class="fa fa-fw fa-check-circle switcher-selected-indicator">&nbsp;</span>{{{__ "review by url button label"}}}</span><span class="switcher-option" id="review-via-wikidata" accesskey="d" title="{{{__ "accesskey" "d"}}}">{{{__ "search wikidata button label"}}}</span>
-            </div>
+            {{>source_switcher}}
             {{! Placeholder for URL validation, generated dynamically}}
             <div id="url-validation"></div>
             <div id="review-subject">
@@ -89,7 +86,8 @@
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
           {{>help input="review-url" helpLabel="review url help label" helpText="review url help"}}
-          {{>help input="review-search-wikidata" helpLabel="review via wikidata help label" helpText="review via wikidata help text" nojsHidden=true}}
+          {{! Wikidata source is selected initially, so help is prepopulated accordingly}}
+          {{>help input="review-search-database" helpLabel="review via wikidata help label" helpText="review via wikidata help text" nojsHidden=true}}
         </div>
         <div class="pure-u-1 pure-u-md-2-3 review-label-group nojs-hidden">
           <div class="pure-control-group">

@@ -1,4 +1,4 @@
-/* global $, AC, config, libreviews */
+/* global $, config, libreviews */
 'use strict';
 
 // This module performs shallow lookups on Wikidata. They are shallow in that
@@ -8,69 +8,58 @@
 
 // Internal deps
 
-const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
-
-
-// Adapter settings
-const supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
-const apiBaseURL = 'https://www.wikidata.org/w/api.php';
-const queryServiceBaseURL = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql';
-const sourceID = 'wikidata';
-
-// Because we exclude certain item classes (e.g., disambiguation pages), we
-// fetch a larger number of results than we may need, since we may
-// eliminate some of them. The ratio below has proven to strike a
-// good balance where few queries result in zero "good" results.
-const fetchResults = 25;
-const displayResults = 7;
-
-// Timeout for query service validation requests in milliseconds
-const queryServiceTimeout = 5000;
-
-// Items with these classes are typically not going to be the target of reviews.
-const excludedItemClasses = [
-  'Q4167410', // disambiguation page
-  'Q17633526', // Wikinews article
-  'Q11266439', // Template
-  'Q4167836', // Category
-  'Q14204246' // Wikimedia project page
-];
-
-// How do lib.reviews language code translate to Wikidata language codes?
-// Since Wikidata supports a superset of languages and most language codes
-// are identical, we only enumerate exceptions.
-const nativeToWikidata = {
-  pt: 'pt-br',
-  'pt-PT': 'pt'
-};
-
-// Even when selecting via search, we still want to check whether there's a
-// native entry for this URL
-const NativeFrontendAdapter = require('./native-frontend-adapter');
-const nativeFrontendAdapter = new NativeFrontendAdapter();
+const AbstractAutocompleteAdapter = require('./abstract-autocomplete-adapter');
 
 // See abstract-adapter.js for method documentation.
-class WikidataFrontendAdapter extends AbstractFrontendAdapter {
+class WikidataAutocompleteAdapter extends AbstractAutocompleteAdapter {
 
   constructor(updateCallback, searchBoxSelector) {
-    super(updateCallback);
-    this.searchBoxSelector = searchBoxSelector;
-  }
+    super(updateCallback, searchBoxSelector);
+    // Adapter settings
+    this.sourceID = 'wikidata';
+    this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
+    this.apiBaseURL = 'https://www.wikidata.org/w/api.php';
+    this.queryServiceBaseURL = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql';
 
-  ask(url) {
-    return supportedPattern.test(url);
+    // Because we exclude certain item classes (e.g., disambiguation pages), we
+    // fetch a larger number of results than we may need, since we may
+    // eliminate some of them. The ratio below has proven to strike a
+    // good balance where few queries result in zero "good" results.
+    this.fetchResults = 25;
+    this.displayResults = 7;
+
+    // Timeout for query service validation requests in milliseconds
+    this.queryServiceTimeout = 5000;
+
+    // Items with these classes are typically not going to be the target of reviews.
+    this.excludedItemClasses = [
+      'Q4167410', // disambiguation page
+      'Q17633526', // Wikinews article
+      'Q11266439', // Template
+      'Q4167836', // Category
+      'Q14204246' // Wikimedia project page
+    ];
+
+    // How do lib.reviews language code translate to Wikidata language codes?
+    // Since Wikidata supports a superset of languages and most language codes
+    // are identical, we only enumerate exceptions.
+    this.nativeToWikidata = {
+      pt: 'pt-br',
+      'pt-PT': 'pt'
+    };
+
   }
 
   lookup(url) {
     return new Promise((resolve, reject) => {
-      let qNumber = (url.match(supportedPattern) || [])[4];
+      let qNumber = (url.match(this.supportedPattern) || [])[4];
       if (!qNumber)
         return reject(new Error('URL does not appear to contain a Q number (e.g., Q42) or is not a Wikidata URL.'));
 
       // in case the URL had a lower case "q"
       qNumber = qNumber.toUpperCase();
 
-      let language = nativeToWikidata[config.language] || config.language;
+      let language = this.nativeToWikidata[config.language] || config.language;
       language = language.toLowerCase();
 
       let queryObj = {
@@ -84,7 +73,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       };
 
       $.get({
-          url: apiBaseURL,
+          url: this.apiBaseURL,
           jsonp: 'callback',
           dataType: 'jsonp',
           data: queryObj
@@ -113,91 +102,32 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
               label,
               description
             },
-            sourceID
+            sourceID: this.sourceID
           });
         })
         .fail(reject);
     });
   }
 
-  setup() {
+  setupAutocomplete() {
+    super.setupAutocomplete();
 
-    // Wire up switcher for source of review subject
-    $('#review-via-url').conditionalSwitcherClick(function() {
-      $('#review-via-wikidata-inputs').addClass('hidden');
-      $('#review-via-url-inputs').removeClass('hidden');
-      $('.review-label-group').removeClass('hidden-regular');
-      if (!$('#review-url').val())
-        $('#review-url').focus();
-    });
+    // For matches against aliases, we shove some additional text into the title
+    // which we don't pass along to the main application, so we don't want to
+    // use the default, row.label, here.
+    this.ac.primaryTextKey = 'title';
 
-    $('#review-via-wikidata').conditionalSwitcherClick(function(event) {
-      // Does not conflict with other hide/show actions on this group
-      $('.review-label-group').addClass('hidden-regular');
-      $('#review-via-url-inputs').addClass('hidden');
-      $('#review-via-wikidata-inputs').removeClass('hidden');
-      // Focusing pops the selection back up, so this check is extra important here
-      if (!$('#review-search-wikidata').val())
-        $('#review-search-wikidata').focus();
-      // Suppress event bubbling up to window, which the AC widget listens to, and
-      // which would unmount the autocomplete function
-      event.stopPropagation();
-    });
+    // Wikidata can handle it :-)
+    this.ac.delay = 0;
 
-    let ac = new AC($(this.searchBoxSelector)[0]);
-    this.registerAutocompleteFunctions(ac);
-    ac.secondaryTextKey = 'description';
-    ac.delay = 0;
-    ac.cssPrefix = 'ac-adapter-';
-    ac.adapter = this;
-  }
-
-  disableSpinner() {
-    $(`${this.searchBoxSelector} + span.input-spinner`).addClass('hidden');
-  }
-
-  enableSpinner() {
-    $(`${this.searchBoxSelector} + span.input-spinner`).removeClass('hidden');
-  }
-
-  // Bind autocomplete callbacks to AC widget, and add custom helper functions
-  registerAutocompleteFunctions(ac) {
-    // Standard callbacks
-    ac.requestFn = this._requestRows.bind(ac);
-    ac.triggerFn = this._selectRow.bind(ac);
-    // Custom helper functions
-    ac.renderNav = this._renderNav.bind(ac);
-    ac.renderNoResults = this._renderNoResults.bind(ac);
-    ac.extractRow = this._extractRow.bind(ac);
-  }
-
-  // Must be bound to an autocomplete widget:
-  // Callback for selecting a row within the autocomplete widget
-  _selectRow(row, event) {
-    event.preventDefault();
-    if (row.url && row.label) {
-      // Perform appropriate UI updates
-      this.adapter.updateCallback(row);
-      // Check if we have local record and if so, replace Wikidata lookup
-      // results
-      nativeFrontendAdapter
-        .lookup(row.url)
-        .then(result => {
-          if (result && result.data) {
-            result.data.url = row.url;
-            this.adapter.updateCallback(result.data);
-          }
-        })
-        .catch(() => {
-          // Do nothing
-        });
-    }
+    this.ac.renderNav = this._renderNavHandler.bind(this.ac);
+    this.ac.extractRow = this._extractRowHandler.bind(this.ac);
   }
 
   // Must be bound to an autocomplete widget:
   // Callback for requesting/validating rows from the API + query
   // service.
-  _requestRows(query, requestedOffset) {
+  _requestHandler(query, requestedOffset) {
     const time = Date.now();
 
     // Keep track of most recently fired query so we can ignore responses
@@ -218,7 +148,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
     // Turn on spinner
     this.adapter.enableSpinner();
 
-    const language = nativeToWikidata[config.language] || config.language;
+    const language = this.adapter.nativeToWikidata[config.language] || config.language;
 
     let queryObj = {
       action: 'wbsearchentities',
@@ -226,7 +156,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
       language,
       uselang: language,
       format: 'json',
-      limit: fetchResults
+      limit: this.adapter.fetchResults
     };
 
     // Track if this is the first page we're rendering, in which case there's
@@ -244,7 +174,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
     }
 
     $.get({
-        url: apiBaseURL,
+        url: this.adapter.apiBaseURL,
         jsonp: 'callback',
         dataType: 'jsonp',
         data: queryObj
@@ -276,7 +206,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
           .join(' ');
 
         // Build SPARQL list of classes to exclude via query service
-        let excludedClassesStr = excludedItemClasses.reduce((str, qNumber) => {
+        let excludedClassesStr = this.adapter.excludedItemClasses.reduce((str, qNumber) => {
           str += `MINUS { ?item wdt:P31 wd:${qNumber} }\n`;
           return str;
         }, '');
@@ -289,13 +219,13 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
 
         // Validate result against list of excluded classes
         $.get({
-            url: queryServiceBaseURL,
+            url: this.adapter.queryServiceBaseURL,
             dataType: 'json',
             data: {
               query: sparqlQuery,
               format: 'json'
             },
-            timeout: queryServiceTimeout
+            timeout: this.adapter.queryServiceTimeout
           })
           .done(filteredData => {
 
@@ -325,7 +255,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
               this.results.push(result);
               goodResults++;
 
-              if (goodResults >= displayResults)
+              if (goodResults >= this.adapter.displayResults)
                 break;
             }
             this.render();
@@ -348,7 +278,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
               return;
 
             this.results = data.search
-              .slice(0, displayResults)
+              .slice(0, this.adapter.displayResults)
               .map(item => this.extractRow(item, query));
             let goodResults = this.results.length,
               resultIndex = goodResults;
@@ -377,7 +307,7 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
   // Bound to the autocomplete widget:
   // Transform a result from the Wikidata item into a row that can be rendered
   // by the autocomplete control
-  _extractRow(item, queryString) {
+  _extractRowHandler(item, queryString) {
     let row = {};
     row.url = `https:${item.url}`; // Returned URL is protocol relative
     // Modified below
@@ -397,19 +327,9 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
   }
 
   // Must be bound to an autocomplete widget:
-  // Render & display text indicating that there are no results for a given query
-  _renderNoResults() {
-    const $wrapper = $(this.rowWrapperEl);
-    const $noResults = $('<div class="ac-adapter-no-results">' + libreviews.msg('no search results') + '</div>');
-    $wrapper
-      .append($noResults)
-      .show();
-  }
-
-  // Must be bound to an autocomplete widget:
   // Render next/previous navigation within the autocomplete widget.
   // Returns true if any navigation elements were added, false if not.
-  _renderNav(spec) {
+  _renderNavHandler(spec) {
 
     const { isFirstPage, apiResult, goodResults, resultIndex, requestedOffset, queryString } = spec;
 
@@ -479,4 +399,4 @@ class WikidataFrontendAdapter extends AbstractFrontendAdapter {
 
 }
 
-module.exports = WikidataFrontendAdapter;
+module.exports = WikidataAutocompleteAdapter;

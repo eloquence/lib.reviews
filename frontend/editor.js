@@ -111,6 +111,12 @@ $('[data-enable-rte]').conditionalSwitcherClick(function enableRTE() {
 
   rtes[editorID].editorView.focus();
 
+  // Show pin for persisting RTE settings
+  $(this)
+    .parent()
+    .find('.switcher-pin')
+    .toggleClass('hidden', false);
+
 });
 
 // Switch back to markdown
@@ -136,6 +142,12 @@ $('[data-enable-markdown]').conditionalSwitcherClick(function enableMarkdown(eve
     $textarea.removeAttr('data-reset-textarea');
     $textarea[0].setSelectionRange(0, 0);
   }
+
+  // Hide pin for persisting RTE settings
+  $(this)
+    .parent()
+    .find('.switcher-pin')
+    .toggleClass('hidden', true);
   $textarea.focus();
 });
 

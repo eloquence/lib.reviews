@@ -3,9 +3,9 @@
 
 // Perform native (lib.reviews) lookups
 
-const AbstractFrontendAdapter = require('./abstract-frontend-adapter');
+const AbstractLookupAdapter = require('./abstract-lookup-adapter');
 
-class NativeFrontendAdapter extends AbstractFrontendAdapter {
+class NativeLookupAdapter extends AbstractLookupAdapter {
 
   ask(url) {
     // Any valid URL can be looked up natively
@@ -34,4 +34,4 @@ class NativeFrontendAdapter extends AbstractFrontendAdapter {
 
 }
 
-module.exports = NativeFrontendAdapter;
+module.exports = NativeLookupAdapter;

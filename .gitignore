@@ -54,5 +54,8 @@ static/css/editor
 # Generated
 *-es5.js*
 
+# Built via jsdoc
+static/devdocs
+
 # Vagrant box
 /.vagrant

@@ -1341,13 +1341,24 @@ details.content-warning[open] summary.content-warning-notice:before {
   cursor:default;
 }
 
-.switcher-control :not(.switcher-option-selected):not(.switcher-selected-indicator):not(.switcher-pin) {
+.switcher-control .switcher-option-selectable {
   border-style:solid;
   border-width:1px;
   background:#f0f0f0;
   color:#333;
   border-color:#ddd;
   cursor:pointer;
+}
+
+#source-selector {
+  margin-top:1em;
+  display:inline;
+}
+
+#source-selector select {
+  display:inline;
+  height:inherit;
+  font-size:small;
 }
 
 .switcher-pin {

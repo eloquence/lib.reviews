@@ -1,13 +1,23 @@
 /* global $, config, libreviews */
 /* eslint prefer-reflect: "off" */
+/**
+ * Immediately invoked function expression that initializes various event
+ * handlers that are part of the review form, including:
+ * - management of client-side drafts
+ * - "star rating" selector
+ * - mode switcher for source selection and integration with lookup adapters
+ *
+ * @namespace Review
+ */
 (function() {
+
   'use strict';
 
   require('es6-promise').polyfill();
 
-  const NativeFrontendAdapter = require('./adapters/native-frontend-adapter');
-  const WikidataFrontendAdapter = require('./adapters/wikidata-frontend-adapter');
-  const OpenLibraryFrontendAdapter = require('./adapters/openlibrary-frontend-adapter');
+  const NativeLookupAdapter = require('./adapters/native-lookup-adapter');
+  const WikidataAutocompleteAdapter = require('./adapters/wikidata-autocomplete-adapter');
+  const OpenLibraryAutocompleteAdapter = require('./adapters/openlibrary-autocomplete-adapter');
 
   // All adapters will be tried against a provided review subject URL. If they
   // support it, they will perform a parallel, asynchronous lookup. The array order
@@ -15,13 +25,26 @@
   // a result) will be used for the review subject metadata. The native (lib.reviews)
   // lookup therefore always takes precedence.
   const adapters = [
-    new NativeFrontendAdapter(),
-    new WikidataFrontendAdapter(updateURLAndReviewSubject, '#review-search-wikidata'),
-    new OpenLibraryFrontendAdapter()
+    new NativeLookupAdapter(),
+    new WikidataAutocompleteAdapter(updateURLAndReviewSubject, '#review-search-database'),
+    new OpenLibraryAutocompleteAdapter(updateURLAndReviewSubject, '#review-search-database')
   ];
 
-  // Track repeated lookups of URLs via adapters
+  /**
+   * URL of the most recently used lookup from an adapter.
+   *
+   * @type {String}
+   * @memberof Review
+   */
   let lastLookup;
+
+  /**
+   * Most recently selected adapter.
+   *
+   * @type {Object}
+   * @memberof Review
+   */
+  let lastAdapter;
 
   // Our form's behavior depends significantly on whether we're creating
   // a new review, or editing an old one.
@@ -29,13 +52,22 @@
   let textFields = editing ? '#review-title,#review-text' :
     '#review-url,#review-title,#review-text';
 
-  // A library we rely on to persist form data, but only for new reviews for now
+  /**
+   * Holds instance of external library for client-side storage of new reviews
+   * in progress.
+   *
+   * @memberof Review
+   */
   let sisyphus;
 
   // Add inputs used only with JS here so they don't appear/conflict when JS is disabled
   $('#star-rating-control').append(`<input id="review-rating" name="review-rating" type="hidden" data-required>`);
 
-  // Get rating value from previous POST request, if any
+  /**
+   * Rating value of previous POST request, if any.
+   *
+   * @memberof Review
+   */
   let postRating = $('#star-rating-control').attr('data-post') || '';
 
   // Register event handlers
@@ -76,16 +108,26 @@
     if (!$('#review-url').length)
       maybeExcludeURL = ',#review-url';
 
+    // Persist form in local storage
     sisyphus = $('#review-form').sisyphus({
       onRestore: processLoadedData,
       excludeFields: $('[data-ignore-autosave]' + maybeExcludeURL)
     });
 
-    // Set up adapters for looking up review subjects
-    adapters.forEach(adapter => {
-      if (adapter.setup)
-        adapter.setup();
+    // Wire up mode switcher for source of review subject: URL or database
+    $('#review-via-url').conditionalSwitcherClick(activateReviewViaURL);
+    $('#review-via-database').conditionalSwitcherClick(activateReviewViaDatabase);
+
+    // Wire up source selector dropdown for "review via database" workflow
+    $('#source-selector-dropdown').change(selectSource);
+
+    // Bubbling interferes with autocomplete's window-level click listener
+    $('#source-selector-dropdown').click(function(event) {
+      event.stopPropagation();
     });
+
+    // Initialize search autocomplete for currently selected source
+    selectSource.apply($('#source-selector-dropdown')[0]);
   }
 
   // In case we're in preview mode and have a URL, make sure we fire the URL
@@ -95,12 +137,21 @@
     handleURLValidation.apply($('#review-url')[0]);
   }
 
+  /**
+   * Hide information indicating that an unsaved draft is available.
+   *
+   * @memberof Review
+   */
   function hideDraftNotice() {
     if ($('#draft-notice').is(':visible'))
       $('#draft-notice').fadeOut(200);
   }
 
-  // Handler for removing a previously added review subject from a review
+  /**
+   * Remove a previously resolved review subject from a review.
+   *
+   * @memberof Review
+   */
   function removeResolvedInfo() {
     clearResolvedInfo();
     $('#review-url').val('');
@@ -116,33 +167,71 @@
     $('#review-via-url').click();
   }
 
-  // "Enter" / "Space" keyboard handler for above
+  /**
+   * Keyboard handler that triggers {@link Review.removeResolvedInfo}
+   * on `[Enter]` and `[Space]`.
+   *
+   * @memberof Review
+   */
   function maybeRemoveResolvedInfo() {
     if (event.keyCode == 13 || event.keyCode == 32)
       removeResolvedInfo();
   }
 
+  /**
+   * Hide the option for abandoning a draft once the user has started editing
+   * it.
+   *
+   * @memberof Review
+   */
   function hideAbandonDraft() {
     if ($('#abandon-draft').is(':visible'))
       $('#abandon-draft').fadeOut(200);
   }
 
+  /**
+   * Add a HTTP or HTTPS prefix to the review URL.
+   * @param {String} protocol - "http" or "https"
+   *
+   * @memberof Review
+   */
   function addProtocol(protocol) {
     $('#review-url').val(protocol + '://' + $('#review-url').val());
     $('#review-url').trigger('change');
   }
 
+  /**
+   * Add HTTP prefix to the review URL field and focus on it.
+   * @param {Event} event the click event on the "Add HTTP" link
+   *
+   * @memberof Review
+   */
   function addHTTP(event) {
     addProtocol('http');
     $('#review-label').focus();
     event.preventDefault();
   }
 
+  /**
+   * Add HTTPS prefix to the review URL field and focus on it.
+   * @param {Event} event the click event on the "Add HTTPS" link
+   *
+   * @memberof Review
+   */
   function addHTTPS(event) {
     addProtocol('https');
     $('#review-label').focus();
     event.preventDefault();
   }
+
+  /**
+   * Ask all available adapters for information about the currently provided
+   * URL, via asynchronous lookup. Note this is separate from the search
+   * option -- we look up information, e.g., from Wikidata even if the user just
+   * puts in a Wikidata URL.
+   *
+   * @memberof Review
+   */
 
   function handleURLLookup() {
     let inputEle = this;
@@ -195,7 +284,11 @@
       });
   }
 
-  // Clean out any old URL metadata and show the label field again
+  /**
+   * Clean out any old URL metadata and show the label field again
+   *
+   * @memberof Review
+   */
   function clearResolvedInfo() {
     $('.resolved-info').empty();
     $('#review-subject').hide();
@@ -203,7 +296,11 @@
     window.libreviews.repaintFocusedHelp();
   }
 
-  // Show warning and helper links as appropriate
+  /**
+   * Show warning and helper links as appropriate for a given subject URL.
+   *
+   * @memberof Review
+   */
   function handleURLValidation() {
     let inputURL = this.value;
 
@@ -221,8 +318,14 @@
     }
   }
 
-  // Handle only URL corrections. This is done on keyup so fixes are instantly
-  // detected.
+
+  /**
+   * Update UI based on URL corrections of validation problems. This is
+   * registered on keyup for the URL input field, so corrections are instantly
+   * detected.
+   *
+   * @memberof Review
+   */
   function handleURLFixes() {
     let inputURL = this.value;
     if ($('#review-url-error').is(':visible')) {
@@ -233,7 +336,15 @@
     }
   }
 
-  // Update the URL and the review subject, typically called from an adapter.
+  /**
+   * Callback called from adapters for adding informationed obtained via an
+   * adapter to the form. Except for the URL, the information is not actually
+   * associated with the review, since the corresponding server-side adapter
+   * will perform its own deep lookup.
+   *
+   * @param {Object} data - Data obtained by the adapter
+   * @memberof Review
+   */
   function updateURLAndReviewSubject(data) {
     if (!data.url)
       throw new Error('To update a URL, we must get one.');
@@ -247,8 +358,14 @@
     sisyphus.saveAllData();
   }
 
-  // Update review subject info with data from a lookup. Hides the label group
-  // (label is mandatory).
+  /**
+   * Handle the non-URL information obtained via the
+   * {@link Review.updateURLAndReviewSubject} callback, or via the
+   * {@link Review.handleURLLookup} handler on the URL input field.
+   *
+   * @param {Object} data - Data obtained by the adapter
+   * @memberof Review
+   */
   function updateReviewSubject(data) {
     const { url, label, description, subtitle, thing } = data;
     if (!label)
@@ -273,7 +390,13 @@
       $('#review-title').focus();
   }
 
-  // For clearing out old drafts
+
+  /**
+   * Clear out old draft
+   *
+   * @param {Event} event - click event from the "Clear draft" button
+   * @memberof Review
+   */
   function emptyAllFormFields(event) {
     clearStars();
     $('#review-url,#review-title,#review-text,#review-rating').val('');
@@ -285,7 +408,12 @@
     event.preventDefault();
   }
 
-  // For processing draft data
+
+  /**
+   * Load draft data into the review form.
+   *
+   * @memberof Review
+   */
   function processLoadedData() {
     let rating = Number($('#review-rating').val());
 
@@ -309,13 +437,30 @@
     }
   }
 
+
+  /**
+   * Replace star images with their placeholder versions
+   *
+   * @param {Number} start - rating from which to start clearing
+   * @memberof Review
+   */
   function clearStars(start) {
+
     if (!start || typeof start !== "number")
       start = 1;
     for (let i = start; i < 6; i++)
       replaceStar(i, `/static/img/star-placeholder.svg`, 'star-holder');
   }
 
+
+  /**
+   * replaceStar - Helper function to replace individual star image
+   *
+   * @param {Number} id - number of the star to replace
+   * @param {string} src - value for image source attribute
+   * @param {string} className - CSS class to assign to element
+   * @memberof Review
+   */
   function replaceStar(id, src, className) {
     $(`#star-button-${id}`)
       .attr('src', src)
@@ -323,15 +468,27 @@
       .addClass(className);
   }
 
+
+  /**
+   * Handler to restore star rating to a previously selected setting.
+   *
+   * @memberof Review
+   */
   function restoreSelected() {
     let selectedStar = $('#star-rating-control').attr('data-selected');
-    if (selectedStar) {
+    if (selectedStar)
       selectStar.apply($(`#star-button-${selectedStar}`)[0]);
-    }
   }
 
+  /**
+   * Handler to "preview" a star rating, used on mouseover.
+   *
+   * @returns {Number} - the number value of the selected star
+   * @memberof Review
+   */
   function indicateStar() {
-    let selectedStar = Number(this.id.match(/\d/)[0]); // We want to set all stars to the color of the selected star
+    // We want to set all stars to the color of the selected star
+    let selectedStar = Number(this.id.match(/\d/)[0]);
     for (let i = 1; i <= selectedStar; i++)
       replaceStar(i, `/static/img/star-${selectedStar}-full.svg`, 'star-full');
     if (selectedStar < 5)
@@ -339,6 +496,22 @@
     return selectedStar;
   }
 
+
+  /**
+   * Key handler for selecting stars with `[Enter]` or `[Space]`.
+   *
+   * @param  {Event} event - the key event
+   */
+  function maybeSelectStar(event) {
+    if (event.keyCode == 13 || event.keyCode == 32)
+      selectStar.apply(this);
+  }
+
+  /**
+   * Actually apply a star rating.
+   *
+   * @memberof Review
+   */
   function selectStar() {
     let selectedStar = indicateStar.apply(this);
     $('#star-rating-control').attr('data-selected', selectedStar);
@@ -349,16 +522,103 @@
     $('#review-rating').trigger('change');
   }
 
-  function maybeSelectStar(event) {
-    if (event.keyCode == 13 || event.keyCode == 32) {
-      selectStar.apply(this);
-    }
-  }
 
+  /**
+   * Add template for URL validation errors, including "Add HTTP" and "Add HTTPS"
+   * helper links.
+   *
+   * @memberof Review
+   */
   function initializeURLValidation() {
     $('#url-validation').append(
       `<div id="review-url-error" class="validation-error">${libreviews.msg('not a url')}</div>` +
       `<div class="helper-links"><a href="#" id="add-https">${libreviews.msg('add https')}</a> &ndash; <a href="#" id="add-http">${libreviews.msg('add http')}</a></div>`
     );
   }
+
+  /**
+   * Click handler for activating the form for reviewing a subject by specifying
+   * a URL
+   *
+   * @memberof Review
+   */
+  function activateReviewViaURL() {
+    $('#review-via-database-inputs').addClass('hidden');
+    $('#review-via-url-inputs').removeClass('hidden');
+    $('.review-label-group').removeClass('hidden-regular');
+    $('#source-selector').toggleClass('hidden', true);
+    if (!$('#review-url').val())
+      $('#review-url').focus();
+  }
+
+
+  /**
+   * Click handler for activating the form for reviewing a subject by selecting
+   * it from an external database.
+   *
+   * @param  {Event} event - the click event
+   * @memberof Review
+   */
+  function activateReviewViaDatabase(event) {
+    // Does not conflict with other hide/show actions on this group
+    $('.review-label-group').addClass('hidden-regular');
+    $('#review-via-url-inputs').addClass('hidden');
+    $('#review-via-database-inputs').removeClass('hidden');
+    // Focusing pops the selection back up, so this check is extra important here
+    if (!$('#review-search-database').val())
+      $('#review-search-database').focus();
+    $('#source-selector').toggleClass('hidden', false);
+    // Suppress event bubbling up to window, which the AC widget listens to, and
+    // which would unmount the autocomplete function
+    event.stopPropagation();
+  }
+
+
+  /**
+   * Handler for selecting a source from the "database sources" dropdown,
+   * which requires lookup using an adapter plugin.
+   *
+   * @memberof Review
+   */
+  function selectSource() {
+    let sourceID = $(this).val();
+
+    let adapter;
+    // Locate adapter responsible for source declared in dropdown
+    for (let a of adapters) {
+      if (a.getSourceID() == sourceID) {
+        adapter = a;
+        break;
+      }
+    }
+
+    if (lastAdapter && lastAdapter.removeAutocomplete)
+      lastAdapter.removeAutocomplete();
+
+    if (adapter && adapter.setupAutocomplete) {
+      adapter.setupAutocomplete();
+      if (lastAdapter) {
+        // Re-run search, unless this is the first one. Sets focus on input.
+        if (adapter.runAutocomplete)
+          adapter.runAutocomplete();
+
+        // Change help text
+        $('#review-search-database-help .help-heading')
+          .html(libreviews.msg(`review via ${adapter.getSourceID()} help label`));
+
+        $('#review-search-database-help .help-paragraph')
+          .html(libreviews.msg(`review via ${adapter.getSourceID()} help text`));
+
+        // Change input placeholder
+        $('#review-search-database').attr('placeholder',
+          libreviews.msg(`start typing to search ${adapter.getSourceID()}`));
+
+        window.libreviews.repaintFocusedHelp();
+      }
+    }
+
+    // Track usage of the adapter so we can run functions on change
+    lastAdapter = adapter;
+  }
+
 }());
