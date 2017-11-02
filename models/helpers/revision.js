@@ -47,7 +47,7 @@ const revision = {
    * revisions. This function returns a handler that can be attached to a model
    * to provide a shortcut for this operation.
    *
-   * @param  {Model} Model - the table to filter
+   * @param {Model} Model - the table to filter
    * @return {Function} function that returns a Query object for this Model
    * @memberof Revision
    */
@@ -76,8 +76,22 @@ const revision = {
    * @memberof Revision
    */
   getNotStaleOrDeletedGetHandler(Model) {
-    return async id => {
-      const data = await Model.get(id); // may throw
+
+    /**
+     * @param {String} id - the ID to look up
+     * @param {Object} join - *(optional)* an object specifying a join to
+     *  another table
+     * @return {Object} an object of the specified Model
+     * @memberof Revision
+     * @inner
+     */
+    const getNotStaleOrDeleted = async(id, join) => {
+      let data;
+      if (typeof join == 'object')
+        data = await Model.get(id).getJoin(join);
+      else
+        data = await Model.get(id);
+
       if (data._revDeleted)
         throw revision.deletedError;
       else if (data._revOf)
@@ -85,6 +99,7 @@ const revision = {
       else
         return data;
     };
+    return getNotStaleOrDeleted;
   },
 
   getFirstRevisionHandler(Model) {

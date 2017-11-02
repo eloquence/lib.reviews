@@ -1,4 +1,12 @@
 'use strict';
+
+/**
+ * Models for review subjects, including metadata such as URLs, author names,
+ * business hours, etc.
+ *
+ * @namespace Thing
+ */
+
 const thinky = require('../db');
 const r = thinky.r;
 const type = thinky.type;
@@ -111,10 +119,22 @@ Thing.hasOne(ThingSlug, "slug", "id", "thingID");
 
 ThingSlug.belongsTo(Thing, "thing", "thingID", "thing");
 
-Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Thing);
+// STATIC METHODS --------------------------------------------------------------
 
+// Standard handlers -----------------------------------------------------------
+
+Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Thing);
 Thing.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Thing);
 
+// Custom methods --------------------------------------------------------------
+
+/**
+ * Find a Thing object using a URL. May return multiple matches (but ordinarily
+ * should not).
+ *
+ * @param {String} url - the URL to look up
+ * @return {Query} query for current revisions that contain this URL
+ */
 Thing.lookupByURL = function(url) {
   return Thing
     .filter(thing => thing('urls').contains(url))
@@ -122,8 +142,192 @@ Thing.lookupByURL = function(url) {
     .filter({ _revDeleted: false }, { default: true });
 };
 
-// Update URL array without saving. Will also update synchronization settings.
-Thing.define("setURLs", function(urls) {
+/**
+ * Get a Thing object by ID, plus some of the data linked to it.
+ *
+ * @param  {String} id  - the unique ID of the Thing object
+ * @param  {Object} options - which data to include
+ * @property {Object} options - the options object
+ * @property {Boolean} options.withFiles - *(default: true)* include metadata
+ *  about file upload via join
+ * @property {Boolean} options.withReviewMetrics *(default: true)* obtain
+ *  review metrics (e.g., average rating); requires additional table lookup
+ * @return {Promise} promise which resolves once lookup is complete
+ */
+Thing.getWithData = async function(id, options) {
+  options = Object.assign({ // Default: all first-level joins
+    withFiles: true,
+    withReviewMetrics: true
+  }, options);
+
+  let join;
+  if (options.withFiles)
+    join = {
+      files: {
+        _apply: seq => seq.filter({ completed: true })
+      } // We don't show unfinished uploads
+    };
+
+  const thing = await Thing.getNotStaleOrDeleted(id, join);
+  if (thing._revDeleted)
+    throw revision.deletedError;
+
+  if (thing._revOf)
+    throw revision.staleError;
+
+  if (options.withReviewMetrics)
+    await thing.populateReviewMetrics();
+
+  return thing;
+};
+
+/**
+ * Get label for a given thing in the provided language, or fall back to a
+ * prettified URL.
+ *
+ * @param  {Thing} thing - the thing object to get a label for
+ * @param  {String} language - the language code of the preferred language
+ * @return {String} the best available label
+ */
+Thing.getLabel = function(thing, language) {
+
+  if (!thing || !thing.id)
+    return undefined;
+
+  let str;
+  if (thing.label)
+    str = mlString.resolve(language, thing.label).str;
+
+  if (str)
+    return str;
+
+  // If we have no proper label, we can at least show the URL
+  if (thing.urls && thing.urls.length)
+    return urlUtils.prettify(thing.urls[0]);
+
+  return undefined;
+
+};
+
+// INSTANCE METHODS ------------------------------------------------------------
+
+// Standard handlers -----------------------------------------------------------
+
+// See helpers/revision.js
+Thing.define("newRevision", revision.getNewRevisionHandler(Thing));
+Thing.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Thing));
+
+// See helpers/slug-name.js
+Thing.define("updateSlug", slugName.getUpdateSlugHandler({
+  SlugModel: ThingSlug,
+  slugForeignKey: 'thingID',
+  slugSourceField: 'label'
+}));
+
+// See helpers/set-id.js
+Thing.define("setID", getSetIDHandler());
+
+// Custom methods --------------------------------------------------------------
+
+Thing.define("initializeFieldsFromAdapter", initializeFieldsFromAdapter);
+Thing.define("populateUserInfo", populateUserInfo);
+Thing.define("populateReviewMetrics", populateReviewMetrics);
+Thing.define("setURLs", setURLs);
+Thing.define("updateActiveSyncs", updateActiveSyncs);
+Thing.define("getReviewsByUser", getReviewsByUser);
+Thing.define("getAverageStarRating", getAverageStarRating);
+Thing.define("getReviewCount", getReviewCount);
+Thing.define("addFile", addFile);
+
+/**
+ * Initialize field values from the lookup result of an adapter. Each adapter
+ * has a whitelist of supported fields which we check against before assigning
+ * values to the thing instance.
+ *
+ * This function does not save and can therefore run synchronously.
+ * It resets all sync settings (whether a sync for a given field is active or
+ * not), so it should only be invoked on new Thing objects.
+ *
+ * Silently ignores empty results, will throw error on malformed adapterResult
+ * objects.
+ *
+ * @param {Object} adapterResult - the result from any backend adapter
+ * @property {object} adapterResult - The result object
+ * @property {object} adapterResult.data - *(required)* data for this result
+ * @property {string} adapterResult.sourceID - *(required)* canonical source
+ *  identifier
+ * @instance
+ * @memberof Thing
+ */
+function initializeFieldsFromAdapter(adapterResult) {
+  if (typeof adapterResult != 'object')
+    return;
+
+  let responsibleAdapter = adapters.getAdapterForSource(adapterResult.sourceID);
+  let supportedFields = responsibleAdapter.getSupportedFields();
+  for (let field in adapterResult.data) {
+    if (supportedFields.includes(field)) {
+      this[field] = adapterResult.data[field];
+      if (typeof this.sync != 'object')
+        this.sync = {};
+      this.sync[field] = {
+        active: true,
+        source: adapterResult.sourceID,
+        updated: new Date()
+      };
+    }
+  }
+}
+
+/**
+ * Populate virtual permission fields in a Thing object with the rights of a
+ * given user.
+ *
+ * @param {User} user - the user whose permissions to check
+ * @memberof Thing
+ * @instance
+ */
+function populateUserInfo(user) {
+  if (!user)
+    return; // Permissions will be at their default value (false)
+
+  // For now, we don't let users delete things they've created,
+  // since things are collaborative in nature
+  this.userCanDelete = user.isSuperUser || user.isSiteModerator || false;
+  this.userCanEdit = user.isSuperUser || user.isTrusted || user.id === this.createdBy;
+  this.userCanUpload = user.isSuperUser || user.isTrusted;
+  this.userIsCreator = user.id === this.createdBy;
+}
+
+/**
+ * Set this Thing object's virtual data fields for review metrics (performs
+ * table lookups, hence asynchronous). Does not save.
+ *
+ * @return {Thing} the modified thing object
+ * @memberof Thing
+ * @instance
+ */
+async function populateReviewMetrics() {
+  const [averageStarRating, numberOfReviews] = await Promise.all([
+    this.getAverageStarRating(),
+    this.getReviewCount()
+  ]);
+  this.averageStarRating = averageStarRating;
+  this.numberOfReviews = numberOfReviews;
+  return this;
+}
+
+/**
+ * Update URLs and reset a Thing object's synchronization settings, based on
+ * which adapters report that they can retrieve external metadata for a given
+ * URL. Does not save.
+ *
+ * @param  {String[]} urls the *complete* array of URLs to assign (previously
+ *  assigned URLs will be overwritten)
+ * @instance
+ * @memberof Thing
+ */
+function setURLs(urls) {
 
   // Turn off all synchronization
   if (typeof this.sync == 'object') {
@@ -157,332 +361,222 @@ Thing.define("setURLs", function(urls) {
     });
   });
   this.urls = urls;
-});
+}
 
-// Initialize supported fields from a single adapter result. Does not save,
-// resets all sync settings, so should only be invoked on new objects.
-// Silently ignores empty results, will throw error on malformed objects.
-Thing.define("initializeFieldsFromAdapter", function(adapterResult) {
-  if (typeof adapterResult != 'object')
-    return;
-
-  let responsibleAdapter = adapters.getAdapterForSource(adapterResult.sourceID);
-  let supportedFields = responsibleAdapter.getSupportedFields();
-  for (let field in adapterResult.data) {
-    if (supportedFields.includes(field)) {
-      this[field] = adapterResult.data[field];
-      if (typeof this.sync != 'object')
-        this.sync = {};
-      this.sync[field] = {
-        active: true,
-        source: adapterResult.sourceID,
-        updated: new Date()
-      };
-    }
-  }
-});
-
-
-// Fetch new external data for all fields set to be synchronized. Saves.
-// - Does not create a new revision, so if you need one, create it first.
-// - Performs search index update.
-// - Resolves with updated thing object.
-// - May result in a slug update, so if initiated by a user, should be passed the
-//   user ID. Otherwise, any slug changes will be without attribution
-Thing.define("updateActiveSyncs", function(userID) {
+/**
+ * Fetch new external data for all fields set to be synchronized. Saves.
+ * - Does not create a new revision, so if you need one, create it first.
+ * - Performs search index update.
+ * - Resolves with updated thing object.
+ * - May result in a slug update, so if initiated by a user, should be passed the
+ *   user ID. Otherwise, any slug changes will be without attribution
+ *
+ * @param {String} userID - the user to associate with any slug changes
+ * @return {Thing} - the updated thing
+ * @memberof Thing
+ * @instance
+ */
+async function updateActiveSyncs(userID) {
   const thing = this; // For readability
-  return new Promise((resolve, reject) => {
-    // No active syncs of any kind? Just give the thing back.
-    if (!thing.urls || !thing.urls.length || typeof thing.sync !== 'object')
-      resolve(thing);
 
-    // Determine which external sources we need to contact. While one source
-    // may give us updates for many fields, we obviously only want to contact
-    // it once.
-    let sources = [];
-    for (let field in thing.sync) {
-      if (thing.sync[field].active && thing.sync[field].source &&
-        !sources.includes(thing.sync[field].source))
-        sources.push(thing.sync[field].source);
-    }
+  // No active syncs of any kind? Just give the thing back.
+  if (!thing.urls || !thing.urls.length || typeof thing.sync !== 'object')
+    return thing;
 
-    //  Build array of lookup promises from currently used sources
-    let p = [];
+  // Determine which external sources we need to contact. While one source
+  // may give us updates for many fields, we obviously only want to contact
+  // it once.
+  let sources = [];
+  for (let field in thing.sync) {
+    if (thing.sync[field].active && thing.sync[field].source &&
+      !sources.includes(thing.sync[field].source))
+      sources.push(thing.sync[field].source);
+  }
 
-    // Keep track of all URLs we're contacting for convenience
-    let allURLs = [];
+  //  Build array of lookup promises from currently used sources
+  let p = [];
 
-    sources.forEach(source => {
-      let adapter = adapters.getAdapterForSource(source);
-      // Find all matching URLs in array (we might have, e.g., a URL for
-      // a work and one for an edition, and need to contact both).
-      let relevantURLs = thing.urls.filter(url => adapter.ask(url));
-      allURLs = allURLs.concat(relevantURLs);
-      // Add relevant lookups as individual elements to array
-      p.push(...relevantURLs.map(url => adapter.lookup(url)));
-    });
+  // Keep track of all URLs we're contacting for convenience
+  let allURLs = [];
 
-    if (allURLs.length)
-      debug.app(`Retrieving item metadata for ${thing.id} from the following URL(s):\n` +
-        allURLs.join(', '));
-
-    // Perform all lookups, then update thing from the results, which will be
-    // returned in the same order as the sources array.
-    Promise
-      .all(p)
-      .then(results => {
-        // If the label has changed, we need to update the short identifier
-        // (slug). This means a possible URL change! Redirects are put in
-        // place automatically.
-        let needSlugUpdate;
-
-        // Get obj w/ key = source ID, value = reverse order array of
-        // result.data objects
-        let dataBySource = _organizeDataBySource(results);
-        sources.forEach((source) => {
-          for (let field in thing.sync) {
-            // Only update if everything looks good: sync is active, source
-            // ID matches, we may have new data
-            if (thing.sync[field].active && thing.sync[field].source === source &&
-              Array.isArray(dataBySource[source])) {
-              // Earlier results get priority, i.e. need to be assigned last
-              for (let d of dataBySource[source]) {
-                if (d[field] !== undefined) {
-                  thing.sync[field].updated = new Date();
-                  this[field] = d[field];
-                  if (field == 'label')
-                    needSlugUpdate = true;
-                }
-              }
-            }
-          }
-        });
-
-        const updateSlug = needSlugUpdate ?
-          thing.updateSlug(userID, thing.originalLanguage || 'en') :
-          Promise.resolve(thing);
-
-        updateSlug
-          .then(thing => {
-            thing
-              .save()
-              .then(thing => {
-                resolve(thing);
-                search.indexThing(thing);
-              })
-              .catch(reject);
-          });
-      })
-      .catch(reject);
-
-    // Put valid data from results array into an object with sourceID as
-    // the key and data as a reverse-order array. There may be multiple
-    // URLs from one source, assigning value to the same field. URLs earlier
-    // in the original thing.urls array take priority, so we have to ensure
-    // they come last.
-    function _organizeDataBySource(results) {
-      let rv = {};
-      results.forEach(result => {
-        // Correctly formatted result object with all relevant information
-        if (typeof result == 'object' && typeof result.sourceID == 'string' &&
-          typeof result.data == 'object') {
-          // Initialize array if needed
-          if (!Array.isArray(rv[result.sourceID]))
-            rv[result.sourceID] = [];
-
-          // See above on why this array is in reverse order
-          rv[result.sourceID].unshift(result.data);
-        }
-      });
-      return rv;
-    }
-
-  });
-
-});
-
-// There _should_ only be one review per user+thing. But the user of the model
-// should be prepared to deal with edge cases where there might be more.
-Thing.define("getReviewsByUser", function(user) {
-  return new Promise((resolve, reject) => {
-
-    let Review = require('./review');
-
-    if (!user)
-      return resolve([]);
-
-    Review
-      .filter({
-        thingID: this.id,
-        createdBy: user.id
-      })
-      .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
-        default: true
-      })
-      .filter(r.row('_revOf').eq(false), { // Exclude old revisions
-        default: true
-      })
-      .getJoin({
-        creator: {
-          _apply: seq => seq.without('password')
-        },
-        teams: true
-      })
-      .then(reviews => {
-        reviews.forEach(review => review.populateUserInfo(user));
-        resolve(reviews);
-      })
-      .catch(error => reject(error));
-
-  });
-});
-
-Thing.define("getAverageStarRating", function() {
-  return new Promise((resolve, reject) => {
-    r.table('reviews')
-      .filter({
-        thingID: this.id,
-      })
-      .filter({ _revOf: false }, { default: true })
-      .filter({ _revDeleted: false }, { default: true })
-      .avg('starRating')
-      .then(resolve)
+  sources.forEach(source => {
+    let adapter = adapters.getAdapterForSource(source);
+    // Find all matching URLs in array (we might have, e.g., a URL for
+    // a work and one for an edition, and need to contact both).
+    let relevantURLs = thing.urls.filter(url => adapter.ask(url));
+    allURLs = allURLs.concat(relevantURLs);
+    // Add relevant lookups as individual elements to array, log errors
+    p.push(...relevantURLs.map(url =>
+      adapter
+      .lookup(url)
       .catch(error => {
-        // Throws if the stream is empty. We consider a subject with 0 reviews
-        // to have an average rating of 0.
-        if (error.name == 'ReqlRuntimeError')
-          resolve(0);
-        else
-          reject(error);
-      });
-  });
-});
-
-Thing.define("getReviewCount", function() {
-  return new Promise((resolve, reject) => {
-    r.table('reviews')
-      .filter({
-        thingID: this.id,
+        debug.error(`Problem contacting adapter "${adapter.getSourceID()}" for URL ${url}.`);
+        debug.error({ error });
       })
+    ));
+  });
+
+  if (allURLs.length)
+    debug.app(`Retrieving item metadata for ${thing.id} from the following URL(s):\n` +
+      allURLs.join(', '));
+
+  // Perform all lookups, then update thing from the results, which will be
+  // returned in the same order as the sources array.
+  const results = await Promise.all(p);
+
+  // If the label has changed, we need to update the short identifier
+  // (slug). This means a possible URL change! Redirects are put in
+  // place automatically.
+  let needSlugUpdate;
+
+  // Get obj w/ key = source ID, value = reverse order array of
+  // result.data objects
+  let dataBySource = _organizeDataBySource(results);
+  sources.forEach((source) => {
+    for (let field in thing.sync) {
+      // Only update if everything looks good: sync is active, source
+      // ID matches, we may have new data
+      if (thing.sync[field].active && thing.sync[field].source === source &&
+        Array.isArray(dataBySource[source])) {
+        // Earlier results get priority, i.e. need to be assigned last
+        for (let d of dataBySource[source]) {
+          if (d[field] !== undefined) {
+            thing.sync[field].updated = new Date();
+            this[field] = d[field];
+            if (field == 'label')
+              needSlugUpdate = true;
+          }
+        }
+      }
+    }
+  });
+
+  if (needSlugUpdate)
+    await thing.updateSlug(userID, thing.originalLanguage || 'en');
+
+  await thing.save();
+
+  // Index update can keep running after we resolve this promise, hence no "await"
+  search.indexThing(thing);
+
+  return thing;
+
+  // Put valid data from results array into an object with sourceID as
+  // the key and data as a reverse-order array. There may be multiple
+  // URLs from one source, assigning value to the same field. URLs earlier
+  // in the original thing.urls array take priority, so we have to ensure
+  // they come last.
+  function _organizeDataBySource(results) {
+    let rv = {};
+    results.forEach(result => {
+      // Correctly formatted result object with all relevant information
+      if (typeof result == 'object' && typeof result.sourceID == 'string' &&
+        typeof result.data == 'object') {
+        // Initialize array if needed
+        if (!Array.isArray(rv[result.sourceID]))
+          rv[result.sourceID] = [];
+
+        // See above on why this array is in reverse order
+        rv[result.sourceID].unshift(result.data);
+      }
+    });
+    return rv;
+  }
+
+}
+
+/**
+ * Get all reviews by the given user for this thing. The number is typically
+ * 1, but there may be edge cases or bugs where a user will have multiple
+ * reviews for the same thing.
+ *
+ * @param {User} user - the user whose reviews we're looking up for this thing
+ * @return {Array} array of the reviews
+ * @instance
+ * @memberof Thing
+ */
+async function getReviewsByUser(user) {
+
+  let Review = require('./review');
+
+  if (!user)
+    return [];
+
+  const reviews = await Review
+    .filter({
+      thingID: this.id,
+      createdBy: user.id
+    })
+    .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
+      default: true
+    })
+    .filter(r.row('_revOf').eq(false), { // Exclude old revisions
+      default: true
+    })
+    .getJoin({
+      creator: {
+        _apply: seq => seq.without('password')
+      },
+      teams: true
+    });
+  reviews.forEach(review => review.populateUserInfo(user));
+  return reviews;
+}
+
+/**
+ * Calculate the average review rating for this Thing object
+ *
+ * @return {Number} average rating, not rounded
+ * @memberof Thing
+ * @instance
+ */
+async function getAverageStarRating() {
+  try {
+    return await r.table('reviews')
+      .filter({ thingID: this.id })
       .filter({ _revOf: false }, { default: true })
       .filter({ _revDeleted: false }, { default: true })
-      .count()
-      .then(resolve)
-      .catch(reject);
-  });
+      .avg('starRating');
+  } catch (error) {
+    // Throws if the stream is empty. We consider a subject with 0 reviews
+    // to have an average rating of 0.
+    if (error.name == 'ReqlRuntimeError')
+      return 0;
+    else
+      throw error;
+  }
+}
 
-});
+/**
+ * Count the number of reviews associated with this Thing object (discounting
+ * old/deleted revisions).
+ *
+ * @return {Number} the number of reviews
+ * @memberof Thing
+ * @instance
+ */
+async function getReviewCount() {
+  return await r.table('reviews')
+    .filter({ thingID: this.id })
+    .filter({ _revOf: false }, { default: true })
+    .filter({ _revDeleted: false }, { default: true })
+    .count();
+}
 
-
-// Obtain metrics for this review subject.
-Thing.define("populateReviewMetrics", function() {
-  return new Promise((resolve, reject) => {
-    Promise
-      .all([this.getAverageStarRating(), this.getReviewCount()])
-      .then(metrics => {
-        this.averageStarRating = metrics[0];
-        this.numberOfReviews = metrics[1];
-        resolve(this);
-      })
-      .catch(reject);
-  });
-});
-
-// Helper function to deal with array initialization
-Thing.define("addFile", function(filename) {
+/**
+ * Simple helper method to initialize files array for a Thing object if it does
+ * not exist already, and then add a file.
+ *
+ * @param {File} file File object to add
+ * @memberof Thing
+ * @instance
+ */
+function addFile(file) {
   if (this.files === undefined)
     this.files = [];
 
-  this.files.push(filename);
-
-});
-Thing.define("newRevision", revision.getNewRevisionHandler(Thing));
-Thing.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Thing));
-
-// Update the slug if an update is needed. Modifies the team object but does
-// not save it.
-Thing.define("updateSlug", slugName.getUpdateSlugHandler({
-  SlugModel: ThingSlug,
-  slugForeignKey: 'thingID',
-  slugSourceField: 'label'
-}));
-
-Thing.define("setID", getSetIDHandler());
-
-
-Thing.define("populateUserInfo", function(user) {
-  if (!user)
-    return; // Permissions will be at their default value (false)
-
-  // For now, we don't let users delete things they've created,
-  // since things are collaborative in nature
-  this.userCanDelete = user.isSuperUser || user.isSiteModerator || false;
-  this.userCanEdit = user.isSuperUser || user.isTrusted || user.id === this.createdBy;
-  this.userCanUpload = user.isSuperUser || user.isTrusted;
-  this.userIsCreator = user.id === this.createdBy;
-
-});
-
-Thing.getWithData = function(id, options) {
-
-  options = Object.assign({ // Default: all first-level joins
-    withFiles: true,
-    withReviewMetrics: true
-  }, options);
-
-  return new Promise((resolve, reject) => {
-
-    let join = {};
-    if (options.withFiles)
-      join.files = {
-        _apply: seq => seq.filter({ completed: true }) // We don't show unfinished uploads
-      };
-
-    Thing
-      .get(id)
-      .getJoin(join)
-      .then(thing => {
-        if (thing._revDeleted)
-          return reject(revision.deletedError);
-
-        if (thing._revOf)
-          return reject(revision.staleError);
-
-        if (options.withReviewMetrics)
-          thing
-          .populateReviewMetrics()
-          .then(resolve)
-          .catch(reject);
-        else
-          resolve(thing);
-
-      })
-      .catch(reject);
-  });
-
-};
-
-// Get label for a given thing, fallback to prettified URL if none available
-Thing.getLabel = function(thing, language) {
-
-  if (!thing || !thing.id)
-    return undefined;
-
-  let str;
-  if (thing.label)
-    str = mlString.resolve(language, thing.label).str;
-
-  if (str)
-    return str;
-
-  // If we have no proper label, we can at least show the URL
-  if (thing.urls && thing.urls.length)
-    return urlUtils.prettify(thing.urls[0]);
-
-  return undefined;
-
-};
-
+  this.files.push(file);
+}
 
 // Internal helper functions
 
