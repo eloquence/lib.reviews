@@ -3,6 +3,11 @@
 const Review = require('../models/review');
 const Thing = require('../models/thing');
 const search = require('../search');
+const debug = require('../util/debug');
+
+// Commonly run from command-line, force output
+debug.util.enabled = true;
+debug.errorLog.enabled = true;
 
 async function updateIndices() {
   // Get revisions we need to index & create indices
@@ -18,14 +23,15 @@ async function updateIndices() {
   ];
   await Promise.all(indexUpdates);
 }
-console.log(new Date().toISOString() + ' - Initiating search index update.');
+
+debug.util('Initiating search index update.');
 updateIndices()
   .then(() => {
-    console.log(new Date().toISOString() + ' - All search indices updated!');
+    debug.util('All search indices updated!');
     process.exit();
   })
   .catch(error => {
-    console.error(new Date().toISOString() + ' - Problem updating search indices. The error was:');
-    console.error(error.stack);
+    debug.error('Problem updating search indices. The error was:');
+    debug.error({ error });
     process.exit(1);
   });

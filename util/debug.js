@@ -1,5 +1,9 @@
 'use strict';
 const debugModule = require('debug');
+
+/**
+ * @namespace Debug
+ */
 const debug = {
   // For lower-level debug messages available if needed
   db: debugModule('libreviews:db'),
@@ -7,31 +11,45 @@ const debug = {
   util: debugModule('libreviews:util'),
   tests: debugModule('libreviews:tests'),
   adapters: debugModule('libreviews:adapters'),
+  errorLog: debugModule('libreviews:error'), // for property access, use debug.error for logging
 
-  // For all serious errors that should be examined by a human and fixed or categorized
-  // {
-  //   req: Request object, if available
-  //   error: standard error object
-  // }
-  error(errorObj) {
-    let log = debugModule('libreviews:error');
-    if (errorObj && errorObj.req) {
 
-      if (errorObj.req.route)
-        log(`Error occurred in route <${errorObj.req.route.path}>.`);
+  /**
+   * Log serious errors that should be examined. We support passing along
+   * request info.
+   *
+   * @param  {(string|object)} error If a string, simply log it as such to
+   *  `libreviews:error` via the `debug` module. If an object, we expect it
+   *   to be of the form below.
+   * @property {object} error - custom error object
+   * @property {object} error.req - the Express request
+   * @property {Error} error.error - the original error object
+   * @memberof Debug
+   */
+  error(error) {
+    if (typeof error == 'string') {
+      this.errorLog(error);
+      return;
+    }
 
-      log(`Request method: ${errorObj.req.method} - URL: ${errorObj.req.originalUrl}`);
-      if (errorObj.req.method !== 'GET' && errorObj.req.body !== undefined) {
+    let log = this.errorLog;
+    if (error && error.req) {
+
+      if (error.req.route)
+        log(`Error occurred in route <${error.req.route.path}>.`);
+
+      log(`Request method: ${error.req.method} - URL: ${error.req.originalUrl}`);
+      if (error.req.method !== 'GET' && error.req.body !== undefined) {
         log('Request body:');
-        if (typeof errorObj.req.body == "object")
-          log(JSON.stringify(errorObj.req.body, null, 2));
+        if (typeof error.req.body == "object")
+          log(JSON.stringify(error.req.body, null, 2));
         else
-          log(errorObj.req.body.toString());
+          log(error.req.body.toString());
       }
     }
-    if (errorObj && errorObj.error) {
+    if (error && error.error) {
       log('Stacktrace:');
-      log(errorObj.error.stack);
+      log(error.error.stack);
     }
   }
 };

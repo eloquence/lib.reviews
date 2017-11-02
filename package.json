@@ -10,7 +10,7 @@
     "test-watch": "node_modules/grunt/bin/grunt babel:tests && node_modules/ava/cli.js --watch --verbose tests/**",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
-    "make-docs": "node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r frontend -d static/devdocs/frontend && node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r models/helpers -d static/devdocs/backend"
+    "make-docs": "node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r frontend -d static/devdocs/frontend && node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r models/helpers util/ -d static/devdocs/backend"
   },
   "pre-commit": [
     "test"

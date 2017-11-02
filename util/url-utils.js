@@ -83,6 +83,10 @@ const placement = {
   summaries: ['wikipedia']
 };
 
+
+/**
+ * @namespace URLUtils
+ */
 let urlUtils = {
 
   validate(inputURL) {
@@ -119,6 +123,7 @@ let urlUtils = {
   // If onlyOneTag is set to true, the first tag from the rules is applied.
   // If sortResults is set to true, the placement rules are applied.
   getURLsByTag(inputURLs = [], options = { onlyOneTag: false, sortResults: false }) {
+
     const { onlyOneTag, sortResults } = options;
     const rv = {};
     for (let inputURL of inputURLs) {
@@ -191,6 +196,7 @@ let urlUtils = {
  *
  * @param {string} inputURL - the Open Library URL
  * @returns {string} canonicalized URL
+ * @memberof URLUtils
  */
 function _stripOpenLibraryTitleSuffix(inputURL) {
   let match = inputURL.match(new RegExp('^https*://openlibrary.org/(works|books)/(OL[^/]+)/*(.*)$', 'i'));
