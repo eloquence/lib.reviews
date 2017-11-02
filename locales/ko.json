@@ -192,10 +192,9 @@
 	"enter label for review subject": "레이블을 입력하십시오 (예: Multnomah Falls)",
 	"review label help label": "레이블",
 	"review by url button label": "URL로 검토",
-	"search wikidata button label": "위키데이터 검색",
-	"review via wikidata help label": "위키데이터 검색",
 	"pick a review subject": "검토 주제 선택",
 	"start typing to search wikidata": "위키데이터를 검색하려면 입력을 시작하세요",
+	"start typing to search openlibrary": "오픈 라이브러리를 검색하려면 입력을 시작하십시오",
 	"no relevant results": "이 문서에 적절한 결과가 없습니다.",
 	"load next page": "다음 결과 페이지 불러오기",
 	"load previous page": "이전 결과 페이지 불러오기",
@@ -224,5 +223,12 @@
 	"openlibrary source label": "오픈 라이브러리",
 	"yelp source label": "옐프",
 	"tripadvisor source label": "트립어드바이저",
-	"wikipedia source label": "위키백과"
+	"wikipedia source label": "위키백과",
+	"search databases button label": "데이터베이스 검색",
+	"review via wikidata help label": "위키데이터 검색",
+	"review via openlibrary help label": "오픈 라이브러리 검색",
+	"choose database": "검색할 데이터베이스를 선택합니다",
+	"single year": "(%s)",
+	"year range": "(%1$d - %2$d)",
+	"unknown year": "알 수 없는 연도"
 }

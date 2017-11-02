@@ -435,10 +435,9 @@
 	"review label help label": "Etiqueta",
 	"review label help": "O que o endereço da web indica? Para trabalhos criativos, use apenas o título do trabalho (por exemplo, <i>The Descent of Man</i> em vez de <i>Charles Darwin: The Descent of Man</i>).",
 	"review by url button label": "Revisão por URL",
-	"search wikidata button label": "Pesquisar na Wikidata",
-	"review via wikidata help label": "Pesquisar na Wikidata",
 	"pick a review subject": "Escolha um assunto de revisão",
 	"more results": "Mais resultados",
 	"enter web address short": "Insira um endereço da Web",
-	"update links": "Atualizar links"
+	"update links": "Atualizar links",
+	"review via wikidata help label": "Pesquisar na Wikidata"
 }

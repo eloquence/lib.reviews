@@ -287,8 +287,6 @@
 	"not a member of team title": "Net Member vun dëser Equipe.",
 	"not a member of team": "Dir sidd net Member vun <a href='%s'>dëser Equipe</a>. Gitt w.e.g. Member vun dëser Equipe fir Bewäertunge mat hinnen ze deelen.",
 	"review label help label": "Etikett",
-	"search wikidata button label": "Op Wikidata sichen",
-	"review via wikidata help label": "Op Wikidata sichen",
 	"start typing to search wikidata": "Mat Tippen ufänke fir op Wikidata ze sichen",
 	"load next page": "Nächst Säit mat Resultater lueden",
 	"more results": "méi Resultater",
@@ -313,5 +311,10 @@
 	"openstreetmap source label": "OpenStreetMap",
 	"openlibrary source label": "Open Library",
 	"tripadvisor source label": "TripAdvisor",
-	"wikipedia source label": "Wikipedia"
+	"wikipedia source label": "Wikipedia",
+	"review via wikidata help label": "Op Wikidata sichen",
+	"one edition": "Eng Editioun %s",
+	"multiple editions": "%d Editiounen %s",
+	"single year": "(%s)",
+	"unknown year": "onbekannt Joer"
 }
