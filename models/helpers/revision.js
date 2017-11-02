@@ -3,6 +3,13 @@ const thinky = require('../../db');
 const r = thinky.r;
 const type = thinky.type;
 
+/**
+ * Common handler functions for managing revisions. These are typically attached
+ * to models, see models/thing.js for examples.
+ *
+ * @namespace Revision
+ */
+
 const revision = {
 
   getNewRevisionHandler(Model) {
@@ -35,31 +42,49 @@ const revision = {
     };
   },
 
-  getNotStaleOrDeletedHandler(Model) {
-
-    return function(id) {
-
-      return new Promise((resolve, reject) => {
-
-        Model.get(id).then(data => {
-
-            if (data._revDeleted)
-              return reject(revision.deletedError);
-
-            if (data._revOf)
-              return reject(revision.staleError);
-
-            resolve(data);
-
-          })
-          .catch(error => {
-            reject(error);
-          });
-
+  /**
+   * A common operation is to narrow a search by eliminating old or deleted
+   * revisions. This function returns a handler that can be attached to a model
+   * to provide a shortcut for this operation.
+   *
+   * @param  {Model} Model - the table to filter
+   * @return {Function} function that returns a Query object for this Model
+   * @memberof Revision
+   */
+  getNotStaleOrDeletedFilterHandler(Model) {
+    return () => Model
+      .filter({
+        _revOf: false
+      }, {
+        default: true
+      })
+      .filter({
+        _revDeleted: false
+      }, {
+        default: true
       });
+  },
 
+  /**
+   * Get handler to obtain ("get", hence the double get in the name) an object
+   * by its ID and reject with standardized error if it is an old or deleted
+   * revision.
+   *
+   * @param  {Model} Model - the table to query with this handler
+   * @return {Function} async function that accepts an ID parameter and returns a
+   *   promise which rejects if the revision is old or deleted
+   * @memberof Revision
+   */
+  getNotStaleOrDeletedGetHandler(Model) {
+    return async id => {
+      const data = await Model.get(id); // may throw
+      if (data._revDeleted)
+        throw revision.deletedError;
+      else if (data._revOf)
+        throw revision.staleError;
+      else
+        return data;
     };
-
   },
 
   getFirstRevisionHandler(Model) {

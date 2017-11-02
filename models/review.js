@@ -59,6 +59,8 @@ Thing.hasMany(Review, "reviews", "id", "thingID");
 
 Review.ensureIndex("createdOn");
 
+Review.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Review);
+
 Review.define("newRevision", revision.getNewRevisionHandler(Review));
 
 Review.define("populateUserInfo", function(user) {
@@ -74,7 +76,6 @@ Review.define("populateUserInfo", function(user) {
   if (user.id === this.createdBy)
     this.userIsAuthor = true;
 });
-
 Review.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Review));
 Review.define("deleteAllRevisionsWithThing", function(user) {
 

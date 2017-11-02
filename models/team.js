@@ -103,7 +103,7 @@ Review.hasAndBelongsToMany(Team, "teams", "id", "id", {
 
 
 Team.createFirstRevision = revision.getFirstRevisionHandler(Team);
-Team.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Team);
+Team.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Team);
 Team.getWithData = function(id, options) {
 
   options = Object.assign({ // Default: all first-level joins except reviews

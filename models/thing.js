@@ -111,7 +111,9 @@ Thing.hasOne(ThingSlug, "slug", "id", "thingID");
 
 ThingSlug.belongsTo(Thing, "thing", "thingID", "thing");
 
-Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(Thing);
+Thing.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Thing);
+
+Thing.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Thing);
 
 Thing.lookupByURL = function(url) {
   return Thing
