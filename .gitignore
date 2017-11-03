@@ -55,7 +55,8 @@ static/css/editor
 *-es5.js*
 
 # Built via jsdoc
-static/devdocs
+static/devdocs/frontend
+static/devdocs/backend
 
 # Vagrant box
 /.vagrant
