@@ -12,34 +12,52 @@ const type = thinky.type;
 
 const revision = {
 
-  getNewRevisionHandler(Model) {
-    return function(user, options) {
-      if (!options)
-        options = {};
 
-      return new Promise((resolve, reject) => {
-        let newRev = this;
-        // Archive current revision
-        let oldRev = new Model(newRev);
-        oldRev._revOf = newRev.id;
-        oldRev.id = undefined;
-        oldRev.save().then(() => {
-            r.uuid().then(uuid => {
-                newRev._revID = uuid;
-                newRev._revUser = user.id;
-                newRev._revDate = new Date();
-                newRev._revTags = options.tags ? options.tags : undefined;
-                resolve(newRev);
-              })
-              .catch(error => { // Problem getting ID
-                reject(error);
-              });
-          })
-          .catch(error => { // Problem saving old rev
-            reject(error);
-          });
-      });
+  /**
+   * Get a function that lets us create a new revision (including saving a copy
+   * of the current revision) for the given Model
+   *
+   * @param {Model} Model
+   *  the Model we need a handler for
+   * @return {Function}
+   *  function that can be attached as an instance method to the Model via
+   *  Model.define. See {@link Revision~_newRevision} for the handler itself.
+   * @memberof Revision
+   */
+  getNewRevisionHandler(Model) {
+
+    /**
+     * Save a copy of the current revision as an old revision and create (but
+     * do not save) a new revision object.
+     *
+     * @param {User} user
+     *  the user to associate with this revision
+     * @param {Object} [options]
+     *  revision options
+     * @param {String[]} options.tags
+     *  set of tags to associate with this revision
+     * @return {Model}
+     *  new revision of the given Model
+     * @memberof Revision
+     * @inner
+     * @protected
+     * @this Model
+     */
+    const _newRevision = async function(user, { tags } = {}) {
+      let newRev = this;
+      // Archive current revision
+      let oldRev = new Model(newRev);
+      oldRev._revOf = newRev.id;
+      oldRev.id = undefined;
+      await oldRev.save();
+      const uuid = await r.uuid();
+      newRev._revID = uuid;
+      newRev._revUser = user.id;
+      newRev._revDate = new Date();
+      newRev._revTags = tags;
+      return newRev;
     };
+    return _newRevision;
   },
 
   /**
@@ -47,8 +65,10 @@ const revision = {
    * revisions. This function returns a handler that can be attached to a model
    * to provide a shortcut for this operation.
    *
-   * @param {Model} Model - the table to filter
-   * @return {Function} function that returns a Query object for this Model
+   * @param {Model} Model
+   *  the table to filter
+   * @return {Function}
+   *  function that returns a Query object for this Model
    * @memberof Revision
    */
   getNotStaleOrDeletedFilterHandler(Model) {
@@ -70,22 +90,30 @@ const revision = {
    * by its ID and reject with standardized error if it is an old or deleted
    * revision.
    *
-   * @param  {Model} Model - the table to query with this handler
-   * @return {Function} async function that accepts an ID parameter and returns a
-   *   promise which rejects if the revision is old or deleted
+   * @param  {Model} Model
+   *  the table to query with this handler
+   * @return {Function}
+   *  async function that accepts an ID parameter and returns a
+   *  promise which rejects if the revision is old or deleted. See
+   *  {@link Revision~_getNotStaleOrDeleted}
    * @memberof Revision
    */
   getNotStaleOrDeletedGetHandler(Model) {
 
     /**
-     * @param {String} id - the ID to look up
-     * @param {Object} join - *(optional)* an object specifying a join to
-     *  another table
-     * @return {Object} an object of the specified Model
+     * Function obtained via {@link Revision.getNotStaleOrDeletedGetHandler}
+     *
+     * @param {String} id
+     *  the ID to look up
+     * @param {Object} [join]
+     *  an object specifying a join to another table
+     * @return {Model}
+     *  an object of the specified Model
      * @memberof Revision
      * @inner
+     * @protected
      */
-    const getNotStaleOrDeleted = async(id, join) => {
+    const _getNotStaleOrDeleted = async (id, join) => {
       let data;
       if (typeof join == 'object')
         data = await Model.get(id).getJoin(join);
@@ -99,30 +127,50 @@ const revision = {
       else
         return data;
     };
-    return getNotStaleOrDeleted;
+    return _getNotStaleOrDeleted;
   },
 
-  getFirstRevisionHandler(Model) {
-    return function(user, options) {
-      if (!options)
-        options = {};
 
-      return new Promise((resolve, reject) => {
-        let firstRev = new Model({});
-        r.uuid()
-          .then(uuid => {
-            firstRev._revID = uuid;
-            firstRev._revUser = user.id;
-            firstRev._revDate = new Date();
-            if (options.tags)
-              firstRev._revTags = options.tags;
-            resolve(firstRev);
-          })
-          .catch(error => { // Problem getting ID
-            reject(error);
-          });
-      });
+  /**
+   * Get a function that lets us create the first revision of a given model.
+   * Does not save.
+   *
+   * @param {Model} Model
+   *  the Model we want to attach the handler to
+   * @return {Function}
+   *  a function we can attach as a static method to the Model via
+   *  `Model.createFirstRevision = fn`. See
+   *  {@link Revision~_createFirstRevision}.
+   * @memberof Revision
+   */
+  getFirstRevisionHandler(Model) {
+
+    /**
+     * Handler for creating (but not saving) the initial revision for an object
+     * of this Model. Asynchronously obtains UUID.
+     *
+     * @param {User} user
+     *  the user to associate with this revision
+     * @param {Object} [options]
+     *  revision options
+     * @param {String[]} options.tags
+     *  set of tags to associate with this revision
+     * @return {Model}
+     *  first revision
+     * @memberof Revision
+     * @inner
+     * @protected
+     */
+    const _createFirstRevision = async function(user, { tags } = {}) {
+      let firstRev = new Model({});
+      const uuid = await r.uuid();
+      firstRev._revID = uuid;
+      firstRev._revUser = user.id;
+      firstRev._revDate = new Date();
+      firstRev._revTags = tags;
+      return firstRev;
     };
+    return _createFirstRevision;
   },
 
   getDeleteAllRevisionsHandler(Model) {

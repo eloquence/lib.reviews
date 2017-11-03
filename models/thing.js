@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Models for review subjects, including metadata such as URLs, author names,
+ * Model for review subjects, including metadata such as URLs, author names,
  * business hours, etc.
  *
  * @namespace Thing
@@ -132,8 +132,10 @@ Thing.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Thing
  * Find a Thing object using a URL. May return multiple matches (but ordinarily
  * should not).
  *
- * @param {String} url - the URL to look up
- * @return {Query} query for current revisions that contain this URL
+ * @param {String} url
+ *  the URL to look up
+ * @return {Query}
+ *  query for current revisions that contain this URL
  */
 Thing.lookupByURL = function(url) {
   return Thing
@@ -145,23 +147,27 @@ Thing.lookupByURL = function(url) {
 /**
  * Get a Thing object by ID, plus some of the data linked to it.
  *
- * @param  {String} id  - the unique ID of the Thing object
- * @param  {Object} options - which data to include
- * @property {Object} options - the options object
- * @property {Boolean} options.withFiles - *(default: true)* include metadata
- *  about file upload via join
- * @property {Boolean} options.withReviewMetrics *(default: true)* obtain
- *  review metrics (e.g., average rating); requires additional table lookup
- * @return {Promise} promise which resolves once lookup is complete
+ * @async
+ * @param {String} id
+ *  the unique ID of the Thing object
+ * @param {Object} [options]
+ *  which data to include
+ * @param {Boolean} options.withFiles=true
+ *  include metadata about file upload via join
+ * @param {Boolean} options.withReviewMetrics=true
+ *  obtain review metrics (e.g., average rating); requires additional table
+ *  lookup
+ * @return {Thing}
+ *  the Thing object
  */
-Thing.getWithData = async function(id, options) {
-  options = Object.assign({ // Default: all first-level joins
-    withFiles: true,
-    withReviewMetrics: true
-  }, options);
+Thing.getWithData = async function(id, {
+  // First-level joins
+  withFiles = true,
+  withReviewMetrics = true
+} = {}) {
 
   let join;
-  if (options.withFiles)
+  if (withFiles)
     join = {
       files: {
         _apply: seq => seq.filter({ completed: true })
@@ -175,7 +181,7 @@ Thing.getWithData = async function(id, options) {
   if (thing._revOf)
     throw revision.staleError;
 
-  if (options.withReviewMetrics)
+  if (withReviewMetrics)
     await thing.populateReviewMetrics();
 
   return thing;
@@ -185,9 +191,12 @@ Thing.getWithData = async function(id, options) {
  * Get label for a given thing in the provided language, or fall back to a
  * prettified URL.
  *
- * @param  {Thing} thing - the thing object to get a label for
- * @param  {String} language - the language code of the preferred language
- * @return {String} the best available label
+ * @param  {Thing} thing
+ *  the thing object to get a label for
+ * @param  {String} language
+ *  the language code of the preferred language
+ * @return {String}
+ *  the best available label
  */
 Thing.getLabel = function(thing, language) {
 
@@ -248,14 +257,16 @@ Thing.define("addFile", addFile);
  * It resets all sync settings (whether a sync for a given field is active or
  * not), so it should only be invoked on new Thing objects.
  *
- * Silently ignores empty results, will throw error on malformed adapterResult
- * objects.
+ * Silently ignores empty results.
  *
- * @param {Object} adapterResult - the result from any backend adapter
- * @property {object} adapterResult - The result object
- * @property {object} adapterResult.data - *(required)* data for this result
- * @property {string} adapterResult.sourceID - *(required)* canonical source
- *  identifier
+ * @param {Object} adapterResult
+ *  the result from any backend adapter
+ * @param {object} adapterResult.data
+ *  data for this result
+ * @param {string} adapterResult.sourceID
+ *  canonical source identifier
+ * @throws
+ *  on malformed adapterResult object
  * @instance
  * @memberof Thing
  */
@@ -283,7 +294,8 @@ function initializeFieldsFromAdapter(adapterResult) {
  * Populate virtual permission fields in a Thing object with the rights of a
  * given user.
  *
- * @param {User} user - the user whose permissions to check
+ * @param {User} user
+ *  the user whose permissions to check
  * @memberof Thing
  * @instance
  */
@@ -303,7 +315,8 @@ function populateUserInfo(user) {
  * Set this Thing object's virtual data fields for review metrics (performs
  * table lookups, hence asynchronous). Does not save.
  *
- * @return {Thing} the modified thing object
+ * @return {Thing}
+ *  the modified thing object
  * @memberof Thing
  * @instance
  */
@@ -322,8 +335,9 @@ async function populateReviewMetrics() {
  * which adapters report that they can retrieve external metadata for a given
  * URL. Does not save.
  *
- * @param  {String[]} urls the *complete* array of URLs to assign (previously
- *  assigned URLs will be overwritten)
+ * @param  {String[]} urls
+ *  the *complete* array of URLs to assign (previously assigned URLs will be
+ *  overwritten)
  * @instance
  * @memberof Thing
  */
@@ -371,8 +385,10 @@ function setURLs(urls) {
  * - May result in a slug update, so if initiated by a user, should be passed the
  *   user ID. Otherwise, any slug changes will be without attribution
  *
- * @param {String} userID - the user to associate with any slug changes
- * @return {Thing} - the updated thing
+ * @param {String} userID
+ *  the user to associate with any slug changes
+ * @return {Thing}
+ *  the updated thing
  * @memberof Thing
  * @instance
  */
@@ -461,11 +477,22 @@ async function updateActiveSyncs(userID) {
 
   return thing;
 
-  // Put valid data from results array into an object with sourceID as
-  // the key and data as a reverse-order array. There may be multiple
-  // URLs from one source, assigning value to the same field. URLs earlier
-  // in the original thing.urls array take priority, so we have to ensure
-  // they come last.
+
+  /**
+   * Put valid data from results array into an object with sourceID as
+   * the key and data as a reverse-order array. There may be multiple
+   * URLs from one source, assigning value to the same field. URLs earlier
+   * in the original thing.urls array take priority, so we have to ensure
+   * they come last.
+   *
+   * @param {Object[]} results
+   *  results from multiple adapters
+   * @return {Object}
+   *  key = source, value = array of data objects
+   * @memberof Thing
+   * @inner
+   * @protected
+   */
   function _organizeDataBySource(results) {
     let rv = {};
     results.forEach(result => {
@@ -490,8 +517,10 @@ async function updateActiveSyncs(userID) {
  * 1, but there may be edge cases or bugs where a user will have multiple
  * reviews for the same thing.
  *
- * @param {User} user - the user whose reviews we're looking up for this thing
- * @return {Array} array of the reviews
+ * @param {User} user
+ *  the user whose reviews we're looking up for this thing
+ * @return {Array}
+ *  array of the reviews
  * @instance
  * @memberof Thing
  */
@@ -526,7 +555,8 @@ async function getReviewsByUser(user) {
 /**
  * Calculate the average review rating for this Thing object
  *
- * @return {Number} average rating, not rounded
+ * @return {Number}
+ *  average rating, not rounded
  * @memberof Thing
  * @instance
  */
@@ -551,7 +581,8 @@ async function getAverageStarRating() {
  * Count the number of reviews associated with this Thing object (discounting
  * old/deleted revisions).
  *
- * @return {Number} the number of reviews
+ * @return {Number}
+ *  the number of reviews
  * @memberof Thing
  * @instance
  */
@@ -567,7 +598,8 @@ async function getReviewCount() {
  * Simple helper method to initialize files array for a Thing object if it does
  * not exist already, and then add a file.
  *
- * @param {File} file File object to add
+ * @param {File} file
+ *  File object to add
  * @memberof Thing
  * @instance
  */
@@ -580,6 +612,16 @@ function addFile(file) {
 
 // Internal helper functions
 
+/**
+ * @param {String} url
+ *  URL to check
+ * @return {Boolean}
+ *  true if valid
+ * @throws {ReportedError}
+ *  if invalid
+ * @memberof Thing
+ * @protected
+ */
 function _isValidURL(url) {
   if (urlUtils.validate(url))
     return true;

@@ -21,9 +21,8 @@ const debug = {
    * @param  {(string|object)} error If a string, simply log it as such to
    *  `libreviews:error` via the `debug` module. If an object, we expect it
    *   to be of the form below.
-   * @property {object} error - custom error object
-   * @property {object} error.req - the Express request
-   * @property {Error} error.error - the original error object
+   * @param {object} error.req - the Express request
+   * @param {Error} error.error - the original error object
    * @memberof Debug
    */
   error(error) {

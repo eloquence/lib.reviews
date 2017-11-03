@@ -82,7 +82,8 @@ Review.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Review);
  * to `saveAll()` must be explicitly parametrized to *not* include the user, or
  * it will clear out the user's password.
  *
- * @param  {String} id - the unique ID to look up
+ * @async
+ * @param {String} id - the unique ID to look up
  * @return {Review} - the review and associated data
  */
 Review.getWithData = async function(id) {
@@ -101,11 +102,16 @@ Review.getWithData = async function(id) {
  * Thing record, this function creates and saves one via
  * {@link Review.findOrCreateThing}.
  *
- * @param  {Object} reviewObj - Object containing the data to associate with
- *   this review.
- * @param  {Object} options - Options for the created revision
- * @param {String[]} options.tags - tags to associate with this revision
- * @return {Review} the saved review
+ * @async
+ * @param {Object} reviewObj
+ *  object containing the data to associate with this review, as defined in
+ *  Review schema.
+ * @param {Object} [options]
+ *  options for the created revision
+ * @param {String[]} options.tags
+ *  tags to associate with this revision
+ * @return {Review}
+ *  the saved review
  */
 Review.create = async function(reviewObj, { tags } = {}) {
   const thing = await Review.findOrCreateThing(reviewObj);
@@ -142,7 +148,6 @@ Review.create = async function(reviewObj, { tags } = {}) {
   }
 };
 
-
 /**
  * Locate the review subject (Thing) for a new review, or create and save a new
  * Thing based on the provided URL. This will also perform adapter lookups for
@@ -150,9 +155,12 @@ Review.create = async function(reviewObj, { tags } = {}) {
  *
  * This function is called from {@link Review.create}.
  *
- * @param  {Object} reviewObj - the data associated with the review we're
- *   locating or creating a Thing record for
- * @return {Thing} the located or created Thing
+ * @async
+ * @param {Object} reviewObj
+ *  the data associated with the review we're locating or creating a Thing
+ *  record for
+ * @return {Thing}
+ *  the located or created Thing
  */
 Review.findOrCreateThing = async function(reviewObj) {
   // We have an existing thing to add this review to
@@ -208,24 +216,29 @@ Review.findOrCreateThing = async function(reviewObj) {
  * Get an ordered array of reviews, optionally filtered by user, date, review
  * subject, and other criteria.
  *
- * @param {Object} options - feed selection criteria
- * @param {User} options.createdBy - *(default: none)* author to filter by
- * @param {Date} options.offsetDate - *(default: none)* get reviews older
- *  than this date
- * @param {Boolean} options.onlyTrusted *(default: false)* only get reviews
- *  by users whose user.isTrusted is truthy. Is applied after the limit, so you
- *  may end up with fewer reviews than specified.
- * @param {String} options.thingID - *(default: none)* only get reviews of
- *   the Thing with the provided ID
- * @param {Boolean} options.withThing - *(default: true)* join the associated
- *   Thing object with each review
- * @param {Boolean} options.withTeams - *(default: true)* join the associated
- *   Team objects with each review
- * @param {String} options.withoutCreator - *(default: none)* exclude reviews
- *   by the user with the provided ID
- * @param {Number} options.limit - *(default: 10)* how many reviews to load
+   @async
+ * @param {Object} [options]
+ *  Feed selection criteria
+ * @param {User} options.createdBy
+ *  author to filter by
+ * @param {Date} options.offsetDate
+ *  get reviews older than this date
+ * @param {Boolean} options.onlyTrusted=false
+ *  only get reviews by users whose user.isTrusted is truthy. Is applied after
+ *  the limit, so you may end up with fewer reviews than specified.
+ * @param {String} options.thingID
+ *  only get reviews of the Thing with the provided ID
+ * @param {Boolean} options.withThing=true
+ *  join the associated Thing object with each review
+ * @param {Boolean} options.withTeams=true
+ *  join the associated Team objects with each review
+ * @param {String} options.withoutCreator
+ *  exclude reviews by the user with the provided ID
+ * @param {Number} options.limit=10
+ *  how many reviews to load
  *
- * @return {Review[]} the reviews matching the provided criteria
+ * @return {Review[]}
+ *  the reviews matching the provided criteria
  */
 Review.getFeed = async function({
   createdBy = undefined,
@@ -258,12 +271,8 @@ Review.getFeed = async function({
     query = query.filter({ createdBy });
 
   query = query
-    .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
-      default: true
-    })
-    .filter(r.row('_revOf').eq(false), { // Exclude old versions
-      default: true
-    })
+    .filter(r.row('_revDeleted').eq(false), { default: true }) // Exclude deleted
+    .filter(r.row('_revOf').eq(false), { default: true }) // Exclude old
     .limit(limit + 1); // One over limit to check if we need potentially another set
 
   if (withThing)
@@ -310,7 +319,8 @@ Review.define("deleteAllRevisionsWithThing", deleteAllRevisionsWithThing);
 /**
  * Populate virtual fields with permissions for a given user
  *
- * @param {User} user - the user whose permissions to check
+ * @param {User} user
+ *  the user whose permissions to check
  * @memberof Review
  * @instance
  */
@@ -332,8 +342,10 @@ function populateUserInfo(user) {
  * Delete all revisions of a review including the associated review subject
  * (thing).
  *
- * @param {User} user - user initiating the action
- * @return {Promise} promise that resolves when all content has been deleted
+ * @param {User} user
+ *  user initiating the action
+ * @return {Promise}
+ *  promise that resolves when all content has been deleted
  * @memberof Review
  * @instance
  */
@@ -362,9 +374,12 @@ function deleteAllRevisionsWithThing(user) {
 class ReviewError extends ReportedError {
 
   /**
-   * @param {Object} options - error data
-   * @param {Review} options.payload - the review that triggered this error
-   * @param {Error} options.parentError - the original error
+   * @param {Object} [options]
+   *  error data
+   * @param {Review} options.payload
+   *  the review that triggered this error
+   * @param {Error} options.parentError
+   *  the original error
    */
   constructor(options) {
     if (typeof options == 'object' && options.parentError instanceof Error &&
