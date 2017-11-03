@@ -134,7 +134,7 @@ Thing.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Thing
  *
  * @param {String} url
  *  the URL to look up
- * @return {Query}
+ * @returns {Query}
  *  query for current revisions that contain this URL
  */
 Thing.lookupByURL = function(url) {
@@ -157,7 +157,7 @@ Thing.lookupByURL = function(url) {
  * @param {Boolean} options.withReviewMetrics=true
  *  obtain review metrics (e.g., average rating); requires additional table
  *  lookup
- * @return {Thing}
+ * @returns {Thing}
  *  the Thing object
  */
 Thing.getWithData = async function(id, {
@@ -195,7 +195,7 @@ Thing.getWithData = async function(id, {
  *  the thing object to get a label for
  * @param  {String} language
  *  the language code of the preferred language
- * @return {String}
+ * @returns {String}
  *  the best available label
  */
 Thing.getLabel = function(thing, language) {
@@ -261,9 +261,9 @@ Thing.define("addFile", addFile);
  *
  * @param {Object} adapterResult
  *  the result from any backend adapter
- * @param {object} adapterResult.data
+ * @param {Object} adapterResult.data
  *  data for this result
- * @param {string} adapterResult.sourceID
+ * @param {String} adapterResult.sourceID
  *  canonical source identifier
  * @throws
  *  on malformed adapterResult object
@@ -315,7 +315,7 @@ function populateUserInfo(user) {
  * Set this Thing object's virtual data fields for review metrics (performs
  * table lookups, hence asynchronous). Does not save.
  *
- * @return {Thing}
+ * @returns {Thing}
  *  the modified thing object
  * @memberof Thing
  * @instance
@@ -387,7 +387,7 @@ function setURLs(urls) {
  *
  * @param {String} userID
  *  the user to associate with any slug changes
- * @return {Thing}
+ * @returns {Thing}
  *  the updated thing
  * @memberof Thing
  * @instance
@@ -487,7 +487,7 @@ async function updateActiveSyncs(userID) {
    *
    * @param {Object[]} results
    *  results from multiple adapters
-   * @return {Object}
+   * @returns {Object}
    *  key = source, value = array of data objects
    * @memberof Thing
    * @inner
@@ -519,7 +519,7 @@ async function updateActiveSyncs(userID) {
  *
  * @param {User} user
  *  the user whose reviews we're looking up for this thing
- * @return {Array}
+ * @returns {Array}
  *  array of the reviews
  * @instance
  * @memberof Thing
@@ -555,7 +555,7 @@ async function getReviewsByUser(user) {
 /**
  * Calculate the average review rating for this Thing object
  *
- * @return {Number}
+ * @returns {Number}
  *  average rating, not rounded
  * @memberof Thing
  * @instance
@@ -581,7 +581,7 @@ async function getAverageStarRating() {
  * Count the number of reviews associated with this Thing object (discounting
  * old/deleted revisions).
  *
- * @return {Number}
+ * @returns {Number}
  *  the number of reviews
  * @memberof Thing
  * @instance
@@ -615,7 +615,7 @@ function addFile(file) {
 /**
  * @param {String} url
  *  URL to check
- * @return {Boolean}
+ * @returns {Boolean}
  *  true if valid
  * @throws {ReportedError}
  *  if invalid

@@ -18,7 +18,7 @@ const revision = {
    *
    * @param {Model} Model
    *  the Model we need a handler for
-   * @return {Function}
+   * @returns {Function}
    *  function that can be attached as an instance method to the Model via
    *  `Model.define`. See {@link Revision~_newRevision}.
    * @memberof Revision
@@ -36,7 +36,7 @@ const revision = {
      *  revision options
      * @param {String[]} options.tags
      *  set of tags to associate with this revision
-     * @return {Model}
+     * @returns {Model}
      *  new revision of the given Model
      * @memberof Revision
      * @inner
@@ -65,7 +65,7 @@ const revision = {
    *
    * @param {Model} Model
    *  the table to filter
-   * @return {Function}
+   * @returns {Function}
    *  function that returns a Query object for this Model
    * @memberof Revision
    */
@@ -74,7 +74,7 @@ const revision = {
     /**
      * Function obtained via {@link Revision.getNotStaleOrDeletedFilterHandler}.
      *
-     * @return {Query}
+     * @returns {Query}
      *  revisions that are not flagged as outdated or deleted
      * @memberof Revision
      * @inner
@@ -91,7 +91,7 @@ const revision = {
    *
    * @param {Model} Model
    *  the table to query with this handler
-   * @return {Function}
+   * @returns {Function}
    *  function we can attach as a static method to the Model via
    * `Model.getNotStaleOrDeleted = fn`. See
    * {@link Revision~_getNotStaleOrDeleted}.
@@ -106,7 +106,7 @@ const revision = {
      *  the ID to look up
      * @param {Object} [join]
      *  an object specifying a join to another table
-     * @return {Model}
+     * @returns {Model}
      *  an object of the specified Model
      * @memberof Revision
      * @inner
@@ -135,7 +135,7 @@ const revision = {
    *
    * @param {Model} Model
    *  the Model we want to attach the handler to
-   * @return {Function}
+   * @returns {Function}
    *  function we can attach as a static method to the Model via
    *  `Model.createFirstRevision = fn`. See
    *  {@link Revision~_createFirstRevision}.
@@ -154,7 +154,7 @@ const revision = {
      *  revision options
      * @param {String[]} options.tags
      *  set of tags to associate with this revision
-     * @return {Model}
+     * @returns {Model}
      *  first revision
      * @memberof Revision
      * @inner
@@ -179,7 +179,7 @@ const revision = {
    *
    * @param {Model} Model
    *  the Model we want to attach the handler to
-   * @return {Function}
+   * @returns {Function}
    *  function we can attach as an instance method via `Model.define`. See
    *  {@link Revision~_deleteAllRevisions}.
    * @memberof Revision
@@ -199,7 +199,7 @@ const revision = {
      *  set of tags to associate with the deletion revision. The first tag will
      *  always be 'delete', but you can specify, e.g., the method by which
      *  the deletion occurred.
-     * @return {Model}
+     * @returns {Model}
      *  revision with deletion metadata
      * @memberof Revision
      * @inner
@@ -228,7 +228,7 @@ const revision = {
   /**
    * Obtain a copy of the standard revision schema.
    *
-   * @return {Object}
+   * @returns {Object}
    *  object that can be assigned via Object.assign to the schema object
    *  for your Model
    * @memberof Revision

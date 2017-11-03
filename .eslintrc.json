@@ -237,7 +237,12 @@
             "error",
             "never"
         ],
-        "valid-jsdoc": ["error", { "requireReturn": false }],
+        "valid-jsdoc": ["warn", {
+          "requireReturn": false,
+          "prefer": { "return": "returns" },
+          "preferType": { "Boolean": "Boolean", "Number": "Number", "object": "Object", "String": "String" },
+          "requireReturnDescription": false
+           }],
         "vars-on-top": "error",
         "wrap-iife": "error",
         "wrap-regex": "off",

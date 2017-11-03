@@ -83,8 +83,10 @@ Review.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Review);
  * it will clear out the user's password.
  *
  * @async
- * @param {String} id - the unique ID to look up
- * @return {Review} - the review and associated data
+ * @param {String} id
+ *  the unique ID to look up
+ * @returns {Review}
+ *  the review and associated data
  */
 Review.getWithData = async function(id) {
   return await Review
@@ -110,7 +112,7 @@ Review.getWithData = async function(id) {
  *  options for the created revision
  * @param {String[]} options.tags
  *  tags to associate with this revision
- * @return {Review}
+ * @returns {Review}
  *  the saved review
  */
 Review.create = async function(reviewObj, { tags } = {}) {
@@ -159,7 +161,7 @@ Review.create = async function(reviewObj, { tags } = {}) {
  * @param {Object} reviewObj
  *  the data associated with the review we're locating or creating a Thing
  *  record for
- * @return {Thing}
+ * @returns {Thing}
  *  the located or created Thing
  */
 Review.findOrCreateThing = async function(reviewObj) {
@@ -237,7 +239,7 @@ Review.findOrCreateThing = async function(reviewObj) {
  * @param {Number} options.limit=10
  *  how many reviews to load
  *
- * @return {Review[]}
+ * @returns {Review[]}
  *  the reviews matching the provided criteria
  */
 Review.getFeed = async function({
@@ -344,7 +346,7 @@ function populateUserInfo(user) {
  *
  * @param {User} user
  *  user initiating the action
- * @return {Promise}
+ * @returns {Promise}
  *  promise that resolves when all content has been deleted
  * @memberof Review
  * @instance
