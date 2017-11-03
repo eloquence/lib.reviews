@@ -240,7 +240,7 @@
         "valid-jsdoc": ["warn", {
           "requireReturn": false,
           "prefer": { "return": "returns" },
-          "preferType": { "Boolean": "Boolean", "Number": "Number", "object": "Object", "String": "String" },
+          "preferType": { "Boolean": "Boolean", "Number": "Number", "object": "Object", "string": "String" },
           "requireReturnDescription": false
            }],
         "vars-on-top": "error",

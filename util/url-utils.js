@@ -194,8 +194,10 @@ let urlUtils = {
  * the end, derived from the title. This string is optional, and it causes
  * problems matching URLs against each other, so we remove it.
  *
- * @param {string} inputURL - the Open Library URL
- * @returns {string} canonicalized URL
+ * @param {String} inputURL
+ *  the Open Library URL
+ * @returns {String}
+ *  canonicalized URL
  * @memberof URLUtils
  */
 function _stripOpenLibraryTitleSuffix(inputURL) {
