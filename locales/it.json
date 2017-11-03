@@ -404,5 +404,9 @@
 	"yelp source label": "Yelp",
 	"tripadvisor source label": "TripAdvisor",
 	"wikipedia source label": "Wikipedia",
-	"indiebound source label": "IndieBound"
+	"indiebound source label": "IndieBound",
+	"multiple editions": "%d edizione %s",
+	"single year": "(%s)",
+	"year range": "(%1$d - %2$d)",
+	"unknown year": "anno sconosciuto"
 }

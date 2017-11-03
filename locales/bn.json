@@ -3,7 +3,8 @@
 		"authors": [
 			"Aftabuzzaman",
 			"Elias Ahmmad",
-			"Eloquence"
+			"Eloquence",
+			"আজিজ"
 		]
 	},
 	"site name": "lib.reviews",
@@ -399,10 +400,9 @@
 	"enter label for review subject": "লেবেল লিখুন, উদা: ঢাকার মসজিদ",
 	"review label help label": "লেবেল",
 	"review by url button label": "URL দ্বারা পর্যালোচনা",
-	"search wikidata button label": "উইকিউপাত্ত অনুসন্ধান করুন",
-	"review via wikidata help label": "উইকিউপাত্ত অনুসন্ধান",
 	"pick a review subject": "একটি পর্যালোচনার বিষয় বাছুন",
 	"start typing to search wikidata": "উইকিউপাত্তে অনুসন্ধান করতে টাইপ করা শুরু করুন",
+	"start typing to search openlibrary": "উন্মুক্ত গ্রন্থাগার অনুসন্ধান করতে টাইপিং শুরু করুন",
 	"no relevant results": "এই পৃষ্ঠায় কোন প্রাসঙ্গিক ফলাফল নেই।",
 	"load next page": "ফলাফলের পরবর্তী পৃষ্ঠা লোড করুন",
 	"load previous page": "ফলাফলের পূর্ববর্তী পৃষ্ঠা লোড করুন",
@@ -426,5 +426,13 @@
 	"maps tag label": "মানচিত্র",
 	"reviews tag label": "পর্যালোচনার সাইটগুলি",
 	"shops tag label": "অনলাইন দোকান",
-	"wikipedia source label": "উইকিপিডিয়া"
+	"wikipedia source label": "উইকিপিডিয়া",
+	"search databases button label": "উপাত্তভিতগুলি অনুসন্ধান করুন",
+	"review via wikidata help label": "উইকিউপাত্ত অনুসন্ধান",
+	"review via openlibrary help label": "উন্মুক্ত গ্রন্থাগার অনুসন্ধান করুন",
+	"choose database": "অনুসন্ধান করার জন্য উপাত্তভিত নির্বাচন করুন",
+	"one edition": "এক সংস্করণ %s",
+	"single year": "(%s)",
+	"year range": "(%1$d - %2$d)",
+	"unknown year": "অজানা সাল"
 }
