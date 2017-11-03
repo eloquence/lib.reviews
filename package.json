@@ -6,7 +6,7 @@
     "start": "node_modules/pm2/bin/pm2 start process.json --only app-development --no-daemon",
     "stop": "node_modules/pm2/bin/pm2 delete all",
     "production": "node_modules/pm2/bin/pm2 start process.json --only app-production",
-    "test": "node_modules/grunt/bin/grunt babel:tests && node node_modules/ava/cli.js --verbose tests/**",
+    "test": "node_modules/grunt/bin/grunt babel:tests && NODE_ENV=development node node_modules/ava/cli.js --verbose tests/**",
     "test-watch": "node_modules/grunt/bin/grunt babel:tests && node_modules/ava/cli.js --watch --verbose tests/**",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
@@ -87,12 +87,12 @@
     "snyk": "^1.41.1",
     "sprintf-js": "^1.0.3",
     "striptags": "^3.0.1",
-    "thinky": "^2.3.4",
+    "thinky": "^2.3.9",
     "uglify-save-license": "^0.4.1",
     "unescape-html": "^1.0.0"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.23.0",
     "babel-plugin-transform-runtime": "^6.12.0",
     "babel-preset-stage-2": "^6.13.0",
     "babel-runtime": "^6.11.6",
@@ -102,8 +102,7 @@
     "memwatch-next": "^0.3.0",
     "pm2": "^2.7.2",
     "pre-commit": "^1.1.3",
-    "supertest": "^2.0.0",
-    "supertest-as-promised": "^4.0.0"
+    "supertest": "^2.0.0"
   },
   "snyk": true
 }
