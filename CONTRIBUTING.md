@@ -10,7 +10,7 @@ lib.reviews is a pure-JavaScript application, using modern language features whe
 
 | Technology                               | Current use                              |
 | ---------------------------------------- | ---------------------------------------- |
-| [Node.js](https://nodejs.org/en/) LTS (currently the Node.js 6 series) | lib.reviews server, API and tests        |
+| [Node.js](https://nodejs.org/en/) LTS (currently the Node.js 8 series) | lib.reviews server, API and tests        |
 | [Express](https://expressjs.com/) (V4 series) | Framework for the web application        |
 | [RethinkDB](https://rethinkdb.com/)      | Primary storage backend for text. (This may need to change in the long-run since RethinkDB no longer has a commercial parent and development has slowed down.) |
 | [ElasticSearch](https://www.elastic.co/) | Search backend                           |
