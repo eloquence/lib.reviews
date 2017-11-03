@@ -1,4 +1,11 @@
 'use strict';
+
+/**
+ * Model for reviews, including the full text.
+ *
+ * @namespace Review
+ */
+
 const thinky = require('../db');
 const type = thinky.type;
 const r = thinky.r;
@@ -56,12 +63,270 @@ Object.freeze(Review.options);
 Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
 Thing.hasMany(Review, "reviews", "id", "thingID");
-
 Review.ensureIndex("createdOn");
 
-Review.define("newRevision", revision.getNewRevisionHandler(Review));
 
-Review.define("populateUserInfo", function(user) {
+// NOTE: STATIC METHODS START HERE ---------------------------------------------
+
+// Standard handlers -----------------------------------------------------------
+
+Review.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Review);
+Review.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Review);
+
+// Custom methods --------------------------------------------------------------
+
+/**
+ * Get a review by ID, including commonly joined data: the review subject
+ * (thing), the user who created the review, and the teams with which it was
+ * associated. **WARNING:** since the password is filtered out, any future calls
+ * to `saveAll()` must be explicitly parametrized to *not* include the user, or
+ * it will clear out the user's password.
+ *
+ * @async
+ * @param {String} id
+ *  the unique ID to look up
+ * @returns {Review}
+ *  the review and associated data
+ */
+Review.getWithData = async function(id) {
+  return await Review
+    .getNotStaleOrDeleted(id, {
+      thing: true,
+      teams: true,
+      creator: {
+        _apply: seq => seq.without('password')
+      }
+    });
+};
+
+/**
+ * Create and save a review and the associated Thing and Teams. If there is no
+ * Thing record, this function creates and saves one via
+ * {@link Review.findOrCreateThing}.
+ *
+ * @async
+ * @param {Object} reviewObj
+ *  object containing the data to associate with this review, as defined in
+ *  Review schema.
+ * @param {Object} [options]
+ *  options for the created revision
+ * @param {String[]} options.tags
+ *  tags to associate with this revision
+ * @returns {Review}
+ *  the saved review
+ */
+Review.create = async function(reviewObj, { tags } = {}) {
+  const thing = await Review.findOrCreateThing(reviewObj);
+  let review = new Review({
+    thing, // joined
+    teams: reviewObj.teams, // joined
+    title: reviewObj.title,
+    text: reviewObj.text,
+    html: reviewObj.html,
+    starRating: reviewObj.starRating,
+    createdOn: reviewObj.createdOn,
+    createdBy: reviewObj.createdBy,
+    originalLanguage: reviewObj.originalLanguage,
+    _revID: r.uuid(),
+    _revUser: reviewObj.createdBy,
+    _revDate: reviewObj.createdOn,
+    _revTags: tags
+  });
+  try {
+    return await review.saveAll({
+      teams: true,
+      thing: true
+    });
+  } catch (error) {
+    if (error instanceof ReviewError)
+      throw error;
+    else
+      throw new ReviewError({
+        parentError: error,
+        payload: {
+          review
+        }
+      });
+  }
+};
+
+/**
+ * Locate the review subject (Thing) for a new review, or create and save a new
+ * Thing based on the provided URL. This will also perform adapter lookups for
+ * external metadata (e.g., from Wikidata).
+ *
+ * This function is called from {@link Review.create}.
+ *
+ * @async
+ * @param {Object} reviewObj
+ *  the data associated with the review we're locating or creating a Thing
+ *  record for
+ * @returns {Thing}
+ *  the located or created Thing
+ */
+Review.findOrCreateThing = async function(reviewObj) {
+  // We have an existing thing to add this review to
+  if (reviewObj.thing)
+    return reviewObj.thing;
+
+  let queries = [
+    Thing.lookupByURL(reviewObj.url),
+    // Look up this URL in adapters that support it. Promises will not reject,
+    // so can be added to Promise.all below. Order is specified in adapters.js
+    // and is important (see below)
+    ...adapters.getSupportedLookupsAsSafePromises(reviewObj.url)
+  ];
+
+  const results = await Promise.all(queries);
+  let things = results.shift();
+  if (things.length)
+    return things[0]; // we have an entry with this URL already
+
+  // Let's make one!
+  let thing = new Thing({});
+  let date = new Date();
+  thing.urls = [reviewObj.url];
+  thing.createdOn = date;
+  thing.createdBy = reviewObj.createdBy;
+  thing._revDate = date;
+  thing._revUser = reviewObj.createdBy;
+  thing._revID = r.uuid();
+  thing.originalLanguage = reviewObj.originalLanguage;
+
+  // The first result ("first" in the array of adapters) for the URL
+  // specified by the user will be used to initalize values like label,
+  // description, subtitle, authors, or other supported fields. These
+  // fields will also be set to read-only, with synchronization metadata
+  // stored in the thing.sync property.
+  thing.initializeFieldsFromAdapter(adapters.getFirstResultWithData(results));
+
+  // If the user provided a valid label, it always overrides any label
+  // from an adapter.
+  if (reviewObj.label && reviewObj.label[reviewObj.originalLanguage])
+    thing.label = reviewObj.label;
+
+  // Set short identifier (slug) if we have a label for this review subject
+  if (thing.label)
+    thing = await thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage);
+
+  thing = await thing.save();
+  return thing;
+};
+
+
+/**
+ * Get an ordered array of reviews, optionally filtered by user, date, review
+ * subject, and other criteria.
+ *
+   @async
+ * @param {Object} [options]
+ *  Feed selection criteria
+ * @param {User} options.createdBy
+ *  author to filter by
+ * @param {Date} options.offsetDate
+ *  get reviews older than this date
+ * @param {Boolean} options.onlyTrusted=false
+ *  only get reviews by users whose user.isTrusted is truthy. Is applied after
+ *  the limit, so you may end up with fewer reviews than specified.
+ * @param {String} options.thingID
+ *  only get reviews of the Thing with the provided ID
+ * @param {Boolean} options.withThing=true
+ *  join the associated Thing object with each review
+ * @param {Boolean} options.withTeams=true
+ *  join the associated Team objects with each review
+ * @param {String} options.withoutCreator
+ *  exclude reviews by the user with the provided ID
+ * @param {Number} options.limit=10
+ *  how many reviews to load
+ *
+ * @returns {Review[]}
+ *  the reviews matching the provided criteria
+ */
+Review.getFeed = async function({
+  createdBy = undefined,
+  offsetDate = undefined,
+  onlyTrusted = false,
+  thingID = undefined,
+  withThing = true,
+  withTeams = true,
+  withoutCreator = undefined,
+  limit = 10
+} = {}) {
+
+  let query = Review;
+
+  if (offsetDate && offsetDate.valueOf)
+    query = query.between(r.minval, r.epochTime(offsetDate.valueOf() / 1000), {
+      index: 'createdOn',
+      rightBound: 'open' // Do not return previous record that exactly matches offset
+    });
+
+  query = query.orderBy({ index: r.desc('createdOn') });
+
+  if (thingID)
+    query = query.filter({ thingID });
+
+  if (withoutCreator)
+    query = query.filter(r.row("createdBy").ne(withoutCreator));
+
+  if (createdBy)
+    query = query.filter({ createdBy });
+
+  query = query
+    .filter(r.row('_revDeleted').eq(false), { default: true }) // Exclude deleted
+    .filter(r.row('_revOf').eq(false), { default: true }) // Exclude old
+    .limit(limit + 1); // One over limit to check if we need potentially another set
+
+  if (withThing)
+    query = query.getJoin({ thing: true });
+
+  if (withTeams)
+    query = query.getJoin({ teams: true });
+
+  query = query.getJoin({
+    creator: {
+      _apply: seq => seq.without('password')
+    }
+  });
+
+  let feedItems = await query;
+  const result = {};
+
+  // At least one additional document available, set offset for pagination
+  if (feedItems.length == limit + 1) {
+    result.offsetDate = feedItems[limit - 1].createdOn;
+    feedItems.pop();
+  }
+
+  if (onlyTrusted)
+    feedItems = feedItems.filter(item => item.creator.isTrusted ? true : false);
+
+  result.feedItems = feedItems;
+  return result;
+
+};
+
+// NOTE: INSTANCE METHODS START HERE -------------------------------------------
+
+// Standard handlers -----------------------------------------------------------
+
+Review.define("newRevision", revision.getNewRevisionHandler(Review));
+Review.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Review));
+
+// Custom methods
+
+Review.define("populateUserInfo", populateUserInfo);
+Review.define("deleteAllRevisionsWithThing", deleteAllRevisionsWithThing);
+
+/**
+ * Populate virtual fields with permissions for a given user
+ *
+ * @param {User} user
+ *  the user whose permissions to check
+ * @memberof Review
+ * @instance
+ */
+function populateUserInfo(user) {
   if (!user)
     return; // fields will be at their default value (false)
 
@@ -73,268 +338,51 @@ Review.define("populateUserInfo", function(user) {
 
   if (user.id === this.createdBy)
     this.userIsAuthor = true;
-});
+}
 
-Review.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Review));
-Review.define("deleteAllRevisionsWithThing", function(user) {
+/**
+ * Delete all revisions of a review including the associated review subject
+ * (thing).
+ *
+ * @param {User} user
+ *  user initiating the action
+ * @returns {Promise}
+ *  promise that resolves when all content has been deleted
+ * @memberof Review
+ * @instance
+ */
+function deleteAllRevisionsWithThing(user) {
 
   let p1 = this
     .deleteAllRevisions(user, {
-      tags: 'delete-with-thing'
+      tags: ['delete-with-thing']
     });
 
   // We rely on the thing property having been populated. This will fail on
   // a shallow Review object!
   let p2 = this.thing
     .deleteAllRevisions(user, {
-      tags: 'delete-via-review'
+      tags: ['delete-via-review']
     });
 
   return Promise.all([p1, p2]);
 
-});
+}
 
-
-Review.create = function(reviewObj, options) {
-  if (!options)
-    options = {};
-
-  return new Promise((resolve, reject) => {
-    Review
-      .findOrCreateThing(reviewObj)
-      .then(thing => {
-        let review = new Review({
-          thing, // joined
-          teams: reviewObj.teams, // joined
-          title: reviewObj.title,
-          text: reviewObj.text,
-          html: reviewObj.html,
-          starRating: reviewObj.starRating,
-          createdOn: reviewObj.createdOn,
-          createdBy: reviewObj.createdBy,
-          originalLanguage: reviewObj.originalLanguage,
-          _revID: r.uuid(),
-          _revUser: reviewObj.createdBy,
-          _revDate: reviewObj.createdOn,
-          _revTags: options.tags ? options.tags : undefined
-        });
-        review.saveAll({
-          teams: true,
-          thing: true
-        }).then(review => {
-          resolve(review);
-        }).catch(error => { // Save failed
-          if (error instanceof ReviewError)
-            reject(error);
-          else
-            reject(new ReviewError({
-              parentError: error,
-              payload: {
-                review
-              }
-            }));
-        });
-      })
-      .catch(errorMessage => { // Pre-save code failed
-        reject(errorMessage);
-      });
-  });
-};
-
-Review.findOrCreateThing = function(reviewObj) {
-
-  return new Promise((resolve, reject) => {
-
-    // We have an existing thing to add this review to
-    if (reviewObj.thing)
-      return resolve(reviewObj.thing);
-
-    let queries = [Thing.lookupByURL(reviewObj.url)];
-
-    // Look up this URL in adapters that support it. Promises will not reject,
-    // so can be added to Promise.all below. Order is specified in adapters.js
-    // and is important (see below)
-    queries = queries.concat(adapters.getSupportedLookupsAsSafePromises(reviewObj.url));
-
-    Promise
-      .all(queries)
-      .then(results => {
-        let things = results.shift();
-
-
-        if (things.length) {
-          resolve(things[0]); // we have an entry with this URL already
-        } else {
-          // Let's make one!
-          let thing = new Thing({});
-          let date = new Date();
-          thing.urls = [reviewObj.url];
-          thing.createdOn = date;
-          thing.createdBy = reviewObj.createdBy;
-          thing._revDate = date;
-          thing._revUser = reviewObj.createdBy;
-          thing._revID = r.uuid();
-          thing.originalLanguage = reviewObj.originalLanguage;
-
-          // The first result ("first" in the array of adapters) for the URL
-          // specified by the user will be used to initalize values like label,
-          // description, subtitle, authors, or other supported fields. These
-          // fields will also be set to read-only, with synchronization metadata
-          // stored in the thing.sync property.
-          thing.initializeFieldsFromAdapter(adapters.getFirstResultWithData(results));
-
-          // If the user provided a valid label, it always overrides any label
-          // from an adapter.
-          if (reviewObj.label && reviewObj.label[reviewObj.originalLanguage])
-            thing.label = reviewObj.label;
-
-          // If we have a label, we need to set the "slug" (short URL identifier)
-          // for this thing. Otherwise the promise is just a pass-through.
-          const updateSlug = thing.label ?
-            thing.updateSlug(reviewObj.createdBy, reviewObj.originalLanguage) :
-            Promise.resolve(thing);
-
-          updateSlug
-            .then(thing => {
-              thing
-                .save()
-                .then(resolve)
-                .catch(reject);
-            })
-            .catch(reject);
-        }
-      })
-      .catch(reject);
-  });
-};
-
-Review.getWithData = function(id) {
-  return new Promise((resolve, reject) => {
-    Review.get(id)
-      .getJoin({
-        thing: true
-      })
-      .getJoin({
-        teams: true
-      })
-      .getJoin({
-        creator: {
-          _apply: seq => seq.without('password')
-        }
-      })
-      .then(review => {
-
-        if (review._revDeleted)
-          return reject(revision.deletedError);
-
-        if (review._revOf)
-          return reject(revision.staleError);
-
-        resolve(review);
-
-      })
-      .catch(error => reject(error));
-  });
-};
-
-Review.getFeed = function(options) {
-
-  options = Object.assign({
-    // If defined, ID of original author to filter by
-    createdBy: undefined,
-    // If set to JS date, only show reviews older than this date
-    offsetDate: undefined,
-    // If true, exclude reviews by users that haven't been marked trusted yet.
-    // Will be applied after limit, so you might get < limit items.
-    onlyTrusted: false,
-    // If defined, only show reviews of a certain thing.
-    thingID: undefined,
-    // If true, join on the associated thing
-    withThing: true,
-    // If true, join on the associated teams
-    withTeams: true,
-    // If set, exclude reviews by a certain user ID
-    withoutCreator: undefined,
-    limit: 10
-  }, options);
-
-  let query = Review;
-
-  if (options.offsetDate && options.offsetDate.valueOf)
-    query = query.between(r.minval, r.epochTime(options.offsetDate.valueOf() / 1000), {
-      index: 'createdOn',
-      rightBound: 'open' // Do not return previous record that exactly matches offset
-    });
-
-  query = query.orderBy({
-    index: r.desc('createdOn')
-  });
-
-  if (options.thingID)
-    query = query.filter({
-      thingID: options.thingID
-    });
-
-  if (options.withoutCreator)
-    query = query.filter(r.row("createdBy").ne(options.withoutCreator));
-
-  if (options.createdBy)
-    query = query.filter({
-      createdBy: options.createdBy
-    });
-
-  query = query
-    .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
-      default: true
-    })
-    .filter(r.row('_revOf').eq(false), { // Exclude old versions
-      default: true
-    })
-    .limit(options.limit + 1); // One over limit to check if we need potentially another set
-
-  if (options.withThing)
-    query = query.getJoin({
-      thing: true
-    });
-
-  if (options.withTeams)
-    query = query.getJoin({
-      teams: true
-    });
-
-  query = query.getJoin({
-    creator: {
-      _apply: seq => seq.without('password')
-    }
-  });
-
-  return new Promise((resolve, reject) => {
-
-    query.then(feedItems => {
-        let result = {};
-
-        // At least one additional document available, set offset for pagination
-        if (feedItems.length == options.limit + 1) {
-          result.offsetDate = feedItems[options.limit - 1].createdOn;
-          feedItems.pop();
-        }
-
-        if (options.onlyTrusted)
-          feedItems = feedItems.filter(item => item.creator.isTrusted ? true : false);
-
-        result.feedItems = feedItems;
-
-        resolve(result);
-      })
-      .catch(error => {
-        reject(error);
-      });
-
-  });
-
-};
-
+/**
+ * Custom error class that detects validation errors reported by the model
+ * and translates them to internationalized messages
+ */
 class ReviewError extends ReportedError {
+
+  /**
+   * @param {Object} [options]
+   *  error data
+   * @param {Review} options.payload
+   *  the review that triggered this error
+   * @param {Error} options.parentError
+   *  the original error
+   */
   constructor(options) {
     if (typeof options == 'object' && options.parentError instanceof Error &&
       typeof options.payload.review == 'object') {
@@ -346,7 +394,7 @@ class ReviewError extends ReportedError {
           options.userMessage = 'invalid star rating';
           options.userMessageParams = [String(options.payload.review.starRating)];
           break;
-        case `Value for [title] must be shorter than ${Review.options.maxTitleLength}.`:
+        case `Value for [title][${options.payload.review.originalLanguage}] must not be longer than ${Review.options.maxTitleLength}.`:
           options.userMessage = 'review title too long';
           break;
         case 'Validator for the field [originalLanguage] returned `false`.':

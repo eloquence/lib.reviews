@@ -3,53 +3,35 @@
 const Review = require('../models/review');
 const Thing = require('../models/thing');
 const search = require('../search');
+const debug = require('../util/debug');
 
-let indexSetup = search.createIndices();
+// Commonly run from command-line, force output
+debug.util.enabled = true;
+debug.errorLog.enabled = true;
 
-let thingQuery = Thing
-  .filter({
-    _revOf: false
-  }, {
-    default: true
-  })
-  .filter({
-    _revDeleted: false
-  }, {
-    default: true
-  });
+async function updateIndices() {
+  // Get revisions we need to index & create indices
+  const setupResults = await Promise.all([
+    Thing.filterNotStaleOrDeleted(),
+    Review.filterNotStaleOrDeleted(),
+    search.createIndices()
+  ]);
+  const [things, reviews] = setupResults;
+  let indexUpdates = [
+    ...things.map(search.indexThing),
+    ...reviews.map(search.indexReview)
+  ];
+  await Promise.all(indexUpdates);
+}
 
-let reviewQuery = Review
-  .filter({
-    _revOf: false
-  }, {
-    default: true
-  })
-  .filter({
-    _revDeleted: false
-  }, {
-    default: true
-  });
-
-
-Promise
-  .all([thingQuery, reviewQuery, indexSetup])
-  .then(results => {
-    let things = results[0];
-    let reviews = results[1];
-    let p = [];
-    for (let thing of things)
-      p.push(search.indexThing(thing));
-    for (let review of reviews)
-      p.push(search.indexReview(review));
-    Promise
-      .all(p)
-      .then(() => {
-        console.log('All search indices updated!');
-        process.exit();
-      });
+debug.util('Initiating search index update.');
+updateIndices()
+  .then(() => {
+    debug.util('All search indices updated!');
+    process.exit();
   })
   .catch(error => {
-    console.log('Operation could not be completed:');
-    console.log(error);
-    process.exit();
+    debug.error('Problem updating search indices. The error was:');
+    debug.error({ error });
+    process.exit(1);
   });

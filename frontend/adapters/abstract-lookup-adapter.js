@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * Adapter that, given a URL, looks up metadata that can identify a review
  * subject, such as a book's title or a restauraunt name.
@@ -8,6 +7,27 @@
  * @abstract
  */
 class AbstractLookupAdapter {
+
+  /**
+   * Lookup adapters return a limited set of data that's displayed to the
+   * user. Lookup results take the following form. Note that strings are stored
+   * only in one language; the backend adapter performs the full lookup of all
+   * available translations.
+   *
+   * @typedef {Object} LookupResult
+   * @property {Object} data
+   *  data for this result
+   * @property {String} data.label
+   *  name to be rendered for this result
+   * @property {String} [data.subtitle]
+   *  subtitle to be shown below label
+   * @property {String} [data.description]
+   *  short textual description
+   * @property {Thing} [data.thing]
+   *  native object representing the review subject, used by native lookup adapter
+   * @property {String} sourceID
+   *  canonical source that identifies this adapter
+   */
 
   /**
    * @param {Function} updateCallback - `(optional)` callback to run after a
@@ -39,50 +59,35 @@ class AbstractLookupAdapter {
    * Does this adapter support the given URL? By default, performs a simple
    * regex check.
    *
-   * @param  {String} url - the URL to test
-   * @returns {Boolean} true if supported
+   * @param {String} url
+   *  the URL to test
+   * @returns {Boolean}
+   *  true if supported
    */
   ask(url) {
     return this.supportedPattern.test(url);
   }
 
-  // Perform a lookup for a given URL. Return a promise that resolves
-  // with an object on success, and rejects with an error (if any) on
-  // failure. The object should take the form:
-
   /**
    * Perform a lookup for a given URL.
    *
-  *  @abstract
-   * @param {String} _url - the URL to perform lookup for
-   * @returns {Promise} promise that resolves with a result object on success,
-   *  and rejects with an error on failure
+   * @abstract
+   * @param {String} _url
+   *  the URL to perform lookup for
+   * @returns {Promise}
+   *  promise that resolves with a result object of the form
+   *  {@link LookupResult} on success, and rejects with an error on failure
    *
-   * @property {object} result - The result object
-   * @property {object} result.data - *(required)* data for this result
-   * @property {string} result.data.label - *(required)* name to be rendered for
-   *   this result
-   * @property {string} result.data.subtitle - subtitle to be shown below label
-   * @property {string} result.data.description - short textual description
-   * @property {Thing} result.data.thing - native object representing the review
-   *   subject, used by native lookup adapter
-   * @property {string} result.sourceID - *(required)* canonical source that
-   *  identifies this adapter
    */
   lookup(_url) {
     return Promise.reject(new Error('Not implemented.'));
   }
 
-  //
-  // {
-  //   data: {
-  //     label: 'String'  (required)
-  //     description: 'String' (optional)
-  //     thing: Thing model (optional, really only useful for native adapter)
-  //   }
-  //
-  // }
-
+  /**
+   * Return the canonical source identifier for this adapter
+   *
+   * @returns {String}
+   */
   getSourceID() {
     return this.sourceID || 'no source ID defined';
   }

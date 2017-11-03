@@ -284,7 +284,7 @@ class BlogPostProvider extends AbstractBREADProvider {
           return false;
 
         blogPost.deleteAllRevisions(this.req.user, {
-            tags: 'delete-via-form'
+            tags: ['delete-via-form']
           })
           .then(() => {
             this.renderTemplate('post-deleted', {

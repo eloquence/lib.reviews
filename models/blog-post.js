@@ -39,7 +39,7 @@ BlogPost.ensureIndex("createdOn");
 BlogPost.belongsTo(User, "creator", "createdBy", "id");
 
 BlogPost.createFirstRevision = revision.getFirstRevisionHandler(BlogPost);
-BlogPost.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(BlogPost);
+BlogPost.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(BlogPost);
 
 BlogPost.define("newRevision", revision.getNewRevisionHandler(BlogPost));
 BlogPost.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(BlogPost));

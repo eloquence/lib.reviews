@@ -27,6 +27,6 @@ let File = thinky.createModel("files", fileSchema);
 File.define("newRevision", revision.getNewRevisionHandler(File));
 File.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(File));
 File.createFirstRevision = revision.getFirstRevisionHandler(File);
-File.getNotStaleOrDeleted = revision.getNotStaleOrDeletedHandler(File);
+File.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(File);
 
 module.exports = File;

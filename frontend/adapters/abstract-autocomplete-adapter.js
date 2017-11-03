@@ -174,18 +174,19 @@ class AbstractAutocompleteAdapter extends AbstractLookupAdapter {
    * review subject.
    *
    * @this AbstractAutocompleteAdapter#ac
-   * @param {object} row - row data object. All properties except "url"
-   *  are only used for display purposes, since the server performs its own
-   *  lookup on the URL.
-   * @property {object}  row - The selected row object
-   * @property {string}  row.url - *(required)* the URL for this review subject
-   * @property {string}  row.label - *(required)* the main name shown for this
-   *  review subject
-   * @property {string}  row.subtitle - shown as secondary title for the subject
-   * @property {string}  row.description - shown as short description below
-   *  label and subtitle
-   * @param {Event} event - the click or keyboard event which triggered this
-   *  row selection.
+   * @param {Object} row
+   *  row data object. All properties except "url" are only used for display
+   *  purposes, since the server performs its own lookup on the URL.
+   * @param {String} row.url
+   *  the URL for this review subject
+   * @param {String} row.label
+   *  the main name shown for this review subject
+   * @param {String} [row.subtitle]
+   *  shown as secondary title for the subject
+   * @param {String} [row.description]
+   *  shown as short description below label and subtitle
+   * @param {Event} event
+   *  the click or keyboard event which triggered this row selection.
    */
   _selectRowHandler(row, event) {
     event.preventDefault();

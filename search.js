@@ -254,7 +254,7 @@ let search = {
   },
 
   // Create the initial index for holding reviews and review subjects (things).
-  // Returns a promise; logs errors.
+  // If index already exists, does nothing. Logs all other errors.
   createIndices() {
     return client.indices.create({
         index: 'libreviews',
@@ -302,9 +302,11 @@ let search = {
           }
         }
       })
-      .catch(error => debug.error({
-        error
-      }));
+      .catch(error => {
+        if (/\[index_already_exists_exception\]/.test(error.message))
+          return;
+        debug.error({ error });
+      });
   },
 
   // Generate the mappings (ElasticSearch schemas) for indexing URLs. We index

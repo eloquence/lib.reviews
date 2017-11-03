@@ -10,7 +10,9 @@ At this point, you need an invite code to make an account. Follow [lib_reviews o
 
 Please see our [contribution guidelines](https://github.com/eloquence/lib.reviews/blob/master/CONTRIBUTING.md) and our [code of conduct](https://github.com/eloquence/lib.reviews/blob/master/CODE_OF_CONDUCT.md).
 
-As of October 2017, we've also started generating jsdoc documentation [here](https://lib.reviews/static/devdocs/) (initially just for frontend code).
+As of October 2017, we've also started generating jsdoc documentation:
+- [frontend code](https://lib.reviews/static/devdocs/frontend)
+- [backend code](https://lib.reviews/static/devdocs/backend)
 
 # Relevant related projects
 

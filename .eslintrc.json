@@ -71,13 +71,7 @@
         "eol-last": "error",
         "eqeqeq": "off",
         "func-names": "off",
-        "func-style": [
-            "error",
-            "declaration",
-            {
-              "allowArrowFunctions": true
-            }
-        ],
+        "func-style": "off",
         "generator-star-spacing": "error",
         "global-require": "off",
         "guard-for-in": "off",
@@ -243,7 +237,12 @@
             "error",
             "never"
         ],
-        "valid-jsdoc": ["error", { "requireReturn": false }],
+        "valid-jsdoc": ["warn", {
+          "requireReturn": false,
+          "prefer": { "return": "returns" },
+          "preferType": { "Boolean": "Boolean", "Number": "Number", "object": "Object", "string": "String" },
+          "requireReturnDescription": false
+           }],
         "vars-on-top": "error",
         "wrap-iife": "error",
         "wrap-regex": "off",

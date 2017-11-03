@@ -9,19 +9,29 @@
 // External deps
 const limit = require('promise-limit')(2); // Max 2 URL batch updates at a time
 const Thing = require('../../models/thing');
-Thing
-  .filter({ _revOf: false }, { default: true })
-  .filter({ _revDeleted: false }, { default: true })
-  .then(things => {
-    console.log('Resetting sync settings.');
-    things.forEach(thing => thing.setURLs(thing.urls));
+const debug = require('../../util/debug');
 
-    console.log('Fetching new data and updating search index.');
-    let updates = things.map(thing => limit(() => thing.updateActiveSyncs()));
-    Promise
-      .all(updates)
-      .then(_updatedThings => {
-        console.log('All updates complete.');
-        process.exit(0);
-      });
+// Commonly run from command-line, force output
+debug.util.enabled = true;
+debug.errorLog.enabled = true;
+
+async function syncAll() {
+  const things = await Thing.filterNotStaleOrDeleted();
+  // Reset sync settings
+  things.forEach(thing => thing.setURLs(thing.urls));
+  await Promise.all(
+    things.map(thing => limit(() => thing.updateActiveSyncs())) // Throttle updates
+  );
+}
+
+debug.util('Fetching new data and updating search index.');
+syncAll()
+  .then(() => {
+    debug.util('All updates complete.');
+    process.exit();
+  })
+  .catch(error => {
+    debug.error('A problem occurred during the synchronization.');
+    debug.error({ error });
+    process.exit(1);
   });
