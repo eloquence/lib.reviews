@@ -5,13 +5,12 @@ const type = thinky.type;
 
 /**
  * Common handler functions for managing revisions. These are typically attached
- * to models, see models/thing.js for examples.
+ * to models as static or instance methods, see models/thing.js for examples.
  *
  * @namespace Revision
  */
 
 const revision = {
-
 
   /**
    * Get a function that lets us create a new revision (including saving a copy
@@ -21,12 +20,13 @@ const revision = {
    *  the Model we need a handler for
    * @return {Function}
    *  function that can be attached as an instance method to the Model via
-   *  Model.define. See {@link Revision~_newRevision} for the handler itself.
+   *  `Model.define`. See {@link Revision~_newRevision}.
    * @memberof Revision
    */
   getNewRevisionHandler(Model) {
 
     /**
+     * Function obtained via {@link Revision.getNewRevisionHandler}.
      * Save a copy of the current revision as an old revision and create (but
      * do not save) a new revision object.
      *
@@ -40,7 +40,6 @@ const revision = {
      *  new revision of the given Model
      * @memberof Revision
      * @inner
-     * @protected
      * @this Model
      */
     const _newRevision = async function(user, { tags } = {}) {
@@ -61,9 +60,8 @@ const revision = {
   },
 
   /**
-   * A common operation is to narrow a search by eliminating old or deleted
-   * revisions. This function returns a handler that can be attached to a model
-   * to provide a shortcut for this operation.
+   * Shortcut for a filter operation that narrows a table to current revisions,
+   * commonly chained with other filters.
    *
    * @param {Model} Model
    *  the table to filter
@@ -72,36 +70,37 @@ const revision = {
    * @memberof Revision
    */
   getNotStaleOrDeletedFilterHandler(Model) {
-    return () => Model
-      .filter({
-        _revOf: false
-      }, {
-        default: true
-      })
-      .filter({
-        _revDeleted: false
-      }, {
-        default: true
-      });
+
+    /**
+     * Function obtained via {@link Revision.getNotStaleOrDeletedFilterHandler}.
+     *
+     * @return {Query}
+     *  revisions that are not flagged as outdated or deleted
+     * @memberof Revision
+     * @inner
+     */
+    const _filterNotStaleOrDeleted = () => Model
+      .filter({ _revOf: false }, { default: true })
+      .filter({ _revDeleted: false }, { default: true });
+    return _filterNotStaleOrDeleted;
   },
 
   /**
-   * Get handler to obtain ("get", hence the double get in the name) an object
-   * by its ID and reject with standardized error if it is an old or deleted
-   * revision.
+   * Get handler to `.get()` an object by its ID and reject with standardized
+   * error if it is an old or deleted revision.
    *
-   * @param  {Model} Model
+   * @param {Model} Model
    *  the table to query with this handler
    * @return {Function}
-   *  async function that accepts an ID parameter and returns a
-   *  promise which rejects if the revision is old or deleted. See
-   *  {@link Revision~_getNotStaleOrDeleted}
+   *  function we can attach as a static method to the Model via
+   * `Model.getNotStaleOrDeleted = fn`. See
+   * {@link Revision~_getNotStaleOrDeleted}.
    * @memberof Revision
    */
   getNotStaleOrDeletedGetHandler(Model) {
 
     /**
-     * Function obtained via {@link Revision.getNotStaleOrDeletedGetHandler}
+     * Function obtained via {@link Revision.getNotStaleOrDeletedGetHandler}.
      *
      * @param {String} id
      *  the ID to look up
@@ -111,7 +110,6 @@ const revision = {
      *  an object of the specified Model
      * @memberof Revision
      * @inner
-     * @protected
      */
     const _getNotStaleOrDeleted = async (id, join) => {
       let data;
@@ -138,7 +136,7 @@ const revision = {
    * @param {Model} Model
    *  the Model we want to attach the handler to
    * @return {Function}
-   *  a function we can attach as a static method to the Model via
+   *  function we can attach as a static method to the Model via
    *  `Model.createFirstRevision = fn`. See
    *  {@link Revision~_createFirstRevision}.
    * @memberof Revision
@@ -146,8 +144,9 @@ const revision = {
   getFirstRevisionHandler(Model) {
 
     /**
-     * Handler for creating (but not saving) the initial revision for an object
-     * of this Model. Asynchronously obtains UUID.
+     * Function obtained via {@link Revision.getFirstRevisionHandler}.
+     * Create (but don't save) the initial revision for an object of this Model.
+     * Asynchronously obtains UUID.
      *
      * @param {User} user
      *  the user to associate with this revision
@@ -159,7 +158,6 @@ const revision = {
      *  first revision
      * @memberof Revision
      * @inner
-     * @protected
      */
     const _createFirstRevision = async function(user, { tags } = {}) {
       let firstRev = new Model({});
@@ -173,46 +171,68 @@ const revision = {
     return _createFirstRevision;
   },
 
+
+  /**
+   * Get a function that lets us mark all revisions of a given object as
+   * deleted (they are not actually removed) and save the deletion metadata
+   * as a new revision.
+   *
+   * @param {Model} Model
+   *  the Model we want to attach the handler to
+   * @return {Function}
+   *  function we can attach as an instance method via `Model.define`. See
+   *  {@link Revision~_deleteAllRevisions}.
+   * @memberof Revision
+   */
   getDeleteAllRevisionsHandler(Model) {
-    return function(user, options) {
-      if (!options)
-        options = {};
 
-      let id = this.id;
-      let tags = ['delete'];
 
-      if (options.tags)
-        tags = tags.concat(options.tags);
+    /**
+     * Function obtained via {@link Revision.getDeleteAllRevisionsHandler}.
+     * Creates and saves a new revision with deletion metadata as well.
+     *
+     * @param {User} user
+     *  the user we want to associate with this deletion action
+     * @param {Object} [options]
+     *  revision options
+     * @param {String[]} options.tags
+     *  set of tags to associate with the deletion revision. The first tag will
+     *  always be 'delete', but you can specify, e.g., the method by which
+     *  the deletion occurred.
+     * @return {Model}
+     *  revision with deletion metadata
+     * @memberof Revision
+     * @inner
+     */
+    const _deleteAllRevisions = async function(user, {
+      tags = []
+    } = {}) {
+      const id = this.id;
+      tags.unshift('delete');
 
-      return new Promise((resolve, reject) => {
+      // A deletion results in a new revision which contains
+      // information about the deletion itself (date, user who
+      // performed it, tags, etc.)
+      const rev = await this.newRevision(user, { tags });
+      rev._revDeleted = true;
+      await rev.save();
 
-        // A deletion results in a new revision which contains
-        // information about the deletion itself (date, user who
-        // performed it, tags, etc.)
-        this.newRevision(user, {
-            tags
-          })
-          .then(newRev => {
-            newRev._revDeleted = true;
-            newRev
-              .save()
-              .then(() => {
-                resolve(Model // This dependent query is itself a promise
-                  .filter({
-                    _revOf: id
-                  })
-                  .update({
-                    _revDeleted: true
-                  }));
-              });
-          })
-          .catch(error => {
-            reject(error); // Something went wrong with revision creation
-          });
-      });
+      // Update all other rows
+      await Model.filter({ _revOf: id }).update({ _revDeleted: true });
+      return rev;
     };
+    return _deleteAllRevisions;
   },
 
+
+  /**
+   * Obtain a copy of the standard revision schema.
+   *
+   * @return {Object}
+   *  object that can be assigned via Object.assign to the schema object
+   *  for your Model
+   * @memberof Revision
+   */
   getSchema() {
     return {
       _revUser: type

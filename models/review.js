@@ -353,14 +353,14 @@ function deleteAllRevisionsWithThing(user) {
 
   let p1 = this
     .deleteAllRevisions(user, {
-      tags: 'delete-with-thing'
+      tags: ['delete-with-thing']
     });
 
   // We rely on the thing property having been populated. This will fail on
   // a shallow Review object!
   let p2 = this.thing
     .deleteAllRevisions(user, {
-      tags: 'delete-via-review'
+      tags: ['delete-via-review']
     });
 
   return Promise.all([p1, p2]);
