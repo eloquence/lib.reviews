@@ -5,6 +5,7 @@ const config = require('config');
 // Internal dependencies
 const Review = require('../../models/review');
 const Team = require('../../models/team');
+const User = require('../../models/user');
 const AbstractBREADProvider = require('./abstract-bread-provider');
 const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
@@ -200,9 +201,9 @@ class ReviewProvider extends AbstractBREADProvider {
               event: 'new-review',
               data: this.getWebHookData(review, this.req.user)
             });
-            this.req.user.inviteLinkCount++;
-            this.req.user
-              .save()
+
+            User
+              .increaseInviteLinkCount(this.req.user.id)
               .then(() => {
                 this.res.redirect(`/${review.thing.id}#your-review`);
                 search.indexReview(review);

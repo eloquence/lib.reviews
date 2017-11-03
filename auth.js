@@ -14,12 +14,8 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
   User
     .getWithTeams(id)
-    .then(user => {
-      done(null, user);
-    })
-    .catch(error => {
-      done(error);
-    });
+    .then(user => done(null, user))
+    .catch(done);
 });
 
 passport.use(new LocalStrategy(

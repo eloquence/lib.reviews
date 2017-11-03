@@ -1,7 +1,7 @@
 'use strict';
 import { extractCSRF } from './helpers/integration-helpers-es5';
 import { getModels } from './helpers/model-helpers-es5';
-import request from 'supertest-as-promised';
+import request from 'supertest';
 import test from 'ava';
 
 process.env.NODE_APP_INSTANCE = 'testing-2';
@@ -81,6 +81,8 @@ for (let route of routeTests) {
       .get(route.path)
       .expect(route.status)
       .expect(route.regex);
+
+    t.pass();
   });
 }
 
@@ -104,6 +106,8 @@ test(`Changing to German returns German strings`, async t => {
     .get(postResponse.headers.location)
     .expect(200)
     .expect(/respektiert deine Freiheit/); // String in footer
+
+  t.pass();
 
 });
 

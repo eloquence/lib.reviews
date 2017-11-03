@@ -55,6 +55,20 @@ User.belongsTo(UserMeta, "meta", "userMetaID", "id");
 User.options = userOptions; // for external visibility
 Object.freeze(User.options);
 
+/**
+ * Increase the invite link count by 1 for a given user
+ *
+ * @param {String} id
+ *  unique ID of the user
+ * @returns {Number}
+ *  updated invite count
+ */
+User.increaseInviteLinkCount = async function(id) {
+  const updatedUser = await User.get(id).update({
+      inviteLinkCount: r.row("inviteLinkCount").add(1)
+    });
+  return updatedUser.inviteLinkCount;
+};
 
 User.define("populateUserInfo", function(user) {
 

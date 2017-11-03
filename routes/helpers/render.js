@@ -13,7 +13,6 @@ let render = {
   // extraJSConfig - object containing any vars we want to expose to client-side
   //  scripts (must not contain sensitive data!)
   template(req, res, view, extraVars, extraJSConfig) {
-
     let vars = {};
 
     let jsConfig = {

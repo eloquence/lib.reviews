@@ -2,33 +2,26 @@
 import { extractCSRF } from './helpers/integration-helpers-es5';
 import { getModels } from './helpers/model-helpers-es5';
 import isUUID from 'is-uuid';
-import request from 'supertest-as-promised';
+import request from 'supertest';
 import test from 'ava';
 
 process.env.NODE_APP_INSTANCE = 'testing-3';
 const dbFixture = require('./fixtures/db-fixture-es5');
 
-// Share cookies across testss
-let agent;
+// Share cookies and app across tests
+let agent, app;
 
 test.before(async() => {
   await dbFixture.bootstrap(getModels());
   // Initialize once so sessions table is created if needed
   let getApp = require('../app');
-  await getApp();
-});
-
-test.beforeEach(async t => {
-  // Ensure we initialize from scratch
-  Reflect.deleteProperty(require.cache, require.resolve('../app'));
-  let getApp = require('../app');
-  t.context.app = await getApp();
+  app = await getApp();
 });
 
 // This test needs to run before all the following. It creates a user and logs
 // them in
 test.serial(`We can register an account via the form (captcha disabled)`, async t => {
-  agent = request.agent(t.context.app);
+  agent = request.agent(app);
   let registerResponse = await agent.get('/register');
   let csrf = extractCSRF(registerResponse.text);
   if (!csrf)
@@ -50,6 +43,7 @@ test.serial(`We can register an account via the form (captcha disabled)`, async 
     .expect(200)
     .expect(/Thank you for registering a lib.reviews account, A friend of many GNUs!/);
 
+  t.pass();
 });
 
 // This may fail if we add more than one review concurrently to the feed
@@ -110,6 +104,8 @@ test(`We can create and edit a review`, async t => {
     .expect(/I just checked/) // New text is there ..
     .expect(/Written by <a href="\/user\/A_friend_of_many_GNUs">A friend of/); // .. and byline indicates save
 
+  t.pass();
+
 });
 
 test(`We can create a new team`, async t => {
@@ -151,6 +147,8 @@ test(`We can create a new team`, async t => {
     .get(newTeamPostResponse.headers.location)
     .expect(200)
     .expect(/Team: Kale Alliance/); // Team has been saved
+
+  t.pass();
 
 });
 

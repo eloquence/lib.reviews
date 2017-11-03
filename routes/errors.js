@@ -31,7 +31,6 @@ class ErrorProvider {
   }
 
   generic(error, req, res, _next) {
-
     let showDetails;
     if (this.app.get('env') === 'development')
       showDetails = true;
