@@ -107,8 +107,7 @@ class ReviewProvider extends AbstractBREADProvider {
       messages: getMessages(this.req.locale,
         md.getMarkdownMessageKeys(),
         getEditorMessageKeys(),
-        getAdapterMessageKeys(),
-        ['more info', 'not a url', 'add http', 'add https']
+        getAdapterMessageKeys(), ['more info', 'not a url', 'add http', 'add https']
       )
     });
   }
@@ -218,31 +217,17 @@ class ReviewProvider extends AbstractBREADProvider {
 
       })
       .catch(error => {
-        if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
-          error = new ReportedError({
-            parentError: error,
-            userMessage: 'submitted team could not be found'
-          });
-
         this.req.flashError(error);
         this.add_GET(formData.formValues, thing);
       });
 
   }
 
-  loadData() {
-
-    return new Promise((resolve, reject) => {
-      Review.getWithData(this.id).then(review => {
-          // For permission checks on associated thing
-          review.thing.populateUserInfo(this.req.user);
-          resolve(review);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-
+  async loadData() {
+    const review = await Review.getWithData(this.id);
+    // For permission checks on associated thing
+    review.thing.populateUserInfo(this.req.user);
+    return review;
   }
 
   loadThing() {
@@ -332,46 +317,41 @@ class ReviewProvider extends AbstractBREADProvider {
           });
       })
       .catch(error => {
-        if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
-          error = new ReportedError({
-            parentError: error,
-            userMessage: 'submitted team could not be found'
-          });
-
         this.req.flashError(error);
         this.add_GET(formData.formValues);
       });
 
   }
 
-  validateAndGetTeams(teamObj) {
+  async validateAndGetTeams(teamObj) {
+    if (typeof teamObj !== 'object' || !Object.keys(teamObj).length)
+      return [];
 
-    return new Promise((resolve, reject) => {
+    const queries = [];
+    for (let id in teamObj)
+      queries.push(Team.getWithData(id));
 
-      if (typeof teamObj !== 'object' || !Object.keys(teamObj).length)
-        return resolve([]);
+    let teams;
+    try {
+      teams = await Promise.all(queries);
+    } catch (error) {
+      if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
+        throw new ReportedError({
+          parentError: error,
+          userMessage: 'submitted team could not be found'
+        });
+      else
+        throw error;
+    }
 
-      let p = [];
-      for (let id in teamObj)
-        p.push(Team.getWithData(id));
-
-      Promise
-        .all(p)
-        .then(teams => {
-
-          teams.forEach(team => {
-            team.populateUserInfo(this.req.user);
-            if (!team.userIsMember)
-              throw new ReportedError({
-                userMessage: 'user is not member of submitted team'
-              });
-          });
-          resolve(teams);
-
-        })
-        .catch(error => reject(error));
+    teams.forEach(team => {
+      team.populateUserInfo(this.req.user);
+      if (!team.userIsMember)
+        throw new ReportedError({
+          userMessage: 'user is not member of submitted team'
+        });
     });
-
+    return teams;
   }
 
   delete_GET(review) {
