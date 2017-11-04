@@ -11,7 +11,7 @@
 let instance = process.env.NODE_APP_INSTANCE;
 
 if (instance && !/^testing/.test(instance))
-   Reflect.deleteProperty(process.env, 'NODE_APP_INSTANCE');
+  Reflect.deleteProperty(process.env, 'NODE_APP_INSTANCE');
 
 const config = require('config');
 
@@ -22,59 +22,53 @@ const getApp = require('../app');
 const getDB = require('../db').getDB;
 const createServer = require('auto-sni'); // Server with Let's Encrypt support
 
-let port;
+async function runWebsite() {
+  const db = await getDB();
+  const app = await getApp(db);
 
-getDB()
-  .then(db => getApp(db))
-  .then(app => {
+  /**
+   * Get port from environment and store in Express.
+   */
+  const port = normalizePort(process.env.PORT || config.get('defaultPort'));
+  app.set('port', port);
 
-    /**
-     * Get port from environment and store in Express.
-     */
+  /**
+   * Create HTTP(S) server.
+   */
+  const server = createServer({
+    email: config.adminEmail,
+    agreeTos: true,
+    domains: config.httpsDomains,
+    // Debug setting for Let's Encrypt certificates.
+    debug: config.stageHTTPS,
+    forceSSL: config.forceHTTPS,
+    ports: {
+      http: port,
+      https: config.httpsPort
+    }
+  }, app);
 
-    port = normalizePort(process.env.PORT || config.get('defaultPort'));
-    app.set('port', port);
+  server.on('error', onError);
+}
 
-    /**
-     * Create HTTP(S) server.
-     */
-    let server = createServer({
-      email: config.adminEmail,
-      agreeTos: true,
-      domains: config.httpsDomains,
-      // Debug setting for Let's Encrypt certificates.
-      debug: config.stageHTTPS,
-      forceSSL: config.forceHTTPS,
-      ports: {
-        http: port,
-        https: config.httpsPort
-      }
-    }, app);
-
-    server.on('error', onError);
-
-  })
-  .catch(error => {
-    throw error;
-  });
-
+runWebsite().catch(error => {
+  console.error('Could not start lib.reviews web service. An error occurred:');
+  console.error(error.stack);
+  process.exit(1);
+});
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  let port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+  if (isNaN(port))
+    return val; // named pipe
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+  if (port >= 0)
+    return port; // port number
 
   return false;
 }
