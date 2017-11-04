@@ -120,6 +120,7 @@
         "no-empty-function": "error",
         "no-eq-null": "error",
         "no-eval": "error",
+        "no-ex-assign": "off",
         "no-extend-native": "error",
         "no-extra-bind": "error",
         "no-extra-label": "error",

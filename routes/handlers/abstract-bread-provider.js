@@ -5,15 +5,40 @@ const forms = require('../helpers/forms');
 const router = require('express').Router();
 const getResourceErrorHandler = require('./resource-error-handler');
 
-// This is a generic class to provide middleware for Browse/Read/Edit/Add/Delete
-// operations and forms. It comes with some baked-in pre-flight checks but needs
-// to be extended to do useful work. All default actions except reads require
-// being logged in.
-//
-// Use the bakery method to create standard BREAD routes. :)
+
+/**
+ * This is a generic class to provide middleware for Browse/Read/Edit/Add/Delete
+ * operations and forms. It comes with some baked-in pre-flight checks but needs
+ * to be extended to do useful work. All default actions except reads require
+ * being logged in.
+ *
+ * Use the bakery method to create standard BREAD routes. :)
+ */
 class AbstractBREADProvider {
 
-  constructor(req, res, next, options) {
+  /**
+   * @param {IncomingMessage} req
+   *  Express request
+   * @param {ServerResponse} res
+   *  Express response
+   * @param {Function} next
+   *  Express callback to move on to next middleware
+   * @param {Object} [options]
+   *  What kind of route to create
+   * @param {String} options.action='add'
+   *  one of 'browse', 'read' (view), 'add' (create), 'edit', 'delete'
+   * @param {String} options.method='GET'
+   *  what HTTP method this route responds to
+   * @param {String} options.id
+   *  if required, what object ID to look up
+   */
+  constructor(req, res, next,
+    // What kind of route to create? Defaults
+    {
+      action = 'add',
+      method = 'GET',
+      id = undefined // only for edit/delete operations
+    } = {}) {
 
     if (new.target === AbstractBREADProvider)
       throw new TypeError('AbstractBREADProvider is an abstract class, please instantiate a derived class.');
@@ -68,23 +93,11 @@ class AbstractBREADProvider {
       }
     };
 
-    // Middleware functions
-    this.req = req;
-    this.res = res;
-    this.next = next;
-
     // This is used for "not found" messages that must be in the format
     // "x not found" (for the body) and "x not found title" (for the title)
     this.messageKeyPrefix = '';
 
-    // Defaults
-    options = Object.assign({
-      action: 'add',
-      method: 'GET',
-      id: undefined // only for edit/delete operations
-    }, options);
-
-    Object.assign(this, options);
+    Object.assign(this, { req, res, next, action, method, id });
 
     // Shortcuts to common helpers, which also lets us override these with
     // custom methods if appropriate
