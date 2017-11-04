@@ -1,4 +1,12 @@
 'use strict';
+
+/**
+ * The main logic for initializing an instance of the lib.reviews Express web
+ * application.
+ *
+ * @namespace App
+ */
+
 // External dependencies
 const express = require('express');
 const path = require('path');
@@ -42,185 +50,181 @@ require('./util/handlebars-helpers.js');
 
 let initializedApp;
 
-// Returns a promise that resolves once all asynchronous setup work has
-// completed and the app object can be used.
-// db is a reference to a database instance with an active connection pool.
-// If not provided, we will attempt to acquire the current instance.
-function getApp(db = require('./db')) {
+/**
+ * Initialize an instance of the app and provide it when it is ready for use.
+ * @param {Thinky} [db=default database instance]
+ *  a reference to an ODM instance with an active connection pool. If not
+ *  provided, we will attempt to acquire the configured instance.
+ * @returns {Function}
+ *  an Express app
+ * @memberof App
+ */
+async function getApp(db = require('./db')) {
+  if (initializedApp)
+    return initializedApp;
 
-  return new Promise((resolve, reject) => {
+  // Push promises into this array that need to resolve before the app itself
+  // is ready for use
+  let asyncJobs = [];
 
-    if (initializedApp)
-      return resolve(initializedApp);
+  // Auth setup
+  require('./auth');
 
-    // Push promises into this array that need to resolve before the app itself
-    // is ready for use
-    let asyncJobs = [];
-
-    // Auth setup
-    require('./auth');
-
-    // i18n setup
-    i18n.configure({
-      locales: languages.getValidLanguages(),
-      cookie: 'locale',
-      autoReload: true,
-      updateFiles: false,
-      retryInDefaultLocale: true,
-      directory: __dirname + '/locales'
-    });
-
-
-    // express setup
-    const app = express();
-
-    // view engine setup
-    app.set('views', path.join(__dirname, 'views'));
-
-    asyncJobs.push(new Promise(resolveJob =>
-      hbsutils.registerWatchedPartials(__dirname + '/views/partials', undefined, () => resolveJob())
-    ));
-
-    app.set('view engine', 'hbs');
-
-    app.use(cookieParser());
-    app.use(i18n.init); // Requires cookie parser!
-    app.use(useragent.express()); // expose UA object to req.useragent
-
-    const store = new RDBStore(db.r, {
-      table: 'sessions'
-    });
-
-    // We do not get an error event from this module, so this is a potential
-    // cause of hangs during the initialization. Set DEBUG=session to debug.
-    asyncJobs.push(new Promise(resolve => {
-      debug.app('Awaiting session store initialization.');
-      store.on('connect', function() {
-        debug.app('Session store initialized.');
-        db.r
-          .table('sessions')
-          .wait({ timeout: 5 })
-          .then(resolve)
-          .catch(reject);
-      });
-    }));
-
-    app.use(session({
-      key: 'libreviews_session',
-      resave: true,
-      saveUninitialized: true,
-      secret: config.get('sessionSecret'),
-      cookie: {
-        maxAge: config.get('sessionCookieDuration') * 1000 * 60
-      },
-      store
-    }));
-
-    app.use(flash());
-    app.use(flashHelper);
-
-    app.use(compression());
-
-    app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
-
-    if (config.get('logger'))
-      app.use(logger(config.get('logger')));
-
-    app.use('/static/downloads', serveIndex(path.join(__dirname, 'static/downloads'), {
-      'icons': true,
-      template: path.join(__dirname, 'views/downloads.html')
-    }));
-
-    let cssPath = path.join(__dirname, 'static', 'css');
-    app.use('/static/css', lessMiddleware(cssPath));
-
-    // Cache immutable assets for one year
-    app.use('/static', function(req, res, next) {
-      if (/.*\.(svg|jpg|webm|gif|png|ogg|tgz|zip|woff2)$/.test(req.path))
-        res.set('Cache-Control', 'public, max-age=31536000');
-      return next();
-    });
-
-    app.use('/static', express.static(path.join(__dirname, 'static')));
-    app.use('/robots.txt', (req, res) => {
-      res.type('text');
-      res.send('User-agent: *\nDisallow: /api/\n');
-    });
-
-    // Initialize Passport and restore authentication state, if any, from the
-    // session.
-    app.use(passport.initialize());
-    app.use(passport.session());
-
-    // API requests do not require CSRF protection (hence declared before CSRF
-    // middleware), but session-authenticated POST requests do require the
-    // X-Requested-With header to be set, which ensures they're subject to CORS
-    // rules. This middleware also sets req.isAPI to true for API requests.
-    app.use('/api', apiHelper.prepareRequest);
-
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-      extended: false
-    }));
-
-    let errorProvider = new ErrorProvider(app);
-
-    if (config.maintenanceMode) {
-      // Will not pass along control to any future routes but just render
-      // generic maintenance mode message instead
-      app.use('/', errorProvider.maintenanceMode);
-    }
-
-    // ?uselang=xx changes language temporarily if xx is a valid, different code
-    app.use('/', function(req, res, next) {
-      let locale = req.query.uselang || req.query.useLang;
-      if (locale && languages.isValid(locale) && locale !== req.locale) {
-        req.localeChange = { old: req.locale, new: locale };
-        i18n.setLocale(req, locale);
-      }
-      return next();
-    });
-
-    app.use('/api', api);
-
-    // Upload processing has to be done before CSRF middleware kicks in
-    app.use('/', processUploads);
-    app.use(csrf());
-    app.use('/', pages);
-    app.use('/', reviews);
-    app.use('/', actions);
-    app.use('/', teams);
-    app.use('/', blogPosts);
-    app.use('/user', users);
-
-    // Goes last to avoid accidental overlap w/ reserved routes
-    app.use('/', things);
-
-    // Catches 404s and serves "not found" page
-    app.use(errorProvider.notFound);
-
-    // Catches the following:
-    // - bad JSON data in POST bodies
-    // - errors explicitly passed along with next(error)
-    // - other unhandled errors
-    app.use(errorProvider.generic);
-
-    // Webhooks let us notify other applications and services (running on the
-    // same server or elsewhere) when something happens. See the configuration
-    // file for details.
-    app.locals.webHooks = new WebHooks({ db: config.webHooks });
-
-    Promise
-      .all(asyncJobs)
-      .then(() => {
-        let mode = app.get('env') == 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
-        debug.app(`App is up and running in ${mode} mode.`);
-        initializedApp = app;
-        resolve(app);
-      })
-      .catch(error => reject(error));
-
+  // i18n setup
+  i18n.configure({
+    locales: languages.getValidLanguages(),
+    cookie: 'locale',
+    autoReload: true,
+    updateFiles: false,
+    retryInDefaultLocale: true,
+    directory: __dirname + '/locales'
   });
+
+
+  // express setup
+  const app = express();
+
+  // view engine setup
+  app.set('views', path.join(__dirname, 'views'));
+
+  asyncJobs.push(new Promise(resolveJob =>
+    hbsutils.registerWatchedPartials(__dirname + '/views/partials', undefined, () => resolveJob())
+  ));
+
+  app.set('view engine', 'hbs');
+
+  app.use(cookieParser());
+  app.use(i18n.init); // Requires cookie parser!
+  app.use(useragent.express()); // expose UA object to req.useragent
+
+  const store = new RDBStore(db.r, {
+    table: 'sessions'
+  });
+
+  // We do not get an error event from this module, so this is a potential
+  // cause of hangs during the initialization. Set DEBUG=session to debug.
+  asyncJobs.push(new Promise((resolve, reject) => {
+    debug.app('Awaiting session store initialization.');
+    store.on('connect', function() {
+      debug.app('Session store initialized.');
+      db.r
+        .table('sessions')
+        .wait({ timeout: 5 })
+        .then(resolve)
+        .catch(reject);
+    });
+  }));
+
+  app.use(session({
+    key: 'libreviews_session',
+    resave: true,
+    saveUninitialized: true,
+    secret: config.get('sessionSecret'),
+    cookie: {
+      maxAge: config.get('sessionCookieDuration') * 1000 * 60
+    },
+    store
+  }));
+
+  app.use(flash());
+  app.use(flashHelper);
+
+  app.use(compression());
+
+  app.use(favicon(path.join(__dirname, 'static/img/favicon.ico'))); // not logged
+
+  if (config.get('logger'))
+    app.use(logger(config.get('logger')));
+
+  app.use('/static/downloads', serveIndex(path.join(__dirname, 'static/downloads'), {
+    'icons': true,
+    template: path.join(__dirname, 'views/downloads.html')
+  }));
+
+  let cssPath = path.join(__dirname, 'static', 'css');
+  app.use('/static/css', lessMiddleware(cssPath));
+
+  // Cache immutable assets for one year
+  app.use('/static', function(req, res, next) {
+    if (/.*\.(svg|jpg|webm|gif|png|ogg|tgz|zip|woff2)$/.test(req.path))
+      res.set('Cache-Control', 'public, max-age=31536000');
+    return next();
+  });
+
+  app.use('/static', express.static(path.join(__dirname, 'static')));
+  app.use('/robots.txt', (req, res) => {
+    res.type('text');
+    res.send('User-agent: *\nDisallow: /api/\n');
+  });
+
+  // Initialize Passport and restore authentication state, if any, from the
+  // session.
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // API requests do not require CSRF protection (hence declared before CSRF
+  // middleware), but session-authenticated POST requests do require the
+  // X-Requested-With header to be set, which ensures they're subject to CORS
+  // rules. This middleware also sets req.isAPI to true for API requests.
+  app.use('/api', apiHelper.prepareRequest);
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({
+    extended: false
+  }));
+
+  let errorProvider = new ErrorProvider(app);
+
+  if (config.maintenanceMode) {
+    // Will not pass along control to any future routes but just render
+    // generic maintenance mode message instead
+    app.use('/', errorProvider.maintenanceMode);
+  }
+
+  // ?uselang=xx changes language temporarily if xx is a valid, different code
+  app.use('/', function(req, res, next) {
+    let locale = req.query.uselang || req.query.useLang;
+    if (locale && languages.isValid(locale) && locale !== req.locale) {
+      req.localeChange = { old: req.locale, new: locale };
+      i18n.setLocale(req, locale);
+    }
+    return next();
+  });
+
+  app.use('/api', api);
+
+  // Upload processing has to be done before CSRF middleware kicks in
+  app.use('/', processUploads);
+  app.use(csrf());
+  app.use('/', pages);
+  app.use('/', reviews);
+  app.use('/', actions);
+  app.use('/', teams);
+  app.use('/', blogPosts);
+  app.use('/user', users);
+
+  // Goes last to avoid accidental overlap w/ reserved routes
+  app.use('/', things);
+
+  // Catches 404s and serves "not found" page
+  app.use(errorProvider.notFound);
+
+  // Catches the following:
+  // - bad JSON data in POST bodies
+  // - errors explicitly passed along with next(error)
+  // - other unhandled errors
+  app.use(errorProvider.generic);
+
+  // Webhooks let us notify other applications and services (running on the
+  // same server or elsewhere) when something happens. See the configuration
+  // file for details.
+  app.locals.webHooks = new WebHooks({ db: config.webHooks });
+
+  await Promise.all(asyncJobs);
+  const mode = app.get('env') == 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
+  debug.app(`App is up and running in ${mode} mode.`);
+  initializedApp = app;
+  return app;
 }
 
 module.exports = getApp;
