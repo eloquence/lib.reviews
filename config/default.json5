@@ -117,6 +117,11 @@
     log: 'trace'
   },
 
+ // Add "http://localhost:9100/reviews" to the array if you are running the IRC
+ // bot with default port. It will then be notified whenever there is a new
+ // review
+ webHooks: {"newReview":[]},
+
  // If you want to run the IRC bot in tools/irc-bot.js,
  // adjust the settings below in your config.
  irc: {

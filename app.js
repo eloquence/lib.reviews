@@ -205,9 +205,10 @@ function getApp(db = require('./db')) {
     // - other unhandled errors
     app.use(errorProvider.generic);
 
-    app.locals.webHooks = new WebHooks({
-      db: path.join(__dirname, 'config/webHooksDB.json')
-    });
+    // Webhooks let us notify other applications and services (running on the
+    // same server or elsewhere) when something happens. See the configuration
+    // file for details.
+    app.locals.webHooks = new WebHooks({ db: config.webHooks });
 
     Promise
       .all(asyncJobs)
