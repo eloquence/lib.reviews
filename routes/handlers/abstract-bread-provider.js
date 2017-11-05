@@ -31,15 +31,10 @@ class AbstractBREADProvider {
    *  what HTTP method this route responds to
    * @param {String} options.id
    *  if required, what object ID to look up
+   * @param {String} options.someOtherID
+   *  will also be assigned to `this`
    */
-  constructor(req, res, next,
-    // What kind of route to create? Defaults
-    {
-      action = 'add',
-      method = 'GET',
-      id = undefined // only for edit/delete operations
-    } = {}) {
-
+  constructor(req, res, next, options) {
     if (new.target === AbstractBREADProvider)
       throw new TypeError('AbstractBREADProvider is an abstract class, please instantiate a derived class.');
 
@@ -93,11 +88,23 @@ class AbstractBREADProvider {
       }
     };
 
+    // Middleware functions
+    this.req = req;
+    this.res = res;
+    this.next = next;
+
     // This is used for "not found" messages that must be in the format
     // "x not found" (for the body) and "x not found title" (for the title)
     this.messageKeyPrefix = '';
 
-    Object.assign(this, { req, res, next, action, method, id });
+    // Defaults
+    options = Object.assign({
+      action: 'add',
+      method: 'GET',
+      id: undefined // only for edit/delete operations
+    }, options);
+
+    Object.assign(this, options);
 
     // Shortcuts to common helpers, which also lets us override these with
     // custom methods if appropriate
@@ -249,7 +256,7 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
   if (!routes)
     routes = this.getDefaultRoutes(resource);
 
-  function _bakeRoute (action, method, idArray) {
+  function _bakeRoute(action, method, idArray) {
 
     return function(req, res, next) {
 
