@@ -10,6 +10,7 @@ const readChunk = require('read-chunk');
 const fs = require('fs');
 const isSVG = require('is-svg');
 const config = require('config');
+const { promisify } = require('util');
 
 // Internal dependencies
 const File = require('../models/file');
@@ -106,10 +107,10 @@ router.post('/:id/upload', function(req, res, next) {
                   thing
                     .saveAll() // saves joined files
                     .then(thing => render.template(req, res, 'thing-upload-step-2', {
-                        titleKey: 'add media',
-                        thing,
-                        newFiles
-                      }))
+                      titleKey: 'add media',
+                      thing,
+                      newFiles
+                    }))
                     .catch(next); // Problem saving file metadata
                 })
                 .catch(next); // Problem starting file revisions
@@ -165,51 +166,35 @@ function cleanupFiles(req) {
 // Verify that a file's contents match its claimed MIME type. This is shallow,
 // fast validation. If files are manipulated, we need to pay further attention
 // to any possible exploits.
-function validateFile(filePath, claimedType) {
-
-  return new Promise((resolve, reject) => {
-
-    readChunk(filePath, 0, 262)
-      .then(buffer => {
-        let type = fileType(buffer);
-        if (!type)
-          return reject(new ReportedError({
-            userMessage: 'unrecognized file type',
-            userMessageParams: [path.basename(filePath)],
-          }));
-        if (type.mime === claimedType)
-          return resolve();
-        if (type.mime !== claimedType)
-          return reject(new ReportedError({
-            userMessage: 'mime mismatch',
-            userMessageParams: [path.basename(filePath), claimedType, type.mime],
-          }));
-      })
-      .catch(reject);
-  });
-
+async function validateFile(filePath, claimedType) {
+  const buffer = await readChunk(filePath, 0, 262);
+  const type = fileType(buffer);
+  if (!type)
+    throw new ReportedError({
+      userMessage: 'unrecognized file type',
+      userMessageParams: [path.basename(filePath)],
+    });
+  else if (type.mime !== claimedType)
+    throw new ReportedError({
+      userMessage: 'mime mismatch',
+      userMessageParams: [path.basename(filePath), claimedType, type.mime],
+    });
+  else
+    return true;
 }
 
 // SVGs can't be validated by magic number check. This, too, is a relatively
 // shallow validation, not a full XML parse.
-function validateSVG(filePath) {
-
-  return new Promise((resolve, reject) => {
-
-    fs.readFile(filePath, (error, data) => {
-      if (error)
-        return reject(error);
-
-      if (isSVG(data))
-        return resolve();
-      else
-        return reject(new ReportedError({
-          userMessage: 'not valid svg',
-          userMessageParams: [path.basename(filePath)],
-        }));
+async function validateSVG(filePath) {
+  const readFile = promisify(fs.readFile);
+  const data = await readFile(filePath);
+  if (isSVG(data))
+    return true;
+  else
+    throw new ReportedError({
+      userMessage: 'not valid svg',
+      userMessageParams: [path.basename(filePath)],
     });
-  });
-
 }
 
 module.exports = router;
