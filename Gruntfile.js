@@ -41,24 +41,10 @@ module.exports = function(grunt) {
       }
     },
     babel: {
-      tests: {
-        options: {
-          sourceMap: true,
-          plugins: ['transform-runtime'],
-          presets: ['es2015', 'stage-2']
-        },
-        files: {
-          'tests/helpers/model-helpers-es5.js': 'tests/helpers/model-helpers.js',
-          'tests/helpers/integration-helpers-es5.js': 'tests/helpers/integration-helpers.js',
-          'tests/helpers/content-helpers-es5.js': 'tests/helpers/content-helpers.js',
-          'tests/helpers/test-helpers-es5.js': 'tests/helpers/test-helpers.js',
-          'tests/fixtures/db-fixture-es5.js': 'tests/fixtures/db-fixture.js'
-        }
-      },
       mainJS: {
         options: {
           sourceMap: true,
-          presets: ['es2015']
+          presets: ['env']
         },
         files: {
           'static/js/libreviews.js': 'frontend/libreviews.js',

@@ -51,9 +51,6 @@ config/development.json5
 static/js
 static/css/editor
 
-# Generated
-*-es5.js*
-
 # Built via jsdoc
 static/devdocs/frontend
 static/devdocs/backend

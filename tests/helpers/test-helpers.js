@@ -1,5 +1,5 @@
-import chalk from 'chalk';
-import debug from '../../util/debug';
+const chalk = require('chalk');
+const debug = require('../../util/debug');
 
 exports.logNotice = (notice) => {
   debug.tests(chalk.dim(notice));

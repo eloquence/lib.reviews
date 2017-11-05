@@ -1,12 +1,13 @@
 'use strict';
-import { getReviewData, getTeamData } from './helpers/content-helpers-es5';
-import { getModels } from './helpers/model-helpers-es5';
-import isUUID from 'is-uuid';
-import test from 'ava';
-
-// Instance name must be set before fixture is loaded
+// Standard env settings
+process.env.NODE_ENV = 'development';
 process.env.NODE_APP_INSTANCE = 'testing-1';
-const dbFixture = require('./fixtures/db-fixture-es5');
+
+const dbFixture = require('./fixtures/db-fixture');
+const { getReviewData, getTeamData } = require('./helpers/content-helpers');
+const { getModels } = require('./helpers/model-helpers');
+const isUUID = require('is-uuid');
+const test = require('ava');
 
 let user;
 

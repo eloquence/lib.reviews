@@ -1,9 +1,8 @@
 'use strict';
-
-import { exec, spawn } from 'child-process-promise';
-import { logNotice, logOK } from '../helpers/test-helpers-es5';
-import chalk from 'chalk';
-import path from 'path';
+const { exec, spawn } = require('child-process-promise');
+const { logNotice, logOK } = require('../helpers/test-helpers');
+const chalk = require('chalk');
+const path = require('path');
 
 class DBFixture {
 

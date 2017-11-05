@@ -1,11 +1,13 @@
 'use strict';
-import { extractCSRF } from './helpers/integration-helpers-es5';
-import { getModels } from './helpers/model-helpers-es5';
-import request from 'supertest';
-import test from 'ava';
-
+// Standard env settings
+process.env.NODE_ENV = 'development';
 process.env.NODE_APP_INSTANCE = 'testing-2';
-const dbFixture = require('./fixtures/db-fixture-es5');
+
+const dbFixture = require('./fixtures/db-fixture');
+const { extractCSRF } = require('./helpers/integration-helpers');
+const { getModels } = require('./helpers/model-helpers');
+const request = require('supertest');
+const test = require('ava');
 
 let routeTests = [{
     path: '/',
