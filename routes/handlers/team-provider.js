@@ -58,9 +58,9 @@ class TeamProvider extends AbstractBREADProvider {
 
     Team
       .filter({
-        _revOf: false
+        _oldRevOf: false
       }, {
-        // Also include documents where _revOf is undefined, but none where it has a value
+        // Also include documents where _oldRevOf is undefined, but none where it has a value
         default: true
       })
       .filter({

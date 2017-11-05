@@ -19,7 +19,7 @@ const search = require('../../search');
 const regexStr = '^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$';
 
 Thing
-  .filter({ _revOf: false }, { default: true })
+  .filter({ _oldRevOf: false }, { default: true })
   .filter({ _revDeleted: false }, { default: true })
   .filter(thing => thing('urls').contains(url => url.match(regexStr)))
   .then(processThings);

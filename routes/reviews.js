@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
     // Random example teams
     Team
       .filter({ _revDeleted: false }, { default: true })
-      .filter({ _revOf: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true })
       .sample(3)
   ];
 

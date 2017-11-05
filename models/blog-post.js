@@ -70,7 +70,7 @@ BlogPost.getWithCreator = function(id) {
         if (post._revDeleted)
           return reject(revision.deletedError);
 
-        if (post._revOf)
+        if (post._oldRevOf)
           return reject(revision.staleError);
 
         resolve(post);
@@ -111,7 +111,7 @@ BlogPost.getMostRecentBlogPosts = function(teamID, options) {
       default: true
     })
     .filter({
-      _revOf: false
+      _oldRevOf: false
     }, {
       default: true
     })

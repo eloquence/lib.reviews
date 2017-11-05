@@ -46,7 +46,7 @@ const revision = {
       let newRev = this;
       // Archive current revision
       let oldRev = new Model(newRev);
-      oldRev._revOf = newRev.id;
+      oldRev._oldRevOf = newRev.id;
       oldRev.id = undefined;
       await oldRev.save();
       const uuid = await r.uuid();
@@ -80,7 +80,7 @@ const revision = {
      * @inner
      */
     const _filterNotStaleOrDeleted = () => Model
-      .filter({ _revOf: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true })
       .filter({ _revDeleted: false }, { default: true });
     return _filterNotStaleOrDeleted;
   },
@@ -120,7 +120,7 @@ const revision = {
 
       if (data._revDeleted)
         throw revision.deletedError;
-      else if (data._revOf)
+      else if (data._oldRevOf)
         throw revision.staleError;
       else
         return data;
@@ -218,7 +218,7 @@ const revision = {
       await rev.save();
 
       // Update all other rows
-      await Model.filter({ _revOf: id }).update({ _revDeleted: true });
+      await Model.filter({ _oldRevOf: id }).update({ _revDeleted: true });
       return rev;
     };
     return _deleteAllRevisions;
@@ -245,7 +245,7 @@ const revision = {
         .string()
         .uuid(4)
         .required(true), // Set this for all revisions, including current
-      _revOf: type.string(), // Only set if it's an old revision of an existing thing
+      _oldRevOf: type.string(), // Only set if it's an old revision of an existing thing
       _revDeleted: type.boolean(), // Set to true for all deleted revisions (not all revisions have to be deleted)
       _revTags: [type.string()] // Optional tags to describe action performed through this revision, e.g. edit, delete, etc.
     };

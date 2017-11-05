@@ -144,14 +144,14 @@ Team.getWithData = function(id, options) {
         join.reviews._apply = seq => seq
         .orderBy(r.desc('createdOn'))
         .filter({ _revDeleted: false }, { default: true })
-        .filter({ _revOf: false }, { default: true })
+        .filter({ _oldRevOf: false }, { default: true })
         .filter(review => review('createdOn').lt(options.reviewOffsetDate))
         .limit(options.reviewLimit + 1);
       else
         join.reviews._apply = seq => seq
         .orderBy(r.desc('createdOn'))
         .filter({ _revDeleted: false }, { default: true })
-        .filter({ _revOf: false }, { default: true })
+        .filter({ _oldRevOf: false }, { default: true })
         .limit(options.reviewLimit + 1);
     }
 
@@ -162,7 +162,7 @@ Team.getWithData = function(id, options) {
         if (team._revDeleted)
           return reject(revision.deletedError);
 
-        if (team._revOf)
+        if (team._oldRevOf)
           return reject(revision.staleError);
 
         // At least one additional document available, return offset for pagination

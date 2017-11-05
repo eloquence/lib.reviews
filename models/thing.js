@@ -140,7 +140,7 @@ Thing.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Thing
 Thing.lookupByURL = function(url) {
   return Thing
     .filter(thing => thing('urls').contains(url))
-    .filter({ _revOf: false }, { default: true })
+    .filter({ _oldRevOf: false }, { default: true })
     .filter({ _revDeleted: false }, { default: true });
 };
 
@@ -178,7 +178,7 @@ Thing.getWithData = async function(id, {
   if (thing._revDeleted)
     throw revision.deletedError;
 
-  if (thing._revOf)
+  if (thing._oldRevOf)
     throw revision.staleError;
 
   if (withReviewMetrics)
@@ -539,7 +539,7 @@ async function getReviewsByUser(user) {
     .filter(r.row('_revDeleted').eq(false), { // Exclude deleted rows
       default: true
     })
-    .filter(r.row('_revOf').eq(false), { // Exclude old revisions
+    .filter(r.row('_oldRevOf').eq(false), { // Exclude old revisions
       default: true
     })
     .getJoin({
@@ -564,7 +564,7 @@ async function getAverageStarRating() {
   try {
     return await r.table('reviews')
       .filter({ thingID: this.id })
-      .filter({ _revOf: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true })
       .filter({ _revDeleted: false }, { default: true })
       .avg('starRating');
   } catch (error) {
@@ -589,7 +589,7 @@ async function getAverageStarRating() {
 async function getReviewCount() {
   return await r.table('reviews')
     .filter({ thingID: this.id })
-    .filter({ _revOf: false }, { default: true })
+    .filter({ _oldRevOf: false }, { default: true })
     .filter({ _revDeleted: false }, { default: true })
     .count();
 }

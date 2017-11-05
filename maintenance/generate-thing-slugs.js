@@ -5,7 +5,7 @@ const Thing = require('../models/thing');
 
 Thing
   .filter({
-    _revOf: false
+    _oldRevOf: false
   }, {
     default: true
   })

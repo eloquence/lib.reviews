@@ -274,7 +274,7 @@ Review.getFeed = async function({
 
   query = query
     .filter(r.row('_revDeleted').eq(false), { default: true }) // Exclude deleted
-    .filter(r.row('_revOf').eq(false), { default: true }) // Exclude old
+    .filter(r.row('_oldRevOf').eq(false), { default: true }) // Exclude old
     .limit(limit + 1); // One over limit to check if we need potentially another set
 
   if (withThing)

@@ -632,7 +632,7 @@ function processThingURLsUpdate(paramsObj) {
       Thing
       .filter(t => t('urls').contains(url))
       .filter(t => t('id').ne(thing.id))
-      .filter({ _revOf: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true })
       .filter({ _revDeleted: false }, { default: true })
     );
   });
