@@ -2,7 +2,7 @@ import OpenLibraryBackendAdapter from '../adapters/openlibrary-backend-adapter';
 import WikidataBackendAdapter from '../adapters/wikidata-backend-adapter';
 import test from 'ava';
 // Instance name must be set before fixture is loaded
-process.env.NODE_APP_INSTANCE = 'testing-1';
+process.env.NODE_APP_INSTANCE = 'testing-4';
 
 const tests = {
   openlibrary: { // Must correspond to canonical source ID
