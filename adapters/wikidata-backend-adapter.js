@@ -23,71 +23,65 @@ class WikidataBackendAdapter extends AbstractBackendAdapter {
 
   constructor() {
     super();
-    this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
+    this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)(?:#.*)?$', 'i');
     this.supportedFields = ['label', 'description'];
     this.sourceID = 'wikidata';
     this.sourceURL = 'https://www.wikidata.org/';
   }
 
-  lookup(url) {
-    return new Promise((resolve, reject) => {
+  async lookup(url) {
+    let qNumber = (url.match(this.supportedPattern) || [])[4];
+    if (!qNumber)
+      throw new Error('URL does not appear to contain a Q number (e.g., Q42) or is not a Wikidata URL.');
 
-      let qNumber = (url.match(this.supportedPattern) || [])[4];
-      if (!qNumber)
-        return reject(new Error('URL does not appear to contain a Q number (e.g., Q42) or is not a Wikidata URL.'));
+    // in case the URL had a lower case "q"
+    qNumber = qNumber.toUpperCase();
 
-      // in case the URL had a lower case "q"
-      qNumber = qNumber.toUpperCase();
+    // Not we don't specify fallback, so we won't get results for languages
+    // that don't have content
+    const options = {
+      uri: apiBaseURL,
+      qs: {
+        action: 'wbgetentities',
+        format: 'json',
+        languages: this.getAcceptedWikidataLanguageList(),
+        props: 'labels|descriptions',
+        ids: qNumber
+      },
+      headers: {
+        'User-Agent': config.adapterUserAgent
+      },
+      json: true,
+      timeout: config.adapterTimeout
+    };
 
-      // Not we don't specify fallback, so we won't get results for languages
-      // that don't have content
-      const options = {
-        uri: apiBaseURL,
-        qs: {
-          action: 'wbgetentities',
-          format: 'json',
-          languages: this.getAcceptedWikidataLanguageList(),
-          props: 'labels|descriptions',
-          ids: qNumber
-        },
-        headers: {
-          'User-Agent': config.adapterUserAgent
-        },
-        json: true,
-        timeout: config.adapterTimeout
-      };
+    const data = await request(options);
+    debug.adapters('Received data from Wikidata adapter:\n' + JSON.stringify(data, null, 2));
 
-      request(options)
-        .then(data => {
-          debug.adapters('Received data from Wikidata adapter:\n' + JSON.stringify(data, null, 2));
+    if (typeof data !== 'object' || !data.success || !data.entities || !data.entities[qNumber])
+      throw new Error('Did not get a valid Wikidata entity for query: ' + qNumber);
 
-          if (typeof data !== 'object' || !data.success || !data.entities || !data.entities[qNumber])
-            return reject(new Error('Did not get a valid Wikidata entity for query: ' + qNumber));
-          const entity = data.entities[qNumber];
+    const entity = data.entities[qNumber];
 
-          // Descriptions result will be an empty object if no description is available, so
-          // will always pass this test
-          if (!entity.labels || !entity.descriptions)
-            return reject(new Error('Did not get label and description information for query: ' + qNumber));
+    // Descriptions result will be an empty object if no description is available, so
+    // will always pass this test
+    if (!entity.labels || !entity.descriptions)
+      throw new Error('Did not get label and description information for query: ' + qNumber);
 
-          // Get multilingual string for descriptions and entities
-          const description = this.convertToMlString(entity.descriptions, 256);
-          const label = this.convertToMlString(entity.labels, 512);
+    // Get multilingual string for descriptions and entities
+    const description = this.convertToMlString(entity.descriptions, 256);
+    const label = this.convertToMlString(entity.labels, 512);
 
-          if (!Object.keys(label).length)
-            return reject(new Error('Did not get a label for ' + qNumber + ' in any supported language.'));
+    if (!Object.keys(label).length)
+      throw new Error('Did not get a label for ' + qNumber + ' in any supported language.');
 
-          resolve({
-            data: {
-              label,
-              description
-            },
-            sourceID: this.sourceID
-          });
-        })
-        .catch(reject);
-
-    });
+    return {
+      data: {
+        label,
+        description
+      },
+      sourceID: this.sourceID
+    };
 
   }
 

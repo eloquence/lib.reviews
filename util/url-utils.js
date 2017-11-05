@@ -11,7 +11,7 @@ const urlRegex = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\
 
 // host: match against the hostname part of the URL
 // converter: conversion to be applied to a URL of this type before it is added
-//   to the database
+//   to the database. Can be an array of multiple functions run in sequence.
 // tags: internal descriptors that identify this URL, which can be used to group
 //   related URLs. For applications that only use one tag, the first tag in the
 //   array is chosen.
@@ -26,7 +26,8 @@ const rules = [{
   {
     host: /^(www\.)?wikidata\.org$/,
     tags: ['databases', 'opendata'],
-    id: 'wikidata'
+    id: 'wikidata',
+    converter: _stripFragment
   },
   {
     host: /^(www\.)?goodreads\.com$/,
@@ -100,10 +101,17 @@ let urlUtils = {
     // Normalizes trailing slashes
     outputURL = parsedURL.href;
 
+    const runAll = (converters, url) => {
+      converters.forEach(converter => (url = converter(url)));
+      return url;
+    };
 
     for (let rule of rules) {
       if (rule.converter && rule.host.test(parsedURL.hostname)) {
-        outputURL = rule.converter(outputURL);
+        if (Array.isArray(rule.converter))
+          outputURL = runAll(rule.converter, outputURL);
+        else
+          outputURL = rule.converter(outputURL);
       }
     }
 
@@ -215,6 +223,20 @@ function _stripAmazonQueryStrings(inputURL) {
     return match[1];
   else
     return inputURL;
+}
+
+/**
+ * Generic converter to discard the fragment portion of an input URL. This can
+ * be useful for sites where fragments are frequently used and likely to be part
+ * of the URL a user copies into the clipboard.
+ *
+ * @param {String} inputURL
+ *  any URL
+ * @returns {String}
+ *  URL without fragment
+ */
+function _stripFragment(inputURL) {
+  return inputURL.split('#')[0];
 }
 
 module.exports = urlUtils;

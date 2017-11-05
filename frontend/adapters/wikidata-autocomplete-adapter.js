@@ -17,7 +17,7 @@ class WikidataAutocompleteAdapter extends AbstractAutocompleteAdapter {
     super(updateCallback, searchBoxSelector);
     // Adapter settings
     this.sourceID = 'wikidata';
-    this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)$', 'i');
+    this.supportedPattern = new RegExp('^http(s)*://(www.)*wikidata.org/(entity|wiki)/(Q\\d+)(?:#.*)?$', 'i');
     this.apiBaseURL = 'https://www.wikidata.org/w/api.php';
     this.queryServiceBaseURL = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql';
 

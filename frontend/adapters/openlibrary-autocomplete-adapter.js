@@ -18,7 +18,7 @@ class OpenLibraryAutocompleteAdapter extends AbstractAutocompleteAdapter {
     super(updateCallback, searchBoxSelector);
     // Adapter settings
     this.sourceID = 'openlibrary';
-    this.supportedPattern = new RegExp('^https*://openlibrary.org/(works|books)/(OL[^/]+)/*(.*)$', 'i');
+    this.supportedPattern = new RegExp('^https*://openlibrary.org/(works|books)/(OL[^/.]+)(?:/(?:.*))*$', 'i');
     // Max. results per query
     this.limit = 6;
   }

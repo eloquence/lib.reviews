@@ -13,7 +13,6 @@ class AbstractBackendAdapter {
     this.supportedPattern = undefined; // a RegExp object
     this.supportedFields = undefined; // array of 'thing' properties this adapter supports
 
-    // Replace w/ new.target after upgrading to Babel 7.0
     if (new.target === AbstractBackendAdapter)
       throw new TypeError('AbstractBackendAdapter is an abstract class, please instantiate a derived class.');
   }
@@ -34,8 +33,8 @@ class AbstractBackendAdapter {
   //     thing: Thing model (optional, really only useful for native adapter)
   //   }
   // }
-  lookup(_url) {
-    return Promise.reject(new Error('Not implemented.'));
+  async lookup(_url) {
+    throw new Error('Not implemented.');
   }
 
   getSourceURL() {
