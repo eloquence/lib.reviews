@@ -484,11 +484,11 @@
 	"indiebound source label": "IndieBound",
 	"search databases button label": "Buscar en las bases de datos",
 	"review via wikidata help label": "Buscar en Wikidata",
-	"review via openlibrary help label": "Buscar en la Biblioteca Abierta",
+	"review via openlibrary help label": "Buscar en Open Library",
 	"choose database": "Elige la base de datos en la que buscar",
 	"one edition": "Una edición %s",
 	"multiple editions": "%d ediciones %s",
 	"single year": "(%s)",
-	"year range": "(%1$d - %2$d)",
+	"year range": "(%1$d-%2$d)",
 	"unknown year": "año desconocido"
 }
