@@ -1,6 +1,13 @@
-// Because many sites generate multiple URLs or URL variants pointing to the same resource,
-// we standardize user-submitted URLs before storing or querying them. This reduces the need
-// for manual merging.
+/**
+ * Because many sites generate multiple URLs or URL variants pointing to the
+ * same resource, we standardize user-submitted URLs before storing or querying
+ * them. This reduces the need for manual merging.
+ *
+ * This module also can tag some known URLs according to predefined tags like
+ * 'shops' and 'reviews'.
+ *
+ * @namespace URLUtils
+ */
 'use strict';
 
 // Node's built-in module helps a little
@@ -85,9 +92,6 @@ const placement = {
 };
 
 
-/**
- * @namespace URLUtils
- */
 let urlUtils = {
 
   validate(inputURL) {
@@ -207,6 +211,7 @@ let urlUtils = {
  * @returns {String}
  *  canonicalized URL
  * @memberof URLUtils
+ * @protected
  */
 function _stripOpenLibraryTitleSuffix(inputURL) {
   let match = inputURL.match(new RegExp('^https*://openlibrary.org/(works|books)/(OL[^/]+)/*(.*)$', 'i'));
@@ -234,6 +239,8 @@ function _stripAmazonQueryStrings(inputURL) {
  *  any URL
  * @returns {String}
  *  URL without fragment
+ * @memberof URLUtils
+ * @protected
  */
 function _stripFragment(inputURL) {
   return inputURL.split('#')[0];
