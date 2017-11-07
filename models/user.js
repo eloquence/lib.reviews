@@ -1,4 +1,12 @@
 'use strict';
+
+/**
+ * Model for user accounts. Note that unlike the linked UserMetadata model,
+ * this table is not versioned.
+ *
+ * @namespace User
+ */
+
 const thinky = require('../db');
 const type = thinky.type;
 const Errors = thinky.Errors;
@@ -14,21 +22,23 @@ const userOptions = {
 };
 
 /* eslint-disable no-useless-escape */ // False positive
-
 // Erm, if we add [, ] or \ to forbidden chars, we'll have to fix this :)
 userOptions.illegalCharsReadable = userOptions.illegalChars.source.replace(/[\[\]\\]/g, '');
-
 /* eslint-enable no-useless-escape */
 
-// Table generation is handled by thinky
+/* eslint-disable newline-per-chained-call */
+/* for schema readability */
 let User = thinky.createModel("users", {
   id: type.string(),
-  displayName: type.string().max(userOptions.maxChars).validator(containsOnlyLegalCharacters),
-  canonicalName: type.string().max(userOptions.maxChars).validator(containsOnlyLegalCharacters),
+  displayName: type.string()
+    .max(userOptions.maxChars).validator(_containsOnlyLegalCharacters).required(),
+  canonicalName: type.string()
+    .max(userOptions.maxChars).validator(_containsOnlyLegalCharacters).required(),
   urlName: type.virtual().default(function() {
     return this.displayName ? encodeURIComponent(this.displayName.replace(/ /g, '_')) : undefined;
   }),
   email: type.string().max(userOptions.maxChars).email(),
+  // Password existence requirement is enforced by pre-save hook - see below
   password: type.string(),
   userMetaID: type.string().uuid(4), // Versioned
   // Trusted users gain invite codes as they write reviews
@@ -52,8 +62,21 @@ let User = thinky.createModel("users", {
 
 User.belongsTo(UserMeta, "meta", "userMetaID", "id");
 
+
+// Thinky validates models on save AND retrieval, and we sometimes want to
+// filter out password hashes from user models to eliminate any risk of
+// accidental exposure. Using required() in the schema would cause those lookups
+// to fail, so instead, we enforce the requirement when saving.
+User.pre('save', function(next) {
+  if (!this.password || typeof this.password != 'string')
+    throw new Error('Password must be set to a non-empty string.');
+  next();
+});
+
 User.options = userOptions; // for external visibility
 Object.freeze(User.options);
+
+// NOTE: STATIC METHODS --------------------------------------------------------
 
 /**
  * Increase the invite link count by 1 for a given user
@@ -62,15 +85,196 @@ Object.freeze(User.options);
  *  unique ID of the user
  * @returns {Number}
  *  updated invite count
+ * @async
  */
 User.increaseInviteLinkCount = async function(id) {
   const updatedUser = await User.get(id).update({
-      inviteLinkCount: r.row("inviteLinkCount").add(1)
-    });
+    inviteLinkCount: r.row("inviteLinkCount").add(1)
+  });
   return updatedUser.inviteLinkCount;
 };
 
-User.define("populateUserInfo", function(user) {
+/**
+ * Create a new user from an object containing the user data. Hashes the
+ * password, checks for uniqueness, validates. Saves.
+ *
+ * @param {Object} userObj
+ *  plain object containing data supported by this model
+ * @returns {User}
+ *  the created user
+ * @throws {NewUserError}
+ *  if user exists, password is too short, or there are other validation
+ *  problems.
+ * @async
+ */
+User.create = async function(userObj) {
+  const user = new User({});
+  if (typeof userObj != 'object')
+    throw new NewUserError({
+      message: 'We need a user object containing the user data to create a new user.',
+    });
+
+  try {
+    user.setName(userObj.name);
+    // we have to check, because assigning an empty string would trigger the
+    // validation to kick in
+    if (userObj.email)
+      user.email = userObj.email;
+    await User.ensureUnique(userObj.name); // throws if exists
+    await user.setPassword(userObj.password); // throws if too short
+    await user.save();
+  } catch (error) {
+    throw error instanceof NewUserError ?
+      error :
+      new NewUserError({ payload: { user }, parentError: error });
+  }
+  return user;
+};
+
+/**
+ * Throw if we already have a user with this name.
+ *
+ * @param {String} name
+ *  username to check
+ * @returns {Boolean}
+ *  true if unique
+ * @throws {NewUserError}
+ *  if exists
+ * @async
+ */
+User.ensureUnique = async function(name) {
+  if (typeof name != 'string')
+    throw new Error('Username to check must be a string.');
+
+  name = name.trim();
+  const users = await User.filter({ canonicalName: User.canonicalize(name) });
+  if (users.length)
+    throw new NewUserError({
+      message: 'A user named %s already exists.',
+      userMessage: 'username exists',
+      messageParams: [name]
+    });
+  return true;
+};
+
+/**
+ * Obtain user and all associated teams
+ *
+ * @param {String} id
+ *  user ID to look up
+ * @returns {Query}
+ */
+User.getWithTeams = function(id) {
+  return User
+    .get(id)
+    .getJoin({
+      teams: true
+    });
+};
+
+/**
+ * Find a user by the urldecoded URL name (spaces replaced with underscores)
+ *
+ * @param {String} name
+ *  decoded URL name
+ * @param {Object} [options]
+ *  query criteria
+ * @param {Boolean} options.withPassword=false
+ *  if false, password will be filtered from result. Subsequent save() calls
+ *  will throw an error
+ * @param {Boolean} options.withData=false
+ *  if true, the associated user-metadata object will be joined to the user
+ * @param {Boolean} options.withTeams=false
+ *  if true, the associated teams will be joined to the user
+ *
+ * @returns {User}
+ *  the matching user object
+ * @throws {ThinkyError}
+ *  if not found
+ * @async
+ */
+User.findByURLName = async function(name, {
+  withPassword = false,
+  withData = false,
+  withTeams = false
+} = {}) {
+
+  name = name.trim().replace(/_/g, ' ');
+
+  let query = User.filter({ canonicalName: User.canonicalize(name) });
+
+  if (!withPassword)
+    query = query.without('password');
+
+  if (withData)
+    query = query.getJoin({ meta: true });
+
+  if (withTeams)
+    query = query.getJoin({ teams: true }).getJoin({ moderatorOf: true });
+
+  const users = await query;
+  if (users.length)
+    return users[0];
+  else
+    throw new Errors.DocumentNotFound('User not found');
+};
+
+/**
+ * Transform a user name to its canonical internal form (upper case), used for
+ * duplicate checking.
+ *
+ * @param {String} name
+ *  name to transform
+ * @returns {String}
+ *  canoncial form
+ */
+User.canonicalize = function(name) {
+  return name.toUpperCase();
+};
+
+/**
+ * Associate a new bio text with a given user and save both
+ *
+ * @param {User} user
+ *  user object to associate the bio with
+ * @param {Object} bioObj
+ *  plain object with data conforming to UserMeta schema
+ * @returns {User}
+ *  updated user
+ * @async
+ */
+User.createBio = async function(user, bioObj) {
+  const uuid = await r.uuid();
+  let userMeta = new UserMeta(bioObj);
+  userMeta._revID = uuid;
+  userMeta._revUser = user.id;
+  userMeta._revDate = new Date();
+  userMeta._revTags = ['create-bio-via-user'];
+  await userMeta.save(); // sets ID
+  user.userMetaID = userMeta.id;
+  await user.save();
+  return user;
+};
+
+// NOTE: INSTANCE METHODS ------------------------------------------------------
+
+User.define("populateUserInfo", populateUserInfo);
+User.define("setName", setName);
+User.define("setPassword", setPassword);
+User.define("checkPassword", checkPassword);
+User.define("getValidPreferences", getValidPreferences);
+
+/**
+ * Determine what the provided user (typically the currently logged in user)
+ * may do with the data associated with this User object, and populate its
+ * permission fields accordingly.
+ *
+ * @param {User} user
+ *  user whose permissions on this User object we want to determine
+ * @memberof User
+ * @instance
+ */
+function populateUserInfo(user) {
 
   if (!user)
     return; // Permissions at default (false)
@@ -79,20 +283,45 @@ User.define("populateUserInfo", function(user) {
   // In future, translators may also be able to.
   if (user.id == this.id)
     this.userCanEditMetadata = true;
+}
 
-});
+/**
+ * Updates display name, canonical name (used for duplicate checks) and derived
+ * representations such as URL name. Does not save.
+ *
+ * @param {String} displayName
+ *  the new display name for this user (must not contain illegal characters)
+ * @memberof User
+ * @instance
+ */
+function setName(displayName) {
+  if (typeof displayName != 'string')
+    throw new Error('Username to set must be a string.');
 
-User.define("setName", function(displayName) {
   displayName = displayName.trim();
   this.displayName = displayName;
   this.canonicalName = User.canonicalize(displayName);
   this.generateVirtualValues();
-});
+}
 
-
-User.define("setPassword", function(password) {
+/**
+ * Update a password hash based on a plain text password. Does not save.
+ *
+ * @param {String} password
+ *  plain text password
+ * @returns {Promise}
+ *  promise that resolves to password hashed via bcrpyt algorithm. Rejects
+ *  with `NewUserError` if the password is too short, or if bcrypt library
+ *  returns an error.
+ * @memberof User
+ * @instance
+ */
+function setPassword(password) {
   let user = this;
   return new Promise((resolve, reject) => {
+    if (typeof password != 'string')
+      reject(new Error('Password must be a string.'));
+
     if (password.length < userOptions.minPasswordLength) {
       // This check can't be run as a validator since by then it's a fixed-length hash
       reject(new NewUserError({
@@ -111,11 +340,20 @@ User.define("setPassword", function(password) {
       });
     }
   });
-});
+}
 
-// Will resolve to true if password matches, false otherwise, and only
-// reject in case of error
-User.define("checkPassword", function(password) {
+/**
+ * Check this user's password hash against a provided plain text password.
+ *
+ * @param {String} password
+ *  plain text password
+ * @returns {Promise}
+ *  promise that resolves true/false, or rejects if bcrypt library returns
+ *  an error.
+ * @memberof User
+ * @instance
+ */
+function checkPassword(password) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, this.password, function(error, result) {
       if (error)
@@ -124,155 +362,33 @@ User.define("checkPassword", function(password) {
         resolve(result);
     });
   });
-});
+}
 
-// Which preferences can be toggled via the API for/by this user? May be
-// restricted in future based on access control limits.
-User.define("getValidPreferences", function() {
+/**
+ * Which preferences can be toggled via the API for/by this user? May be
+ * restricted in future based on access control limits.
+ *
+ * @returns {String[]}
+ *  array of preference names
+ * @memberof User
+ * @instance
+ */
+function getValidPreferences() {
   return ['prefersRichTextEditor'];
-});
+}
 
-User.ensureUnique = function(name) {
-  name = name.trim();
-  return new Promise((resolve, reject) => {
-    User
-      .filter({
-        canonicalName: User.canonicalize(name)
-      })
-      .then(users => {
-        if (users.length)
-          reject(new NewUserError({
-            message: 'A user named %s already exists.',
-            userMessage: 'username exists',
-            messageParams: [name]
-          }));
-        else
-          resolve();
-      })
-      .catch(reject); // Most likely, table does not exist. Will be auto-created on restart.
-  });
-};
 
-// Performs check for uniqueness, password length & validity, and throws
-// appropriate errors
-User.create = function(userObj) {
-  return new Promise((resolve, reject) => {
-    User
-      .ensureUnique(userObj.name)
-      .then(() => {
-        let user = new User({});
-        user.setName(userObj.name);
-        if (userObj.email)
-          user.email = userObj.email;
-        user
-          // Async hash generation, will be rejected if PW too short
-          .setPassword(userObj.password)
-          .then(() => {
-            user.save().then(user => {
-                resolve(user);
-              })
-              .catch(error => { // Save failed
-                if (error instanceof NewUserError)
-                  reject(error);
-                else
-                  reject(new NewUserError({
-                    payload: { user },
-                    parentError: error
-                  }));
-              });
-          })
-          .catch(reject); // Password too short or hash error
-      })
-      .catch(reject);
-  });
-};
-
-User.getWithTeams = function(id) {
-  return User
-    .get(id)
-    .getJoin({
-      teams: true
-    });
-};
-
-User.findByURLName = function(name, options) {
-
-  options = Object.assign({
-    withPassword: false,
-    withData: false, // include metadata
-    withTeams: false // include full information about teams
-  }, options);
-
-  name = name.trim().replace(/_/g, ' ');
-
-  return new Promise((resolve, reject) => {
-
-    let p = User.filter({
-      canonicalName: User.canonicalize(name)
-    });
-
-    if (!options.withPassword)
-      p = p.without('password');
-
-    if (options.withData)
-      p = p.getJoin({
-        meta: true
-      });
-
-    if (options.withTeams)
-      p =
-      p.getJoin({
-        teams: true
-      })
-      .getJoin({
-        moderatorOf: true
-      });
-
-    p.then(users => {
-        if (users.length)
-          resolve(users[0]);
-        else
-          reject(new Errors.DocumentNotFound('User not found'));
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-};
-
-User.canonicalize = function(name) {
-  return name.toUpperCase();
-};
-
-User.createBio = function(user, bioObj) {
-
-  return new Promise((resolve, reject) => {
-
-    r
-      .uuid()
-      .then(uuid => {
-        let userMeta = new UserMeta(bioObj);
-        userMeta._revID = uuid;
-        userMeta._revUser = user.id;
-        userMeta._revDate = new Date();
-        userMeta._revTags = ['create-bio-via-user'];
-        userMeta
-          .save()
-          .then(savedMeta => {
-            user.userMetaID = savedMeta.id;
-            resolve(user.save()); // Pass along promise to update user with new info
-          })
-          .catch(error => { // Failure to save user metadata
-            reject(error);
-          });
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-};
-
-function containsOnlyLegalCharacters(name) {
+/**
+ * @param  {String} name
+ *  username to validate
+ * @returns {Boolean}
+ *  true if username contains illegal characters
+ * @throws {NewUserError}
+ *  if user name contains invalid characters
+ * @memberof User
+ * @protected
+ */
+function _containsOnlyLegalCharacters(name) {
   if (userOptions.illegalChars.test(name))
     throw new NewUserError({
       message: 'Username %s contains invalid characters.',
@@ -286,9 +402,18 @@ function containsOnlyLegalCharacters(name) {
 
 module.exports = User;
 
-// Error class for reporting registration related problems.
-// Behaves as a normal ReportedError, but comes with built-in translation layer
-// for DB level errors.
+/**
+ * Error class for reporting registration related problems.
+ * Behaves as a normal ReportedError, but comes with built-in translation layer
+ * for DB level errors.
+ *
+ * @param {Object} [options]
+ *  error data
+ * @param {User} options.payload
+ *  user object that triggered this error
+ * @param {Error} options.parentError
+ *  the original error
+ */
 class NewUserError extends ReportedError {
   constructor(options) {
     if (typeof options == 'object' && options.parentError instanceof Error &&
@@ -311,5 +436,4 @@ class NewUserError extends ReportedError {
     }
     super(options);
   }
-
 }

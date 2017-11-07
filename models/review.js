@@ -80,7 +80,7 @@ Review.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Review);
  * (thing), the user who created the review, and the teams with which it was
  * associated. **WARNING:** since the password is filtered out, any future calls
  * to `saveAll()` must be explicitly parametrized to *not* include the user, or
- * it will clear out the user's password.
+ * the save will throw an error.
  *
  * @async
  * @param {String} id

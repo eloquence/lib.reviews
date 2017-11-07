@@ -11,6 +11,9 @@ const test = require('ava');
 
 let user;
 
+// NOTE: Because these tests don't initialize the app, the i18n library will not
+// be configured. Internationalized messages will be returned as message keys.
+
 test.before(async() => {
   await dbFixture.bootstrap(getModels());
 });

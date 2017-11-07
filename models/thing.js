@@ -119,7 +119,7 @@ Thing.hasOne(ThingSlug, "slug", "id", "thingID");
 
 ThingSlug.belongsTo(Thing, "thing", "thingID", "thing");
 
-// STATIC METHODS --------------------------------------------------------------
+// NOTE: STATIC METHODS --------------------------------------------------------
 
 // Standard handlers -----------------------------------------------------------
 
