@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * Model for user accounts. Note that unlike the linked UserMetadata model,
- * this table is not versioned.
+ * Model for user accounts. Note that unlike the linked {@link UserMeta}
+ * model, this table is not versioned.
  *
  * @namespace User
  */

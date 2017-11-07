@@ -1,4 +1,12 @@
 'use strict';
+
+/**
+ * Model for versioned metadata for {@link User} objects (currently just the
+ * bio).
+ *
+ * @namespace UserMeta
+ */
+
 const thinky = require('../db');
 const type = thinky.type;
 const mlString = require('./helpers/ml-string');
