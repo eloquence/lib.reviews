@@ -3,7 +3,7 @@ const thinky = require('../db');
 const type = thinky.type;
 
 /**
- * Model for storing short huma-readable identifier (slugs) for a given team
+ * Model for storing short human-readable identifier (slugs) for a given team
  * RethinkDB, being distributed, wants all unique indexes to be primary keys,
  * so we have a separate table for these.
  *
