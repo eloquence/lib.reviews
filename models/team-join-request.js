@@ -14,7 +14,7 @@ let teamJoinRequestSchema = {
   requestMessage: type.string(),
   requestDate: type.date(),
   rejectedBy: type.string().uuid(4),
-  rejectionDate: type.date(),  // We remove fulfilled requests, and date rejected ones
+  rejectionDate: type.date(), // We remove fulfilled requests, and date rejected ones
   rejectionMessage: type.string(),
   rejectedUntil: type.date() // TBD. If not specified, user can re-apply immediately.
 };

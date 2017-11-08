@@ -31,10 +31,12 @@ let userMetaSchema = {
 
 /* eslint-enable newline-per-chained-call */ /* for schema readability */
 
-
 // Add versioning related fields
 Object.assign(userMetaSchema, revision.getSchema());
 let UserMeta = thinky.createModel("user_meta", userMetaSchema);
+
+// NOTE: INSTANCE METHODS ------------------------------------------------------
+
 UserMeta.define("newRevision", revision.getNewRevisionHandler(UserMeta));
 UserMeta.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(UserMeta));
 

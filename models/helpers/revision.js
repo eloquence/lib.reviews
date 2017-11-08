@@ -40,7 +40,7 @@ const revision = {
      *  new revision of the given Model
      * @memberof Revision
      * @inner
-     * @this Model
+     * @this model
      */
     const _newRevision = async function(user, { tags } = {}) {
       let newRev = this;

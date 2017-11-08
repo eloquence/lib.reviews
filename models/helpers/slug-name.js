@@ -1,4 +1,13 @@
 'use strict';
+
+/**
+ * Helper/handler functions for dealing with unique "slugs", i.e. short
+ * human-readable strings that are part of the URL, e.g., for review subjects
+ * and teams.
+ *
+ * @namespace SlugName
+ */
+
 // External dependencies
 const unescapeHTML = require('unescape-html');
 const isUUID = require('is-uuid');
@@ -10,95 +19,108 @@ const debug = require('../../util/debug');
 
 const slugNameHelper = {
 
-  // Returns a model handler that is used to create/update a unique
-  // human-readable short string (slug) that identifies the current document.
-  // The handler itself returns a promise that resolves when the update is
-  // complete or if no update is necessary, and rejects if the slug name is
-  // invalid or duplicated.
-  //
-  // Configuration object:
-  //
-  //   SlugModel: Model class where the slugs are stored
-  //   slugForeignKey: Key used in slug table to identify foreign  document
-  //   slugSourceField: field in document table that is used to derive slug names
-  //    -- is assumed to be a multilingual string
-  getUpdateSlugHandler(modelConfig) {
-    // Destructure for convenient access
-    let {
-      SlugModel,
-      slugForeignKey,
-      slugSourceField
-    } = modelConfig;
 
-    return function(userID, language) {
+  /**
+   * Get a handler that can be attached to a model as an instance method for
+   * creating/updating human-readable string (slug) used in URL to identify
+   * the document.to create/update a unique
+   *
+   * @param {Object} spec
+   *  specification for the handler
+   * @param {Model} spec.SlugModel
+   *  table that holds our slugs
+   * @param {String} spec.slugForeignKey
+   *  key used in slug table to identify foreign document
+   * @param {String} spec.slugSourceField
+   *  field in document table that is used to generate slug names -- assumed
+   *  to be a field containing multingual string objects
+   * @memberof SlugName
+   * @returns {Function}
+   *  See {@link SlugName~_updateSlug}.
+   */
+  getUpdateSlugHandler({ SlugModel, slugForeignKey, slugSourceField }) {
+
+    /**
+     * Handler for generating a slug from a configured multilingual string
+     * field, assigning it and saving it. Re-uses existing slugs that have
+     * previously pointed to the same document where posisble.
+     *
+     * @param {String} [userID]
+     *  user ID to attribute to this slug
+     * @param  {String} language
+     *  which language should we look up from the source field? if it is not
+     *  identical to the `.originalLanguage` field for the document, we will
+     *  not modify the slug.
+     * @returns {model}
+     *  the original document with the slug name assigned to its
+     *  `.canonicalSlugName` field.
+     * @memberof SlugName
+     * @inner
+     */
+    const _updateSlug = async function(userID, language) {
       let document = this;
-      return new Promise((resolve, reject) => {
+      let originalLanguage = document.originalLanguage || 'en';
 
-        let originalLanguage = document.originalLanguage || 'en';
+      // No update needed if changing language other than original.
+      if (language !== originalLanguage)
+        return document;
 
-        // No update needed if changing language other than original.
-        if (language !== originalLanguage)
-          return resolve(document);
+      let sourceString = mlString.resolve(language, document[slugSourceField]);
 
-        let sourceString = mlString.resolve(language, document[slugSourceField]);
+      if (typeof sourceString !== 'object')
+        throw new InvalidSlugStringError({
+          message: 'Invalid source for slug string - must be multilingual string object.'
+        });
 
-        if (typeof sourceString !== 'object')
-          throw new InvalidSlugStringError({
-            message: 'Invalid source for slug string - must be multilingual string object.'
-          });
+      let slugName;
 
-        let slugName;
+      // May throw
+      slugName = slugNameHelper.generateSlugName(sourceString.str);
 
-        // May throw
-        slugName = slugNameHelper.generateSlugName(sourceString.str);
+      // No update needed if name hasn't changed
+      if (slugName === document.canonicalSlugName)
+        return document;
 
-        // No update needed if name hasn't changed
-        if (slugName === document.canonicalSlugName)
-          return resolve(document);
+      // For debugging
+      const documentTable = document.getModel().getTableName();
+      const slugTable = SlugModel.getTableName();
 
-        debug.app(`Changing slug for document with ID ${document.id} from ${document.canonicalSlugName} to ${slugName}`);
+      if (document.id)
+        debug.app(`Attempting to change slug in table "${slugTable}" for document in table "${documentTable}" with ID "${document.id}" from "${document.canonicalSlugName}" to "${slugName}".`);
+      else
+        debug.app(`Attemping to create slug of type ${slugTable} for new document of type ${documentTable}: "${slugName}".`);
 
-        document
-          // If this is a new revision, it does not have a primary key yet
-          .setID()
-          .then(document => {
-            // Create new slug
-            let slug = new SlugModel({
-              name: slugName,
-              [slugForeignKey]: document.id,
-              createdOn: new Date(),
-              createdBy: userID
-            });
-
-            slug
-              .qualifiedSave() // Will add qualifier to de-duplicate if supported by SlugModel
-              .then(slug => {
-                document.canonicalSlugName = slug.name;
-                resolve(document);
-              })
-              .catch(error => {
-                // Should only be passed through if SlugModel does not support de-duplication
-                if (error.name === 'DuplicatePrimaryKeyError') {
-                  SlugModel
-                    .get(slugName)
-                    .then(slug => {
-                      // We already have this slug; let's associate it and call it a day
-                      if (slug[slugForeignKey] === document.id) {
-                        document.canonicalSlugName = slug.name;
-                        resolve(document);
-                      } else
-                        throw new DuplicateSlugNameError(slug);
-                    })
-                    .catch(reject);
-                } else {
-                  reject(error);
-                }
-              });
-          })
-          .catch(reject); // Problem obtaining ID for document
+      await document.setID();
+      // Create new slug
+      let slug = new SlugModel({
+        name: slugName,
+        [slugForeignKey]: document.id,
+        createdOn: new Date(),
+        createdBy: userID
       });
 
+      try {
+        // Will add qualifier to de-duplicate if supported by SlugModel
+        slug = await slug.qualifiedSave();
+      } catch (error) {
+        // Should only be passed through if SlugModel does not support de-duplication
+        if (error.name === 'DuplicatePrimaryKeyError') {
+          slug = await SlugModel.get(slugName);
+          if (slug[slugForeignKey] !== document.id) {
+            debug.app(`Could not change slug name to "${slug.name}". Already points to a different target, and no automatic resolution was attempted.`);
+            throw new DuplicateSlugNameError(slug);
+          } else {
+            debug.app(`Slug name "${slug.name}" is already in use as a redirect - re-assigning as canonical name.`);
+          }
+        } else {
+          throw error; // Some other save problem we shouldn't ignore
+        }
+      }
+      document.canonicalSlugName = slug.name;
+      debug.app(`Slug name creation/update successful.`);
+      return document;
     };
+    return _updateSlug;
   },
 
   // Converts a source string (e.g., a team name, or a thing label) into a slug

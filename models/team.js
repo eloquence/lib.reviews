@@ -1,4 +1,13 @@
 'use strict';
+
+/**
+ * Model for teams that collaborate on reviews of a certain type. A team can
+ * also publish blog posts. Teams can be open for anyone, or require moderator
+ * approval for new members. This model is versioned.
+ *
+ * @namespace Team
+ */
+
 // Internal dependencies
 const thinky = require('../db');
 const type = thinky.type;
@@ -70,6 +79,8 @@ let teamSchema = {
 Object.assign(teamSchema, revision.getSchema());
 let Team = thinky.createModel("teams", teamSchema);
 
+// NOTE: JOINS -----------------------------------------------------------------
+
 // Define membership and moderator relations; these are managed by the ODM
 // as separate tables, e.g. teams_users_membership
 Team.hasAndBelongsToMany(User, "members", "id", "id", {
@@ -101,89 +112,138 @@ Review.hasAndBelongsToMany(Team, "teams", "id", "id", {
   type: 'team_content'
 });
 
+// NOTE: STATIC METHODS --------------------------------------------------------
+
+// Standard handlers
 
 Team.createFirstRevision = revision.getFirstRevisionHandler(Team);
 Team.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Team);
-Team.getWithData = function(id, options) {
 
-  options = Object.assign({ // Default: all first-level joins except reviews
-    withMembers: true,
-    withModerators: true,
-    withJoinRequests: true,
-    withJoinRequestDetails: false,
-    withReviews: false,
-    reviewLimit: 1,
-    reviewOffsetDate: null
-  }, options);
+// Custom handlers
 
-  return new Promise((resolve, reject) => {
+/**
+ * Retrieve a team and some of the joined data like reviews or members
+ *
+ * @param {String} id
+ *  the team to look up
+ * @param {Object} [options]
+ *  query critera
+ * @param {Boolean} options.withMembers=true
+ *  get the user objects (with hashed password) representing the members
+ * @param {Boolean} options.withModerators=true
+ *  get the user objects (with hashed password) representing the moderators
+ * @param {Boolean} options.withJoinRequests=true
+ *  get the pending requests to join this team
+ * @param {Boolean} options.withJoinRequestDetails=false
+ *  further down the rabbit hole, also get the user objects (with hashed
+ *  password) for those requests
+ * @param {Boolean} options.withReviews=false
+ *  get reviews associated with this team, and the users (with hashed password)
+ *  who authored them
+ * @param {Number} options.reviewLimit=1
+ *  get up to this number of reviews
+ * @param {Date} options.reviewOffsetDate
+ *  only get reviews older than this date
+ * @returns {Team}
+ * @async
+ */
+Team.getWithData = async function(id, {
+  withMembers = true,
+  withModerators = true,
+  withJoinRequests = true,
+  withJoinRequestDetails = false,
+  withReviews = false,
+  reviewLimit = 1,
+  reviewOffsetDate = null
+} = {}) {
 
-    let join = {};
-    if (options.withMembers)
-      join.members = true;
+  const join = {};
+  if (withMembers)
+    join.members = true;
 
-    if (options.withModerators)
-      join.moderators = true;
+  if (withModerators)
+    join.moderators = true;
 
-    if (options.withJoinRequests)
-      join.joinRequests = true;
+  if (withJoinRequests)
+    join.joinRequests = true;
 
-    if (options.withJoinRequests && options.withJoinRequestDetails) {
-      join.joinRequests = {
-        user: true
-      };
-    }
+  if (withJoinRequests && withJoinRequestDetails) {
+    join.joinRequests = {
+      user: true
+    };
+  }
 
-    if (options.withReviews) {
-      join.reviews = {
-        creator: true,
-        teams: true,
-        thing: true
-      };
-      if (options.reviewOffsetDate)
-        join.reviews._apply = seq => seq
-        .orderBy(r.desc('createdOn'))
-        .filter({ _revDeleted: false }, { default: true })
-        .filter({ _oldRevOf: false }, { default: true })
-        .filter(review => review('createdOn').lt(options.reviewOffsetDate))
-        .limit(options.reviewLimit + 1);
-      else
-        join.reviews._apply = seq => seq
-        .orderBy(r.desc('createdOn'))
-        .filter({ _revDeleted: false }, { default: true })
-        .filter({ _oldRevOf: false }, { default: true })
-        .limit(options.reviewLimit + 1);
-    }
+  if (withReviews) {
+    join.reviews = {
+      creator: true,
+      teams: true,
+      thing: true
+    };
+    if (reviewOffsetDate)
+      join.reviews._apply = seq => seq
+      .orderBy(r.desc('createdOn'))
+      .filter({ _revDeleted: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true })
+      .filter(review => review('createdOn').lt(reviewOffsetDate))
+      .limit(reviewLimit + 1);
+    else
+      join.reviews._apply = seq => seq
+      .orderBy(r.desc('createdOn'))
+      .filter({ _revDeleted: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true })
+      .limit(reviewLimit + 1);
+  }
+  const team = await Team.get(id).getJoin(join);
 
-    Team
-      .get(id)
-      .getJoin(join)
-      .then(team => {
-        if (team._revDeleted)
-          return reject(revision.deletedError);
+  if (team._revDeleted)
+    throw revision.deletedError;
 
-        if (team._oldRevOf)
-          return reject(revision.staleError);
+  if (team._oldRevOf)
+    throw revision.staleError;
 
-        // At least one additional document available, return offset for pagination
-        if (options.withReviews && Array.isArray(team.reviews) &&
-          team.reviews.length == options.reviewLimit + 1) {
-          team.reviews.pop();
-          team.reviewOffsetDate = team.reviews[team.reviews.length - 1].createdOn;
-        }
-        resolve(team);
-
-      })
-      .catch(error => reject(error));
-  });
-
+  // At least one additional document available, return offset for pagination
+  if (withReviews && Array.isArray(team.reviews) &&
+    team.reviews.length == reviewLimit + 1) {
+    team.reviews.pop();
+    team.reviewOffsetDate = team.reviews[team.reviews.length - 1].createdOn;
+  }
+  return team;
 };
+
+// NOTE: INSTANCE METHODS ------------------------------------------------------
+
+// Standard handlers
 
 Team.define("newRevision", revision.getNewRevisionHandler(Team));
 Team.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(Team));
-Team.define("populateUserInfo", function(user) {
+
+// Update the slug if an update is needed. Modifies the team object but does
+// not save it.
+Team.define("updateSlug", slugName.getUpdateSlugHandler({
+  SlugModel: TeamSlug,
+  slugForeignKey: 'teamID',
+  slugSourceField: 'name'
+}));
+
+Team.define("setID", getSetIDHandler());
+
+// Custom methods
+
+Team.define("populateUserInfo", populateUserInfo);
+
+/**
+ * Populate the virtual permission and metadata fields for this team with
+ * information for a given user. This includes properties like `userIsMember`
+ * and `userIsModerator`.
+ *
+ * @param {User}
+ *  user whose permissions and metadata to use to populate the fields
+ * @memberof Team
+ * @instance
+ */
+function populateUserInfo(user) {
   if (!user)
-    return false; // Permissions remain at defaults (false)
+    return; // Permissions remain at defaults (false)
 
   let team = this;
   if (this.members && this.members.filter(member => member.id === user.id).length)
@@ -213,16 +273,6 @@ Team.define("populateUserInfo", function(user) {
   if (!team.userIsFounder && team.userIsMember)
     team.userCanLeave = true;
 
-});
-
-// Update the slug if an update is needed. Modifies the team object but does
-// not save it.
-Team.define("updateSlug", slugName.getUpdateSlugHandler({
-  SlugModel: TeamSlug,
-  slugForeignKey: 'teamID',
-  slugSourceField: 'name'
-}));
-
-Team.define("setID", getSetIDHandler());
+}
 
 module.exports = Team;

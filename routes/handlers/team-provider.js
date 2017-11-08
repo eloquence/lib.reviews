@@ -494,7 +494,7 @@ class TeamProvider extends AbstractBREADProvider {
           // Problem updating slug
           .catch(error => {
             if (error.name === 'DuplicateSlugNameError') {
-              this.req.flash('pageErrors', this.req.__('duplicate team name', `/team/${error.messageParams[0]}`));
+              this.req.flash('pageErrors', this.req.__('duplicate team name', `/team/${error.payload.slug.name}`));
               return this.add_GET(formData.formValues);
             } else
               return this.next(error);
