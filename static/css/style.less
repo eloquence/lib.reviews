@@ -136,6 +136,7 @@ body {
 // Autocompletion styles
 .ac-wrap {
   position: absolute;
+  z-index:@acZIndex;
 }
 
 .ac-rwrap {
@@ -144,11 +145,9 @@ body {
   border: 1px solid #e6e6e9;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-
   margin-top: 0px;
   margin-left: 5%;
   margin-right: 5%;
-
 }
 
 .ac-row {
@@ -246,6 +245,7 @@ body {
 
 .ac-adapter-wrap {
   position:absolute;
+  z-index:@acZIndex;
 }
 
 .ac-adapter-rwrap {
