@@ -9,20 +9,42 @@ const AbstractAutocompleteAdapter = require('./abstract-autocomplete-adapter');
  * adapters, it is shallow and does not care for language, authorship,
  * or other details.
  *
- * See the documentation for {@link AbstractAutocompleteAdapter} for more
- * information on most methods.
+ * @extends AbstractAutocompleteAdapter
  */
 class OpenLibraryAutocompleteAdapter extends AbstractAutocompleteAdapter {
 
+  /**
+   * See {@link AbstractAutocompleteAdapter} for parameter documentation, not
+   * shown here due to [jsdoc bug](https://github.com/jsdoc3/jsdoc/issues/1012).
+   *
+   * @inheritdoc
+   */
   constructor(updateCallback, searchBoxSelector) {
     super(updateCallback, searchBoxSelector);
-    // Adapter settings
+
+    // Standard adapter settings
     this.sourceID = 'openlibrary';
     this.supportedPattern = new RegExp('^https*://openlibrary.org/(works|books)/(OL[^/.]+)(?:/(?:.*))*$', 'i');
-    // Max. results per query
+
+    /**
+     * How many results to get per query. This is pretty low since a result
+     * takes up a fair amount of space in the UI, esp. on mobile.
+     *
+     * @type {Number}
+     */
     this.limit = 6;
   }
 
+
+  /**
+   * Obtain data from Open Library for a given URL.
+   *
+   * @param {String} url
+   *  URL to an Open Library book or work
+   * @returns {Promise}
+   *  resolves to a {@link LookupResult} if successful, rejects with an error
+   *  if not
+   */   
   lookup(url) {
     return new Promise((resolve, reject) => {
       let m = url.match(this.supportedPattern);
@@ -91,8 +113,8 @@ class OpenLibraryAutocompleteAdapter extends AbstractAutocompleteAdapter {
    * Perform an in-place sort on results from a search query, putting any
    * exact matches against the query first
    *
-   * @param {array} docs - "docs" array from the Open Library JSON search API
-   * @param {string} query - original query text that yielded this result
+   * @param {Array} docs - "docs" array from the Open Library JSON search API
+   * @param {String} query - original query text that yielded this result
    */
   sortMatches(docs, query) {
     let hasExact = str => str.toUpperCase().indexOf(query.toUpperCase()) != -1;
@@ -110,6 +132,19 @@ class OpenLibraryAutocompleteAdapter extends AbstractAutocompleteAdapter {
     });
   }
 
+
+  /**
+   * Render callback for the autocomplete widget. For each result, we show
+   * authorship and edition information, which goes a bit beyond what we
+   * could cram into the default rendering.
+   *
+   * @param {Object} row
+   *  row data object as obtained via
+   *  {@link OpenLibraryAutocompleteAdapter#_requestHandler}
+   * @returns {Element}
+   *  the element to insert into the DOM for this row
+   * @this OpenLibraryAutocompleteAdapter#ac
+   */
   _renderRowHandler(row) {
     // Row-level CSS gets added by library
     let $el = $('<div>');
@@ -161,6 +196,20 @@ class OpenLibraryAutocompleteAdapter extends AbstractAutocompleteAdapter {
     return $el[0];
   }
 
+
+  /**
+   * Query the Open Library's main search endpoint for this search string,
+   * store the results in the instance of the autocomplete widget, and render
+   * them.
+   *
+   * Fires off two requests per query to perform both a stemmed search and a
+   * wildcard search. Optionally also supports author searches if split off
+   * from main query string with ";".
+   *
+   * @param  {String} query
+   *  the unescaped query string
+   * @this OpenLibraryAutocompleteAdapter#ac
+   */
   _requestHandler(query) {
     let time = Date.now();
 
