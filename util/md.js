@@ -46,6 +46,9 @@ md.use(container, 'warning', {
   }
 });
 
-md.use(html5Media);
+md.use(html5Media, {
+  translateFn: (locale = 'en', messageKey, messageParams = []) =>
+    i18n.__({ locale, phrase: messageKey }, ...messageParams)
+});
 
 module.exports = md;

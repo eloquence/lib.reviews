@@ -469,5 +469,9 @@
 	"multiple editions": "Text that is shown in Open Library book searches for records with multiple editions. %d is substituted with the number of editions as a decimal, and %s is substituted with a year string such as \"(1955 - 2015)\".",
 	"single year": "Text that is shown in Open Library book searches to identify the year of an edition. %s is substituted with the year or the message \"unknown year\".",
 	"year range": "Text that is shown in Open Library book searches to identify a range of years for the available editions. %1$d is substituted with the beginning of the range (longest ago) and %2$d with the end of the range (most recent year).",
-	"unknown year": "Text that is shown in Open Library book searches for records without a year."
+	"unknown year": "Text that is shown in Open Library book searches for records without a year.",
+	"html5 video not supported": "Message shown on pages with HTML5 video viewed through a browser that does not support it.",
+	"html5 audio not supported": "Message shown on pages with HTML5 audio viewed through a browser that does not support it.",
+	"html5 media fallback link": "Link that is part of the 'not supported' messages for HTML5 audio and video, offering the file for download since it cannot be played.",
+	"html5 media description": "Description that is part of the 'not supported' messages for HTML5 audio and video, offering the file for download since it cannot be played."
 }

@@ -479,5 +479,9 @@
    "multiple editions": "%d editions %s",
    "single year": "(%s)",
    "year range": "(%1$d - %2$d)",
-   "unknown year": "unknown year"
+   "unknown year": "unknown year",
+   "html5 video not supported": "Your browser does not support playing HTML5 video.",
+   "html5 audio not supported": "Your browser does not support playing HTML5 audio.",
+   "html5 media fallback link": "You can <a href=\"%s\" download>download the file</a> instead.",
+   "html5 media description": "Here is a description of the content: %s"
 }
