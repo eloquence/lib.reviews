@@ -18,11 +18,11 @@ redoItem.spec.title = libreviews.msg('redo');
 joinUpItem.spec.title = libreviews.msg('join with item above');
 liftItem.spec.title = libreviews.msg('decrease item indentation');
 
-const { NodeSelection, TextSelection } = require("prosemirror-state");
-const { toggleMark, wrapIn } = require("prosemirror-commands");
-const { wrapInList } = require("prosemirror-schema-list");
-const { TextField, openPrompt } = require("./editor-prompt");
-
+const { NodeSelection, TextSelection } = require('prosemirror-state');
+const { toggleMark, wrapIn } = require('prosemirror-commands');
+const { wrapInList } = require('prosemirror-schema-list');
+const { TextField, openPrompt } = require('./editor-prompt');
+const { guessMediaType } = require('markdown-it-html5-media');
 
 // Helpers to create specific types of items
 
@@ -36,30 +36,59 @@ function canInsert(state, nodeType, attrs) {
   return false;
 }
 
-function insertImageItem(nodeType) {
+function insertMediaItem(nodeTypes) {
   return new MenuItem({
-    title: libreviews.msg('insert image help'),
-    label: libreviews.msg('insert image'),
+    title: libreviews.msg('insert media help'),
+    label: libreviews.msg('insert media'),
     select(state) {
-      return canInsert(state, nodeType);
+      return canInsert(state, nodeTypes.image);
     },
     run(state, _dispatch, view) {
       let { from, to } = state.selection,
         attrs = null;
-      if (state.selection instanceof NodeSelection && state.selection.node.type == nodeType)
-        attrs = state.selection.node.attrs;
+
+      // Extract attributes from any media selection. We apply ALT text from
+      // images to video/audio descriptions and vice versa
+      if (state.selection instanceof NodeSelection) {
+        switch (state.selection.node.type.name) {
+          case 'image':
+            attrs = {
+              src: state.selection.node.attrs.src,
+              alt: state.selection.node.attrs.alt ||
+                state.selection.node.attrs.description || null
+            };
+            break;
+          case 'video':
+          case 'audio':
+            attrs = {
+              src: state.selection.node.attrs.src,
+              description: state.selection.node.attrs.description ||
+                state.selection.node.attrs.alt || null
+            };
+            break;
+          default:
+            // No default
+        }
+      }
       openPrompt({
         view,
-        title: libreviews.msg('insert image dialog title'),
+        title: libreviews.msg('insert media dialog title'),
         fields: {
-          src: new TextField({ label: libreviews.msg('image url'), required: true, value: attrs && attrs.src }),
+          src: new TextField({ label: libreviews.msg('media url'), required: true, value: attrs && attrs.src }),
           alt: new TextField({
-            label: libreviews.msg('image alt text'),
-            value: attrs ? attrs.title : state.doc.textBetween(from, to, " ")
+            label: libreviews.msg('media alt text'),
+            value: attrs ? attrs.alt || attrs.description : state.doc.textBetween(from, to, " ")
           })
         },
         callback(attrs) {
-          view.dispatch(view.state.tr.replaceSelectionWith(nodeType.createAndFill(attrs)));
+          const nodeType = guessMediaType(attrs.src);
+          // <video>/<audio> tags do not support ALT; the text is rendered
+          // as inner HTML alongside the fallback message.
+          if (['video', 'audio'].includes(nodeType)) {
+            attrs.description = attrs.alt;
+            Reflect.deleteProperty(attrs, 'alt');
+          }
+          view.dispatch(view.state.tr.replaceSelectionWith(nodeTypes[nodeType].createAndFill(attrs)));
           view.focus();
         }
       });
@@ -186,7 +215,7 @@ function linkItem(markType) {
           // Advance cursor to end of selection (not necessarily head,
           // depending on selection direction)
           let rightmost = view.state.selection.$anchor.pos > view.state.selection.$head.pos ?
-              view.state.selection.$anchor : view.state.selection.$head;
+            view.state.selection.$anchor : view.state.selection.$head;
           view.dispatch(view.state.tr.setSelection(TextSelection.between(rightmost, rightmost)));
           // Disable link mark so user can now type normally again
           toggleMark(markType, attrs)(view.state, view.dispatch);
@@ -217,8 +246,8 @@ function wrapListItem(nodeType, options) {
 // **`toggleLink`**`: MenuItem`
 //   : A menu item to toggle the [link mark](#schema-basic.LinkMark).
 //
-// **`insertImage`**`: MenuItem`
-//   : A menu item to insert an [image](#schema-basic.Image).
+// **`insertMedia`**`: MenuItem`
+//   : A menu item to insert an image, video or sound file
 //
 // **`wrapBulletList`**`: MenuItem`
 //   : A menu item to wrap the selection in a [bullet list](#schema-list.BulletList).
@@ -249,7 +278,7 @@ function wrapListItem(nodeType, options) {
 // scratch:
 //
 // **`insertMenu`**`: Dropdown`
-//   : A dropdown containing the `insertImage` and
+//   : A dropdown containing the `insertMedia` and
 //     `insertHorizontalRule` items.
 //
 // **`typeMenu`**`: Dropdown`
@@ -274,8 +303,13 @@ function buildMenuItems(schema) {
   if (type = schema.marks.link)
     r.toggleLink = linkItem(type);
 
-  if (type = schema.nodes.image)
-    r.insertImage = insertImageItem(type);
+  if (schema.nodes.image && schema.nodes.video && schema.nodes.audio)
+    r.insertMedia = insertMediaItem({
+      image: schema.nodes.image,
+      video: schema.nodes.video,
+      audio: schema.nodes.audio
+    });
+
   if (type = schema.nodes.bullet_list)
     r.wrapBulletList = wrapListItem(type, {
       title: libreviews.msg('format as bullet list', { accessKey: '8' }),
@@ -337,7 +371,7 @@ function buildMenuItems(schema) {
   }
 
   let cut = arr => arr.filter(x => x);
-  r.insertMenu = new Dropdown(cut([r.insertImage, r.insertHorizontalRule]), {
+  r.insertMenu = new Dropdown(cut([r.insertMedia, r.insertHorizontalRule]), {
     label: libreviews.msg('insert'),
     title: libreviews.msg('insert help')
   });

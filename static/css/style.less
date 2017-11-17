@@ -1050,6 +1050,18 @@ details.content-warning[open] summary.content-warning-notice:before {
   margin-right:auto;
 }
 
+.html5-video-player, .html5-audio-player,
+.html5-video-player-in-editor, .html5-audio-player-in-editor {
+  max-width: 95%;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.html5-audio-player-in-editor {
+  min-width: 400px; // Firefox otherwise collapses the element for no good reason
+}
+
  .user-info img {
    max-width: 100%;
  }

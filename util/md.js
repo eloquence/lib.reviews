@@ -4,6 +4,7 @@
 // Because this adds
 const MarkdownIt = require('markdown-it');
 const container = require('markdown-it-container');
+const { html5Media } = require('markdown-it-html5-media');
 const i18n = require('i18n');
 
 const markdownMessages = ['nsfw warning', 'spoiler warning'];
@@ -44,5 +45,7 @@ md.use(container, 'warning', {
     }
   }
 });
+
+md.use(html5Media);
 
 module.exports = md;
