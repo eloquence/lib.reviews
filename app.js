@@ -28,6 +28,7 @@ const csrf = require('csurf'); // protect against request forgery using tokens
 const config = require('config');
 const compression = require('compression');
 const WebHooks = require('node-webhooks');
+const csp = require('helmet-csp') // Content security policy
 
 // Internal dependencies
 const languages = require('./locales/languages');
@@ -92,6 +93,12 @@ async function getApp(db = require('./db')) {
   ));
 
   app.set('view engine', 'hbs');
+
+  // Prevent unsafe embeds on HTTPS
+  if (config.forceHTTPS)
+    app.use(csp({
+      directives: { upgradeInsecureRequests: true }
+    }));
 
   app.use(cookieParser());
   app.use(i18n.init); // Requires cookie parser!

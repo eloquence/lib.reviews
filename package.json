@@ -45,6 +45,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "hbs": "^4.0.0",
     "hbs-utils": "0.0.3",
+    "helmet-csp": "^2.6.0",
     "i18n": "git://github.com/eloquence/i18n-node.git",
     "irc": "^0.5.2",
     "is-svg": "^2.0.1",
