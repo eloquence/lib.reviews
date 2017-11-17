@@ -10,7 +10,7 @@
     "test-debug": "NODE_ENV=development DEBUG=libreviews:* node node_modules/ava/cli.js --verbose tests/**",
     "test-watch": "NODE_ENV=development DEBUG=libreviews:tests node node_modules/ava/cli.js --watch --verbose tests/**",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect",
+    "prepare": "npm run snyk-protect",
     "make-docs": "node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r frontend -d static/devdocs/frontend && node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r models/ util/ routes/ app.js -d static/devdocs/backend"
   },
   "pre-commit": [
@@ -85,7 +85,7 @@
     "serve-index": "^1.8.0",
     "session-rethinkdb": "^2.0.0",
     "sisyphus.js": "^1.1.2",
-    "snyk": "^1.41.1",
+    "snyk": "^1.49.3",
     "sprintf-js": "^1.0.3",
     "striptags": "^3.0.1",
     "thinky": "^2.3.9",

@@ -6,6 +6,16 @@ ignore:
     - thinky > validator:
         reason: None given
         expires: '2017-05-08T00:44:20.779Z'
+  'npm:jquery:20170829':
+    - '*':
+        reason: None Given
+        expires: 2017-12-17T22:29:43.130Z
+      jquery:
+        reason: not impacting us - file is not exposed
+        expires: '2017-12-17T22:33:55.968Z'
+    - jquery-powertip > jquery:
+        reason: not impacting us -file is not exposed
+        expires: '2017-12-17T22:33:55.968Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:ms:20170412':
