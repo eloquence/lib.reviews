@@ -457,8 +457,8 @@
    * replaceStar - Helper function to replace individual star image
    *
    * @param {Number} id - number of the star to replace
-   * @param {string} src - value for image source attribute
-   * @param {string} className - CSS class to assign to element
+   * @param {String} src - value for image source attribute
+   * @param {String} className - CSS class to assign to element
    * @memberof Review
    */
   function replaceStar(id, src, className) {
