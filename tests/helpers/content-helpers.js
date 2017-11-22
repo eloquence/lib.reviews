@@ -7,8 +7,7 @@ exports.getReviewDataGenerator = function *(userID) {
     'https://github.com/eloquence/lib.reviews/blob/master/tests/3-integration-signed-in.js',
     'https://github.com/eloquence/lib.reviews/blob/master/tests/4-adapter.js',
   ];
-  let i = 0;
-  while (urls.length) {
+  for (let i = 0; true; i++) {
     yield {
       title: { en: 'A terribly designed test' },
       text: { en: 'Whoever wrote this test was clearly *drunk*, or asleep, or something.' },
@@ -22,7 +21,6 @@ exports.getReviewDataGenerator = function *(userID) {
       originalLanguage: 'en',
       // not provisioned: createdBy, revision metadata
     };
-    i++;
   }
 };
 
