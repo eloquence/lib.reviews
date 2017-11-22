@@ -473,5 +473,9 @@
 	"html5 video not supported": "Message shown on pages with HTML5 video viewed through a browser that does not support it.",
 	"html5 audio not supported": "Message shown on pages with HTML5 audio viewed through a browser that does not support it.",
 	"html5 media fallback link": "Link that is part of the 'not supported' messages for HTML5 audio and video, offering the file for download since it cannot be played.",
-	"html5 media description": "Description that is part of the 'not supported' messages for HTML5 audio and video, offering the file for download since it cannot be played."
+	"html5 media description": "Description that is part of the 'not supported' messages for HTML5 audio and video, offering the file for download since it cannot be played.",
+	"previously reviewed": "Part of a modal dialog that is shown when the user picks a review subject they have previously reviewed.",
+	"abandon form changes": "Part of a modal dialog that is shown when the user picks a review subject they have previously reviewed. If the user chooses this option, they will leave the current page.",
+	"pick a different subject": "Part of a modal dialog that is shown when the user picks a review subject they have previously reviewed.",
+	"previously reviewed submission": "Error message that is shown when the user attempts to post a new review for a URL they have previously reviewed. This error will be caught pre-submission if JavaScript is enabled. %1$s is substituted with the relative URL of the review, %2$s with the relative URL to editing it."
 }
