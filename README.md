@@ -1,4 +1,5 @@
 # lib.reviews
+![vulnerabilities badge](https://snyk.io/test/github/eloquence/lib.reviews/badge.svg)
 
 A free/libre code and information platform for reviews of absolutely anything.
 
