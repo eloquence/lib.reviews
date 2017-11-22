@@ -1,15 +1,30 @@
-exports.getReviewData = (userID) => ({
-  title: { en: 'A terribly designed test' },
-  text: { en: 'Whoever wrote this test was clearly *drunk*, or asleep, or something.' },
-  html: { en: '<p>Whoever wrote this test was clearly <em>drunk</em>, or asleep, or something.</p>' },
-  url: 'https://github.com/eloquence/lib.reviews/blob/master/tests/1-models.js',
-  tags: ['test_revision', 'test_revision_create'],
-  createdOn: new Date(),
-  createdBy: userID,
-  starRating: 1,
-  originalLanguage: 'en',
-  // not provisioned: createdBy, revision metadata
-});
+// Generator to get arbitrary number of review objects with unique URLs. Sample
+// URLs are just for fun.
+exports.getReviewDataGenerator = function *(userID) {
+  const urls = [
+    'https://github.com/eloquence/lib.reviews/blob/master/tests/1-models.js',
+    'https://github.com/eloquence/lib.reviews/blob/master/tests/2-integration-signed-out.js',
+    'https://github.com/eloquence/lib.reviews/blob/master/tests/3-integration-signed-in.js',
+    'https://github.com/eloquence/lib.reviews/blob/master/tests/4-adapter.js',
+  ];
+  let i = 0;
+  while (urls.length) {
+    yield {
+      title: { en: 'A terribly designed test' },
+      text: { en: 'Whoever wrote this test was clearly *drunk*, or asleep, or something.' },
+      html: { en: '<p>Whoever wrote this test was clearly <em>drunk</em>, or asleep, or something.</p>' },
+      url: urls[i] ||
+        `https://github.com/eloquence/lib.reviews/blob/master/tests/${i + 1}-something-else.js`,
+      tags: ['test_revision', 'test_revision_create'],
+      createdOn: new Date(),
+      createdBy: userID,
+      starRating: 1,
+      originalLanguage: 'en',
+      // not provisioned: createdBy, revision metadata
+    };
+    i++;
+  }
+};
 
 exports.getTeamData = (userID) => ({
   name: { en: 'Annoyed QA Team' },

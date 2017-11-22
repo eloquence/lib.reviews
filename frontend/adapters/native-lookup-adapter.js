@@ -14,7 +14,7 @@ class NativeLookupAdapter extends AbstractLookupAdapter {
 
   lookup(url) {
     return new Promise((resolve, reject) => {
-      $.get('/api/thing', { url })
+      $.get('/api/thing', { url, userID: window.config.userID })
         .then(data => {
           let thing = data.thing;
           let thingURL = thing.urls[0];

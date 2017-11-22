@@ -15,7 +15,11 @@ const msgArr = [
   'review via openlibrary help text',
   'review via wikidata help text',
   'start typing to search openlibrary',
-  'start typing to search wikidata'
+  'start typing to search wikidata',
+  'previously reviewed',
+  'abandon form changes',
+  'pick a different subject',
+  'edit review'
 ];
 const getMessages = require('../../util/get-messages');
 

@@ -134,14 +134,29 @@ Thing.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Thing
  *
  * @param {String} url
  *  the URL to look up
+ * @param {String} [userID]
+ *  include any review(s) of this thing by the given user
  * @returns {Query}
  *  query for current revisions that contain this URL
  */
-Thing.lookupByURL = function(url) {
-  return Thing
+Thing.lookupByURL = function(url, userID) {
+  let query = Thing
     .filter(thing => thing('urls').contains(url))
     .filter({ _oldRevOf: false }, { default: true })
     .filter({ _revDeleted: false }, { default: true });
+
+  if (typeof userID == 'string')
+    query = query.getJoin({
+      reviews: {
+        _apply: seq => seq
+          .filter({ createdBy: userID })
+          .filter({ _oldRevOf: false }, { default: true })
+          .filter({ _revDeleted: false }, { default: true })
+      }
+    });
+
+  return query;
+
 };
 
 /**

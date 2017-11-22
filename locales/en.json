@@ -483,5 +483,9 @@
    "html5 video not supported": "Your browser does not support playing HTML5 video.",
    "html5 audio not supported": "Your browser does not support playing HTML5 audio.",
    "html5 media fallback link": "You can <a href=\"%s\" download>download the file</a> instead.",
-   "html5 media description": "Here is a description of the content: %s"
+   "html5 media description": "Here is a description of the content: %s",
+   "previously reviewed": "You have previously reviewed this subject:",
+   "abandon form changes": "Do you want to abandon the contents of this form and edit your existing review?",
+   "pick a different subject": "Pick a different subject",
+   "previously reviewed submission": "You have <a href='%1$s' target='_blank'>already written a review</a> of this subject. You can <a href='%2$s' target='_blank'>edit your existing review</a> (opens in new tab) but you cannot post an additional review."
 }
