@@ -23,7 +23,8 @@ router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 router.get('/thing', function(req, res, next) {
   if (req.query.url) {
     let rv = {},
-      failureMsg = 'Could not retrieve review subject.';
+      failureMsg = 'Could not retrieve review subject.',
+      userID = req.query.userID;
 
     if (!urlUtils.validate(req.query.url)) {
       rv.message = failureMsg;
@@ -35,7 +36,7 @@ router.get('/thing', function(req, res, next) {
     }
 
     Thing
-      .lookupByURL(urlUtils.normalize(req.query.url))
+      .lookupByURL(urlUtils.normalize(req.query.url), userID)
       .then(result => {
         if (!result.length) {
           res.status(404);
@@ -61,7 +62,8 @@ router.get('/thing', function(req, res, next) {
                 createdBy: result.createdBy,
                 numberOfReviews: result.numberOfReviews,
                 averageStarRating: result.averageStarRating,
-                urls: result.urls
+                urls: result.urls,
+                reviews: result.reviews
               };
               res.type('json');
               res.send(JSON.stringify(rv, null, 2));

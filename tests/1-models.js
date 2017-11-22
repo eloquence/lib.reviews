@@ -4,12 +4,12 @@ process.env.NODE_ENV = 'development';
 process.env.NODE_APP_INSTANCE = 'testing-1';
 
 const dbFixture = require('./fixtures/db-fixture');
-const { getReviewData, getTeamData } = require('./helpers/content-helpers');
+const { getReviewDataGenerator, getTeamData } = require('./helpers/content-helpers');
 const { getModels } = require('./helpers/model-helpers');
 const isUUID = require('is-uuid');
 const test = require('ava');
 
-let user;
+let user, reviewData;
 
 // NOTE: Because these tests don't initialize the app, the i18n library will not
 // be configured. Internationalized messages will be returned as message keys.
@@ -29,6 +29,7 @@ test.serial('We can create a user', async t => {
   });
   t.true(isUUID.v4(user.id), 'User has valid v4 UUID');
   t.is(user.password.length, 60, 'Password appears to be hashed correctly');
+  reviewData = getReviewDataGenerator(user.id);
 });
 
 test('We can create a review', async t => {
@@ -36,7 +37,8 @@ test('We can create a review', async t => {
 
   let tags = ['create_test_revision', 'test_rev'];
   // Destructuring for easy access to tests
-  let { title, text, html, url, starRating, createdOn, createdBy, originalLanguage } = getReviewData(user.id);
+  let { title, text, html, url, starRating, createdOn, createdBy, originalLanguage } =
+  reviewData.next().value;
   let review = await dbFixture.models.Review.create({
     title,
     text,
@@ -62,7 +64,7 @@ test('We can create a review', async t => {
 });
 
 test('Trying to save review with bad rating results in expected error', async t => {
-  let reviewObj = getReviewData(user.id);
+  let reviewObj = reviewData.next().value;
   reviewObj.starRating = 99;
 
   try {
@@ -76,7 +78,7 @@ test('Trying to save review with bad rating results in expected error', async t 
 test('We can create a new revision of a review', async t => {
   t.plan(6);
 
-  let reviewObj = getReviewData(user.id);
+  let reviewObj = reviewData.next().value;
   let review = await dbFixture.models.Review.create(reviewObj);
   // Object is modified by newRevision function - so we extract what we need
   let { _revID, id } = review;
@@ -99,8 +101,8 @@ test('We can create a new revision of a review', async t => {
 test('We can retrieve and paginate a feed of reviews', async t => {
 
   t.plan(4);
-  let reviewObj = getReviewData(user.id);
   for (let i = 0; i < 5; i++) {
+    let reviewObj = reviewData.next().value;
     reviewObj.createdOn = new Date();
     await dbFixture.models.Review.create(reviewObj);
   }
@@ -129,9 +131,7 @@ test('We can retrieve and paginate a feed of reviews', async t => {
 
 test('We can delete multiple revisions of a review and its associated thing', async t => {
 
-  let reviewObj = getReviewData(user.id);
-  // Different URL, so we don't delete thing created from other tests
-  reviewObj.url = 'http://bad.horse';
+  let reviewObj = reviewData.next().value;
 
   let review = await dbFixture.models.Review.create(reviewObj);
 

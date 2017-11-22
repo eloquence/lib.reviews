@@ -17,6 +17,7 @@ let render = {
 
     let jsConfig = {
       userName: req.user ? req.user.displayName : undefined,
+      userID: req.user ? req.user.id : undefined,
       language: req.locale,
       userPrefersRichTextEditor: req.user ? req.user.prefersRichTextEditor : undefined,
       messages: {}

@@ -117,6 +117,24 @@ Review.getWithData = async function(id) {
  */
 Review.create = async function(reviewObj, { tags } = {}) {
   const thing = await Review.findOrCreateThing(reviewObj);
+  const existingReviews = await Review
+    .filter({
+      thingID: thing.id,
+      createdBy: reviewObj.createdBy
+    })
+    .filter({ _oldRevOf: false }, { default: true })
+    .filter({ _revDeleted: false }, { default: true });
+
+  if (existingReviews.length)
+    throw new ReportedError({
+      message: 'User has previously reviewed this subject.',
+      userMessage: 'previously reviewed submission',
+      userMessageParams: [
+          `/review/${existingReviews[0].id}`,
+          `/review/${existingReviews[0].id}/edit`
+      ]
+    });
+
   let review = new Review({
     thing, // joined
     teams: reviewObj.teams, // joined

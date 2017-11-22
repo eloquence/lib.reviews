@@ -93,7 +93,9 @@
   if (!editing) {
     initializeURLValidation();
     $(textFields).change(hideAbandonDraft);
-    $('#review-url').keyup(handleURLLookup);
+    $('#review-url').keyup(function(event) {
+      handleURLLookup.call(this, event, true); // Suppresses modal while typing
+    });
     $('#review-url').keyup(handleURLFixes);
     $('#review-url').change(handleURLLookup);
     $('#review-url').change(handleURLValidation);
@@ -230,10 +232,15 @@
    * option -- we look up information, e.g., from Wikidata even if the user just
    * puts in a Wikidata URL.
    *
+   * @param {Event} [_event]
+   *  the event that triggered the lookup; not used
+   * @param {Boolean} [suppressModal=false]
+   *  Suppress the modal shown if the user has previously reviewed this subject.
+   *  Overkill while typing, so suppressed there.
+   *
    * @memberof Review
    */
-
-  function handleURLLookup() {
+  function handleURLLookup(_event, suppressModal) {
     let inputEle = this;
     let inputURL = inputEle.value;
     let promises = [];
@@ -245,8 +252,10 @@
     // Track lookups, regardless of success or failure
     lastLookup = inputURL;
 
-    if (!inputURL)
-      return clearResolvedInfo();
+    if (!inputURL) {
+      clearResolvedInfo();
+      return;
+    }
 
     // We look up this URL using all adapters that support it. The native
     // adapter performs its own URL schema validation, and other adapters
@@ -269,19 +278,106 @@
         // Use first valid result in order of the array. Since the native lookup
         // is the first array element, it will take precedence over any adapters.
         for (let result of results) {
-          if (result.data && result.data.label)
-            return updateReviewSubject({
+          if (result.data && result.data.label) {
+
+            // User has previously reviewed this subject
+            if (result.data.thing && result.data.thing.reviews) {
+              if (!suppressModal) {
+                showModalForEditingExistingReview(result.data);
+                return;
+              } else {
+                // Don't show modal - perhaps user is still typing.
+                // May have to show modal later, so don't cache lookup
+                lastLookup = undefined;
+              }
+            }
+            updateReviewSubject({
               url: inputURL,
               label: result.data.label,
               description: result.data.description, // may be undefined
               subtitle: result.data.subtitle,
               thing: result.data.thing // may be undefined
             });
+            return;
+          }
+          clearResolvedInfo();
         }
-
-        clearResolvedInfo();
-
       });
+  }
+
+  /**
+   * Show modal that asks the user to edit an existing review of the given
+   * subject, or to pick another review subject.
+   *
+   * @param {Object} data
+   *  data used for the redirect
+   * @param {Object[]} data.reviews
+   *  array of reviews by the current user for this thing. Under normal
+   *  circumstances there should only be 1, but this is not a hard constraint
+   *  at the database level.
+   */
+  function showModalForEditingExistingReview(data) {
+    const $modal = $(`<div class="hidden-regular" id="review-modal"></div>`)
+      .append('<p>' + window.libreviews.msg('previously reviewed') + '</p>')
+      .append('<p><b>' + data.label + '</b></p>')
+      .append('<p>' + window.libreviews.msg('abandon form changes') + '</p>')
+      .append('<button class="pure-button pure-button-primary button-rounded" id="edit-existing-review">' +
+        window.libreviews.msg('edit review') + '</button>')
+      .append('&nbsp;<a href="#" id="pick-different-subject">' + window.libreviews.msg('pick a different subject') + '</a>');
+    $modal.insertAfter('#review-subject');
+    $modal.modal({
+      escapeClose: false,
+      clickClose: false,
+      showClose: false
+    });
+    $('#edit-existing-review').click(() => {
+      // Clear draft
+      sisyphus.manuallyReleaseData();
+      window.location.assign(`/review/${data.thing.reviews[0].id}/edit`);
+    });
+    $('#pick-different-subject').click(event => {
+      $.modal.close();
+      $modal.remove();
+      $('#review-url').val('');
+      $('#review-url').trigger('change');
+      event.preventDefault();
+    });
+    lockTabs($modal);
+  }
+
+  /**
+   * Prevent tabbing outside a given container; useful for modals.
+   * Credit: Alexander Puchkov
+   * https://stackoverflow.com/posts/21811463/revisions
+   *
+   * @param {jQuery} $element
+   *  Container element, e.g., a dialog
+   */
+  function lockTabs($element) {
+    const $inputs = $element
+      .find('select, input, textarea, button, a')
+      .filter(':visible');
+    const $firstInput = $inputs.first();
+    const $lastInput = $inputs.last();
+
+    // set focus on first input
+    $firstInput.focus();
+
+    // redirect last tab to first input
+    $lastInput.on('keydown', function(e) {
+      if (e.which === 9 && !e.shiftKey) {
+        e.preventDefault();
+        $firstInput.focus();
+      }
+    });
+
+    // redirect first shift+tab to last input
+    $firstInput.on('keydown', function(e) {
+      if (e.which === 9 && e.shiftKey) {
+        e.preventDefault();
+        $lastInput.focus();
+      }
+    });
   }
 
   /**
@@ -353,6 +449,16 @@
     // Re-validate URL. There shouldn't be any problems with the new URL, so
     // this will mainly clear out old validation errors.
     handleURLValidation.apply($('#review-url')[0]);
+
+    // If user has previously reviewed this, they need to choose to pick a
+    // different subject or to edit their existing review
+    if (data.thing && data.thing.reviews) {
+      // Previous adapter may have loaded info
+      clearResolvedInfo();
+      showModalForEditingExistingReview(data);
+      return;
+    }
+
     updateReviewSubject(data);
     // Make sure we save draft in case user aborts here
     sisyphus.saveAllData();
