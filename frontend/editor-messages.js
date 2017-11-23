@@ -13,6 +13,7 @@ const msgArr = [
   'add or remove link',
   'add link dialog title',
   'web address',
+  'link text',
   'toggle bold',
   'toggle italic',
   'toggle code',

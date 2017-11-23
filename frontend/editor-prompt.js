@@ -16,18 +16,19 @@ exports.openPrompt = function(spec) {
 
   // Close prompt
   function close() {
-    $('window').off('mousedown', maybeClose);
+    $(window).off('mousedown', maybeClose);
     $wrapper.remove();
     spec.view.enable();
+    spec.view.focus();
   }
 
   // Close prompt on outside clicks
   function maybeClose(event) {
-    if ($wrapper[0].contains(event.target))
+    if (!$wrapper[0].contains(event.target))
       close();
   }
 
-  setTimeout(() => $('window').on('mousedown', maybeClose), 50);
+  setTimeout(() => $(window).on('mousedown', maybeClose), 50);
 
   let domFields = [];
   for (let name in spec.fields)
@@ -86,7 +87,9 @@ exports.openPrompt = function(spec) {
     }
   });
 
-  $form.find('input').first().focus();
+  // Prevent tabbing outside dialog (only adds listeners to inputs inside the
+  // wrapper). Focuses on first input.
+  $wrapper.lockTab();
 };
 
 function getValues(fields, domFields) {
