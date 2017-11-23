@@ -358,6 +358,7 @@
 	"development diary": "Diario di sviluppo",
 	"insert": "Inserisci",
 	"insert help": "Inserisci contenuto",
+	"media alt text": "Testo alternativo",
 	"add or remove link": "Aggiungi o rimuovi collegamento",
 	"add link dialog title": "Aggiungi un collegamento",
 	"web address": "Indirizzo web",
@@ -403,5 +404,6 @@
 	"multiple editions": "%d edizione %s",
 	"single year": "(%s)",
 	"year range": "(%1$d - %2$d)",
-	"unknown year": "anno sconosciuto"
+	"unknown year": "anno sconosciuto",
+	"html5 media fallback link": "Puoi <a href=\"%s\" download>scaricare il file</a> invece."
 }

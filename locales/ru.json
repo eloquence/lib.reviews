@@ -8,7 +8,8 @@
 			"Redredsonia",
 			"Esukhovnina",
 			"ЛосЯш",
-			"Jack who built the house"
+			"Jack who built the house",
+			"Wirbel78"
 		]
 	},
 	"site name": "lib.reviews",
@@ -186,6 +187,7 @@
 	"show less": "Показать меньше",
 	"development diary": "Дневник разработчиков",
 	"insert": "Вставить",
+	"media alt text": "Альтернативный текст",
 	"add link dialog title": "Добавить ссылку",
 	"format as paragraph": "Абзац",
 	"format as spoiler": "Спойлер",

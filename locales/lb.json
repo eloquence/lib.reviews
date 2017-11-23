@@ -254,9 +254,11 @@
 	"search results": "An de Resultater sichen",
 	"show more": "Méi weisen",
 	"show less": "Manner weisen",
+	"insert media": "Medien",
 	"insert": "Drasetzen",
 	"insert help": "Inhalt drasetzen",
 	"insert horizontal rule": "Horizontal Linn",
+	"media alt text": "Alternativen Text",
 	"add or remove link": "E Link derbäisetzen oder ewechhuelen",
 	"add link dialog title": "E Link derbäisetzen",
 	"web address": "Internet-Adress",
@@ -314,5 +316,7 @@
 	"multiple editions": "%d Editiounen %s",
 	"single year": "(%s)",
 	"year range": "(%1$d bis %2$d)",
-	"unknown year": "onbekannt Joer"
+	"unknown year": "onbekannt Joer",
+	"html5 media description": "Hei ass d'Beschreiwung vum Inhalt: %s",
+	"pick a different subject": "En anere Sujet eraussischen"
 }
