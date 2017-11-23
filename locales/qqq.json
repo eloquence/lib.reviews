@@ -379,6 +379,7 @@
 	"add or remove link": "Tooltip for the menu button that lets the user add or remove a link in the rich text editor",
 	"add link dialog title": "Title for the dialog that lets the user add a link in the rich text editor (removal is done without a dialog).",
 	"web address": "Form header on page for managing links associated with a review subject.",
+	"link text": "Label in rich text editor dialog for inserting links that allows the user to specify plain text to which the link is applied.",
 	"toggle bold": "Tooltip for the button that lets the user toggle bold formatting in the rich text editor",
 	"toggle italic": "Tooltip for the button that lets the user toggle italic formatting in the rich text editor",
 	"toggle code": "Tooltip for the button that lets the user toggle inline code formatting in the rich text editor",

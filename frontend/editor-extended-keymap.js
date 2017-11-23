@@ -102,8 +102,7 @@ exports.getExtendedKeymap = function getExtendedKeymap(schema, menu) {
   }
 
   keymap['Mod-k'] = (state, dispatch, view) => {
-    if (!state.selection.empty)
-      menu.toggleLink.spec.run(state, dispatch, view);
+    menu.toggleLink.spec.run(state, dispatch, view);
     return true;
   };
 

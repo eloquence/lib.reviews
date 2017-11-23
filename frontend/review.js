@@ -342,42 +342,7 @@
       $('#review-url').trigger('change');
       event.preventDefault();
     });
-    lockTabs($modal);
-  }
-
-  /**
-   * Prevent tabbing outside a given container; useful for modals.
-   * Credit: Alexander Puchkov
-   * https://stackoverflow.com/posts/21811463/revisions
-   *
-   * @param {jQuery} $element
-   *  Container element, e.g., a dialog
-   */
-  function lockTabs($element) {
-    const $inputs = $element
-      .find('select, input, textarea, button, a')
-      .filter(':visible');
-    const $firstInput = $inputs.first();
-    const $lastInput = $inputs.last();
-
-    // set focus on first input
-    $firstInput.focus();
-
-    // redirect last tab to first input
-    $lastInput.on('keydown', function(e) {
-      if (e.which === 9 && !e.shiftKey) {
-        e.preventDefault();
-        $firstInput.focus();
-      }
-    });
-
-    // redirect first shift+tab to last input
-    $firstInput.on('keydown', function(e) {
-      if (e.which === 9 && e.shiftKey) {
-        e.preventDefault();
-        $lastInput.focus();
-      }
-    });
+    $modal.lockTab();
   }
 
   /**

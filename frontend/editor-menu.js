@@ -96,6 +96,21 @@ function insertMediaItem(nodeTypes) {
   });
 }
 
+function horizontalRuleItem(hr) {
+
+  return new MenuItem({
+    title: libreviews.msg('insert horizontal rule help', { accessKey: '_' }),
+    label: libreviews.msg('insert horizontal rule'),
+    select(state) {
+      return canInsert(state, hr);
+    },
+    run(state, dispatch) {
+      dispatch(state.tr.replaceSelectionWith(hr.create()));
+    }
+  });
+}
+
+
 function cmdItem(cmd, options) {
   let passedOptions = {
     label: options.title,
@@ -179,46 +194,57 @@ function formatCustomWarningItem(nodeType) {
   });
 }
 
-function linkItem(markType) {
+function linkItem(schema) {
   return new MenuItem({
     title: libreviews.msg('add or remove link', { accessKey: 'k' }),
     icon: icons.link,
     active(state) {
-      return markActive(state, markType);
+      return markActive(state, schema.marks.link);
     },
-    select(state) {
-      return !state.selection.empty;
-    },
-    onDeselected: "disable",
     run(state, dispatch, view) {
-      if (markActive(state, markType)) {
-        toggleMark(markType)(state, dispatch);
+      if (markActive(state, schema.marks.link)) {
+        toggleMark(schema.marks.link)(state, dispatch);
         return true;
       }
+      const required = true;
+      const fields = {
+        href: new TextField({
+          label: libreviews.msg('web address'),
+          required,
+          clean: val => !/^https?:\/\//i.test(val) ? 'http://' + val : val
+        })
+      };
+      // User has not selected any text, so needs to provide it via dialog
+      if (view.state.selection.empty)
+        fields.linkText = new TextField({
+          label: libreviews.msg('link text'),
+          required,
+          clean: val => val.trim()
+        });
       openPrompt({
         view,
         title: libreviews.msg('add link dialog title'),
-        fields: {
-          href: new TextField({
-            label: libreviews.msg('web address'),
-            required: true,
-            clean: (val) => {
-              if (!/^https?:\/\//i.test(val))
-                val = 'http://' + val;
-              return val;
-            }
-          })
-        },
+        fields,
         callback(attrs) {
-          // Transform selected text into link
-          toggleMark(markType, attrs)(view.state, view.dispatch);
-          // Advance cursor to end of selection (not necessarily head,
-          // depending on selection direction)
-          let rightmost = view.state.selection.$anchor.pos > view.state.selection.$head.pos ?
-            view.state.selection.$anchor : view.state.selection.$head;
-          view.dispatch(view.state.tr.setSelection(TextSelection.between(rightmost, rightmost)));
-          // Disable link mark so user can now type normally again
-          toggleMark(markType, attrs)(view.state, view.dispatch);
+          if (!attrs.linkText) {
+            // Transform selected text into link
+            toggleMark(schema.marks.link, attrs)(view.state, view.dispatch);
+            // Advance cursor to end of selection (not necessarily head,
+            // depending on selection direction)
+            let rightmost = view.state.selection.$anchor.pos > view.state.selection.$head.pos ?
+              view.state.selection.$anchor : view.state.selection.$head;
+            view.dispatch(view.state.tr.setSelection(TextSelection.between(rightmost, rightmost)));
+            // Disable link mark so user can now type normally again
+            toggleMark(schema.marks.link, attrs)(view.state, view.dispatch);
+          } else {
+            view.dispatch(
+              view.state.tr
+              .replaceSelectionWith(schema.text(attrs.linkText))
+              .addMark(view.state.selection.$from.pos,
+                view.state.selection.$from.pos + attrs.linkText.length,
+                schema.marks.link.create({ href: attrs.href }))
+            );
+          }
           view.focus();
         }
       });
@@ -230,145 +256,66 @@ function wrapListItem(nodeType, options) {
   return cmdItem(wrapInList(nodeType, options.attrs), options);
 }
 
-// :: (Schema) → Object
-// Given a schema, look for default mark and node types in it and
-// return an object with relevant menu items relating to those marks:
-//
-// **`toggleStrong`**`: MenuItem`
-//   : A menu item to toggle the [strong mark](#schema-basic.StrongMark).
-//
-// **`toggleEm`**`: MenuItem`
-//   : A menu item to toggle the [emphasis mark](#schema-basic.EmMark).
-//
-// **`toggleCode`**`: MenuItem`
-//   : A menu item to toggle the [code font mark](#schema-basic.CodeMark).
-//
-// **`toggleLink`**`: MenuItem`
-//   : A menu item to toggle the [link mark](#schema-basic.LinkMark).
-//
-// **`insertMedia`**`: MenuItem`
-//   : A menu item to insert an image, video or sound file
-//
-// **`wrapBulletList`**`: MenuItem`
-//   : A menu item to wrap the selection in a [bullet list](#schema-list.BulletList).
-//
-// **`wrapOrderedList`**`: MenuItem`
-//   : A menu item to wrap the selection in an [ordered list](#schema-list.OrderedList).
-//
-// **`wrapBlockQuote`**`: MenuItem`
-//   : A menu item to wrap the selection in a [block quote](#schema-basic.BlockQuote).
-//
-// **`makeParagraph`**`: MenuItem`
-//   : A menu item to set the current textblock to be a normal
-//     [paragraph](#schema-basic.Paragraph).
-//
-// **`makeCodeBlock`**`: MenuItem`
-//   : A menu item to set the current textblock to be a
-//     [code block](#schema-basic.CodeBlock).
-//
-// **`makeHead[N]`**`: MenuItem`
-//   : Where _N_ is 1 to 6. Menu items to set the current textblock to
-//     be a [heading](#schema-basic.Heading) of level _N_.
-//
-// **`insertHorizontalRule`**`: MenuItem`
-//   : A menu item to insert a horizontal rule.
-//
-// The return value also contains some prefabricated menu elements and
-// menus, that you can use instead of composing your own menu from
-// scratch:
-//
-// **`insertMenu`**`: Dropdown`
-//   : A dropdown containing the `insertMedia` and
-//     `insertHorizontalRule` items.
-//
-// **`typeMenu`**`: Dropdown`
-//   : A dropdown containing the items for making the current
-//     textblock a paragraph, code block, or heading.
-//
-// **`fullMenu`**`: [[MenuElement]]`
-//   : An array of arrays of menu elements for use as the full menu
-//     for, for example the [menu bar](https://github.com/prosemirror/prosemirror-menu#user-content-menubar).
+/**
+ * Build a menu for nodes and marks supported in the markdown schema.
+ *
+ * @param {Schema} schema
+ *  the markdown schema
+ * @returns {Object}
+ *  the generated menu
+ */
 function buildMenuItems(schema) {
   /* eslint no-cond-assign: "off" */
-
-  let r = {},
-    type;
-
-  if (type = schema.marks.strong)
-    r.toggleStrong = markItem(type, { title: libreviews.msg('toggle bold', { accessKey: 'b' }), icon: icons.strong });
-  if (type = schema.marks.em)
-    r.toggleEm = markItem(type, { title: libreviews.msg('toggle italic', { accessKey: 'i' }), icon: icons.em });
-  if (type = schema.marks.code)
-    r.toggleCode = markItem(type, { title: libreviews.msg('toggle code', { accessKey: '`' }), icon: icons.code });
-  if (type = schema.marks.link)
-    r.toggleLink = linkItem(type);
-
-  if (schema.nodes.image && schema.nodes.video && schema.nodes.audio)
-    r.insertMedia = insertMediaItem({
+  const r = {
+    toggleStrong: markItem(schema.marks.strong, { title: libreviews.msg('toggle bold', { accessKey: 'b' }), icon: icons.strong }),
+    toggleEm: markItem(schema.marks.em, { title: libreviews.msg('toggle italic', { accessKey: 'i' }), icon: icons.em }),
+    toggleCode: markItem(schema.marks.code, { title: libreviews.msg('toggle code', { accessKey: '`' }), icon: icons.code }),
+    toggleLink: linkItem(schema),
+    insertMedia: insertMediaItem({
       image: schema.nodes.image,
       video: schema.nodes.video,
       audio: schema.nodes.audio
-    });
-
-  if (type = schema.nodes.bullet_list)
-    r.wrapBulletList = wrapListItem(type, {
+    }),
+    insertHorizontalRule: horizontalRuleItem(schema.nodes.horizontal_rule),
+    wrapBulletList: wrapListItem(schema.nodes.bullet_list, {
       title: libreviews.msg('format as bullet list', { accessKey: '8' }),
       icon: icons.bulletList
-    });
-  if (type = schema.nodes.ordered_list)
-    r.wrapOrderedList = wrapListItem(type, {
+    }),
+    wrapOrderedList: wrapListItem(schema.nodes.ordered_list, {
       title: libreviews.msg('format as numbered list', { accessKey: '9' }),
       icon: icons.orderedList
-    });
-  if (type = schema.nodes.blockquote)
-    r.wrapBlockQuote = wrapItem(type, {
+    }),
+    wrapBlockQuote: wrapItem(schema.nodes.blockquote, {
       title: libreviews.msg('format as quote', { accessKey: '>' }),
       icon: icons.blockquote
-    });
-  if (type = schema.nodes.paragraph)
-    r.makeParagraph = blockTypeItem(type, {
+    }),
+    makeParagraph: blockTypeItem(schema.nodes.paragraph, {
       title: libreviews.msg('format as paragraph help', { accessKey: '0' }),
       label: libreviews.msg('format as paragraph')
-    });
-  if (type = schema.nodes.code_block)
-    r.makeCodeBlock = blockTypeItem(type, {
+    }),
+    makeCodeBlock: blockTypeItem(schema.nodes.code_block, {
       title: libreviews.msg('format as code block help'),
       label: libreviews.msg('format as code block')
-    });
-  if (type = schema.nodes.container_warning) {
-    r.formatSpoilerWarning = wrapItem(type, {
+    }),
+    formatSpoilerWarning: wrapItem(schema.nodes.container_warning, {
       title: libreviews.msg('format as spoiler help'),
       label: libreviews.msg('format as spoiler'),
       attrs: { markup: 'spoiler', message: libreviews.msg('spoiler warning') }
-    });
-    r.formatNSFWWarning = wrapItem(type, {
+    }),
+    formatNSFWWarning: wrapItem(schema.nodes.container_warning, {
       title: libreviews.msg('format as nsfw help'),
       label: libreviews.msg('format as nsfw'),
       attrs: { markup: 'nsfw', message: libreviews.msg('nsfw warning') }
-    });
-    r.formatCustomWarning = formatCustomWarningItem(type);
-  }
+    }),
+    formatCustomWarning: formatCustomWarningItem(schema.nodes.container_warning)
+  };
 
-  if (type = schema.nodes.heading)
-    for (let i = 1; i <= 10; i++)
-      r["makeHead" + i] = blockTypeItem(type, {
-        title: libreviews.msg('format as level heading help', { accessKey: String(i), numberParam: i }),
-        label: libreviews.msg('format as level heading', { numberParam: i }),
-        attrs: { level: i }
-      });
-  if (type = schema.nodes.horizontal_rule) {
-    let hr = type;
-    r.insertHorizontalRule = new MenuItem({
-      title: libreviews.msg('insert horizontal rule help', { accessKey: '_' }),
-      label: libreviews.msg('insert horizontal rule'),
-      select(state) {
-        return canInsert(state, hr);
-      },
-      run(state, dispatch) {
-        dispatch(state.tr.replaceSelectionWith(hr.create()));
-      }
+  for (let i = 1; i <= 10; i++)
+    r["makeHead" + i] = blockTypeItem(schema.nodes.heading, {
+      title: libreviews.msg('format as level heading help', { accessKey: String(i), numberParam: i }),
+      label: libreviews.msg('format as level heading', { numberParam: i }),
+      attrs: { level: i }
     });
-  }
 
   let cut = arr => arr.filter(x => x);
   r.insertMenu = new Dropdown(cut([r.insertMedia, r.insertHorizontalRule]), {
