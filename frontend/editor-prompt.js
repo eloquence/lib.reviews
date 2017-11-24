@@ -10,9 +10,8 @@ exports.openPrompt = function(spec) {
   // We want modal-like behavior, so we disable the active view
   spec.view.disable();
 
-  let rteContainer = $(spec.view.dom).parent().parent()[0];
-
-  let $wrapper = $('<div>').addClass(prefix).appendTo('body');
+  let $rteContainer = $(spec.view.dom).parent().parent(),
+    $wrapper = $('<div>').addClass(prefix).prependTo($rteContainer);
 
   // Close prompt
   function close() {
@@ -57,11 +56,16 @@ exports.openPrompt = function(spec) {
     .appendTo($form);
   $buttons.append($submitButton, ' ', $cancelButton);
 
-  let box = rteContainer.getBoundingClientRect();
+  let dialogBox = $wrapper[0].getBoundingClientRect(),
+    editorBox = $rteContainer[0].getBoundingClientRect(),
+    centeredX = (editorBox.width / 2) - (dialogBox.width / 2),
+    centeredY = (editorBox.height / 2) - (dialogBox.height / 2),
+    left = centeredX + "px",
+    top = centeredY + "px";
 
   $wrapper.css({
-    top: (box.top + (box.height / 3)) + "px",
-    left: (box.left + (box.width / 3)) + "px"
+    top,
+    left
   });
 
   let submit = () => {
@@ -154,7 +158,9 @@ class Field {
 
   // :: (any) → ?string
   // A field-type-specific validation function.
-  validateType(_value) {}
+  validateType(_value) {
+    // Implement me if you need me
+  }
 
   validate(value) {
     if (!value && this.options.required)
