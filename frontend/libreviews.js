@@ -386,14 +386,30 @@
   // help because of a change in scroll position. This is done automatically
   // for window resizes.
   window.libreviews.repaintFocusedHelp = () => {
-    let focused = $(':focus')[0];
+    let $focused = $(':focus');
+    if (!$focused.length)
+      return;
 
+    let id = $focused.attr('data-acts-as') || $focused[0].id;
     // Check if the currently focused element requires a help re-render
-    if (focused && focused.id && $(`[data-help-for=${focused.id}]`).length)
-      showInputHelp.apply(focused);
-
+    if (id && $(`[data-help-for=${id}]`).length)
+      showInputHelp.apply($focused[0]);
   };
 
+  // Add listeners for dynamic help to a given input element
+  window.libreviews.addHelpListeners = function($input) {
+    $input.focus(showInputHelp);
+    $input.blur(hideInputHelp);
+    // Re-calculate positioning of help in case of resizes
+    if (typeof MutationObserver !== 'undefined') {
+      new MutationObserver(window.libreviews.repaintFocusedHelp).observe($input[0], {
+        attributes: true,
+        attributeFilter: ['style']
+      });
+    }
+  };
+
+  // Now do this for all the relevant inputs we can currently locate on the page
   if ($('[data-help-for]').length) {
 
     // Attach dynamic help display for data-help-for="id" elements (to the "id"
@@ -401,15 +417,7 @@
     $('[data-help-for]').each(function() {
       let inputID = $(this).attr('data-help-for');
       let $input = $(`#${inputID}`);
-      $input.focus(showInputHelp);
-      $input.blur(hideInputHelp);
-      // Re-calculate positioning of help in case of resizes
-      if (typeof MutationObserver !== 'undefined') {
-        new MutationObserver(window.libreviews.repaintFocusedHelp).observe($input[0], {
-          attributes: true,
-          attributeFilter: ['style']
-        });
-      }
+      window.libreviews.addHelpListeners($input);
     });
 
     // Re-calculate positioning of help on window resize
@@ -589,9 +597,11 @@
     }
   }
 
-
+  // Show input help for an element bound to `this`.
   function showInputHelp() {
-    let id = this.id;
+    // data-acts-as is set for inputs that are an alternative representation
+    // of a main element -- e.g., an RTE for a textarea
+    let id = $(this).attr('data-acts-as') || this.id;
     // Hide all help texts
     $('.help-text').hide();
 
@@ -633,7 +643,7 @@
   }
 
   function hideInputHelp() {
-    let id = this.id;
+    let id = $(this).attr('data-acts-as') || this.id;
     // Keep help visible if user is hoving over it, so
     // links remain accessible
     if (!$('.help-text:hover').length)

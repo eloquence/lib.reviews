@@ -241,6 +241,12 @@ function renderRTE($textarea) {
 
   rtes[myID] = { editorView };
 
+  // Show any help for textarea when focusing on RTE as well
+  const textareaID = $textarea[0].id;
+  if ($(`[data-help-for="${textareaID}"]`).length) {
+    $(editorView.dom).attr('data-acts-as', textareaID);
+    window.libreviews.addHelpListeners($(editorView.dom));
+  }
   addCustomFeatures({ $rteContainer, myID, $textarea });
 
   rteCounter.increase();
