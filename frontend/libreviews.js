@@ -619,14 +619,14 @@
             maxRight = eleRight;
         });
 
-      if (posHelp.left > posLabel.right && window.innerWidth > posLabel.width + posHelp.width) {
+      if (posHelp.left > posLabel.right && document.body.clientWidth >= Math.ceil(posLabel.width) + Math.ceil(posHelp.width) + 5) {
         // Position vertically aligned with the input we're showing help for
         let newTopPos = Math.floor(window.scrollY) + Math.floor(posLabel.top);
         let newLeftPos = maxRight + 5;
         let style = `position:absolute;top:${newTopPos}px;display:inline-block;left:${newLeftPos}px;`;
         $(`#${id}-help`).attr('style', style);
       } else {
-        // Reset position
+        // Reset position below input element
         $(`#${id}-help`).attr('style', 'display:inline-block;');
       }
     }
