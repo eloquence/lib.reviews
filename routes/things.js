@@ -7,6 +7,7 @@ const url = require('url');
 const config = require('config');
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
 
 // Internal dependencies
 const ReportedError = require('../util/reported-error');
@@ -17,7 +18,6 @@ const render = require('./helpers/render');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const languages = require('../locales/languages');
 const feeds = require('./helpers/feeds');
-const debug = require('../util/debug');
 const forms = require('./helpers/forms');
 const slugs = require('./helpers/slugs');
 const search = require('../search');
@@ -317,39 +317,9 @@ router.post('/:id/upload', function(req, res, next) {
               });
             }
             upload.completed = true;
-
-            let finishUpload = new Promise((resolve, reject) => {
-
-              // File names are sanitized on input but ..
-              // This error is not shown to the user but logged, hence native.
-              if (!upload.name || /[/<>]/.test(upload.name))
-                throw new Error(`Invalid filename: ${upload.name}`);
-
-              // Move the file to its final location so it can be served
-              let oldPath = path.join(config.uploadTempDir, upload.name);
-              let newPath = path.join(__dirname, '../static/uploads', upload.name);
-
-              fs.rename(oldPath, newPath, error => {
-                if (error)
-                  reject(error);
-                else
-                  upload
-                  .save()
-                  .then(() => {
-                    resolve();
-                  })
-                  .catch(error => {
-                    // Problem saving the metadata. Move upload back to
-                    // temporary stash.
-                    fs.rename(newPath, oldPath, renameError => {
-                      debug.error({ error: renameError, req });
-                    });
-                    reject(error);
-                  });
-              });
-            });
-            finishUploadPromises.push(finishUpload);
+            finishUploadPromises.push(finishUpload(upload));
           });
+
           Promise
             .all(finishUploadPromises)
             .then(() => {
@@ -365,6 +335,27 @@ router.post('/:id/upload', function(req, res, next) {
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
+
+async function finishUpload(upload) {
+  // File names are sanitized on input but ..
+  // This error is not shown to the user but logged, hence native.
+  if (!upload.name || /[/<>]/.test(upload.name))
+    throw new Error(`Invalid filename: ${upload.name}`);
+
+  // Move the file to its final location so it can be served
+  let oldPath = path.join(config.uploadTempDir, upload.name),
+    newPath = path.join(__dirname, '../static/uploads', upload.name),
+    rename = util.promisify(fs.rename);
+
+  await rename(oldPath, newPath);
+  try {
+    await upload.save();
+  } catch (error) {
+    // Problem saving the metadata. Move upload back to
+    // temporary stash.
+    await rename(newPath, oldPath);
+  }
+}
 
 // Legacy redirects
 
