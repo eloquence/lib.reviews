@@ -394,6 +394,7 @@
 	"add or remove link": "Додај или отстрани врска",
 	"add link dialog title": "Додај врска",
 	"web address": "Семрежна адреса",
+	"link text": "Текст на врската",
 	"toggle bold": "Задебелување",
 	"toggle italic": "Закосување",
 	"toggle code": "Фонт на кодот",
@@ -491,5 +492,6 @@
 	"html5 media description": "Еве опис на содржината: %s",
 	"previously reviewed": "Претходно се имате осврнато на оваа тема:",
 	"abandon form changes": "Дали сакате да ја напуштите содржината на овој образец и да го уредувате постоечкиот осврт?",
-	"pick a different subject": "Избери друга тема"
+	"pick a different subject": "Избери друга тема",
+	"previously reviewed submission": "<a href='%1$s' target='_blank'>Веќе имате напишано осврт</a> на оваа тема. Можете да го <a href='%2$s' target='_blank'>измените постоечкиот осврт</a> (отвора ново јазиче), но не можете да објавите друг осврт."
 }

@@ -262,6 +262,7 @@
 	"add or remove link": "E Link derbäisetzen oder ewechhuelen",
 	"add link dialog title": "E Link derbäisetzen",
 	"web address": "Internet-Adress",
+	"link text": "Text verlinken",
 	"format block": "Format",
 	"format block help": "Den aktuellen Abschnitt oder Block formatéieren",
 	"format as bullet list": "Als Lëscht mat Punkte formatéieren",
@@ -318,5 +319,6 @@
 	"year range": "(%1$d bis %2$d)",
 	"unknown year": "onbekannt Joer",
 	"html5 media description": "Hei ass d'Beschreiwung vum Inhalt: %s",
+	"previously reviewed": "Dir hutt dëse Sujet virdrun nogekuckt:",
 	"pick a different subject": "En anere Sujet eraussischen"
 }

@@ -4,7 +4,8 @@
 			"Aftabuzzaman",
 			"Elias Ahmmad",
 			"Eloquence",
-			"আজিজ"
+			"আজিজ",
+			"Rasal Lia"
 		]
 	},
 	"site name": "lib.reviews",
@@ -373,7 +374,7 @@
 	"insert help": "বিষয়বস্তু সন্নিবেশ করে",
 	"insert horizontal rule": "অনুভূমিক নিয়ম",
 	"insert horizontal rule help": "একটি অনুভূমিক নিয়ম সন্নিবেশ করান (বিভাজক)",
-	"media url": "মিডিয়ার ফাইলের URL",
+	"media url": "মিডিয়া ফাইলের URL",
 	"add or remove link": "সংযোগ যোগ করুন বা সরান",
 	"add link dialog title": "একটি সংযোগ যোগ করুন",
 	"web address": "ওয়েব ঠিকানা",
@@ -431,5 +432,6 @@
 	"one edition": "এক সংস্করণ %s",
 	"single year": "(%s)",
 	"year range": "(%1$d - %2$d)",
-	"unknown year": "অজানা সাল"
+	"unknown year": "অজানা সাল",
+	"pick a different subject": "একটি আলাদা বিষয় চয়ন করুন"
 }

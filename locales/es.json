@@ -8,7 +8,8 @@
 			"Luzcaru",
 			"Luisangelrg",
 			"RicardoSGZ",
-			"Eloquence"
+			"Eloquence",
+			"KATRINE1992"
 		]
 	},
 	"site name": "lib.reviews",
@@ -388,13 +389,18 @@
 	"development diary": "Noticias de desarrollo",
 	"markdown format": "Markdown",
 	"rich text format": "texto enriquecido",
+	"insert media": "Multimedia",
+	"insert media dialog title": "Insertar multimedia",
 	"insert": "Insertar",
 	"insert help": "Insertar contenido",
 	"insert horizontal rule": "Línea horizontal",
 	"insert horizontal rule help": "Insertar una línea horizontal (separador)",
+	"media url": "URL del archivo multimedia",
+	"media alt text": "Texto alternativo",
 	"add or remove link": "Añadir o eliminar enlace",
 	"add link dialog title": "Añadir un enlace",
 	"web address": "Dirección web",
+	"link text": "Texto del enlace",
 	"toggle bold": "Activar o desactivar negrita",
 	"toggle italic": "Activar o desactivar cursiva",
 	"toggle code": "Activar o desactivar código",
@@ -485,5 +491,11 @@
 	"multiple editions": "%d ediciones %s",
 	"single year": "(%s)",
 	"year range": "(%1$d-%2$d)",
-	"unknown year": "año desconocido"
+	"unknown year": "año desconocido",
+	"html5 video not supported": "El navegador no admite la reproducción del vídeo HTML5.",
+	"html5 audio not supported": "El navegador no admite la reproducción del audio HTML5.",
+	"previously reviewed": "Has reseñado este tema anteriormente:",
+	"abandon form changes": "¿Quieres abandonar el contenido de este formulario y modificar la reseña existente?",
+	"pick a different subject": "Elige un tema diferente",
+	"previously reviewed submission": "Ya has <a href='%1$s' target='_blank'>escrito una reseña</a> sobre este tema. Puedes <a href='%2$s' target='_blank'>modificar la reseña existente</a> (se abre en una pestaña nueva), pero no puedes publicar más de una."
 }
