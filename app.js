@@ -28,7 +28,7 @@ const csrf = require('csurf'); // protect against request forgery using tokens
 const config = require('config');
 const compression = require('compression');
 const WebHooks = require('node-webhooks');
-const csp = require('helmet-csp') // Content security policy
+const csp = require('helmet-csp'); // Content security policy
 
 // Internal dependencies
 const languages = require('./locales/languages');
