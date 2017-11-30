@@ -176,14 +176,14 @@ async function validateFile(filePath, claimedType) {
 
   // Browser sometimes misreports media type for Ogg files. We don't throw an
   // error in this case, but return the correct type.
-  const twoOggs = (type1, type2) => /\/ogg$/.test(type1) && /\/ogg$/.test(type2);
+  const allOgg = (...types) => types.every(type => /\/ogg$/.test(type));
 
   if (!type)
     throw new ReportedError({
       userMessage: 'unrecognized file type',
       userMessageParams: [path.basename(filePath)],
     });
-  else if (type.mime !== claimedType && !twoOggs(type.mime, claimedType))
+  else if (type.mime !== claimedType && !allOgg(type.mime, claimedType))
     throw new ReportedError({
       userMessage: 'mime mismatch',
       userMessageParams: [path.basename(filePath), claimedType, type.mime],
