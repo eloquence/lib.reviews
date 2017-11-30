@@ -10,6 +10,8 @@
 // External dependencies
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const util = require('util');
 const favicon = require('serve-favicon');
 const serveIndex = require('serve-index');
 const logger = require('morgan');
@@ -68,6 +70,9 @@ async function getApp(db = require('./db')) {
   // Push promises into this array that need to resolve before the app itself
   // is ready for use
   let asyncJobs = [];
+
+  // Create directories for uploads and deleted files if needed
+  asyncJobs.push(...['deleted', 'static/uploads'].map(setupDirectory));
 
   // Auth setup
   require('./auth');
@@ -234,6 +239,25 @@ async function getApp(db = require('./db')) {
   debug.app(`App is up and running in ${mode} mode.`);
   initializedApp = app;
   return app;
+}
+
+
+/**
+ * Create a directory if it does not exist
+ *
+ * @param {String} dir
+ *  relative path name
+ * @memberof App
+ */
+async function setupDirectory(dir) {
+  dir = path.join(__dirname, dir);
+  let exists = util.promisify(fs.exists),
+    mkdir = util.promisify(fs.mkdir);
+
+  if (!await exists(dir)) {
+    debug.app(`Directory '${dir}' does not exist yet, creating.`);
+    await mkdir(dir);
+  }
 }
 
 module.exports = getApp;
