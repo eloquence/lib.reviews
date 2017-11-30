@@ -90,7 +90,7 @@ router.post('/:id/upload', function(req, res, next) {
           // Validate all files
           Promise
             .all(validators)
-            .then(() => {
+            .then(types => {
               let fileRevPromises = [];
               req.files.forEach(() => fileRevPromises.push(File.createFirstRevision(req.user)));
               Promise
@@ -99,7 +99,10 @@ router.post('/:id/upload', function(req, res, next) {
                   let newFiles = [];
                   req.files.forEach((file, index) => {
                     fileRevs[index].name = file.filename;
-                    fileRevs[index].mimeType = file.mimetype;
+                    // We don't use the reported MIME type from the upload
+                    // because it may be wrong in some edge cases like Ogg
+                    // audio vs. Ogg video
+                    fileRevs[index].mimeType = types[index];
                     fileRevs[index].uploadedBy = req.user.id;
                     fileRevs[index].uploadedOn = new Date();
                     thing.addFile(fileRevs[index]);
@@ -170,18 +173,23 @@ function cleanupFiles(req) {
 async function validateFile(filePath, claimedType) {
   const buffer = await readChunk(filePath, 0, 262);
   const type = fileType(buffer);
+
+  // Browser sometimes misreports media type for Ogg files. We don't throw an
+  // error in this case, but return the correct type.
+  const twoOggs = (type1, type2) => /\/ogg$/.test(type1) && /\/ogg$/.test(type2);
+
   if (!type)
     throw new ReportedError({
       userMessage: 'unrecognized file type',
       userMessageParams: [path.basename(filePath)],
     });
-  else if (type.mime !== claimedType)
+  else if (type.mime !== claimedType && !twoOggs(type.mime, claimedType))
     throw new ReportedError({
       userMessage: 'mime mismatch',
       userMessageParams: [path.basename(filePath), claimedType, type.mime],
     });
   else
-    return true;
+    return type.mime;
 }
 
 // SVGs can't be validated by magic number check. This, too, is a relatively
@@ -190,7 +198,7 @@ async function validateSVG(filePath) {
   const readFile = promisify(fs.readFile);
   const data = await readFile(filePath);
   if (isSVG(data))
-    return true;
+    return 'image/svg';
   else
     throw new ReportedError({
       userMessage: 'not valid svg',
