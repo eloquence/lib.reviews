@@ -198,7 +198,7 @@ async function validateSVG(filePath) {
   const readFile = promisify(fs.readFile);
   const data = await readFile(filePath);
   if (isSVG(data))
-    return 'image/svg';
+    return 'image/svg+xml';
   else
     throw new ReportedError({
       userMessage: 'not valid svg',
