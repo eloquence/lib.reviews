@@ -18,13 +18,16 @@ const fileSchema = {
   description: mlString.getSchema(),
   uploadedBy: type.string().uuid(4),
   uploadedOn: type.date(),
+  mimeType: type.string(),
   license: type.string().enum(['cc-0', 'cc-by', 'cc-by-sa', 'fair-use']),
   // Provided by uploader: if not the author, who is?
   creator: mlString.getSchema(),
   // Provided by uploader: where does this file come from?
   source: mlString.getSchema(),
   // Uploaded files with incomplete metadata are stored in a separate directory
-  completed: type.boolean().default(false)
+  completed: type.boolean().default(false),
+  userCanDelete: type.virtual().default(false),
+  userIsCreator: type.virtual().default(false)
 };
 
 /* eslint-enable newline-per-chained-call */ /* for schema readability */
@@ -45,5 +48,23 @@ File.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(File);
 
 File.define("newRevision", revision.getNewRevisionHandler(File));
 File.define("deleteAllRevisions", revision.getDeleteAllRevisionsHandler(File));
+File.define("populateUserInfo", populateUserInfo);
+
+/**
+ * Populate virtual permission fields in a File object with the rights of a
+ * given user.
+ *
+ * @param {User} user
+ *  the user whose permissions to check
+ * @memberof File
+ * @instance
+ */
+function populateUserInfo(user) {
+  if (!user)
+    return; // Permissions will be at their default value (false)
+
+  this.userIsCreator = user.id === this.createdBy;
+  this.userCanDelete = this.userIsCreator || user.isSuperUser || user.isSiteModerator || false;
+}
 
 module.exports = File;

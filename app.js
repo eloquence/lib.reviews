@@ -37,6 +37,7 @@ const actions = require('./routes/actions');
 const users = require('./routes/users');
 const teams = require('./routes/teams');
 const pages = require('./routes/pages');
+const files = require('./routes/files');
 const processUploads = require('./routes/process-uploads');
 const blogPosts = require('./routes/blog-posts');
 const api = require('./routes/api');
@@ -207,6 +208,7 @@ async function getApp(db = require('./db')) {
   app.use('/', reviews);
   app.use('/', actions);
   app.use('/', teams);
+  app.use('/', files);
   app.use('/', blogPosts);
   app.use('/user', users);
 

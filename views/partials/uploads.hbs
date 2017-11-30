@@ -3,7 +3,11 @@
 <p>
   {{#each thing.files}}
 <div class="thing-data-file-list"><span class="thing-data-file-name">{{{getFileLink this.name}}}</span>
-<br>{{{mlString this.description}}}</div>
+<br>{{{mlString this.description}}}
+{{#if this.userCanDelete}}
+<div class="file-actions"><span class="file-action"><a href="/file/{{this.id}}/delete"><span class="fa fa-trash-o fa-fw">&nbsp;</span>{{{__ "delete file"}}}</a></span></div>
+</div>
+{{/if}}
 <p>
 {{/each}}
 </li>

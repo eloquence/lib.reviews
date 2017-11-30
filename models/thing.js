@@ -185,8 +185,11 @@ Thing.getWithData = async function(id, {
   if (withFiles)
     join = {
       files: {
-        _apply: seq => seq.filter({ completed: true })
-      } // We don't show unfinished uploads
+        _apply: seq => seq
+          .filter({ completed: true }) // We don't show unfinished uploads
+          .filter({ _revDeleted: false }, { default: true })
+          .filter({ _oldRevOf: false }, { default: true })
+      }
     };
 
   const thing = await Thing.getNotStaleOrDeleted(id, join);

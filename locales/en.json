@@ -114,6 +114,8 @@
     "edit description": "Edit description",
     "thing not found title": "Thing not found",
     "thing not found": "We did not find a thing with the specified address, '%s'. Perhaps it has been deleted?",
+    "file not found title": "File not found",
+    "file not found": "We did not find a file with the specified identifier, '%s'. Perhaps it has been deleted?",
     "review not found title": "Review not found",
     "review not found": "We did not find a review with the specified address, '%s'. Perhaps it has been deleted?",
     "enter label": "Enter a short, descriptive label",
@@ -130,12 +132,15 @@
     "page not found title": "Page not found",
     "page not found": "There doesn't appear to be anything here. If you think this is a bug, you can <a href='https://github.com/eloquence/lib.reviews/issues/new'>report it</a>.",
     "delete review": "Delete review",
+    "delete file": "Delete file",
     "edit review": "Edit review",
     "delete preamble": "Proceed only if you are certain that you want to delete the data below. Once it is gone, only an administrator can recover it, and it may be permanently removed as part of routine database cleanup.",
     "also delete thing": "Also delete associated <a href='/thing/%s'>thing</a>",
     "need delete-action": "The submission did not include the 'delete-action' parameter, which is required.",
     "review deleted": "Review deleted",
     "review has been deleted": "The review has been deleted. It's still accessible to administrators, but it may be permanently removed as part of routine maintenance.",
+    "file deleted": "File deleted",
+    "file has been deleted": "The review has been deleted. It's still accessible to administrators, but it may be permanently removed as part of routine maintenance.",
     "editing in language": "<b>Tip:</b> You are editing the <b>English</b> version. To edit in another language, pick it from the list at the bottom of this page (form changes will be lost).",
     "writing a review in language": "<b>Tip:</b> lib.reviews is a multilingual website. You are writing a review in <b>English</b>. To write in another language, pick it from the list at the bottom (form contents will be emptied).",
     "never show this again": "Never show this again",
@@ -488,5 +493,6 @@
    "previously reviewed": "You have previously reviewed this subject:",
    "abandon form changes": "Do you want to abandon the contents of this form and edit your existing review?",
    "pick a different subject": "Pick a different subject",
-   "previously reviewed submission": "You have <a href='%1$s' target='_blank'>already written a review</a> of this subject. You can <a href='%2$s' target='_blank'>edit your existing review</a> (opens in new tab) but you cannot post an additional review."
+   "previously reviewed submission": "You have <a href='%1$s' target='_blank'>already written a review</a> of this subject. You can <a href='%2$s' target='_blank'>edit your existing review</a> (opens in new tab) but you cannot post an additional review.",
+   "delete file": "Delete file"
 }

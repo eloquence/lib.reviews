@@ -37,6 +37,7 @@ static/css/style.css
 
 # Manually managed for now
 static/uploads
+deleted/
 
 # Manually maanged, served up via serve-index. For DB dumps mainly.
 static/downloads

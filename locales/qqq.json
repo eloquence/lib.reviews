@@ -478,5 +478,10 @@
 	"previously reviewed": "Part of a modal dialog that is shown when the user picks a review subject they have previously reviewed.",
 	"abandon form changes": "Part of a modal dialog that is shown when the user picks a review subject they have previously reviewed. If the user chooses this option, they will leave the current page.",
 	"pick a different subject": "Part of a modal dialog that is shown when the user picks a review subject they have previously reviewed.",
-	"previously reviewed submission": "Error message that is shown when the user attempts to post a new review for a URL they have previously reviewed. This error will be caught pre-submission if JavaScript is enabled. %1$s is substituted with the relative URL of the review, %2$s with the relative URL to editing it."
+	"previously reviewed submission": "Error message that is shown when the user attempts to post a new review for a URL they have previously reviewed. This error will be caught pre-submission if JavaScript is enabled. %1$s is substituted with the relative URL of the review, %2$s with the relative URL to editing it.",
+	"file not found title": "Title of the page that is shown when the user attempts to access an uploaded file that does not exist.",
+	"file not found": "Text of the page that is shown when the user attemts to access an uploaded file that does not exist.",
+	"delete file": "Title of the page that is shown when the user attempts to delete an uploaded file.",
+	"file deleted": "Title of the page that is shown when the user has successfully deleted an uploaded file.",
+	"file has been deleted": "Text of the page that is shown when the user has successfully deleted an uploaded file."
 }

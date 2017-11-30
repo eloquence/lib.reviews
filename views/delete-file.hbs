@@ -1,0 +1,27 @@
+{{#each pageErrors}}
+<div class="error">{{{this}}}</div>
+{{/each}}
+<div class="warning-box">
+  <div class="delete-preamble">
+  {{{__ "delete preamble"}}}
+  </div>
+  <form class="pure-form pure-form-aligned" method="post">
+  <input type="hidden" value="{{csrfToken}}" name="_csrf">
+  <button type="submit" id="delete" name="delete-action" value="delete" class="pure-button button-destructive button-rounded" accesskey="d" title="{{{__ "accesskey" "d"}}}"><span class="fa fa-fw fa-trash-o spaced-icon">&nbsp;</span> {{{__ "delete"}}}</button>
+  </form>
+</div>
+<a href="/static/uploads/{{{file.name}}}" target="_blank">{{{file.name}}}</a>
+{{#if isPreviewable}}
+<h2 class="sub-header-regular">{{{__ "preview" }}}</h2>
+<div class="file-preview">
+  {{#if isImage}}
+  <img src="/static/uploads/{{{file.name}}}">
+  {{/if}}
+  {{#if isVideo}}
+  <video src="/static/uploads/{{{file.name}}}" controls></video>
+  {{/if}}
+  {{#if isAudio}}
+  <audio src="/static/uploads/{{{file.name}}}" controls></audio>
+  {{/if}}
+</div>
+{{/if}}

@@ -99,6 +99,7 @@ router.post('/:id/upload', function(req, res, next) {
                   let newFiles = [];
                   req.files.forEach((file, index) => {
                     fileRevs[index].name = file.filename;
+                    fileRevs[index].mimeType = file.mimetype;
                     fileRevs[index].uploadedBy = req.user.id;
                     fileRevs[index].uploadedOn = new Date();
                     thing.addFile(fileRevs[index]);

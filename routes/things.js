@@ -381,6 +381,8 @@ function loadThingAndReviews(req, res, next, thing, offsetDate) {
   let p1, p2;
 
   thing.populateUserInfo(req.user);
+  if (Array.isArray(thing.files))
+    thing.files.map(file => file.populateUserInfo(req.user));
 
   // We don't use a join so we can use the orderBy index on this query.
   p1 = Review.getFeed({
