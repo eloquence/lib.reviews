@@ -414,5 +414,6 @@
 	"update links": "リンクを更新",
 	"add more links": "さらに追加",
 	"databases tag label": "データベース",
-	"imdb source label": "IMDb"
+	"imdb source label": "IMDb",
+	"abandon form changes": "入力した内容を破棄して現在の査読内容を編集しますか？"
 }
