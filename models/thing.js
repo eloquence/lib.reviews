@@ -105,8 +105,6 @@ Object.assign(thingSchema, revision.getSchema());
 
 let Thing = thinky.createModel("things", thingSchema);
 
-// Define membership and moderator relations; these are managed by the ODM
-// as separate tables, e.g. teams_users_membership
 Thing.hasAndBelongsToMany(File, "files", "id", "id", {
   type: 'media_usage'
 });
