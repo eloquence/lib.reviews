@@ -291,116 +291,126 @@ stage2Router.post('/:id/upload', function(req, res, next) {
           titleKey: 'add media'
         });
 
-      let language = req.body['upload-language'];
-      if (!languages.isValid(language)) {
-        req.flash('pageErrors', req.__('invalid language code', language));
-        return res.redirect(`/${thing.urlID}`);
-      }
+      processUploadForm(req, res, next, thing);
 
-      let formData = forms.parseSubmission(req, {
-        formDef: uploadFormDef,
-        formKey: 'upload-file',
-        language
-      });
-
-      if (req.flashHas('pageErrors'))
-        return res.redirect(`/${thing.urlID}`);
-
-      if (!formData.formValues.uploads || !Object.keys(formData.formValues.uploads).length) {
-        // No valid uploads
-        req.flash('pageErrors', req.__('data missing'));
-        return res.redirect(`/${thing.urlID}`);
-      }
-
-      let uploadPromises = [];
-      for (let uploadID in formData.formValues.uploads) {
-        uploadPromises.push(File.getNotStaleOrDeleted(uploadID));
-      }
-
-      // The execution sequence here is:
-      // 1) Parse the form and abort if there's a problem with any given upload.
-      // 2) If there's no problem, move the upload to its final location,
-      //    update its metadata and mark it as finished.
-      Promise
-        .all(uploadPromises)
-        .then(uploads => {
-          let finishUploadPromises = [];
-
-          uploads.forEach(upload => {
-
-            let getVal = obj => !Array.isArray(obj) || !obj[upload.id] ? null : obj[upload.id];
-
-            upload.description = getVal(formData.formValues.descriptions);
-
-            if (!upload.description || !upload.description[language])
-              throw new ReportedError({
-                message: `Form data for upload %s lacks a description.`,
-                messageParams: [upload.name],
-                userMessage: 'upload needs description',
-              });
-
-            let by = getVal(formData.formValues.creators);
-            if (!by)
-              throw new ReportedError({
-                message: `Form data for upload missing creator information.`,
-                userMessage: 'data missing'
-              });
-
-            if (by === 'other') {
-              upload.creator = getVal(formData.formValues.creatorDetails);
-
-              if (!upload.creator || !upload.creator[language])
-                throw new ReportedError({
-                  message: 'Form data for upload %s lacks creator information.',
-                  messageParams: [upload.name],
-                  userMessage: 'upload needs creator'
-                });
-
-              upload.source = getVal(formData.formValues.sources);
-
-              if (!upload.source || !upload.source[language])
-                throw new ReportedError({
-                  message: 'Form data for upload %s lacks source information.',
-                  messageParams: [upload.name],
-                  userMessage: 'upload needs source'
-                });
-
-              upload.license = getVal(formData.formValues.licenses);
-
-              if (!upload.license)
-                throw new ReportedError({
-                  message: 'Form data for upload %s lacks license information.',
-                  messageParams: [upload.name],
-                  userMessage: 'upload needs license'
-                });
-
-            } else if (by === 'uploader') {
-              upload.license = 'cc-by-sa';
-            } else {
-              throw new ReportedError({
-                message: 'Upload form contained unexpected form data.',
-                userMessage: 'unexpected form data'
-              });
-            }
-            upload.completed = true;
-            finishUploadPromises.push(finishUpload(upload));
-          });
-
-          Promise
-            .all(finishUploadPromises)
-            .then(() => {
-              req.flash('pageMessages', req.__('upload completed'));
-              res.redirect(`/${thing.urlID}`);
-            })
-            .catch(next);
-        })
-        .catch(error => {
-          req.flashError(error);
-          return res.redirect(`/${thing.urlID}`);
-        });
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
+
+function processUploadForm(req, res, next, thing) {
+
+  // Flash a message from a [key, param1, ...] array, then redirect to thing
+  const redirectBack = ({ message, error } = {}) => {
+    if (Array.isArray(error))
+      req.flash('pageErrors', req.__(...error));
+    if (Array.isArray(message))
+      req.flash('pageMessages', req.__(...message));
+
+     res.redirect(`/${thing.urlID}`);
+   };
+
+  let language = req.body['upload-language'];
+
+  if (!languages.isValid(language))
+    return redirectBack({ error: ['invalid language code', language] });
+
+  let formData = forms.parseSubmission(req, {
+    formDef: uploadFormDef,
+    formKey: 'upload-file',
+    language
+  });
+
+  if (req.flashHas('pageErrors'))
+    return redirectBack();
+
+  let uploadIDs;
+  let hasUploads = typeof formData.formValues.uploads == 'object' &&
+    (uploadIDs = Object.keys(formData.formValues.uploads)).length;
+
+  if (!hasUploads)
+    return redirectBack({ error: ['data missing'] });
+
+  const getFiles = async uploadIDs =>
+    await Promise.all(uploadIDs.map(File.getNotStaleOrDeleted));
+
+  // Load file info from stage 1 using the upload IDs from the form. Parse the
+  // form and abort if there's a problem with any given upload. If there's no
+  // problem, move the upload to its final location, update its metadata and
+  // mark it as finished.
+  getFiles(uploadIDs)
+    .then(files => processUploads(files, formData.formValues, language))
+    .then(() => redirectBack({ message: ['upload completed'] }))
+    .catch(error => {
+      req.flashError(error);
+      redirectBack();
+    });
+}
+
+
+async function processUploads(uploads, formValues, language) {
+    let finishUploadPromises = [];
+    uploads.forEach(upload => {
+
+      let getVal = obj => !Array.isArray(obj) || !obj[upload.id] ? null : obj[upload.id];
+
+      upload.description = getVal(formValues.descriptions);
+
+      if (!upload.description || !upload.description[language])
+        throw new ReportedError({
+          message: `Form data for upload %s lacks a description.`,
+          messageParams: [upload.name],
+          userMessage: 'upload needs description',
+        });
+
+      let by = getVal(formValues.creators);
+      if (!by)
+        throw new ReportedError({
+          message: `Form data for upload missing creator information.`,
+          userMessage: 'data missing'
+        });
+
+      if (by === 'other') {
+        upload.creator = getVal(formValues.creatorDetails);
+
+        if (!upload.creator || !upload.creator[language])
+          throw new ReportedError({
+            message: 'Form data for upload %s lacks creator information.',
+            messageParams: [upload.name],
+            userMessage: 'upload needs creator'
+          });
+
+        upload.source = getVal(formValues.sources);
+
+        if (!upload.source || !upload.source[language])
+          throw new ReportedError({
+            message: 'Form data for upload %s lacks source information.',
+            messageParams: [upload.name],
+            userMessage: 'upload needs source'
+          });
+
+        upload.license = getVal(formValues.licenses);
+
+        if (!upload.license)
+          throw new ReportedError({
+            message: 'Form data for upload %s lacks license information.',
+            messageParams: [upload.name],
+            userMessage: 'upload needs license'
+          });
+
+      } else if (by === 'uploader') {
+        upload.license = 'cc-by-sa';
+      } else {
+        throw new ReportedError({
+          message: 'Upload form contained unexpected form data.',
+          userMessage: 'unexpected form data'
+        });
+      }
+      upload.completed = true;
+      finishUploadPromises.push(finishUpload(upload));
+    });
+
+    await Promise.all(finishUploadPromises);
+}
 
 async function finishUpload(upload) {
   // File names are sanitized on input but ..
