@@ -42,6 +42,21 @@ const File = thinky.createModel("files", fileSchema);
 File.createFirstRevision = revision.getFirstRevisionHandler(File);
 File.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(File);
 
+// Custom handlers
+
+
+File.getStashedUpload = async function(userID, name) {
+  const files = await File
+    .filter({
+      name,
+      uploadedBy: userID,
+      completed: false
+    })
+    .filter({ _revDeleted: false }, { default: true })
+    .filter({ _oldRevOf: false }, { default: true });
+  return files[0];
+};
+
 // NOTE: INSTANCE METHODS ------------------------------------------------------
 
 // Standard handlers

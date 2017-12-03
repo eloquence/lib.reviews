@@ -165,6 +165,19 @@ function fullScreenItem() {
   });
 }
 
+function uploadItem() {
+  return new MenuItem({
+    title: libreviews.msg('upload and insert media'),
+    icon: { dom: $('<span class="fa fa-upload"><span>')[0] },
+    active() {
+      return false;
+    },
+    run(_state, _dispatch, _view) {
+      console.log('Upload fun');
+    }
+  });
+}
+
 function formatCustomWarningItem(nodeType) {
   return new MenuItem({
     title: libreviews.msg('format as custom warning help'),
@@ -256,21 +269,32 @@ function wrapListItem(nodeType, options) {
   return cmdItem(wrapInList(nodeType, options.attrs), options);
 }
 
+function headingItems(nodeType) {
+  const headingItems = [];
+  for (let i = 1; i <= 6; i++)
+    headingItems[i - 1] = blockTypeItem(nodeType, {
+      title: libreviews.msg('format as level heading help', { accessKey: String(i), numberParam: i }),
+      label: libreviews.msg('format as level heading', { numberParam: i }),
+      attrs: { level: i }
+    });
+  return headingItems;
+}
+
 /**
  * Build a menu for nodes and marks supported in the markdown schema.
  *
  * @param {Schema} schema
  *  the markdown schema
  * @returns {Object}
- *  the generated menu
+ *  the generated menu and all its items
  */
 function buildMenuItems(schema) {
-  /* eslint no-cond-assign: "off" */
-  const r = {
+  const items = {
     toggleStrong: markItem(schema.marks.strong, { title: libreviews.msg('toggle bold', { accessKey: 'b' }), icon: icons.strong }),
     toggleEm: markItem(schema.marks.em, { title: libreviews.msg('toggle italic', { accessKey: 'i' }), icon: icons.em }),
     toggleCode: markItem(schema.marks.code, { title: libreviews.msg('toggle code', { accessKey: '`' }), icon: icons.code }),
     toggleLink: linkItem(schema),
+    upload: uploadItem(),
     insertMedia: insertMediaItem({
       image: schema.nodes.image,
       video: schema.nodes.video,
@@ -307,39 +331,44 @@ function buildMenuItems(schema) {
       label: libreviews.msg('format as nsfw'),
       attrs: { markup: 'nsfw', message: libreviews.msg('nsfw warning') }
     }),
-    formatCustomWarning: formatCustomWarningItem(schema.nodes.container_warning)
+    formatCustomWarning: formatCustomWarningItem(schema.nodes.container_warning),
+    makeHeading: headingItems(schema.nodes.heading),
+    fullScreen: fullScreenItem(),
+    undo: undoItem,
+    redo: redoItem,
+    joinUp: joinUpItem,
+    lift: liftItem
   };
 
-  for (let i = 1; i <= 10; i++)
-    r["makeHead" + i] = blockTypeItem(schema.nodes.heading, {
-      title: libreviews.msg('format as level heading help', { accessKey: String(i), numberParam: i }),
-      label: libreviews.msg('format as level heading', { numberParam: i }),
-      attrs: { level: i }
-    });
-
-  let cut = arr => arr.filter(x => x);
-  r.insertMenu = new Dropdown(cut([r.insertMedia, r.insertHorizontalRule]), {
+  const insertDropdown = new Dropdown([items.insertMedia, items.insertHorizontalRule], {
     label: libreviews.msg('insert'),
     title: libreviews.msg('insert help')
   });
-  r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.formatSpoilerWarning, r.formatNSFWWarning, r.formatCustomWarning, r.makeHead1 && new DropdownSubmenu(cut([
-    r.makeHead1, r.makeHead2, r.makeHead3, r.makeHead4, r.makeHead5, r.makeHead6
-  ]), { label: libreviews.msg('format as heading') })]), { label: libreviews.msg('format block'), title: libreviews.msg('format block help') });
 
-  r.fullScreen = fullScreenItem();
+  const headingSubmenu = new DropdownSubmenu([...items.makeHeading], { label: libreviews.msg('format as heading') });
 
-  r.inlineMenu = [cut([r.toggleStrong, r.toggleEm, r.toggleCode, r.toggleLink]), [r.insertMenu]];
-  r.blockMenu = [cut([r.typeMenu, r.wrapBulletList, r.wrapOrderedList, r.wrapBlockQuote, joinUpItem,
-    liftItem
-  ])];
+  const typeDropdown = new Dropdown(
+    [
+      items.makeParagraph, items.makeCodeBlock, items.formatSpoilerWarning,
+      items.formatNSFWWarning, items.formatCustomWarning, headingSubmenu
+    ], {
+      label: libreviews.msg('format block'),
+      title: libreviews.msg('format block help')
+    });
 
-  r.fullMenu = r.inlineMenu.concat(r.blockMenu).concat([
-    [undoItem, redoItem]
-  ]).concat([
-    [r.fullScreen]
-  ]);
+  // Create final menu structure. In the rendered menu, there is a separator
+  // symbol between each array
+  const menu = [
+    [items.toggleStrong, items.toggleEm, items.toggleCode, items.toggleLink],
+    [insertDropdown, items.upload],
+    [typeDropdown, items.wrapBulletList, items.wrapOrderedList, items.wrapBlockQuote, items.joinUp, items.lift],
+    [items.undo, items.redo],
+    [items.fullScreen]
+  ];
 
-  return r;
+  // We expose the items object so it can be used to externally trigger a menu
+  // function, e.g., via a keyboard shortcut
+  return { menu, items };
 }
 
 exports.buildMenuItems = buildMenuItems;

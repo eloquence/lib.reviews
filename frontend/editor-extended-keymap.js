@@ -8,7 +8,7 @@ const mac = typeof navigator != "undefined" ? /Mac/.test(navigator.platform) : f
 
 // In order to avoid having to keep updating this file, we check the schema
 // for supported node and mark types.
-exports.getExtendedKeymap = function getExtendedKeymap(schema, menu) {
+exports.getExtendedKeymap = function getExtendedKeymap(schema, menuItems) {
   let keymap = {};
 
   keymap['Mod-z'] = undo;
@@ -102,7 +102,7 @@ exports.getExtendedKeymap = function getExtendedKeymap(schema, menu) {
   }
 
   keymap['Mod-k'] = (state, dispatch, view) => {
-    menu.toggleLink.spec.run(state, dispatch, view);
+    menuItems.toggleLink.spec.run(state, dispatch, view);
     return true;
   };
 
@@ -114,14 +114,14 @@ exports.getExtendedKeymap = function getExtendedKeymap(schema, menu) {
 
   // Toggle full screen mode
   keymap['Mod-u'] = (state, dispatch, view) => {
-    menu.fullScreen.spec.run(state, dispatch, view);
+    menuItems.fullScreen.spec.run(state, dispatch, view);
     return true;
   };
 
   // Exit full screen on escape as well
   keymap['Escape'] = (state, dispatch, view) => {
-    if (menu.fullScreen.spec.enabled)
-      menu.fullScreen.spec.run(state, dispatch, view);
+    if (menuItems.fullScreen.spec.enabled)
+      menuItems.fullScreen.spec.run(state, dispatch, view);
     return true;
   };
 

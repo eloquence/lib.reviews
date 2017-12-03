@@ -219,18 +219,18 @@ function renderRTE($textarea) {
   let $rteContainer = $(`<div id="pm-edit-${myID}" class="rte-container"></div>`)
     .insertAfter($textarea);
 
-  const menu = buildMenuItems(markdownSchema);
+  const menuObj = buildMenuItems(markdownSchema);
   const state = EditorState.create({
     doc: markdownParser.parse($textarea.val()),
     plugins: [
       buildInputRules(markdownSchema),
-      keymap(getExtendedKeymap(markdownSchema, menu)),
+      keymap(getExtendedKeymap(markdownSchema, menuObj.items)),
       keymap(baseKeymap),
       history.history(),
       dropCursor(),
       menuBar({
         floating: false,
-        content: menu.fullMenu
+        content: menuObj.menu
       })
     ]
   });

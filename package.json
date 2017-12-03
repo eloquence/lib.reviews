@@ -93,6 +93,7 @@
     "sprintf-js": "^1.0.3",
     "striptags": "^3.0.1",
     "thinky": "^2.3.9",
+    "type-is": "^1.6.15",
     "uglify-save-license": "^0.4.1",
     "unescape-html": "^1.0.0"
   },

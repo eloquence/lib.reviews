@@ -4,8 +4,11 @@
 <form class="pure-form pure-form-stacked" method="post">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 <input name="upload-language" type="hidden" value="{{currentLanguage.langKey}}">
-{{#each newFiles}}
+{{#each uploadedFiles}}
 <b>{{{__ "filename"}}}</b> {{this.name}}
+
+{{{renderFilePreview this}}}
+
 <input type="hidden" name="upload-{{this.id}}" value="1">
 <p>
 <fieldset><div class="pure-g">

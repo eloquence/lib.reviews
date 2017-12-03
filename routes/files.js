@@ -23,19 +23,9 @@ router.get('/file/:id/delete', function(req, res, next) {
       if (!file.userCanDelete)
         return render.permissionError(req, res, { titleKey });
 
-      // For preview of media files prior to deletion
-      const isImage = /^image\//.test(file.mimeType);
-      const isVideo = /^video\//.test(file.mimeType);
-      const isAudio = /^audio\//.test(file.mimeType);
-      const isPreviewable = isImage || isVideo || isAudio;
-
       render.template(req, res, 'delete-file', {
         file,
-        titleKey,
-        isImage,
-        isVideo,
-        isAudio,
-        isPreviewable
+        titleKey
       });
     })
     .catch(getResourceErrorHandler(req, res, next, 'file', id));

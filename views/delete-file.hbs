@@ -11,17 +11,5 @@
   </form>
 </div>
 <a href="/static/uploads/{{{file.name}}}" target="_blank">{{{file.name}}}</a>
-{{#if isPreviewable}}
-<h2 class="sub-header-regular">{{{__ "preview" }}}</h2>
-<div class="file-preview">
-  {{#if isImage}}
-  <img src="/static/uploads/{{{file.name}}}">
-  {{/if}}
-  {{#if isVideo}}
-  <video src="/static/uploads/{{{file.name}}}" controls></video>
-  {{/if}}
-  {{#if isAudio}}
-  <audio src="/static/uploads/{{{file.name}}}" controls></audio>
-  {{/if}}
-</div>
-{{/if}}
+
+{{{renderFilePreview file}}}

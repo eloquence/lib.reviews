@@ -48,7 +48,8 @@ const msgArr = [
   'forget rte preference',
   'full screen mode',
   'spoiler warning',
-  'nsfw warning'
+  'nsfw warning',
+  'upload and insert media'
 ];
 const getMessages = require('../util/get-messages');
 

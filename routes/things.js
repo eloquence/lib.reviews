@@ -5,14 +5,9 @@ const router = express.Router();
 const escapeHTML = require('escape-html');
 const url = require('url');
 const config = require('config');
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
 
 // Internal dependencies
-const ReportedError = require('../util/reported-error');
 const Thing = require('../models/thing');
-const File = require('../models/file');
 const Review = require('../models/review');
 const render = require('./helpers/render');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
@@ -28,43 +23,6 @@ const signinRequiredRoute = require('./handlers/signin-required-route');
 // For handling form fields
 const editableFields = ['description', 'label'];
 
-// For processing uploads
-const uploadFormDef = [{
-    name: 'upload-language',
-    required: true
-  }, {
-    name: 'upload-%uuid',
-    required: false,
-    keyValueMap: 'uploads'
-  }, {
-    name: 'upload-%uuid-description',
-    required: false,
-    type: 'text',
-    keyValueMap: 'descriptions'
-  }, {
-    name: 'upload-%uuid-by',
-    required: false,
-    type: 'string', // can be 'uploader' or 'other'
-    keyValueMap: 'creators'
-  }, {
-    required: false,
-    name: 'upload-%uuid-creator',
-    type: 'text',
-    keyValueMap: 'creatorDetails'
-  },
-  {
-    name: 'upload-%uuid-source',
-    required: false,
-    type: 'text',
-    keyValueMap: 'sources'
-  },
-  {
-    name: 'upload-license-%uuid',
-    required: false,
-    type: 'string', // enum defined in model
-    keyValueMap: 'licenses'
-  }
-];
 
 router.get('/:id', function(req, res, next) {
   const { id } = req.params;
@@ -206,152 +164,6 @@ router.get('/:id/atom/:language', function(req, res, next) {
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 
 });
-
-// This route handles step 2 of a file upload, the addition of metadata.
-// Step 1 is handled as an earlier middleware in process-uploads.js, due to the
-// requirement of handling file streams and a multipart form.
-router.post('/:id/upload', function(req, res, next) {
-  const { id } = req.params;
-  slugs.resolveAndLoadThing(req, res, id)
-    .then(thing => {
-
-      thing.populateUserInfo(req.user);
-      if (!thing.userCanUpload)
-        return render.permissionError(req, res, {
-          titleKey: 'add media'
-        });
-
-      let language = req.body['upload-language'];
-      if (!languages.isValid(language)) {
-        req.flash('pageErrors', req.__('invalid language code', language));
-        return res.redirect(`/${thing.urlID}`);
-      }
-
-      let formData = forms.parseSubmission(req, {
-        formDef: uploadFormDef,
-        formKey: 'upload-file',
-        language
-      });
-
-      if (req.flashHas('pageErrors'))
-        return res.redirect(`/${thing.urlID}`);
-
-      if (!formData.formValues.uploads || !Object.keys(formData.formValues.uploads).length) {
-        // No valid uploads
-        req.flash('pageErrors', req.__('data missing'));
-        return res.redirect(`/${thing.urlID}`);
-      }
-
-      let uploadPromises = [];
-      for (let uploadID in formData.formValues.uploads) {
-        uploadPromises.push(File.getNotStaleOrDeleted(uploadID));
-      }
-
-      // The execution sequence here is:
-      // 1) Parse the form and abort if there's a problem with any given upload.
-      // 2) If there's no problem, move the upload to its final location,
-      //    update its metadata and mark it as finished.
-      Promise
-        .all(uploadPromises)
-        .then(uploads => {
-          let finishUploadPromises = [];
-
-          uploads.forEach(upload => {
-
-            let getVal = obj => !Array.isArray(obj) || !obj[upload.id] ? null : obj[upload.id];
-
-            upload.description = getVal(formData.formValues.descriptions);
-
-            if (!upload.description || !upload.description[language])
-              throw new ReportedError({
-                message: `Form data for upload %s lacks a description.`,
-                messageParams: [upload.name],
-                userMessage: 'upload needs description',
-              });
-
-            let by = getVal(formData.formValues.creators);
-            if (!by)
-              throw new ReportedError({
-                message: `Form data for upload missing creator information.`,
-                userMessage: 'data missing'
-              });
-
-            if (by === 'other') {
-              upload.creator = getVal(formData.formValues.creatorDetails);
-
-              if (!upload.creator || !upload.creator[language])
-                throw new ReportedError({
-                  message: 'Form data for upload %s lacks creator information.',
-                  messageParams: [upload.name],
-                  userMessage: 'upload needs creator'
-                });
-
-              upload.source = getVal(formData.formValues.sources);
-
-              if (!upload.source || !upload.source[language])
-                throw new ReportedError({
-                  message: 'Form data for upload %s lacks source information.',
-                  messageParams: [upload.name],
-                  userMessage: 'upload needs source'
-                });
-
-              upload.license = getVal(formData.formValues.licenses);
-
-              if (!upload.license)
-                throw new ReportedError({
-                  message: 'Form data for upload %s lacks license information.',
-                  messageParams: [upload.name],
-                  userMessage: 'upload needs license'
-                });
-
-            } else if (by === 'uploader') {
-              upload.license = 'cc-by-sa';
-            } else {
-              throw new ReportedError({
-                message: 'Upload form contained unexpected form data.',
-                userMessage: 'unexpected form data'
-              });
-            }
-            upload.completed = true;
-            finishUploadPromises.push(finishUpload(upload));
-          });
-
-          Promise
-            .all(finishUploadPromises)
-            .then(() => {
-              req.flash('pageMessages', req.__('upload completed'));
-              res.redirect(`/${thing.urlID}`);
-            })
-            .catch(next);
-        })
-        .catch(error => {
-          req.flashError(error);
-          return res.redirect(`/${thing.urlID}`);
-        });
-    })
-    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
-});
-
-async function finishUpload(upload) {
-  // File names are sanitized on input but ..
-  // This error is not shown to the user but logged, hence native.
-  if (!upload.name || /[/<>]/.test(upload.name))
-    throw new Error(`Invalid filename: ${upload.name}`);
-
-  // Move the file to its final location so it can be served
-  let oldPath = path.join(config.uploadTempDir, upload.name),
-    newPath = path.join(__dirname, '../static/uploads', upload.name),
-    rename = util.promisify(fs.rename);
-
-  await rename(oldPath, newPath);
-  try {
-    await upload.save();
-  } catch (error) {
-    // Problem saving the metadata. Move upload back to
-    // temporary stash.
-    await rename(newPath, oldPath);
-  }
-}
 
 // Legacy redirects
 

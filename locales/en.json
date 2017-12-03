@@ -285,6 +285,7 @@
     "spoiler warning": "Warning: The text below contains spoilers.",
     "nsfw warning": "Warning: The content below may not be safe for work (NSFW).",
     "add media": "Add media",
+    "upload and insert media": "Upload and insert media",
     "related to": "Related to %s",
     "upload completed": "Your upload was successful. You can find a reference to it below.",
     "no file received": "Your upload failed because we did not receive any files.",

@@ -74,6 +74,9 @@
   // Will be created if it doesn't exist.
   uploadTempDir: '/tmp/uploads',
 
+  // Per file size limit
+  uploadMaxSize: 104857600, // 100 MB
+
   // If you want to see blog posts from a certain team on the front page,
   // include the team ID here for now.
   frontPageTeamBlog: "",

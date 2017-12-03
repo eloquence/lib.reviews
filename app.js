@@ -40,7 +40,7 @@ const users = require('./routes/users');
 const teams = require('./routes/teams');
 const pages = require('./routes/pages');
 const files = require('./routes/files');
-const processUploads = require('./routes/process-uploads');
+const uploads = require('./routes/uploads');
 const blogPosts = require('./routes/blog-posts');
 const api = require('./routes/api');
 const apiHelper = require('./routes/helpers/api');
@@ -165,6 +165,7 @@ async function getApp(db = require('./db')) {
   });
 
   app.use('/static', express.static(path.join(__dirname, 'static')));
+
   app.use('/robots.txt', (req, res) => {
     res.type('text');
     res.send('User-agent: *\nDisallow: /api/\n');
@@ -207,7 +208,8 @@ async function getApp(db = require('./db')) {
   app.use('/api', api);
 
   // Upload processing has to be done before CSRF middleware kicks in
-  app.use('/', processUploads);
+  app.use('/', uploads.stage1Router);
+
   app.use(csrf());
   app.use('/', pages);
   app.use('/', reviews);
@@ -215,6 +217,7 @@ async function getApp(db = require('./db')) {
   app.use('/', teams);
   app.use('/', files);
   app.use('/', blogPosts);
+  app.use('/', uploads.stage2Router);
   app.use('/user', users);
 
   // Goes last to avoid accidental overlap w/ reserved routes

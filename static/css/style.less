@@ -1062,8 +1062,10 @@ details.content-warning[open] summary.content-warning-notice:before {
   margin-right:auto;
 }
 
-.file-preview img {
-  max-width:100%;
+.file-preview img, .file-preview video, .file-preview audio {
+  max-width:400px; // Bakckwards compatibility
+  max-width:40vw;
+  max-height:40vh;
   display:block;
 }
 
