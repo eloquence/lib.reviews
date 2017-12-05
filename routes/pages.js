@@ -5,6 +5,8 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const { promisify } = require('util');
+const stat = promisify(fs.stat);
 
 // Internal dependencies
 const render = require('./helpers/render');
@@ -35,37 +37,29 @@ router.get('/faq', function(req, res, next) {
 
 // Detects the best available template in the multilingual templates directory
 // for a given locale.
-function resolveMultilingualTemplate(templateName, locale) {
-  return new Promise((resolveTemplate, rejectTemplate) => {
-    let templateLanguages = languages.getFallbacks(locale);
+async function resolveMultilingualTemplate(templateName, locale) {
+  let templateLanguages = languages.getFallbacks(locale);
 
-    // Add the request language itself if not already a default fallback
-    if (templateLanguages.indexOf(locale) == -1)
-      templateLanguages.unshift(locale);
+  // Add the request language itself if not already a default fallback
+  if (!templateLanguages.includes(locale))
+    templateLanguages.unshift(locale);
 
-    let findFilePromises = [];
-    for (let language of templateLanguages) {
-      let p = new Promise(resolve => {
-        fs.stat(path.join(__dirname, `../views/multilingual/${templateName}-${language}.hbs`),
-          (error, _result) => {
-            if (error)
-              resolve(false);
-            else
-              resolve(`multilingual/${templateName}-${language}`);
-          });
-      });
-      findFilePromises.push(p);
-    }
-    Promise
-      .all(findFilePromises)
-      .then(fileNames => {
-        for (let fileName of fileNames) {
-          if (fileName)
-            return resolveTemplate(fileName);
-        }
-        let langStr = templateLanguages.join(', ');
-        return rejectTemplate(new Error(`Template ${templateName} does not appear to exist in any of these languages: ${langStr}`));
-      });
+  const getRelPath = language => `multilingual/${templateName}-${language}`,
+    getAbsPath = relPath => path.join(__dirname, '../views', `${relPath}.hbs`);
+
+  // Check existence of files, swallow errors
+  const templateLookups = templateLanguages.map(language => {
+    const relPath = getRelPath(language),
+      absPath = getAbsPath(relPath);
+    return stat(absPath).then(_r => relPath).catch(_e => null);
   });
+
+  const templates = await Promise.all(templateLookups);
+  for (let template of templates)
+    if (template)
+      return template;
+
+  let langStr = templateLanguages.join(', ');
+  throw new Error(`Template ${templateName} does not appear to exist in any of these languages: ${langStr}`);
 }
 module.exports = router;
