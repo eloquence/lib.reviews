@@ -3,7 +3,8 @@
 		"authors": [
 			"Vitorvicentevalente",
 			"Eloquence",
-			"NMaia"
+			"NMaia",
+			"MokaAkashiyaPT"
 		]
 	},
 	"site name": "lib.reviews",
@@ -324,5 +325,6 @@
 	"atom feed of reviews by team": "Feed Atom de todas as críticas desta equipa",
 	"no reviews for team": "Esta equipa ainda não publicou nenhuma crítica.",
 	"no reviews for user": "Este(a) utilizador(a) ainda não publicou nenhuma crítica",
-	"view all": "&raquo; Ver todas"
+	"view all": "&raquo; Ver todas",
+	"link text": "Texto da ligação"
 }
