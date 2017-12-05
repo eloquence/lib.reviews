@@ -175,7 +175,7 @@ async function getApp(db = require('./db')) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // API requests do not require CSRF protection (hence declared before CSRF
+  // API requests do not require CSRF tokens (hence declared before CSRF
   // middleware), but session-authenticated POST requests do require the
   // X-Requested-With header to be set, which ensures they're subject to CORS
   // rules. This middleware also sets req.isAPI to true for API requests.
