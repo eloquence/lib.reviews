@@ -207,7 +207,7 @@ router.get('/register', function(req, res) {
 });
 
 router.get('/register/:code', function(req, res, next) {
-  let code = req.params.code;
+  const { code } = req.params;
   InviteLink
     .get(code)
     .then(inviteLink => {
@@ -271,7 +271,7 @@ if (!config.requireInviteLinks) {
 
 router.post('/register/:code', function(req, res, next) {
 
-  let code = req.params.code;
+  const { code } = req.params;
 
   InviteLink
     .get(code)
@@ -332,7 +332,7 @@ router.post('/register/:code', function(req, res, next) {
 function sendRegistrationForm(req, res, formInfo) {
   let pageErrors = req.flash('pageErrors');
 
-  let inviteCode = req.params.code;
+  const { code } = req.params;
 
   render.template(req, res, 'register', {
     titleKey: 'register',
@@ -341,7 +341,7 @@ function sendRegistrationForm(req, res, formInfo) {
     questionCaptcha: forms.getQuestionCaptcha('register'),
     illegalUsernameCharactersReadable: User.options.illegalCharsReadable,
     scripts: ['register.js'],
-    inviteCode
+    inviteCode: code
   }, {
     illegalUsernameCharacters: User.options.illegalChars.source
   });

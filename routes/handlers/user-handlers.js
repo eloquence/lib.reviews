@@ -14,7 +14,7 @@ let userHandlers = {
 
   processEdit(req, res, next) {
 
-    let name = req.params.name.trim();
+    const { name } = req.params;
     User
       .findByURLName(name, {
         withData: true,
@@ -79,7 +79,7 @@ let userHandlers = {
     }, options);
 
     return function(req, res, next) {
-      let name = req.params.name.trim();
+      const { name } = req.params;
 
       User
         .findByURLName(name, {
@@ -173,11 +173,10 @@ let userHandlers = {
 
     return function(req, res, next) {
 
-
-      let name = req.params.name.trim();
+      const { name } = req.params;
       let offsetDate;
       if (req.params.utcisodate) {
-        offsetDate = new Date(req.params.utcisodate.trim());
+        offsetDate = new Date(req.params.utcisodate);
         if (!offsetDate || offsetDate == 'Invalid Date')
           offsetDate = null;
       }

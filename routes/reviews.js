@@ -32,90 +32,79 @@ let router = ReviewProvider.bakeRoutes(null, routes);
 
 // We show two query results on the front-page, the team developers blog
 // and a feed of recent reviews, filtered to include only trusted ones.
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
 
   let queries = [
-    Review.getFeed({
-    onlyTrusted: true
-    }),
-    // Random example teams
-    Team
-      .filter({ _revDeleted: false }, { default: true })
-      .filter({ _oldRevOf: false }, { default: true })
-      .sample(3)
+    Review.getFeed({ onlyTrusted: true }),
+    Team.filterNotStaleOrDeleted().sample(3) // Random example teams
   ];
 
   if (config.frontPageTeamBlog)
-    queries.push(BlogPost.getMostRecentBlogPostsBySlug(config.frontPageTeamBlog, {
-      limit: 3
-    }));
+    queries.push(BlogPost.getMostRecentBlogPostsBySlug(
+      config.frontPageTeamBlog, { limit: 3 }
+    ));
 
-  Promise.all(queries)
+  Promise
+    .all(queries)
+    .then(queryResults => {
 
-  .then(queryResults => {
+      // Promise.all helpfully keeps order in which promises were passed
+      let feedItems = queryResults[0].feedItems;
+      let offsetDate = queryResults[0].offsetDate;
+      let sampleTeams = queryResults[1]; // will be ignored if undefined
+      let blogPosts = config.frontPageTeamBlog ? queryResults[2].blogPosts : undefined;
+      let blogPostsOffsetDate = config.frontPageTeamBlog ? queryResults[2].offsetDate : undefined;
 
-    // Promise.all helpfully keeps order in which promises were passed
-    let feedItems = queryResults[0].feedItems;
-    let offsetDate = queryResults[0].offsetDate;
-    let sampleTeams = queryResults[1];
-    let blogPosts = config.frontPageTeamBlog ? queryResults[2].blogPosts : undefined;
-    let blogPostsOffsetDate = config.frontPageTeamBlog ? queryResults[2].offsetDate : undefined;
-
-    // Set review permissions
-    feedItems.forEach(item => {
-      item.populateUserInfo(req.user);
-      if (item.thing)
-        item.thing.populateUserInfo(req.user);
-    });
-
-    // Set post permissions
-    if (blogPosts)
-      blogPosts.forEach(post => {
-        post.populateUserInfo(req.user);
+      // Set review permissions
+      feedItems.forEach(item => {
+        item.populateUserInfo(req.user);
+        if (item.thing)
+          item.thing.populateUserInfo(req.user);
       });
 
-    let embeddedFeeds = feeds.getEmbeddedFeeds(req, {
-      atomURLPrefix: `/feed/atom`,
-      atomURLTitleKey: `atom feed of all reviews`,
-    });
+      // Set post permissions
+      if (blogPosts)
+        blogPosts.forEach(post => post.populateUserInfo(req.user));
 
-    if (config.frontPageTeamBlog) {
-      embeddedFeeds = embeddedFeeds.concat(feeds.getEmbeddedFeeds(req, {
-        atomURLPrefix: `/team/${config.frontPageTeamBlog}/blog/atom`,
-        atomURLTitleKey: config.frontPageTeamBlogKey
-      }));
-    }
+      let embeddedFeeds = feeds.getEmbeddedFeeds(req, {
+        atomURLPrefix: `/feed/atom`,
+        atomURLTitleKey: `atom feed of all reviews`,
+      });
 
-    let paginationURL;
-    if (offsetDate)
-      paginationURL = `/feed/before/${offsetDate.toISOString()}`;
+      if (config.frontPageTeamBlog)
+        embeddedFeeds = embeddedFeeds.concat(feeds.getEmbeddedFeeds(req, {
+          atomURLPrefix: `/team/${config.frontPageTeamBlog}/blog/atom`,
+          atomURLTitleKey: config.frontPageTeamBlogKey
+        }));
 
-    render.template(req, res, 'index', {
-      titleKey: 'welcome',
-      deferPageHeader: true,
-      feedItems,
-      blogPosts,
-      blogKey: config.frontPageTeamBlogKey,
-      showBlog: config.frontPageTeamBlog ? true : false,
-      team: config.frontPageTeamBlog ? {
-        id: config.frontPageTeamBlog
-      } : undefined,
-      paginationURL,
-      sampleTeams,
-      blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : undefined,
-      embeddedFeeds
-    });
-  })
-  .catch(next);
+      let paginationURL;
+      if (offsetDate)
+        paginationURL = `/feed/before/${offsetDate.toISOString()}`;
+
+      render.template(req, res, 'index', {
+        titleKey: 'welcome',
+        deferPageHeader: true,
+        feedItems,
+        blogPosts,
+        blogKey: config.frontPageTeamBlogKey,
+        showBlog: config.frontPageTeamBlog ? true : false,
+        team: config.frontPageTeamBlog ? {
+          id: config.frontPageTeamBlog
+        } : undefined,
+        paginationURL,
+        sampleTeams,
+        blogPostsUTCISODate: blogPostsOffsetDate ? blogPostsOffsetDate.toISOString() : undefined,
+        embeddedFeeds
+      });
+    })
+    .catch(next);
 
 });
 
 
 router.get('/feed', reviewHandlers.getFeedHandler({ deferPageHeader: true }));
 
-router.get('/feed/atom', function(req, res) {
-  res.redirect(`/feed/atom/${req.locale}`);
-});
+router.get('/feed/atom', (req, res) => res.redirect(`/feed/atom/${req.locale}`));
 
 router.get('/feed/atom/:language', reviewHandlers.getFeedHandler({
   format: 'atom'
@@ -123,8 +112,6 @@ router.get('/feed/atom/:language', reviewHandlers.getFeedHandler({
 
 router.get('/feed/before/:utcisodate', reviewHandlers.getFeedHandler({ deferPageHeader: true }));
 
-router.get('/new', (req, res) => {
-  res.redirect('/new/review');
-});
+router.get('/new', (req, res) => res.redirect('/new/review'));
 
 module.exports = router;

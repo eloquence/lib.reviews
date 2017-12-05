@@ -67,7 +67,7 @@ const uploadFormDef = [{
 ];
 
 router.get('/:id', function(req, res, next) {
-  let id = req.params.id.trim();
+  const { id } = req.params;
   slugs
     .resolveAndLoadThing(req, res, id)
     .then(thing => loadThingAndReviews(req, res, next, thing))
@@ -75,7 +75,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.get('/:id/manage/urls', signinRequiredRoute('manage links', (req, res, next) => {
-  const id = req.params.id.trim(),
+  const { id } = req.params,
     titleKey = res.locals.titleKey;
 
   slugs
@@ -98,7 +98,7 @@ router.get('/:id/manage/urls', signinRequiredRoute('manage links', (req, res, ne
 // offer a convenient single external link related to a review subject.
 router.post('/:id/manage/urls', signinRequiredRoute('manage links',
   (req, res, next) => {
-    const id = req.params.id.trim(),
+    const { id } = req.params,
       titleKey = res.locals.titleKey;
 
     slugs
@@ -124,7 +124,7 @@ router.get('/:id/edit/:field', function(req, res, next) {
   const edit = {
     [req.params.field]: true
   };
-  const id = req.params.id.trim();
+  const { id } = req.params;
 
   if (!req.user)
     return render.signinRequired(req, res, { titleKey });
@@ -151,8 +151,8 @@ router.get('/:id/edit/:field', function(req, res, next) {
 router.post('/:id/edit/:field', processTextFieldUpdate);
 
 router.get('/:id/before/:utcisodate', function(req, res, next) {
-  let id = req.params.id.trim();
-  let utcISODate = req.params.utcisodate.trim();
+  const { id } = req.params;
+  let utcISODate = req.params.utcisodate;
   slugs.resolveAndLoadThing(req, res, id)
     .then(thing => {
       let offsetDate = new Date(utcISODate);
@@ -164,8 +164,8 @@ router.get('/:id/before/:utcisodate', function(req, res, next) {
 });
 
 router.get('/:id/atom/:language', function(req, res, next) {
-  let id = req.params.id.trim();
-  let language = req.params.language.trim();
+  const { id } = req.params;
+  let language = req.params.language;
   slugs
     .resolveAndLoadThing(req, res, id)
     .then(thing => {
@@ -211,7 +211,7 @@ router.get('/:id/atom/:language', function(req, res, next) {
 // Step 1 is handled as an earlier middleware in process-uploads.js, due to the
 // requirement of handling file streams and a multipart form.
 router.post('/:id/upload', function(req, res, next) {
-  let id = req.params.id.trim();
+  const { id } = req.params;
   slugs.resolveAndLoadThing(req, res, id)
     .then(thing => {
 
@@ -356,19 +356,19 @@ async function finishUpload(upload) {
 // Legacy redirects
 
 router.get('/thing/:id', function(req, res) {
-  let id = req.params.id.trim();
+  const { id } = req.params;
   return res.redirect(`/${id}`);
 });
 
 router.get('/thing/:id/before/:utcisodate', function(req, res) {
-  let id = req.params.id.trim();
-  let utcISODate = req.params.utcisodate.trim();
+  const { id } = req.params;
+  let utcISODate = req.params.utcisodate;
   return res.redirect(`/${id}/before/${utcISODate}`);
 });
 
 router.get('/thing/:id/atom/:language', function(req, res) {
-  let id = req.params.id.trim();
-  let language = req.params.language.trim();
+  const { id } = req.params;
+  let language = req.params.language;
   return res.redirect(`/${id}/atom/${language}`);
 });
 
@@ -411,8 +411,7 @@ function loadThingAndReviews(req, res, next, thing, offsetDate) {
 
 function processTextFieldUpdate(req, res, next) {
 
-  const field = req.params.field,
-    id = req.params.id.trim();
+  const { field, id } = req.params;
 
   if (!editableFields.includes(field))
     return next();
@@ -428,7 +427,7 @@ function processTextFieldUpdate(req, res, next) {
         });
 
       let descriptionSyncActive = thing.sync && thing.sync.description && thing.sync.description.active;
-      if (req.params.field === 'description' && descriptionSyncActive)
+      if (field === 'description' && descriptionSyncActive)
         return render.permissionError(req, res, {
           titleKey,
           detailsKey: 'cannot edit synced field'

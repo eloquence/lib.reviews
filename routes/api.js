@@ -77,7 +77,7 @@ router.get('/thing', function(req, res, next) {
 
 // Search suggestions
 router.get('/suggest/thing/:prefix', function(req, res, next) {
-  let prefix = req.params.prefix.trim();
+  const prefix = req.params.prefix.trim();
   search
     .suggestThing(prefix, req.locale)
     .then(results => {
@@ -105,7 +105,7 @@ router.get('/suggest/thing/:prefix', function(req, res, next) {
 });
 
 router.get('/user/:name', function(req, res) {
-  let name = req.params.name.trim();
+  const { name } = req.params;
   let rv = {};
   User.filter({
     canonicalName: User.canonicalize(name)

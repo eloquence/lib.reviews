@@ -14,7 +14,7 @@ const render = require('./helpers/render');
 
 
 router.get('/file/:id/delete', function(req, res, next) {
-  let id = req.params.id.trim();
+  const { id } = req.params;
   File
     .getNotStaleOrDeleted(id)
     .then(file => {
@@ -42,7 +42,7 @@ router.get('/file/:id/delete', function(req, res, next) {
 });
 
 router.post('/file/:id/delete', function(req, res, next) {
-  let id = req.params.id.trim();
+  const { id } = req.params;
   File
     .getNotStaleOrDeleted(id)
     .then(file => {

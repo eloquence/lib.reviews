@@ -13,7 +13,12 @@ module.exports = function getResourceErrorHandler(req, res, next, messageKeyPref
 
   return function(error) {
     switch (error.name) {
+      // In "not found" case, we also attempt to redirect any URL with trailing
+      // whitespace (some number of '%20's at the end) to its canonical version.
       case 'DocumentNotFoundError':
+        if (/%20$/.test(req.originalUrl))
+          return res.redirect(req.originalUrl.replace(/(.+?)(%20)+$/, '$1'));
+        // falls through
       case 'RevisionDeletedError':
         res.status(404);
         render.resourceError(req, res, {

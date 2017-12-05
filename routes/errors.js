@@ -24,6 +24,11 @@ class ErrorProvider {
   }
 
   notFound(req, res) {
+
+    // Trailing whitespace? Try again with trimmed URL before giving up
+    if (/%20$/.test(req.originalUrl))
+      return res.redirect(req.originalUrl.replace(/(.+?)(%20)+$/, '$1'));
+
     res.status(404);
     render.template(req, res, '404', {
       titleKey: 'page not found title'

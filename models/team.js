@@ -118,6 +118,7 @@ Review.hasAndBelongsToMany(Team, "teams", "id", "id", {
 
 Team.createFirstRevision = revision.getFirstRevisionHandler(Team);
 Team.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Team);
+Team.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(Team);
 
 // Custom handlers
 

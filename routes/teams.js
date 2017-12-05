@@ -13,53 +13,47 @@ const slugs = require('./helpers/slugs');
 // Default routes for read, edit, add, delete
 let router = TeamProvider.bakeRoutes('team');
 
-router.get('/team', function(req, res) {
-  return res.redirect('/teams');
-});
+router.get('/team', (req, res) => res.redirect('/teams'));
 
 // Feed of all reviews
-router.get('/team/:id/feed', function(req, res, next) {
-  let id = req.params.id.trim();
-  let teamProvider = new TeamProvider(req, res, next, {
+router.get('/team/:id/feed', (req, res, next) => {
+  const teamProvider = new TeamProvider(req, res, next, {
     action: 'feed',
     method: 'GET',
-    id
+    id: req.params.id
   });
   teamProvider.execute();
 });
 
 // Feed of all reviews before a given date
-router.get('/team/:id/feed/before/:utcisodate', function(req, res, next) {
-  let id = req.params.id.trim();
-  let offsetDate = new Date(req.params.utcisodate.trim());
+router.get('/team/:id/feed/before/:utcisodate', (req, res, next) => {
+  let offsetDate = new Date(req.params.utcisodate);
   if (!offsetDate || offsetDate == 'Invalid Date')
     offsetDate = null;
 
   let teamProvider = new TeamProvider(req, res, next, {
     action: 'feed',
     method: 'GET',
-    id,
+    id: req.params.id,
     offsetDate
   });
   teamProvider.execute();
 });
 
-router.get('/team/:id/feed/atom', function(req, res) {
-  let id = req.params.id.trim();
-  res.redirect(`/team/${id}/feed/atom/en`);
-});
+router.get('/team/:id/feed/atom', (req, res) =>
+  res.redirect(`/team/${req.params.id}/feed/atom/${req.locale}`)
+);
 
 // Feed of all reviews in Atom format
-router.get('/team/:id/feed/atom/:language', function(req, res, next) {
-  let id = req.params.id.trim();
-  let language = req.params.language.trim();
+router.get('/team/:id/feed/atom/:language', (req, res, next) => {
+  let { language } = req.params;
   if (!languages.isValid(language))
     language = 'en';
 
   let teamProvider = new TeamProvider(req, res, next, {
     action: 'feed',
     method: 'GET',
-    id,
+    id: req.params.id,
     format: 'atom',
     language
   });
@@ -78,40 +72,37 @@ router.get('/teams', function(req, res, next) {
 
 // Show membership roster for a specific team
 router.get('/team/:id/members', function(req, res, next) {
-  let id = req.params.id.trim();
   let teamProvider = new TeamProvider(req, res, next, {
     action: 'members',
     method: 'GET',
-    id
+    id: req.params.id
   });
   teamProvider.execute();
 });
 
 // Moderator tool for managing requests which require moderator approval
 router.get('/team/:id/manage-requests', function(req, res, next) {
-  let id = req.params.id.trim();
   let teamProvider = new TeamProvider(req, res, next, {
     action: 'manageRequests',
     method: 'GET',
-    id
+    id: req.params.id
   });
   teamProvider.execute();
 });
 
 // Moderator tool for managing requests which require moderator approval
 router.post('/team/:id/manage-requests', function(req, res, next) {
-  let id = req.params.id.trim();
   let teamProvider = new TeamProvider(req, res, next, {
     action: 'manageRequests',
     method: 'POST',
-    id
+    id: req.params.id
   });
   teamProvider.execute();
 });
 
 // Process join requests, form is on team page itself
 router.post('/team/:id/join', function(req, res, next) {
-  let id = req.params.id.trim();
+  const { id } = req.params;
   slugs
     .resolveAndLoadTeam(req, res, id)
     .then(team => {
@@ -137,7 +128,7 @@ router.post('/team/:id/join', function(req, res, next) {
         })
         .catch(next); // Problem saving join request
 
-      } else {  // No approval required, just add the new member
+      } else { // No approval required, just add the new member
 
         team.members.push(req.user);
         team
@@ -154,7 +145,7 @@ router.post('/team/:id/join', function(req, res, next) {
 
 // Process leave requests, form is on team page itself
 router.post('/team/:id/leave', function(req, res, next) {
-  let id = req.params.id.trim();
+  const { id } = req.params;
   slugs
     .resolveAndLoadTeam(req, res, id)
     .then(team => {

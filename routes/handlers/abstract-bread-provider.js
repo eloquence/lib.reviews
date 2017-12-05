@@ -265,9 +265,9 @@ AbstractBREADProvider.bakeRoutes = function(resource, routes) {
         method
       };
 
-      // We always initialize each provider with the provided IDs, trimmed
-      // and ready for use as object properties.
-      idArray.forEach(id => (options[id] = req.params[id].trim()));
+      // We always initialize each provider with the provided IDs,
+      // ready for use as object properties.
+      idArray.forEach(id => (options[id] = req.params[id]));
 
       let provider = new Provider(req, res, next, options);
 
