@@ -12,23 +12,23 @@ const languages = require('../locales/languages');
 
 router.get('/terms', function(req, res, next) {
   resolveMultilingualTemplate('terms', req.locale)
-    .then(templateName => {
+    .then(templateName =>
       render.template(req, res, templateName, {
         deferPageHeader: true,
         titleKey: 'terms'
-      });
-    })
+      })
+    )
     .catch(next);
 });
 
 router.get('/faq', function(req, res, next) {
   resolveMultilingualTemplate('faq', req.locale)
-    .then(templateName => {
+    .then(templateName =>
       render.template(req, res, templateName, {
         deferPageHeader: true,
         titleKey: 'faq'
-      });
-    })
+      })
+    )
     .catch(next);
 });
 

@@ -23,6 +23,7 @@ const slugs = require('./helpers/slugs');
 const search = require('../search');
 const getMessages = require('../util/get-messages');
 const urlUtils = require('../util/url-utils');
+const signinRequiredRoute = require('./handlers/signin-required-route');
 
 // For handling form fields
 const editableFields = ['description', 'label'];
@@ -73,12 +74,9 @@ router.get('/:id', function(req, res, next) {
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 });
 
-router.get('/:id/manage/urls', function(req, res, next) {
-  const id = req.params.id.trim();
-  const titleKey = 'manage links';
-
-  if (!req.user)
-    return render.signinRequired(req, res, { titleKey });
+router.get('/:id/manage/urls', signinRequiredRoute('manage links', (req, res, next) => {
+  const id = req.params.id.trim(),
+    titleKey = res.locals.titleKey;
 
   slugs
     .resolveAndLoadThing(req, res, id)
@@ -92,31 +90,29 @@ router.get('/:id/manage/urls', function(req, res, next) {
     })
     .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 
-});
+}));
 
 
 // Update the set of URLs associated with a given thing from user input. The
 // first URL in the array is the "primary" URL, used wherever we want to
 // offer a convenient single external link related to a review subject.
-router.post('/:id/manage/urls', function(req, res, next) {
-  const id = req.params.id.trim();
-  const titleKey = 'manage links';
+router.post('/:id/manage/urls', signinRequiredRoute('manage links',
+  (req, res, next) => {
+    const id = req.params.id.trim(),
+      titleKey = res.locals.titleKey;
 
-  if (!req.user)
-    return render.signinRequired(req, res, { titleKey });
+    slugs
+      .resolveAndLoadThing(req, res, id)
+      .then(thing => {
+        thing.populateUserInfo(req.user);
+        if (!thing.userCanEdit)
+          return render.permissionError(req, res, { titleKey });
 
-  slugs
-    .resolveAndLoadThing(req, res, id)
-    .then(thing => {
-      thing.populateUserInfo(req.user);
-      if (!thing.userCanEdit)
-        return render.permissionError(req, res, { titleKey });
+        processThingURLsUpdate({ req, res, thing, titleKey });
+      })
+      .catch(getResourceErrorHandler(req, res, next, 'thing', id));
 
-      processThingURLsUpdate({ req, res, thing, titleKey });
-    })
-    .catch(getResourceErrorHandler(req, res, next, 'thing', id));
-
-});
+  }));
 
 
 router.get('/:id/edit/:field', function(req, res, next) {

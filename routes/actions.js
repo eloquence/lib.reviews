@@ -14,6 +14,7 @@ const User = require('../models/user');
 const InviteLink = require('../models/invite-link');
 const debug = require('../util/debug');
 const actionHandler = require('./handlers/action-handler.js');
+const signinRequiredRoute = require('./handlers/signin-required-route');
 const languages = require('../locales/languages');
 const search = require('../search');
 
@@ -29,6 +30,7 @@ const formDefs = {
     required: false
   }]
 };
+
 
 router.get('/actions/search', function(req, res, next) {
   let query = (req.query.query || '').trim();
@@ -60,21 +62,9 @@ router.get('/actions/search', function(req, res, next) {
   }
 });
 
-router.get('/actions/invite', function(req, res, next) {
-  if (!req.user)
-    return render.signinRequired(req, res, {
-      titleKey: 'invite users'
-    });
+router.get('/actions/invite', signinRequiredRoute('invite users', renderInviteLinkPage));
 
-  renderInviteLinkPage(req, res, next);
-});
-
-router.post('/actions/invite', function(req, res, next) {
-  if (!req.user)
-    return render.signinRequired(req, res, {
-      titleKey: 'invite users'
-    });
-
+router.post('/actions/invite', signinRequiredRoute('invite users', function(req, res, next) {
   if (!req.user.inviteLinkCount) {
     req.flash('pageErrors', res.__('out of links'));
     return renderInviteLinkPage(req, res, next);
@@ -95,7 +85,7 @@ router.post('/actions/invite', function(req, res, next) {
       .catch(next);
   }
 
-});
+}));
 
 
 function renderInviteLinkPage(req, res, next) {
@@ -114,7 +104,7 @@ function renderInviteLinkPage(req, res, next) {
       let usedInviteLinks = results[1];
 
       render.template(req, res, 'invite', {
-        titleKey: 'invite users',
+        titleKey: res.locals.titleKey,
         invitePage: true, // to tell template not to show call-to-action again
         pendingInviteLinks,
         usedInviteLinks,
