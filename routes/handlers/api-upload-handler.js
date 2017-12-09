@@ -51,7 +51,7 @@ module.exports = function apiUploadHandler(req, res) {
       .then(fileTypes => getFileRevs(req.files, fileTypes, req.user, ['upload', 'upload-via-api']))
       .then(fileRevs => addMetadata(req.files, fileRevs, req.body))
       .then(fileRevs => Promise.all(fileRevs.map(fileRev => fileRev.save())))
-      .then(() => reportUploadSuccess(req, res))
+      .then(fileRevs => reportUploadSuccess(req, res, fileRevs))
       .catch(error => abortUpload([error]));
   };
 };
@@ -81,7 +81,7 @@ function validateAllMetadata(files, data) {
   }
   const remainingFields = Object.keys(data).filter(key => !processedFields.includes(key));
   if (remainingFields.length > 0)
-    errors.push(new Error(`Unknown or conflicting parameter(s): ${remainingFields.join(', ')}`));
+    errors.push(new Error(`Unknown parameter(s): ${remainingFields.join(', ')}`));
 
   return errors;
 }
@@ -109,13 +109,20 @@ function validateMetadata(file, data, { addSuffix = false } = {}) {
     processedFields = [];
   // For multiple uploads, we use the filename as a suffix for each file
   const field = key => addSuffix ? `${key}-${file.originalname}` : key;
+  const ownWork = Boolean(data[field('ownwork')]);
 
-  const requiredFields = data[field('ownwork')] ?
+  const required = ownWork ?
     ['description', 'license', 'ownwork', 'language'].map(field) :
     ['description', 'author', 'source', 'license', 'language'].map(field);
 
-  errors.push(...checkRequired(data, requiredFields));
-  processedFields.push(...requiredFields);
+  // We ignore presence/content of these conflicting fields if they are "falsy",
+  // otherwise we report an error
+  const conditionallyIgnored = ownWork ?
+    ['author', 'source'].map(field) :
+    ['ownwork'].map(field);
+
+  errors.push(...checkRequired(data, required, conditionallyIgnored));
+  processedFields.push(...required, ...conditionallyIgnored);
 
   const language = data[field('language')];
 
@@ -132,16 +139,21 @@ function validateMetadata(file, data, { addSuffix = false } = {}) {
 
 /**
  * Check if we have "truthy" values for all required fields in a given object
- * (typically an API request body)
+ * (typically an API request body). Also throws errors if given fields are
+ * present with a "truthy" value, which is useful for conflicting parameters
+ * that may be submitted with empty values.
  *
  * @param {Object} obj
  *  any object whose keys we want to validate
  * @param {String[]} [required=[]]
  *  keys which must access a truthy value
+ * @param {String[]} [conditionallyIgnored=[]]
+ *  keys which will be ignored _unless_ they access a truthy value
+
  * @returns {Error[]}
  *  errors for each validation issue or an empty array
  */
-function checkRequired(obj, required = []) {
+function checkRequired(obj, required = [], conditionallyIgnored = []) {
   // Make a copy since we modify it below
   required = required.slice();
 
@@ -152,6 +164,9 @@ function checkRequired(obj, required = []) {
         errors.push(new Error(`Parameter must not be empty: ${key}`));
       required.splice(required.indexOf(key), 1);
     }
+    if (conditionallyIgnored.includes(key) && Boolean(obj[key]))
+      errors.push(new Error(`Parameter must be skipped, be empty, or evaluate to false: ${key}`));
+
   }
   if (required.length)
     errors.push(new Error(`Missing the following parameter(s): ${required.join(', ')}`));
@@ -218,11 +233,14 @@ function addMetadataToFileRev(file, fileRev, data, { addSuffix = false } = {}) {
  *  Express request
  * @param {ServerResponse} res
  *  Express response
+ * @param {File[]} fileRevs
+ *  the saved file metadata revisions
  */
-function reportUploadSuccess(req, res) {
-  const uploads = req.files.map(file => ({
+function reportUploadSuccess(req, res, fileRevs) {
+  const uploads = req.files.map((file, index) => ({
     originalName: file.originalname,
-    uploadedFileName: file.filename
+    uploadedFileName: file.filename,
+    fileID: fileRevs[index].id
   }));
   res.status(200);
   res.send(JSON.stringify({
