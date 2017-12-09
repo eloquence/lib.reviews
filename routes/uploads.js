@@ -101,17 +101,12 @@ stage1Router.post('/:id/upload', function(req, res, next) {
 
       let storage = multer.diskStorage({
         destination: config.uploadTempDir,
-        filename(req, file, done) {
-          let p = path.parse(file.originalname);
-          let name = `${p.name}-${Date.now()}${p.ext}`;
-          name.replace(/<>&/g, '');
-          done(null, name);
-        }
+        filename: assignFilename
       });
 
       let upload = multer({
         limits: {
-          fileSize: config.uploadMagSize
+          fileSize: config.uploadMaxSize
         },
         fileFilter: getFileFilter(req, res),
         storage
@@ -131,19 +126,32 @@ stage1Router.post('/:id/upload', function(req, res, next) {
 // investigation, they turn out to contain unacceptable content.
 function getFileFilter(req, res) {
   return (req, file, done) => {
-    checkCSRF(req, res, error => {
-      if (error)
-        return done(error); // Bad CSRF token, reject upload
+    checkCSRF(req, res, csrfError => {
+      if (csrfError)
+        return done(csrfError); // Bad CSRF token, reject upload
 
-      if (allowedTypes.indexOf(file.mimetype) == -1) {
-        done(new ReportedError({
-          userMessage: 'unsupported file type',
-          userMessageParams: [file.originalname, file.mimetype]
-        }));
-      } else
-        done(null, true); // Accept file for further investigation
+      const { fileTypeError, isPermitted } = checkMIMEType(file);
+      return done(fileTypeError, isPermitted);
     });
   };
+}
+
+// Check if MIME type appears okay. That doesn't mean the file is acceptable -
+// file could be pretending to be something it isn't
+function checkMIMEType(file) {
+  if (!allowedTypes.includes(file.mimetype))
+    return {
+      fileTypeError: new ReportedError({
+        userMessage: 'unsupported file type',
+        userMessageParams: [file.originalname, file.mimetype]
+      }),
+      isPermitted: false
+    };
+  else
+    return {
+      fileTypeError: null,
+      isPermitted: true
+    };
 }
 
 // Checks validity of the files and, if appropriate, performs the actual upload
@@ -151,7 +159,10 @@ function getUploadHandler(req, res, next, thing) {
   return error => {
 
     const abortUpload = uploadError => {
-      cleanupFiles(req); // Async, but we don't wait for completion
+      // Async, but we don't wait for completion. Note that multer performs
+      // its own cleanup on fileFilter errors, and req.files will be an empty
+      // array in that case.
+      cleanupFiles(req);
       req.flashError(uploadError);
       res.redirect(`/${thing.urlID}`);
     };
@@ -163,7 +174,9 @@ function getUploadHandler(req, res, next, thing) {
 
     if (req.files.length) {
       validateFiles(req.files)
-        .then(fileTypes => attachFilesToThing(req, res, thing, fileTypes))
+        .then(fileTypes => getFileRevs(req.files, fileTypes, req.user,
+          ['upload', 'upload-via-form']))
+        .then(fileRevs => attachFileRevsToThing(fileRevs, thing))
         .then(uploadedFiles =>
           render.template(req, res, 'thing-upload-step-2', {
             titleKey: 'add media',
@@ -192,32 +205,36 @@ async function validateFiles(files) {
   return fileTypes;
 }
 
-async function attachFilesToThing(req, res, thing, fileTypes) {
-  let fileRevPromises = [];
-  req.files.forEach(() => fileRevPromises.push(File.createFirstRevision(req.user)));
-  const fileRevs = await Promise.all(fileRevPromises);
-  let newFiles = [];
-  req.files.forEach((file, index) => {
+async function getFileRevs(files, fileTypes, user, tags = []) {
+  const fileRevs = await Promise.all(
+    files.map(() => File.createFirstRevision(user, { tags }))
+  );
+  files.forEach((file, index) => {
     fileRevs[index].name = file.filename;
     // We don't use the reported MIME type from the upload
     // because it may be wrong in some edge cases like Ogg
     // audio vs. Ogg video
     fileRevs[index].mimeType = fileTypes[index];
-    fileRevs[index].uploadedBy = req.user.id;
+    fileRevs[index].uploadedBy = user.id;
     fileRevs[index].uploadedOn = new Date();
-    thing.addFile(fileRevs[index]);
-    newFiles.push(fileRevs[index]);
   });
+  return fileRevs;
+}
+
+async function attachFileRevsToThing(fileRevs, thing) {
+  // Note that the file association is stored in a separate table, so we do not
+  // create a new Thing revision in this case
+  fileRevs.forEach(fileRev => thing.addFile(fileRev));
   await thing.saveAll(); // saves joined files
-  return newFiles;
+  return fileRevs;
 }
 
 async function cleanupFiles(req) {
-  if (!Array.isArray(req.files))
+  if (!Array.isArray(req.files) || !req.files.length)
     return;
 
   try {
-    await Promise.all(req.files.map(unlink));
+    await Promise.all(req.files.map(file => unlink(file.path)));
   } catch (error) {
     debug.error({ error, req });
   }
@@ -432,7 +449,19 @@ async function finishUpload(upload) {
   }
 }
 
+function assignFilename(req, file, done) {
+  let p = path.parse(file.originalname);
+  let name = `${p.name}-${Date.now()}${p.ext}`;
+  name.replace(/<>&/g, '');
+  done(null, name);
+}
+
 module.exports = {
   stage1Router,
-  stage2Router
+  stage2Router,
+  checkMIMEType,
+  cleanupFiles,
+  validateFiles,
+  getFileRevs,
+  assignFilename
 };

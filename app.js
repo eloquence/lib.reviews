@@ -48,6 +48,7 @@ const flashHelper = require('./routes/helpers/flash');
 const things = require('./routes/things');
 const ErrorProvider = require('./routes/errors');
 const debug = require('./util/debug');
+const apitest = require('./routes/apitest');
 
 // Initialize custom HBS helpers
 require('./util/handlebars-helpers.js');
@@ -217,6 +218,7 @@ async function getApp(db = require('./db')) {
   app.use('/', teams);
   app.use('/', files);
   app.use('/', blogPosts);
+  app.use('/', apitest);
   app.use('/', uploads.stage2Router);
   app.use('/user', users);
 

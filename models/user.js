@@ -55,6 +55,11 @@ let User = thinky.createModel("users", {
   // Permission field, populated using _currently logged in user_, to determine
   // whether they can edit _this_ user's metadata.
   userCanEditMetadata: type.virtual().default(false),
+  // Temp files are not associated with a specific review subject yet, so the
+  // permission exists at the user level
+  userCanUploadTempFiles: type.virtual().default(function() {
+    return this.isTrusted || this.isSuperUser;
+  }),
   prefersRichTextEditor: type.boolean().default(false)
 });
 

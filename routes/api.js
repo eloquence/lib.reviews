@@ -16,6 +16,7 @@ router.post('/actions/:modify-preference', actionHandler.modifyPreference);
 
 router.post('/actions/suppress-notice', actionHandler.suppressNotice);
 
+router.post('/actions/upload', actionHandler.upload);
 
 // Query existence/properties of a thing (review subject)
 // look up by canonical URL name via /thing/:label or use URL query parameter

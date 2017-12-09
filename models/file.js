@@ -10,6 +10,8 @@ const type = thinky.type;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 
+const validLicenses = ['cc-0', 'cc-by', 'cc-by-sa', 'fair-use'];
+
 /* eslint-disable newline-per-chained-call */ /* for schema readability */
 
 const fileSchema = {
@@ -19,7 +21,7 @@ const fileSchema = {
   uploadedBy: type.string().uuid(4),
   uploadedOn: type.date(),
   mimeType: type.string(),
-  license: type.string().enum(['cc-0', 'cc-by', 'cc-by-sa', 'fair-use']),
+  license: type.string().enum(validLicenses),
   // Provided by uploader: if not the author, who is?
   creator: mlString.getSchema(),
   // Provided by uploader: where does this file come from?
@@ -56,6 +58,8 @@ File.getStashedUpload = async function(userID, name) {
     .filter({ _oldRevOf: false }, { default: true });
   return files[0];
 };
+
+File.getValidLicenses = () => validLicenses.slice();
 
 // NOTE: INSTANCE METHODS ------------------------------------------------------
 

@@ -1,8 +1,18 @@
 'use strict';
+
+// External deps
+const multer = require('multer');
+const is = require('type-is');
+const config = require('config');
+
+// Internal deps
 const render = require('../helpers/render');
 const api = require('../helpers/api');
 
-let actionHandler = {
+const apiUploadHandler = require('./api-upload-handler');
+const { checkMIMEType, assignFilename } = require('../uploads');
+
+const actionHandler = {
 
   // Handler for enabling, disabling or toggling a Boolean preference. Currently
   // accepts one preference at a time, but should be easy to modify to handle
@@ -103,8 +113,64 @@ let actionHandler = {
           });
         }
     }
+  },
 
+
+  /**
+   * Handle a multipart API upload. API parameters
+   *
+   * - files: holds the file or file
+   * - multiple: (true if truthy) if we want to process just one file, or
+   *   multiple files
+   * - description, author, source, license, language, ownwork: file metadata
+   *
+   * If ownwork is truthy, author and source must not be present.
+   *
+   * If uploading multiple files, add filename to each parameter, e.g.:
+   * license-foo.jpg
+   *
+   * @param {IncomingMessage} req
+   *  Express request
+   * @param {ServerResponse} res
+   *  Express response
+   * @param {Function} next
+   *  callback to next middleware
+   */
+  upload(req, res, next) {
+    if (!is(req, ['multipart'])) {
+      next();
+      return;
+    }
+
+    if (!req.user) {
+      api.signinRequired(req, res);
+      return;
+    }
+
+    if (!req.user.userCanUploadTempFiles) {
+      api.error(req, res,
+        `User '${req.user.displayName}' is not permitted to upload files.`);
+      return;
+    }
+
+    const performUpload = multer({
+      limits: {
+        fileSize: config.uploadMaxSize
+      },
+      storage: multer.diskStorage({
+        destination: config.uploadTempDir,
+        filename: assignFilename
+      }),
+      fileFilter: (req, file, done) => {
+        const { fileTypeError, isPermitted } = checkMIMEType(file);
+        done(fileTypeError, isPermitted);
+      }
+    }).array('files');
+
+    // Execute the actual upload middleware
+    performUpload(req, res, apiUploadHandler(req, res));
   }
 
 };
+
 module.exports = actionHandler;

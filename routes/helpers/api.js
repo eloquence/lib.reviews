@@ -28,11 +28,11 @@ let api = {
   },
   // Send one or multiple errors. Can be array of strings, or single string.
   // Error status is 400 (bad request) if not specified
-  error(req, res, errors, status) {
+  error(req, res, errors, status = 400) {
     if (!Array.isArray(errors))
       errors = errors === undefined ? ['Unspecified error.'] : [errors];
     res.type('json');
-    res.status(status ? status : 400);
+    res.status(status);
     res.send({
       message: 'Could not perform action.',
       errors
