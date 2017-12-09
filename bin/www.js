@@ -45,7 +45,8 @@ async function runWebsite() {
     ports: {
       http: port,
       https: config.httpsPort
-    }
+    },
+    ip: config.listenOn
   }, app);
 
   server.on('error', onError);

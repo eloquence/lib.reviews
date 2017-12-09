@@ -30,6 +30,10 @@
   // with a command line argument, hence "default".
   defaultPort: 80,
 
+  // Change this to something like 127.0.0.1 if you don't want to serve
+  // external requests
+  listenOn: '0.0.0.0',
+
   // RethinkDB configuration. We use a connection pool, so you can add
   // additional servers to the array if needed.
   dbServers: [
