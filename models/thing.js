@@ -411,9 +411,14 @@ function setURLs(urls) {
 async function updateActiveSyncs(userID) {
   const thing = this; // For readability
 
-  // No active syncs of any kind? Just give the thing back.
-  if (!thing.urls || !thing.urls.length || typeof thing.sync !== 'object')
+  // No URLs? Just give the thing back.
+  if (!thing.urls || !thing.urls.length)
     return thing;
+
+  // No known syncs? We'll still fall through to the save/index operation at
+  // the end.
+  if (typeof thing.sync !== 'object')
+    thing.sync = {};
 
   // Determine which external sources we need to contact. While one source
   // may give us updates for many fields, we obviously only want to contact
