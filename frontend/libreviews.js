@@ -51,6 +51,11 @@
     // Selector used to find any remaining validation errors that need to be corrected
     let validationErrorSelector = options.validationErrorSelector || '.validation-error:visible';
 
+    let formSelector = options.formSelector ? options.formSelector + ' ' : '';
+
+    // Callback to call in case no form issues are present
+    let cb = options.callback;
+
     this.click(requiredFieldHandler);
 
     function requiredFieldHandler(event) {
@@ -58,7 +63,7 @@
       // Clear out old warnings
       $(`${requiredFieldsMessage},${formErrorMessage},label ${indicatorSelector}`).hide();
 
-      let $emptyFields = $('input[data-required],textarea[data-required]')
+      let $emptyFields = $(`${formSelector}input[data-required],textarea[data-required],select[data-required]`)
         .getEmptyInputs()
         .highlightLabels();
 
@@ -76,6 +81,9 @@
         return;
       }
 
+      if (cb)
+        cb.call(this, event);
+
     }
 
   };
@@ -90,8 +98,9 @@
    */
   $.fn.lockTab = function() {
     const $inputs = this
-      .find('select, input, textarea, button, a')
+      .find('select, input, textarea, button, a, [data-focusable]')
       .filter(':visible');
+    console.log($inputs);
     const $firstInput = $inputs.first();
     const $lastInput = $inputs.last();
 

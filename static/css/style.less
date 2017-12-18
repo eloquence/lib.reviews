@@ -606,7 +606,7 @@ label.inline-star-label {
 }
 
 .required {
-  color:red;
+  color:@errorColor;
   font-weight:bold;
   display:none;
 }
@@ -1580,6 +1580,46 @@ div.dangerous-content-in-editor {
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }
+}
+
+#upload-modal {
+  max-width: 600px;
+}
+
+#upload-modal h3 {
+  color: @headerColor
+}
+
+.upload-modal-buttondiv {
+  text-align:center;
+}
+.upload-modal-error {
+  margin-bottom:0.5em;
+}
+
+#upload-modal select {
+  height:auto;
+}
+
+#upload-modal-cancel-metadata {
+  cursor: pointer;
+}
+
+#upload-modal-metadata-info td {
+  font-size:small;
+  padding:5px 5px 5px 2px;
+}
+
+#upload-modal-spinner {
+  margin-left:0.5em;
+}
+
+
+.input-row {
+  vertical-align: top;
+}
+.input-row td {
+  padding:5px;
 }
 
 // ------------- End modal dialog styles ---------------------------------------

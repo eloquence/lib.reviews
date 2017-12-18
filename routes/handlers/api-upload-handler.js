@@ -113,12 +113,12 @@ function validateMetadata(file, data, { addSuffix = false } = {}) {
 
   const required = ownWork ?
     ['description', 'license', 'ownwork', 'language'].map(field) :
-    ['description', 'author', 'source', 'license', 'language'].map(field);
+    ['description', 'creator', 'source', 'license', 'language'].map(field);
 
   // We ignore presence/content of these conflicting fields if they are "falsy",
   // otherwise we report an error
   const conditionallyIgnored = ownWork ?
-    ['author', 'source'].map(field) :
+    ['creator', 'source'].map(field) :
     ['ownwork'].map(field);
 
   errors.push(...checkRequired(data, required, conditionallyIgnored));
