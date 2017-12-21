@@ -48,10 +48,11 @@
     // Error message(s) selector reminding user about other validation errors
     let formErrorMessage = options.formErrorMessage || '#form-error-message';
 
-    // Selector used to find any remaining validation errors that need to be corrected
-    let validationErrorSelector = options.validationErrorSelector || '.validation-error:visible';
-
     let formSelector = options.formSelector ? options.formSelector + ' ' : '';
+
+    // Selector used to find any remaining validation errors that need to be corrected
+    let validationErrorSelector = options.validationErrorSelector ||
+      `${formSelector}.validation-error:visible`;
 
     // Callback to call in case no form issues are present
     let cb = options.callback;
@@ -61,9 +62,9 @@
     function requiredFieldHandler(event) {
 
       // Clear out old warnings
-      $(`${requiredFieldsMessage},${formErrorMessage},label ${indicatorSelector}`).hide();
+      $(`${formSelector}${requiredFieldsMessage},${formSelector}${formErrorMessage},${formSelector}label ${indicatorSelector}`).hide();
 
-      let $emptyFields = $(`${formSelector}input[data-required],textarea[data-required],select[data-required]`)
+      let $emptyFields = $(`${formSelector}input[data-required],${formSelector}textarea[data-required],${formSelector}select[data-required]`)
         .getEmptyInputs()
         .highlightLabels();
 
@@ -100,7 +101,6 @@
     const $inputs = this
       .find('select, input, textarea, button, a, [data-focusable]')
       .filter(':visible');
-    console.log($inputs);
     const $firstInput = $inputs.first();
     const $lastInput = $inputs.last();
 
@@ -219,7 +219,7 @@
       rv = processSingleParam(rv, 's', String(stringParam));
 
     if (Array.isArray(stringParams))
-      rv = processOrderedParams(stringParams, 's', stringParams);
+      rv = processOrderedParams(rv, 's', stringParams);
 
     if (numberParam !== undefined)
       rv = processSingleParam(rv, 'd', Number(numberParam));

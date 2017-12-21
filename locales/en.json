@@ -504,5 +504,11 @@
    "previously reviewed submission": "You have <a href='%1$s' target='_blank'>already written a review</a> of this subject. You can <a href='%2$s' target='_blank'>edit your existing review</a> (opens in new tab) but you cannot post an additional review.",
    "delete file": "Delete file",
    "please enter description": "Please enter a description.",
-   "please specify rights": "Please specify the copyright status."
+   "please specify rights": "Please specify the copyright status.",
+   "caption": "%1$s (%2$s)",
+   "license in caption": "License: %s",
+   "public domain in caption": "Public domain",
+   "fair use in caption": "Fair use",
+   "rights in caption, own work": "Own work. %s.",
+   "rights in caption, someone else's work": "Credit: %1$s. %2$s. Source: %3$s"
 }

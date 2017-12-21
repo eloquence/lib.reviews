@@ -1,4 +1,6 @@
 'use strict';
+const { getUploadModalMessageKeys } = require('./upload-modal-messages');
+
 const msgArr = [
   'accesskey',
   'insert media',
@@ -49,14 +51,17 @@ const msgArr = [
   'full screen mode',
   'spoiler warning',
   'nsfw warning',
-  'upload and insert media'
-];
+  'upload and insert media',
+  'caption',
+  'license in caption',
+  'public domain in caption',
+  'fair use in caption',
+  'rights in caption, own work',
+  'rights in caption, someone else\'s work'
+].concat(getUploadModalMessageKeys());
+
 const getMessages = require('../util/get-messages');
 
-module.exports.getEditorMessageKeys = function() {
-  return msgArr.slice();
-};
+module.exports.getEditorMessageKeys = () => msgArr.slice();
 
-module.exports.getEditorMessages = function(locale) {
-  return getMessages(locale, msgArr.slice());
-};
+module.exports.getEditorMessages = locale => getMessages(locale, msgArr.slice());

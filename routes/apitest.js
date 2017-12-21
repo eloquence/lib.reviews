@@ -14,7 +14,8 @@ router.get('/apitest', (req, res) => {
         'enter creator name', 'enter source', 'source', 'license',
         'select license', 'ok', 'cancel',
         'fair use short', 'cc-0 short', 'cc-by short', 'cc-by-sa short',
-        'please enter description', 'please specify rights'
+        'please enter description', 'please specify rights',
+        'could not complete action'
       ]
       .reduce((obj, key) => {
         obj[key] = req.__(key);

@@ -5,7 +5,8 @@ const escapeHTML = require('escape-html');
 
 // Internal deps
 const languages = require('../../locales/languages');
-const { validateFiles, cleanupFiles, getFileRevs } = require('../uploads');
+const { validateFiles, cleanupFiles, getFileRevs, finishUpload } =
+  require('../uploads');
 const ReportedError = require('../../util/reported-error');
 const File = require('../../models/file');
 const api = require('../helpers/api');
@@ -30,10 +31,13 @@ module.exports = function apiUploadHandler(req, res) {
     // from multer or unknown errors
     const abortUpload = (errors = []) => {
       cleanupFiles(req);
-      const errorMessages = errors.map(error => error instanceof ReportedError ?
-        req.__(...error.getEscapedUserMessageArray()) :
-        error.message
-      );
+      const errorMessages = errors.map(error => {
+        const rv = {};
+        rv.internalMessage = error.message;
+        if (error instanceof ReportedError)
+          rv.displayMessage = req.__(...error.getEscapedUserMessageArray());
+        return rv;
+      });
       api.error(req, res, errorMessages);
     };
 
@@ -50,6 +54,7 @@ module.exports = function apiUploadHandler(req, res) {
     validateFiles(req.files)
       .then(fileTypes => getFileRevs(req.files, fileTypes, req.user, ['upload', 'upload-via-api']))
       .then(fileRevs => addMetadata(req.files, fileRevs, req.body))
+      .then(moveFiles)
       .then(fileRevs => Promise.all(fileRevs.map(fileRev => fileRev.save())))
       .then(fileRevs => reportUploadSuccess(req, res, fileRevs))
       .catch(error => abortUpload([error]));
@@ -222,6 +227,7 @@ function addMetadataToFileRev(file, fileRev, data, { addSuffix = false } = {}) {
   };
   addMlStr(['description', 'creator', 'source'], fileRev);
   fileRev.license = data[field('license')];
+  fileRev.completed = true;
 }
 
 
@@ -240,12 +246,24 @@ function reportUploadSuccess(req, res, fileRevs) {
   const uploads = req.files.map((file, index) => ({
     originalName: file.originalname,
     uploadedFileName: file.filename,
-    fileID: fileRevs[index].id
+    fileID: fileRevs[index].id,
+    description: fileRevs[index].description,
+    license: fileRevs[index].license,
+    creator: fileRevs[index].creator,
+    source: fileRevs[index].source
   }));
   res.status(200);
+  res.type('json');
   res.send(JSON.stringify({
     message: 'Upload successful.',
     uploads,
     errors: []
   }, null, 2));
+}
+
+
+async function moveFiles(fileRevs) {
+  for (let fileRev of fileRevs)
+    await finishUpload(fileRev);
+  return fileRevs;
 }

@@ -1,4 +1,4 @@
-/* global $, libreviews */
+/* global $, libreviews, config */
 const {
   wrapItem,
   blockTypeItem,
@@ -22,6 +22,7 @@ const { NodeSelection, TextSelection } = require('prosemirror-state');
 const { toggleMark, wrapIn } = require('prosemirror-commands');
 const { wrapInList } = require('prosemirror-schema-list');
 const { TextField, openPrompt } = require('./editor-prompt');
+const { uploadModal } = require('./upload-modal');
 const { guessMediaType } = require('markdown-it-html5-media');
 
 // Helpers to create specific types of items
@@ -165,17 +166,63 @@ function fullScreenItem() {
   });
 }
 
-function uploadItem() {
+function uploadModalItem(mediaNodes, schema) {
   return new MenuItem({
     title: libreviews.msg('upload and insert media'),
-    icon: { dom: $('<span class="fa fa-upload"><span>')[0] },
+    icon: { dom: $('<span class="fa fa-cloud-upload baselined-icon"><span>')[0] },
     active() {
       return false;
     },
-    run(_state, _dispatch, _view) {
-      console.log('Upload fun');
+    run(state, dispatch, view) {
+      uploadModal(uploads => {
+        const upload = uploads[0];
+        const attrs = {
+          src: `/static/uploads/${upload.uploadedFileName}`
+        };
+        const nodeType = guessMediaType(attrs.src);
+        const br = schema.nodes.hard_break.create();
+        const description = schema.text(generateDescriptionFromUpload(upload),
+          schema.marks.strong.create());
+        dispatch(
+          state.tr
+          .replaceSelectionWith(mediaNodes[nodeType].createAndFill(attrs))
+          .insert(state.selection.$anchor.pos + 1, br)
+          .insert(state.selection.$anchor.pos + 2, description)
+        );
+
+        view.focus();
+      });
     }
   });
+}
+
+function generateDescriptionFromUpload(upload) {
+  const description = upload.description[config.language];
+  const creator = upload.creator && upload.creator[config.language];
+  const source = upload.source && upload.source[config.language];
+  let license;
+  switch (upload.license) {
+    case 'fair-use':
+      license = libreviews.msg('fair use in caption');
+      break;
+    case 'cc-0':
+      license = libreviews.msg('public domain in caption');
+      break;
+    default:
+      license = libreviews.msg('license in caption', {
+        stringParam: libreviews.msg(`${upload.license} short`)
+      });
+  }
+
+  let rights;
+  if (!creator) // Own work
+    rights = libreviews.msg('rights in caption, own work', { stringParam: license });
+  else
+    rights = libreviews.msg('rights in caption, someone else\'s work', {
+      stringParams: [creator, license, source]
+    });
+  const caption = libreviews.msg('caption', { stringParams: [description, rights] });
+  return caption;
 }
 
 function formatCustomWarningItem(nodeType) {
@@ -289,17 +336,19 @@ function headingItems(nodeType) {
  *  the generated menu and all its items
  */
 function buildMenuItems(schema) {
+  const mediaNodes = {
+    image: schema.nodes.image,
+    video: schema.nodes.video,
+    audio: schema.nodes.audio
+  };
+
   const items = {
     toggleStrong: markItem(schema.marks.strong, { title: libreviews.msg('toggle bold', { accessKey: 'b' }), icon: icons.strong }),
     toggleEm: markItem(schema.marks.em, { title: libreviews.msg('toggle italic', { accessKey: 'i' }), icon: icons.em }),
     toggleCode: markItem(schema.marks.code, { title: libreviews.msg('toggle code', { accessKey: '`' }), icon: icons.code }),
     toggleLink: linkItem(schema),
-    upload: uploadItem(),
-    insertMedia: insertMediaItem({
-      image: schema.nodes.image,
-      video: schema.nodes.video,
-      audio: schema.nodes.audio
-    }),
+    upload: uploadModalItem(mediaNodes, schema),
+    insertMedia: insertMediaItem(mediaNodes),
     insertHorizontalRule: horizontalRuleItem(schema.nodes.horizontal_rule),
     wrapBulletList: wrapListItem(schema.nodes.bullet_list, {
       title: libreviews.msg('format as bullet list', { accessKey: '8' }),

@@ -280,7 +280,7 @@ async function validateSVG(filePath) {
 
 // If an upload is unfinished, it can still be viewed at its destination URL
 // by the user who uploaded it.
-stage1Router.get('/static/uploads/:name', function(req, res, next) {
+stage1Router.get('/static/uploads/restricted/:name', function(req, res, next) {
   if (!req.user)
     return next();
 
@@ -463,5 +463,6 @@ module.exports = {
   cleanupFiles,
   validateFiles,
   getFileRevs,
-  assignFilename
+  assignFilename,
+  finishUpload
 };

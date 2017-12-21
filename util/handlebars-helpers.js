@@ -181,14 +181,15 @@ hbs.registerHelper('ifCond', function(v1, operator, v2, options) {
   }
 });
 
-hbs.registerHelper('renderFilePreview', function(file) {
+hbs.registerHelper('renderFilePreview', function(file, restricted) {
+  const path = restricted ? 'restricted/' : '';
   const wrap = str => `<div class="file-preview">${str}</div>`;
   if (/^image\//.test(file.mimeType))
-    return wrap(`<img src="/static/uploads/${file.name}">`);
+    return wrap(`<img src="/static/uploads/${path}${file.name}">`);
   else if (/^video\//.test(file.mimeType))
-    return wrap(`<video src="/static/uploads/${file.name}" controls>`);
+    return wrap(`<video src="/static/uploads/${path}${file.name}" controls>`);
   else if (/^audio\//.test(file.mimeType))
-    return wrap(`<audio src="/static/uploads/${file.name}" controls>`);
+    return wrap(`<audio src="/static/uploads/${path}${file.name}" controls>`);
   else
     return '';
 });
