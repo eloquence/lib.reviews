@@ -147,7 +147,7 @@ function markItem(markType, options) {
 function fullScreenItem() {
   return new MenuItem({
     title: libreviews.msg('full screen mode', { accessKey: 'u' }),
-    icon: { dom: $('<span class="fa fa-arrows-alt"></span>')[0] },
+    icon: { dom: $('<span class="fa fa-arrows-alt baselined-icon"></span>')[0] },
     active() {
       return this.enabled || false;
     },
