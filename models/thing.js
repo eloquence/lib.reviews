@@ -183,6 +183,7 @@ Thing.getWithData = async function(id, {
   if (withFiles)
     join = {
       files: {
+        uploader: true,
         _apply: seq => seq
           .filter({ completed: true }) // We don't show unfinished uploads
           .filter({ _revDeleted: false }, { default: true })

@@ -6,6 +6,7 @@
  * @namespace File
  */
 const thinky = require('../db');
+const r = thinky.r;
 const type = thinky.type;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
@@ -39,6 +40,7 @@ Object.assign(fileSchema, revision.getSchema());
 const File = thinky.createModel("files", fileSchema);
 
 File.belongsTo(User, "uploader", "uploadedBy", "id");
+File.ensureIndex("uploadedOn");
 
 // NOTE: STATIC METHODS --------------------------------------------------------
 
@@ -64,12 +66,34 @@ File.getStashedUpload = async function(userID, name) {
 
 File.getValidLicenses = () => validLicenses.slice();
 
-File.getFileList = async function() {
-  return await File
-    .filterNotStaleOrDeleted()
+File.getFileFeed = async function({ offsetDate, limit = 10 } = {}) {
+  let query = File;
+
+  if (offsetDate && offsetDate.valueOf)
+    query = query.between(r.minval, r.epochTime(offsetDate.valueOf() / 1000), {
+      index: 'uploadedOn',
+      rightBound: 'open' // Do not return previous record that exactly matches offset
+    });
+
+  query = query
+    .filter({ _revDeleted: false }, { default: true })
+    .filter({ _oldRevOf: false }, { default: true })
     .filter({ completed: true })
     .getJoin({ things: true, uploader: true })
-    .orderBy(thinky.r.desc('uploadedOn'));
+    .orderBy(r.desc('uploadedOn'))
+    .limit(limit + 1);
+
+  const feed = {
+    items: await query
+  };
+
+  // At least one additional document available, set offset for pagination
+  if (feed.items.length == limit + 1) {
+    feed.offsetDate = feed.items[limit - 1].uploadedOn;
+    feed.items.pop();
+  }
+  return feed;
+
 };
 
 // NOTE: INSTANCE METHODS ------------------------------------------------------

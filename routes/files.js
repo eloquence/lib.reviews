@@ -13,16 +13,33 @@ const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
 
 router.get('/files', function(req, res, next) {
-  File.getFileList()
-    .then(files => {
-      files.forEach(file => file.populateUserInfo(req.user));
-      render.template(req, res, 'files', {
-        titleKey: 'uploaded files title',
-        files
-      });
-    })
+  File.getFileFeed()
+    .then(feed => showFiles(req, res, feed))
     .catch(next);
 });
+
+router.get('/files/before/:utcisodate', function(req, res, next) {
+  let utcISODate = req.params.utcisodate;
+  let offsetDate = new Date(utcISODate);
+  if (!offsetDate || offsetDate == 'Invalid Date')
+    offsetDate = null;
+
+  File.getFileFeed({ offsetDate })
+    .then(feed => showFiles(req, res, feed))
+    .catch(next);
+});
+
+function showFiles(req, res, feed) {
+  feed.items.forEach(file => file.populateUserInfo(req.user));
+  render.template(req, res, 'files', {
+    titleKey: 'uploaded files title',
+    files: feed.items,
+    paginationURL: feed.offsetDate ?
+      `/files/before/${feed.offsetDate.toISOString()}` :
+       null,
+    singleColumn: true
+  });
+}
 
 router.get('/file/:id/delete', function(req, res, next) {
   const { id } = req.params;
@@ -36,7 +53,8 @@ router.get('/file/:id/delete', function(req, res, next) {
 
       render.template(req, res, 'delete-file', {
         file,
-        titleKey
+        titleKey,
+        singleColumn: true
       });
     })
     .catch(getResourceErrorHandler(req, res, next, 'file', id));

@@ -121,16 +121,6 @@ Review.getWithData = async function(id) {
 Review.create = async function(reviewObj, { tags, files } = {}) {
   const thing = await Review.findOrCreateThing(reviewObj);
 
-  // If we uploaded files in the process of writing this review, we add them
-  // to the associated review subject
-  if (Array.isArray(files)) {
-    const fileRevs = await File
-      .getAll(...files)
-      .filter({ _revDeleted: false }, { default: true })
-      .filter({ _oldRevOf: false }, { default: true });
-    fileRevs.forEach(fileRev => thing.addFile(fileRev));
-    await thing.saveAll({ files: true });
-  }
   const existingReviews = await Review
     .filter({
       thingID: thing.id,
@@ -148,6 +138,20 @@ Review.create = async function(reviewObj, { tags, files } = {}) {
           `/review/${existingReviews[0].id}/edit`
       ]
     });
+
+  // If we uploaded files in the process of writing this review, we add them
+  // to the associated review subject
+  if (Array.isArray(files)) {
+    const fileRevs = await File
+      .getAll(...files)
+      .filter({ _revDeleted: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true });
+    fileRevs.forEach(fileRev => {
+      if (fileRev.uploadedBy === reviewObj.createdBy)
+        thing.addFile(fileRev);
+    });
+    await thing.saveAll({ files: true });
+  }
 
   let review = new Review({
     thing, // joined

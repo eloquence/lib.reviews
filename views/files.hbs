@@ -1,5 +1,6 @@
 <div class="file-table">
 {{#each files}}
+{{{renderFilePreview this false}}}
 <div class="file-table-file">
 <div class="file-table-name">{{{getFileLink this.name}}}</div>
 
@@ -14,7 +15,16 @@
 </div>
 {{/if}}
 
-{{#if this.uploader}}
+<div class="file-table-row">
+  <div class="file-table-label">
+  {{{__ "upload date"}}}
+  </div>
+  <div class="file-table-value">
+  {{{longDate this.uploadedOn}}}
+  </div>
+</div>
+
+{{#if this.description}}
 <div class="file-table-row">
   <div class="file-table-label">
   {{{__ "description"}}}
@@ -25,13 +35,13 @@
 </div>
 {{/if}}
 
-{{#if this.uploader}}
+{{#if this.source}}
 <div class="file-table-row">
   <div class="file-table-label">
   {{{__ "source help label"}}}
   </div>
   <div class="file-table-value">
-  {{{mlString this.source}}}
+  {{{linkify (mlString this.source)}}}
   </div>
 </div>
 {{/if}}
@@ -42,7 +52,7 @@
   {{{__ "license"}}}
   </div>
   <div class="file-table-value">
-  {{{license this.license}}}
+  {{{licenseLink this.license (licenseLabel this.license)}}}
   </div>
 </div>
 {{/if}}
@@ -70,4 +80,8 @@
 
 </div>
 {{/each}}
+
+{{#if paginationURL}}
+<a class="pagination-link no-print" href="{{paginationURL}}"><span class="fa fa-fw fa-angle-double-left">&nbsp;</span>{{{__ "older files"}}}</a>
+{{/if}}
 </div>

@@ -510,9 +510,12 @@
    "public domain in caption": "Public domain",
    "fair use in caption": "Fair use",
    "rights in caption, own work": "Own work. %s.",
-   "rights in caption, someone else's work": "Credit: %1$s. %2$s. Source: %3$s",
+   "rights in caption, someone else's work": "Credit: %1$s. %2$s.",
+   "source in upload summary": "Source: %s",
    "uploaded files title": "Uploaded files",
    "description": "Description",
    "uploader": "Uploader",
-   "file usage": "File usage"
+   "file usage": "File usage",
+   "upload date": "Upload date",
+   "older files": "Older files"
 }

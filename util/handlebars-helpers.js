@@ -5,6 +5,7 @@ const hbs = require('hbs');
 const escapeHTML = require('escape-html');
 const i18n = require('i18n');
 const stripTags = require('striptags');
+const linkifyHTML = require('linkifyjs/html');
 
 // Internal dependencies
 const mlString = require('../models/helpers/ml-string');
@@ -12,6 +13,7 @@ const languages = require('../locales/languages');
 const Thing = require('../models/thing');
 const urlUtils = require('./url-utils');
 const adapters = require('../adapters/adapters');
+const getLicenseURL = require('./get-license-url');
 
 // Current iteration value will be passed as {{this}} into the block,
 // starts at 1 for more human-readable counts. First and last set @first, @last
@@ -47,9 +49,7 @@ hbs.registerHelper('summarize', function(html, length) {
   return stripTags(html.substr(0, length)) + '...';
 });
 
-hbs.registerHelper('userLink', function(user) {
-  return user ? `<a href="/user/${user.urlName}">${user.displayName}</a>` : '';
-});
+hbs.registerHelper('userLink', userLink);
 
 hbs.registerHelper('prettify', function(url) {
   if (url)
@@ -194,7 +194,42 @@ hbs.registerHelper('renderFilePreview', function(file, restricted) {
     return '';
 });
 
-hbs.registerHelper('license', function(license, options) {
-  const key = license === 'fair-use' ? 'fair use short' : `${license} short`;
-  return i18n.__(key, options.data.root.locale);
+hbs.registerHelper('licenseLabel', licenseLabel);
+
+hbs.registerHelper('licenseLink', licenseLink);
+
+hbs.registerHelper('fileCredit', function(file, options) {
+  const label = licenseLabel(file.license, options),
+    link = licenseLink(file.license, label);
+
+  if (!file.creator && !file.uploader)
+    return i18n.__({
+      phrase: 'rights in caption, own work',
+      locale: options.data.root.locale
+    }, link);
+  else
+    return i18n.__({
+        phrase: 'rights in caption, someone else\'s work',
+        locale: options.data.root.locale
+      },
+      file.creator ?
+      mlString.resolve(options.data.root.locale, file.creator).str :
+      userLink(file.uploader),
+      link);
 });
+
+hbs.registerHelper('linkify', str => linkifyHTML(str, { defaultProtocol: 'https' }));
+
+function userLink(user) {
+  return user ? `<a href="/user/${user.urlName}">${user.displayName}</a>` : '';
+}
+
+function licenseLabel(license, options) {
+  const key = license === 'fair-use' ? 'fair use short' : `${license} short`;
+  return i18n.__({ phrase: key, locale: options.data.root.locale });
+}
+
+function licenseLink(license, licenseLabel) {
+  const url = getLicenseURL(license);
+  return url ? `<a href="${url}">${licenseLabel}</a>` : licenseLabel;
+}

@@ -205,7 +205,6 @@ function uploadModalItem(mediaNodes, schema) {
 function generateDescriptionFromUpload(upload) {
   const description = upload.description[config.language];
   const creator = upload.creator && upload.creator[config.language];
-  const source = upload.source && upload.source[config.language];
   let license;
   switch (upload.license) {
     case 'fair-use':
@@ -225,7 +224,7 @@ function generateDescriptionFromUpload(upload) {
     rights = libreviews.msg('rights in caption, own work', { stringParam: license });
   else
     rights = libreviews.msg('rights in caption, someone else\'s work', {
-      stringParams: [creator, license, source]
+      stringParams: [creator, license]
     });
   const caption = libreviews.msg('caption', { stringParams: [description, rights] });
   return caption;
