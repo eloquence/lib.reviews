@@ -12,6 +12,17 @@ const File = require('../models/file');
 const getResourceErrorHandler = require('./handlers/resource-error-handler');
 const render = require('./helpers/render');
 
+router.get('/files', function(req, res, next) {
+  File.getFileList()
+    .then(files => {
+      files.forEach(file => file.populateUserInfo(req.user));
+      render.template(req, res, 'files', {
+        titleKey: 'uploaded files title',
+        files
+      });
+    })
+    .catch(next);
+});
 
 router.get('/file/:id/delete', function(req, res, next) {
   const { id } = req.params;
@@ -49,14 +60,14 @@ router.post('/file/:id/delete', function(req, res, next) {
           });
         })
         .catch(next);
-      })
+    })
     .catch(getResourceErrorHandler(req, res, next, 'file', id));
 });
 
 async function deleteFile(file, user) {
   const rename = util.promisify(fs.rename),
-   oldPath = path.join(__dirname, '../static/uploads', file.name),
-   newPath = path.join(__dirname, '../deleted', file.name);
+    oldPath = path.join(__dirname, '../static/uploads', file.name),
+    newPath = path.join(__dirname, '../deleted', file.name);
 
   await file.deleteAllRevisions(user);
   await rename(oldPath, newPath);

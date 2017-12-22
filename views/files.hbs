@@ -1,0 +1,73 @@
+<div class="file-table">
+{{#each files}}
+<div class="file-table-file">
+<div class="file-table-name">{{{getFileLink this.name}}}</div>
+
+{{#if this.uploader}}
+<div class="file-table-row">
+  <div class="file-table-label">
+  {{{__ "uploader"}}}
+  </div>
+  <div class="file-table-value">
+  <a href="/user/{{{this.uploader.urlName}}}">{{{this.uploader.displayName}}}</a>
+  </div>
+</div>
+{{/if}}
+
+{{#if this.uploader}}
+<div class="file-table-row">
+  <div class="file-table-label">
+  {{{__ "description"}}}
+  </div>
+  <div class="file-table-value">
+  {{{mlString this.description}}}
+  </div>
+</div>
+{{/if}}
+
+{{#if this.uploader}}
+<div class="file-table-row">
+  <div class="file-table-label">
+  {{{__ "source help label"}}}
+  </div>
+  <div class="file-table-value">
+  {{{mlString this.source}}}
+  </div>
+</div>
+{{/if}}
+
+{{#if this.license}}
+<div class="file-table-row">
+  <div class="file-table-label">
+  {{{__ "license"}}}
+  </div>
+  <div class="file-table-value">
+  {{{license this.license}}}
+  </div>
+</div>
+{{/if}}
+
+{{#if this.things}}
+<div class="file-table-row">
+  <div class="file-table-label">
+  {{{__ "file usage"}}}
+  </div>
+  <div class="file-table-value">
+  {{#each this.things}}
+  {{#if @first}}<ul class="usage-list">{{/if}}
+  <li><a href="/{{{this.urlID}}}">{{{getThingLabel this}}}</a></li>
+  {{#if @last}}</ul>{{/if}}
+  {{/each}}
+  </div>
+</div>
+{{/if}}
+
+{{#if this.userCanDelete}}
+<div class="file-table-delete">
+  <a href="/file/{{this.id}}/delete"><span class="fa fa-trash-o fa-fw">&nbsp;</span>{{{__ "delete file"}}}</a>
+</div>
+{{/if}}
+
+</div>
+{{/each}}
+</div>

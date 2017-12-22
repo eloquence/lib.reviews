@@ -193,3 +193,8 @@ hbs.registerHelper('renderFilePreview', function(file, restricted) {
   else
     return '';
 });
+
+hbs.registerHelper('license', function(license, options) {
+  const key = license === 'fair-use' ? 'fair use short' : `${license} short`;
+  return i18n.__(key, options.data.root.locale);
+});

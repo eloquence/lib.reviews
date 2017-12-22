@@ -10,6 +10,7 @@ const type = thinky.type;
 const mlString = require('./helpers/ml-string');
 const revision = require('./helpers/revision');
 
+const User = require('./user');
 const validLicenses = ['cc-0', 'cc-by', 'cc-by-sa', 'fair-use'];
 
 /* eslint-disable newline-per-chained-call */ /* for schema readability */
@@ -37,15 +38,17 @@ const fileSchema = {
 Object.assign(fileSchema, revision.getSchema());
 const File = thinky.createModel("files", fileSchema);
 
+File.belongsTo(User, "uploader", "uploadedBy", "id");
+
 // NOTE: STATIC METHODS --------------------------------------------------------
 
 // Standard handlers
 
 File.createFirstRevision = revision.getFirstRevisionHandler(File);
 File.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(File);
+File.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(File);
 
 // Custom handlers
-
 
 File.getStashedUpload = async function(userID, name) {
   const files = await File
@@ -60,6 +63,14 @@ File.getStashedUpload = async function(userID, name) {
 };
 
 File.getValidLicenses = () => validLicenses.slice();
+
+File.getFileList = async function() {
+  return await File
+    .filterNotStaleOrDeleted()
+    .filter({ completed: true })
+    .getJoin({ things: true, uploader: true })
+    .orderBy(thinky.r.desc('uploadedOn'));
+};
 
 // NOTE: INSTANCE METHODS ------------------------------------------------------
 
