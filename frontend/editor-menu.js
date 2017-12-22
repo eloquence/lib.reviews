@@ -174,6 +174,9 @@ function uploadModalItem(mediaNodes, schema) {
       return false;
     },
     run(state, dispatch, view) {
+      // For some forms, we submit uploaded file IDs so they can be processed
+      // server-side
+      const $form = $(view.dom).closest('form[data-submit-uploaded-files]');
       uploadModal(uploads => {
         const upload = uploads[0];
         const attrs = {
@@ -190,6 +193,9 @@ function uploadModalItem(mediaNodes, schema) {
           .insert(state.selection.$anchor.pos + 2, description)
         );
 
+        if ($form.length)
+          $form.append(`<input type="hidden" ` +
+            ` name="uploaded-file-${upload.fileID}" value="1">`);
         view.focus();
       });
     }

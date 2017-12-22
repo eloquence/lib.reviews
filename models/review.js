@@ -12,8 +12,9 @@ const r = thinky.r;
 const mlString = require('./helpers/ml-string');
 
 const ReportedError = require('../util/reported-error');
-const User = require('./user.js');
-const Thing = require('./thing.js');
+const User = require('./user');
+const Thing = require('./thing');
+const File = require('./file');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
 const adapters = require('../adapters/adapters');
@@ -112,11 +113,24 @@ Review.getWithData = async function(id) {
  *  options for the created revision
  * @param {String[]} options.tags
  *  tags to associate with this revision
+ * @param {String[]} options.files
+ *  UUIDs of files to add to the Thing for this review
  * @returns {Review}
  *  the saved review
  */
-Review.create = async function(reviewObj, { tags } = {}) {
+Review.create = async function(reviewObj, { tags, files } = {}) {
   const thing = await Review.findOrCreateThing(reviewObj);
+
+  // If we uploaded files in the process of writing this review, we add them
+  // to the associated review subject
+  if (Array.isArray(files)) {
+    const fileRevs = await File
+      .getAll(...files)
+      .filter({ _revDeleted: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true });
+    fileRevs.forEach(fileRev => thing.addFile(fileRev));
+    await thing.saveAll({ files: true });
+  }
   const existingReviews = await Review
     .filter({
       thingID: thing.id,

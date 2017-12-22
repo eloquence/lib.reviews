@@ -173,6 +173,10 @@ class ReviewProvider extends AbstractBREADProvider {
     formData.formValues.createdOn = new Date();
     formData.formValues.originalLanguage = language;
 
+    // Files uploaded from the editor
+    if (typeof formData.formValues.files == 'object')
+      formData.formValues.files = Object.keys(formData.formValues.files);
+
     let reviewObj = Object.assign({}, formData.formValues);
 
     if (thing && thing.id)
@@ -193,7 +197,8 @@ class ReviewProvider extends AbstractBREADProvider {
 
         Review
           .create(reviewObj, {
-            tags: ['create-via-form']
+            tags: ['create-via-form'],
+            files: formData.formValues.files
           })
           .then(review => {
             this.req.app.locals.webHooks.trigger('newReview', {
@@ -465,6 +470,11 @@ ReviewProvider.formDefs = {
       required: false,
       type: 'boolean',
       keyValueMap: 'teams'
+    },
+    {
+      name: 'uploaded-file-%uuid',
+      required: false,
+      keyValueMap: 'files'
     }
   ],
   'delete-review': [{
@@ -502,8 +512,12 @@ ReviewProvider.formDefs = {
     {
       name: 'review-team-%uuid',
       required: false,
-      type: 'boolean',
       keyValueMap: 'teams'
+    },
+    {
+      name: 'uploaded-file-%uuid',
+      required: false,
+      keyValueMap: 'files'
     }
   ]
 };

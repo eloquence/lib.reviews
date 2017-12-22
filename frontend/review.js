@@ -112,6 +112,7 @@
 
     // Persist form in local storage
     sisyphus = $('#review-form').sisyphus({
+      onBeforeRestore: restoreDynamicFields,
       onRestore: processLoadedData,
       excludeFields: $('[data-ignore-autosave]' + maybeExcludeURL)
     });
@@ -479,6 +480,22 @@
     event.preventDefault();
   }
 
+
+  /**
+   * Restore fields that were dynamically added by JavaScript and not part of
+   * the original form.
+   *
+   * @memberof Review
+   */
+  function restoreDynamicFields() {
+    const uploadRegex = /^\[id=review-form\].*\[name=(uploaded-file-.*?)\]$/;
+    for (let key in localStorage) {
+      if (uploadRegex.test(key)) {
+        const fieldName = key.match(uploadRegex)[1];
+        $('#review-form').append(`<input type="hidden" name="${fieldName}">`);
+      }
+    }
+  }
 
   /**
    * Load draft data into the review form.
