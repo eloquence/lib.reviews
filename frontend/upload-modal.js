@@ -172,13 +172,14 @@ ${msg.ok}
   ),
 
   enableSpinner = () => $('#upload-modal-spinner').removeClass('hidden-regular'),
-  disableSpinner = () => $('#upload-modal-spinner').addClass('hidden-regular');
-
+  disableSpinner = () => $('#upload-modal-spinner').addClass('hidden-regular'),
+  enableUpload = () => $('#upload-modal-start-upload').prop('disabled', false),
+  disableUpload = () => $('#upload-modal-start-upload').prop('disabled', true);
 
 function expandModal() {
   let files = $('#upload-input')[0].files;
   $('#upload-label-text').text(files[0].name);
-  $('#upload-modal-start-upload').prop('disabled', false);
+  enableUpload();
   $('#upload-modal-page-1-expansion').slideDown(200);
   $('#upload-modal-description').focus();
 }
@@ -221,6 +222,7 @@ function startUpload(successCallback, errorCallback) {
   const form = $('#upload-modal-form')[0];
   const data = new FormData(form);
   enableSpinner();
+  disableUpload();
   $('#upload-errors').empty();
   $.ajax({
       url: '/api/actions/upload',
@@ -239,6 +241,7 @@ function startUpload(successCallback, errorCallback) {
     .fail(data => {
       const errorArray = [];
       disableSpinner();
+      enableUpload();
       let showGenericError = true;
 
       if (data && data.responseJSON && data.responseJSON.errors) {
