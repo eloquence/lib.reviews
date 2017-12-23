@@ -109,7 +109,7 @@ const
 <div id="upload-modal-page-1">
 <div class="upload-modal-buttondiv">
 <h3>${msg.head}</h3>
-<input type="file" name="files" id="upload-input" accept="image/*,video/*,audio/*" class="hidden">
+<input type="file" name="files" id="upload-input" accept="image/*,video/webm,video/ogg,audio/*" class="hidden">
 <label id="upload-modal-label" for="upload-input" data-upload-count class="pure-button button-rounded" tabindex="0" data-focusable>
 <span class="fa fa-fw fa-file-image-o spaced-icon" id="upload-icon">&nbsp;</span><span id="upload-label-text">${msg.select}</span></label>
 </div>
