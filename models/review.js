@@ -14,7 +14,6 @@ const mlString = require('./helpers/ml-string');
 const ReportedError = require('../util/reported-error');
 const User = require('./user');
 const Thing = require('./thing');
-const File = require('./file');
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
 const adapters = require('../adapters/adapters');
@@ -141,17 +140,8 @@ Review.create = async function(reviewObj, { tags, files } = {}) {
 
   // If we uploaded files in the process of writing this review, we add them
   // to the associated review subject
-  if (Array.isArray(files)) {
-    const fileRevs = await File
-      .getAll(...files)
-      .filter({ _revDeleted: false }, { default: true })
-      .filter({ _oldRevOf: false }, { default: true });
-    fileRevs.forEach(fileRev => {
-      if (fileRev.uploadedBy === reviewObj.createdBy)
-        thing.addFile(fileRev);
-    });
-    await thing.saveAll({ files: true });
-  }
+  if (Array.isArray(files))
+    await thing.addFilesByIDsAndSave(files, reviewObj.createdBy);
 
   let review = new Review({
     thing, // joined

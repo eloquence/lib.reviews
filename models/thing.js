@@ -264,6 +264,7 @@ Thing.define("getReviewsByUser", getReviewsByUser);
 Thing.define("getAverageStarRating", getAverageStarRating);
 Thing.define("getReviewCount", getReviewCount);
 Thing.define("addFile", addFile);
+Thing.define("addFilesByIDsAndSave", addFilesByIDsAndSave);
 
 /**
  * Initialize field values from the lookup result of an adapter. Each adapter
@@ -630,6 +631,30 @@ function addFile(file) {
     this.files = [];
 
   this.files.push(file);
+}
+
+
+/**
+ * Obtain file objects for an array of file IDs, and associate them with this
+ * thing. Saves.
+ *
+ * @param {String[]} files
+ *  IDs of the files to add
+ * @param {String} [userID]
+ *  if given, uploader must match this user ID. Mismatches are silently ignored.
+ * @memberof Thing
+ * @instance
+ */
+async function addFilesByIDsAndSave(files, userID) {
+  const fileRevs = await File
+    .getAll(...files)
+    .filter({ _revDeleted: false }, { default: true })
+    .filter({ _oldRevOf: false }, { default: true });
+  fileRevs.forEach(fileRev => {
+    if (!userID || fileRev.uploadedBy === userID)
+      this.addFile(fileRev);
+  });
+  await this.saveAll({ files: true });
 }
 
 // Internal helper functions

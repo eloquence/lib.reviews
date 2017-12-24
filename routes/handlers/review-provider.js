@@ -274,14 +274,22 @@ class ReviewProvider extends AbstractBREADProvider {
       this.isPreview = true;
     }
 
+    if (typeof formData.formValues.files == 'object')
+      formData.formValues.files = Object.keys(formData.formValues.files);
+
+    const abort = error => {
+      if (error)
+        this.req.flashError(error);
+      this.add_GET(formData.formValues);
+    };
+
     this
       .resolveTeamData(formData.formValues)
       .then(() => {
         // As with creation, back to edit form if we have errors or
         // are previewing
-        if (this.isPreview || this.req.flashHas('pageErrors')) {
-          return this.add_GET(formData.formValues);
-        }
+        if (this.isPreview || this.req.flashHas('pageErrors'))
+          return abort();
 
         // Save the edit
         review
@@ -296,32 +304,30 @@ class ReviewProvider extends AbstractBREADProvider {
             newRev.starRating = f.starRating;
             newRev.teams = f.teams;
             newRev.thing = review.thing;
-            newRev
-              .saveAll({ // Do not save changes to joined user
-                teams: true,
-                thing: true
-              })
+            this.saveNewRevisionAndFiles(newRev, f.files)
               .then(() => {
                 search.indexReview(review);
                 search.indexThing(review.thing);
                 this.req.flash('pageMessages', this.req.__('edit saved'));
                 this.res.redirect(`/review/${newRev.id}`);
               })
-              .catch(error => {
-                this.req.flashError(error);
-                this.add_GET(formData.formValues);
-              });
+              .catch(abort);
           })
-          .catch(error => {
-            this.req.flashError(error);
-            this.add_GET(formData.formValues);
-          });
+          .catch(abort);
       })
-      .catch(error => {
-        this.req.flashError(error);
-        this.add_GET(formData.formValues);
-      });
+      .catch(abort);
+  }
 
+  // Save an edited review, and associate any newly uploaded files with the
+  // review subject
+  async saveNewRevisionAndFiles(newRev, files) {
+    await newRev
+      .saveAll({ // Do not save changes to joined user
+        teams: true,
+        thing: true
+      });
+    if (Array.isArray(files) && typeof newRev.thing == 'object')
+      await newRev.thing.addFilesByIDsAndSave(files, newRev.createdBy);
   }
 
   // Obtain the data for each team submitted in the form and assign it to
