@@ -54,11 +54,11 @@
 {{/if}}
 {{#unless hideDeleteControls}}
 {{#if review.userCanDelete}}
-<span class="content-action"><a href="/review/{{review.id}}/delete"><span class="fa fa-fw fa-trash-o">&nbsp;</span>{{{__ "delete"}}}</a></span>
+<span class="content-action"><a href="/review/{{review.id}}/delete"{{#if singleReview}} accesskey="d" title="{{{__ "accesskey" "d"}}}"{{/if}}><span class="fa fa-fw fa-trash-o">&nbsp;</span>{{{__ "delete"}}}</a></span>
 {{/if}}
 {{/unless}}
 {{#if review.userCanEdit}}
-<span class="content-action"><a href="/review/{{review.id}}/edit"><span class="fa fa-fw fa-pencil">&nbsp;</span>{{{__ "edit"}}}</a></span>
+<span class="content-action"><a href="/review/{{review.id}}/edit"{{#if singleReview}} accesskey="e"  title="{{{__ "accesskey" "e"}}}"{{/if}}><span class="fa fa-fw fa-pencil">&nbsp;</span>{{{__ "edit"}}}</a></span>
 {{/if}}
 </div>
 </div>
