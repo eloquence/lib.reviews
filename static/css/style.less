@@ -31,7 +31,7 @@ body {
 {
   .no-print
   {
-    display: none;
+    display: none !important;
   }
 
   .print-visible
@@ -1126,9 +1126,12 @@ details.content-warning[open] summary.content-warning-notice:before {
 }
 
 .expand-link {
+  cursor:pointer;
+}
+
+.expand-link-main-page {
   padding: 3px;
   color:#414042;
-  cursor:pointer;
 }
 
 .blog-table {

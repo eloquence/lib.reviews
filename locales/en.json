@@ -517,5 +517,7 @@
    "uploader": "Uploader",
    "file usage": "File usage",
    "upload date": "Upload date",
-   "older files": "Older files"
+   "older files": "Older files",
+   "show uploads": "Show uploaded media",
+   "hide uploads": "Hide uploaded media"
 }

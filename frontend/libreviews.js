@@ -371,15 +371,16 @@
     let target = $(this).attr('data-target');
     if (target) {
       let toggleText = $(this).attr('data-toggle-text');
-      if (toggleText) {
-        let oldToggleText = $(this).find('.expand-label').text();
-        $(this).find('.expand-label').text(toggleText);
-        $(this).attr('data-toggle-text', oldToggleText);
-      }
       let $target = $(`#${target}`);
       $(this).find('.expand-icon').toggleClass('fa-chevron-down');
       $(this).find('.expand-icon').toggleClass('fa-chevron-up');
-      $target.slideToggle(200);
+      $target.slideToggle(200, () => {
+        if (toggleText) {
+          let oldToggleText = $(this).find('.expand-label').text();
+          $(this).find('.expand-label').text(toggleText);
+          $(this).attr('data-toggle-text', oldToggleText);
+        }
+      });
     }
   });
 
