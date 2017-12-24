@@ -261,16 +261,16 @@ function renderRTE($textarea) {
 // - Event handler to track selection data within RTE even if mode is switched
 function addCustomFeatures(spec) {
   const { $rteContainer, $textarea, myID } = spec;
-  let $ce = $rteContainer.find('[contenteditable="true"]');
+  const $ce = $rteContainer.find('[contenteditable="true"]');
 
   // Style whole container (incl. menu bar etc.) like all inputs
-  let addFocusStyle = () => $rteContainer.addClass('rte-focused');
-  let removeFocusStyle = () => $rteContainer.removeClass('rte-focused');
+  const addFocusStyle = () => $rteContainer.addClass('rte-focused');
+  const removeFocusStyle = () => $rteContainer.removeClass('rte-focused');
   $ce.focus(addFocusStyle);
   $ce.focusout(removeFocusStyle);
 
   // Adjust height to match textarea
-  let setRTEHeight = () => {
+  const setRTEHeight = () => {
     let textareaHeight = $textarea.css('height');
     if (textareaHeight)
       $rteContainer.css('height', textareaHeight);
@@ -284,7 +284,7 @@ function addCustomFeatures(spec) {
   setRTEHeight();
 
   // Adjust height to full window
-  let setRTEHeightFullScreen = () => {
+  const setRTEHeightFullScreen = () => {
     $rteContainer.addClass('rte-container-full-screen');
     $rteContainer.find('.ProseMirror,.ProseMirror-menubar').addClass('ProseMirror-full-screen');
     let menuHeight = parseInt($rteContainer.find('.ProseMirror-menubar').css('height'), 10) || 41;
@@ -319,9 +319,6 @@ function addCustomFeatures(spec) {
   // Menu can wrap, so keep an eye on the height
   $(window).resize(setRTEHeight);
 
-  // Stash the handler to make it easy to unregister
-  rtes[myID].resizeEventHandler = setRTEHeight;
-
   $ce.blur(function() {
     updateRTESelectionData($textarea, $(this));
     // Re-generating the markdown on blur is a performance compromise; we may want
@@ -329,15 +326,17 @@ function addCustomFeatures(spec) {
     updateTextarea($textarea, $(this), rtes[myID].editorView);
   });
 
-  $(window).on('beforeunload', function() {
-    // Let's be nice to scripts that try to rescue form data
-    updateTextarea($textarea, $ce, rtes[myID].editorView);
-  });
+  // Try to ensure the textarea is up-to-date before any "Save draft"
+  // functionality kicks in
+  const updateOnUnload = () => updateTextarea($textarea, $ce, rtes[myID].editorView);
+
+  $(window).on('beforeunload', updateOnUnload);
 
   // Full remove this control and all associated event handlers
   rtes[myID].nuke = function() {
     $ce.off();
-    $(window).off('resize', rtes[myID].resizeEventHandler);
+    $(window).off('resize', setRTEHeight);
+    $(window).off('beforeunload', updateOnUnload);
     rtes[myID].editorView.destroy();
     delete rtes[myID];
     $rteContainer.remove();
