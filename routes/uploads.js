@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Process uploads via the web (provides general functions shared by the API).
+ *
+ * @namespace Uploads
+ */
+
 // External dependencies
 const express = require('express');
 const multer = require('multer');
@@ -365,7 +371,7 @@ function processUploadForm(req, res, next, thing) {
 
 
 async function processUploads(uploads, formValues, language) {
-    let finishUploadPromises = [];
+    let completeUploadPromises = [];
     uploads.forEach(upload => {
 
       let getVal = obj => !Array.isArray(obj) || !obj[upload.id] ? null : obj[upload.id];
@@ -422,14 +428,13 @@ async function processUploads(uploads, formValues, language) {
           userMessage: 'unexpected form data'
         });
       }
-      upload.completed = true;
-      finishUploadPromises.push(finishUpload(upload));
+      completeUploadPromises.push(completeUpload(upload));
     });
 
-    await Promise.all(finishUploadPromises);
+    await Promise.all(completeUploadPromises);
 }
 
-async function finishUpload(upload) {
+async function completeUpload(upload) {
   // File names are sanitized on input but ..
   // This error is not shown to the user but logged, hence native.
   if (!upload.name || /[/<>]/.test(upload.name))
@@ -440,6 +445,7 @@ async function finishUpload(upload) {
     newPath = path.join(__dirname, '../static/uploads', upload.name);
 
   await rename(oldPath, newPath);
+  upload.completed = true;
   try {
     await upload.save();
   } catch (error) {
@@ -447,6 +453,21 @@ async function finishUpload(upload) {
     // temporary stash.
     await rename(newPath, oldPath);
   }
+}
+
+/**
+ * Move a set of uploads to their final location and set the "completed"
+ * property to true.
+ *
+ * @param  {File[]} fileRevs
+ *  uploads to complete
+ * @returns {File[]}
+ * @memberof Uploads
+ */
+async function completeUploads(fileRevs) {
+  for (let fileRev of fileRevs)
+    await completeUpload(fileRev);
+  return fileRevs;
 }
 
 function assignFilename(req, file, done) {
@@ -464,5 +485,6 @@ module.exports = {
   validateFiles,
   getFileRevs,
   assignFilename,
-  finishUpload
+  completeUpload,
+  completeUploads
 };

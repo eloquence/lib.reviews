@@ -5,14 +5,20 @@ const escapeHTML = require('escape-html');
 
 // Internal deps
 const languages = require('../../locales/languages');
-const { validateFiles, cleanupFiles, getFileRevs, finishUpload } =
+const { validateFiles, cleanupFiles, getFileRevs, completeUploads } =
   require('../uploads');
 const ReportedError = require('../../util/reported-error');
 const File = require('../../models/file');
 const api = require('../helpers/api');
 
-
 /**
+ * Process uploads via the API.
+ *
+ * @namespace APIUploadHandler
+ */
+module.exports = apiUploadHandler;
+
+ /**
  * The main handler for processing upload attempts via the API. Kicks in after
  * the basic MIME check within the Multer middleware. Handles metadata
  * validation & creation of "File" revisions.
@@ -23,8 +29,9 @@ const api = require('../helpers/api');
  *  Express response
  * @returns {Function}
  *  callback invoked by the Multer middleware
+ * @memberof APIUploadHandler
  */
-module.exports = function apiUploadHandler(req, res) {
+function apiUploadHandler(req, res) {
   return fileFilterError => {
 
     // Status code will be used for known errors from the app, not for errors
@@ -54,12 +61,12 @@ module.exports = function apiUploadHandler(req, res) {
     validateFiles(req.files)
       .then(fileTypes => getFileRevs(req.files, fileTypes, req.user, ['upload', 'upload-via-api']))
       .then(fileRevs => addMetadata(req.files, fileRevs, req.body))
-      .then(moveFiles)
+      .then(completeUploads)
       .then(fileRevs => Promise.all(fileRevs.map(fileRev => fileRev.save())))
       .then(fileRevs => reportUploadSuccess(req, res, fileRevs))
       .catch(error => abortUpload([error]));
   };
-};
+}
 
 /**
  * Ensure that required fields have been submitted for each upload.
@@ -70,6 +77,7 @@ module.exports = function apiUploadHandler(req, res) {
  *  Request data
  * @returns {Error[]}
  *  Validation errors, if any.
+ * @memberof APIUploadHandler
  */
 function validateAllMetadata(files, data) {
   const errors = [],
@@ -107,6 +115,7 @@ function validateAllMetadata(files, data) {
  *  Add a filename suffix to each field (used for requests with multiple files)
  * @returns {Error[]}
  *  Validation errors for this field, if any
+ * @memberof APIUploadHandler
  */
 function validateMetadata(file, data, { addSuffix = false } = {}) {
   const validLicenses = File.getValidLicenses();
@@ -154,9 +163,9 @@ function validateMetadata(file, data, { addSuffix = false } = {}) {
  *  keys which must access a truthy value
  * @param {String[]} [conditionallyIgnored=[]]
  *  keys which will be ignored _unless_ they access a truthy value
-
  * @returns {Error[]}
  *  errors for each validation issue or an empty array
+ * @memberof APIUploadHandler
  */
 function checkRequired(obj, required = [], conditionallyIgnored = []) {
   // Make a copy since we modify it below
@@ -192,6 +201,7 @@ function checkRequired(obj, required = [], conditionallyIgnored = []) {
  *  request data
  * @returns {File[]}
  *  the revisions for further processing
+ * @memberof APIUploadHandler
  */
 function addMetadata(files, fileRevs, data) {
   const multiple = Boolean(data.multiple);
@@ -215,6 +225,7 @@ function addMetadata(files, fileRevs, data) {
  *  Validation options
  * @param {Boolean} options.addSuffix=false
  *  Add a filename suffix to each field (used for requests with multiple files)
+ * @memberof APIUploadHandler
  */
 function addMetadataToFileRev(file, fileRev, data, { addSuffix = false } = {}) {
   const field = key => addSuffix ? `${key}-${file.originalname}` : key;
@@ -227,7 +238,6 @@ function addMetadataToFileRev(file, fileRev, data, { addSuffix = false } = {}) {
   };
   addMlStr(['description', 'creator', 'source'], fileRev);
   fileRev.license = data[field('license')];
-  fileRev.completed = true;
 }
 
 
@@ -241,6 +251,7 @@ function addMetadataToFileRev(file, fileRev, data, { addSuffix = false } = {}) {
  *  Express response
  * @param {File[]} fileRevs
  *  the saved file metadata revisions
+ * @memberof APIUploadHandler
  */
 function reportUploadSuccess(req, res, fileRevs) {
   const uploads = req.files.map((file, index) => ({
@@ -259,11 +270,4 @@ function reportUploadSuccess(req, res, fileRevs) {
     uploads,
     errors: []
   }, null, 2));
-}
-
-
-async function moveFiles(fileRevs) {
-  for (let fileRev of fileRevs)
-    await finishUpload(fileRev);
-  return fileRevs;
 }
