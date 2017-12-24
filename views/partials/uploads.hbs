@@ -2,8 +2,9 @@
 <span class="expand-link nojs-hidden no-print" tabindex="0" data-target="thing-data-file-list" data-toggle-text="{{__ "hide uploads"}}"><span class="expand-label">{{{__ "show uploads"}}}</span><span class="fa fa-fw fa-chevron-down expand-icon">&nbsp;</span></span>
 <span class="nojs-visible print-visible hidden-regular">{{{__ "uploaded media"}}}</span>
 <p>
-  {{#each thing.files}}
-<div id="thing-data-file-list" class="hidden-regular nojs-visible print-visible thing-data-file-list"><span class="thing-data-file-name">{{{getFileLink this.name}}}</span>
+<div id="thing-data-file-list" class="hidden-regular nojs-visible print-visible">
+{{#each thing.files}}
+<div class="thing-data-file-list"><span class="thing-data-file-name">{{{getFileLink this.name}}}</span>
 <br>{{{mlString this.description}}}
 <div class="thing-data-file-credit">{{{fileCredit this}}}</div>
 {{#if this.source}}
@@ -15,4 +16,5 @@
 {{/if}}
 <p>
 {{/each}}
+</div>
 </li>
