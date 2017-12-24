@@ -88,7 +88,7 @@
 </span>
 {{#if userReviews}}
 <h2 class="sub-header-regular" id="your-review">{{{__ "your review"}}}</h2>
-{{>feed thingFeed=true feedItems=userReviews paginationURL=false}}
+{{>feed thingFeed=true feedItems=userReviews paginationURL=false highlightFirstReview=true}}
 {{/if}}
 {{#if otherReviews}}
 <h2 class="sub-header-regular">{{#if userReviews}}{{{__ "other reviews"}}}{{else}}{{{__ "reviews"}}}{{/if}}</h2>
