@@ -184,13 +184,15 @@ function uploadModalItem(mediaNodes, schema) {
         };
         const nodeType = guessMediaType(attrs.src);
         const br = schema.nodes.hard_break.create();
-        const description = schema.text(generateDescriptionFromUpload(upload),
+        const description = generateDescriptionFromUpload(upload);
+        const descriptionNode = schema.text(description,
           schema.marks.strong.create());
+        const pos = state.selection.$anchor.pos;
         dispatch(
           state.tr
           .replaceSelectionWith(mediaNodes[nodeType].createAndFill(attrs))
-          .insert(state.selection.$anchor.pos + 1, br)
-          .insert(state.selection.$anchor.pos + 2, description)
+          .insert(pos + 1, br)
+          .insert(pos + 2, descriptionNode)
         );
 
         if ($form.length)
@@ -227,7 +229,8 @@ function generateDescriptionFromUpload(upload) {
       stringParams: [creator, license]
     });
   const caption = libreviews.msg('caption', { stringParams: [description, rights] });
-  return caption;
+  // Final newline is important to ensure resulting markdown is parsed correctly
+  return caption + '\n';
 }
 
 function formatCustomWarningItem(nodeType) {
