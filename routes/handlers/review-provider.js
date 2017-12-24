@@ -177,23 +177,20 @@ class ReviewProvider extends AbstractBREADProvider {
     if (typeof formData.formValues.files == 'object')
       formData.formValues.files = Object.keys(formData.formValues.files);
 
-    let reviewObj = Object.assign({}, formData.formValues);
-
-    if (thing && thing.id)
-      reviewObj.thing = thing;
-
     this
-      .validateAndGetTeams(formData.formValues.teams)
-      .then(teams => {
+      .resolveTeamData(formData.formValues)
+      .then(() => {
+
+        const reviewObj = Object.assign({}, formData.formValues);
+
+        if (thing && thing.id)
+          reviewObj.thing = thing;
 
         // We're previewing or have basic problems with the submission -- back to form
         if (this.isPreview || this.req.flashHas('pageErrors')) {
           formData.formValues.creator = this.req.user; // Needed for username link
-          formData.formValues.teams = teams;
           return this.add_GET(formData.formValues, thing);
         }
-
-        reviewObj.teams = teams;
 
         Review
           .create(reviewObj, {
@@ -278,12 +275,11 @@ class ReviewProvider extends AbstractBREADProvider {
     }
 
     this
-      .validateAndGetTeams(formData.formValues.teams)
-      .then(teams => {
+      .resolveTeamData(formData.formValues)
+      .then(() => {
         // As with creation, back to edit form if we have errors or
         // are previewing
         if (this.isPreview || this.req.flashHas('pageErrors')) {
-          formData.formValues.teams = teams;
           return this.add_GET(formData.formValues);
         }
 
@@ -298,7 +294,7 @@ class ReviewProvider extends AbstractBREADProvider {
             newRev.text[language] = f.text[language];
             newRev.html[language] = f.html[language];
             newRev.starRating = f.starRating;
-            newRev.teams = teams;
+            newRev.teams = f.teams;
             newRev.thing = review.thing;
             newRev
               .saveAll({ // Do not save changes to joined user
@@ -328,17 +324,17 @@ class ReviewProvider extends AbstractBREADProvider {
 
   }
 
-  async validateAndGetTeams(teamObj) {
-    if (typeof teamObj !== 'object' || !Object.keys(teamObj).length)
-      return [];
+  // Obtain the data for each team submitted in the form and assign it to
+  // formValues.
+  async resolveTeamData(formValues) {
+    if (typeof formValues.teams !== 'object' ||
+      !Object.keys(formValues.teams).length)
+      formValues.teams = {};
 
-    const queries = [];
-    for (let id in teamObj)
-      queries.push(Team.getWithData(id));
+    const queries = Object.keys(formValues.teams).map(Team.getWithData);
 
-    let teams;
     try {
-      teams = await Promise.all(queries);
+      formValues.teams = await Promise.all(queries);
     } catch (error) {
       if (error.name == 'DocumentNotFoundError' || error.name == 'RevisionDeletedError')
         throw new ReportedError({
@@ -349,14 +345,13 @@ class ReviewProvider extends AbstractBREADProvider {
         throw error;
     }
 
-    teams.forEach(team => {
+    formValues.teams.forEach(team => {
       team.populateUserInfo(this.req.user);
       if (!team.userIsMember)
         throw new ReportedError({
           userMessage: 'user is not member of submitted team'
         });
     });
-    return teams;
   }
 
   delete_GET(review) {
