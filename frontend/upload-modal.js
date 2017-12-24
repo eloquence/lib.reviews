@@ -28,6 +28,8 @@ exports.uploadModal = function uploadModal(successCallback, errorCallback) {
   // values
   $('#upload-modal-ownwork').click(resetMetadata);
 
+  $('#upload-modal-description').blur(libreviews.trimInput);
+
   // If the user clicks "Cancel" on page 2, we flip back to page 1, and we
   // de-select the radio buttons unless we have complete data from a previous
   // "OK" action
