@@ -37,7 +37,7 @@ function canInsert(state, nodeType, attrs) {
   return false;
 }
 
-function insertMediaItem(nodeTypes) {
+function insertMediaItem(nodeTypes, schema) {
   return new MenuItem({
     title: libreviews.msg('insert media help'),
     label: libreviews.msg('insert media'),
@@ -46,7 +46,8 @@ function insertMediaItem(nodeTypes) {
     },
     run(state, _dispatch, view) {
       let { from, to } = state.selection,
-        attrs = null;
+        attrs = null,
+        showCaptionField = true;
 
       // Extract attributes from any media selection. We apply ALT text from
       // images to video/audio descriptions and vice versa
@@ -70,17 +71,26 @@ function insertMediaItem(nodeTypes) {
           default:
             // No default
         }
+        showCaptionField = false;
       }
+      const fields = {};
+
+      fields.src = new TextField({ label: libreviews.msg('media url'), required: true, value: attrs && attrs.src });
+
+      if (showCaptionField)
+        fields.caption = new TextField({
+          label: libreviews.msg('caption label'),
+        });
+
+      fields.alt = new TextField({
+        label: libreviews.msg('media alt text'),
+        value: attrs ? attrs.alt || attrs.description : state.doc.textBetween(from, to, " ")
+      });
+
       openPrompt({
         view,
+        fields,
         title: libreviews.msg('insert media dialog title'),
-        fields: {
-          src: new TextField({ label: libreviews.msg('media url'), required: true, value: attrs && attrs.src }),
-          alt: new TextField({
-            label: libreviews.msg('media alt text'),
-            value: attrs ? attrs.alt || attrs.description : state.doc.textBetween(from, to, " ")
-          })
-        },
         callback(attrs) {
           const nodeType = guessMediaType(attrs.src);
           // <video>/<audio> tags do not support ALT; the text is rendered
@@ -89,12 +99,25 @@ function insertMediaItem(nodeTypes) {
             attrs.description = attrs.alt;
             Reflect.deleteProperty(attrs, 'alt');
           }
-          view.dispatch(view.state.tr.replaceSelectionWith(nodeTypes[nodeType].createAndFill(attrs)));
+          let tr = view.state.tr.replaceSelectionWith(nodeTypes[nodeType].createAndFill(attrs));
+          if (attrs.caption && attrs.caption.length)
+            tr = addCaption({ description: attrs.caption + '\n', schema, state: view.state, transaction: tr });
+          view.dispatch(tr);
           view.focus();
         }
       });
     }
   });
+}
+
+function addCaption({ description, schema, state, transaction }) {
+  const br = schema.nodes.hard_break.create(),
+    descriptionNode = schema.text(description,
+    schema.marks.strong.create()),
+    pos = state.selection.$anchor.pos;
+  return transaction
+  .insert(pos + 1, br)
+  .insert(pos + 2, descriptionNode);
 }
 
 function horizontalRuleItem(hr) {
@@ -183,17 +206,11 @@ function uploadModalItem(mediaNodes, schema) {
           src: `/static/uploads/${upload.uploadedFileName}`
         };
         const nodeType = guessMediaType(attrs.src);
-        const br = schema.nodes.hard_break.create();
         const description = generateDescriptionFromUpload(upload);
-        const descriptionNode = schema.text(description,
-          schema.marks.strong.create());
-        const pos = state.selection.$anchor.pos;
-        dispatch(
-          state.tr
-          .replaceSelectionWith(mediaNodes[nodeType].createAndFill(attrs))
-          .insert(pos + 1, br)
-          .insert(pos + 2, descriptionNode)
-        );
+        let tr = state.tr
+          .replaceSelectionWith(mediaNodes[nodeType].createAndFill(attrs));
+        tr = addCaption({ description, schema, state, transaction: tr });
+        dispatch(tr);
 
         if ($form.length)
           $form.append(`<input type="hidden" ` +
@@ -356,7 +373,7 @@ function buildMenuItems(schema) {
     toggleCode: markItem(schema.marks.code, { title: libreviews.msg('toggle code', { accessKey: '`' }), icon: icons.code }),
     toggleLink: linkItem(schema),
     upload: uploadModalItem(mediaNodes, schema),
-    insertMedia: insertMediaItem(mediaNodes),
+    insertMedia: insertMediaItem(mediaNodes, schema),
     insertHorizontalRule: horizontalRuleItem(schema.nodes.horizontal_rule),
     wrapBulletList: wrapListItem(schema.nodes.bullet_list, {
       title: libreviews.msg('format as bullet list', { accessKey: '8' }),

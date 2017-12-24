@@ -508,5 +508,6 @@
 	"upload date": "Label that is used on the feed of all uploaded files to show the date a given file was uploaded.",
 	"older files": "Navigation link that is used on the feed of all uploaded files to show another page of results.",
 	"show uploads": "For users with JavaScript, label for the link on the review subject page that lets users expand the list of uploads.",
-	"hide uploads": "For users with JavaScript, label for the link on the review subject page that lets users collapse the list of uploads."
+	"hide uploads": "For users with JavaScript, label for the link on the review subject page that lets users collapse the list of uploads.",
+	"caption label": "Label that is used in the rich-text-editor for entering a caption via the 'Insert image' dialog."
 }

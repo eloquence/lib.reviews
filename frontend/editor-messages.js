@@ -57,7 +57,8 @@ const msgArr = [
   'public domain in caption',
   'fair use in caption',
   'rights in caption, own work',
-  'rights in caption, someone else\'s work'
+  'rights in caption, someone else\'s work',
+  'caption label'
 ].concat(getUploadModalMessageKeys());
 
 const getMessages = require('../util/get-messages');
