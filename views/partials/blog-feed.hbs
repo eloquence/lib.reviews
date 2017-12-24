@@ -16,7 +16,7 @@
 {{/if}}
 <br>
 {{#if blogPostsUTCISODate}}
-<a class="pagination-link" href="/team/{{team.id}}/blog/before/{{blogPostsUTCISODate}}">
+<a class="pagination-link" href="/team/{{team.id}}/blog/before/{{blogPostsUTCISODate}}"{{#unless noAccessKey}} accesskey="<" title="{{{__ "accesskey" "<"}}}"{{/unless}}>
 <span class="fa fa-angle-double-left fa-fw">&nbsp;</span>{{{__ "older blog posts"}}}
 </a>
 {{/if}}

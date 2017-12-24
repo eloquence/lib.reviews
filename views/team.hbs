@@ -122,7 +122,7 @@
 <div class="team-blog">
 <div class="headline-with-link"><h2 class="inline-feed-headline">{{{__ "latest blog posts"}}}</h2>{{#if blogPosts}}<span class="view-all-link no-print"><a href="/team/{{{team.urlID}}}/blog">{{{__ "view all"}}}</a></span>{{/if}}</div>
 <p>
-{{>blog_feed}}
+{{>blog_feed noAccessKey=true}}
 </div>
 </div>
 {{!/SECOND COLUMN: BLOG POSTS}}
