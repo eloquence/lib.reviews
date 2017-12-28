@@ -511,15 +511,18 @@
 	"please specify rights": "请指定版权状态。",
 	"caption": "%1$s（%2$s）",
 	"license in caption": "许可协议：%s",
-	"public domain in caption": "公有领域。",
-	"fair use in caption": "合理使用。",
+	"public domain in caption": "公有领域",
+	"fair use in caption": "合理使用",
 	"rights in caption, own work": "自己的作品。%s。",
-	"rights in caption, someone else's work": "署名：%1$s。%2$s",
+	"rights in caption, someone else's work": "署名：%1$s。%2$s。",
 	"source in upload summary": "来源：%s",
 	"uploaded files title": "上传的文件",
 	"description": "描述",
 	"uploader": "上传者",
 	"file usage": "文件用途",
 	"upload date": "上传日期",
-	"older files": "更旧的文件"
+	"older files": "更旧的文件",
+	"show uploads": "显示上传的媒体",
+	"hide uploads": "隐藏上传的媒体",
+	"caption label": "说明"
 }

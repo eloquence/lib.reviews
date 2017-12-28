@@ -516,15 +516,18 @@
 	"please specify rights": "Especifica el estado de derechos de autor.",
 	"caption": "%1$s (%2$s)",
 	"license in caption": "Licencia: %s",
-	"public domain in caption": "Dominio público.",
-	"fair use in caption": "Uso legítimo.",
+	"public domain in caption": "Dominio público",
+	"fair use in caption": "Uso legítimo",
 	"rights in caption, own work": "Obra propia. %s.",
-	"rights in caption, someone else's work": "Crédito: %1$s. %2$s",
+	"rights in caption, someone else's work": "Crédito: %1$s. %2$s.",
 	"source in upload summary": "Origen: %s",
 	"uploaded files title": "Archivos cargados",
 	"description": "Descripción",
 	"uploader": "Cargador",
 	"file usage": "Uso del archivo",
 	"upload date": "Fecha de carga",
-	"older files": "Archivos anteriores"
+	"older files": "Archivos anteriores",
+	"show uploads": "Mostrar multimedia cargada",
+	"hide uploads": "Ocultar multimedia cargada",
+	"caption label": "Leyenda"
 }

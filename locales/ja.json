@@ -439,7 +439,7 @@
 	"please enter description": "説明を入力してください。",
 	"please specify rights": "著作権の状態を指定してください。",
 	"license in caption": "ライセンス: %s",
-	"rights in caption, someone else's work": "クレジット: %1$s。%2$s",
+	"rights in caption, someone else's work": "クレジット: %1$s。%2$s。",
 	"source in upload summary": "出典: %s",
 	"uploaded files title": "アップロードされたファイル",
 	"description": "説明",

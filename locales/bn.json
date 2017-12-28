@@ -5,7 +5,8 @@
 			"Elias Ahmmad",
 			"Eloquence",
 			"আজিজ",
-			"Rasal Lia"
+			"Rasal Lia",
+			"Muktogayn"
 		]
 	},
 	"site name": "lib.reviews",
@@ -293,6 +294,7 @@
 	"spoiler warning": "সতর্কবাণী: নিচের লেখায় স্পয়লার রয়েছে।",
 	"nsfw warning": "সতর্কতা: নীচের বিষয়বস্তু কাজের জন্য নিরাপদ নাও হতে পারে (NSFW)।",
 	"add media": "মিডিয়া যোগ করুন",
+	"select file": "একটি ফাইল নির্বাচন করুন",
 	"related to": "%s-এর সাথে সম্পর্কিত",
 	"upload completed": "আপনার আপলোড সফল হয়েছে। আপনি নীচে এটির জন্য একটি তথ্যসূত্র খুঁজে পেতে পারেন।",
 	"no file received": "আপনার আপলোড করা ব্যর্থ হয়েছে, কারণ আমরা কোনো ফাইল গ্রহণ করিনি।",
@@ -308,6 +310,7 @@
 	"finish upload": "আপলোড শেষ",
 	"my own work": "এই ফাইলটি আমার নিজের কাজ। আমি এটি <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>সিসি-বাই-এসএ</a> লাইসেন্সের অধীনে মুক্তি দিতে সম্মত।",
 	"someone else's work": "এই ফাইলটি অন্য কেউর কাজ (দয়া করে উল্লেখ করুন)",
+	"someone else's work specified": "ফাইলটি অন্য কেউ বানিয়েছে",
 	"enter creator name": "স্রষ্টার নাম লিখুন (যেমন, জয়নুল আবেদীন)",
 	"creator": "লেখক বা স্রষ্টা",
 	"creator help": "ব্যক্তির নাম বা ছদ্মনাম যিনি এই কাজটি সৃষ্টি করেছেন",
@@ -316,10 +319,13 @@
 	"source help label": "উৎস",
 	"source help": "আপনি যদি এটি ওয়েবে পান, দয়া করে URL প্রদান করুন। যদি এটি একটি মুদ্রিত উৎস তাহলে, প্রকাশনা শনাক্ত করুন (উদা. &quot;প্রথম আলো, ২ মার্চ, ২০০৫&quot;)।",
 	"license": "লাইসেন্স",
+	"select license": "একটি লাইসেন্স নির্বাচন করুন",
 	"fair use": "এই ফাইলটি অবাধে লাইসেন্সকৃত নয়, কিন্তু আমি দাবী করছি যে এই আপলোড <a href='https://bn.wikipedia.org/wiki/Fair_use' target='_blank'>ন্যায্য ব্যবহার</a> হিসেবে বিবেচিত হওয়ার যোগ্য।",
 	"cc-0": "ক্রিয়েটিভ কমন্স জিরো (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>সিসি-০</a>) বা পাবলিক ডোমেইন",
 	"cc-by": "ক্রিয়েটিভ কমন্স অ্যাট্রিবিউশন লাইসেন্স (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
 	"cc-by-sa": "ক্রিয়েটিভ কমন্স অ্যাট্রিবিউশন/শেয়ার-আলাইক লাইসেন্স (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
+	"cc-0 short": "পাবলিক ডোমেইন",
+	"cc-by-sa short": "ছিছি-বিওয়াই-এসএ",
 	"unsupported file type": "'%1$s' ফাইলটির ধরন হল '%2$s', যা সমর্থিত নয়।",
 	"unrecognized file type": "আমরা '%s' ফাইলটির ফাইলের ধরন শনাক্ত করতে পারিনি এবং ফলে আমরা এটি গ্রহণ করতে পারবো না।",
 	"mime mismatch": "'%1$s' ফাইলের MIME ধরন '%2$s' হবে কিন্তু এটি '%3$s' ধরন হিসেবে দেখাচ্ছে।",
@@ -439,5 +445,11 @@
 	"single year": "(%s)",
 	"year range": "(%1$d - %2$d)",
 	"unknown year": "অজানা সাল",
-	"pick a different subject": "একটি আলাদা বিষয় চয়ন করুন"
+	"pick a different subject": "একটি আলাদা বিষয় চয়ন করুন",
+	"rights in caption, someone else's work": "কৃতিত্ব: %1$s. %2$s।",
+	"uploaded files title": "আপলোডকৃত ফাইল",
+	"description": "বিবরণ",
+	"upload date": "আপলোডের তারিখ",
+	"show uploads": "আপলোকৃত ফাইল দেখাও",
+	"hide uploads": "আপলোডকৃত ফাইল লুকান"
 }

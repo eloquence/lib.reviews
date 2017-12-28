@@ -500,5 +500,8 @@
 	"previously reviewed": "لقد سبق لك مراجعة هذا الموضوع:",
 	"abandon form changes": "هل تريد التخلي عن محتويات هذا النموذج وتعديل مراجعتك الحالية؟",
 	"pick a different subject": "اختر موضوعا مختلفا",
-	"previously reviewed submission": "لقد <a href='%1$s' target='_blank'> كتبت بالفعل مراجعة</a> لهذا الموضوع، يمكنك <a href='%2$s' target='_blank'>تعديل المراجعة الحالية</a> (يُفتَح في علامة تبويب جديدة) ولكن لا يمكنك نشر مراجعة إضافية."
+	"previously reviewed submission": "لقد <a href='%1$s' target='_blank'> كتبت بالفعل مراجعة</a> لهذا الموضوع، يمكنك <a href='%2$s' target='_blank'>تعديل المراجعة الحالية</a> (يُفتَح في علامة تبويب جديدة) ولكن لا يمكنك نشر مراجعة إضافية.",
+	"public domain in caption": "ملكية عامة",
+	"fair use in caption": "الاستخدام العادل",
+	"show uploads": "أظهر ملفات الوسائط المرفوعة"
 }
