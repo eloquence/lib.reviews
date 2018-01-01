@@ -10,7 +10,8 @@
 			"ЛосЯш",
 			"Jack who built the house",
 			"Wirbel78",
-			"Kaganer"
+			"Kaganer",
+			"Edible Melon"
 		]
 	},
 	"site name": "lib.reviews",
@@ -211,5 +212,7 @@
 	"custom warning text": "обычный предупреждающий текст",
 	"add more links": "Добавить еще",
 	"maps tag label": "Карты",
-	"wikipedia source label": "Википедия"
+	"wikipedia source label": "Википедия",
+	"public domain in caption": "Общественное достояние",
+	"fair use in caption": "Добросовестное использование"
 }

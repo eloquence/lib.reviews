@@ -513,15 +513,18 @@
 	"please specify rights": "Ange den upphovsrättsliga statusen.",
 	"caption": "%1$s (%2$s)",
 	"license in caption": "Licens: %s",
-	"public domain in caption": "Public domain.",
-	"fair use in caption": "Fair use.",
+	"public domain in caption": "Public domain",
+	"fair use in caption": "Fair use",
 	"rights in caption, own work": "Eget verk. %s.",
-	"rights in caption, someone else's work": "Erkännande: %1$s. %2$s",
+	"rights in caption, someone else's work": "Erkännande: %1$s. %2$s.",
 	"source in upload summary": "Källa: %s",
 	"uploaded files title": "Uppladdade filer",
 	"description": "Beskrivning",
 	"uploader": "Uppladdare",
 	"file usage": "Filanvändning",
 	"upload date": "Uppladdningsdatum",
-	"older files": "Äldre filer"
+	"older files": "Äldre filer",
+	"show uploads": "Visa uppladdad media",
+	"hide uploads": "Dölj uppladdad media",
+	"caption label": "Bildtext"
 }

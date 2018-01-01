@@ -523,13 +523,13 @@
 	"rights in caption, own work": "Travail propre. %s.",
 	"rights in caption, someone else's work": "Crédit : %1$s. %2$s.",
 	"source in upload summary": "Source : %s",
-	"uploaded files title": "Fichiers téléchargés",
+	"uploaded files title": "Fichiers téléversés",
 	"description": "Description",
 	"uploader": "Téléchargeur",
 	"file usage": "Utilisation du fichier",
 	"upload date": "Date de téléchargement",
 	"older files": "Fichiers plus anciens",
-	"show uploads": "Afficher le média téléchargé",
-	"hide uploads": "Masquer le média téléchargé",
+	"show uploads": "Afficher le média téléversé",
+	"hide uploads": "Masquer le média téléversé",
 	"caption label": "Légende"
 }
