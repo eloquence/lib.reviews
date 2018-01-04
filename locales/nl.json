@@ -6,13 +6,14 @@
 			"Keunes",
 			"Siebrand",
 			"Sjoerddebruin",
-			"Eloquence"
+			"Eloquence",
+			"Mar(c)"
 		]
 	},
 	"site name": "lib.reviews",
 	"welcome": "Welkom!",
 	"intro lead": "<b>Welkom bij lib.reviews!</b> We ontwikkelen een vrij, open en non-profit platform, om absoluut alles te beoordelen, in elke taal.",
-	"intro message": "We zitten in een vroeg stadium van ontwikkeling en heeft u een uitnodiging nodig om een account aan te maken. Als u niet weet hoe u aan een uitnodigingscode kunt komen, volg <a href='https://twitter.com/lib_reviews'>lib_reviews</a> dan op Twitter en stuur ons een tweet. We sturen u dan een persoonlijk berichtje met een code.",
+	"intro message": "We zitten in een vroeg stadium van ontwikkeling, en vooralsnog hebt u een uitnodiging nodig om een account aan te maken. Als u niet weet hoe u aan een uitnodigingscode kunt komen, volg dan <a href='https://twitter.com/lib_reviews'>lib_reviews</a> op Twitter en stuur ons een tweet. We sturen u dan een persoonlijk berichtje met een code.",
 	"find us on": "U kunt ons ook vinden <a href=\"https://github.com/eloquence/lib.reviews\">op GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>mirror op notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>lid worden van onze mailinglijst</a> en met ons chatten op IRC (<a href=\"https://matrix.to/#/#lib.reviews:matrix.org\">#lib.reviews</a> op <a href=\"https://freenode.net/\">irc.freenode.net</a>).<p>Bekijk een <a href=\"/static/uploads/screencast2.webm\">korte screencast</a> (<a href=\"https://youtu.be/wjUasbFfCbU\">YouTube-versie</a>) over de stand van zaken per oktober 2016.",
 	"change language": "Taal wisselen:",
 	"sign in": "Aanmelden",

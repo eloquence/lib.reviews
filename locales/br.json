@@ -3,7 +3,8 @@
 		"authors": [
 			"Gwenn-Ael",
 			"Fulup",
-			"Y-M D"
+			"Y-M D",
+			"Dishual"
 		]
 	},
 	"site name": "lib.reviews",
@@ -143,6 +144,7 @@
 	"your review": "Hoc'h evezhiadenn",
 	"reviews": "Adweladennoù",
 	"add media": "Ouzhpennañ ur media",
+	"select file": "Diuzañ ur restr",
 	"related to": "A denn da %s",
 	"uploaded media": "Media enporzhiet :",
 	"one file selected": "1 restr dibabet",
@@ -156,6 +158,10 @@
 	"source": "Pelec'h eo bet kavet ganeoc'h ?",
 	"source help label": "Mammenn",
 	"license": "Aotre-implijout",
+	"fair use short": "Implij reizh",
+	"cc-0 short": "CC-0 pe Domani foran",
+	"cc-by short": "CC-BY",
+	"cc-by-sa short": "CC-BY-SA",
 	"upload needs description": "Ret eo sevel un tamm deskrivadur evit ar restr '%s'.",
 	"team page": "(pajenn ar skipailh)",
 	"view all": "&raquo; Gwelet pep tra",
@@ -172,12 +178,24 @@
 	"invite link invalid title": "Kod pediñ direizh",
 	"reload this page": "Adkargañ e %s",
 	"explore teams": "Ergerzhiñ ar skipailhoù",
-	"insert image": "Skeudenn",
-	"insert image dialog title": "Ensoc'hañ ur skeudenn",
 	"insert": "Ensoc'hañ",
 	"add link dialog title": "Ouzhpennañ ul liamm",
 	"format block": "Furmad",
 	"format as paragraph": "Rannbennad",
 	"format as code block": "Kod",
-	"ok": "Mat eo"
+	"ok": "Mat eo",
+	"please enter description": "Ret eo deoc'h ebarzhiñ un deskrivadur.",
+	"public domain in caption": "Domani foran",
+	"fair use in caption": "Implij reizh",
+	"rights in caption, own work": "Labour e-unan. %s.",
+	"source in upload summary": "Mammenn: %s",
+	"uploaded files title": "Restroù enporzhiet",
+	"description": "Deskrivadur",
+	"uploader": "Enporzhier",
+	"file usage": "Implij ar restr",
+	"upload date": "Deiziad enporzhiañ",
+	"older files": "Restroù koshoc'h",
+	"show uploads": "Diskouez ar restr enporzhiet",
+	"hide uploads": "Kuzhañ ar restr enporzhiet",
+	"caption label": "Alc'hwez"
 }
