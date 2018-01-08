@@ -288,6 +288,7 @@
 	"spoiler warning": "Aviso: O texto abaixo contém revelações sobre o enredo.",
 	"nsfw warning": "Aviso: O conteúdo abaixo pode não ser seguro para o trabalho (NSFW).",
 	"add media": "Adicionar mídia",
+	"select file": "Selecionar arquivo",
 	"related to": "Relacionado a %s",
 	"upload completed": "O seu carregamento foi efetuado com sucesso. Você pode encontrar a sua referência abaixo.",
 	"no file received": "O seu carregamento falhou porque não recebemos quaisquer arquivos.",
@@ -315,6 +316,7 @@
 	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.pt_BR' target='_blank'>CC-0</a>) ou domínio público",
 	"cc-by": "Licença Creative Commons Atribuição (<a href='https://creativecommons.org/licenses/by/4.0/deed.pt_BR' target='_blank'>CC-BY</a>)",
 	"cc-by-sa": "Licença Creative Commons Atribuição-CompartilhaIgual (<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR' target='_blank'>CC-BY-SA</a>)",
+	"cc-by short": "CC-BY",
 	"unsupported file type": "O arquivo '%1$s' tem a extensão '%2$s', que não é suportada.",
 	"unrecognized file type": "Não reconhecemos o tipo de arquivo de '%s' e, portanto, não podemos aceitá-lo.",
 	"mime mismatch": "O tipo MIME para o arquivo '%1$s' deve ser do tipo '%2$s' mas parece ser do tipo '%3$s'.",
@@ -434,5 +436,10 @@
 	"more results": "Mais resultados",
 	"enter web address short": "Insira um endereço da Web",
 	"update links": "Atualizar links",
-	"review via wikidata help label": "Pesquisar na Wikidata"
+	"review via wikidata help label": "Pesquisar na Wikidata",
+	"public domain in caption": "Domínio público",
+	"fair use in caption": "Uso justo",
+	"file usage": "Uso do arquivo",
+	"hide uploads": "Ocultar mídia carregada",
+	"caption label": "Legenda"
 }

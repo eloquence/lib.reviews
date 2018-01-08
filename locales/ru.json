@@ -11,7 +11,8 @@
 			"Jack who built the house",
 			"Wirbel78",
 			"Kaganer",
-			"Edible Melon"
+			"Edible Melon",
+			"Андрей"
 		]
 	},
 	"site name": "lib.reviews",
@@ -214,5 +215,6 @@
 	"maps tag label": "Карты",
 	"wikipedia source label": "Википедия",
 	"public domain in caption": "Общественное достояние",
-	"fair use in caption": "Добросовестное использование"
+	"fair use in caption": "Добросовестное использование",
+	"uploaded files title": "Иҭагалоу афаилқәа"
 }

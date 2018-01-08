@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Les Meloures"
 		]
 	},
 	"site name": "lib.reviews",
@@ -95,7 +96,7 @@
 	"incorrect captcha answer": "Dat ass leider net déi richteg Äntwert op d'Sécherheetsfro.",
 	"invalid url": "D'URL schéngt net valabel ze sinn. Denkt drun datt mir de Prefix vum Protokoll net fir Iech rode kënnen (typischerweis: http:// oder https://).",
 	"more info": "Méi Bewäertungen an Informatiounen",
-	"add label": "Eng Etikett hei dobäisetzen",
+	"add label": "Eng Etikett hei derbäisetzen",
 	"add description": "Setzt hei eng Beschreiwung dobäi",
 	"edit": "Änneren",
 	"edit label": "Etikett änneren",
@@ -329,6 +330,7 @@
 	"previously reviewed": "Dir hutt dëse Sujet virdrun nogekuckt:",
 	"pick a different subject": "En anere Sujet eraussischen",
 	"please enter description": "Gitt w.e.g. eng Beschreiwung an.",
+	"please specify rights": "Spezifizéiert w.e.g. de Copyright-Status.",
 	"license in caption": "Lizenz: %s",
 	"public domain in caption": "Ëffentlechen Domaine",
 	"fair use in caption": "Fair Use",

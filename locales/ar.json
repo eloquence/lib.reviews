@@ -503,5 +503,7 @@
 	"previously reviewed submission": "لقد <a href='%1$s' target='_blank'> كتبت بالفعل مراجعة</a> لهذا الموضوع، يمكنك <a href='%2$s' target='_blank'>تعديل المراجعة الحالية</a> (يُفتَح في علامة تبويب جديدة) ولكن لا يمكنك نشر مراجعة إضافية.",
 	"public domain in caption": "ملكية عامة",
 	"fair use in caption": "الاستخدام العادل",
-	"show uploads": "أظهر ملفات الوسائط المرفوعة"
+	"upload date": "تاريخ الرفع",
+	"show uploads": "أظهر ملفات الوسائط المرفوعة",
+	"caption label": "تعليق"
 }

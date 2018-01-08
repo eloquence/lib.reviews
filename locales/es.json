@@ -9,7 +9,8 @@
 			"Luisangelrg",
 			"RicardoSGZ",
 			"Eloquence",
-			"KATRINE1992"
+			"KATRINE1992",
+			"2axterix2"
 		]
 	},
 	"site name": "lib.reviews",
@@ -331,6 +332,8 @@
 	"cc-by-sa": "Licencia Creative Commons Atribución/Compartir idénticamente (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
 	"fair use short": "Uso legítimo",
 	"cc-0 short": "CC-0 o dominio público",
+	"cc-by short": "CC-BY",
+	"cc-by-sa short": "CC-BY-SA",
 	"unsupported file type": "El archivo «%1$s» es del tipo «%2$s», que no es compatible.",
 	"unrecognized file type": "No reconocimos el tipo de archivo de «%s» y por ello no se ha aceptado.",
 	"mime mismatch": "El tipo MIME del archivo «%1$s» debería ser del tipo «%2$s» pero parece ser del tipo «%3$s».",
