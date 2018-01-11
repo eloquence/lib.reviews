@@ -4,7 +4,8 @@
 			"Anto",
 			"Beta16",
 			"Fitoschido",
-			"Eloquence"
+			"Eloquence",
+			"S4b1nuz E.656"
 		]
 	},
 	"site name": "lib.reviews",
@@ -422,5 +423,7 @@
 	"rights in caption, someone else's work": "Crediti: %1$s. %2$s.",
 	"uploaded files title": "File caricati",
 	"description": "Descrizione",
+	"file usage": "Utilizzo del file",
+	"upload date": "Data di caricamento",
 	"caption label": "Didascalia"
 }

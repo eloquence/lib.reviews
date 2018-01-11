@@ -231,6 +231,7 @@
 	"cc-by": "Creative Commons Attribution Lizenz (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
 	"cc-by-sa": "Creative Commons Attribution/Share-Alike Lizenz (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
 	"cc-by short": "CC-BY",
+	"cc-by-sa short": "CC-BY-SA",
 	"unsupported file type": "De Fichier '%1$s' ass vum Typ '%2$s', deen net ënnerstëtzt gëtt.",
 	"unrecognized file type": "Mir konnten den Typ vum Fichier '%s' net erkennen a kënnen en dofir net akzetéieren.",
 	"not valid svg": "De Fichier '%s' schéngt kee valabelen SVG-Fichier ze sinn.",
