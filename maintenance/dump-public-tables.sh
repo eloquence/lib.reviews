@@ -17,3 +17,4 @@ FILENAME="dump-$ISODATE.tgz"
 
 cd $EXPORTDIR
 rethinkdb dump -e libreviews.reviews -e libreviews.things -e libreviews.teams -e libreviews.blog_posts -f $FILENAME
+ln -s -f $FILENAME latest.tgz

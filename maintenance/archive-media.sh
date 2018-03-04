@@ -6,3 +6,6 @@ EXPORTDIR=`dirname $0`/../static/downloads/media
 ISODATE=`date +"%Y-%m-%d"`
 EXPORTPATH="$EXPORTDIR/media-$ISODATE.tgz"
 tar cvfz $EXPORTPATH $MEDIADIR
+# Update a symlink to the latest copy
+ABSEXPORTPATH=$(readlink -f $EXPORTPATH)
+ln -s -f $ABSEXPORTPATH $EXPORTDIR/latest.tgz
