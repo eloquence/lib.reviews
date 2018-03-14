@@ -35,7 +35,7 @@ We aim to be multilingual in UI and content, and are exclusively using translata
 
 This is very much an open project and we'd love your help! :) To get started, clone the repository to your local computer. You will need the current Node.js stable release. Switch to your check-out directory and then run `npm install`. Run `grunt` to build the JavaScript. Make sure you also have RethinkDB up and running before starting the service.
 
-You can customize your development configuration by copying `config/default.json5` to `config/development.json5`. Finally, run `npm start` and visit `localhost` at the configured port number. Note we require access to two ports -- one for HTTP, one for HTTPS.
+You can customize your development configuration by copying `config/default.json5` to `config/development.json5`. Finally, run `npm run start-dev` and visit `localhost` at the configured port number. Note we require access to two ports -- one for HTTP, one for HTTPS.
 
 The startup scripts use [pm2](https://www.npmjs.com/package/pm2), which you can safely install globally alongside the local version. It's a handy tool that keeps the process running in the background, balances it across multiple cores if available, lets you manage log files, etc. If for any reason you just want to run the server without pm2, you can always fire up `node bin/www` instead.
 
