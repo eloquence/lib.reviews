@@ -73,7 +73,7 @@ async function getApp(db = require('./db')) {
   let asyncJobs = [];
 
   // Create directories for uploads and deleted files if needed
-  asyncJobs.push(...['deleted', 'static/uploads'].map(setupDirectory));
+  asyncJobs.push(...['deleted', 'static/uploads', 'static/downloads'].map(setupDirectory));
 
   // Auth setup
   require('./auth');
