@@ -58,7 +58,13 @@ let forms = {
 
       hasCorrectCaptcha = forms.processCaptchaAnswer(req);
     }
-
+    
+    //add returnto link formDef so it will pass validation
+    formDef.push({
+        name:'returnto',
+        required: true
+        });
+        
     // We support UUID wildcards in form names, so we have to unpack those
     // based on the contents of the actual body. This function will change the
     // contents of formDef and derive a new field for each body key that

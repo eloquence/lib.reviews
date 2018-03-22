@@ -61,6 +61,8 @@ let render = {
     vars.qualifiedURL = config.qualifiedURL;
 
     vars.urlPath = url.parse(req.originalUrl).pathname;
+    
+    vars.returnTo = req.get('Referer')
 
     // Non-page specific, will show up if language is changed for this page
     // only because of ?uselang parameter

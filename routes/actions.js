@@ -186,7 +186,7 @@ router.post('/signin', function(req, res, next) {
         debug.error({ req, error });
         return res.redirect('/signin');
       } else {
-        return res.redirect('/'); // Success
+        return res.redirect(req.body.returnto); // Success
       }
     });
   })(req, res, next);
@@ -257,7 +257,7 @@ if (!config.requireInviteLinks) {
           if (error) {
             debug.error({ req, error });
           }
-          res.redirect('/');
+          res.redirect(req.body.returnto);
         });
       })
       .catch(error => { // Problem creating user
@@ -305,7 +305,7 @@ router.post('/register/:code', function(req, res, next) {
                 if (error) {
                   debug.error({ req, error });
                 }
-                res.redirect('/');
+                res.redirect(req.body.returnto);
               });
             })
             .catch(next); // Problem updating invite code

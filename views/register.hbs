@@ -9,6 +9,7 @@
 </div>
 <form class="pure-form pure-form-aligned" {{#if inviteCode}}action="/register/{{inviteCode}}"{{else}}action="/register"{{/if}} method="post">
 <input type="hidden" value="{{csrfToken}}" name="_csrf">
+<input type="hidden" value="{{returnTo}}" name="returnto">
     <fieldset>
         <div class="pure-control-group">
             <label for="username">{{{__ "username"}}} <span class="required">*</span></label>
