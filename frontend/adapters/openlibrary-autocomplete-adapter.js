@@ -44,7 +44,7 @@ class OpenLibraryAutocompleteAdapter extends AbstractAutocompleteAdapter {
    * @returns {Promise}
    *  resolves to a {@link LookupResult} if successful, rejects with an error
    *  if not
-   */   
+   */
   lookup(url) {
     return new Promise((resolve, reject) => {
       let m = url.match(this.supportedPattern);
