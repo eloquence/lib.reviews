@@ -6,6 +6,7 @@ const router = express.Router();
 const passport = require('passport');
 const config = require('config');
 const i18n = require('i18n');
+const url = require('url');
 
 // Internal dependencies
 const render = require('./helpers/render');
@@ -186,7 +187,7 @@ router.post('/signin', function(req, res, next) {
         debug.error({ req, error });
         return res.redirect('/signin');
       } else {
-        return res.redirect(req.body.returnto); // Success
+        return returnToPath(req, res);  // Success
       }
     });
   })(req, res, next);
@@ -257,7 +258,7 @@ if (!config.requireInviteLinks) {
           if (error) {
             debug.error({ req, error });
           }
-          res.redirect(req.body.returnto);
+          returnToPath(req, res);
         });
       })
       .catch(error => { // Problem creating user
@@ -305,7 +306,7 @@ router.post('/register/:code', function(req, res, next) {
                 if (error) {
                   debug.error({ req, error });
                 }
-                res.redirect(req.body.returnto);
+                returnToPath(req, res);
               });
             })
             .catch(next); // Problem updating invite code
@@ -346,5 +347,11 @@ function sendRegistrationForm(req, res, formInfo) {
     illegalUsernameCharacters: User.options.illegalChars.source
   });
 }
+
+function returnToPath(reqOrig, res) {
+    let reqUrl = reqOrig.originalUrl;
+    let query = url.parse(reqUrl, true).query.returnTo;
+    res.redirect(query);
+  }
 
 module.exports = router;

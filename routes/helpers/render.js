@@ -61,9 +61,15 @@ let render = {
     vars.qualifiedURL = config.qualifiedURL;
 
     vars.urlPath = url.parse(req.originalUrl).pathname;
-    
-    vars.returnTo = req.get('Referer')
-
+    //return to path, shouldn't change on sigin or register pages
+    if (typeof (req.query.returnTo) == 'undefined'){
+        vars.returnTo = '/';
+        }    
+    else {
+        vars.returnTo = req.query.returnTo;
+    }
+    console.log('view', view);
+    console.log('returnTo',vars.returnTo);
     // Non-page specific, will show up if language is changed for this page
     // only because of ?uselang parameter
     if (typeof req.localeChange == 'object' && req.localeChange.old && req.localeChange.new)
