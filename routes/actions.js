@@ -6,7 +6,6 @@ const router = express.Router();
 const passport = require('passport');
 const config = require('config');
 const i18n = require('i18n');
-const url = require('url');
 
 // Internal dependencies
 const render = require('./helpers/render');
@@ -187,7 +186,7 @@ router.post('/signin', function(req, res, next) {
         debug.error({ req, error });
         return res.redirect('/signin');
       } else {
-        return returnToPath(req, res);  // Success
+        return returnToPath(req, res); // Success
       }
     });
   })(req, res, next);
@@ -348,10 +347,12 @@ function sendRegistrationForm(req, res, formInfo) {
   });
 }
 
-function returnToPath(reqOrig, res) {
-    let reqUrl = reqOrig.originalUrl;
-    let query = url.parse(reqUrl, true).query.returnTo;
-    res.redirect(query);
-  }
-
+// checks for external redirect in returnTo, ignores if present and redirects
+function returnToPath(req, res) {
+    let returnTo = req.query.returnTo;
+    if (returnTo.includes('http') || returnTo.includes('https')) {
+        returnTo = '/';
+    }
+    res.redirect(returnTo);
+}
 module.exports = router;
