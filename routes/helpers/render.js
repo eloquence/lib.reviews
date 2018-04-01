@@ -67,9 +67,10 @@ let render = {
     // present in query. If on /signin or /register page without a returnTo, we
     // don't want to redirect back to the form, so setting to '/' in those
     // cases.
+    const registerRegex = new RegExp('^/register(/|$)'); // for invite links
     if (req.query.returnTo)
       vars.returnTo = req.query.returnTo;
-    else if (req.path == '/signin' || req.path == '/register')
+    else if (req.path == '/signin' || registerRegex.test(req.path))
       vars.returnTo = '/';
     else
       vars.returnTo = vars.urlPath;
