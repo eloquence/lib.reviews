@@ -186,7 +186,7 @@ router.post('/signin', function(req, res, next) {
         debug.error({ req, error });
         return res.redirect('/signin');
       } else {
-        return res.redirect('/'); // Success
+        return returnToPath(req, res); // Success
       }
     });
   })(req, res, next);
@@ -257,7 +257,7 @@ if (!config.requireInviteLinks) {
           if (error) {
             debug.error({ req, error });
           }
-          res.redirect('/');
+          returnToPath(req, res);
         });
       })
       .catch(error => { // Problem creating user
@@ -305,7 +305,7 @@ router.post('/register/:code', function(req, res, next) {
                 if (error) {
                   debug.error({ req, error });
                 }
-                res.redirect('/');
+                returnToPath(req, res);
               });
             })
             .catch(next); // Problem updating invite code
@@ -347,4 +347,13 @@ function sendRegistrationForm(req, res, formInfo) {
   });
 }
 
+// checks for external redirect in returnTo, ignores if present and redirects
+function returnToPath(req, res) {
+    let returnTo = req.query.returnTo;
+    const localPathRegex = new RegExp('^\/[^/]');
+    if (!localPathRegex.test(returnTo)) {
+        returnTo = '/';
+    }
+    res.redirect(returnTo);
+}
 module.exports = router;

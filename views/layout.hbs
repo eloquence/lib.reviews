@@ -56,8 +56,8 @@
                 </ul>
             {{else}}
                 <ul id="user-menu" class="no-print">
-                    <li><a href="/signin" class="pure-button pure-button-primary button-rounded" accesskey="i" title="{{{__ "accesskey" "i"}}}">{{{__ "sign in"}}}</a>
-                        <li><a href="/register" class="pure-button button-rounded">{{{__ "register"}}}</a>
+                    <li><a href="/signin?returnTo={{returnTo}}" class="pure-button pure-button-primary button-rounded" accesskey="i" title="{{{__ "accesskey" "i"}}}">{{{__ "sign in"}}}</a>
+                        <li><a href="/register?returnTo={{returnTo}}" class="pure-button button-rounded">{{{__ "register"}}}</a>
                 </ul>
             {{/if}}
         </div>
