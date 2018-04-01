@@ -62,10 +62,10 @@ let render = {
 
     vars.urlPath = url.parse(req.originalUrl).pathname;
 
-    vars.returnTo = '/';
     if (req.query.returnTo) {
         vars.returnTo = req.query.returnTo;
-    } else if (req.path == 'signin' || req.path == 'register') { // do nothing
+    } else if (req.path == '/signin' || req.path == '/register') {
+        vars.returnTo = '/';
     } else {
         vars.returnTo = vars.urlPath;
     }

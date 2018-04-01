@@ -350,7 +350,7 @@ function sendRegistrationForm(req, res, formInfo) {
 // checks for external redirect in returnTo, ignores if present and redirects
 function returnToPath(req, res) {
     let returnTo = req.query.returnTo;
-    if (returnTo.includes('http')) {
+    if (returnTo.includes('//')) {
         returnTo = '/';
     }
     res.redirect(returnTo);
