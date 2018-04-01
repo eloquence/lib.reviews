@@ -28,6 +28,9 @@ const formDefs = {
   }, {
     name: 'email',
     required: false
+  }, {
+    name: 'returnTo',
+    required: false
   }]
 };
 
@@ -347,13 +350,15 @@ function sendRegistrationForm(req, res, formInfo) {
   });
 }
 
-// checks for external redirect in returnTo, ignores if present and redirects
+// Check for external redirect in returnTo. If present, redirect to /, otherwise
+// redirect to returnTo
 function returnToPath(req, res) {
-    let returnTo = req.query.returnTo;
-    const localPathRegex = new RegExp('^\/[^/]');
-    if (!localPathRegex.test(returnTo)) {
-        returnTo = '/';
-    }
-    res.redirect(returnTo);
+  let returnTo = req.body.returnTo;
+  // leading slash followed by any non-slash character
+  const localPathRegex = new RegExp('^/[^/]');
+
+  if (typeof returnTo != 'string' || !localPathRegex.test(returnTo))
+    returnTo = '/';
+  res.redirect(returnTo);
 }
 module.exports = router;

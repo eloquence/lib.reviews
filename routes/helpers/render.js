@@ -62,13 +62,17 @@ let render = {
 
     vars.urlPath = url.parse(req.originalUrl).pathname;
 
-    if (req.query.returnTo) {
-        vars.returnTo = req.query.returnTo;
-    } else if (req.path == '/signin' || req.path == '/register') {
-        vars.returnTo = '/';
-    } else {
-        vars.returnTo = vars.urlPath;
-    }
+
+    // Pass along returnTo path for post-submit redirection if not already
+    // present in query. If on /signin or /register page without a returnTo, we
+    // don't want to redirect back to the form, so setting to '/' in those
+    // cases.
+    if (req.query.returnTo)
+      vars.returnTo = req.query.returnTo;
+    else if (req.path == '/signin' || req.path == '/register')
+      vars.returnTo = '/';
+    else
+      vars.returnTo = vars.urlPath;
 
     // Non-page specific, will show up if language is changed for this page
     // only because of ?uselang parameter

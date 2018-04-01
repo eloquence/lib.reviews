@@ -1,7 +1,8 @@
 <p>{{{__ "papers please" }}}</p>
 {{> page_errors}}
-<form class="pure-form pure-form-aligned" action="/signin?returnTo={{returnTo}}" method="post">
-<input type="hidden" value="{{csrfToken}}" name="_csrf">
+<form class="pure-form pure-form-aligned" action="/signin" method="post">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="returnTo" value="{{returnTo}}">
     <fieldset>
         <div class="pure-control-group">
             <label for="username">{{{__ "username"}}} <span class="required">*</span></label>
