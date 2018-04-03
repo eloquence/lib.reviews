@@ -284,7 +284,8 @@
           if (result.data && result.data.label) {
 
             // User has previously reviewed this subject
-            if (result.data.thing && result.data.thing.reviews) {
+            if (result.data.thing && typeof result.data.thing.reviews == 'object' &&
+              result.data.thing.reviews.length) {
               if (!suppressModal) {
                 showModalForEditingExistingReview(result.data);
                 return;
