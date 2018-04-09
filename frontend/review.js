@@ -16,7 +16,7 @@
   require('es6-promise').polyfill();
 
   const NativeLookupAdapter = require('./adapters/native-lookup-adapter');
-  // const OpenStreetMapLookupAdapter = require('./adapters/openstreetmap-lookup-adapter');
+  const OpenStreetMapLookupAdapter = require('./adapters/openstreetmap-lookup-adapter');
   const WikidataAutocompleteAdapter = require('./adapters/wikidata-autocomplete-adapter');
   const OpenLibraryAutocompleteAdapter = require('./adapters/openlibrary-autocomplete-adapter');
 
@@ -27,7 +27,7 @@
   // lookup therefore always takes precedence.
   const adapters = [
     new NativeLookupAdapter(),
-    // new OpenStreetMapLookupAdapter(),
+    new OpenStreetMapLookupAdapter(),
     new WikidataAutocompleteAdapter(updateURLAndReviewSubject, '#review-search-database'),
     new OpenLibraryAutocompleteAdapter(updateURLAndReviewSubject, '#review-search-database')
   ];

@@ -2,10 +2,12 @@
 const debug = require('../util/debug');
 const WikidataBackendAdapter = require('./wikidata-backend-adapter');
 const OpenLibraryBackendAdapter = require('./openlibrary-backend-adapter');
+const OpenStreetMapBackendAdapter = require('./openstreetmap-backend-adapter');
 
 const wikidata = new WikidataBackendAdapter();
 const openLibrary = new OpenLibraryBackendAdapter();
-const adapters = [wikidata, openLibrary];
+const openStreetMap = new OpenStreetMapBackendAdapter();
+const adapters = [wikidata, openLibrary, openStreetMap];
 const sourceURLs = {};
 
 adapters.forEach(adapter => (sourceURLs[adapter.getSourceID()] = adapter.getSourceURL()));
