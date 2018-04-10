@@ -260,6 +260,7 @@ Thing.define("populateUserInfo", populateUserInfo);
 Thing.define("populateReviewMetrics", populateReviewMetrics);
 Thing.define("setURLs", setURLs);
 Thing.define("updateActiveSyncs", updateActiveSyncs);
+Thing.define("getSourceIDsOfActiveSyncs", getSourceIDsOfActiveSyncs);
 Thing.define("getReviewsByUser", getReviewsByUser);
 Thing.define("getAverageStarRating", getAverageStarRating);
 Thing.define("getReviewCount", getReviewCount);
@@ -533,6 +534,23 @@ async function updateActiveSyncs(userID) {
     return rv;
   }
 
+}
+
+/**
+ * Get the identifiers of all sources for which relevant information is being
+ * fetched for this review subject.
+ *
+ * @returns {String[]}
+ *  array of the source IDs
+ */
+function getSourceIDsOfActiveSyncs() {
+  const sync = this.sync;
+  const rv = [];
+  for (let key in sync) {
+    if (sync[key] && sync[key].active && sync[key].source && !rv.includes(sync[key].source))
+      rv.push(sync[key].source);
+  }
+  return rv;
 }
 
 /**

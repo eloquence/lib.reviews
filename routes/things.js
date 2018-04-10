@@ -354,6 +354,7 @@ function sendThing(req, res, thing, options) {
     hasMoreThanOneReview: thing.numberOfReviews > 1,
     otherReviews: options.otherReviews ? options.otherReviews.feedItems : undefined,
     taggedURLs,
+    activeSourceIDs: thing.getSourceIDsOfActiveSyncs(),
     scripts: ['upload.js']
   }, {
     messages: {

@@ -520,5 +520,10 @@
    "older files": "Older files",
    "show uploads": "Show uploaded media",
    "hide uploads": "Hide uploaded media",
-   "caption label": "Caption"
+   "caption label": "Caption",
+   "source data licensing": "Source data licensing:",
+   "wikidata license": "Data from <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> is available under <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
+   "openstreetmap license": "Data from <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> is available under the <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
+   "openlibrary license": "Data from <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> is <a href='https://openlibrary.org/developers/licensing' target='_blank'>in the public domain</a>.",
+   "data gratitude": "lib.reviews is only a small part of a larger <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>free culture movement</a>. We are deeply grateful to all who contribute to this movement."
 }

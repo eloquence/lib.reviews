@@ -74,6 +74,11 @@ hbs.registerHelper('getSourceMsgKey', function(sourceID) {
   return `${sourceID} source label`;
 });
 
+// Licensing notices for sources follow a similar pattern
+hbs.registerHelper('getSourceLicensingKey', function(sourceID) {
+  return `${sourceID} license`;
+});
+
 // Tags are used to classify sources into domains like "Databases"; these, too,
 // have message keys.
 hbs.registerHelper('getTagMsgKey', function(sourceID) {
