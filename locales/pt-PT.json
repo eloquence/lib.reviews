@@ -527,5 +527,10 @@
 	"older files": "Ficheiros antigos",
 	"show uploads": "Mostrar multimédia carregada",
 	"hide uploads": "Ocultar multimédia carregada",
-	"caption label": "Legenda"
+	"caption label": "Legenda",
+	"source data licensing": "Licenciamento das fontes de dados:",
+	"wikidata license": "Os dados do <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> estão disponíveis nos termos da licença <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
+	"openstreetmap license": "Os dados do <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> estão disponíveis nos termos da licença <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
+	"openlibrary license": "Os dados do <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> encontram-se disponíveis <a href='https://openlibrary.org/developers/licensing' target='_blank'>no domínio público</a>.",
+	"data gratitude": "O lib.reviews é apenas uma pequena parte de um grande <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>movimento cultural livre</a>. Somos profundamente gratos a todos que contribuíram ou contribuem para este movimento."
 }

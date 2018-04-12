@@ -526,5 +526,10 @@
 	"older files": "Äldre filer",
 	"show uploads": "Visa uppladdad media",
 	"hide uploads": "Dölj uppladdad media",
-	"caption label": "Bildtext"
+	"caption label": "Bildtext",
+	"source data licensing": "Licens för källdata:",
+	"wikidata license": "Data från <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> är tillgänglig under <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
+	"openstreetmap license": "Data från <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> är tillgänglig under <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
+	"openlibrary license": "Data från <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> är <a href='https://openlibrary.org/developers/licensing' target='_blank'>allmän egendom</a>.",
+	"data gratitude": "lib.reviews är endast en liten del av en större <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>rörelse för fri kultur</a>. Vi är mycket tacksamma till alla som bidrar till denna rörelse."
 }

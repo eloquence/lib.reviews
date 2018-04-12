@@ -30,6 +30,7 @@
 	"username exists": "Meillä on jo käyttäjä, jolla on tämä nimi.",
 	"write a review": "Kirjoita arvostelu",
 	"help": "Ohje",
+	"review url help label": "Web-osoite",
 	"enter web address": "Kirjoita verkko-osoite, esim., http://www.oregon.com/attractions/multnomah_falls",
 	"review title help label": "Otsikko",
 	"enter title": "Kirjoita otsikko, esim.: Hämmästyttävät vesiputoukset, mutta hyvin täydet",
@@ -57,7 +58,10 @@
 		"one": "%f tähti",
 		"other": "%f tähteä"
 	},
+	"answer: famous painting": "Lisa",
 	"answer: famous composer": "Beethoven",
+	"answer: famous scientist": "Charles",
+	"add description": "Lisää kuvaus tänne",
 	"edit": "Muokkaa",
 	"edit label": "Muokkaa etikettiä",
 	"edit description": "Muokkaa kuvausta",

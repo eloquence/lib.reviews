@@ -525,5 +525,10 @@
 	"older files": "Ältere Dateien",
 	"show uploads": "Hochgeladene Medien anzeigen",
 	"hide uploads": "Hochgeladene Medien ausblenden",
-	"caption label": "Bildunterschrift"
+	"caption label": "Bildunterschrift",
+	"source data licensing": "Lizenzierung der Quelldaten:",
+	"wikidata license": "Die Daten von <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> sind verfügbar unter <a href='https://creativecommons.org/publicdomain/zero/1.0/deed.de' target='_blank'>Creative Commons CC-0</a>.",
+	"openstreetmap license": "Die Daten von <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> sind verfügbar unter der <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
+	"openlibrary license": "Die Daten von <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> sind <a href='https://openlibrary.org/developers/licensing' target='_blank'>gemeinfrei</a>.",
+	"data gratitude": "lib.reviews ist nur ein kleiner Teil einer größeren <a href='https://de.wikipedia.org/wiki/Freie-Kultur-Bewegung' target='_blank'>Freie-Kultur-Bewegung</a>. Wir sind sehr dankbar für alle, die zu dieser Bewegung beitragen."
 }

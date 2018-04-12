@@ -65,7 +65,7 @@
 	"publish": "發佈",
 	"preview": "預覽",
 	"preview title": "預覽",
-	"new review terms": "在發佈您的評論時，表示您同意<a href='/terms' target='_blank'>使用條款</a>，包含根據<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.zh_TW' target='_blank'>創用CC姓名標示/相同方式分享許可協議</a>授權您的評論。",
+	"new review terms": "在發佈您的評論時，表示您同意<a href='/terms' target='_blank'>使用條款</a>，包含根據<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.zh_TW' target='_blank'>創用 CC 姓名標示/相同方式分享許可協議</a>授權您的評論。",
 	"add more": "增加更多訊息",
 	"review language": "此評論的語言",
 	"draft loaded": "預覽從您的瀏覽器所載入之未發佈草稿。",
@@ -322,7 +322,7 @@
 	"fair use": "此檔案非自由許可，但我認為此上傳行為符合<a href='https://zh.wikipedia.org/wiki/%E5%90%88%E7%90%86%E4%BD%BF%E7%94%A8' target='_blank'>合理使用</a>",
 	"cc-0": "公眾領域貢獻宣告（<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.zh_TW' target='_blank'>CC-0</a>）或公有領域",
 	"cc-by": "創用CC姓名標示許可協議（<a href='https://creativecommons.org/licenses/by/4.0/deed.zh_TW' target='_blank'>CC-BY</a>）",
-	"cc-by-sa": "創用CC姓名標示/相同方式分享許可協議（<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.zh_TW' target='_blank'>CC-BY-SA</a>）",
+	"cc-by-sa": "創用 CC 姓名標示/相同方式分享許可協議（<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.zh_TW' target='_blank'>CC-BY-SA</a>）",
 	"fair use short": "合理使用",
 	"cc-0 short": "公眾領域貢獻宣告或公有領域",
 	"cc-by short": "創用CC-姓名標示",
@@ -525,5 +525,10 @@
 	"older files": "較舊檔案",
 	"show uploads": "顯示已上傳多媒體",
 	"hide uploads": "隱藏已上傳多媒體",
-	"caption label": "圖片說明"
+	"caption label": "圖片說明",
+	"source data licensing": "來源資料許可協議：",
+	"wikidata license": "來自<a href='https://www.wikidata.org/' target='_blank'>維基數據</a>的資料是依據<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.zh_TW' target='_blank'>創用 CC-0 </a>之下可用。",
+	"openstreetmap license": "來自<a href='https://www.openstreetmap.org/' target='_blank'>開放街圖</a>的資料是依據<a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>開放資料庫許可證</a>之下可用。",
+	"openlibrary license": "來自 <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> 的資料是依據<a href='https://openlibrary.org/developers/licensing' target='_blank'>公有領域</a>之下可用。",
+	"data gratitude": "lib.reviews 是在浩大的<a href='https://zh.wikipedia.org/wiki/%E8%87%AA%E7%94%B1%E6%96%87%E5%8C%96%E9%81%8B%E5%8B%95' target='_blank'>自由文化運動</a>裡頭當中一小部份而已。我們由衷地感謝為此運動付出的人士。"
 }

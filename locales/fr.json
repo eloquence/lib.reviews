@@ -531,5 +531,10 @@
 	"older files": "Fichiers plus anciens",
 	"show uploads": "Afficher le média téléversé",
 	"hide uploads": "Masquer le média téléversé",
-	"caption label": "Légende"
+	"caption label": "Légende",
+	"source data licensing": "Licence des sources de données :",
+	"wikidata license": "Les données de <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> sont utilisables sous la  <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>licence Creative Commons CC-0</a>.",
+	"openstreetmap license": "Les données de <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> sont utilisables sous la <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>licence Open Database(ODbL)</a>.",
+	"openlibrary license": "Les données provenant de <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> sont <a href='https://openlibrary.org/developers/licensing' target='_blank'>dans le domaine publique</a>.",
+	"data gratitude": "lib.reviews n'est qu'une petite partie d'un <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>mouvement de la culture libre</a> plus vaste. Nous sommes profondément reconnaissants à tous ceux qui contribuent à ce mouvement."
 }
