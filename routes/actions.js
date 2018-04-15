@@ -201,6 +201,15 @@ router.get('/new/user', function(req, res) {
 });
 
 router.get('/register', function(req, res) {
+  if (req.query.signupLanguage && languages.isValid(req.query.signupLanguage)){
+    const lang = req.query.signupLanguage;
+    let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
+    res.cookie('locale', lang, {
+        maxAge,
+        httpOnly: true
+        });
+    i18n.setLocale(req, lang);
+  }
   if (config.requireInviteLinks)
     return render.template(req, res, 'invite-needed', {
       titleKey: 'register'
@@ -210,7 +219,16 @@ router.get('/register', function(req, res) {
 });
 
 router.get('/register/:code', function(req, res, next) {
-  const { code } = req.params;
+  const { code } = req.params.code;
+  if (req.query.signupLanguage && languages.isValid(req.query.signupLanguage)){
+    const lang = req.query.signupLanguage;
+    let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
+    res.cookie('locale', lang, {
+        maxAge,
+        httpOnly: true
+        });
+    i18n.setLocale(req, lang);
+  }
   InviteLink
     .get(code)
     .then(inviteLink => {
