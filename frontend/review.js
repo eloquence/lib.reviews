@@ -460,6 +460,8 @@
     if (wasFocused)
       $('#resolved-url a').focus();
     $('.review-label-group').hide();
+    // We don't want to submit previously entered label data
+    $('#review-label').val('');
     // If now hidden field is focused, focus on title field instead (next in form)
     if ($('#review-label').is(':focus') || document.activeElement === document.body)
       $('#review-title').focus();
