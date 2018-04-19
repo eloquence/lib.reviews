@@ -31,6 +31,9 @@ const formDefs = {
   }, {
     name: 'returnTo',
     required: false
+  }, {
+    name: 'signupLanguage',
+    required: false
   }]
 };
 
@@ -201,7 +204,6 @@ router.get('/new/user', function(req, res) {
 });
 
 router.get('/register', function(req, res) {
-  setSignupLanguage(req, res);
   if (config.requireInviteLinks)
     return render.template(req, res, 'invite-needed', {
       titleKey: 'register'
@@ -212,7 +214,6 @@ router.get('/register', function(req, res) {
 
 router.get('/register/:code', function(req, res, next) {
   const { code } = req.params.code;
-  setSignupLanguage(req, res);
   InviteLink
     .get(code)
     .then(inviteLink => {
@@ -262,6 +263,7 @@ if (!config.requireInviteLinks) {
           if (error) {
             debug.error({ req, error });
           }
+          setSignupLanguage(req, res);
           returnToPath(req, res);
         });
       })
@@ -310,6 +312,7 @@ router.post('/register/:code', function(req, res, next) {
                 if (error) {
                   debug.error({ req, error });
                 }
+                setSignupLanguage(req, res);
                 returnToPath(req, res);
               });
             })
@@ -366,8 +369,9 @@ function returnToPath(req, res) {
 // check for signupLanguage, ensure valid lang and user not logged in
 // set locale cookie if conditions met, else do nothing
 function setSignupLanguage(req, res) {
-    if (req.query.signupLanguage && languages.isValid(req.query.signupLanguage) && !req.user) {
-    const lang = req.query.signupLanguage;
+    if (req.body.signupLanguage && languages.isValid(req.body.signupLanguage)) {
+    const lang = req.body.signupLanguage;
+    console.log(lang);
     let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
     res.cookie('locale', lang, {
         maxAge,
