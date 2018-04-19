@@ -13,7 +13,7 @@
 	"site name": "lib.reviews",
 	"welcome": "Boas vindas!",
 	"intro lead": "<b>Boas vindas ao lib.reviews!</b> Estamos construindo uma plataforma livre, aberta e sem fins lucrativos para resenhas sobre absolutamente qualquer coisa, em qualquer idioma.",
-	"intro message": "Estamos na fase inicial de desenvolvimento, e por agora, você precisa de um convite para se registrar. Se não sabe como o obter, siga <a href=\"https://twitter.com/lib_reviews\">lib_reviews</a> no Twitter, envie-nos um <i>tweet</i>, e nós enviaremos-lhe uma mensagem direta.",
+	"intro message": "Estamos na fase inicial de desenvolvimento, e por ora, você precisa de um convite para se registrar. Se não sabe como o obter, siga-nos <a href='https://mastodon.technology/@lib_reviews'>no Mastodon</a> ou <a href=\"https://twitter.com/lib_reviews\">no Twitter</a>, envie-nos um tuíte, e nós enviaremos-lhe uma mensagem direta.",
 	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>com um espelho no Notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>participar na nossa lista de discussão</a> e conversar conosco através do IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> em <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Assista a um <a href='/static/uploads/screencast3.webm'>breve vídeo</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2017.",
 	"change language": "Mudar para:",
 	"change language button": "Alterar idioma",
@@ -25,7 +25,7 @@
 	"password": "Senha",
 	"enter password": "Digite a senha",
 	"no account yet": "Ainda não tem uma conta? <a href=\"/register\">O registro</a> é rápido e fácil.",
-	"invite link needed": "Agradecemos pelo interesse em criar uma conta aqui! Queremos crescer com cautela neste momento para podermos fazer jus às necessidades da comunidade, e para que tenhamos tempo para conhecer uns aos outros. Por isso, você precisará de um convite para criar uma conta. Há três jeitos fáceis de conseguir um convite:<ul><li>Entre no nosso <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>bate-papo</a> (#lib.reviews em irc.freenode.net) e peça por um convite.<li>Siga <a href='http://twitter.com/lib_reviews'>lib_reviews</a> no Twitter e mande-nos uma mensagem direta.<li>Se você conhecer um membro da nossa comunidade, peça um convite diretamente a ele ou ela.</ul><p>Será muito bacana te dar as boas vindas à comunidade lib.reviews!",
+	"invite link needed": "Agradecemos pelo interesse em criar uma conta aqui! Queremos crescer com cautela neste momento para podermos fazer jus às necessidades da comunidade, e para que tenhamos tempo para conhecer uns aos outros. Por isso, você precisará de um convite para criar uma conta. Há três jeitos fáceis de conseguir um convite:<ul><li>Entre no nosso <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>bate-papo</a> (#lib.reviews em irc.freenode.net) e peça por um convite.<li>Siga-nos <a href='http://twitter.com/lib_reviews'>no Twitter</a> ou <a href='https://mastodon.technology/@lib_reviews'>no Mastodon</a> e mande-nos uma mensagem direta.<li>Se você conhecer um membro da nossa comunidade, peça um convite diretamente a ele ou ela.</ul><p>Será muito bacana te dar as boas vindas à comunidade lib.reviews!",
 	"enter your info": "Boas vindas à comunidade lib.reviews! Por favor, introduza abaixo as informações da sua nova conta.",
 	"already got an account": "Já tem uma conta? <a href=\"/signin\">Inicie sessão</a> então.",
 	"enter email": "Forneça o endereço de e-mail",
@@ -529,5 +529,10 @@
 	"older files": "Arquivos mais antigos",
 	"show uploads": "Mostrar mídia carregada",
 	"hide uploads": "Ocultar mídia carregada",
-	"caption label": "Legenda"
+	"caption label": "Legenda",
+	"source data licensing": "Licenciamento das fontes de dados:",
+	"wikidata license": "Os dados do <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> estão disponíveis nos termos da licença <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
+	"openstreetmap license": "Os dados do <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> estão disponíveis nos termos da licença <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
+	"openlibrary license": "Os dados do <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> encontram-se disponíveis <a href='https://openlibrary.org/developers/licensing' target='_blank'>no domínio público</a>.",
+	"data gratitude": "O lib.reviews é apenas uma pequena parte de um grande <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>movimento cultural livre</a>. Somos profundamente gratos a todos que contribuíram ou contribuem para este movimento."
 }
