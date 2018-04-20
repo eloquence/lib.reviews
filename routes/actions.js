@@ -366,7 +366,8 @@ function returnToPath(req, res) {
     returnTo = '/';
   res.redirect(returnTo);
 }
-// check for signupLanguage, ensure valid lang and user not logged in
+
+// check for signupLanguage, ensure valid lang
 // set locale cookie if conditions met, else do nothing
 function setSignupLanguage(req, res) {
     if (req.body.signupLanguage && languages.isValid(req.body.signupLanguage)) {

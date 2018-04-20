@@ -19,7 +19,8 @@ let render = {
     // override locale cookie using signupLanguage if present
     if (req.query.signupLanguage)
         i18n.setLocale(req, req.query.signupLanguage);
-        
+        vars.signupLanguage = req.query.signupLanguage;
+
     let jsConfig = {
       userName: req.user ? req.user.displayName : undefined,
       userID: req.user ? req.user.id : undefined,
