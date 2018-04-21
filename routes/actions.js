@@ -204,6 +204,7 @@ router.get('/new/user', function(req, res) {
 });
 
 router.get('/register', function(req, res) {
+  viewInSignupLanguage(req);
   if (config.requireInviteLinks)
     return render.template(req, res, 'invite-needed', {
       titleKey: 'register'
@@ -213,6 +214,7 @@ router.get('/register', function(req, res) {
 });
 
 router.get('/register/:code', function(req, res, next) {
+  viewInSignupLanguage(req);
   const { code } = req.params;
   InviteLink
     .get(code)
@@ -243,6 +245,7 @@ router.post('/signout', function(req, res) {
 
 if (!config.requireInviteLinks) {
   router.post('/register', function(req, res) {
+    viewInSignupLanguage(req);
 
     let formInfo = forms.parseSubmission(req, {
       formDef: formDefs.register,
@@ -258,12 +261,12 @@ if (!config.requireInviteLinks) {
         email: req.body.email
       })
       .then(user => {
+        setSignupLanguage(req, res);
         req.flash('siteMessages', res.__('welcome new user', user.displayName));
         req.login(user, error => {
           if (error) {
             debug.error({ req, error });
           }
-          setSignupLanguage(req, res);
           returnToPath(req, res);
         });
       })
@@ -277,6 +280,7 @@ if (!config.requireInviteLinks) {
 
 
 router.post('/register/:code', function(req, res, next) {
+  viewInSignupLanguage(req);
 
   const { code } = req.params;
 
@@ -307,12 +311,12 @@ router.post('/register/:code', function(req, res, next) {
         .then(user => {
           inviteLink.usedBy = user.id;
           inviteLink.save().then(() => {
+              setSignupLanguage(req, res);
               req.flash('siteMessages', res.__('welcome new user', user.displayName));
               req.login(user, error => {
                 if (error) {
                   debug.error({ req, error });
                 }
-                setSignupLanguage(req, res);
                 returnToPath(req, res);
               });
             })
@@ -349,7 +353,8 @@ function sendRegistrationForm(req, res, formInfo) {
     questionCaptcha: forms.getQuestionCaptcha('register'),
     illegalUsernameCharactersReadable: User.options.illegalCharsReadable,
     scripts: ['register.js'],
-    inviteCode: code
+    inviteCode: code,
+    signupLanguage: req.query.signupLanguage || req.body.signupLanguage
   }, {
     illegalUsernameCharacters: User.options.illegalChars.source
   });
@@ -367,17 +372,24 @@ function returnToPath(req, res) {
   res.redirect(returnTo);
 }
 
-// check for signupLanguage, ensure valid lang
-// set locale cookie if conditions met, else do nothing
+// If the ?signupLanguage query parameter or has been POSTed, and the language
+// is valid, show the form in the language (but do not set the cookie yet).
+function viewInSignupLanguage(req) {
+  const signupLanguage = req.query.signupLanguage || req.body.signupLanguage;
+  if (signupLanguage && languages.isValid(signupLanguage))
+    i18n.setLocale(req, signupLanguage);
+}
+
+// Once we know that the registration is likely to be successful, actually set
+// the locale cookie if a signup language was POSTed.
 function setSignupLanguage(req, res) {
-    if (req.body.signupLanguage && languages.isValid(req.body.signupLanguage)) {
-        const lang = req.body.signupLanguage;
-        let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
-        res.cookie('locale', lang, {
-            maxAge,
-            httpOnly: true
-            });
-        i18n.setLocale(req, lang);
-    }
+  const { signupLanguage } = req.body;
+  if (signupLanguage && languages.isValid(signupLanguage)) {
+    let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
+    res.cookie('locale', signupLanguage, {
+      maxAge,
+      httpOnly: true
+    });
+  }
 }
 module.exports = router;
