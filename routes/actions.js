@@ -31,6 +31,9 @@ const formDefs = {
   }, {
     name: 'returnTo',
     required: false
+  }, {
+    name: 'signupLanguage',
+    required: false
   }]
 };
 
@@ -260,6 +263,7 @@ if (!config.requireInviteLinks) {
           if (error) {
             debug.error({ req, error });
           }
+          setSignupLanguage(req, res);
           returnToPath(req, res);
         });
       })
@@ -308,6 +312,7 @@ router.post('/register/:code', function(req, res, next) {
                 if (error) {
                   debug.error({ req, error });
                 }
+                setSignupLanguage(req, res);
                 returnToPath(req, res);
               });
             })
@@ -360,5 +365,19 @@ function returnToPath(req, res) {
   if (typeof returnTo != 'string' || !localPathRegex.test(returnTo))
     returnTo = '/';
   res.redirect(returnTo);
+}
+
+// check for signupLanguage, ensure valid lang
+// set locale cookie if conditions met, else do nothing
+function setSignupLanguage(req, res) {
+    if (req.body.signupLanguage && languages.isValid(req.body.signupLanguage)) {
+        const lang = req.body.signupLanguage;
+        let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
+        res.cookie('locale', lang, {
+            maxAge,
+            httpOnly: true
+            });
+        i18n.setLocale(req, lang);
+    }
 }
 module.exports = router;
