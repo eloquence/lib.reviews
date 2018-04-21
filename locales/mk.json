@@ -524,5 +524,10 @@
 	"older files": "Постари податотеки",
 	"show uploads": "Прикажи подигнати податотеки",
 	"hide uploads": "Скриј подигнати податотеки",
-	"caption label": "Опис"
+	"caption label": "Опис",
+	"source data licensing": "Лиценца на изворните податоци:",
+	"wikidata license": "Податоците од <a href='https://www.wikidata.org/wiki/Wikidata:Main_Page?uselang=mk' target='_blank'>Википодатоците</a> се достапни под лиценцата <a href='https://creativecommons.org/publicdomain/zero/1.0/deed.mk/' target='_blank'>Криејтив комонс CC-0</a>.",
+	"openstreetmap license": "Податоците од <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> се достапни под <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Лиценцата за отворени бази (ODbL)</a>.",
+	"openlibrary license": "Податоците од <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> се <a href='https://openlibrary.org/developers/licensing' target='_blank'>во јавна сопственост</a>.",
+	"data gratitude": "lib.reviews сочинува само мал дел од поголемото <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>движење за слободна култура</a>. Би сакале да искажеме длабока благодарност кон сите кои учествуваат во него."
 }

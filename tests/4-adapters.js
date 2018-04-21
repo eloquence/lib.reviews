@@ -5,6 +5,7 @@ process.env.NODE_APP_INSTANCE = 'testing-4';
 
 const OpenLibraryBackendAdapter = require('../adapters/openlibrary-backend-adapter');
 const WikidataBackendAdapter = require('../adapters/wikidata-backend-adapter');
+const OpenStreetMapBackendAdapter = require('../adapters/openstreetmap-backend-adapter');
 const test = require('ava');
 
 
@@ -45,6 +46,20 @@ const tests = {
       'https://www.wikidata.org/wiki/Property:P4426',
       'https://www.wikidata.org/wiki/Special:NewItem',
       'https://www.wikidata.org/wiki/Wikidata:Introduction'
+    ]
+  },
+  openstreetmap: {
+    adapter: new OpenStreetMapBackendAdapter(),
+    validURLsWithData: [
+      'https://www.openstreetmap.org/way/540846325',
+      'https://www.openstreetmap.org/node/4809608023'
+    ],
+    validURLsWithoutData: [
+      'https://www.openstreetmap.org/way/343'
+    ],
+    invalidURLs: [
+      'https://wiki.openstreetmap.org/wiki/Map_Features',
+      'https://www.openstreetmap.org/#map=18/34.70788/135.50715'
     ]
   }
 };
