@@ -467,7 +467,7 @@
 	"cannot edit synced field": "Ĉi tiu kampo ne redakteblas, ĉar ĝi estas ĝisdatigata aŭtomate de ekstera fonto.",
 	"manage links": "Administri ligilojn",
 	"manage links intro 1": "Vi povas agordi kiujn retadresojn estu asociitaj kun ĉi tiu recenzo-temo:",
-	"manage links intro 2": "Ni eltiros la plej multo da informo ni povas el la donitaj adresojn. La ĉefa ligilo estu la oficiala retejo (ekz., filmo aŭ libra retejo). Se neniu ekzistas, ni rekomendas elekti rikordon de malferma datumaro kiel ĉefa ligilo (ekz., <a href=\"https://www.wikidata.org\">Wikidatumoj</a>, <a href=\"https://www.openstreetmap.org\">OpenStreetMap</a>, <a href=\"https://openlibrary.org/\">OpenLibrary</a>).",
+	"manage links intro 2": "Ni eltiros la plej multo da informo ni povas el la donitaj adresojn. La ĉefa ligilo estu la oficiala retejo (ekz., filmo aŭ libra retejo). Se neniu ekzistas, ni rekomendas elekti rikordon de malferma datumaro kiel ĉefa ligilo (ekz., <a href=\"https://www.wikidata.org\">Vikidatumoj</a>, <a href=\"https://www.openstreetmap.org\">OpenStreetMap</a>, <a href=\"https://openlibrary.org/\">OpenLibrary</a>).",
 	"enter web address short": "Enigi retadreson",
 	"update links": "Ĝisdatigi ligilojn",
 	"primary link": "Ĉefa ligilo",
