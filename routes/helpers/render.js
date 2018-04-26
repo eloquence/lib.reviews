@@ -3,7 +3,6 @@
 const config = require('config');
 const url = require('url');
 const getJS = require('../../util/get-js');
-const i18n = require('i18n');
 
 // Internal dependencies
 const languages = require('../../locales/languages');
@@ -15,12 +14,6 @@ let render = {
   //  scripts (must not contain sensitive data!)
   template(req, res, view, extraVars, extraJSConfig) {
     let vars = {};
-
-    // override locale cookie using signupLanguage if present
-    if (req.query.signupLanguage) {
-        i18n.setLocale(req, req.query.signupLanguage);
-        vars.signupLanguage = req.query.signupLanguage;
-    }
 
     let jsConfig = {
       userName: req.user ? req.user.displayName : undefined,
