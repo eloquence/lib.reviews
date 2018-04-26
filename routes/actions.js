@@ -374,20 +374,6 @@ function returnToPath(req, res) {
   res.redirect(returnTo);
 }
 
-<<<<<<< HEAD
-// check for signupLanguage, ensure valid lang
-// set locale cookie if conditions met, else do nothing
-function setSignupLanguage(req, res) {
-    if (req.body.signupLanguage && languages.isValid(req.body.signupLanguage)) {
-        const lang = req.body.signupLanguage;
-        let maxAge = 1000 * 60 * config.sessionCookieDuration; // cookie age: 30 days
-        res.cookie('locale', lang, {
-            maxAge,
-            httpOnly: true
-            });
-        i18n.setLocale(req, lang);
-    }
-=======
 // If the ?signupLanguage query parameter or has been POSTed, and the language
 // is valid, show the form in the language (but do not set the cookie yet).
 function viewInSignupLanguage(req) {
@@ -407,6 +393,5 @@ function setSignupLanguage(req, res) {
       httpOnly: true
     });
   }
->>>>>>> 30626056619eb681c2798ea5c90bf10780a2d3a1
 }
 module.exports = router;
