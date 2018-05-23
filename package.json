@@ -40,7 +40,7 @@
     "express-session": "^1.14.1",
     "express-useragent": "^0.2.4",
     "file-type": "^3.8.0",
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.2",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
