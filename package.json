@@ -82,7 +82,7 @@
     "prosemirror-view": "^1.0.2",
     "read-chunk": "^2.1.0",
     "remote-ac": "^0.5.0",
-    "request": "^2.83.0",
+    "request": "^2.87.0",
     "request-promise-native": "^1.0.4",
     "rethinkdb": "^2.3.2",
     "rethinkdbdash": "^2.3.8",
