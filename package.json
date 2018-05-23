@@ -90,7 +90,7 @@
     "serve-index": "^1.8.0",
     "session-rethinkdb": "^2.0.0",
     "sisyphus.js": "^1.1.2",
-    "snyk": "^1.49.3",
+    "snyk": "^1.80.1",
     "sprintf-js": "^1.0.3",
     "striptags": "^3.0.1",
     "thinky": "^2.3.9",
