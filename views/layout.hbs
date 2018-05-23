@@ -82,6 +82,8 @@
     <input type="hidden" name="redirect-to" value="{{urlPath}}">
     <br>
     <button type="submit" name="lang" value="{{localeChange.new}}" class="message-button pure-button button-rounded">{{{__ "change language permanently"}}}</button> <a class="cancel-link" href="{{urlPath}}">{{{__ "reload this page" (getLanguageName localeChange.old)}}}</a>
+        <a href="https://github.com/eloquence/lib.reviews/issues/new">{{{__ "request new language"}}}</button> </a>
+
     </form>
     </div>
     {{/if}}
