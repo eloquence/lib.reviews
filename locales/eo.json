@@ -26,7 +26,7 @@
 	"already got an account": "Ĉu vi jam havas konton? <a href=\"/signin\">Ensalutu</a>, do.",
 	"enter email": "Entajpu retpoŝtan adreson",
 	"email optional": "Retpoŝta adreso (nedeviga)",
-	"agree to terms": "Registrante konton, vi konsentas kun la <a href='/terms' target='_blank'>uzkondiĉoj</a>. Konkrete:<ul><li>Ni ne toleras ĝenadon, spamon, fitrakton, trolado, aŭ kontraŭleĝa enhavo.</li><li>Vi konsentas eldoni viajn kontribuaĵojn sub <a href='http://freedomdefined.org/Definition' target='_blank'>liberaj permesiloj</a>.</ul>Bonvole legu tute la uzkondiĉojn, kiuj estas homlegeblaj.",
+	"agree to terms": "Registrante konton, vi konsentas kun la <a href='/terms' target='_blank'>uzkondiĉoj</a>. Konkrete:<ul><li>Ni ne toleras ĝenadon, spamon, fitrakton, troladon, aŭ kontraŭleĝan enhavon.</li><li>Vi konsentas eldoni viajn kontribuaĵojn sub <a href='http://freedomdefined.org/Definition' target='_blank'>liberaj permesiloj</a>.</ul>Bonvole legu tute la uzkondiĉojn, kiuj estas homlegeblaj.",
 	"need username": "Vi devas provizi uzantnomon.",
 	"need password": "Vi devas provizi pasvorton.",
 	"bad username": "Ni ne konas uzanton kun ĉi tiu nomo.",
