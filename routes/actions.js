@@ -17,6 +17,7 @@ const actionHandler = require('./handlers/action-handler.js');
 const signinRequiredRoute = require('./handlers/signin-required-route');
 const languages = require('../locales/languages');
 const search = require('../search');
+const slugs = require('./helpers/slugs.js');
 
 const formDefs = {
   'register': [{
@@ -267,6 +268,7 @@ if (!config.requireInviteLinks) {
           if (error) {
             debug.error({ req, error });
           }
+          setSignupLanguage(req, res);
           returnToPath(req, res);
         });
       })
@@ -317,6 +319,7 @@ router.post('/register/:code', function(req, res, next) {
                 if (error) {
                   debug.error({ req, error });
                 }
+                setSignupLanguage(req, res);
                 returnToPath(req, res);
               });
             })
@@ -341,12 +344,40 @@ router.post('/register/:code', function(req, res, next) {
 
 });
 
-function sendRegistrationForm(req, res, formInfo) {
+async function sendRegistrationForm(req, res, formInfo) {
   let pageErrors = req.flash('pageErrors');
 
   const { code } = req.params;
-
-  render.template(req, res, 'register', {
+  const signupTeams = req.query.signupTeams;
+  // checks if signupTeams exist, valid teams are passed to render
+  if (signupTeams) {
+    let signupTeamsArray = signupTeams.split(' ');
+    let validSignupTeams = [];
+    let promise_array = [];
+    for (let i = 0; i < signupTeamsArray.length; i++) {
+      let team = slugs.resolveAndLoadTeam(req, res, signupTeamsArray[i])
+      .then(result => {
+        validSignupTeams.push({ 'team': result.canonicalSlugName });
+      })
+      // swallow DocumentNotFoundErrors
+      .catch(err => console.log(err.message));
+      promise_array[i] = team;
+    }
+    await Promise.all(promise_array);
+    render.template(req, res, 'register', {
+      titleKey: 'register',
+      pageErrors,
+      formValues: formInfo ? formInfo.formValues : undefined,
+      questionCaptcha: forms.getQuestionCaptcha('register'),
+      illegalUsernameCharactersReadable: User.options.illegalCharsReadable,
+      scripts: ['register.js'],
+      inviteCode: code,
+      signupLanguage: req.query.signupLanguage || req.body.signupLanguage,
+      signupTeamsTransfer: validSignupTeams,
+      illegalUsernameCharacters: User.options.illegalChars.source
+    });
+  } else {
+    render.template(req, res, 'register', {
     titleKey: 'register',
     pageErrors,
     formValues: formInfo ? formInfo.formValues : undefined,
@@ -354,12 +385,11 @@ function sendRegistrationForm(req, res, formInfo) {
     illegalUsernameCharactersReadable: User.options.illegalCharsReadable,
     scripts: ['register.js'],
     inviteCode: code,
-    signupLanguage: req.query.signupLanguage || req.body.signupLanguage
-  }, {
+    signupLanguage: req.query.signupLanguage || req.body.signupLanguage,
     illegalUsernameCharacters: User.options.illegalChars.source
-  });
+    });
+  }
 }
-
 // Check for external redirect in returnTo. If present, redirect to /, otherwise
 // redirect to returnTo
 function returnToPath(req, res) {
