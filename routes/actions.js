@@ -373,7 +373,8 @@ async function sendRegistrationForm(req, res, formInfo) {
       scripts: ['register.js'],
       inviteCode: code,
       signupLanguage: req.query.signupLanguage || req.body.signupLanguage,
-      signupTeamsTransfer: validSignupTeams,
+      signupTeamsTransfer: validSignupTeams
+    }, {
       illegalUsernameCharacters: User.options.illegalChars.source
     });
   } else {
@@ -385,7 +386,8 @@ async function sendRegistrationForm(req, res, formInfo) {
     illegalUsernameCharactersReadable: User.options.illegalCharsReadable,
     scripts: ['register.js'],
     inviteCode: code,
-    signupLanguage: req.query.signupLanguage || req.body.signupLanguage,
+    signupLanguage: req.query.signupLanguage || req.body.signupLanguage
+  }, {
     illegalUsernameCharacters: User.options.illegalChars.source
     });
   }
