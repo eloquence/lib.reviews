@@ -29,6 +29,18 @@
             <input id="email" name="email" type="text" data-auto-trim placeholder="{{{__ "enter email"}}}" value="{{formValues.email}}" size="30" class="pure-input-1 login-form-input">
         </div>
 
+        {{#if signupTeamsTransfer}}
+        <div class="pure-control-group">
+          <h4>Teams suggested by invite link, check box to join</h4>
+          {{#each signupTeamsTransfer}}
+          <label for="checkbox-option-{{team}}" class="pure-checkbox">
+          <input id="checkbox-option-{{team}}" type="checkbox" value="">
+          {{team}}
+          </label>
+          {{/each}}
+        </div>
+        {{/if}}
+
         {{#if questionCaptcha}}
         <div class="pure-control-group">
         <p>{{{__ "captcha intro"}}}</p>
