@@ -7,7 +7,8 @@
 			"Siebrand",
 			"Sjoerddebruin",
 			"Eloquence",
-			"Mar(c)"
+			"Mar(c)",
+			"Robin van der Vliet"
 		]
 	},
 	"site name": "lib.reviews",
@@ -16,6 +17,7 @@
 	"intro message": "We zitten in een vroeg stadium van ontwikkeling, en vooralsnog hebt u een uitnodiging nodig om een account aan te maken. Als u niet weet hoe u aan een uitnodigingscode kunt komen, volg dan <a href='https://twitter.com/lib_reviews'>lib_reviews</a> op Twitter en stuur ons een tweet. We sturen u dan een persoonlijk berichtje met een code.",
 	"find us on": "U kunt ons ook vinden <a href=\"https://github.com/eloquence/lib.reviews\">op GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>mirror op notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>lid worden van onze mailinglijst</a> en met ons chatten op IRC (<a href=\"https://matrix.to/#/#lib.reviews:matrix.org\">#lib.reviews</a> op <a href=\"https://freenode.net/\">irc.freenode.net</a>).<p>Bekijk een <a href=\"/static/uploads/screencast2.webm\">korte screencast</a> (<a href=\"https://youtu.be/wjUasbFfCbU\">YouTube-versie</a>) over de stand van zaken per oktober 2016.",
 	"change language": "Taal wisselen:",
+	"change language button": "Taal wijzigen",
 	"sign in": "Aanmelden",
 	"register": "Registreren",
 	"papers please": "Welkom terug! Voer hieronder uw aanmeldgegevens in.",
@@ -361,5 +363,14 @@
 	"explore teams": "Teams verkennen",
 	"team intro": "<a href=\"/teams\">Teams</a> zijn groepen van gelijkgestemde mensen die dingen van gemeenschappelijk belang beoodelen. Hier zijn een paar voorbeelden:",
 	"duplicate team name": "Een <a href=\"%s\" target=\"_blank\">team met deze naam</a> bestaat al. Probeer een andere naam.",
-	"thing label help": "Een label geeft het <i>onderwerp</i> van een beoordeling aan. Gebruik de exacte naam of titel zonder kwalificaties. Bijvoorbeeld: <i>2001: A Space Odyssey</i> of <i>DNA Lounge</i>."
+	"thing label help": "Een label geeft het <i>onderwerp</i> van een beoordeling aan. Gebruik de exacte naam of titel zonder kwalificaties. Bijvoorbeeld: <i>2001: A Space Odyssey</i> of <i>DNA Lounge</i>.",
+	"single year": "(%s)",
+	"year range": "(%1$d - %2$d)",
+	"unknown year": "onbekend jaar",
+	"caption": "%1$s (%2$s)",
+	"public domain in caption": "Publiek domein",
+	"fair use in caption": "Fair use",
+	"rights in caption, own work": "Eigen werk. %s.",
+	"source in upload summary": "Bron: %s",
+	"description": "Beschrijving"
 }
