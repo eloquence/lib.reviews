@@ -14,7 +14,8 @@
 			"Edible Melon",
 			"Андрей",
 			"Movses",
-			"Patrick Star"
+			"Patrick Star",
+			"Adam-Yourist"
 		]
 	},
 	"site name": "lib.reviews",
@@ -188,7 +189,7 @@
 	"reviews": "Проверки",
 	"other reviews": "Другие обзоры",
 	"select file": "Выберите файл",
-	"uploaded media": "Загруженные файлы мультимедиа",
+	"uploaded media": "Оаша хьачудаьха мультимедиа файлаш",
 	"filename": "Имя файла:",
 	"upload description": "Загрузить описание",
 	"enter description": "Введите описание",
@@ -208,7 +209,7 @@
 	"invite users": "Пригласить участников",
 	"pending invitations": "Ваши пригласительные ссылки",
 	"accepted invitations": "Принятые приглашения",
-	"created on": "Создано в",
+	"created on": "Создано",
 	"copy": "Копировать",
 	"change language permanently": "Постоянно переключиться на английский",
 	"reload this page": "Перезагрузить в %s",
@@ -230,7 +231,7 @@
 	"format as custom warning": "обычное предупреждение",
 	"custom warning text": "обычный предупреждающий текст",
 	"ok": "OK",
-	"review label help label": "Ярлык",
+	"review label help label": "Метка",
 	"wikidata source label": "Викиданные",
 	"add more links": "Добавить еще",
 	"maps tag label": "Карты",
@@ -248,7 +249,7 @@
 	"source in upload summary": "Источник: %s",
 	"uploaded files title": "Загруженные файлы",
 	"description": "Описание",
-	"uploader": "Загружающие",
+	"uploader": "Загружающий",
 	"file usage": "Использование файла",
 	"upload date": "Дата загрузки",
 	"caption label": "Подпись"
