@@ -15,7 +15,8 @@
 			"Андрей",
 			"Movses",
 			"Patrick Star",
-			"Adam-Yourist"
+			"Adam-Yourist",
+			"Ole Yves"
 		]
 	},
 	"site name": "lib.reviews",
@@ -189,7 +190,7 @@
 	"reviews": "Проверки",
 	"other reviews": "Другие обзоры",
 	"select file": "Выберите файл",
-	"uploaded media": "Оаша хьачудаьха мультимедиа файлаш",
+	"uploaded media": "Загруженные файлы мультимедиа:",
 	"filename": "Имя файла:",
 	"upload description": "Загрузить описание",
 	"enter description": "Введите описание",
