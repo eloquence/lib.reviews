@@ -105,8 +105,8 @@ let forms = {
             break;
 
           case 'url':
+            // This also encodes any special characters
             val = urlUtils.normalize(req.body[field.name].trim());
-            val = encodeURI(val);
             break;
 
             // Multilingual text that needs to be trimmed and escaped

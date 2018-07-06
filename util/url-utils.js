@@ -98,6 +98,8 @@ let urlUtils = {
     return urlRegex.test(inputURL);
   },
 
+  // Apply all relevant converters. Since the URL is parsed via url.parse,
+  // special characters are also urlencoded.
   normalize(inputURL) {
     let outputURL;
     let parsedURL = url.parse(inputURL);
