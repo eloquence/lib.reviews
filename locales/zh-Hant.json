@@ -429,7 +429,7 @@
 	"format as spoiler help": "格式成劇情透露（摺疊內容並帶警告）",
 	"format as nsfw": "不宜公共閱覽",
 	"format as nsfw help": "格式成不宜公共閱覽（摺疊內容並帶警告）",
-	"format as custom warning": "自定義警告",
+	"format as custom warning": "自訂警告",
 	"format as custom warning help": "格式化成帶有自定義警告的摺疊文字",
 	"format as custom warning dialog title": "輸入用於摺疊內容的描述：",
 	"custom warning text": "自定義警告文字",
