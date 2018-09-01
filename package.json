@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build": "grunt",
     "start-dev": "pm2 start process.json --only app-development --no-daemon",
     "del-dev": "pm2 delete app-development",
     "restart-dev": "pm2 restart app-development",
