@@ -203,7 +203,7 @@ function uploadModalItem(mediaNodes, schema) {
       uploadModal(uploads => {
         const upload = uploads[0];
         const attrs = {
-          src: `/static/uploads/${upload.uploadedFileName}`
+          src: `/static/uploads/${encodeURIComponent(upload.uploadedFileName)}`
         };
         const nodeType = guessMediaType(attrs.src);
         const description = generateDescriptionFromUpload(upload);
