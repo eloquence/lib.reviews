@@ -8,7 +8,7 @@ Environment="NODE_PATH=/vagrant/node_modules"
 Restart=always
 RestartSec=2s
 WorkingDirectory=/vagrant
-ExecStart=/usr/bin/npm start
+ExecStart=/usr/bin/npm run start-dev
 
 [Install]
 WantedBy=multi-user.target

@@ -33,22 +33,23 @@ exec { 'update_max_user_watches':
 # RethinkDB
 #
 
-exec { 'add_rethinkdb_apt_key':
-  command => 'wget -qO- http://download.rethinkdb.com/apt/pubkey.gpg | apt-key add -',
-  unless  => 'apt-key list | grep -q RethinkDB',
-  path    => [ '/bin', '/usr/bin' ],
+exec { 'download package':
+  cwd => '/home/vagrant',
+  command => 'sudo wget -nc http://samuelhughes.com/misc/bin/rethinkdb_2.3.6+stretch~0stretch_amd64.deb -O rethinkdb_2.3.6.deb',
+  unless => 'apt list --installed|grep rethinkdb'
 }
 
-file { '/etc/apt/sources.list.d/rethinkdb.list':
-  ensure  => present,
-  content => "deb https://download.rethinkdb.com/apt ${lsbdistcodename} main\n",
-  require => Exec['add_rethinkdb_apt_key'],
-  notify  => Exec['apt-get update'],
-}
-
-package { 'rethinkdb':
+package { ['libcurl3','libprotobuf10' ]:
   ensure  => present,
   require => Exec['apt-get update'],
+}
+
+package { [ 'rethinkdb' ]:
+  name => 'rethinkdb_2.3.6.deb',
+  source => '/home/vagrant/rethinkdb_2.3.6.deb',
+  provider => 'dpkg',
+  ensure  => present,
+  require => Package['libcurl3','libprotobuf10'],
 }
 
 file { '/etc/rethinkdb/instances.d/default.conf':
@@ -80,12 +81,12 @@ exec { 'add_nodesource_apt_key':
 }
 
 file { '/etc/apt/sources.list.d/nodesource.list':
-  content => "deb https://deb.nodesource.com/node_6.x ${lsbdistcodename} main\n",
+  content => "deb https://deb.nodesource.com/node_8.x ${lsbdistcodename} main\n",
   require => Exec['add_nodesource_apt_key'],
   notify  => Exec['apt-get update'],
 }
 
-package { [ 'build-essential', 'git', 'libcap2-bin', 'nodejs' ]:
+package { ['build-essential', 'git' ,'libcap2-bin', 'nodejs' ]:
   ensure  => present,
   require => Exec['apt-get update'],
 }
@@ -93,28 +94,29 @@ package { [ 'build-essential', 'git', 'libcap2-bin', 'nodejs' ]:
 
 # Allow nodejs to bind privileged ports. We wouldn't do this in a production
 # environment, but it's OK for a throwaway VM.
-exec { 'setcap_node':
-  command => 'setcap "cap_net_bind_service=+ep" /usr/bin/nodejs',
-  unless  => 'getcap /usr/bin/nodejs | grep -q cap_net_bind_service',
-  require => Package['libcap2-bin'],
-}
+# not working 2016-09-08
+# exec { 'setcap_node':
+#  command => 'sudo setcap "cap_net_bind_service=+ep" /usr/bin/nodejs',
+#  unless  => 'getcap /usr/bin/nodejs | grep -q cap_net_bind_service',
+#  require => Package['libcap2-bin'],
+#}
 
 
 #
 # Application setup
 #
 
-exec { 'npm install':
-  cwd     => '/vagrant',
-  onlyif  => 'test ! -d /vagrant/node_modules || ( npm outdated | grep MISSING )',
-  require => Package['build-essential', 'nodejs'],
-}
+#exec { 'sudo npm install':
+#  cwd     => '/vagrant',
+#  onlyif  => 'test ! -d /vagrant/node_modules || ( npm outdated | grep MISSING )',
+#  require => Package['build-essential', 'nodejs'],
+#}
 
 exec { 'grunt':
   cwd     => '/vagrant',
   command => '/vagrant/node_modules/grunt/bin/grunt',
   creates => '/vagrant/static/js',
-  require => Exec['npm install'],
+#  require => Exec['sudo npm install'],
 }
 
 file { '/lib/systemd/system/lib-reviews.service':
@@ -122,7 +124,7 @@ file { '/lib/systemd/system/lib-reviews.service':
   owner   => 'root',
   group   => 'root',
   mode    => '0444',
-  require => Exec['npm install', 'grunt'],
+  require => Exec['grunt'], #'sudo npm install',
   notify  => Exec['systemctl daemon-reload'],
 }
 
