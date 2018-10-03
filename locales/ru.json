@@ -17,7 +17,8 @@
 			"Patrick Star",
 			"Adam-Yourist",
 			"Ole Yves",
-			"Stjn"
+			"Stjn",
+			"Saimon"
 		]
 	},
 	"site name": "lib.reviews",
@@ -93,6 +94,8 @@
 	"need review-rating": "Для этого обзора нужен рейтинг.",
 	"live preview": "Предпросмотр страницы",
 	"got it": "Понятно!",
+	"review title too long": "Заголовок представленного обзора слишком длинный.",
+	"invalid language code": "Представленный языковой код '%s' недействителен или не распознан.",
 	"feed": "Последние обзоры",
 	"one or multiple stars": {
 		"one": "%f звезда",
@@ -106,6 +109,8 @@
 	"question: famous scientist": "Дарвин помог сформулировать теорию эволюции. Его имя было ___.",
 	"answer: famous scientist": "Чарльз",
 	"enter captcha answer": "Введите ответ (регистр не важен)",
+	"more info": "Другие обзоры и информация",
+	"add description": "Добавьте описание здесь",
 	"edit": "Править",
 	"edit description": "Редактирование описание",
 	"thing not found title": "Вещь не найдена",
@@ -135,9 +140,11 @@
 	"close this window": "Вы можете закрыть это окно, чтобы продолжить.",
 	"site notification": "<b>Уведомление:</b> %s",
 	"site error": "<b>Ошибка:</b> %s",
+	"edit saved": "Ваша правка была сохранена. Бип бип!",
 	"current language": "Язык:",
 	"user": "Пользователь: %s",
 	"user not found": "Пользователь не найден",
+	"user not found text": "Мы не нашли пользователя с указанным именем \"%s\".",
 	"user bio": "Биография:",
 	"add bio": "Добавить биографию",
 	"edit bio": "Редактировать биографию",
