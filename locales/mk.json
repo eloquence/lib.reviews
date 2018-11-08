@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Bjankuloski06",
-			"Eloquence"
+			"Eloquence",
+			"Vlad5250"
 		]
 	},
 	"site name": "lib.reviews",
@@ -89,7 +90,7 @@
 	"preview of": "Преглед на вашиот осврт на %s",
 	"got it": "Јасно",
 	"invalid star rating": "Поднесената оценка „%s“ е неважечка.",
-	"review title too long": "Насловот н поднесениот осврт е предолг.",
+	"review title too long": "Насловот на поднесениот осврт е предолг.",
 	"invalid language code": "Поднесениот јазичен код „%s“ е неважечки или непрепознаен.",
 	"feed": "Најнови осврти",
 	"one or multiple stars": {
@@ -101,7 +102,7 @@
 		"other": "%d осврти"
 	},
 	"review metrics": "<b>Прос. оценка:</b> %1$s (%2$s)",
-	"captcha intro": "<!-- Докажете дека не сте робот. Кој е зборот што недостасува во полето ___? -->",
+	"captcha intro": "Докажете дека не сте робот. Кој е зборот што недостасува во полето ___?",
 	"question: famous painting": "Една од најславните слики на светот е „Мона ___“ на Леонардо да Винчи.",
 	"answer: famous painting": "Лиза",
 	"question: famous composer": "Лудвиг ван ____ речиси сосема оглувел кон крајот на животот.",
