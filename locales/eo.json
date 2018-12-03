@@ -3,7 +3,8 @@
 		"authors": [
 			"NMaia",
 			"Tirifto",
-			"Eloquence"
+			"Eloquence",
+			"YvesNevelsteen"
 		]
 	},
 	"site name": "lib.reviews",
@@ -436,7 +437,7 @@
 	"redo": "Refari lastan ŝanĝon",
 	"join with item above": "Kunigi kun la ĉi-supra ero",
 	"decrease item indentation": "Malpligrandigi deŝovon",
-	"required field": "Nepra kampo",
+	"required field": "Deviga kampo",
 	"ok": "Bone",
 	"remember rte preference": "Memori agordon por la riĉteksta redaktilo",
 	"forget rte preference": "Forgesi agordon por la riĉteksta redaktilo",
@@ -530,5 +531,5 @@
 	"wikidata license": "Datumoj de <a href=\"https://www.wikidata.org/\">Vikidatumoj</a> haveblas sub <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">Creative Commons CC-0</a>.",
 	"openstreetmap license": "Datumoj de <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> haveblas sub la Malferma Datumara Permesilo (ODbL).",
 	"openlibrary license": "Datumoj de <a href=\"https://openlibrary.org/\">OpenLibrary</a> estas <a href=\"https://openlibrary.org/developers/licensing\">publika havaĵo</a>.",
-	"data gratitude": "lib.reviews estas nur eta parto de granda <a href=\"https://en.wikipedia.org/wiki/Free-culture_movement\">libera kultura movado.</a> Ni estas profunde dankemaj al ĉiuj, kiu kontribuas al ĉi tiu movado."
+	"data gratitude": "lib.reviews estas nur eta parto de granda <a href=\"https://en.wikipedia.org/wiki/Free-culture_movement\">libera kultura movado.</a> Ni estas profunde dankemaj al ĉiuj, kiuj kontribuas al ĉi tiu movado."
 }
