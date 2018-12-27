@@ -4,7 +4,8 @@
 			"NMaia",
 			"Tirifto",
 			"Eloquence",
-			"YvesNevelsteen"
+			"YvesNevelsteen",
+			"Robin van der Vliet"
 		]
 	},
 	"site name": "lib.reviews",
@@ -63,7 +64,7 @@
 	"review text": "Recenzo",
 	"enter review": "Entajpu recenztekston",
 	"review rating": "Takso",
-	"publish": "Eldoni",
+	"publish": "Publikigi",
 	"preview": "Antaŭvidi",
 	"preview title": "Antaŭvido",
 	"new review terms": "Eldonante vian recenzon, vi konsentas kun la <a href='/terms' target='_blank'>uzkondiĉoj</a>, inkluzive de licenci vian recenzon sub la <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.eo' target='_blank'>Permesilo Krea Komunaĵo Atribuite-Samkondiĉe</a>.",
