@@ -10,13 +10,14 @@
 			"RicardoSGZ",
 			"Eloquence",
 			"KATRINE1992",
-			"2axterix2"
+			"2axterix2",
+			"Laura Ospina"
 		]
 	},
 	"site name": "lib.reviews",
 	"welcome": "¡Bienvenidos!",
 	"intro lead": "<b>¡Te damos la bienvenida a lib.reviews!</b> Estamos creando una plataforma libre, abierta y sin fines de lucro para reseñar cualquier cosa, en todas las lenguas.",
-	"intro message": "El desarrollo está en sus primeras etapas y, por ahora, necesitas un enlace de invitación para registrarte. Si no sabes cómo conseguir uno, sigue a <a href='https://twitter.com/lib_reviews'>lib_reviews</a> en Twitter, envíanos un tuit y te contactaremos por DM.",
+	"intro message": "El desarrollo está en sus primeras etapas y, por ahora, necesitas un enlace de invitación para registrarte. Si no sabes cómo conseguir uno, síguenos en Twitter <a href='https://mastodon.technology/@lib_reviews'>on Mastodon</a> o <a href='https://twitter.com/lib_reviews'>, envíanos un trino/tuit y te contactaremos por DM.",
 	"find us on": "También puedes encontrarnos <a href='https://github.com/eloquence/lib.reviews'>en GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>replicado en notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>suscribirte a nuestra lista</a> y charlar con nosotros por IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> en <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Mira un <a href='/static/uploads/screencast3.webm'>vídeo breve</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE'>versión de YouTube</a>) sobre la situación del proyecto a partir de octubre de 2016.",
 	"change language": "Cambiar a:",
 	"change language button": "Cambiar idioma",
@@ -28,7 +29,7 @@
 	"password": "Contraseña",
 	"enter password": "Escribe la contraseña",
 	"no account yet": "¿Todavía no tienes una cuenta? Es fácil y rápido <a href='/register'>registrarte</a>.",
-	"invite link needed": "¡Gracias por tu interés en crearte una cuenta! Queremos crecer con cautela por ahora, para así ser capaces de permanecer al tanto de las necesidades de la comunidad y tener el tiempo suficiente para conocernos. Por este motivo necesitarás un enlace de invitación para crear una cuenta. Hay tres maneras sencillas de obtener uno:<ul><li>Únete a nuestra <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>sala de chat</a> (#lib.reviews en irc.freenode.net) y pide una invitación.<li>Sigue a <a href='http://twitter.com/lib_reviews'>lib_reviews</a> en Twitter y envíanos un mensaje directo.<li>Si conoces a un miembro de nuestra comunidad, pídele directamente una invitación.</ul><p>¡Estaremos encantados de acogerte en la comunidad de lib.reviews!",
+	"invite link needed": "¡Gracias por tu interés en crear una cuenta! Queremos crecer con cautela por ahora, para así ser capaces de permanecer al tanto de las necesidades de la comunidad y tener el tiempo suficiente para conocernos. Por este motivo necesitarás un enlace de invitación para crear una cuenta. Hay tres maneras sencillas de obtener uno:<ul><li>Únete a nuestra <a href='https://riot.im/app/#/room/#lib.reviews:matrix.org'>sala de chat</a> (#lib.reviews en irc.freenode.net) y pide una invitación.<li>Síguenos en Twitter <a href='http://twitter.com/lib_reviews'</a> o en Mastodon <a href='https://mastodon.technology/@lib_reviews'> y envíanos un mensaje directo.<li>Si conoces a un miembro de nuestra comunidad, pídele directamente una invitación.</ul><p>¡Estaremos encantados de acogerte en la comunidad de lib.reviews!",
 	"enter your info": "¡Te damos la bienvenida a la comunidad de lib.reviews! Proporciona la información de tu cuenta nueva a continuación.",
 	"already got an account": "¿Ya tienes una cuenta? <a href='/signin'>Entra en ella</a>.",
 	"enter email": "Escribe la dirección de correo electrónico",
