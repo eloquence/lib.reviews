@@ -533,5 +533,7 @@
 	"older files": "Archivos anteriores",
 	"show uploads": "Mostrar multimedia cargada",
 	"hide uploads": "Ocultar multimedia cargada",
-	"caption label": "Leyenda"
+	"caption label": "Leyenda",
+	"source data licensing": "Licencia de fuente de datos:",
+	"wikidata license": "Datos de <a href=\"https://www.wikidata.org/'target='_blank'>Wikidata</a> está disponible bajo <a href=\"https://creativecommons.org/publicdomain/zero/1.0/'target='_blank'>Creativo Commons CC-0</a>."
 }
