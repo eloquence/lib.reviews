@@ -12,6 +12,8 @@ const {
   MenuItem
 } = require("prosemirror-menu");
 
+const unescapeHTML = require('unescape-html');
+
 // Load proper translations for built-in items
 undoItem.spec.title = libreviews.msg('undo');
 redoItem.spec.title = libreviews.msg('redo');
@@ -222,7 +224,8 @@ function uploadModalItem(mediaNodes, schema) {
 }
 
 function generateDescriptionFromUpload(upload) {
-  const description = upload.description[config.language];
+  // API returns escaped HTML; editor will re-escape it
+  const description = unescapeHTML(upload.description[config.language]);
   const creator = upload.creator && upload.creator[config.language];
   let license;
   switch (upload.license) {
