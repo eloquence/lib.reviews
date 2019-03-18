@@ -8,7 +8,8 @@
 			"Phantomize",
 			"Eloquence",
 			"Otokoume",
-			"NMaia"
+			"NMaia",
+			"Shirayuki"
 		]
 	},
 	"site name": "lib.reviews",
@@ -391,7 +392,7 @@
 	"matches in review subjects": "一致するレビューの対象",
 	"matches in review text": "一致するレビュー",
 	"one or multiple matches": {
-		"one": "One matching review:",
+		"one": "1 件のレビューがヒット:",
 		"other": "%s 件のレビューがヒット:"
 	},
 	"search help": "検索のヒント: <ul><li>単語を除外するには、例えば<code class='hl'>リンゴ -オレンジ</code>のように接頭辞<code class='hl'>-</code>を付けます。<li>完全一致する語句を検索するには、<code class='hl'>\"引用符\"</code>を使います。<li>同じ文字で始まる複数の単語を検索するには、例えば<code class='hl'>Liz*</code> によって「Liz」と「Lizzy」が検索できるように、語句の最後にワイルドカードを付けます。</ul>",
