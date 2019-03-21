@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Xuacu"
+			"Xuacu",
+			"Fitoschido"
 		]
 	},
 	"site name": "lib.reviews",
@@ -205,5 +206,6 @@
 	"leave team": "Abandonar equipu",
 	"goodbye team": "Yá nun perteneces a esti equipu. ¡Gracies pola to participación!",
 	"application received": "Recibióse la to solicitú d'almisión a esti equipu y ta pendiente de revisión por un moderador.",
-	"application rejected": "Refugóse la to solicitú el %s. El moderador nun dio nengún motivu."
+	"application rejected": "Refugóse la to solicitú el %s. El moderador nun dio nengún motivu.",
+	"insert": "Inxertar"
 }
