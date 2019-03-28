@@ -380,7 +380,7 @@
 	"explore teams": "Utforska lag",
 	"team intro": "<a href='/teams'>Lag</a> är en grupp av likasinnade personer som recenserar saker av gemensamt intresse. Här är några exempel:",
 	"duplicate team name": "En <a href='%s' target='_blank'>grupp med detta namn</a> finns redan. Försök med ett annat namn.",
-	"thing label help": "Ett etikett identifierar <i>ämnet</i> för en recension. Använd det exakta namnet eller rubriken utan bestämningsord. T.ex.: <i>2001: A Space Odyssey</i> eller <i>DNA Lounge</i>.",
+	"thing label help": "Ett etikett identifierar <i>ämnet</i> för en recension. Använd det exakta namnet eller rubriken utan bestämning. T.ex.: <i>2001: A Space Odyssey</i> eller <i>DNA Lounge</i>.",
 	"thing description help": "En beskrivning tydliggör ämnet för en recension. Till exempel: \"Film från 1968 av Stanley Kubrick\" eller \"Den 17:e romanen av den engelske författaren och manusförfattaren Ian McEwan\".",
 	"search lib.reviews": "Sök i lib.reviews",
 	"search results": "Sökresultat",
