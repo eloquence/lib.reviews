@@ -15,8 +15,13 @@ let api = {
       res.status(400);
       res.type('json');
       res.send(JSON.stringify(response, null, 2));
-    } else
+    } else {
+      // Allow external access to all read methods
+      if (['GET', 'HEAD', 'OPTIONS'].includes(req.method))
+        res.set('Access-Control-Allow-Origin', '*');
+
       return next();
+    }
   },
   signinRequired(req, res) {
     let response = {};
