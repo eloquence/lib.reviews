@@ -3,7 +3,8 @@
 		"authors": [
 			"GR",
 			"KATRINE1992",
-			"Nikosgranturismogt"
+			"Nikosgranturismogt",
+			"Lia"
 		]
 	},
 	"site name": "lib.reviews",
@@ -17,6 +18,7 @@
 	"enter username": "Εισαγωγή ονόματος χρήστη",
 	"password": "Κωδικός πρόσβασης",
 	"enter password": "Εισαγάγετε κωδικό",
+	"no account yet": "Δεν έχετε ακόμα λογαριασμό; <a href='/register'>Η Εγγραφή</a> είναι γρήγορη κι εύκολη.",
 	"enter email": "Εισαγάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου",
 	"email optional": "Διεύθυνση ηλεκτρονικού ταχυδρομείου (προαιρετικό)",
 	"need username": "Πρέπει να παρέχετε ένα όνομα χρήστη.",
