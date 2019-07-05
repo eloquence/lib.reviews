@@ -157,6 +157,7 @@
 	"unsupported notice": "Ei tuettu ilmoitus",
 	"unsupported notice type": "Emme tunnista tällaista ilmoitusta: '%s'",
 	"notice type language-notice-review": "Kielimuistutus 'Kirjoita arvostelu' ruudussa",
+	"notice type language-notice-thing": "Kielimuistutus 'Muokkaa asiaa' ruudussa",
 	"close this window": "Voit sulkea tämän ikkunan jatkaaksesi.",
 	"could not complete action": "Pyydetyn toimenpiteen suorittamisessa tapahtui ongelma, pahoittelut! Tämä voi olla Internet-yhteyden ongelma, tai koodausongelma meidän päässämme.",
 	"site notification": "<b>Ilmoitus:</b> %s",
