@@ -290,6 +290,7 @@
 	"add media": "Lisää mediaa",
 	"select file": "Valitse tiedosto",
 	"upload and insert media": "Tallenna ja lisää mediaa",
+	"related to": "Kuuluu aiheeseen %s",
 	"upload completed": "Tallennuksesi onnistui. Löydät viittauksen siihen alta.",
 	"no file received": "Tallennuksesi epäonnistui, koska emme saaneet mitään tiedostoja.",
 	"uploaded media": "Tallennettu aineisto:",
