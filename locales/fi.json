@@ -360,6 +360,7 @@
 	"invite link invalid title": "Virheellinen kutsulinkki",
 	"invite link invalid": "Antamasi kutsukoodi on virheellinen. <a href='/register'>Pyydä uutta</a> tai <a href='https://github.com/eloquence/lib.reviews/issues/new'>kerro meille</a> jos ongelma jatkuu. Kiitos!",
 	"invite link already used title": "Kutsulinkki on jo käytetty",
+	"language temporarily changed": "Nettiosoitteen <code>uselang</code>-osan takia, näet tämän sivun <b>englanniksi</b> nykyisen kielen, %1$s sijaan. Myöhemmät lataamasi sivut ovat uudelleen kielellä %1$s.",
 	"change language permanently": "Vaihda vakinaisesti Englanniksi",
 	"reload this page": "Lataa uudelleen kielellä %s",
 	"explore teams": "Tutki tiimejä",
