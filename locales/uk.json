@@ -7,14 +7,15 @@
 			"Олександр",
 			"SimondR",
 			"Vlad5250",
-			"Dubyk"
+			"Dubyk",
+			"Movses"
 		]
 	},
 	"site name": "lib.reviews",
 	"welcome": "Ласкаво просимо!",
 	"intro lead": "<b>Ласкаво просимо на lib.reviews!</b> Ми розбудовуємо вільну й неприбуткову платформу для написання оглядів абсолютно будь-чого й будь-якою мовою.",
 	"intro message": "Ми перебуваємо на ранньому етапі розробки, і станом на зараз, Ви можете зареєструватися лише з посиланням із запрошенням. Якщо Ви не знаєте, як його отримати, стежте за нами на <a href='https://mastodon.technology/@lib_reviews'>Мастодоні</a> <a href='https://twitter.com/lib_reviews'>Твіттері</a> та надішліть нам твіт, а ми надішлемо Вам код.",
-	"find us on": "Ви також можете знайти нас <a href='https://github.com/eloquence/lib.reviews'>на GitHub</a>(<a href='https://notabug.org/freeyourstuff/lib.reviews'>є дзеркало на notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>приєднатись до розсилки листів</a> і спілкуватись з нами на IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> на <a href='https://freenode.net/'>irc.freenode.net</a>). <p>Дивитись <a href='/static/uploads/screencast2.webm'>короткі скринкасти</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube версія</a>) про стан справ станом на жовтень 2016.",
+	"find us on": "Ви також можете знайти нас <a href='https://github.com/eloquence/lib.reviews'>на GitHub</a>(<a href='https://notabug.org/freeyourstuff/lib.reviews'>є дзеркало на notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>приєднатись до розсилки листів</a> і спілкуватись з нами на IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> на <a href='https://freenode.net/'>irc.freenode.net</a>). <p>Дивитись <a href='/static/uploads/screencast3.webm'>короткі скринкасти</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube версія</a>) про стан справ станом на жовтень 2017.",
 	"change language": "Перемкнути на:",
 	"change language button": "Змінити мову",
 	"sign in": "Увійти",
