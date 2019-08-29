@@ -194,6 +194,7 @@
 	"enter team rules": "Anna tiimin säännöt",
 	"mod approval to join": "Tiimin moderaattoreiden on hyväksyttävä uudet tiimin jäsenet",
 	"only mods can blog": "Vain tiimin valvojat voivat lähettää tiimin blogiin",
+	"team name help": "Tiimin nimi liitetään arvosteluihin ja muihin tiimisi töihin.\nKuten muut tekstit, se voidaan kääntää. Mieti, haluatko ryhmäsi olevan globaali (esim. \"Pyöräilyn ystävät\"), vai alueellinen (esim. \"Nairobin pyöräilijät\").",
 	"team motto help": "Mikä elävöittää tai motivoi sinua? Mitä painattaisit t-paitaan? Tämä on lähinnä huvin vuoksi, muutta se saattaa auttaa ihmisiä päättämään haluavatko he liittyä.",
 	"team description help label": "Tiimin kuvaus",
 	"team description help": "Mitä toivot saavuttavasi? Esimerkki voisi olla: \"Auta meitä löytämään maailman herkullisimmat vegaani- tai kasvisruokaravintolat! Parhaimmat arviot näkyvät blogissa.\" Tämä kenttä <a href='http://help.wtf/md' tabindex='-1' target='_blank'>tukee merkintäkoodia</a>.",
