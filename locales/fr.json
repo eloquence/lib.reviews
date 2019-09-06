@@ -396,7 +396,7 @@
 		"one": "une critique correspondante :",
 		"other": "%s critiques correspondantes :"
 	},
-	"search help": "Conseils de recherche : <ul><li>Vous pouvez exclure des termes en les préfixant par <code class='hl'>-</code>, par ex. <code class='hl'>pommes -oranges</code>.<li>Vous pouvez rechercher une phrase exacte en utilisant <code class='hl'>\"des guillemets\"</code>.<li>Vous pouvez utiliser des jokers à la fin pour correspondre à plusieurs mors, par ex., <code class='hl'>Liz*</code> correspondra à Liz et Lizzy.</ul>",
+	"search help": "Conseils de recherche : <ul><li>Vous pouvez exclure des termes en les préfixant par <code class='hl'>-</code>, par ex. <code class='hl'>pommes -oranges</code>.<li>Vous pouvez rechercher une phrase exacte en utilisant <code class='hl'>\"des guillemets anglais\"</code>.<li>Vous pouvez utiliser des jokers à la fin pour correspondre à plusieurs mors, par ex., <code class='hl'>Liz*</code> correspondra à Liz et Lizzy.</ul>",
 	"show more": "Afficher plus",
 	"show less": "Afficher moins",
 	"development diary": "Agenda du développement",
