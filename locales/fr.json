@@ -507,7 +507,7 @@
 	"single year": "(%s)",
 	"year range": "(%1$d - %2$d)",
 	"unknown year": "année inconnue",
-	"html5 video not supported": "Votre navigateur ne prend pas en charge de jouer des vidéos HTML5.",
+	"html5 video not supported": "Votre navigateur ne prend pas en charge les vidéos HTML5.",
 	"html5 audio not supported": "Votre navigateur ne prend pas en charge de jouer des audios HTML5.",
 	"html5 media fallback link": "Vous pouvez <a href=\"%s\" download>télécharger le fichier</a> à la place.",
 	"html5 media description": "Voici une description du contenu : %s",
