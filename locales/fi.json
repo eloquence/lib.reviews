@@ -42,7 +42,7 @@
 	"username too long": "Käyttäjinimi on liian pitkä (max %s merkkiä).",
 	"email too long": "Sähköpostiosoite on liian pitkä (max %s merkkiä).",
 	"password too short": "Salasana on liian lyhyt. Turvallisuutesi vuoksi, valitse salasana jossa on vähintään %s merkkiä.",
-	"username exists": "Meillä on jo käyttäjä, jolla on tämä nimi.",
+	"username exists": "Meillä on jo käyttäjä tällä nimellä.",
 	"write a review": "Kirjoita arvostelu",
 	"new review": "Uusi arvostelu",
 	"help": "Ohje",
