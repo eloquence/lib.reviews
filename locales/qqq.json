@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Liuxinyu970226",
-			"Robby"
+			"Robby",
+			"Verdy p"
 		]
 	},
 	"site name": "Site name shown in page title",
@@ -221,7 +222,7 @@
 	"blog post title help label": "Label for help text for title field on blog form\n{{Identical|Title}}",
 	"blog post title help": "Help text for title field on blog form.",
 	"blog post text": "Label for blog post text on blog form\n{{Identical|Text}}",
-	"blog post text help": "Help text for blog post text on blog form. Please preserve link target and tabindex to ensure form contents are not lost, and that the link remains keyboard accessible.",
+	"blog post text help": "Help text for blog post text on blog form. Please preserve the target and tabindex attributes in links to ensure form contents are not lost, and that the link remains keyboard accessible.\n\nNote: the default URL of the link target for Markdown in the source message in English to \"http://help.wtf/md\" is not secured, and points to a page only in English. If possible, you may replace it with a comparable page translated in the target language of this translation, it should preferably by secured (using HTTPS), and published on a free page under a free licence, and without required tracking cookies for advertizing to preserve the privacy of referers.",
 	"blog post page title": "Title for blog post on blog form. %s is substituted with the title",
 	"enter blog post title": "Placeholder for blog post title field on blog form",
 	"enter blog post": "Placeholder for blog post text field on blog form",
