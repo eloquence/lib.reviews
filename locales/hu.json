@@ -2,10 +2,10 @@
 	"@metadata": {
 		"authors": [
 			"BanKris",
-			"Tacsipacsi",
-			"Urbalazs",
 			"Csigabi",
-			"Eloquence"
+			"Eloquence",
+			"Tacsipacsi",
+			"Urbalazs"
 		]
 	},
 	"site name": "lib.reviews",

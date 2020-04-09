@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby",
 			"Les Meloures",
+			"Robby",
 			"Soued031"
 		]
 	},
@@ -234,7 +234,7 @@
 	"cc-by short": "CC-BY",
 	"cc-by-sa short": "CC-BY-SA",
 	"unsupported file type": "De Fichier '%1$s' ass vum Typ '%2$s', deen net ënnerstëtzt gëtt.",
-	"unrecognized file type": "Mir konnten den Typ vum Fichier '%s' net erkennen a kënnen en dofir net akzetéieren.",
+	"unrecognized file type": "Mir konnten den Typ vum Fichier '%s' net erkennen a kënnen en dofir net akzeptéieren.",
 	"not valid svg": "De Fichier '%s' schéngt kee valabelen SVG-Fichier ze sinn.",
 	"upload needs description": "Mir brauchen eng Beschreiwung fir de Fichier '%s'.",
 	"upload needs source": "Mir brauchen Informatiounen iwwer d'Quell vum Fichier '%s'.",

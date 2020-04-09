@@ -1,11 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"NMaia",
-			"Tirifto",
 			"Eloquence",
-			"YvesNevelsteen",
-			"Robin van der Vliet"
+			"NMaia",
+			"Robin van der Vliet",
+			"Tirifto",
+			"YvesNevelsteen"
 		]
 	},
 	"site name": "lib.reviews",

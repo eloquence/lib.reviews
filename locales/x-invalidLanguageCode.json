@@ -1,5 +1,7 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": []
+	},
 	"site name": "lib.reviews",
 	"welcome": "欢迎！",
 	"intro lead": "<b>欢迎来到lib.reviews！</b>我们正在打造自由、开放、非盈利，可以使用任何语言审查任何事物的平台。",
