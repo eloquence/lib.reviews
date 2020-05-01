@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.14.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:validator:20150313':
@@ -10,11 +10,11 @@ ignore:
     - '*':
         reason: None Given
         expires: 2017-12-17T22:29:43.130Z
-      jquery:
-        reason: not impacting us - file is not exposed
-        expires: '2017-12-17T22:33:55.968Z'
     - jquery-powertip > jquery:
         reason: not impacting us -file is not exposed
+        expires: '2017-12-17T22:33:55.968Z'
+    - jquery:
+        reason: not impacting us - file is not exposed
         expires: '2017-12-17T22:33:55.968Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -24,3 +24,26 @@ patch:
   'npm:debug:20170905':
     - serve-index > debug:
         patched: '2017-09-28T23:17:46.903Z'
+  SNYK-JS-LODASH-567746:
+    - elasticsearch > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - grunt-browserify > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - node-webhooks > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - snyk > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - grunt > grunt-legacy-log > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - grunt-browserify > async > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - request-promise-native > request-promise-core > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - snyk > inquirer > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - snyk > snyk-php-plugin > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
+    - snyk > snyk-nuget-plugin > lodash:
+        patched: '2020-05-01T08:42:42.354Z'
