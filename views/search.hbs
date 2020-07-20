@@ -19,8 +19,8 @@
 {{#each textMatches}}
 <h3><a href="/{{{this._source.urlID}}}">{{{mlString this._source.label}}}</a></h3>
 <p>
-<i>{{{__n "one or multiple matches"  this.inner_hits.reviews.hits.total}}}</i><br>
-{{#each this.inner_hits.reviews.hits.hits}}
+<i>{{{__n "one or multiple matches"  this.inner_hits.review.hits.total.value}}}</i><br>
+{{#each this.inner_hits.review.hits.hits}}
 <b><a href="/review/{{{this._id}}}">{{{mlString this._source.title}}}</a><br></b>
   {{#times this._source.starRating}}
   <img src="/static/img/star-{{../this._source.starRating}}-full.svg" width="20" class="review-star"{{#if @first}} alt="{{{__n "one or multiple stars" ../this._source.starRating}}}"{{/if}}>

@@ -14,6 +14,7 @@ let analyzers = {
   ar: 'arabic',
   hy: 'armenian',
   eu: 'basque',
+  bn: 'bengali',
   pt: 'brazilian',
   bg: 'bulgarian',
   ca: 'catalan',
@@ -23,6 +24,7 @@ let analyzers = {
   da: 'danish',
   nl: 'dutch',
   en: 'english',
+  et: 'estonian',
   fi: 'finnish',
   fr: 'french',
   gl: 'galician',
@@ -57,21 +59,30 @@ let search = {
 
   // Find things by their label or description; performs language fallback
   searchThings(query, lang = 'en') {
-    let options = search.getSearchOptions('things', 'label', lang);
-    let descriptionOptions = search.getSearchOptions('things', 'description', lang);
+    let options = search.getSearchOptions('label', lang);
+    let descriptionOptions = search.getSearchOptions('description', lang);
     options.fields = options.fields.concat(descriptionOptions.fields);
     Object.assign(options.highlight.fields, descriptionOptions.highlight.fields);
 
     return client.search({
       index: 'libreviews',
-      type: 'things',
       body: {
         query: {
-          simple_query_string: {
-            fields: options.fields,
-            query,
-            default_operator: 'and'
-          }
+          bool: {
+            must: [{
+                match: {
+                  type: 'thing'
+                }
+              },
+              {
+                simple_query_string: {
+                  fields: options.fields,
+                  query,
+                  default_operator: 'and'
+                }
+              }
+            ],
+          },
         },
         highlight: options.highlight
       }
@@ -83,20 +94,19 @@ let search = {
   // the thing via parent-child join. The review is returned as an inner hit.
   searchReviews(query, lang = 'en') {
     // Add text fields
-    let options = search.getSearchOptions('reviews', 'text', lang);
+    let options = search.getSearchOptions('text', lang);
 
     // Add title fields
-    let titleOptions = search.getSearchOptions('reviews', 'title', lang);
+    let titleOptions = search.getSearchOptions('title', lang);
     options.fields = options.fields.concat(titleOptions.fields);
 
     Object.assign(options.highlight.fields, titleOptions.highlight.fields);
     return client.search({
       index: 'libreviews',
-      type: 'things',
       body: {
         query: {
           has_child: {
-            type: 'reviews',
+            type: 'review',
             query: {
               simple_query_string: {
                 fields: options.fields,
@@ -139,7 +149,7 @@ let search = {
   },
 
   // Generate language fallback and highlight options.
-  getSearchOptions(type, fieldPrefix, lang) {
+  getSearchOptions(fieldPrefix, lang) {
     let langs = languages.getFallbacks(lang);
     if (lang !== 'en')
       langs.unshift(lang);
@@ -173,7 +183,6 @@ let search = {
 
     let query = {
       index: 'libreviews',
-      type: 'things',
       body: {
         suggest: {}
       }
@@ -195,14 +204,18 @@ let search = {
   indexReview(review) {
     return client.index({
         index: 'libreviews',
-        type: 'reviews',
         id: review.id,
-        parent: review.thingID,
+        routing: review.thingID,
         body: {
           createdOn: review.createdOn,
           title: mlString.stripHTML(review.title),
           text: mlString.stripHTML(review.html),
-          starRating: review.starRating
+          starRating: review.starRating,
+          type: 'review',
+          joined: {
+            name: 'review',
+            parent: review.thingID
+          }
         }
       })
       .catch(error => debug.error({
@@ -214,13 +227,14 @@ let search = {
   indexThing(thing) {
     return client.index({
         index: 'libreviews',
-        type: 'things',
         id: thing.id,
         body: {
           createdOn: thing.createdOn,
           label: mlString.stripHTML(thing.label),
           aliases: mlString.stripHTMLFromArray(thing.aliases),
           description: mlString.stripHTML(thing.description),
+          joined: 'thing',
+          type: 'thing',
           urls: thing.urls,
           urlID: thing.urlID
         }
@@ -233,7 +247,6 @@ let search = {
   deleteThing(thing) {
     return client.delete({
         index: 'libreviews',
-        type: 'things',
         id: thing.id
       })
       .catch(error => debug.error({
@@ -244,8 +257,6 @@ let search = {
   deleteReview(review) {
     return client.delete({
         index: 'libreviews',
-        type: 'reviews',
-        parent: review.thing.id,
         id: review.id
       })
       .catch(error => debug.error({
@@ -276,27 +287,24 @@ let search = {
             }
           },
           mappings: {
-            reviews: {
-              _parent: {
-                type: 'things'
+            properties: {
+              createdOn: {
+                type: 'date'
               },
-              properties: {
-                createdOn: {
-                  type: 'date'
-                },
-                text: search.getMultilingualTextProperties(),
-                title: search.getMultilingualTextProperties()
-              }
-            },
-            things: {
-              properties: {
-                createdOn: {
-                  type: 'date'
-                },
-                urls: search.getURLProperties(),
-                label: search.getMultilingualTextProperties(true),
-                aliases: search.getMultilingualTextProperties(true),
-                description: search.getMultilingualTextProperties()
+              joined: {
+                type: 'join',
+                relations: {
+                  thing: 'review'
+                }
+              },
+              text: search.getMultilingualTextProperties(),
+              title: search.getMultilingualTextProperties(),
+              urls: search.getURLProperties(),
+              label: search.getMultilingualTextProperties(true),
+              aliases: search.getMultilingualTextProperties(true),
+              description: search.getMultilingualTextProperties(),
+              type: {
+                type: 'keyword'
               }
             }
           }
@@ -305,7 +313,9 @@ let search = {
       .catch(error => {
         if (/\[index_already_exists_exception\]/.test(error.message))
           return;
-        debug.error({ error });
+        debug.error({
+          error
+        });
       });
   },
 

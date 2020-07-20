@@ -45,7 +45,7 @@ router.get('/actions/search', function(req, res, next) {
       .all([search.searchThings(query, req.locale), search.searchReviews(query, req.locale)])
       .then(results => {
         let labelMatches = results[0].hits.hits;
-        let textMatches = search.filterDuplicateInnerHighlights(results[1].hits.hits, 'reviews');
+        let textMatches = search.filterDuplicateInnerHighlights(results[1].hits.hits, 'review');
         let noMatches = !labelMatches.length && !textMatches.length;
 
         render.template(req, res, 'search', {
