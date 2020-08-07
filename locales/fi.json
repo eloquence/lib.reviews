@@ -11,7 +11,7 @@
 	"welcome": "Tervetuloa!",
 	"intro lead": "<b>Tervetuloa lib.reviews'iin!</b> Rakennamme vapaata, avointa ja ei-voittoa tavoittelevaa alustaa aivan kaiken arvosteluun, kaikilla kielillä.",
 	"intro message": "Olemme varhaisessa kehityksessä, ja nyt, tarvitset kutsulinkin rekisteröityäksesi. Jos et tiedä miten saat sellaisen, seuraa meitä <a href='https://mastodon.technology/@lib_reviews'>Mastodonissa</a> tai <a href='https://twitter.com/lib_reviews'>Twitterissä</a>, lähetä meille twiitti ja me lähetämme koodin sinulle.",
-	"find us on": "Löydät meidät myös <a href='https://github.com/eloquence/lib.reviews'>GitHubista</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>peilattu notabugiin</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>liity postituslistallemme</a> ja keskustele kanssamme IRC:ssä (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> sivustolla <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Katso <a href='/static/uploads/screencast3.webm'>lyhyt screencast</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube-versio</a>) asioiden tilasta lokakuulta 2017.",
+	"find us on": "Löydät meidät myös <a href='https://github.com/eloquence/lib.reviews'>GitHubista</a> ja keskustele kanssamme IRC:ssä (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> sivustolla <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Katso <a href='/static/uploads/screencast3.webm'>lyhyt screencast</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube-versio</a>) asioiden tilasta lokakuulta 2017.",
 	"change language": "Vaihda kieleen:",
 	"change language button": "Vaihda kieli",
 	"sign in": "Kirjaudu sisään",

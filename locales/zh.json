@@ -2,14 +2,15 @@
 	"@metadata": {
 		"authors": [
 			"Liuxinyu970226",
-			"NeverBehave"
+			"NeverBehave",
+			"列维劳德"
 		]
 	},
 	"site name": "lib.reviews",
 	"welcome": "欢迎！",
 	"intro lead": "<b>欢迎来到lib.reviews！</b>我们正在打造自由、开放、非盈利，可以使用任何语言审查任何事物的平台。",
 	"intro message": "我们正处于早期开发阶段，并且如您所见，您需要邀请链接才能注册。如果您不知道如何获得一个，请关注我们的<a href='https://mastodon.technology/@lib_reviews'>Mastodon</a>或<a href='https://twitter.com/lib_reviews'>Twitter</a>，向我们发送一条toot/推文，然后我们会向您直接发送邮件。",
-	"find us on": "您也可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>（<a href='https://notabug.org/freeyourstuff/lib.reviews'>notabug上的镜像</a>）上找到我们，<a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>加入我们的邮件列表</a>，并在IRC上与我们聊天（<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>频道）。<p>观看有关2017年10月以来相关状态的一段<a href='/static/uploads/screencast3.webm'>短视频</a>（<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube版</a>）。",
+	"find us on": "您也可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>，并在IRC上与我们聊天（<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>频道）。<p>观看有关2017年10月以来相关状态的一段<a href='/static/uploads/screencast3.webm'>短视频</a>（<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube版</a>）。",
 	"change language": "切换到：",
 	"change language button": "更改语言",
 	"sign in": "登录",
@@ -75,7 +76,7 @@
 	"add http": "添加http://",
 	"add https": "添加https://",
 	"freedom": "lib.reviews尊重您的自由：",
-	"code": "<a href='%1$s'>源代码</a>（<a href='%2$s'>notabug镜像</a>）",
+	"code": "<a href='%1$s'>源代码</a>",
 	"signin required": "您必须先<a href='/signin'>登录</a>或<a href='/register'>注册账户</a>。",
 	"complete all required fields": "请完成所有必填字段（带*标记）。",
 	"correct errors": "请改正任何报告的错误。",
