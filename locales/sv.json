@@ -3,6 +3,7 @@
 		"authors": [
 			"Ainali",
 			"Eloquence",
+			"Sabelöga",
 			"Skalman",
 			"WikiPhoenix"
 		]
@@ -11,7 +12,7 @@
 	"welcome": "Välkommen!",
 	"intro lead": "<b>Välkommen till lib.reviews!</b> Vi bygger en fri, öppen och ideell plattform för att recensera absolut allting på valfritt språk.",
 	"intro message": "Vi är i början av utvecklingen och du behöver för tillfället en inbjudningslänk för att skapa ett konto. Om du inte vet hur man får tag på en kan du följa oss <a href='https://mastodon.technology/@lib_reviews'>på Mastodon</a> eller <a href='https://twitter.com/lib_reviews'>på Twitter</a> och twittra till oss så skickar vi en kod till dig i ett meddelande.",
-	"find us on": "Du kan också hitta oss <a href='https://github.com/eloquence/lib.reviews'>på GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>speglas på notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>gå med i vår e-postlista</a> och chatta med oss på IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> på <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Titta på en <a href='/static/uploads/screencast3.webm'>kort presentation</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube-version</a>) om hur allt fungerar från och med oktober 2017.",
+	"find us on": "Du kan också hitta oss <a href='https://github.com/eloquence/lib.reviews'>på GitHub</a> och chatta med oss på IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> på <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Titta på en <a href='/static/uploads/screencast3.webm'>kort presentation</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube-version</a>) om hur allt fungerar från och med oktober 2017.",
 	"change language": "Växla till:",
 	"change language button": "Ändra språk",
 	"sign in": "Logga in",
@@ -77,7 +78,7 @@
 	"add http": "Lägg till http://",
 	"add https": "Lägg till https://",
 	"freedom": "lib.reviews respekterar din frihet:",
-	"code": "<a href='%1$s'>Källkod</a> (<a href='%2$s'>spegling på notabug</a>)",
+	"code": "<a href='%1$s'>Källkod</a>",
 	"signin required": "Du måste <a href='/signin'>logga in</a> eller <a href='/register'>registrera ett konto</a> först.",
 	"complete all required fields": "Fyll i alla nödvändiga fält (markerade med *).",
 	"correct errors": "Korrigera alla rapporterade fel.",
