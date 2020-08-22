@@ -114,7 +114,7 @@ test(`Adapters don't retrieve data from valid URLs that contain no data`, async 
   for (let source in tests) {
     const urls = tests[source].validURLsWithoutData.slice();
     for (let url of urls)
-      await t.throws(tests[source].adapter.lookup(url));
+      await t.throwsAsync(tests[source].adapter.lookup(url));
   }
   t.pass();
 });
