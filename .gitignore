@@ -58,3 +58,6 @@ static/devdocs/backend
 
 # Vagrant box
 /.vagrant
+
+# Auto-generated production config file for Greenlock
+.greenlockrc

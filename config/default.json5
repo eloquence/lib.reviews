@@ -25,14 +25,9 @@
   // Must terminate with /
   qualifiedURL: 'https://lib.reviews/',
 
-  // Web service port. You may have to change this to something like 8000 if you
-  // don't have access to port 80 or it is in use. You can always override this
-  // with a command line argument, hence "default".
-  defaultPort: 80,
-
-  // Change this to something like 127.0.0.1 if you don't want to serve
-  // external requests
-  listenOn: '0.0.0.0',
+  // Port used for development environment. Set this to something like 8000
+  // if you don't want to grant elevated privileges to Node.
+  devPort: 80,
 
   // RethinkDB configuration. We use a connection pool, so you can add
   // additional servers to the array if needed.
@@ -52,20 +47,6 @@
 
   // Set your admin email if you want to request an HTTPS certificate
   adminEmail: "customizeforhttps@notavalidaddress",
-
-  // Should normally not need to be changed, but may also require elevated
-  // privileges
-  httpsPort: 443,
-
-  // Should be true in production
-  forceHTTPS: false,
-
-  // Use staging Let's Encrypt server and show debug messages. Should be false
-  // in production.
-  stageHTTPS: true,
-
-  // You'll need a valid domain if you want HTTPS to work
-  httpsDomains: ["dev.lib.reviews"],
 
   // How many minutes (!) should a session cookie last. Default = 30 days.
   sessionCookieDuration: 43200,
