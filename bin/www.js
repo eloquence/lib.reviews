@@ -20,36 +20,37 @@ if (instance)
 
 const getApp = require('../app');
 const getDB = require('../db').getDB;
-const createServer = require('auto-sni'); // Server with Let's Encrypt support
+const {
+  createServer
+} = require('http');
+const {
+  pathToFileURL
+} = require('url');
+const path = require('path')
+const greenlock = require('greenlock-express')
 
 async function runWebsite() {
   const db = await getDB();
   const app = await getApp(db);
+  const port = normalizePort(process.env.PORT || config.get('devPort'));
 
-  /**
-   * Get port from environment and store in Express.
-   */
-  const port = normalizePort(process.env.PORT || config.get('defaultPort'));
-  app.set('port', port);
+  if (app.get('env') == 'production') {
+    greenlock.init({
+      packageRoot: path.join(__dirname, '..'),
 
-  /**
-   * Create HTTP(S) server.
-   */
-  const server = createServer({
-    email: config.adminEmail,
-    agreeTos: true,
-    domains: config.httpsDomains,
-    // Debug setting for Let's Encrypt certificates.
-    debug: config.stageHTTPS,
-    forceSSL: config.forceHTTPS,
-    ports: {
-      http: port,
-      https: config.httpsPort
-    },
-    ip: config.listenOn
-  }, app);
+      // contact for security and critical bug notices
+      maintainerEmail: config.get('adminEmail'),
 
-  server.on('error', onError);
+      // where to look for configuration
+      configDir: path.join(__dirname, '../config/greenlock'),
+
+      // whether or not to run at cloudscale
+      cluster: false
+    }).serve(app)
+  } else {
+    app.set('port', port);
+    app.listen(port, '127.0.0.1').on('error', onError);
+  }
 }
 
 runWebsite().catch(error => {
