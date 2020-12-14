@@ -658,9 +658,17 @@
     $('#review-via-url-inputs').addClass('hidden');
     $('#review-via-database-inputs').removeClass('hidden');
     // Focusing pops the selection back up, so this check is extra important here
-    if (!$('#review-search-database').val())
-      $('#review-search-database').focus();
     $('#source-selector').toggleClass('hidden', false);
+    if (!$('#review-search-database').val()) {
+      $('#review-search-database').focus();
+      // Ensure focus event to mount autocomplete widget is triggered
+      const focusEvent = new FocusEvent('focus', {
+        view: window,
+        bubbles: false,
+        cancelable: true
+      });
+      $('#review-search-database')[0].dispatchEvent(focusEvent);
+    }
     // Suppress event bubbling up to window, which the AC widget listens to, and
     // which would unmount the autocomplete function
     event.stopPropagation();
