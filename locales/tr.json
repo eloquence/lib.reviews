@@ -48,7 +48,7 @@
 	"already logged in": "Lütfen giriş yapmış olduğunuzu unutmayın. Açıkça ayırt edici roller (örneğin, profesyonel ve kişisel) olmadıkça, kişi başına birden fazla hesap oluşturmayın.",
 	"invalid email format": "\"%s\" geçerli bir e-posta adresi gibi görünmüyor.",
 	"invalid username characters": "Kullanıcı adı aşağıdaki karakterlerden herhangi birini içermemelidir: %s",
-	"unknown error": "Maalesef, bilinmeyen bir hata oluştu. Bu problem kaydedildi.",
+	"unknown error": "Maalesef, bilinmeyen bir hata oluştu. Bu sorun kaydedildi.",
 	"username too long": "Kullanıcı adı çok uzun (en fazla %s karakter).",
 	"email too long": "E-posta adresi çok uzun (en fazla %s karakter).",
 	"password too short": "Şifre çok kısa. Güvenliğiniz için lütfen en az %s karakterli bir şifre seçin.",
