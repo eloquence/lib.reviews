@@ -3,6 +3,7 @@
 		"authors": [
 			"Meno25",
 			"Mido",
+			"NEHAOUA",
 			"Zpizza",
 			"ديفيد",
 			"محمد أحمد عبد الفتاح"
@@ -12,7 +13,7 @@
 	"welcome": "مرحبا!",
 	"intro lead": "<b>مرحبا بكم في lib.reviews!</b>نحن نبني منصة حرة ومفتوحة المصدر وغير هادفة للربح لمراجعة أي شيء على الإطلاق، بأي لغة.",
 	"intro message": "نحن في تنمية مبكرة، والآن، تحتاج إلى رابط الدعوة للتسجيل، إذا كنت لا تعرف كيفية الحصول على واحد، تابعنا <a href='https://mastodon.technology/@lib_reviews'>في ماستودون</a> أو <a href='https://twitter.com/lib_reviews'>في تويتر</a>، وأرسل لنا تغريدة، وسوف نرسل لك رابطًا.",
-	"find us on": "يمكنك أيضا إيجادنا <a href='https://github.com/eloquence/lib.reviews'>في جيثب</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>mirrored to notabug</a>)، <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>انضم لقائمتنا البريدية\n</a> ودردش معنا في آي آر سي (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> في <a href='https://freenode.net/'>irc.freenode.net</a>).<p>شاهد <a href='/static/uploads/screencast3.webm'>short screencast</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=y'>إصدار يوتوب</a>) عن حالة الأشياء اعتبارا من أكتوبر 2017.",
+	"find us on": "يمكنك أيضا إيجادنا <a href='https://github.com/eloquence/lib.reviews'>في جيثب</a> ودردش معنا في آي آر سي (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> في <a href='https://freenode.net/'>irc.freenode.net</a>).<p>شاهد <a href='/static/uploads/screencast3.webm'>short screencast</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=y'>إصدار يوتوب</a>) عن حالة الأشياء اعتبارا من أكتوبر 2017.",
 	"change language": "التبديل إلى",
 	"change language button": "غير اللغة",
 	"sign in": "تسجيل الدخول",
@@ -78,7 +79,7 @@
 	"add http": "إضافة http://",
 	"add https": "إضافة https://",
 	"freedom": "lib.reviews يحترم حريتك:",
-	"code": "<a href='%1$s'>شفرة المصدر</a> (<a href='%2$s'>مرآة نوتابوغ</a>)",
+	"code": "<a href='%1$s'>شفرة المصدر</a>",
 	"signin required": "عليك <a href='/signin'>تسجيل الدخول</a> أو <a href='/register'>تسجيل حساب</a> أولا.",
 	"complete all required fields": "يُرجَى ملء جميع الحقول المطلوبة (التي تحمل علامة *).",
 	"correct errors": "الرجاء تصحيح كافة الأخطاء المبلغ عنها.",
