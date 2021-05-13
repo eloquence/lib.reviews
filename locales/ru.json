@@ -87,7 +87,7 @@
 	"add http": "Добавить http://",
 	"add https": "Добавить https://",
 	"freedom": "lib.reviews уважает вашу свободу:",
-	"code": "<a href='%1$s'>Исходный код</a> (<a href='%2$s'>зеркало на notabug</a>)",
+	"code": "<a href='%1$s'>Исходный код</a>",
 	"signin required": "Сначала вы должны <a href='/signin'>войти в систему</a> или <a href='/register'>зарегистрировать учётную запись</a>.",
 	"correct errors": "Пожалуйста, исправьте все обнаруженные ошибки.",
 	"need review-url": "Для этого обзора нужен URL-адрес.",
