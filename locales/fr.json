@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Derugon",
 			"Ed g2s",
 			"Eloquence",
@@ -513,7 +514,7 @@
 	"html5 audio not supported": "Votre navigateur ne prend pas en charge l’audio HTML5.",
 	"html5 media fallback link": "Vous pouvez <a href=\"%s\" download>télécharger le fichier</a> à la place.",
 	"html5 media description": "Voici une description du contenu : %s",
-	"previously reviewed": "Vous avez déja relu ce sujet :",
+	"previously reviewed": "Vous avez déjà relu ce sujet :",
 	"abandon form changes": "Voulez-vous abandonner le contenu de ce formulaire et modifier votre critique existante ?",
 	"pick a different subject": "Choisir un thème différent",
 	"previously reviewed submission": "Vous avez <a href='%1$s' target='_blank'>déjà écrit une critique</a> sur ce sujet. Vous pouvez <a href='%2$s' target='_blank'>modifier votre critique existante</a> (en l’ouvrant dans un nouvel onglet) mais vous ne pouvez pas publier une critique supplémentaire.",
