@@ -65,7 +65,7 @@ const rules = [{
   {
     host: /^(www\.)?tripadvisor\.com$/,
     tags: ['reviews', 'databases'],
-    id: 'yelp'
+    id: 'tripadvisor'
   },
   {
     host: /^(www\.)?indiebound\.org$/,
