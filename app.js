@@ -96,7 +96,7 @@ async function getApp(db = require('./db')) {
   app.set('views', path.join(__dirname, 'views'));
 
   asyncJobs.push(new Promise(resolveJob =>
-    hbsutils.registerWatchedPartials(__dirname + '/views/partials', undefined, () => resolveJob())
+    hbsutils.registerPartials(__dirname + '/views/partials', undefined, () => resolveJob())
   ));
 
   app.set('view engine', 'hbs');
