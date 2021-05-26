@@ -2,7 +2,7 @@
 
 Thanks for taking a look! If you just want to write reviews, please see the [instructions for getting an account](https://lib.reviews/register). For technical/design contributions, read on.
 
-We welcome contributions to [any of our open issues](https://github.com/eloquence/lib.reviews/issues), as well as new ideas. Issues tagged as "[good for new contributors](https://github.com/eloquence/lib.reviews/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+for+new+contributors%22)" don't require in-depth knowledge of the whole codebase. We're happy to set aside time for personal coaching in the codebase (e.g., via video-conference/screen-sharing). Ping `Eloquence` on `#lib.reviews` (irc.freenode.net, also accessible [via web interface](https://matrix.to/#/#lib.reviews:matrix.org)) to get started.
+We welcome contributions to [any of our open issues](https://github.com/eloquence/lib.reviews/issues), as well as new ideas. Issues tagged as "[good for new contributors](https://github.com/eloquence/lib.reviews/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+for+new+contributors%22)" don't require in-depth knowledge of the whole codebase. We're happy to set aside time for personal coaching in the codebase (e.g., via video-conference/screen-sharing). Ping `Eloquence` on `#lib.reviews` (irc.libera.chat) to get started.
 
 # Technical overview
 

@@ -126,6 +126,6 @@
      password: "fixme",
      debug: true
    },
-   server: "chat.freenode.net"
+   server: "irc.libera.chat"
   }
 }
