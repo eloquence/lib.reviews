@@ -10,7 +10,7 @@ const path = require('path');
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '../config');
 
 const config = require('config');
-const irc = require('irc');
+const irc = require('irc-upd');
 const bot = new irc.Client(config.irc.server, config.irc.options.userName, config.irc.options);
 
 const bodyParser = require('body-parser');
