@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"2axterix2",
+			"Agent",
 			"Eloquence",
 			"Fitoschido",
 			"Frisjon",
@@ -18,7 +19,7 @@
 	"welcome": "¡Bienvenidos!",
 	"intro lead": "<b>¡Te damos la bienvenida a lib.reviews!</b> Estamos creando una plataforma libre, abierta y sin fines de lucro para reseñar cualquier cosa, en todas las lenguas.",
 	"intro message": "El desarrollo está en sus primeras etapas y, por ahora, necesitas un enlace de invitación para registrarte. Si no sabes cómo conseguir uno, síguenos en Twitter <a href='https://mastodon.technology/@lib_reviews'>on Mastodon</a> o <a href='https://twitter.com/lib_reviews'>, envíanos un trino/tuit y te contactaremos por DM.",
-	"find us on": "También puedes encontrarnos <a href='https://github.com/eloquence/lib.reviews'>en GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>replicado en notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>suscribirte a nuestra lista</a> y charlar con nosotros por IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> en <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Mira un <a href='/static/uploads/screencast3.webm'>vídeo breve</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE'>versión de YouTube</a>) sobre la situación del proyecto a partir de octubre de 2016.",
+	"find us on": "También puedes encontrarnos <a href='https://github.com/eloquence/lib.reviews'>en GitHub</a> y charlar con nosotros en IRC (<b>#liv.reviews</b> en <a href='https://libera.chat'>libera.chat/</a>).<p>Mira un <a href='/static/uploads/screencast3.webm'>vídeo breve</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE'>versión de YouTube</a>) sobre la situación del proyecto a partir de octubre de 2016.",
 	"change language": "Cambiar a:",
 	"change language button": "Cambiar idioma",
 	"sign in": "Acceder",

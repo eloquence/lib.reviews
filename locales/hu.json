@@ -12,7 +12,7 @@
 	"welcome": "Üdvözlünk!",
 	"intro lead": "<b>Üdvözlünk a lib.reviews oldalán!</b> Mi egy ingyenes, nyitott és non-profit platformot építünk abszolút bárminek az értékelésére, bármilyen nyelven.",
 	"intro message": "Ez egy korai fejlesztés, és most, szükséged van egy meghívó linkre a regisztrációhoz. Ha nem tudod, hogyan szerezz egyet, kövesd a <a href='https://twitter.com/lib_reviews'>lib_reviews</a>-t Twitteren, küld nekünk egy tweet-et, és mi majd küldünk neked egy üzenetet.",
-	"find us on": "Szintén megtalálsz minket <a href='https://github.com/eloquence/lib.reviews'>GitHub</a>-on (<a href='https://notabug.org/freeyourstuff/lib.reviews'>notabug-ra tükrözve</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>csatlakozz a levelezési listánkhoz</a> és beszélgess velünk IRC-n (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> a <a href='https://freenode.net/'>irc.freenode.net oldalon</a>). <p>Néz meg egy <a href='/static/uploads/screencast2.webm'>rövid felvételt</a> (<a href='https://youtu.be/wjUasbFfCbU'>YouTube változat</a>) a dolgok 2016 októberi állásáról.",
+	"find us on": "Szintén megtalálsz minket <a href='https://github.com/eloquence/lib.reviews'>GitHubon</a>, és beszélgethetsz velünk IRC-n (<b>#lib.reviews</b> a <a href='https://libera.chat/'>libera.chat</a>-en). <p>Néz meg egy <a href='/static/uploads/screencast3.webm'>rövid felvételt</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube-változat</a>) a dolgok 2017. októberi állásáról.",
 	"change language": "Nyelvváltás:",
 	"change language button": "Nyelv megváltoztatása",
 	"sign in": "Bejelentkezés",
