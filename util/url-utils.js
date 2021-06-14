@@ -100,7 +100,7 @@ const placement = {
   databases: ['wikidata', 'imdb'],
   maps: ['openstreetmap'],
   reviews: ['yelp', 'tripadvisor', 'goodreads'],
-  shops: ['indiebound', 'itch', 'steam', 'amazon'],
+  shops: ['indiebound', 'itch', 'gog', 'steam', 'amazon'],
   summaries: ['wikipedia']
 };
 
