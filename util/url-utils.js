@@ -86,7 +86,12 @@ const rules = [{
     host: /^(.*\.)?itch\.io$/,
     tags: ['shops'],
     id: 'itch'
-  }
+  },
+  {
+    host: /^(www\.)?gog\.com$/,
+    tags: ['shops'],
+    id: 'gog'
+  },
 ];
 
 // Preferred order. We generally rank open data before proprietary data, and
