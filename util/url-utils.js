@@ -72,13 +72,21 @@ const rules = [{
     tags: ['shops'],
     id: 'indiebound'
   },
-
   {
     host: /^([a-z]*)?wikipedia\.org$/,
     tags: ['summaries', 'databases', 'opendata'],
-    id: 'yelp'
+    id: 'wikipedia'
+  },
+  {
+    host: /^store\.steampowered\.com$/,
+    tags: ['shops', 'reviews'],
+    id: 'steam'
+  },
+  {
+    host: /^(.*\.)?itch\.io$/,
+    tags: ['shops'],
+    id: 'itch'
   }
-
 ];
 
 // Preferred order. We generally rank open data before proprietary data, and
@@ -87,7 +95,7 @@ const placement = {
   databases: ['wikidata', 'imdb'],
   maps: ['openstreetmap'],
   reviews: ['yelp', 'tripadvisor', 'goodreads'],
-  shops: ['indiebound', 'amazon'],
+  shops: ['indiebound', 'itch', 'steam', 'amazon'],
   summaries: ['wikipedia']
 };
 
