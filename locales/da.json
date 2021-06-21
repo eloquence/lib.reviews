@@ -234,6 +234,8 @@
 	"openstreetmap source label": "OpenStreetMap",
 	"tripadvisor source label": "TripAdvisor",
 	"wikipedia source label": "Wikipedia",
+	"steam source label": "Steam",
+	"gog source label": "GOG.com",
 	"unknown year": "ukendt år",
 	"html5 media description": "Her er en beskrivelse af indholdet: %s",
 	"license in caption": "Licens: %s",
