@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"GuoPC",
 			"Liuxinyu970226",
 			"NeverBehave",
 			"列维劳德"
@@ -10,7 +11,7 @@
 	"welcome": "欢迎！",
 	"intro lead": "<b>欢迎来到lib.reviews！</b>我们正在打造自由、开放、非盈利，可以使用任何语言审查任何事物的平台。",
 	"intro message": "我们正处于早期开发阶段，并且如您所见，您需要邀请链接才能注册。如果您不知道如何获得一个，请关注我们的<a href='https://mastodon.technology/@lib_reviews'>Mastodon</a>或<a href='https://twitter.com/lib_reviews'>Twitter</a>，向我们发送一条toot/推文，然后我们会向您直接发送邮件。",
-	"find us on": "您也可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>，并在IRC上与我们聊天（<a href='https://freenode.net/'>irc.freenode.net</a>上的<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a>频道）。<p>观看有关2017年10月以来相关状态的一段<a href='/static/uploads/screencast3.webm'>短视频</a>（<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube版</a>）。",
+	"find us on": "您也可以在<a href='https://github.com/eloquence/lib.reviews'>GitHub</a>，并在IRC上与我们聊天（<a href='https://libera.chat/'>libera.chat</a>上的<b>#lib.reviews</b>频道）。<p>观看有关2017年10月以来相关状态的一段<a href='/static/uploads/screencast3.webm'>短视频</a>（<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube版</a>）。",
 	"change language": "切换到：",
 	"change language button": "更改语言",
 	"sign in": "登录",
@@ -491,6 +492,9 @@
 	"tripadvisor source label": "猫途鹰",
 	"wikipedia source label": "维基百科",
 	"indiebound source label": "IndieBound",
+	"steam source label": "Steam",
+	"itch source label": "itch.io",
+	"gog source label": "GOG.com",
 	"search databases button label": "搜索数据库",
 	"review via wikidata help label": "搜索维基数据",
 	"review via openlibrary help label": "搜索开放图书馆",
