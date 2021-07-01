@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Anto",
 			"Beta16",
 			"Eloquence",
@@ -317,6 +318,7 @@
 	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) o pubblico dominio",
 	"cc-by": "Licenza Creative Commons Attribuzione (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
 	"cc-by-sa": "Licenza Creative Commons Attribuzione-Condividi allo stesso modo (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
+	"fair use short": "Fair use",
 	"cc-0 short": "CC-0 o pubblico dominio",
 	"cc-by short": "CC BY",
 	"cc-by-sa short": "CC BY-SA",
@@ -412,6 +414,9 @@
 	"tripadvisor source label": "TripAdvisor",
 	"wikipedia source label": "Wikipedia",
 	"indiebound source label": "IndieBound",
+	"steam source label": "Steam",
+	"itch source label": "itch.io",
+	"gog source label": "GOG.com",
 	"multiple editions": "%d edizione %s",
 	"single year": "(%s)",
 	"year range": "(%1$d - %2$d)",
@@ -419,6 +424,7 @@
 	"html5 media fallback link": "Puoi <a href=\"%s\" download>scaricare il file</a> invece.",
 	"license in caption": "Licenza: %s",
 	"public domain in caption": "Pubblico dominio",
+	"fair use in caption": "Fair use",
 	"rights in caption, own work": "Opera propria. %s.",
 	"rights in caption, someone else's work": "Crediti: %1$s. %2$s.",
 	"uploaded files title": "File caricati",
