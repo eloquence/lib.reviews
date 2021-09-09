@@ -164,6 +164,11 @@
         <div class="pure-u-1 pure-u-md-2-3">
 
       <input id="review-language" name="review-language" type="hidden" data-ignore-autosave value="{{currentLanguage.langKey}}">
+      <details id="review-form-details">
+      <summary id="review-form-details-summary">
+      <b>{{{__ "additional review settings"}}}</b>
+      </summary>
+      <div id="review-form-details-teams">
       <b>{{{__ "teams to associate"}}}</b>
       <p>
       {{#if user.teams}}
@@ -173,6 +178,26 @@
       {{else}}
       <span class="fa fa-info-circle fa-fw info-icon">&nbsp;</span> {{{__ "not member of any teams yet"}}}
       {{/if}}
+      </p>
+      </div>
+      <div id="review-form-details-social-image">
+      <b>{{{__ "social media image"}}}</b>
+      <p>
+      <select id="social-media-image-select" name="review-social-image" class="pure-input-1">
+        {{#if thing.files}}
+        <option value="">{{{__ "no social media image"}}}</option>
+        {{#each thing.files}}
+        {{{../formValues.socialImageID}}}
+        {{{this.id}}}
+        <option {{#if (lookup ../formValues.hasSocialImageID this.id)}}selected{{/if}} value="{{{this.id}}}">{{{this.name}}}: {{{summarize (mlString this.description false) 80}}}</option>
+        {{/each}}
+        {{else}}
+        <option value="">{{{__ "no social media image"}}}</option>
+        {{/if}}
+      </select>
+    </p>
+    </div>
+      </details>
 
     </div>
     </div>

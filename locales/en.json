@@ -328,7 +328,7 @@
     "upload needs creator": "We need information about the creator for file '%s'.",
     "upload needs source": "We need information about the source for file '%s'.",
     "upload needs license": "We need information about the license for file '%s'.",
-    "teams to associate": "Teams to associate your review with (optional)",
+    "teams to associate": "Teams to associate your review with",
     "not member of any teams yet": "You're not a member of any teams yet. Teams put you in touch with reviewers who share your interests, and they help readers find your reviews. <a href='/teams' target='_blank'>Join or start a team.</a>",
     "submitted team could not be found": "The relevant record for the team you are trying to add to your review could not be found. Perhaps it has been deleted?",
     "user is not member of submitted team": "You do not appear to be a member of a team you submitted. Perhaps you just left it?",
@@ -528,5 +528,9 @@
    "wikidata license": "Data from <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> is available under <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
    "openstreetmap license": "Data from <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> is available under the <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
    "openlibrary license": "Data from <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> is <a href='https://openlibrary.org/developers/licensing' target='_blank'>in the public domain</a>.",
-   "data gratitude": "lib.reviews is only a small part of a larger <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>free culture movement</a>. We are deeply grateful to all who contribute to this movement."
+   "data gratitude": "lib.reviews is only a small part of a larger <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>free culture movement</a>. We are deeply grateful to all who contribute to this movement.",
+   "additional review settings": "Additional settings",
+   "social media image": "Social media image (for link previews)",
+   "no social media image": "(Do not set an image)",
+   "invalid image selected": "Invalid social media image selected."
 }

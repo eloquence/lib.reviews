@@ -214,9 +214,18 @@ function uploadModalItem(mediaNodes, schema) {
         tr = addCaption({ description, schema, state, transaction: tr });
         dispatch(tr);
 
-        if ($form.length)
+        if ($form.length) {
           $form.append(`<input type="hidden" ` +
             ` name="uploaded-file-${upload.fileID}" value="1">`);
+          if ($form.find('#social-media-image-select').length) {
+            let summarizedDesc = upload.description[config.language].substr(0, 80);
+            if (upload.description[config.language].length > 80)
+              summarizedDesc += '...';
+            $('#social-media-image-select').append(`<option value="${upload.fileID}">` +
+            `${upload.uploadedFileName}: ${summarizedDesc}` +
+            `</option>`);
+          }
+        }
         view.focus();
       });
     }

@@ -46,7 +46,11 @@ hbs.registerHelper('link', function(url, title, singleQuotes) {
 
 // Strips HTML and shortens to specified length
 hbs.registerHelper('summarize', function(html, length) {
-  return stripTags(html.substr(0, length)) + '...';
+  let stripped = stripTags(html);
+  let shortened = stripped.substr(0, length);
+  if (stripped.length > length)
+    shortened += '...';
+  return shortened;
 });
 
 hbs.registerHelper('userLink', userLink);

@@ -64,13 +64,13 @@ class ReviewProvider extends AbstractBREADProvider {
       titleKey: titleParam ? 'review of' : 'review',
       titleParam,
       deferPageHeader: true,
+      socialImage: review.socialImage ? encodeURIComponent(review.socialImage.name) : review.headerImage,
       review
     });
 
   }
 
   add_GET(formValues, thing) {
-
     let pageErrors = this.req.flash('pageErrors');
     let pageMessages = this.req.flash('pageMessages');
     let user = this.req.user;
@@ -85,6 +85,10 @@ class ReviewProvider extends AbstractBREADProvider {
       formValues.hasTeam = {};
       if (Array.isArray(formValues.teams))
         formValues.teams.forEach(team => (formValues.hasTeam[team.id] = true));
+        if (formValues.socialImageID)
+          formValues.hasSocialImageID = {
+            [formValues.socialImageID]: true
+          };
     }
 
     if (user.suppressedNotices &&
@@ -298,12 +302,20 @@ class ReviewProvider extends AbstractBREADProvider {
           })
           .then(newRev => {
             let f = formData.formValues;
+
+            Review.validateSocialImage({
+              socialImageID: f.socialImageID,
+              newFileIDs: f.files,
+              fileObjects: review.thing.files
+            });
+
             newRev.title[language] = f.title[language];
             newRev.text[language] = f.text[language];
             newRev.html[language] = f.html[language];
             newRev.starRating = f.starRating;
             newRev.teams = f.teams;
             newRev.thing = review.thing;
+            newRev.socialImageID = f.socialImageID;
             this.saveNewRevisionAndFiles(newRev, f.files)
               .then(() => {
                 search.indexReview(review);
@@ -473,10 +485,16 @@ ReviewProvider.formDefs = {
       keyValueMap: 'teams'
     },
     {
+      name: 'review-social-image',
+      type: 'uuid',
+      key: 'socialImageID',
+      required: false
+    },
+    {
       name: 'uploaded-file-%uuid',
       required: false,
       keyValueMap: 'files'
-    }
+    },
   ],
   'delete-review': [{
     name: 'delete-action',
@@ -519,6 +537,12 @@ ReviewProvider.formDefs = {
       name: 'uploaded-file-%uuid',
       required: false,
       keyValueMap: 'files'
+    },
+    {
+      name: 'review-social-image',
+      type: 'uuid',
+      key: 'socialImageID',
+      required: false
     }
   ]
 };
