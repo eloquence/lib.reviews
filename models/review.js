@@ -14,6 +14,8 @@ const mlString = require('./helpers/ml-string');
 const ReportedError = require('../util/reported-error');
 const User = require('./user');
 const Thing = require('./thing');
+const File = require('./file');
+
 const revision = require('./helpers/revision');
 const isValidLanguage = require('../locales/languages').isValid;
 const adapters = require('../adapters/adapters');
@@ -42,6 +44,8 @@ let reviewSchema = {
   // translation permissions separately from edit permissions
   originalLanguage: type.string().max(4).validator(isValidLanguage),
 
+  socialImageID: type.string().uuid(4),
+
   // These can only be populated from the outside using a user object
   userCanDelete: type.virtual().default(false),
   userCanEdit: type.virtual().default(false),
@@ -62,6 +66,7 @@ Object.freeze(Review.options);
 
 Review.belongsTo(User, "creator", "createdBy", "id");
 Review.belongsTo(Thing, "thing", "thingID", "id");
+Review.belongsTo(File, "socialImage", "socialImageID", "id");
 Thing.hasMany(Review, "reviews", "id", "thingID");
 Review.ensureIndex("createdOn");
 
@@ -91,8 +96,11 @@ Review.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(Review);
 Review.getWithData = async function(id) {
   return await Review
     .getNotStaleOrDeleted(id, {
-      thing: true,
+      thing: {
+        files: true,
+      },
       teams: true,
+      socialImage: true,
       creator: {
         _apply: seq => seq.without('password')
       }
@@ -138,6 +146,13 @@ Review.create = async function(reviewObj, { tags, files } = {}) {
       ]
     });
 
+  // Only images associated with the review subject can be selected
+  Review.validateSocialImage({
+    socialImageID: reviewObj.socialImageID,
+    newFileIDs: files,
+    fileObjects: thing.files
+  });
+
   // If we uploaded files in the process of writing this review, we add them
   // to the associated review subject
   if (Array.isArray(files))
@@ -153,6 +168,7 @@ Review.create = async function(reviewObj, { tags, files } = {}) {
     createdOn: reviewObj.createdOn,
     createdBy: reviewObj.createdBy,
     originalLanguage: reviewObj.originalLanguage,
+    socialImageID: reviewObj.socialImageID,
     _revID: r.uuid(),
     _revUser: reviewObj.createdBy,
     _revDate: reviewObj.createdOn,
@@ -175,6 +191,43 @@ Review.create = async function(reviewObj, { tags, files } = {}) {
       });
   }
 };
+
+/**
+ * Ensure that the social media image specified for this review is associated
+ * already with the review subject, or in the list of newly uploaded files.
+ * Throws a ReviewError if not.
+ *
+ * @param {Object} [options]
+ *  Validation data
+ * @param {String} options.socialImageID
+ *  Social media image UUID
+ * @param {String[]} options.newFileIDs
+ *  Array of newly uploaded file IDs
+ * @param {File[]} options.fileObjects
+ *  Array of previously uploaded file objects associated with review subject
+ *
+ */
+Review.validateSocialImage = function({
+  socialImageID = undefined,
+  newFileIDs = [],
+  fileObjects = []
+  } = {}) {
+
+  if (socialImageID) {
+    let isValidFile = false;
+    for (let file of fileObjects) {
+      if (file.id == socialImageID)
+        isValidFile = true;
+    }
+    for (let fileID of newFileIDs) {
+      if (fileID == socialImageID)
+        isValidFile = true;
+    }
+    if (!isValidFile)
+      throw new ReviewError({ userMessage: 'invalid image selected' });
+  }
+};
+
 
 /**
  * Locate the review subject (Thing) for a new review, or create and save a new

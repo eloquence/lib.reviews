@@ -20,14 +20,8 @@ if (instance)
 
 const getApp = require('../app');
 const getDB = require('../db').getDB;
-const {
-  createServer
-} = require('http');
-const {
-  pathToFileURL
-} = require('url');
-const path = require('path')
-const greenlock = require('greenlock-express')
+const path = require('path');
+const greenlock = require('greenlock-express');
 
 async function runWebsite() {
   const db = await getDB();
@@ -46,7 +40,7 @@ async function runWebsite() {
 
       // whether or not to run at cloudscale
       cluster: false
-    }).serve(app)
+    }).serve(app);
   } else {
     app.set('port', port);
     app.listen(port, '127.0.0.1').on('error', onError);

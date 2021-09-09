@@ -8,6 +8,9 @@ const languages = require('../../locales/languages');
 // Used for field names in forms that support UUID wildcards
 const uuidRegex = '([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})';
 
+// Used for the UUID type
+const uuidRegexStrict = new RegExp(`^${uuidRegex}$`);
+
 let forms = {
   // TODO: refactor me
   /* eslint complexity: "off" */
@@ -102,6 +105,14 @@ let forms = {
 
           case 'number':
             val = Number(req.body[field.name].trim());
+            break;
+
+          case 'uuid':
+            if (!uuidRegexStrict.test(req.body[field.name].trim())) {
+              val = null;
+            } else {
+              val = req.body[field.name].trim();
+            }
             break;
 
           case 'url':

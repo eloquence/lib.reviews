@@ -1015,21 +1015,21 @@ div.dangerous-content {
 
 // Override standard caret, since it's not supported by all
 // browsers so we have to add our own anyway
-summary.content-warning-notice::-webkit-details-marker {
+summary.content-warning-notice::-webkit-details-marker, #review-form-details-summary::-webkit-details-marker {
     display: none;
 }
 
-summary.content-warning-notice {
+summary.content-warning-notice, #review-form-details-summary {
   display: inline; // Shrinks focus border on click
 }
 
-details.content-warning summary.content-warning-notice:before {
+details.content-warning summary.content-warning-notice:before, #review-form-details #review-form-details-summary:before {
   content: '\f0da';
   font-family: 'FontAwesome';
   padding-right: 5px;
 }
 
-details.content-warning[open] summary.content-warning-notice:before {
+details.content-warning[open] summary.content-warning-notice:before, #review-form-details[open] #review-form-details-summary:before {
   content: '\f0d7';
   font-family: 'FontAwesome';
   padding-right: 5px;
@@ -1205,6 +1205,16 @@ details.content-warning[open] summary.content-warning-notice:before {
 .file-table-file {
   padding-bottom:1.5em;
 }
+
+#review-form-details-teams, #review-form-details-social-image {
+  padding-left:1em;
+  padding-top:1em;
+}
+
+#social-media-image-select {
+  height: 2.5em;
+}
+
 
 
 // ------------- End content styles --------------------------------------------
