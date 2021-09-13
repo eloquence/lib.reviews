@@ -270,5 +270,8 @@
 	"show uploads": "올린 미디어 보기",
 	"hide uploads": "올린 미디어 숨기기",
 	"caption label": "설명",
-	"source data licensing": "소스 데이터 라이선스:"
+	"source data licensing": "소스 데이터 라이선스:",
+	"additional review settings": "추가 설정",
+	"social media image": "소셜 미디어 이미지(링크 미리 보기용)",
+	"invalid image selected": "유효하지 않은 소셜 미디어 이미지가 선택되었습니다."
 }

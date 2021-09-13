@@ -336,7 +336,7 @@
 	"upload needs creator": "Ќе ни требаат информации за создавачот на податотеката „%s“.",
 	"upload needs source": "Ќе ни требаат информации за изворот на податотеката „%s“.",
 	"upload needs license": "Ќе ни требаат информации за лиценцата на податотеката „%s“.",
-	"teams to associate": "Со кои екипи да го поврзете вашиот осврт (незадолжително)",
+	"teams to associate": "Со кои екипи да го поврзете вашиот осврт",
 	"not member of any teams yet": "Засега не членувате во ниедна екипа. Екипите ви овозможуваат да бидете во контакт со другите што ги делат вашите интереси, и ви помагаат читателите да дојдат до вашите осврти. <a href='/teams' target='_blank'>Зачленете се или започнете екипа.</a>",
 	"submitted team could not be found": "Не е пронајден релевантниот запис за екипата што сакате да ја додадете во вашиот осврт. Да не е избришан?",
 	"user is not member of submitted team": "Не членувате во екипата што ја поднесовте. Да не ја имате неодамна напуштено?",
@@ -534,5 +534,9 @@
 	"wikidata license": "Податоците од <a href='https://www.wikidata.org/wiki/Wikidata:Main_Page?uselang=mk' target='_blank'>Википодатоците</a> се достапни под лиценцата <a href='https://creativecommons.org/publicdomain/zero/1.0/deed.mk/' target='_blank'>Криејтив комонс CC-0</a>.",
 	"openstreetmap license": "Податоците од <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> се достапни под <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Лиценцата за отворени бази (ODbL)</a>.",
 	"openlibrary license": "Податоците од <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> се <a href='https://openlibrary.org/developers/licensing' target='_blank'>во јавна сопственост</a>.",
-	"data gratitude": "lib.reviews сочинува само мал дел од поголемото <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>движење за слободна култура</a>. Би сакале да искажеме длабока благодарност кон сите кои учествуваат во него."
+	"data gratitude": "lib.reviews сочинува само мал дел од поголемото <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>движење за слободна култура</a>. Би сакале да искажеме длабока благодарност кон сите кои учествуваат во него.",
+	"additional review settings": "Дополнителни поставки",
+	"social media image": "Слика од друштвени медиуми (за преглед на врски)",
+	"no social media image": "(Не задавај слика)",
+	"invalid image selected": "Избрана е неважечка слика од друштвени медиуми."
 }

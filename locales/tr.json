@@ -349,7 +349,7 @@
 	"upload needs creator": "'%s' dosyası için içerik oluşturucu hakkında bilgiye ihtiyacımız var.",
 	"upload needs source": "'%s' dosyasının kaynağı hakkında bilgiye ihtiyacımız var.",
 	"upload needs license": "'%s' dosyası için lisans hakkında bilgiye ihtiyacımız var.",
-	"teams to associate": "İncelemenizle ilişkilendirilecek ekipler (isteğe bağlı)",
+	"teams to associate": "İncelemenizle ilişkilendirilecek ekipler",
 	"not member of any teams yet": "Henüz hiçbir ekibin üyesi değilsiniz. Ekipler, ilgi alanlarınızı paylaşan yorumcularla sizi iletişim kurar ve okuyucuların yorumlarınızı bulmasına yardımcı olur. <a href='/teams' target='_blank'>Bir ekibe katılın veya bir ekip başlatın.</a>",
 	"submitted team could not be found": "İncelemenize eklemeye çalıştığınız ekibin ilgili kaydı bulunamadı. Belki silindi?",
 	"user is not member of submitted team": "Gönderdiğiniz bir ekibin üyesi görünmüyorsunuz. Belki daha yeni mi gittin?",
@@ -547,5 +547,9 @@
 	"wikidata license": "<a href='https://www.wikidata.org/' target='_blank'>Vikiveri</a>'deki veriler <a href ='https://creativecommons.org/publicdomain/zero/1.0/deed.tr'target ='_blank'>Creative Commons CC-0</a> adresinden edinilebilir.",
 	"openstreetmap license": "<a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> sitesindeki veriler <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Açık Veritabanı Lisansı (ODbL)</a> adresinden edinilebilir.",
 	"openlibrary license": "<a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a>'den gelen veriler <a href='https://openlibrary.org/developers/licensing 'target='_blank'>kamu malı alanda</a>.",
-	"data gratitude": "lib.reviews, daha büyük bir <a href='https://tr.wikipedia.org/wiki/Özgür_kültür_hareketi' target='_blank'>özgür kültür hareketinin</a> sadece küçük bir parçasıdır. Bu harekete katkıda bulunan herkese derinden minnettarız."
+	"data gratitude": "lib.reviews, daha büyük bir <a href='https://tr.wikipedia.org/wiki/Özgür_kültür_hareketi' target='_blank'>özgür kültür hareketinin</a> sadece küçük bir parçasıdır. Bu harekete katkıda bulunan herkese derinden minnettarız.",
+	"additional review settings": "Ek ayarlar",
+	"social media image": "Sosyal medya resmi (bağlantı önizlemeleri için)",
+	"no social media image": "(Görüntü ayarlamayın)",
+	"invalid image selected": "Geçersiz sosyal medya resmi seçildi."
 }

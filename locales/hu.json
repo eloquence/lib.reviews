@@ -4,6 +4,7 @@
 			"BanKris",
 			"Csigabi",
 			"Eloquence",
+			"Hanna Tardos",
 			"Tacsipacsi",
 			"Urbalazs"
 		]
@@ -321,7 +322,7 @@
 	"upload needs creator": "Szükségünk van információra a(z) '%s' fájl készítőjéről.",
 	"upload needs source": "Szükségünk van információra a(z) '%s' fájl forrásáról.",
 	"upload needs license": "Szükségünk van információra a(z) '%s' fájl licencéről.",
-	"teams to associate": "Az értékelésedhez társított csapatok (opcionális)",
+	"teams to associate": "Az értékelésedhez társított csapatok",
 	"not member of any teams yet": "Még nem vagy tagja egyik csapatnak sem. A csapatok közelebb hoznak más értékelőkkel, akik hasonló érdeklődésűek, és segítik az olvasókat, az értékelésed megtalálásában. <a href='/teams' target='_blank'>Csatlakozz vagy csinálj egy csapatot.</a>",
 	"submitted team could not be found": "A vonatkozó csapat, amelyet hozzá akartál adni az értékelésedhez, nem található. Talán törölték?",
 	"user is not member of submitted team": "Nem úgy tűnik, hogy tagja lennél annak a csapatnak. amelyet megadtál. Talán kiléptél?",

@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"BriskyBlizzard",
+			"MITO",
 			"Nike",
 			"Pyscowicz",
 			"Silvonen"
@@ -528,5 +529,7 @@
 	"wikidata license": "Tiedot <a href='https://www.wikidata.org/' target='_blank'>Wikidatasta</a> ovat saatavilla <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a> -lisenssillä.",
 	"openstreetmap license": "Tiedot <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMapista</a> ovat saatavilla <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a> -lisenssillä.",
 	"openlibrary license": "Tiedot <a href='https://openlibrary.org/' target='_blank'>OpenLibrarysta</a> ovat <a href='https://openlibrary.org/developers/licensing' target='_blank'>tekijänoikeudettomia</a>.",
-	"data gratitude": "lib.reviews on vain pieni osa suurempaa <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>vapaan kulttuurin liikettä</a>. Olemme erittäin kiitollisia kaikille, jotka osallistuvat tähän liikkeeseen."
+	"data gratitude": "lib.reviews on vain pieni osa suurempaa <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>vapaan kulttuurin liikettä</a>. Olemme erittäin kiitollisia kaikille, jotka osallistuvat tähän liikkeeseen.",
+	"additional review settings": "Lisäasetukset",
+	"invalid image selected": "Virheellinen sosiaalisen median kuva valittu."
 }

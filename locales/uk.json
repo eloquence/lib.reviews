@@ -345,7 +345,7 @@
 	"upload needs creator": "Нам потрібна інформація про творця файлу «%s».",
 	"upload needs source": "Нам потрібна інформація про джерело файлу «%s».",
 	"upload needs license": "Нам потрібна інформація про ліцензію файлу «%s».",
-	"teams to associate": "Команди, з якими слід пов'язати Ваш опис (необов'язково)",
+	"teams to associate": "Команди, з якими слід пов'язати Ваш опис",
 	"not member of any teams yet": "Ви ще не є членом будь-якої з команд. Команди тримають Вас на зв'язку з оглядачами, з якими у Вас є спільні інтереси, і вони допомагають читачам знайти Ваші відгуки. <a href='/teams' target='_blank'>Приєднайтесь, або започаткуйте нову команду.</a>",
 	"submitted team could not be found": "Відповідний запис для команди, яку Ви намагаєтесь додати до свого огляду, не вдалося знайти. Можливо, його було вилучено?",
 	"user is not member of submitted team": "Не схоже, щоб Ви були членом команди, яку Ви вказали. Можливо, Ви щойно покинули її?",
@@ -547,5 +547,9 @@
 	"wikidata license": "Дані з <a href='https://www.wikidata.org/' target='_blank'>Вікіданих</a> доступні під <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
 	"openstreetmap license": "Дані з <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> доступні за ліцензією <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
 	"openlibrary license": "Дані з <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> є <a href='https://openlibrary.org/developers/licensing' target='_blank'>у суспільному надбанні</a>.",
-	"data gratitude": "lib.reviews - це лише мала частина більшого <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>руху за вільну культуру</a>. Ми глибоко вдячні всім, хто робить свій внесок у цей рух."
+	"data gratitude": "lib.reviews - це лише мала частина більшого <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>руху за вільну культуру</a>. Ми глибоко вдячні всім, хто робить свій внесок у цей рух.",
+	"additional review settings": "Додаткові налаштування",
+	"social media image": "Зображення в соціальних мережах (для попереднього перегляду посилань)",
+	"no social media image": "(Не встановлювати зображення)",
+	"invalid image selected": "Обрано недійсне зображення в соціальних мережах."
 }
