@@ -86,6 +86,35 @@ const revision = {
   },
 
   /**
+   * Shortcut for a getAll/filter operation that returns objects matching a
+   * given list of IDs.
+   *
+   * @param {Model} Model
+   *  the table to filter
+   * @returns {Function}
+   *  function that returns a Query object for this Model
+   * @memberof Revision
+   */
+  getMultipleNotStaleOrDeletedHandler(Model) {
+
+    /**
+     * Function obtained via {@link Revision.getMultipleNotStaleOrDeletedHandler}.
+     *
+     * @returns {Query}
+     *  objects that are not flagged as outdated or deleted
+     * @param {String[]} idArray
+     *  an array of primary key IDs
+     * @memberof Revision
+     * @inner
+     */
+    const getMultipleNotStaleOrDeleted = idArray => Model
+      .getAll(...idArray, { index: 'id' })
+      .filter({ _revDeleted: false }, { default: true })
+      .filter({ _oldRevOf: false }, { default: true });
+    return getMultipleNotStaleOrDeleted;
+  },
+
+  /**
    * Get handler to `.get()` an object by its ID and reject with standardized
    * error if it is an old or deleted revision.
    *

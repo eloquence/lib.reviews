@@ -184,11 +184,9 @@
       <b>{{{__ "social media image"}}}</b>
       <p>
       <select id="social-media-image-select" name="review-social-image" class="pure-input-1">
-        {{#if thing.files}}
+        {{#if formValues.uploads}}
         <option value="">{{{__ "no social media image"}}}</option>
-        {{#each thing.files}}
-        {{{../formValues.socialImageID}}}
-        {{{this.id}}}
+        {{#each formValues.uploads}}
         <option {{#if (lookup ../formValues.hasSocialImageID this.id)}}selected{{/if}} value="{{{this.id}}}">{{{this.name}}}: {{{summarize (mlString this.description false) 80}}}</option>
         {{/each}}
         {{else}}

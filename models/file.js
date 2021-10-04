@@ -49,6 +49,7 @@ File.ensureIndex("uploadedOn");
 File.createFirstRevision = revision.getFirstRevisionHandler(File);
 File.getNotStaleOrDeleted = revision.getNotStaleOrDeletedGetHandler(File);
 File.filterNotStaleOrDeleted = revision.getNotStaleOrDeletedFilterHandler(File);
+File.getMultipleNotStaleOrDeleted = revision.getMultipleNotStaleOrDeletedHandler(File);
 
 // Custom handlers
 

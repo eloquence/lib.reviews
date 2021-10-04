@@ -6,6 +6,7 @@ const config = require('config');
 const Review = require('../../models/review');
 const Team = require('../../models/team');
 const User = require('../../models/user');
+const File = require('../../models/file');
 const AbstractBREADProvider = require('./abstract-bread-provider');
 const mlString = require('../../models/helpers/ml-string.js');
 const urlUtils = require('../../util/url-utils');
@@ -89,6 +90,8 @@ class ReviewProvider extends AbstractBREADProvider {
           formValues.hasSocialImageID = {
             [formValues.socialImageID]: true
           };
+      if (thing && thing.files)
+        formValues.uploads = thing.files;
     }
 
     if (user.suppressedNotices &&
@@ -178,14 +181,20 @@ class ReviewProvider extends AbstractBREADProvider {
     formData.formValues.originalLanguage = language;
 
     // Files uploaded from the editor
-    if (typeof formData.formValues.files == 'object')
-      formData.formValues.files = Object.keys(formData.formValues.files);
+    formData.formValues.files = typeof formData.formValues.files == 'object' ?
+      Object.keys(formData.formValues.files) : [];
 
     this
       .resolveTeamData(formData.formValues)
-      .then(() => {
-
+      .then(() => File.getMultipleNotStaleOrDeleted(formData.formValues.files))
+      .then(uploadedFiles => {
         const reviewObj = Object.assign({}, formData.formValues);
+
+        // Pass existing and newly uploaded forms on to the form, so they
+        // can both be selected. (This does not need to be included with the
+        // review object that will be created.)
+        formData.formValues.uploads = thing && thing.files ? uploadedFiles.concat(thing.files) :
+          uploadedFiles;
 
         if (thing && thing.id)
           reviewObj.thing = thing;
@@ -278,8 +287,8 @@ class ReviewProvider extends AbstractBREADProvider {
       this.isPreview = true;
     }
 
-    if (typeof formData.formValues.files == 'object')
-      formData.formValues.files = Object.keys(formData.formValues.files);
+    formData.formValues.files = typeof formData.formValues.files == 'object' ?
+      Object.keys(formData.formValues.files) : [];
 
     const abort = error => {
       if (error)
@@ -289,7 +298,12 @@ class ReviewProvider extends AbstractBREADProvider {
 
     this
       .resolveTeamData(formData.formValues)
-      .then(() => {
+      .then(() => File.getMultipleNotStaleOrDeleted(formData.formValues.files))
+      .then(uploadedFiles => {
+
+        formData.formValues.uploads = review.thing.files ? uploadedFiles.concat(review.thing.files) :
+          uploadedFiles;
+
         // As with creation, back to edit form if we have errors or
         // are previewing
         if (this.isPreview || this.req.flashHas('pageErrors'))
