@@ -15,3 +15,31 @@
 {{> review review=review singleReview=true}}
 </div>
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{{mlString review.thing.label false}}}",
+  "description": "{{{mlString review.thing.description false}}}",
+{{#if socialImage}}  "image": "{{{qualifiedURL}}}static/uploads/{{{socialImage}}}",
+{{/if}}  "review": [
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "{{{review.creator.displayName}}}"
+      },
+      "datePublished": "{{{review.createdOn}}}",
+      "reviewBody": "{{{summarize (mlString review.html false) 250}}}",
+      "headline": "{{{mlString review.title}}}",
+      "reviewRating": {
+        "@type": "Rating",
+        "bestRating": "5",
+        "ratingValue": "{{{review.starRating}}}",
+        "worstRating": "1"
+      }
+    }
+  ]
+}
+</script>
