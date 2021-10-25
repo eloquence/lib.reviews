@@ -147,7 +147,7 @@
 	"error details": "Будь ласка, вкажіть у своєму звіті таке:",
 	"delete": "Вилучити",
 	"page not found title": "Сторінку не знайдено",
-	"page not found": "Не схоже, щоб тут щось було. Якщо Ви думаєте, що це баґ, можете <a href='https://github.com/eloquence/lib.reviews/issues/new'>повідомити про нього</a>.",
+	"page not found": "Не схоже, щоб тут щось було. Якщо Ви думаєте, що це помилка, можете <a href='https://github.com/eloquence/lib.reviews/issues/new'>повідомити про нього</a>.",
 	"delete review": "Вилучити огляд",
 	"delete file": "Вилучити файл",
 	"edit review": "Редагувати огляд",
