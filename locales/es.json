@@ -3,6 +3,7 @@
 		"authors": [
 			"2axterix2",
 			"Agent",
+			"Avengium",
 			"Eloquence",
 			"Fitoschido",
 			"Frisjon",
@@ -85,7 +86,7 @@
 	"add http": "Añadir http://",
 	"add https": "Añadir https://",
 	"freedom": "lib.reviews respeta tu libertad:",
-	"code": "<a href='%1$s'>Código fuente</a> (<a href='%2$s'>réplica en Notabug</a>)",
+	"code": "<a href='%1$s'>Código fuente</a>",
 	"signin required": "Primero debes <a href='/signin'>acceder a tu cuenta</a> o <a href='/register'>registrarte</a>.",
 	"complete all required fields": "Completa todos los campos obligatorios (marcados con un *).",
 	"correct errors": "Corrige todos los errores encontrados.",
@@ -344,7 +345,7 @@
 	"upload needs creator": "Es necesaria información sobre el creador del archivo «%s».",
 	"upload needs source": "Es necesaria información sobre el origen del archivo «%s».",
 	"upload needs license": "Es necesaria información sobre la licencia del archivo «%s».",
-	"teams to associate": "Equipos con los que asociar tu reseña (opcional)",
+	"teams to associate": "Equipos con los que asociar tu reseña",
 	"not member of any teams yet": "Todavía no perteneces a ningún equipo. Los equipos te ponen en contacto con reseñadores que comparten tus intereses y ayudan a los lectores a encontrar tus reseñas. <a href='/teams' target='_blank'>Únete a un equipo o crea uno.</a>",
 	"submitted team could not be found": "El registro pertinente del equipo al que has tratado de añadir tu reseña no se pudo encontrar. Quizá se ha eliminado.",
 	"user is not member of submitted team": "No pareces pertenecer al equipo que has enviado. Quizá lo acabas de abandonar.",
@@ -539,5 +540,9 @@
 	"hide uploads": "Ocultar multimedia cargada",
 	"caption label": "Leyenda",
 	"source data licensing": "Licencia de fuente de datos:",
-	"wikidata license": "Datos de <a href=\"https://www.wikidata.org/'target='_blank'>Wikidata</a> está disponible bajo <a href=\"https://creativecommons.org/publicdomain/zero/1.0/'target='_blank'>Creativo Commons CC-0</a>."
+	"wikidata license": "Datos de <a href=\"https://www.wikidata.org/'target='_blank'>Wikidata</a> está disponible bajo <a href=\"https://creativecommons.org/publicdomain/zero/1.0/'target='_blank'>Creativo Commons CC-0</a>.",
+	"additional review settings": "Ajustes adicionales",
+	"social media image": "Imagen de redes sociales (para vistas previas de enlaces)",
+	"no social media image": "(No establecer una imagen)",
+	"invalid image selected": "Se seleccionó una imagen de redes sociales no válida."
 }
