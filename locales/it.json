@@ -330,7 +330,7 @@
 	"upload needs creator": "Abbiamo bisogno di informazioni sul creatore del file '%s'.",
 	"upload needs source": "Abbiamo bisogno di informazioni sull'origine per il file '% s'.",
 	"upload needs license": "Abbiamo bisogno di informazioni sulla licenza per il file '%s'.",
-	"teams to associate": "Team da associare alla tua recensione (facoltativo)",
+	"teams to associate": "Team da associare alla tua recensione",
 	"not member of any teams yet": "Non sei membro di alcun team ancora. I team ti mettono in contratto con altri recensori  che condividono i tuoi interessi, e aiutano i lettori a trovare le tue recensioni. <a href='/teams' target='_blank'>Unisciti o crea un team.</a>",
 	"submitted team could not be found": "Il record relativo al team che stai cercando di aggiungere alla tua recensione non è stato trovato. Forse è stato cancellato?",
 	"user is not member of submitted team": "Non sembra che tu sia un membro di un team che hai inviato. Forse sei appena uscito?",
