@@ -4,6 +4,7 @@
 			"Eloquence",
 			"NMaia",
 			"Robin van der Vliet",
+			"Spenĉjo",
 			"Tirifto",
 			"YvesNevelsteen"
 		]
@@ -128,7 +129,7 @@
 	"review not found title": "Recenzo ne trovita",
 	"review not found": "Ni ne trovis recenzon per la donita adreso, '%s'. Eble ĝi estis forigita?",
 	"enter label": "Entajpu mallongan priskriban etikedon",
-	"enter thing description": "Eniri nelongan priskribon",
+	"enter thing description": "Entajpu mallongan priskribon",
 	"save": "Konservi",
 	"cancel": "Nuligi",
 	"review of": "Recenzo: %s",
