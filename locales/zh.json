@@ -4,6 +4,7 @@
 			"GuoPC",
 			"Liuxinyu970226",
 			"NeverBehave",
+			"Winston Sung",
 			"列维劳德"
 		]
 	},
@@ -164,7 +165,7 @@
 	"site error": "<b>错误：</b>%s",
 	"notification language-changed": "您更改了您的语言参数设置。这意味着当您创建或编辑内容时，我们假定它是<b>简体中文</b>版。当内容语言与您刚刚设置的语言不同时，我们也将向您显示一点小指示（您可以帮助翻译）。",
 	"invalid language": "请求的语言无效，或不被认可。",
-	"edit saved": "您的编辑已保存。哗哗！",
+	"edit saved": "已保存您的编辑。哗哗！",
 	"current language": "语言：",
 	"user": "用户：%s",
 	"user not found": "找不到用户",
