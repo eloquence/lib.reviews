@@ -19,7 +19,7 @@
 	"welcome": "Bienvenue !",
 	"intro lead": "<b>Bienvenue dans lib.reviews !</b> Nous construisons une plateforme libre, ouverte et à but non lucratif pour écrire des critiques d’absolument n’importe quoi, dans n’importe quelle langue.",
 	"intro message": "Nous en sommes au début du développement, et pour l’instant, vous avez besoin d’un lien d’invitation pour vous inscrire. Si vous ne savez pas comment en obtenir un, suivez-nous <a href=\"https://mastodon.technology/@lib_reviews\">sur Mastodon</a> ou <a href=\"https://twitter.com/lib_reviews\">sur Twitter</a>, postez y un message et nous vous recontacterons directement.",
-	"find us on": "Vous pouvez également nous trouver <a href=\"https://github.com/eloquence/lib.reviews\">sur GitHub</a> et discuter avec nous sur IRC (<a href=\"https://matrix.to/#/#lib.reviews:matrix.org\">#lib.reviews</a> sur <a href=\"https://freenode.net/\">irc .freenode.net</a>).</p> <p>Regardez un <a href=\"/static/uploads/screencast3.webm\">court-métrage</a> (<a href=\"https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be\">version YouTube</a>) sur l’état d’avancement en octobre 2017.",
+	"find us on": "Vous pouvez également nous trouver <a href=\"https://github.com/eloquence/lib.reviews\">sur GitHub</a> et discuter avec nous sur IRC (<b>#lib.reviews</b> sur <a href=\"https://libera.chat/\">libera.chat</a>).</p><p>Regardez un <a href=\"/static/uploads/screencast3.webm\">court-métrage</a> (<a href=\"https://youtu.be/vHX33WbLrVE\">version YouTube</a>) sur l’état d’avancement en octobre 2017.",
 	"change language": "Basculer vers :",
 	"change language button": "Changer de langue",
 	"sign in": "Se connecter",

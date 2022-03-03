@@ -10,7 +10,7 @@
 	"welcome": "Welcome message shown in page title of frontpage\n{{Identical|Welcome}}",
 	"intro lead": "Introduction shown on frontpage",
 	"intro message": "Introduction shown on frontpage",
-	"find us on": "Introduction shown on frontpage",
+	"find us on": "Introduction shown on frontpage. Notes:\n* The link to the IRC channel was changed to use Libera.Chat, instead of the previous hosting provider which must no longer be referenced in any translation.\n* The dummy parameter <code>&amp;feature=youtu.be</code> has no use on Youtube in the link provided for the short screencast. It is dropped when your visit the target site and should be removed from the given URL in translations. Youtube instead instructs to use this short URL \"https://youtu.be/vHX33WbLrVE\" for sharing videos as URLs on the web.",
 	"change language": "Language switcher shown at the bottom of every page",
 	"change language button": "Label fur button in the footer that executes a language change.",
 	"sign in": "Button for signing into the site\n{{Identical|Sign in}}",
