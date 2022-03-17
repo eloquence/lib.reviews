@@ -13,7 +13,7 @@
 	"welcome": "مرحبا!",
 	"intro lead": "<b>مرحبا بكم في lib.reviews!</b>نحن نبني منصة حرة ومفتوحة المصدر وغير هادفة للربح لمراجعة أي شيء على الإطلاق، بأي لغة.",
 	"intro message": "نحن في تنمية مبكرة، والآن، تحتاج إلى رابط الدعوة للتسجيل، إذا كنت لا تعرف كيفية الحصول على واحد، تابعنا <a href='https://mastodon.technology/@lib_reviews'>في ماستودون</a> أو <a href='https://twitter.com/lib_reviews'>في تويتر</a>، وأرسل لنا تغريدة، وسوف نرسل لك رابطًا.",
-	"find us on": "يمكنك أيضا إيجادنا <a href='https://github.com/eloquence/lib.reviews'>في جيثب</a> ودردش معنا في آي آر سي (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> في <a href='https://freenode.net/'>irc.freenode.net</a>).<p>شاهد <a href='/static/uploads/screencast3.webm'>short screencast</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=y'>إصدار يوتوب</a>) عن حالة الأشياء اعتبارا من أكتوبر 2017.",
+	"find us on": "يمكنك أيضا إيجادنا <a href='https://github.com/eloquence/lib.reviews'>في جيثب</a> ودردش معنا في آي آر سي (<b>#lib.reviews</b> on <a href='https://libera.chat/'>libera.chat</a>).<p>شاهد <a href='/static/uploads/screencast3.webm'>short screencast</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=y'>إصدار يوتوب</a>) عن حالة الأشياء اعتبارا من أكتوبر 2017.",
 	"change language": "التبديل إلى",
 	"change language button": "غير اللغة",
 	"sign in": "تسجيل الدخول",
@@ -494,6 +494,9 @@
 	"tripadvisor source label": "في مستشار الرحلة",
 	"wikipedia source label": "ويكيبيديا",
 	"indiebound source label": "إنديبوند",
+	"steam source label": "ستيم",
+	"itch source label": "itch.io",
+	"gog source label": "GOG.com",
 	"search databases button label": "البحث في قواعد البيانات",
 	"review via wikidata help label": "بحث ويكي بيانات",
 	"review via openlibrary help label": "البحث في المكتبة المفتوحة",
@@ -533,5 +536,9 @@
 	"wikidata license": "تتوفر البيانات من <a href='https://www.wikidata.org/' target='_blank'>ويكي بيانات</a> تحت <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>المشاع الإبداعي CC-0</a>.",
 	"openstreetmap license": "تتوفر بيانات <a href='https://www.openstreetmap.org/' target='_blank'>خريطة الشارع المفتوحة</a> تحت <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>رخصة قاعدة بيانات حرة (ODbL)</a>.",
 	"openlibrary license": "البيانات من <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> <a href='https://openlibrary.org/developers/licensing' target='_blank'>في الملكية العامة</a>.",
-	"data gratitude": "lib.reviews جزء صغير فقط من <a href='https://ar.wikipedia.org/wiki/حركة الثقافة الحرة' target='_blank'>حركة ثقافة حرة</a> أكبر، نشعر بامتنان عميق لجميع الذين يساهمون في هذه الحركة."
+	"data gratitude": "lib.reviews جزء صغير فقط من <a href='https://ar.wikipedia.org/wiki/حركة الثقافة الحرة' target='_blank'>حركة ثقافة حرة</a> أكبر، نشعر بامتنان عميق لجميع الذين يساهمون في هذه الحركة.",
+	"additional review settings": "إعدادات إضافية",
+	"social media image": "صورة وسائل التواصل الاجتماعي (لعرض الوصلات)",
+	"no social media image": "(لا تضبط صورة)",
+	"invalid image selected": "صورة وسائل التواصل الاجتماعي المختارة غير صحيحة."
 }

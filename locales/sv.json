@@ -12,7 +12,7 @@
 	"welcome": "Välkommen!",
 	"intro lead": "<b>Välkommen till lib.reviews!</b> Vi bygger en fri, öppen och ideell plattform för att recensera absolut allting på valfritt språk.",
 	"intro message": "Vi är i början av utvecklingen och du behöver för tillfället en inbjudningslänk för att skapa ett konto. Om du inte vet hur man får tag på en kan du följa oss <a href='https://mastodon.technology/@lib_reviews'>på Mastodon</a> eller <a href='https://twitter.com/lib_reviews'>på Twitter</a> och twittra till oss så skickar vi en kod till dig i ett meddelande.",
-	"find us on": "Du kan också hitta oss <a href='https://github.com/eloquence/lib.reviews'>på GitHub</a> och chatta med oss på IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> på <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Titta på en <a href='/static/uploads/screencast3.webm'>kort presentation</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube-version</a>) om hur allt fungerar från och med oktober 2017.",
+	"find us on": "Du kan också hitta oss <a href='https://github.com/eloquence/lib.reviews'>på GitHub</a> och chatta med oss på IRC (<b>#lib.reviews</b> på <a href='https://libera.chat/'>libera.chat</a>).<p>Titta på en <a href='/static/uploads/screencast3.webm'>kort presentation</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>YouTube-version</a>) om hur allt fungerar från och med oktober 2017.",
 	"change language": "Växla till:",
 	"change language button": "Ändra språk",
 	"sign in": "Logga in",
@@ -337,7 +337,7 @@
 	"upload needs creator": "Vi behöver information om skaparen för filen \"%s\".",
 	"upload needs source": "Vi behöver information om källan för filen \"%s\".",
 	"upload needs license": "Vi behöver information om licensen för filen \"%s\".",
-	"teams to associate": "Grupper att associera din recension med (valfritt)",
+	"teams to associate": "Grupper att associera din recension med",
 	"not member of any teams yet": "Du är inte medlem i någon grupp ännu. Grupper låter dig komma i kontakt med recensenter som delar dina intressen och de hjälper läsare att hitta dina recensioner. <a href='/teams' target='_blank'>Gå med eller starta en grupp.</a>",
 	"submitted team could not be found": "Den relevanta posten för gruppen du försöker lägga in i din recension kunde inte hittas. Den kanske har raderats?",
 	"user is not member of submitted team": "Du verkar inte vara medlem i en grupp som du angav. Du kanske lämnade den nyss?",
@@ -493,6 +493,9 @@
 	"tripadvisor source label": "TripAdvisor",
 	"wikipedia source label": "Wikipedia",
 	"indiebound source label": "IndieBound",
+	"steam source label": "Steam",
+	"itch source label": "itch.io",
+	"gog source label": "GOG.com",
 	"search databases button label": "Sök i databaser",
 	"review via wikidata help label": "Sök på Wikipedia",
 	"review via openlibrary help label": "Sök i Open Library",
@@ -532,5 +535,9 @@
 	"wikidata license": "Data från <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> är tillgänglig under <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
 	"openstreetmap license": "Data från <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> är tillgänglig under <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
 	"openlibrary license": "Data från <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> är <a href='https://openlibrary.org/developers/licensing' target='_blank'>allmän egendom</a>.",
-	"data gratitude": "lib.reviews är endast en liten del av en större <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>rörelse för fri kultur</a>. Vi är mycket tacksamma till alla som bidrar till denna rörelse."
+	"data gratitude": "lib.reviews är endast en liten del av en större <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>rörelse för fri kultur</a>. Vi är mycket tacksamma till alla som bidrar till denna rörelse.",
+	"additional review settings": "Ytterligare inställningar",
+	"social media image": "Bild från sociala medier (för förhandsvisningar)",
+	"no social media image": "(Ange ingen bild)",
+	"invalid image selected": "Ogiltig bild från sociala medier vald."
 }
