@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"FiberAhmed",
 			"Meno25",
 			"Mido",
 			"NEHAOUA",
@@ -205,7 +206,7 @@
 	"maintenance mode": "متوقف للصيانة",
 	"in maintenance mode": "lib.reviews متوقف حاليا للصيانة/للتحديثات، نعتذر عن أي إزعاج، وينبغي أن تعود قريبا!",
 	"need team-name": "نحن بحاجة إلى اسم فريق.",
-	"need team-motto": "ونحن بحاجة إلى شعار فريق (كن مبدعا:-).",
+	"need team-motto": "ونحن بحاجة إلى شعار فريق (كن مبدعًا:-).",
 	"need team-description": "نحن بحاجة إلى وصف للفريق.",
 	"need team-rules": "نحن بحاجة إلى قواعد الفريق.",
 	"team title": "فريق: %s",
