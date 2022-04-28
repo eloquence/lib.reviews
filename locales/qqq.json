@@ -465,7 +465,7 @@
 	"summaries tag label": "Label for a group of external links to descriptions/summaries regarding a review subject.",
 	"maps tag label": "Label for a group of external links to maps regarding a review subject.\n{{Identical|Map}}",
 	"reviews tag label": "Label for a group of external links to additional review sites that have an entry for this review subject.",
-	"opendata tag label": "Label for a group of external links to open data sources regarding a review subject.",
+	"opendata tag label": "Label for a group of external links to open data sources regarding a review subject.\n\n{{Identical|Open data}}",
 	"shops tag label": "Label for a group of external links to online stores that relate to the review subject.",
 	"imdb source label": "Label that is used when describing review subject metadata sourced to IMDb, or links to IMDb.",
 	"amazon source label": "Label that is used when describing review subject metadata sourced to Amazon, or links to Amazon.",
