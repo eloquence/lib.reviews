@@ -227,6 +227,9 @@
 	"rights in caption, own work": "Gurey ho %s.",
 	"rights in caption, someone else's work": "Kerdış : %1$s. %2$s.",
 	"source in upload summary": "Çıme: %s",
+	"uploaded files title": "Dosyeyê ke bar biyê",
 	"description": "Şınasnayış",
-	"file usage": "Gurenayışê dosya"
+	"uploader": "Barkerdoğ",
+	"file usage": "Gurenayışê dosya",
+	"upload date": "Tarixê barkerdışi"
 }
