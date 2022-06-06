@@ -3,6 +3,7 @@
 		"authors": [
 			"FiberAhmed",
 			"Meno25",
+			"Michel Bakni",
 			"Mido",
 			"NEHAOUA",
 			"Zpizza",
@@ -514,7 +515,7 @@
 	"html5 media description": "في ما يلي وصف للمحتوى: %s",
 	"previously reviewed": "لقد سبق لك مراجعة هذا الموضوع:",
 	"abandon form changes": "هل تريد التخلي عن محتويات هذا النموذج وتعديل مراجعتك الحالية؟",
-	"pick a different subject": "اختر موضوعا مختلفا",
+	"pick a different subject": "اختر موضوعاً مختلفاً",
 	"previously reviewed submission": "لقد <a href='%1$s' target='_blank'> كتبت بالفعل مراجعة</a> لهذا الموضوع، يمكنك <a href='%2$s' target='_blank'>تعديل المراجعة الحالية</a> (يُفتَح في علامة تبويب جديدة) ولكن لا يمكنك نشر مراجعة إضافية.",
 	"please enter description": "الرجاء إدخال وصف.",
 	"please specify rights": "يُرجَى تحديد حالة حقوق التأليف والنشر.",
