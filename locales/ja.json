@@ -8,6 +8,7 @@
 			"Omotecho",
 			"Otokoume",
 			"Phantomize",
+			"Saurmandal",
 			"Shirayuki",
 			"ネイ"
 		]
@@ -53,7 +54,7 @@
 	"help": "ヘルプ",
 	"review url": "レビュー対象のURL",
 	"review url help label": "URL",
-	"enter web address": "ウェブアドレスを入力、例：ttp://www.oregon.com/attractions/multnomah_falls",
+	"enter web address": "ウェブアドレスを入力、例：http://www.oregon.com/attractions/multnomah_falls",
 	"review url help": "レビューしようとしている場所／モノ／コトが記述されているウェブアドレス(URL)を選んでください。例：公式サイト、ショップサイトのアイテムのアドレス等、対象を識別できるURL。",
 	"review title": "あなたのレビューのタイトル",
 	"review title help label": "タイトル",
