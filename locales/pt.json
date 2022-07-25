@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Duke of Wikipädia",
 			"Eduardo Addad de Oliveira",
 			"Eduardoaddad",
 			"Eloquence",
@@ -15,7 +16,7 @@
 	"welcome": "Boas vindas!",
 	"intro lead": "<b>Boas vindas ao lib.reviews!</b> Estamos construindo uma plataforma livre, aberta e sem fins lucrativos para resenhas sobre absolutamente qualquer coisa, em qualquer idioma.",
 	"intro message": "Estamos na fase inicial de desenvolvimento, e por ora, você precisa de um convite para se registrar. Se não sabe como o obter, siga-nos <a href='https://mastodon.technology/@lib_reviews'>no Mastodon</a> ou <a href=\"https://twitter.com/lib_reviews\">no Twitter</a>, envie-nos um tuíte, e nós enviaremos-lhe uma mensagem direta.",
-	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a> (<a href='https://notabug.org/freeyourstuff/lib.reviews'>com um espelho no Notabug</a>), <a href='http://lists.freeculture.org/mailman/listinfo/lib.reviews'>participar na nossa lista de discussão</a> e conversar conosco através do IRC (<a href='https://matrix.to/#/#lib.reviews:matrix.org'>#lib.reviews</a> em <a href='https://freenode.net/'>irc.freenode.net</a>).<p>Assista a um <a href='/static/uploads/screencast3.webm'>breve vídeo</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2017.",
+	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a> e conversar conosco através do IRC (<b>#lib.reviews</b> em <a href='https://libera.chat/'>libera.chat</a>).<p>Assista a um <a href='/static/uploads/screencast3.webm'>breve vídeo</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2017.",
 	"change language": "Mudar para:",
 	"change language button": "Alterar idioma",
 	"sign in": "Entrar",
@@ -81,7 +82,7 @@
 	"add http": "Adicionar http://",
 	"add https": "Adicionar https://",
 	"freedom": "lib.reviews respeita a sua liberdade:",
-	"code": "<a href='%1$s'>Código-fonte</a> (<a href='%2$s'>espelho no Notabug</a>)",
+	"code": "<a href='%1$s'>Código-fonte</a>",
 	"signin required": "Você deve <a href='/signin'>iniciar a sessão</a> ou <a href='/register'>criar uma conta</a> primeiro.",
 	"complete all required fields": "Por favor, preencha todos os campos obrigatórios (marcados com *).",
 	"correct errors": "Por favor, corrija todos os erros indicados.",
@@ -340,7 +341,7 @@
 	"upload needs creator": "Precisamos de informações sobre o criador do arquivo '%s'.",
 	"upload needs source": "Precisamos de informações sobre a fonte do arquivo '%s'.",
 	"upload needs license": "Precisamos de informações sobre a licença do ficheiro '%s'.",
-	"teams to associate": "Equipes a associar à sua resenha (opcional)",
+	"teams to associate": "Equipes para associar à sua avaliação",
 	"not member of any teams yet": "Você ainda não é membro de nenhuma equipe. As equipes servem para o colocar em contato com editores que compartilham os seus interesses e ajudam os leitores a encontrar as suas resenhas. <a href='/teams' target='_blank'>Junte-se ou crie uma equipe.</a>",
 	"submitted team could not be found": "Não encontramos o registro sobre a equipe que você está tentando associar à sua resenha. Talvez tenha sido apagada?",
 	"user is not member of submitted team": "Você não parece ser membro da equipe que indicou. Talvez tenha acabado de sair do grupo?",
@@ -538,5 +539,9 @@
 	"wikidata license": "Os dados do <a href='https://www.wikidata.org/' target='_blank'>Wikidata</a> estão disponíveis nos termos da licença <a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>Creative Commons CC-0</a>.",
 	"openstreetmap license": "Os dados do <a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> estão disponíveis nos termos da licença <a href='https://opendatacommons.org/licenses/odbl/' target='_blank'>Open Database License (ODbL)</a>.",
 	"openlibrary license": "Os dados do <a href='https://openlibrary.org/' target='_blank'>OpenLibrary</a> encontram-se disponíveis <a href='https://openlibrary.org/developers/licensing' target='_blank'>no domínio público</a>.",
-	"data gratitude": "O lib.reviews é apenas uma pequena parte de um grande <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>movimento cultural livre</a>. Somos profundamente gratos a todos que contribuíram ou contribuem para este movimento."
+	"data gratitude": "O lib.reviews é apenas uma pequena parte de um grande <a href='https://en.wikipedia.org/wiki/Free-culture_movement' target='_blank'>movimento cultural livre</a>. Somos profundamente gratos a todos que contribuíram ou contribuem para este movimento.",
+	"additional review settings": "Configurações adicionais",
+	"social media image": "Imagem das redes sociais (para antevisão de hiperligações)",
+	"no social media image": "(Não definir uma imagem)",
+	"invalid image selected": "Foi selecionada uma imagem das redes sociais inválida."
 }
