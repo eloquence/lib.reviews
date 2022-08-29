@@ -4,6 +4,7 @@
 			"Dishual",
 			"Fulup",
 			"Gwenn-Ael",
+			"Huñvreüs",
 			"Y-M D"
 		]
 	},
@@ -154,7 +155,7 @@
 	"select file": "Diuzañ ur restr",
 	"upload and insert media": "Pellkargañ hag ensoc'hañ ar media",
 	"related to": "A denn da %s",
-	"uploaded media": "Media enporzhiet :",
+	"uploaded media": "Media pellgaset :",
 	"one file selected": "1 restr dibabet",
 	"files selected": "%s restr dibabet",
 	"filename": "Anv ar restr :",
@@ -201,13 +202,13 @@
 	"rights in caption, own work": "Labour e-unan. %s.",
 	"rights in caption, someone else's work": "Credit: %1$s. %2$s.",
 	"source in upload summary": "Mammenn: %s",
-	"uploaded files title": "Restroù enporzhiet",
+	"uploaded files title": "Restroù pellgaset",
 	"description": "Deskrivadur",
 	"uploader": "Enporzhier",
 	"file usage": "Implij ar restr",
 	"upload date": "Deiziad enporzhiañ",
 	"older files": "Restroù koshoc'h",
-	"show uploads": "Diskouez ar restr enporzhiet",
-	"hide uploads": "Kuzhañ ar restr enporzhiet",
+	"show uploads": "Diskouez ar restr pellgaset",
+	"hide uploads": "Kuzhañ ar restr pellgaset",
 	"caption label": "Alc'hwez"
 }
