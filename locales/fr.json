@@ -122,7 +122,7 @@
 	"need captcha-answer": "Veuillez répondre à la question posée pour éliminer les envois automatisés de pourriels.",
 	"incorrect captcha answer": "Désolé, ce n’est pas la bonne réponse à la question.",
 	"invalid url": "L’URL ne semble pas être valide. Remarquez que nous ne pouvons pas deviner le préfixe du protocole pour vous (typiquement, http:// ou https://).",
-	"more info": "Plus de critiques et d’informations",
+	"more info": "Davantage de critiques et d’informations",
 	"add label": "Ajouter un libellé ici",
 	"add description": "Ajouter une description ici",
 	"edit": "Modifier",
