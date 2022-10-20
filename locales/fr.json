@@ -26,7 +26,7 @@
 	"register": "S’inscrire",
 	"papers please": "Bienvenue de nouveau ! Veuillez fournir vos identifiants de connexion ci-dessous.",
 	"username": "Nom d’utilisateur",
-	"enter username": "Entrez votre nom d’utilisateur",
+	"enter username": "Saisissez le nom d’utilisateur",
 	"password": "Mot de passe",
 	"enter password": "Entrez votre mot de passe",
 	"no account yet": "Vous n’avez pas encore de compte ? <a href=\"/register\">L’inscription</a> est rapide et facile.",
