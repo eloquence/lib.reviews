@@ -6,6 +6,7 @@
 			"LNDDYL",
 			"Liuxinyu970226",
 			"Winston Sung",
+			"列维劳德",
 			"捍粵者"
 		]
 	},
@@ -101,8 +102,8 @@
 		"other": "%f顆星"
 	},
 	"one or multiple reviews": {
-		"one": "%d個評論",
-		"other": "%d個評論"
+		"one": "%d 個評論",
+		"other": "%d 個評論"
 	},
 	"review metrics": "<b>平均評比：</b> %1$s（%2$s）",
 	"captcha intro": "請證明您不是一個網路機器人，在底線 ___ 當中缺少了那些字詞？",
