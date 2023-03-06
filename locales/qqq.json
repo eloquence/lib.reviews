@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Liuxinyu970226",
+			"Nike",
 			"Robby",
 			"Verdy p"
 		]
@@ -476,6 +477,7 @@
 	"tripadvisor source label": "Label that is used when describing review subject metadata sourced to TripAdvisor, or links to TripAdvisor.",
 	"wikipedia source label": "Label that is used when describing links to Wikipedia.\n{{Identical|Wikipedia}}",
 	"indiebound source label": "Label that is used when describing review subject metadata sourced to IndieBound, or links to IndieBound.",
+	"steam source label": "Steam is a proper name and refers to https://en.wikipedia.org/wiki/Steam_(service)",
 	"search databases button label": "Label for button that lets users search external databases for review subjects.",
 	"review via wikidata help label": "Title for help text that is shown when the user accesses the feature that lets them search Wikidata",
 	"review via openlibrary help label": "Help title that is shown when searching Open Library for review subjects.",

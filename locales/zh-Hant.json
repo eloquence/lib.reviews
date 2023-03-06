@@ -135,7 +135,7 @@
 	"cancel": "取消",
 	"review of": "評論：%s",
 	"permission error": "您無權這樣做。",
-	"permanent link": "靜態連結",
+	"permanent link": "固定連結",
 	"something went wrong": "哎呀！這裡發生了一些錯誤。",
 	"report an error": "但您遇到此問題時可以試著回報來幫助我們，我們將記錄所有此類型錯誤。您可以在 GitHub 上<a href='https://github.com/eloquence/lib.reviews/issues/new'>提出問題</a>而我們將會前往查看，祝安！",
 	"error details": "請將以下內容包含至您的報告：",
