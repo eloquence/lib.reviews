@@ -250,6 +250,7 @@
 	"ok": "OK",
 	"review label help label": "Метка",
 	"wikidata source label": "Викиданные",
+	"sync source": "Источник: %s",
 	"add more links": "Добавить еще",
 	"maps tag label": "Карты",
 	"imdb source label": "IMDb",
