@@ -16,7 +16,7 @@
 	"site name": "lib.reviews",
 	"welcome": "Boas vindas!",
 	"intro lead": "<b>Boas vindas ao lib.reviews!</b> Estamos construindo uma plataforma livre, aberta e sem fins lucrativos para resenhas sobre absolutamente qualquer coisa, em qualquer idioma.",
-	"intro message": "Estamos na fase inicial de desenvolvimento, e por ora, você precisa de um convite para se registrar. Se não sabe como o obter, siga-nos <a href='https://mastodon.technology/@lib_reviews'>no Mastodon</a> ou <a href=\"https://twitter.com/lib_reviews\">no Twitter</a>, envie-nos um tuíte, e nós enviaremos-lhe uma mensagem direta.",
+	"intro message": "Estamos na fase inicial de desenvolvimento, e por ora, você precisa de um convite para se registrar. Se não sabe como o obter, siga-nos <a href='https://fosstodon.org/@lib_reviews'>no Mastodoon</a> ou <a href=\"https://twitter.com/lib_reviews\">no Twitter</a>, envie-nos um tuíte, e nós enviaremos-lhe uma mensagem direta.",
 	"find us on": "Você pode ainda encontrar-nos <a href='https://github.com/eloquence/lib.reviews'>no GitHub</a> e conversar conosco através do IRC (<b>#lib.reviews</b> em <a href='https://libera.chat/'>libera.chat</a>).<p>Assista a um <a href='/static/uploads/screencast3.webm'>breve vídeo</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=youtu.be'>versão do YouTube</a>) sobre o estado de desenvolvimento até outubro de 2017.",
 	"change language": "Mudar para:",
 	"change language button": "Alterar idioma",
