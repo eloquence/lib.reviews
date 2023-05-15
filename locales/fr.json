@@ -97,7 +97,7 @@
 	"live preview": "Aperçu en direct",
 	"byline": "Écrit par %1$s sur <span id=\"preview-review-byline-date\">%2$s</span>",
 	"preview of": "Afficher l’aperçu de votre critique concernant %s",
-	"got it": "C’est bon !",
+	"got it": "Compris !",
 	"invalid star rating": "La note envoyée, « %s », n’est pas valide.",
 	"review title too long": "Le titre de la critique envoyé est trop long.",
 	"invalid language code": "Le code de langue envoyé, « %s », n’est pas valide ou reconnu.",

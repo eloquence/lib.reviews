@@ -138,7 +138,7 @@
 	"cancel": "キャンセル",
 	"review of": "レビュー： %s",
 	"permission error": "あなたにはこの操作の実行権限がありません。",
-	"permanent link": "パーマネントリンク",
+	"permanent link": "固定リンク",
 	"something went wrong": "おっと、何かがうまく行かなかったようです。",
 	"report an error": "このようなエラーは全てログを採っていますが、このエラーが起きた時にどのような操作をしていたかをレポートしてもらえると原因追求がしやすくなります。GitHub上に<a href='https://github.com/eloquence/lib.reviews/issues/new'>イシューを登録</a>してもらえれば確認します!",
 	"error details": "レポートには以下を含めてください：",
