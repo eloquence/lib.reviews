@@ -13,7 +13,7 @@
     "test": "NODE_ENV=development ava --verbose tests/**",
     "test-debug": "NODE_ENV=development DEBUG=libreviews:* node node_modules/ava/cli.js --verbose tests/**",
     "test-watch": "NODE_ENV=development DEBUG=libreviews:tests node node_modules/ava/cli.js --watch --verbose tests/**",
-    "snyk-protect": "snyk protect",
+    "snyk-protect": "snyk-protect",
     "prepare": "npm run snyk-protect",
     "make-docs": "node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r frontend -d static/devdocs/frontend && node_modules/jsdoc/jsdoc.js -c jsdocConf.json -r models/ util/ routes/ app.js -d static/devdocs/backend"
   },
@@ -21,6 +21,7 @@
     "test"
   ],
   "dependencies": {
+    "@snyk/protect": "^1.1187.0",
     "babel-core": "^6.26.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
