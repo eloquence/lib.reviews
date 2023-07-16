@@ -244,6 +244,7 @@
 	"moderator badge": "Indicator badge next to a username shown if the user is moderator of a given team\n{{Identical|Moderator}}",
 	"founder badge": "Indicator badge next to a username shown if the user is founder of a given team\n{{Identical|Founder}}",
 	"number of members": "Label on team page for the number of members of a given team",
+	"number of reviews": "Label on team page for the number of reviews of a given team",
 	"view list": "Link on team page for getting a list of all members of a given team",
 	"moderators": "Label on team page for the moderators of a given team\n{{Identical|Moderator}}",
 	"membership roster": "Title on page providing a list of all members of a given team. %s is substituted with team name",

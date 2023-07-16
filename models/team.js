@@ -196,6 +196,11 @@ Team.getWithData = async function(id, {
   }
   const team = await Team.get(id).getJoin(join);
 
+  if (withReviews)
+      team.reviewCount = await r.table('reviews_teams_team_content')
+          .filter({ teams_id: team.id })
+          .count();
+
   if (team._revDeleted)
     throw revision.deletedError;
 
@@ -208,6 +213,7 @@ Team.getWithData = async function(id, {
     team.reviews.pop();
     team.reviewOffsetDate = team.reviews[team.reviews.length - 1].createdOn;
   }
+
   return team;
 };
 
