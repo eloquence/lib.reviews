@@ -208,7 +208,15 @@ Team.getWithData = async function(id, {
     team.reviews.pop();
     team.reviewOffsetDate = team.reviews[team.reviews.length - 1].createdOn;
   }
+
+  team.reviewsCount = await Team.getReviewsCount(id);
+
   return team;
+};
+
+Team.getReviewsCount = async function(id) {
+  const team = await Team.get(id).getJoin({reviews: {teams: true}});
+  return team.reviews.length;
 };
 
 // NOTE: INSTANCE METHODS ------------------------------------------------------
