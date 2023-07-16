@@ -239,8 +239,7 @@ router.get('/register/:code', function(req, res, next) {
 });
 
 router.post('/signout', function(req, res) {
-  req.logout();
-  res.redirect('/');
+  req.logout(() => res.redirect('/'));
 });
 
 if (!config.requireInviteLinks) {
