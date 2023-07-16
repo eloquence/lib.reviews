@@ -39,7 +39,7 @@
     "escape-html": "^1.0.3",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
-    "express-session": "^1.17.1",
+    "express-session": "^1.17.3",
     "express-useragent": "^1.0.15",
     "file-type": "^3.8.0",
     "greenlock-express": "^4.0.3",
