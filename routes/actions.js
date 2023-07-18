@@ -261,11 +261,11 @@ if (!config.requireInviteLinks) {
       })
       .then(user => {
         setSignupLanguage(req, res);
-        req.flash('siteMessages', res.__('welcome new user', user.displayName));
         req.login(user, error => {
           if (error) {
             debug.error({ req, error });
           }
+          req.flash('siteMessages', res.__('welcome new user', user.displayName));
           returnToPath(req, res);
         });
       })
@@ -311,11 +311,11 @@ router.post('/register/:code', function(req, res, next) {
           inviteLink.usedBy = user.id;
           inviteLink.save().then(() => {
               setSignupLanguage(req, res);
-              req.flash('siteMessages', res.__('welcome new user', user.displayName));
               req.login(user, error => {
                 if (error) {
                   debug.error({ req, error });
                 }
+                req.flash('siteMessages', res.__('welcome new user', user.displayName));
                 returnToPath(req, res);
               });
             })
