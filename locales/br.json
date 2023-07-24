@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Adriendelucca",
 			"Dishual",
 			"Fulup",
 			"Gwenn-Ael",
@@ -134,6 +135,7 @@
 	"moderator badge": "Habaskaer",
 	"founder badge": "diazezer",
 	"number of members": "Niver a izili :",
+	"number of reviews": "Niver a alioù :",
 	"view list": "(diskwel ar roll)",
 	"moderators": "Habaskaerien :",
 	"leave team": "Kuitaat ar skipailh",
