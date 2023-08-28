@@ -4,6 +4,7 @@
 			"Athena in Wonderland",
 			"Eloquence",
 			"Hamilton Abreu",
+			"McDutchie",
 			"MokaAkashiyaPT",
 			"NMaia",
 			"Vitorvicentevalente"
@@ -94,7 +95,7 @@
 	"got it": "Entendido!",
 	"invalid star rating": "A classificação atribuída, '%s', não é válida.",
 	"review title too long": "O título da crítica é demasiado longo.",
-	"invalid language code": "O código de idioma, '%s', não é inválido ou reconhecível.",
+	"invalid language code": "O código de idioma, '%s', não é válido ou reconhecível.",
 	"feed": "Últimas críticas",
 	"one or multiple stars": {
 		"one": "%f estrela",

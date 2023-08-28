@@ -34,7 +34,7 @@
 	"already got an account": "Hebt u al een account? <a href='/signin'>Meld u dan aan</a>.",
 	"enter email": "Geef een e-mailadres op",
 	"email optional": "E-mailadres (optioneel)",
-	"agree to terms": "Door het registreren van een account, stemt u in met de <a href=\"/terms\" target=\"_blank\">gebruiksvoorwaarden</a>. In concrete termen:<ul><li>Wij tolereren geen intimidatie, spam, misbruik, trollen, of illegale inhoud;</li><li>U gaat akkoord met het publiceren van uw bijdragen onder passende <a href=\"http://freedomdefined.org/Definition\" target=\"_blank\">vrije licenties</a>.</ul>Lees alstublieft de volledige gebruiksvoorwaarden. Ze zijn bedoeld om begrijpelijk te zijn.",
+	"agree to terms": "Door het registreren van een account stemt u in met de <a href=\"/terms\" target=\"_blank\">gebruiksvoorwaarden</a>. In concrete termen:<ul><li>Wij tolereren geen intimidatie, spam, misbruik, trollen, of illegale inhoud;</li><li>U gaat akkoord met het publiceren van uw bijdragen onder passende <a href=\"http://freedomdefined.org/Definition\" target=\"_blank\">vrije licenties</a>.</ul>Lees ook de volledige gebruiksvoorwaarden. Ze zijn bedoeld om begrijpelijk te zijn.",
 	"need username": "U moet een gebruikersnaam opgeven.",
 	"need password": "U moet een wachtwoord opgeven.",
 	"bad username": "Er is geen gebruiker bekend met deze naam.",
