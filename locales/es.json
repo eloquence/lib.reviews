@@ -13,6 +13,7 @@
 			"Luisangelrg",
 			"Luzcaru",
 			"Macofe",
+			"McDutchie",
 			"RicardoSGZ"
 		]
 	},
@@ -163,7 +164,7 @@
 	"never show this again": "Jamás mostrar esto de nuevo",
 	"notice suppressed": "Aviso suprimido",
 	"notices of type suppressed": "Los avisos del tipo siguiente ya no se mostrarán:",
-	"unsupported notice": "Aviso de no admisibilidad",
+	"unsupported notice": "Aviso no admitido",
 	"unsupported notice type": "No reconocemos avisos del tipo: «%s»",
 	"notice type language-notice-review": "Recordatorio de idioma en la pantalla «Escribir una reseña»",
 	"notice type language-notice-thing": "Recordatorio de idioma en la pantalla «Editar cosa»",

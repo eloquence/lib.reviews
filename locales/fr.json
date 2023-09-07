@@ -361,7 +361,6 @@
 	"faq acronym": "FAQ",
 	"faq": "Foire aux questions",
 	"help us grow": {
-		"zero": "Aidez lib.review à grandir ! Vous n’avez aucun lien d’invitation.",
 		"one": "Aidez lib.review à grandir ! Vous avez un lien d’invitation.",
 		"other": "Aidez lib.review à grandir ! Vous avez %s liens d’invitation."
 	},

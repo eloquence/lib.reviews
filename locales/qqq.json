@@ -134,7 +134,7 @@
 	"delete": "Generic button or link label for deleting an item\n{{Identical|Delete}}",
 	"page not found title": "Title for a generic message shown when a resource was not found and the resource type could not be identified",
 	"page not found": "Content for a generic message shown when a resource was not found and the resource type could not be identified",
-	"delete review": "Link label for deleting a review",
+	"delete review": "Link label for deleting a review\n\n{{doc-important|This is lib.reviews for consumers to review/rate things; please translate ‘review’ in the sense of ‘critique, evaluation’!}}",
 	"delete file": "Title of the page that is shown when the user attempts to delete an uploaded file.",
 	"edit review": "Link label for editing a review\n\n{{doc-important|This is lib.reviews for consumers to review/rate things; please translate ‘review’ in the sense of ‘critique, evaluation’!}}",
 	"delete preamble": "Generic notice shown when deleting content",

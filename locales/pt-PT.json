@@ -141,7 +141,7 @@
 	"error details": "Por favor, inclua as seguintes informações no seu relatório:",
 	"delete": "Eliminar",
 	"page not found title": "Página não encontrada",
-	"page not found": "Não parece existir qualquer problema aqui. Se considerar isto um erro, pode <a href='https://github.com/eloquence/lib.reviews/issues/new'>reportá-lo</a>.",
+	"page not found": "Não parece haver nada aqui. Se considerar isto um erro, pode <a href='https://github.com/eloquence/lib.reviews/issues/new'>reportá-lo</a>.",
 	"delete review": "Eliminar crítica",
 	"delete file": "Eliminar ficheiro",
 	"edit review": "Editar crítica",
