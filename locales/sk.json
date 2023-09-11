@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Lexected",
+			"McDutchie",
 			"Patrik L.",
 			"Yardom78"
 		]
@@ -311,7 +312,7 @@
 	"enter description": "Zadajte popis",
 	"start upload": "Začať nahrávanie",
 	"finish upload": "Ukončiť nahrávanie",
-	"my own work": "Tento súbor je moja práca. Súhlasím so zverejnením na základe <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>licencie CC-BY-SA</a>.",
+	"my own work": "Tento súbor je moja práca. Súhlasím so zverejnením na základe <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.sk' target='_blank'>licencie CC-BY-SA</a>.",
 	"someone else's work": "Tento súbor je práca niekoho iného (prosím upresnite)",
 	"someone else's work specified": "Tento súbor je práca niekoho iného:",
 	"enter creator name": "Zadajte meno autora",
@@ -324,9 +325,9 @@
 	"license": "Licencia",
 	"select license": "Vyberte licenciu",
 	"fair use": "Tento súbor nepodlieha voľnej licencii ale tvrdím, že toto nahrávanie sa zaraďuje medzi <a href='https://en.wikipedia.org/wiki/Fair_use' target='_blank'>výnimky fair use (férové použitie)</a>.",
-	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) alebo verejná doména.",
-	"cc-by": "Creative Commons Attribution License (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
-	"cc-by-sa": "Creative Commons Attribution/Share-Alike License (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
+	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.sk' target='_blank'>CC-0</a>) alebo verejná doména.",
+	"cc-by": "Creative Commons Attribution License (<a href='https://creativecommons.org/licenses/by/4.0/deed.sk' target='_blank'>CC-BY</a>)",
+	"cc-by-sa": "Creative Commons Attribution/Share-Alike License (<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.sk' target='_blank'>CC-BY-SA</a>)",
 	"fair use short": "Férové použitie",
 	"cc-0 short": "CC-0 alebo verejná doména",
 	"cc-by short": "CC-BY",

@@ -5,6 +5,7 @@
 			"KATRINE1992",
 			"Koulaxizis",
 			"Lia",
+			"McDutchie",
 			"NikosLikomitros",
 			"Nikosgranturismogt"
 		]
@@ -251,9 +252,9 @@
 	"source help label": "Πηγή",
 	"license": "Άδεια",
 	"select license": "Επιλέξτε μια άδεια",
-	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) ή Κοινό Κτήμα",
-	"cc-by": "Άδεια χρήσης Creative Commons Attribution (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
-	"cc-by-sa": "Άδεια χρήσης Creative Commons Attribution/Share-Alike (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
+	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.el' target='_blank'>CC-0</a>) ή Κοινό Κτήμα",
+	"cc-by": "Άδεια χρήσης Creative Commons Attribution (<a href='https://creativecommons.org/licenses/by/4.0/deed.el' target='_blank'>CC-BY</a>)",
+	"cc-by-sa": "Άδεια χρήσης Creative Commons Attribution/Share-Alike (<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.el' target='_blank'>CC-BY-SA</a>)",
 	"fair use short": "Εύλογη χρήση",
 	"cc-0 short": "CC-0 ή κοινό κτήμα",
 	"cc-by short": "CC-BY",

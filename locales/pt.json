@@ -9,6 +9,7 @@
 			"HenriqueCrang",
 			"Jaideraf",
 			"Maxan",
+			"McDutchie",
 			"NMaia",
 			"Re demz",
 			"Walesson"
@@ -316,7 +317,7 @@
 	"enter description": "Introduza a descrição",
 	"start upload": "Iniciar o carregamento",
 	"finish upload": "Concluir o carregamento",
-	"my own work": "Eu sou o criador deste trabalho, e publico por este meio sob a seguinte licença: <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>",
+	"my own work": "Eu sou o criador deste trabalho, e publico por este meio sob a seguinte licença: <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR' target='_blank'>CC-BY-SA</a>",
 	"someone else's work": "Este arquivo é fruto do trabalho de outra pessoa (por favor, especifique)",
 	"someone else's work specified": "Este arquivo é obra de outra pessoa:",
 	"enter creator name": "Introduza o nome do criador (por exemplo, Ludwig van Beethoven)",

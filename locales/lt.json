@@ -3,6 +3,7 @@
 		"authors": [
 			"Eitvys200",
 			"Hugo.arg",
+			"McDutchie",
 			"Nersip",
 			"Nokeoo"
 		]
@@ -234,7 +235,7 @@
 	"enter description": "Įveskite aprašymą",
 	"start upload": "Pradėti įkėlimą",
 	"finish upload": "Baigti įkėlimą",
-	"my own work": "Tai yra mano kūrinys. Aš sutinku jį išleisti pagal <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a> licenciją.",
+	"my own work": "Tai yra mano kūrinys. Aš sutinku jį išleisti pagal <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.lt' target='_blank'>CC-BY-SA</a> licenciją.",
 	"someone else's work": "Šis failas yra kito asmens kūrinys (prašome nurodyti)",
 	"someone else's work specified": "Šis failas yra kažkieno kito darbas:",
 	"enter creator name": "Įveskite kūrėjo vardą (pvz. Liudvikas Van Bethovenas)",

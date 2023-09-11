@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Jerrykim306",
+			"McDutchie",
 			"Revi",
 			"Ykhwong",
 			"아라"
@@ -144,7 +145,7 @@
 	"source": "어디서 찾으셨나요?",
 	"license": "라이선스",
 	"select license": "라이선스 선택",
-	"cc-0": "크리에이티브 커먼즈 제로 (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) 또는 퍼블릭 도메인",
+	"cc-0": "크리에이티브 커먼즈 제로 (<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.ko' target='_blank'>CC-0</a>) 또는 퍼블릭 도메인",
 	"fair use short": "공정 이용",
 	"cc-0 short": "CC-0 또는 퍼블릭 도메인",
 	"cc-by short": "CC-BY",

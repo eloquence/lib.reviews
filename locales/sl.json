@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Eleassar",
-			"HairyFotr"
+			"HairyFotr",
+			"McDutchie"
 		]
 	},
 	"site name": "lib.reviews",
@@ -311,7 +312,7 @@
 	"enter description": "Vnesite opis",
 	"start upload": "Začni nalaganje",
 	"finish upload": "Končaj nalaganje",
-	"my own work": "Ta datoteka je moje lastno delo. Strinjam se z njeno objavo pod licenco <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>.",
+	"my own work": "Ta datoteka je moje lastno delo. Strinjam se z njeno objavo pod licenco <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.sl' target='_blank'>CC-BY-SA</a>.",
 	"someone else's work": "Ta datoteka je delo nekoga drugega (navedite)",
 	"someone else's work specified": "Ta datoteka je delo nekoga drugega:",
 	"enter creator name": "Vnesite ime stvaritelja (npr. Ludwig van Beethoven)",
@@ -324,9 +325,9 @@
 	"license": "Licenca",
 	"select license": "Izberite licenco",
 	"fair use": "Ta datoteka ni prosto licencirana, vendar trdim, da se ta naložitev šteje za <a href='https://en.wikipedia.org/wiki/Fair_use' target='_blank'>pošteno uporabo</a>",
-	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/' target='_blank'>CC-0</a>) ali javna domena",
-	"cc-by": "Licenca Creative Commons za priznanje avtorstva (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>CC-BY</a>)",
-	"cc-by-sa": "Licenca Creative Commons Priznanje avtorstva-deljenje pod enakimi pogoji (<a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank'>CC-BY-SA</a>)",
+	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.sl' target='_blank'>CC-0</a>) ali javna domena",
+	"cc-by": "Licenca Creative Commons za priznanje avtorstva (<a href='https://creativecommons.org/licenses/by/4.0/deed.sl' target='_blank'>CC-BY</a>)",
+	"cc-by-sa": "Licenca Creative Commons Priznanje avtorstva-deljenje pod enakimi pogoji (<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.sl' target='_blank'>CC-BY-SA</a>)",
 	"fair use short": "Poštena uporaba",
 	"cc-0 short": "CC-0 ali javna domena",
 	"cc-by short": "CC-BY",

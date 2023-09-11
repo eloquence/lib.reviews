@@ -3,6 +3,7 @@
 		"authors": [
 			"Ainali",
 			"Eloquence",
+			"McDutchie",
 			"Sabelöga",
 			"Skalman",
 			"WikiPhoenix"
@@ -376,7 +377,7 @@
 	"invite link already used title": "Inbjudningslänken har redan använts",
 	"invite link already used": "Denna inbjudningslänk har redan använts för att registrera ett användarkonto på lib.reviews. Varje inbjudningslänk kan endast användas en gång. Var god <a href='/register'>begär en ny inbjudningslänk</a> eller <a href='https://github.com/eloquence/lib.reviews/issues/new'>låt oss veta</a> om du har fått detta meddelande av misstag. Tack!",
 	"language temporarily changed": "På grund av <code>uselang</code> i webbadressen besöker du denna sida på <b>svenska</b> istället för språket du för närvarande har konfigurerat, %1$s. Framtida sidor du läser in kommer att vara på %1$s igen.",
-	"change language permanently": "Byt till engelska permanent",
+	"change language permanently": "Byt till svenska permanent",
 	"reload this page": "Uppdatera på %s",
 	"explore teams": "Utforska lag",
 	"team intro": "<a href='/teams'>Lag</a> är en grupp av likasinnade personer som recenserar saker av gemensamt intresse. Här är några exempel:",
