@@ -382,7 +382,7 @@
 	"invite link already used title": "招待リンクは既に使われています",
 	"invite link already used": "この招待リンクはlib.reviews 上にアカウントを作るのに既に使われています。各招待リンクが使用できるのは1回だけです。<a href='/register'>r新しい招待リンクをリクエスト</a>するか、このメッセージを誤って受け取った場合は<a href='https://github.com/eloquence/lib.reviews/issues/new'>私たちに連絡</a>してください。ありがとう！",
 	"language temporarily changed": "ウェブアドレスの<code>uselang</code> の部分により、現在設定している言語, %1$s の代わりにあなたはこのページを<b>日本語</b>で見ています。あなたがロードする続きのページからは再度 %1$s で表示されます。",
-	"change language permanently": "切り替えてずっと英語にする",
+	"change language permanently": "切り替えてずっと英語に固定",
 	"reload this page": "%s でリロード",
 	"explore teams": "チームを探す",
 	"team intro": "<a href='/teams'>チーム</a>は共通的な興味のある物事をレビューする同好の志のグループです。こちらにいくつかの例があります：",
