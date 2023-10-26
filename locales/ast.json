@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Fitoschido",
-			"Xuacu"
+			"Xuacu",
+			"YoaR"
 		]
 	},
 	"site name": "lib.reviews",
@@ -127,7 +128,7 @@
 	"enter label": "Escribi una etiqueta curtia y descriptiva",
 	"enter thing description": "Escribe una descripción curtia",
 	"save": "Guardar",
-	"cancel": "Encaboxar",
+	"cancel": "Zarrar",
 	"review of": "Reseña: %s",
 	"permission error": "Nun tienes permisu pa facer esta aición",
 	"permanent link": "Enllaz permanente",
