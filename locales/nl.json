@@ -138,7 +138,7 @@
 	"save": "Opslaan",
 	"cancel": "Annuleren",
 	"review of": "Beoordeling: %s",
-	"permission error": "U hebt geen rechten om deze handeling uit te voeren.",
+	"permission error": "U hebt geen rechten om deze handeling te verrichten.",
 	"permanent link": "Permanente koppeling",
 	"something went wrong": "Oeps! Hier is iets misgegaan.",
 	"report an error": "Wij verzamelen alle fouten van deze soort, maar u kunt ons helpen door het melden van wat u deed toen u deze foutmelding kreeg. U kunt het <a href=\"https://github.com/eloquence/lib.reviews/issues/new\">probleem melden</a> op GitHub en we kijken er naar, beloofd!",
