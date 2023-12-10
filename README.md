@@ -4,7 +4,7 @@ A free/libre code and information platform for reviews of absolutely anything.
 
 The site is at: https://lib.reviews/
 
-At this point, you need an invite code to make an account. Follow [lib_reviews on Twitter](https://twitter.com/lib_reviews) and send a public ping, and we'll respond with the private invite code. To keep up with development, add our [development diary](https://lib.reviews/team/6bfc0390-e218-4cb7-a446-2046cb886435/blog) to your favorite feed reader.
+At this point, you need an invite code to make an account. Follow [lib_reviews on the fediverse (Mastodon and friends)](https://fosstodon.org/@lib_reviews) and send a public ping, and we'll respond with the private invite code. To keep up with development, add our [development diary](https://lib.reviews/team/6bfc0390-e218-4cb7-a446-2046cb886435/blog) to your favorite feed reader.
 
 # Contributing design/code/documentation
 
