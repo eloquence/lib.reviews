@@ -16,7 +16,7 @@
 	"site name": "lib.reviews",
 	"welcome": "مرحبا!",
 	"intro lead": "<b>مرحبا بكم في lib.reviews!</b>نحن نبني منصة حرة ومفتوحة المصدر وغير هادفة للربح لمراجعة أي شيء على الإطلاق، بأي لغة.",
-	"intro message": "نحن في تنمية مبكرة، والآن، تحتاج إلى رابط الدعوة للتسجيل، إذا كنت لا تعرف كيفية الحصول على واحد، تابعنا <a href='https://mastodon.technology/@lib_reviews'>في ماستودون</a> أو <a href='https://twitter.com/lib_reviews'>في تويتر</a>، وأرسل لنا تغريدة، وسوف نرسل لك رابطًا.",
+	"intro message": "نحن في تنمية مبكرة، والآن، تحتاج إلى رابط الدعوة للتسجيل، إذا كنت لا تعرف كيفية الحصول على واحد، تابعنا <a href='https://fosstodon.org/@lib_reviews/@lib_reviews'>في ماستودون</a> أو <a href='https://twitter.com/lib_reviews'>في تويتر</a>، وأرسل لنا تغريدة، وسوف ننساعدك.",
 	"find us on": "يمكنك أيضا إيجادنا <a href='https://github.com/eloquence/lib.reviews'>في جيثب</a> ودردش معنا في آي آر سي (<b>#lib.reviews</b> on <a href='https://libera.chat/'>libera.chat</a>).<p>شاهد <a href='/static/uploads/screencast3.webm'>short screencast</a> (<a href='https://www.youtube.com/watch?v=vHX33WbLrVE&feature=y'>إصدار يوتوب</a>) عن حالة الأشياء اعتبارا من أكتوبر 2017.",
 	"change language": "التبديل إلى",
 	"change language button": "غير اللغة",
