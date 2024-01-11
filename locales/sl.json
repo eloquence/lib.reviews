@@ -516,7 +516,7 @@
 	"unknown year": "neznano leto",
 	"html5 video not supported": "Vaš brskalnik ne podpira predvajanja videov HTML5.",
 	"html5 audio not supported": "Vaš brskalnik ne podpira predvajanja zvočnih datotek HTML5.",
-	"html5 media fallback link": "Namesto tega lahko <a href=\"<span class=\"notranslate\" translate=\"no\">%s \" download>prenesete datoteko</a>.",
+	"html5 media fallback link": "Namesto tega lahko <a href=\"%s\" download>prenesete datoteko</a>.",
 	"html5 media description": "Tukaj je opis vsebine: %s",
 	"previously reviewed": "Ta predmet ste že pregledali:",
 	"abandon form changes": "Ali želite opustiti vsebino tega obrazca in urediti obstoječi pregled?",
