@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Cedric31"
+			"Cedric31",
+			"Lhanars"
 		]
 	},
 	"site name": "lib.reviews",
@@ -84,7 +85,7 @@
 	"site notification": "<b>Avertiment :</b> %s",
 	"site error": "<b>Error :</b>: %s",
 	"current language": "Lenga : %s",
-	"user": "Utilizaire : %s",
+	"user": "Utilizator: %s",
 	"user not found": "Utilizaire pas trobat",
 	"user bio": "Biografia :",
 	"add bio": "Apondre una biografia",

@@ -3,6 +3,7 @@
 		"authors": [
 			"Anterdc99",
 			"GuoPC",
+			"Hydra",
 			"Liuxinyu970226",
 			"NeverBehave",
 			"Ral-hole",
@@ -253,6 +254,7 @@
 	"moderator badge": "版主",
 	"founder badge": "创始人",
 	"number of members": "成员数量：",
+	"number of reviews": "评论次数：",
 	"view list": "（查看列表）",
 	"moderators": "版主：",
 	"membership roster": "团队花名册：%s",
