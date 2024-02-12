@@ -384,7 +384,6 @@ function buildMenuItems(schema) {
     toggleEm: markItem(schema.marks.em, { title: libreviews.msg('toggle italic', { accessKey: 'i' }), icon: icons.em }),
     toggleCode: markItem(schema.marks.code, { title: libreviews.msg('toggle code', { accessKey: '`' }), icon: icons.code }),
     toggleLink: linkItem(schema),
-    upload: uploadModalItem(mediaNodes, schema),
     insertMedia: insertMediaItem(mediaNodes, schema),
     insertHorizontalRule: horizontalRuleItem(schema.nodes.horizontal_rule),
     wrapBulletList: wrapListItem(schema.nodes.bullet_list, {
@@ -426,6 +425,10 @@ function buildMenuItems(schema) {
     lift: liftItem
   };
 
+  // Only trusted users can upload files directly from within the RTE.
+  if (config.isTrusted)
+    items.upload = uploadModalItem(mediaNodes, schema);
+
   const insertDropdown = new Dropdown([items.insertMedia, items.insertHorizontalRule], {
     label: libreviews.msg('insert'),
     title: libreviews.msg('insert help')
@@ -444,9 +447,16 @@ function buildMenuItems(schema) {
 
   // Create final menu structure. In the rendered menu, there is a separator
   // symbol between each array
+
+  const mediaOptions = [insertDropdown];
+
+  // Only trusted users can upload files directly via the RTE.
+  if (config.isTrusted)
+    mediaOptions.push(items.upload);
+
   const menu = [
     [items.toggleStrong, items.toggleEm, items.toggleCode, items.toggleLink],
-    [insertDropdown, items.upload],
+    mediaOptions,
     [typeDropdown, items.wrapBulletList, items.wrapOrderedList, items.wrapBlockQuote, items.joinUp, items.lift],
     [items.undo, items.redo],
     [items.fullScreen]
