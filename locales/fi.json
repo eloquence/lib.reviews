@@ -374,7 +374,7 @@
 	"invite link already used title": "Kutsulinkki on jo käytetty",
 	"invite link already used": "Tätä kutsulinkkiä on jo käytetty käyttäjätilin rekisteröintiin lib.reviews-sivustossa. \nJokaista kutsulinkkiä voidaan käyttää vain kerran. <a href='/register'>Pyydä uusi kutsulinkki</a> tai <a href='https://github.com/eloquence/lib.reviews/issues/new'>kerro meille</a> \njos olet saanut tämän viestin virheellisesti. Kiitos!",
 	"language temporarily changed": "Nettiosoitteen <code>uselang</code>-osan takia, näet tämän sivun <b>englanniksi</b> nykyisen kielen, %1$s sijaan. Myöhemmät lataamasi sivut ovat uudelleen kielellä %1$s.",
-	"change language permanently": "Vaihda vakinaisesti Englanniksi",
+	"change language permanently": "Vaihda pysyvästi englanniksi",
 	"reload this page": "Lataa uudelleen kielellä %s",
 	"explore teams": "Tutki tiimejä",
 	"team intro": "<a href='/teams'>Tiimit</a> ovat ryhmiä samanmielisiä ihmisiä arvostelemassa yleisen edun aiheita. Tässä muutama esimerkki:",
