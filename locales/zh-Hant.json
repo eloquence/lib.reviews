@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Cookai1205",
 			"Kanashimi",
 			"Kly",
 			"LNDDYL",
@@ -40,7 +41,7 @@
 	"sign out": "登出",
 	"already logged in": "請注意現在您已登入。每個人請不要建立超過一個帳號，除非是明顯區分在不同角色情形下（例如專家帳號與個人帳號）。",
 	"invalid email format": "「%s」似乎不是一個有效電郵地址。",
-	"invalid username characters": "使用者名稱不能包含以下字元：%s",
+	"invalid username characters": "使用者名稱不得包含以下字元：%s",
 	"unknown error": "抱歉，發生一個不明錯誤。此問題已被記錄。",
 	"username too long": "使用者名稱太長（最多 %s 個字元）。",
 	"email too long": "電郵地址太長（最多 %s 個字元）。",
