@@ -30,7 +30,7 @@
 	"enter your info": "歡迎來到 lib.reviews 社群！請在下方輸入您的新帳號訊息。",
 	"already got an account": "已經有一個帳號了？請改用<a href='/signin'>登入</a>。",
 	"enter email": "輸入電郵地址",
-	"email optional": "電郵地址（選填）",
+	"email optional": "電子信箱地址（非必填）",
 	"agree to terms": "註冊完一個帳號後，表示您同意<a href='/terms' target='_blank'>使用條款</a>。具體上來說：<ul><li>我們不容許擾亂、濫用、謾罵、引戰、或非法內容。</li><li>您同意基於適當<a href='http://freedomdefined.org/Definition' target='_blank'>自由許可協議</a>發佈您的貢獻。</ul>請閱讀完整使用條款，此旨在為人類可讀的。",
 	"need username": "您需要提供一個使用者名稱。",
 	"need password": "您需要提供一組密碼。",
