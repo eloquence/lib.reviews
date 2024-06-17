@@ -4,7 +4,8 @@
 			"Les Meloures",
 			"McDutchie",
 			"Robby",
-			"Soued031"
+			"Soued031",
+			"Volvox"
 		]
 	},
 	"site name": "lib.reviews",
@@ -346,5 +347,6 @@
 	"upload date": "Datum vum Eroplueden",
 	"older files": "Méi al Fichieren",
 	"show uploads": "Eropgeluede Medien weisen",
-	"hide uploads": "Eropgeluede Medie verstoppen"
+	"hide uploads": "Eropgeluede Medie verstoppen",
+	"caption label": "Beschrëftung"
 }
