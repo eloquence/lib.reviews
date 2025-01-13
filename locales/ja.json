@@ -11,6 +11,7 @@
 			"Phantomize",
 			"Saurmandal",
 			"Shirayuki",
+			"かしわのはみん",
 			"ネイ"
 		]
 	},
@@ -23,7 +24,7 @@
 	"change language button": "言語を変更",
 	"sign in": "サインイン",
 	"register": "登録",
-	"papers please": "ようこそ!あなたのログイン情報を以下に入力してください。",
+	"papers please": "お帰りなさいませ、ご主人様。あなたの資格情報を以下に入力してください。",
 	"username": "ユーザ名",
 	"enter username": "ユーザ名を入力",
 	"password": "パスワード",
