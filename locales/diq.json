@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"1917 Ekim Devrimi",
+			"GolyatGeri",
 			"Gırd",
 			"Mirzali",
 			"Orbot707"
@@ -202,7 +203,7 @@
 	"review label help label": "Etiket",
 	"more results": "zêde neticeyi",
 	"no search results": "Netice çıniyo",
-	"wikidata source label": "Wikidata",
+	"wikidata source label": "Wikidayıt",
 	"sync source": "Çıme: %s",
 	"databases tag label": "Databasey",
 	"summaries tag label": "Xulasay",
