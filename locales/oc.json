@@ -22,7 +22,7 @@
 	"bad username": "Coneissèm pas cap d’utilizaire amb aqueste nom.",
 	"bad password": "Aqueste senhal sembla pas corrècte.",
 	"accesskey": "Acorchi de clavièr : [Tòca(s) de modificacion + %s]",
-	"sign out": "Se desconnectar",
+	"sign out": "Desconnexion",
 	"invalid username characters": "Lo nom d’utilizaire deu pas conténer los caractèrs seguents : %s",
 	"write a review": "Escriure una critica",
 	"new review": "Novèla critica",
