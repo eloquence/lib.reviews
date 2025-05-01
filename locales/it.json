@@ -8,6 +8,7 @@
 			"Eloquence",
 			"Fitoschido",
 			"McDutchie",
+			"Ruthven",
 			"S4b1nuz E.656"
 		]
 	},
@@ -316,7 +317,7 @@
 	"source help": "Se l'hai trovato sul web, indica l'URL. Se si tratta di una stampa, identifica la pubblicazione (ad esempio: &quot;New York Times, 15 agosto 1988&quot;).",
 	"license": "Licenza",
 	"select license": "Seleziona una licenza",
-	"fair use": "Questo file non è concesso in licenza libera, ma credo che questo tipo di caricamento si possa qualificare come <a href='https://it.wikipedia.org/wiki/Fair_use' target='_blank'>fair use</a>",
+	"fair use": "Questo file non è pubblicato con una licenza libera, ma credo che questo tipo di caricamento si possa qualificare come <a href='https://it.wikipedia.org/wiki/Fair_use' target='_blank'>fair use</a>",
 	"cc-0": "Creative Commons Zero (<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.it' target='_blank'>CC-0</a>) o pubblico dominio",
 	"cc-by": "Licenza Creative Commons Attribuzione (<a href='https://creativecommons.org/licenses/by/4.0/deed.it' target='_blank'>CC-BY</a>)",
 	"cc-by-sa": "Licenza Creative Commons Attribuzione-Condividi allo stesso modo (<a href='https://creativecommons.org/licenses/by-sa/4.0/deed.it' target='_blank'>CC-BY-SA</a>)",
