@@ -9,7 +9,8 @@
 			"Fitoschido",
 			"McDutchie",
 			"Ruthven",
-			"S4b1nuz E.656"
+			"S4b1nuz E.656",
+			"Wheelygay"
 		]
 	},
 	"site name": "lib.reviews",
@@ -308,6 +309,7 @@
 	"finish upload": "Completa caricamento",
 	"my own work": "Questo file è opera mia. Accetto di rilasciarlo in base alla licenza <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.it' target='_blank'>CC BY-SA</a>.",
 	"someone else's work": "Questo file è opera di qualcun altro (specificare)",
+	"someone else's work specified": "Questo file è opera di qualcun altro:",
 	"enter creator name": "Inserisci il nome del creatore (ad esempio: Ludwig van Beethoven)",
 	"creator": "Autore o creatore",
 	"creator help": "Nome o uno pseudonimo della persona che ha creato questa opera",
@@ -367,6 +369,7 @@
 	"copy": "Copia",
 	"invite link invalid title": "Codice di invito non valido",
 	"invite link already used title": "Il collegamento di invito è già stato utilizzato",
+	"change language permanently": "Passa definitivamente all'inglese",
 	"reload this page": "Ricarica in %s",
 	"search results": "Risultati della ricerca",
 	"show more": "Mostra altro",
